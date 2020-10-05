@@ -118,18 +118,28 @@ class _OpArtStudioState extends State<OpArtStudio> {
 class OpArtWavesPainter extends CustomPainter {
   Random rnd;
   OpArtWavesPainter(this.rnd);
+
   @override
   void paint(Canvas canvas, Size size) {
     // define the paint object
 
+    Random rnd = new Random();
+
     double canvasWidth = size.width;
     double canvasHeight = size.height;
-
-    double aspectRatio = 0.9;
     double borderX = 0;
     double borderY = 0;
     double imageWidth = canvasWidth;
     double imageHeight = canvasHeight;
+
+    // aspectRation from 0.5 to 2 - or 33% of time fit to screen, 33% of time make it 1
+    double aspectRatio = rnd.nextDouble()*1.5+0.5;
+    if (rnd.nextInt(2)==0){
+      aspectRatio = canvasWidth/canvasHeight;
+    }
+    else if (rnd.nextInt(1)==0){
+      aspectRatio = 1;
+    }
 
     if (canvasWidth / canvasHeight < aspectRatio) {
       borderY = (canvasHeight - canvasWidth / aspectRatio) / 2;
@@ -149,28 +159,106 @@ class OpArtWavesPainter extends CustomPainter {
     print('imageWidth = $imageWidth');
     print('imageHeight = $imageHeight');
 
+    // numberOfColours from 1 to 24
+    int numberOfColours = rnd.nextInt(24)+1;
+    print('numberOfColours: $numberOfColours');
 
+    // opacity - from 0 to 1 - 50% of time =1
+    double opacity = rnd.nextDouble();
+    if (rnd.nextInt(2)==0){
+      opacity = 1;
+    }
+    print('opacity: $opacity');
+
+    // paletteType - 0=random; 1=blended random; 2=linear random; 3=linear complimentary;
+    int paletteType = rnd.nextInt(4);
+    print('paletteType: $paletteType');
+
+    // randomise the palette
     List palette = [];
-    for (int colorIndex = 0; colorIndex < 24; colorIndex++){
-      palette.add(Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0));
+    switch(paletteType){
+
+      // blended random
+      case 1:{
+        double blendColour = Random().nextDouble() * 0xFFFFFF;
+        for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
+          palette.add(Color(((blendColour + Random().nextDouble() * 0xFFFFFF)/2).toInt()).withOpacity(opacity));
+        }
+      }
+      break;
+
+    // linear random
+      case 2:{
+        List startColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
+        List endColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
+        for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
+          palette.add(Color.fromRGBO(
+              ((startColour[0]*colourIndex + endColour[0]*(numberOfColours-colourIndex))/numberOfColours).round(),
+              ((startColour[1]*colourIndex + endColour[1]*(numberOfColours-colourIndex))/numberOfColours).round(),
+              ((startColour[2]*colourIndex + endColour[2]*(numberOfColours-colourIndex))/numberOfColours).round(),
+              opacity));
+        }
+      }
+      break;
+
+    // linear complementary
+      case 2:{
+        List startColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
+        List endColour = [255-startColour[0],255-startColour[1],255-startColour[2]];
+        for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
+          palette.add(Color.fromRGBO(
+              ((startColour[0]*colourIndex + endColour[0]*(numberOfColours-colourIndex))/numberOfColours).round(),
+              ((startColour[1]*colourIndex + endColour[1]*(numberOfColours-colourIndex))/numberOfColours).round(),
+              ((startColour[2]*colourIndex + endColour[2]*(numberOfColours-colourIndex))/numberOfColours).round(),
+              opacity));
+        }
+      }
+      break;
+
+      // random
+      default: {
+        for (int colorIndex = 0; colorIndex < numberOfColours; colorIndex++){
+          palette.add(Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity));
+        }
+      }
+      break;
+
     }
 
+    // randomColours - true or false
+    bool randomColours = rnd.nextBool();
+    randomColours = false;
+    print('randomColours: $randomColours');
 
+    int colourOrder = 0;
     Color backgroundColor = Colors.grey[200];
 
-    // Now make some art
-    Random rnd = new Random();
 
-    double stepX = 10;
-    double stepY = 0.1;
-    double amplitude = 30;
-    double frequency = 2;
+    // Now make some art
+
+    // stepX - from 1 to 30
+    double stepX = rnd.nextDouble()*29+1;
+    print('stepX: $stepX');
+
+
+    // stepY = from 10 to 100 - 50% of time = 0.1
+    double stepY = rnd.nextDouble()*90+10;
+    if (rnd.nextInt(2)==0){
+      stepY = 0.1;
+    }
+
+    // amplitude = from 0 to width/5
+    double amplitude = rnd.nextDouble()*imageWidth/5;
+    print('amplitude: $amplitude');
+
+    // frequency = from 0 to 3
+    double frequency = rnd.nextDouble()*3;
+    print('frequency: $frequency');
+
+
     double offset = 1;
     double start = 0 - amplitude;
     double end = imageWidth + stepX + amplitude;
-    int numberOfColours = rnd.nextInt(palette.length-1)+1;
-    bool randomColours = false;
-    int colourOrder = 0;
 
     for (double i = start; i < end; i+= stepX ) {
 
@@ -190,14 +278,24 @@ class OpArtWavesPainter extends CustomPainter {
       // canvas.drawRect(Offset(borderX + i, borderY) & Size(stepX, imageHeight), paint1);
 
       Path wave = Path();
-      wave.moveTo(borderX + imageWidth, borderY);
-      
-      for (double j = 0; j < imageHeight + stepY; j+=stepY) {
-        var delta = amplitude * sin(pi * 2 * (j / imageHeight * frequency + offset * i / imageWidth));
 
-        wave.lineTo(borderX + i + delta, borderY + j);
+      double j;
+      for (j = 0; j < imageHeight + stepY; j+=stepY) {
+        var delta = amplitude * sin(pi * 2 * (j / imageHeight * frequency + offset * i / imageWidth));
+        if (j==0){
+          wave.moveTo(borderX + i + delta, borderY + j);
+        }
+        else{
+          wave.lineTo(borderX + i + delta, borderY + j);
+        }
       }
-      wave.lineTo(borderX + imageWidth, borderY + imageHeight);
+      for (double k = j; k >= -stepY; k-=stepY) {
+        var delta = amplitude * sin(pi * 2 * (k / imageHeight * frequency + offset * (i+stepX) / imageWidth));
+        wave.lineTo(borderX + i + stepX + delta, borderY + k);
+      }
+
+
+//      wave.lineTo(borderX + imageWidth, borderY + imageHeight);
       wave.close();
 
       canvas.drawPath(
