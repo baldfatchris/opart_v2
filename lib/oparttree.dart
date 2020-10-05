@@ -125,8 +125,29 @@ class OpArtTreePainter extends CustomPainter {
     double canvasWidth = size.width;
     double canvasHeight = size.height;
 
+    double aspectRatio = 1;
+    double borderX = 0;
+    double borderY = 0;
+    double imageWidth = canvasWidth;
+    double imageHeight = canvasHeight;
+
+    if (canvasWidth / canvasHeight < aspectRatio) {
+      borderY = (canvasHeight - canvasWidth / aspectRatio) / 2;
+      imageHeight = imageWidth /aspectRatio;
+    }
+    else {
+      borderX = (canvasWidth - canvasHeight * aspectRatio) / 2;
+      imageWidth = imageHeight * aspectRatio;
+    }
+
     print('width: ${canvasWidth}');
     print('height: ${canvasHeight}');
+    print('canvasWidth / canvasHeight = ${canvasWidth / canvasHeight}');
+    print('aspectRatio = $aspectRatio');
+    print('borderX = $borderX');
+    print('borderY = $borderY');
+    print('imageWidth = $imageWidth');
+    print('imageHeight = $imageHeight');
 
     double trunkWidth = 10.0;
     double widthDecay = 0.92;
@@ -135,6 +156,13 @@ class OpArtTreePainter extends CustomPainter {
     double branch = 0.7;
     double angle = 0.5;
     double ratio = 0.7;
+
+    var paint1 = Paint()
+      ..color = Color(0xff638965)
+      ..style = PaintingStyle.fill;
+    //a rectangle
+    canvas.drawRect(Offset(borderX, borderY) & Size(imageWidth, imageHeight), paint1);
+
 
     List palette = [
       Colors.red,
@@ -197,6 +225,8 @@ class OpArtTreePainter extends CustomPainter {
 
     drawSegment(
         canvas,
+        borderX,
+        borderY,
         treeBaseA,
         treeBaseB,
         trunkWidth,
@@ -226,6 +256,8 @@ class OpArtTreePainter extends CustomPainter {
 
   drawSegment(
     Canvas canvas,
+    double borderX,
+    double borderY,
     List rootA,
     List rootB,
     double width,
@@ -266,7 +298,7 @@ class OpArtTreePainter extends CustomPainter {
       ];
 
       // draw the triangle
-      drawTheTriangle(canvas, rootA, rootB, rootX, lineWidth, trunkLineColor,
+      drawTheTriangle(canvas, borderX, borderY, rootA, rootB, rootX, lineWidth, trunkLineColor,
           trunkFillColor);
 
       double directionA;
@@ -283,6 +315,8 @@ class OpArtTreePainter extends CustomPainter {
       if (rnd.nextDouble() > 0.5) {
         drawSegment(
             canvas,
+            borderX,
+            borderY,
             rootA,
             rootX,
             width * widthDecay,
@@ -310,6 +344,8 @@ class OpArtTreePainter extends CustomPainter {
             true);
         drawSegment(
             canvas,
+            borderX,
+            borderY,
             rootX,
             rootB,
             width * widthDecay,
@@ -338,6 +374,8 @@ class OpArtTreePainter extends CustomPainter {
       } else {
         drawSegment(
             canvas,
+            borderX,
+            borderY,
             rootX,
             rootB,
             width * widthDecay,
@@ -365,6 +403,8 @@ class OpArtTreePainter extends CustomPainter {
             true);
         drawSegment(
             canvas,
+            borderX,
+            borderY,
             rootA,
             rootX,
             width * widthDecay,
@@ -407,14 +447,14 @@ class OpArtTreePainter extends CustomPainter {
       ];
 
       // draw the trunk
-      drawTheTrunk(canvas, rootB, P2, P3, rootA, bulbousness, lineWidth,
+      drawTheTrunk(canvas, borderX, borderY, rootB, P2, P3, rootA, bulbousness, lineWidth,
           trunkLineColor, trunkFillColor);
 
       // Draw the leaves
       if (currentDepth > leavesAfter) {
-        drawTheLeaf(canvas, palette, P2, lineWidth, direction - leafAngle,
+        drawTheLeaf(canvas, borderX, borderY, palette, P2, lineWidth, direction - leafAngle,
             leafLength, randomLeafLength, leafSquareness, leafStyle);
-        drawTheLeaf(canvas, palette, P3, lineWidth, direction + leafAngle,
+        drawTheLeaf(canvas, borderX, borderY, palette, P3, lineWidth, direction + leafAngle,
             leafLength, randomLeafLength, leafSquareness, leafStyle);
       }
 
@@ -422,6 +462,8 @@ class OpArtTreePainter extends CustomPainter {
       if (currentDepth < maxDepth) {
         drawSegment(
             canvas,
+            borderX,
+            borderY,
             P3,
             P2,
             width * widthDecay,
@@ -453,6 +495,8 @@ class OpArtTreePainter extends CustomPainter {
 
   drawTheTrunk(
     Canvas canvas,
+    double borderX,
+    double borderY,
     List P1,
     List P2,
     List P3,
@@ -478,10 +522,10 @@ class OpArtTreePainter extends CustomPainter {
     ];
 
     Path trunk = Path();
-    trunk.moveTo(P1[0], P1[1]);
-    trunk.quadraticBezierTo(PX[0], PX[1], P2[0], P2[1]);
-    trunk.lineTo(P3[0], P3[1]);
-    trunk.quadraticBezierTo(PY[0], PY[1], P4[0], P4[1]);
+    trunk.moveTo(borderX + P1[0], -borderY + P1[1]);
+    trunk.quadraticBezierTo(borderX + PX[0], -borderY + PX[1], borderX + P2[0], -borderY + P2[1]);
+    trunk.lineTo(borderX + P3[0], -borderY + P3[1]);
+    trunk.quadraticBezierTo(borderX + PY[0], -borderY + PY[1], borderX + P4[0], -borderY + P4[1]);
     trunk.close();
 
     canvas.drawPath(
@@ -500,6 +544,8 @@ class OpArtTreePainter extends CustomPainter {
 
   drawTheTriangle(
     Canvas canvas,
+    double borderX,
+    double borderY,
     List P1,
     List P2,
     List P3,
@@ -508,9 +554,9 @@ class OpArtTreePainter extends CustomPainter {
     Color trunkFillColor,
   ) {
     Path trunk = Path();
-    trunk.moveTo(P1[0], P1[1]);
-    trunk.lineTo(P2[0], P2[1]);
-    trunk.lineTo(P3[0], P3[1]);
+    trunk.moveTo(borderX + P1[0], -borderY + P1[1]);
+    trunk.lineTo(borderX + P2[0], -borderY + P2[1]);
+    trunk.lineTo(borderX + P3[0], -borderY + P3[1]);
     trunk.close();
 
     canvas.drawPath(
@@ -530,6 +576,8 @@ class OpArtTreePainter extends CustomPainter {
 
   drawTheLeaf(
     Canvas canvas,
+    double borderX,
+    double borderY,
     List palette,
     List leafPosition,
     double lineWidth,
@@ -582,9 +630,9 @@ class OpArtTreePainter extends CustomPainter {
     switch (leafStyle) {
       case "quadratic":
         Path leaf = Path();
-        leaf.moveTo(leafPosition[0], leafPosition[1]);
-        leaf.quadraticBezierTo(PE[0], PE[1], PS[0], PS[1]);
-        leaf.quadraticBezierTo(PW[0], PW[1], leafPosition[0], leafPosition[1]);
+        leaf.moveTo(borderX + leafPosition[0], -borderY + leafPosition[1]);
+        leaf.quadraticBezierTo(borderX + PE[0], -borderY + PE[1], borderX + PS[0], -borderY + PS[1]);
+        leaf.quadraticBezierTo(borderX + PW[0], -borderY + PW[1], borderX + leafPosition[0], -borderY + leafPosition[1]);
         leaf.close();
 
         canvas.drawPath(
