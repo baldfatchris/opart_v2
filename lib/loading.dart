@@ -15,7 +15,7 @@ class _LoadingState extends State<Loading> {
     await new Future.delayed(const Duration(seconds : 2));
     print('2 seconds gone');
 
-    Navigator.pushReplacementNamed(context, '/tree', arguments: {
+    Navigator.pushReplacementNamed(context, '/menu', arguments: {
       'location':'OpArt Tree',
     });
 

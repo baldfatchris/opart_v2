@@ -125,7 +125,7 @@ class OpArtTreePainter extends CustomPainter {
     double canvasWidth = size.width;
     double canvasHeight = size.height;
 
-    double aspectRatio = 0.75;
+    double aspectRatio = 1;
     double borderX = 0;
     double borderY = 0;
     double imageWidth = canvasWidth;
@@ -161,7 +161,7 @@ class OpArtTreePainter extends CustomPainter {
 
     double trunkWidth = 10.0;
     double widthDecay = 0.92;
-    double segmentLength = 50.0;
+    double segmentLength = 40.0;
     double segmentDecay = 0.92;
     double branch = 0.7;
     double angle = 0.5;
@@ -219,7 +219,7 @@ class OpArtTreePainter extends CustomPainter {
     int leavesAfter = 5;
 
     double leafAngle = 0.5;
-    double leafLength = 10;
+    double leafLength = 8;
     double randomLeafLength = 3.0;
     double leafSquareness = 1;
     double leafDecay = 1.01;
