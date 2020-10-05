@@ -12,11 +12,11 @@ class _LoadingState extends State<Loading> {
   void WaitSome() async {
 
     print('wait 2 seconds');
-    await new Future.delayed(const Duration(seconds : 5));
+    await new Future.delayed(const Duration(seconds : 2));
     print('2 seconds gone');
 
-    Navigator.pushReplacementNamed(context, '/tree', arguments: {
-      'location':'OpArt Tree',
+    Navigator.pushReplacementNamed(context, '/waves', arguments: {
+      'location':'OpArt Waves',
     });
 
   }

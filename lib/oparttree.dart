@@ -10,12 +10,11 @@ class OpArtTree extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: OpArtStudio(title: 'OpArt Studio'),
+      home: OpArtStudio(title: 'OpArt Tree'),
     );
   }
 }
@@ -95,7 +94,7 @@ class _OpArtStudioState extends State<OpArtStudio> {
                 height: constraints.heightConstraints().maxHeight,
 
 
-                child: CustomPaint(painter: OpArtPainter()),
+                child: CustomPaint(painter: OpArtTreePainter()),
 
               ),
             ),
@@ -116,7 +115,7 @@ class _OpArtStudioState extends State<OpArtStudio> {
 }
 
 
-class OpArtPainter extends CustomPainter{
+class OpArtTreePainter extends CustomPainter{
   @override
   void paint(Canvas canvas, Size size) {
     // define the paint object
@@ -445,5 +444,5 @@ class OpArtPainter extends CustomPainter{
   }
 
   @override
-  bool shouldRepaint(OpArtPainter oldDelegate) => false;
+  bool shouldRepaint(OpArtTreePainter oldDelegate) => false;
 }
