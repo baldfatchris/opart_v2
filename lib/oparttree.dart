@@ -125,7 +125,7 @@ class OpArtTreePainter extends CustomPainter {
     double canvasWidth = size.width;
     double canvasHeight = size.height;
 
-    double aspectRatio = 1;
+    double aspectRatio = 0.75;
     double borderX = 0;
     double borderY = 0;
     double imageWidth = canvasWidth;
@@ -149,6 +149,16 @@ class OpArtTreePainter extends CustomPainter {
     print('imageWidth = $imageWidth');
     print('imageHeight = $imageHeight');
 
+    // colour in the canvas
+    var paint1 = Paint()
+      ..color = Color(0xff638965)
+      ..style = PaintingStyle.fill;
+    //a rectangle
+    canvas.drawRect(Offset(borderX, borderY) & Size(imageWidth, imageHeight), paint1);
+
+
+
+
     double trunkWidth = 10.0;
     double widthDecay = 0.92;
     double segmentLength = 50.0;
@@ -157,11 +167,6 @@ class OpArtTreePainter extends CustomPainter {
     double angle = 0.5;
     double ratio = 0.7;
 
-    var paint1 = Paint()
-      ..color = Color(0xff638965)
-      ..style = PaintingStyle.fill;
-    //a rectangle
-    canvas.drawRect(Offset(borderX, borderY) & Size(imageWidth, imageHeight), paint1);
 
 
     List palette = [
