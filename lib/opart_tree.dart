@@ -55,7 +55,7 @@ class _OpArtStudioState extends State<OpArtStudio> {
 
   @override
   void initState() {
-    rnd = Random();
+    rnd = Random(1001);
   }
 
   @override

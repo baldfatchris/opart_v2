@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'menu.dart';
 
 void main() {
   runApp(OpArtWallpaper());
@@ -74,6 +75,10 @@ class _OpArtStudioState extends State<OpArtStudio> {
           icon: const Icon(Icons.menu),
           tooltip: 'Menu',
           onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => OpArtMenu()),
+            );
             print('menu - onPressed');
             print('----------------------------------------------------------------------------');},
         ),
