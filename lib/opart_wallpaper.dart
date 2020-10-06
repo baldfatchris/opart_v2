@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'menu.dart';
+
+import 'side_drawer.dart';
 
 void main() {
   runApp(OpArtWallpaper());
@@ -39,18 +40,7 @@ class OpArtStudio extends StatefulWidget {
 }
 
 class _OpArtStudioState extends State<OpArtStudio> {
-  // int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      // _counter++;
-    });
-  }
 
   Random rnd;
 
@@ -68,20 +58,21 @@ class _OpArtStudioState extends State<OpArtStudio> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+      drawer: DrawerWidget(),
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          tooltip: 'Menu',
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => OpArtMenu()),
-            );
-            print('menu - onPressed');
-            print('----------------------------------------------------------------------------');},
-        ),
+//        leading: IconButton(
+//          icon: const Icon(Icons.menu),
+//          tooltip: 'Menu',
+//          onPressed: () {
+//            Navigator.push(
+//              context,
+//              MaterialPageRoute(builder: (context) => OpArtMenu()),
+//            );
+//            print('menu - onPressed');
+//            print('----------------------------------------------------------------------------');},
+//        ),
         title: Text(widget.title),
         actions: <Widget>[
           IconButton(

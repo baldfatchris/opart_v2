@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'side_drawer.dart';
 
 void main() {
   runApp(OpArtWaves());
@@ -67,16 +68,17 @@ class _OpArtStudioState extends State<OpArtStudio> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+      drawer: DrawerWidget(),
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          tooltip: 'Menu',
-          onPressed: () {
-            // scaffoldKey.currentState.showSnackBar(snackBar);
-          },
-        ),
+//        leading: IconButton(
+//          icon: const Icon(Icons.menu),
+//          tooltip: 'Menu',
+//          onPressed: () {
+//            // scaffoldKey.currentState.showSnackBar(snackBar);
+//          },
+//        ),
         title: Text(widget.title),
         actions: <Widget>[
           IconButton(
