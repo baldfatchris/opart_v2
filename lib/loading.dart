@@ -16,7 +16,7 @@ class _LoadingState extends State<Loading> {
     print('2 seconds gone');
 
     Navigator.pushReplacementNamed(context, '/menu', arguments: {
-      'location':'OpArt Tree',
+      'location':'OpArt Menu',
     });
 
   }

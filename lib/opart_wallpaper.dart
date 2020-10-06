@@ -74,8 +74,8 @@ class _OpArtStudioState extends State<OpArtStudio> {
           icon: const Icon(Icons.menu),
           tooltip: 'Menu',
           onPressed: () {
-            // scaffoldKey.currentState.showSnackBar(snackBar);
-          },
+            print('menu - onPressed');
+            print('----------------------------------------------------------------------------');},
         ),
         title: Text(widget.title),
         actions: <Widget>[
@@ -263,6 +263,10 @@ class OpArtWallpaperPainter extends CustomPainter {
     double step = rnd.nextDouble() * radius;
     print('step: $step');
 
+    double stepStep = rnd.nextDouble() * 2;
+    if (rnd.nextBool()) {stepStep= 0;}
+    print('stepStep: $stepStep');
+
     // Ratio
     double ratio = 1;
     print('ratio: $ratio');
@@ -281,7 +285,12 @@ class OpArtWallpaperPainter extends CustomPainter {
     print('rotate: $rotate');
     bool randomRotation = rnd.nextBool();
     print('randomRotation: $randomRotation');
+    
+    double rotateStep = rnd.nextDouble()*5;
+    if (rnd.nextBool()){rotateStep = 0;}
+    print('rotateStep: $rotateStep');
 
+    
     // alternateDrift
     bool alternateDrift = rnd.nextBool();
     print('alternateDrift: $alternateDrift');
@@ -295,12 +304,12 @@ class OpArtWallpaperPainter extends CustomPainter {
     print('box: $box');
 
     // shape
-    int shape = 0;
+    int shape = rnd.nextInt(2);
     print('shape: $shape');
 
     // driftX & driftY
-    double driftX = rnd.nextDouble() *5 ;
-    double driftY = rnd.nextDouble() *5 ;
+    double driftX = rnd.nextDouble() * 5;
+    double driftY = rnd.nextDouble() * 5;
     if (rnd.nextBool()){
       driftX=0;
       driftY=0;
@@ -308,7 +317,22 @@ class OpArtWallpaperPainter extends CustomPainter {
     print('driftX: $driftX');
     print('driftY: $driftY');
 
+    double driftXStep = rnd.nextDouble() *2;
+    double driftYStep = rnd.nextDouble() *2;
+    if (rnd.nextBool()){
+      driftXStep=0;
+      driftYStep=0;
+    }
+    print('driftXStep: $driftXStep');
+    print('driftYStep: $driftYStep');
 
+    // squareness
+    double squareness = rnd.nextDouble()*2;
+    if (rnd.nextBool()){
+      squareness=rnd.nextDouble()/2+0.5;
+    }
+    
+    
     for (int j = 0 - extraCellsY; j < cellsY + extraCellsY; j++) {
       for (int i = 0 - extraCellsX; i < cellsX + extraCellsX; i++) {
         int k = 0; // count the steps
@@ -319,7 +343,15 @@ class OpArtWallpaperPainter extends CustomPainter {
         double dX = 0;
         double dY = 0;
 
+        double localDriftX = driftX;
+        double localDriftY = driftY;
+        if (alternateDrift && (i + j) % 2 == 0) {
+          localDriftX = -driftX;
+          localDriftY = -driftY;
+        }
+
         double stepRadius = radius * ratio;
+        double localStep = step;
 
         double localRotate = rotate;
         if (randomRotation) {
@@ -332,11 +364,11 @@ class OpArtWallpaperPainter extends CustomPainter {
 
         // Centre of the square
         List PO = [
-          borderX + radius * (1 - squeezeX) + localOffsetX + k * dX + (offsetX * j) + (i * 2 + 1) * radius * squeezeX,
-          borderY + radius * (1 - squeezeY) + localOffsetY + k * dY + (offsetY * i) + (j * 2 + 1) * radius * squeezeY
+          borderX + radius * (1 - squeezeX) + localOffsetX + (offsetX * j) + (i * 2 + 1) * radius * squeezeX,
+          borderY + radius * (1 - squeezeY) + localOffsetY + (offsetY * i) + (j * 2 + 1) * radius * squeezeY
         ];
-        print('i: $i j: $j');
-        print('PO: $PO');
+        // print('i: $i j: $j');
+        // print('PO: $PO');
 
         List PA = [
           PO[0] + stepRadius * sqrt(2) * cos(pi * (5 / 4 + localRotate)),
@@ -391,24 +423,11 @@ class OpArtWallpaperPainter extends CustomPainter {
 
         do {
 
-
-          var dX = driftX;
-          var dY = driftY;
-
-          if (alternateDrift && i % 2 == 1) {
-            dX = -driftX;
-          }
-          if (alternateDrift && j % 2 == 1) {
-            dY = -driftY;
-          }
-
-          if (k > 0) {
-            PO = [PO[0] + dX, PO[1] + dY];
-          }
+          // drift...
+          PO = [PO[0] + dX, PO[1] + dY];
 
           switch (shape) {
             case 0: // "circle":
-
 
                 // Choose the next colour
                 colourOrder++;
@@ -418,30 +437,103 @@ class OpArtWallpaperPainter extends CustomPainter {
                 }
 
                 canvas.drawCircle(Offset(PO[0], PO[1]), stepRadius, Paint() ..style = PaintingStyle.fill ..color = nextColour);
+                canvas.drawCircle(Offset(PO[0], PO[1]), stepRadius, Paint() ..style = PaintingStyle.stroke ..strokeWidth = lineWidth ..color = lineColor);
+
               break;
+
+            case 1: // squaricle
+
+              List PA = [
+                PO[0] + stepRadius * sqrt(2) * cos(pi * (1 / 4 + localRotate)),
+                PO[1] + stepRadius * sqrt(2) * sin(pi * (1 / 4 + localRotate))
+              ];
+              List PB = [
+                PO[0] + stepRadius * sqrt(2) * cos(pi * (3 / 4 + localRotate)),
+                PO[1] + stepRadius * sqrt(2) * sin(pi * (3 / 4 + localRotate))
+              ];
+              List PC = [
+                PO[0] + stepRadius * sqrt(2) * cos(pi * (5 / 4 + localRotate)),
+                PO[1] + stepRadius * sqrt(2) * sin(pi * (5 / 4 + localRotate))
+              ];
+              List PD = [
+                PO[0] + stepRadius * sqrt(2) * cos(pi * (7 / 4 + localRotate)),
+                PO[1] + stepRadius * sqrt(2) * sin(pi * (7 / 4 + localRotate))
+              ];
+
+
+              // 16 points - 2 on each edge and 8 curve centres
+
+              List P1 = edgePoint(PA, PB, 0.5 + squareness / 2);
+              List P2 = edgePoint(PA, PB, 0.5 - squareness / 2);
+
+              List P4 = edgePoint(PB, PC, 0.5 + squareness / 2);
+              List P5 = edgePoint(PB, PC, 0.5 - squareness / 2);
+
+              List P7 = edgePoint(PC, PD, 0.5 + squareness / 2);
+              List P8 = edgePoint(PC, PD, 0.5 - squareness / 2);
+
+              List P10 = edgePoint(PD, PA, 0.5 + squareness / 2);
+              List P11 = edgePoint(PD, PA, 0.5 - squareness / 2);
+
+              Path squaricle = Path();
+
+
+              squaricle.moveTo(P1[0], P1[1]);
+              squaricle.lineTo(P2[0], P2[1]);
+              squaricle.quadraticBezierTo(PB[0], PB[1], P4[0], P4[1]);
+              squaricle.lineTo(P5[0], P5[1]);
+              squaricle.quadraticBezierTo(PC[0], PC[1], P7[0], P7[1]);
+              squaricle.lineTo(P8[0], P8[1]);
+              squaricle.quadraticBezierTo(PD[0], PD[1], P10[0], P10[1]);
+              squaricle.lineTo(P11[0], P11[1]);
+              squaricle.quadraticBezierTo(PA[0], PA[1], P1[0], P1[1]);
+              squaricle.close();
+
+              // Choose the next colour
+              colourOrder++;
+              nextColour = palette[colourOrder%numberOfColours];
+              if (randomColours) {
+                nextColour = palette[rnd.nextInt(numberOfColours)];
+              }
+
+              canvas.drawPath(
+                  squaricle,
+                  Paint()
+                    ..style = PaintingStyle.stroke
+                    ..strokeWidth = lineWidth
+                    ..color = lineColor);
+              canvas.drawPath(
+                  squaricle,
+                  Paint()
+                    ..style = PaintingStyle.fill
+                    ..color = nextColour);
+
+              break;              
+              
+              
           }
 
 
 
 
 
+          // Drift & Rotate
+          localDriftX = localDriftX + driftXStep;
+          localDriftY = localDriftY + driftYStep;
+          if (alternateDrift && (i + j) % 2 == 0) {
+            dX = dX - localDriftX;
+            dY = dY - localDriftY;
+            localRotate = localRotate - rotateStep;
+          }
+          else {
+            dX = dX + localDriftX;
+            dY = dY + localDriftY;
+            localRotate = localRotate + rotateStep;
+          }
 
-
-
-              // if (alternateDrift && (i + j) % 2 == 0) {
-        //   localRotate = localRotate - rotateStep;
-        // }
-        // else {
-        //   localRotate = localRotate + rotateStep;
-        // }
-        //
-        // step = step + stepStep;
-        // driftX = driftX + driftXStep;
-        // driftY = driftY + driftYStep;
-
-
-        stepRadius = stepRadius - step;
-        k++;
+          localStep = localStep + stepStep;
+          stepRadius = stepRadius - localStep;
+          k++;
 
 
         } while (stepRadius > 0 && step > 0);
@@ -471,4 +563,8 @@ class OpArtWallpaperPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(OpArtWallpaperPainter oldDelegate) => false;
+}
+
+List edgePoint(List Point1, List Point2, double ratio) {
+  return [Point1[0] * (ratio) + Point2[0] * (1 - ratio), Point1[1] * (ratio) + Point2[1] * (1 - ratio)];
 }
