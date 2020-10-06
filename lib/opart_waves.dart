@@ -67,31 +67,32 @@ class _OpArtStudioState extends State<OpArtStudio> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      drawer: DrawerWidget(),
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-//        leading: IconButton(
-//          icon: const Icon(Icons.menu),
-//          tooltip: 'Menu',
-//          onPressed: () {
-//            // scaffoldKey.currentState.showSnackBar(snackBar);
-//          },
-//        ),
-        title: Text(widget.title),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.share),
-            tooltip: 'Share',
-            onPressed: () {
-              // openPage(context);
-            },
-          ),
-        ],
-      ),
+    return
+//      Scaffold(
+//      drawer: DrawerWidget(),
+//      appBar: AppBar(
+//        // Here we take the value from the MyHomePage object that was created by
+//        // the App.build method, and use it to set our appbar title.
+////        leading: IconButton(
+////          icon: const Icon(Icons.menu),
+////          tooltip: 'Menu',
+////          onPressed: () {
+////            // scaffoldKey.currentState.showSnackBar(snackBar);
+////          },
+////        ),
+//        title: Text(widget.title),
+//        actions: <Widget>[
+//          IconButton(
+//            icon: const Icon(Icons.share),
+//            tooltip: 'Share',
+//            onPressed: () {
+//              // openPage(context);
+//            },
+//          ),
+//        ],
+//      ),
 
-      body: Stack(
+       Stack(
         children: [
           Visibility(
             visible: true,
@@ -104,16 +105,16 @@ class _OpArtStudioState extends State<OpArtStudio> {
             ),
           )
         ],
-      ),
+      );
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print('FloatingActionButton.onPressed');
-        },
-        tooltip: 'Settings',
-        child: Icon(Icons.settings),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+//      floatingActionButton: FloatingActionButton(
+//        onPressed: () {
+//          print('FloatingActionButton.onPressed');
+//        },
+//        tooltip: 'Settings',
+//        child: Icon(Icons.settings),
+//      ), // This trailing comma makes auto-formatting nicer for build methods.
+//    );
   }
 }
 
