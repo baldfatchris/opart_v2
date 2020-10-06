@@ -272,7 +272,7 @@ class OpArtWallpaperPainter extends CustomPainter {
     print('box: $box');
 
     // shape
-    int shape = rnd.nextInt(2);
+    int shape = rnd.nextInt(3);
     print('shape: $shape');
 
     // driftX & driftY
@@ -299,8 +299,16 @@ class OpArtWallpaperPainter extends CustomPainter {
     if (rnd.nextBool()){
       squareness=rnd.nextDouble()/2+0.5;
     }
-    
-    
+
+    // Number of petals
+    int numberOfPetals = rnd.nextInt(15);
+    bool randomPetals = rnd.nextBool();
+    print('numberOfPetals: $numberOfPetals');
+    print('randomPetals: $randomPetals');
+
+
+
+
     for (int j = 0 - extraCellsY; j < cellsY + extraCellsY; j++) {
       for (int i = 0 - extraCellsX; i < cellsX + extraCellsX; i++) {
         int k = 0; // count the steps
@@ -329,6 +337,11 @@ class OpArtWallpaperPainter extends CustomPainter {
           localRotate = 0 - localRotate;
         }
 
+        // Number of petals
+        var localNumberOfPetals = numberOfPetals;
+        if (randomPetals) {
+          localNumberOfPetals =  rnd.nextInt(numberOfPetals-3) + 3;
+        }
 
         // Centre of the square
         List PO = [
@@ -444,8 +457,7 @@ class OpArtWallpaperPainter extends CustomPainter {
               List P11 = edgePoint(PD, PA, 0.5 - squareness / 2);
 
               Path squaricle = Path();
-
-
+              
               squaricle.moveTo(P1[0], P1[1]);
               squaricle.lineTo(P2[0], P2[1]);
               squaricle.quadraticBezierTo(PB[0], PB[1], P4[0], P4[1]);
@@ -476,7 +488,50 @@ class OpArtWallpaperPainter extends CustomPainter {
                     ..style = PaintingStyle.fill
                     ..color = nextColour);
 
-              break;              
+              break;
+              
+            case 2: //"star":
+              for (var p = 0; p < localNumberOfPetals; p++) {
+
+                List petalPoint = [PO[0] + stepRadius * cos(localRotate * pi + p * pi * 2 / localNumberOfPetals),
+                  PO[1] + stepRadius * sin(localRotate * pi + p * pi * 2 / localNumberOfPetals)];
+                
+                List petalMidPointA = [PO[0] + (squareness) * stepRadius * cos(localRotate * pi + (p - 1) * pi * 2 / localNumberOfPetals),
+                  PO[1] + (squareness) * stepRadius * sin(localRotate * pi + (p - 1) * pi * 2 / localNumberOfPetals)];
+
+                List petalMidPointP = [PO[0] + (squareness) * stepRadius * cos(localRotate * pi + (p + 1) * pi * 2 / localNumberOfPetals),
+                  PO[1] + (squareness) * stepRadius * sin(localRotate * pi + (p + 1) * pi * 2 / localNumberOfPetals)];
+
+                Path star = Path();
+
+                star.moveTo(PO[0], PO[1]);
+                star.quadraticBezierTo(petalMidPointA[0], petalMidPointA[1], petalPoint[0], petalPoint[1]);
+                star.quadraticBezierTo(petalMidPointP[0], petalMidPointP[1], PO[0], PO[1]);
+                star.close();
+
+
+                // Choose the next colour
+                colourOrder++;
+                nextColour = palette[colourOrder%numberOfColours];
+                if (randomColours) {
+                  nextColour = palette[rnd.nextInt(numberOfColours)];
+                }
+
+                canvas.drawPath(
+                    star,
+                    Paint()
+                      ..style = PaintingStyle.stroke
+                      ..strokeWidth = lineWidth
+                      ..color = lineColor);
+                canvas.drawPath(
+                    star,
+                    Paint()
+                      ..style = PaintingStyle.fill
+                      ..color = nextColour);
+
+              }
+
+              break;
               
               
           }
