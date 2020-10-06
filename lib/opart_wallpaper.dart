@@ -134,13 +134,13 @@ class OpArtWallpaperPainter extends CustomPainter {
     double imageWidth = canvasWidth;
     double imageHeight = canvasHeight;
 
-    int cellsX = 8;
-    int cellsY = 8;
+    int cellsX = 5;
+    int cellsY = 5;
     print('cellsX: $cellsX');
     print('cellsY: $cellsY');
     
     // aspectRatio determined from cellsY and cellsX
-    double aspectRatio = cellsY/cellsX;
+    double aspectRatio = cellsX/cellsY;
 
     if (canvasWidth / canvasHeight < aspectRatio) {
       borderY = (canvasHeight - canvasWidth / aspectRatio) / 2;
@@ -247,6 +247,7 @@ class OpArtWallpaperPainter extends CustomPainter {
     // fill
     bool fill = rnd.nextBool();
     print('fill: $fill');
+
     int extraCellsX = 0;
     int extraCellsY = 0;
     if (fill) {
@@ -276,6 +277,7 @@ class OpArtWallpaperPainter extends CustomPainter {
 
     // Rotate
     double rotate = rnd.nextDouble() * pi * 2;
+    if (rnd.nextBool()){rotate = 0;}
     print('rotate: $rotate');
     bool randomRotation = rnd.nextBool();
     print('randomRotation: $randomRotation');
@@ -359,14 +361,15 @@ class OpArtWallpaperPainter extends CustomPainter {
           colourOrder = 0;
         }
 
-        // Choose the next colour
-        colourOrder++;
-        nextColour = palette[colourOrder%numberOfColours];
-        if (randomColours) {
-          nextColour = palette[rnd.nextInt(numberOfColours)];
-        }
 
         if (box) {
+
+          // Choose the next colour
+          colourOrder++;
+          nextColour = palette[colourOrder%numberOfColours];
+          if (randomColours) {
+            nextColour = palette[rnd.nextInt(numberOfColours)];
+          }
 
           // fill the square
           Path path = Path();
@@ -378,9 +381,9 @@ class OpArtWallpaperPainter extends CustomPainter {
 
           canvas.drawPath(path, Paint() ..style = PaintingStyle.fill ..color = nextColour);
           
-          if (lineWidth > 0) {
-            canvas.drawPath(path, Paint() ..style = PaintingStyle.stroke ..strokeWidth = lineWidth ..color = lineColor);
-          }
+          // if (lineWidth > 0) {
+          //   canvas.drawPath(path, Paint() ..style = PaintingStyle.stroke ..strokeWidth = lineWidth ..color = lineColor);
+          // }
 
         }
 
