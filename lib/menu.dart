@@ -13,54 +13,61 @@ class OpArtMenu extends StatefulWidget {
 class _OpArtMenuState extends State<OpArtMenu> {
   List<OpArtType> OpArtTypes = [
     OpArtType(name: 'Trees', icon: 'lib/assets/trees.png', widget: OpArtTree()),
-    OpArtType(name: 'Waves', icon: 'lib/assets/waves.png', widget: OpArtWaves()),
-    OpArtType(name: 'Wallpaper', icon: 'lib/assets/wallpaper.png', widget: OpArtWallpaper()),
+    OpArtType(
+        name: 'Waves', icon: 'lib/assets/waves.png', widget: OpArtWaves()),
+    OpArtType(
+        name: 'Wallpaper',
+        icon: 'lib/assets/wallpaper.png',
+        widget: OpArtWallpaper()),
   ];
 
-int currentWidget = Random().nextInt(3);
+  int currentWidget = Random().nextInt(3);
+  bool showSettings = false;
 
   @override
   void initState() {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: (){setState(() {
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.settings),
+          onPressed: () {
+            setState(() {
+              showSettings = !showSettings;
 
-      });},),
-        drawer: Drawer(
-          // Add a ListView to the drawer. This ensures the user can scroll
-          // through the options in the drawer if there isn't enough vertical
-          // space to fit everything.
-            child: ListView.builder(
-              itemCount: OpArtTypes.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(vertical: 1, horizontal: 4),
-                  child: Card(
-                    child: ListTile(
-                      onTap: () {
-                        print(OpArtTypes[index].name);
-                       setState(() {
-                         currentWidget = index;
-                         Navigator.pop(context);
-                       });
-
-                      },
-                      title: Text(OpArtTypes[index].name),
-                      leading: CircleAvatar(
-                        backgroundImage: AssetImage('${OpArtTypes[index].icon}'),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            )
+            });
+          },
         ),
+        drawer: Drawer(
+            // Add a ListView to the drawer. This ensures the user can scroll
+            // through the options in the drawer if there isn't enough vertical
+            // space to fit everything.
+            child: ListView.builder(
+          itemCount: OpArtTypes.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: 1, horizontal: 4),
+              child: Card(
+                child: ListTile(
+                  onTap: () {
+                    print(OpArtTypes[index].name);
+                    setState(() {
+                      currentWidget = index;
+                      Navigator.pop(context);
+                    });
+                  },
+                  title: Text(OpArtTypes[index].name),
+                  leading: CircleAvatar(
+                    backgroundImage: AssetImage('${OpArtTypes[index].icon}'),
+                  ),
+                ),
+              ),
+            );
+          },
+        )),
         backgroundColor: Colors.grey[200],
         appBar: AppBar(
           backgroundColor: Colors.blue[900],
@@ -68,11 +75,20 @@ int currentWidget = Random().nextInt(3);
           centerTitle: true,
           elevation: 0,
         ),
-        body: OpArtTypes[currentWidget].widget);
+        body: !showSettings
+            ? OpArtTypes[currentWidget].widget
+            : SafeArea(
+              child: Container(height: MediaQuery.of(context).size.height,
+                child: ListView(
+                    children: [
+                      Container(height: MediaQuery.of(context).size.height*0.6,child: OpArtTypes[currentWidget].widget),
+                      Text('These are the settings')
+                    ]),
+              ),
+            ));
 
   }
 }
-
 
 class OpArtType {
   String name;
@@ -80,5 +96,4 @@ class OpArtType {
   Widget widget;
 
   OpArtType({this.name, this.icon, this.widget});
-
 }
