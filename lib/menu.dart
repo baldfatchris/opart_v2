@@ -1,33 +1,38 @@
 import 'package:flutter/material.dart';
-import 'side_drawer.dart';
+
 import 'opart_tree.dart';
 import 'opart_waves.dart';
 import 'opart_wallpaper.dart';
-import 'dart:math';
+
+bool showSettings = false;
 
 class OpArtMenu extends StatefulWidget {
   @override
   _OpArtMenuState createState() => _OpArtMenuState();
 }
 
-bool showSettings = true;
-
 class _OpArtMenuState extends State<OpArtMenu> {
   List<OpArtType> OpArtTypes = [
     OpArtType(
-        name: 'Trees',
-        icon: 'lib/assets/trees.png',
-        widget: OpArtTreeStudio(showSettings)),
+      name: 'Trees',
+      icon: 'lib/assets/trees.png',
+      widgetWithSettings: OpArtTreeStudio(true),
+      widgetWithoutSettings: OpArtTreeStudio(false),
+    ),
     OpArtType(
-        name: 'Waves', icon: 'lib/assets/waves.png', widget: OpArtWaves()),
+        name: 'Waves',
+        icon: 'lib/assets/waves.png',
+        widgetWithSettings: OpArtWaves(),
+        widgetWithoutSettings: OpArtWaves()),
     OpArtType(
         name: 'Wallpaper',
         icon: 'lib/assets/wallpaper.png',
-        widget: OpArtWallpaper()),
+        widgetWithSettings: OpArtWallpaper(),
+        widgetWithoutSettings: OpArtWallpaper()),
   ];
 
 //  int currentWidget = Random().nextInt(3);
-int currentWidget = 0;
+  int currentWidget = 0;
   @override
   void initState() {
     super.initState();
@@ -35,6 +40,7 @@ int currentWidget = 0;
 
   @override
   Widget build(BuildContext context) {
+    print(showSettings);
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.settings),
@@ -78,14 +84,21 @@ int currentWidget = 0;
           centerTitle: true,
           elevation: 0,
         ),
-        body: OpArtTypes[currentWidget].widget);
+        body: showSettings
+            ? OpArtTypes[currentWidget].widgetWithSettings
+            : OpArtTypes[currentWidget].widgetWithoutSettings);
   }
 }
 
 class OpArtType {
   String name;
   String icon;
-  Widget widget;
+  Widget widgetWithSettings;
+  Widget widgetWithoutSettings;
 
-  OpArtType({this.name, this.icon, this.widget});
+  OpArtType(
+      {this.name,
+      this.icon,
+      this.widgetWithSettings,
+      this.widgetWithoutSettings});
 }
