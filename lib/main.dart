@@ -11,7 +11,7 @@ void main() => runApp(MaterialApp(
   routes: {
     '/':(context) => Loading(),
     '/menu':(context) => OpArtMenu(),
-    '/tree':(context) => OpArtTree(),
+    '/tree':(context) => OpArtTreeStudio(false),
     '/wallpaper':(context) => OpArtWallpaper(),
     '/waves':(context) => OpArtWaves(),
   },

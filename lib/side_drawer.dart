@@ -6,7 +6,7 @@ import 'opart_waves.dart';
 import 'opart_wallpaper.dart';
 Widget DrawerWidget(){
   List<OpArtType> OpArtTypes = [
-    OpArtType(name: 'Trees', icon: 'lib/assets/trees.png', widget: OpArtTree()),
+    OpArtType(name: 'Trees', icon: 'lib/assets/trees.png', widget: OpArtTreeStudio(false)),
     OpArtType(name: 'Waves', icon: 'lib/assets/waves.png', widget: OpArtWaves()),
     OpArtType(name: 'Wallpaper', icon: 'lib/assets/wallpaper.png', widget: OpArtWallpaper()),
   ];

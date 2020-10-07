@@ -1,55 +1,125 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'side_drawer.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
-void main() {
-  runApp(OpArtTree());
+//void main() {
+//  runApp(OpArtTree());
+//}
+
+List palette = [
+  Colors.red,
+  Colors.pink,
+  Colors.purple,
+  Colors.deepPurple,
+  Colors.indigo,
+  Colors.blue,
+  Colors.lightBlue,
+  Colors.cyan,
+  Colors.teal,
+  Colors.green,
+  Colors.lightGreen,
+  Colors.lime,
+  Colors.yellow,
+  Colors.amber,
+  Colors.orange,
+  Colors.deepOrange,
+  Colors.brown,
+  Colors.grey,
+  Colors.blueGrey,
+  Colors.white,
+  Colors.redAccent,
+  Colors.pinkAccent,
+  Colors.purpleAccent,
+  Colors.deepPurpleAccent,
+  Colors.indigoAccent,
+  Colors.blueAccent,
+  Colors.lightBlueAccent,
+  Colors.cyanAccent,
+  Colors.tealAccent,
+  Colors.greenAccent,
+  Colors.lightGreenAccent,
+  Colors.limeAccent,
+  Colors.yellowAccent,
+  Colors.amberAccent,
+  Colors.orangeAccent,
+  Colors.deepOrangeAccent,
+];
+void changeColor(int index, Color color) {
+  palette.replaceRange(index, index + 1, [color]);
 }
 
-class OpArtTree extends StatelessWidget {
-  // This widget is the root of your application.
+double trunkWidth = 10.0;
+
+class OpArtTreeStudio extends StatefulWidget {
+  bool showSettings;
+  OpArtTreeStudio(this.showSettings);
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: OpArtStudio(title: 'OpArt Tree'),
+  _OpArtTreeStudioState createState() => _OpArtTreeStudioState();
+}
+
+class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
+  int _currentColor = 0;
+  Widget settingsWidget() {
+    return Column(
+      children: [
+        Text('Trunk Width'),
+        Slider(
+          value: trunkWidth,
+          min: 0,
+          max: 20,
+          onChanged: (value) {
+            setState(() {
+              trunkWidth = value;
+            });
+          },
+          label: '$trunkWidth',
+        ),
+        Container(
+          height: 200,
+          child: GridView.builder(
+            gridDelegate:
+                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),
+            scrollDirection: Axis.horizontal,
+            itemCount: palette.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _currentColor = index;
+                    });
+                  },
+                  child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          border:
+                              Border.all(width: _currentColor == index ? 3 : 0),
+                          color: palette[index]),
+                      height: 50,
+                      width: 50),
+                ),
+              );
+            },
+          ),
+        ),
+        SizedBox(height: 10),
+        ColorPicker(
+          displayThumbColor: true,
+          pickerAreaHeightPercent: 0.3,
+          pickerAreaBorderRadius: BorderRadius.circular(10.0),
+          pickerColor: palette[_currentColor],
+          onColorChanged: (color) {
+            setState(() {
+              changeColor(_currentColor, color);
+            });
+          },
+          showLabel: true,
+        ),
+      ],
     );
-  }
-}
-
-class OpArtStudio extends StatefulWidget {
-  OpArtStudio({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _OpArtStudioState createState() => _OpArtStudioState();
-}
-
-class _OpArtStudioState extends State<OpArtStudio> {
-  // int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      // _counter++;
-    });
   }
 
   Random rnd;
@@ -59,56 +129,40 @@ class _OpArtStudioState extends State<OpArtStudio> {
     rnd = Random(1001);
   }
 
+  Widget bodyWidget() {
+    return Stack(
+      children: [
+        Visibility(
+          visible: true,
+          child: LayoutBuilder(
+            builder: (_, constraints) => Container(
+              width: constraints.widthConstraints().maxWidth,
+              height: constraints.heightConstraints().maxHeight,
+              child: CustomPaint(painter: OpArtTreePainter(rnd)),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-  //  return
-//      Scaffold(
-//      drawer: DrawerWidget(),
-//      appBar: AppBar(
-//
-//        title: Text(widget.title),
-//        actions: <Widget>[
-//          IconButton(
-//            icon: const Icon(Icons.share),
-//            tooltip: 'Share',
-//            onPressed: () {
-//              // openPage(context);
-//            },
-//          ),
-//        ],
-//      ),
-
-      return Stack(
-        children: [
-          Visibility(
-            visible: true,
-            child: LayoutBuilder(
-              builder: (_, constraints) => Container(
-                width: constraints.widthConstraints().maxWidth,
-                height: constraints.heightConstraints().maxHeight,
-                child: CustomPaint(painter: OpArtTreePainter(rnd)),
+    print(widget.showSettings);
+    return widget.showSettings
+        ? ListView(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * 0.7,
+                child: bodyWidget(),
               ),
-            ),
+              settingsWidget(),
+            ],
           )
-        ],
-      );
-
-//      floatingActionButton: FloatingActionButton(
-//        onPressed: () {
-//          print('FloatingActionButton.onPressed');
-//        },
-//        tooltip: 'Settings',
-//        child: Icon(Icons.settings),
-//      ), // This trailing comma makes auto-formatting nicer for build methods.
-//    );
+        : bodyWidget();
   }
 }
+
 
 class OpArtTreePainter extends CustomPainter {
   Random rnd;
@@ -128,80 +182,35 @@ class OpArtTreePainter extends CustomPainter {
 
     if (canvasWidth / canvasHeight < aspectRatio) {
       borderY = (canvasHeight - canvasWidth / aspectRatio) / 2;
-      imageHeight = imageWidth /aspectRatio;
-    }
-    else {
+      imageHeight = imageWidth / aspectRatio;
+    } else {
       borderX = (canvasWidth - canvasHeight * aspectRatio) / 2;
       imageWidth = imageHeight * aspectRatio;
     }
 
-    print('width: ${canvasWidth}');
-    print('height: ${canvasHeight}');
-    print('canvasWidth / canvasHeight = ${canvasWidth / canvasHeight}');
-    print('aspectRatio = $aspectRatio');
-    print('borderX = $borderX');
-    print('borderY = $borderY');
-    print('imageWidth = $imageWidth');
-    print('imageHeight = $imageHeight');
+//    print('width: ${canvasWidth}');
+//    print('height: ${canvasHeight}');
+//    print('canvasWidth / canvasHeight = ${canvasWidth / canvasHeight}');
+//    print('aspectRatio = $aspectRatio');
+//    print('borderX = $borderX');
+//    print('borderY = $borderY');
+//    print('imageWidth = $imageWidth');
+//    print('imageHeight = $imageHeight');
 
     // colour in the canvas
     var paint1 = Paint()
       ..color = Color(0xff638965)
       ..style = PaintingStyle.fill;
     //a rectangle
-    canvas.drawRect(Offset(borderX, borderY) & Size(imageWidth, imageHeight), paint1);
+    canvas.drawRect(
+        Offset(borderX, borderY) & Size(imageWidth, imageHeight), paint1);
 
-
-
-
-    double trunkWidth = 10.0;
     double widthDecay = 0.92;
     double segmentLength = 40.0;
     double segmentDecay = 0.92;
     double branch = 0.7;
     double angle = 0.5;
     double ratio = 0.7;
-
-
-
-    List palette = [
-      Colors.red,
-      Colors.pink,
-      Colors.purple,
-      Colors.deepPurple,
-      Colors.indigo,
-      Colors.blue,
-      Colors.lightBlue,
-      Colors.cyan,
-      Colors.teal,
-      Colors.green,
-      Colors.lightGreen,
-      Colors.lime,
-      Colors.yellow,
-      Colors.amber,
-      Colors.orange,
-      Colors.deepOrange,
-      Colors.brown,
-      Colors.grey,
-      Colors.blueGrey,
-      Colors.white,
-      Colors.redAccent,
-      Colors.pinkAccent,
-      Colors.purpleAccent,
-      Colors.deepPurpleAccent,
-      Colors.indigoAccent,
-      Colors.blueAccent,
-      Colors.lightBlueAccent,
-      Colors.cyanAccent,
-      Colors.tealAccent,
-      Colors.greenAccent,
-      Colors.lightGreenAccent,
-      Colors.limeAccent,
-      Colors.yellowAccent,
-      Colors.amberAccent,
-      Colors.orangeAccent,
-      Colors.deepOrangeAccent,
-    ];
 
     double direction = pi / 2;
 
@@ -298,8 +307,8 @@ class OpArtTreePainter extends CustomPainter {
       ];
 
       // draw the triangle
-      drawTheTriangle(canvas, borderX, borderY, rootA, rootB, rootX, lineWidth, trunkLineColor,
-          trunkFillColor);
+      drawTheTriangle(canvas, borderX, borderY, rootA, rootB, rootX, lineWidth,
+          trunkLineColor, trunkFillColor);
 
       double directionA;
       double directionB;
@@ -447,15 +456,35 @@ class OpArtTreePainter extends CustomPainter {
       ];
 
       // draw the trunk
-      drawTheTrunk(canvas, borderX, borderY, rootB, P2, P3, rootA, bulbousness, lineWidth,
-          trunkLineColor, trunkFillColor);
+      drawTheTrunk(canvas, borderX, borderY, rootB, P2, P3, rootA, bulbousness,
+          lineWidth, trunkLineColor, trunkFillColor);
 
       // Draw the leaves
       if (currentDepth > leavesAfter) {
-        drawTheLeaf(canvas, borderX, borderY, palette, P2, lineWidth, direction - leafAngle,
-            leafLength, randomLeafLength, leafSquareness, leafStyle);
-        drawTheLeaf(canvas, borderX, borderY, palette, P3, lineWidth, direction + leafAngle,
-            leafLength, randomLeafLength, leafSquareness, leafStyle);
+        drawTheLeaf(
+            canvas,
+            borderX,
+            borderY,
+            palette,
+            P2,
+            lineWidth,
+            direction - leafAngle,
+            leafLength,
+            randomLeafLength,
+            leafSquareness,
+            leafStyle);
+        drawTheLeaf(
+            canvas,
+            borderX,
+            borderY,
+            palette,
+            P3,
+            lineWidth,
+            direction + leafAngle,
+            leafLength,
+            randomLeafLength,
+            leafSquareness,
+            leafStyle);
       }
 
       // next
@@ -523,9 +552,11 @@ class OpArtTreePainter extends CustomPainter {
 
     Path trunk = Path();
     trunk.moveTo(borderX + P1[0], -borderY + P1[1]);
-    trunk.quadraticBezierTo(borderX + PX[0], -borderY + PX[1], borderX + P2[0], -borderY + P2[1]);
+    trunk.quadraticBezierTo(
+        borderX + PX[0], -borderY + PX[1], borderX + P2[0], -borderY + P2[1]);
     trunk.lineTo(borderX + P3[0], -borderY + P3[1]);
-    trunk.quadraticBezierTo(borderX + PY[0], -borderY + PY[1], borderX + P4[0], -borderY + P4[1]);
+    trunk.quadraticBezierTo(
+        borderX + PY[0], -borderY + PY[1], borderX + P4[0], -borderY + P4[1]);
     trunk.close();
 
     canvas.drawPath(
@@ -631,8 +662,10 @@ class OpArtTreePainter extends CustomPainter {
       case "quadratic":
         Path leaf = Path();
         leaf.moveTo(borderX + leafPosition[0], -borderY + leafPosition[1]);
-        leaf.quadraticBezierTo(borderX + PE[0], -borderY + PE[1], borderX + PS[0], -borderY + PS[1]);
-        leaf.quadraticBezierTo(borderX + PW[0], -borderY + PW[1], borderX + leafPosition[0], -borderY + leafPosition[1]);
+        leaf.quadraticBezierTo(borderX + PE[0], -borderY + PE[1],
+            borderX + PS[0], -borderY + PS[1]);
+        leaf.quadraticBezierTo(borderX + PW[0], -borderY + PW[1],
+            borderX + leafPosition[0], -borderY + leafPosition[1]);
         leaf.close();
 
         canvas.drawPath(
