@@ -240,8 +240,8 @@ class OpArtWallpaperPainter extends CustomPainter {
     print('ratio: $ratio');
 
     // offsetX & offsetY
-    double offsetX = 0;
-    double offsetY = 0;
+    double offsetX = rnd.nextDouble()*5;
+    double offsetY = rnd.nextDouble()*5;
 
     // Squeeze
     double squeezeX = 1;
