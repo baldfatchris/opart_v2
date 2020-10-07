@@ -45,6 +45,7 @@ List palette = [
   Colors.orangeAccent,
   Colors.deepOrangeAccent,
 ];
+Color backgroundColor = Color(0xff638965);
 void changeColor(int index, Color color) {
   palette.replaceRange(index, index + 1, [color]);
 }
@@ -70,6 +71,19 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
   Widget settingsWidget() {
     return Column(
       children: [
+        Text('Background Color'),
+        ColorPicker(
+          displayThumbColor: true,
+          pickerAreaHeightPercent: 0.3,
+          pickerAreaBorderRadius: BorderRadius.circular(10.0),
+          pickerColor: backgroundColor,
+          onColorChanged: (color) {
+            setState(() {
+              backgroundColor = color;
+            });
+          },
+          showLabel: true,
+        ),
         Text('Trunk Width'),
         Slider(
           value: trunkWidth,
@@ -231,7 +245,7 @@ class OpArtTreePainter extends CustomPainter {
 
     // colour in the canvas
     var paint1 = Paint()
-      ..color = Color(0xff638965)
+      ..color = backgroundColor
       ..style = PaintingStyle.fill;
     //a rectangle
     canvas.drawRect(
