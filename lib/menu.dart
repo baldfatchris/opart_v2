@@ -10,9 +10,14 @@ class OpArtMenu extends StatefulWidget {
   _OpArtMenuState createState() => _OpArtMenuState();
 }
 
+bool showSettings = true;
+
 class _OpArtMenuState extends State<OpArtMenu> {
   List<OpArtType> OpArtTypes = [
-    OpArtType(name: 'Trees', icon: 'lib/assets/trees.png', widget: OpArtTree()),
+    OpArtType(
+        name: 'Trees',
+        icon: 'lib/assets/trees.png',
+        widget: OpArtTreeStudio(showSettings)),
     OpArtType(
         name: 'Waves', icon: 'lib/assets/waves.png', widget: OpArtWaves()),
     OpArtType(
@@ -21,9 +26,8 @@ class _OpArtMenuState extends State<OpArtMenu> {
         widget: OpArtWallpaper()),
   ];
 
-  int currentWidget = Random().nextInt(3);
-  bool showSettings = false;
-
+//  int currentWidget = Random().nextInt(3);
+int currentWidget = 0;
   @override
   void initState() {
     super.initState();
@@ -37,7 +41,6 @@ class _OpArtMenuState extends State<OpArtMenu> {
           onPressed: () {
             setState(() {
               showSettings = !showSettings;
-
             });
           },
         ),
@@ -75,18 +78,7 @@ class _OpArtMenuState extends State<OpArtMenu> {
           centerTitle: true,
           elevation: 0,
         ),
-        body: !showSettings
-            ? OpArtTypes[currentWidget].widget
-            : SafeArea(
-              child: Container(height: MediaQuery.of(context).size.height,
-                child: ListView(
-                    children: [
-                      Container(height: MediaQuery.of(context).size.height*0.6,child: OpArtTypes[currentWidget].widget),
-                      Text('These are the settings')
-                    ]),
-              ),
-            ));
-
+        body: OpArtTypes[currentWidget].widget);
   }
 }
 
