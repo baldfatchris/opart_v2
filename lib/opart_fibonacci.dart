@@ -6,110 +6,36 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 //  runApp(OpArtFibonacci());
 //}
 
-List palette = [
-  Colors.red,
-  Colors.pink,
-  Colors.purple,
-  Colors.deepPurple,
-  Colors.indigo,
-  Colors.blue,
-  Colors.lightBlue,
-  Colors.cyan,
-  Colors.teal,
-  Colors.green,
-  Colors.lightGreen,
-  Colors.lime,
-  Colors.yellow,
-  Colors.amber,
-  Colors.orange,
-  Colors.deepOrange,
-  Colors.brown,
-  Colors.grey,
-  Colors.blueGrey,
-  Colors.white,
-  Colors.redAccent,
-  Colors.pinkAccent,
-  Colors.purpleAccent,
-  Colors.deepPurpleAccent,
-  Colors.indigoAccent,
-  Colors.blueAccent,
-  Colors.lightBlueAccent,
-  Colors.cyanAccent,
-  Colors.tealAccent,
-  Colors.greenAccent,
-  Colors.lightGreenAccent,
-  Colors.limeAccent,
-  Colors.yellowAccent,
-  Colors.amberAccent,
-  Colors.orangeAccent,
-  Colors.deepOrangeAccent,
-];
+
+List palette = [];
 void changeColor(int index, Color color) {
   palette.replaceRange(index, index + 1, [color]);
 }
 
-// angleIncrement
 double angleIncrement = 1.6181;
 
 
-// numberOfColours
 int numberOfColours;
-
-// backgroundColour
 Color backgroundColour = Colors.white;
-
-// opacity
 double opacity = 1;
-
-// paletteType
 int paletteType = 0;
-
-// gradientType
 int gradientType = 0;
-
-// randomColours
 bool randomColours = false;
-
-// lineWidth
 double lineWidth = 0;
-
-// lineColour
 Color lineColour = Colors.black;
 
-// flowerFill
+
 double flowerFill = 1;
-
-// petalToRadius
 double petalToRadius = 0.03;
-
-// ratio
 double ratio = 0.999;
-
-// randomiseAngle
 double randomiseAngle = 0;
-
-// petalPointiness
 double petalPointiness = 1;
-
-// petalRotation,
 double petalRotation = 0;
-
-// petalRotationRatio,
 double petalRotationRatio = 1;
-
-// petalType,
 int petalType = 0;
-
-// maxPetals,
 int maxPetals = 5000;
-
-// radialOscAmplitude,
 double radialOscAmplitude = 0;
-
-// radialOscPeriod,
 double radialOscPeriod = 1;
-
-// direction
 bool direction = true;
 
 
@@ -189,7 +115,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
 
   @override
   void initState() {
-    rnd = Random(1001);
+    rnd = Random();
   }
 
   Widget bodyWidget() {
@@ -261,17 +187,17 @@ class OpArtFibonacciPainter extends CustomPainter {
       imageWidth = imageHeight * aspectRatio;
     }
 
-//    print('width: ${canvasWidth}');
-//    print('height: ${canvasHeight}');
-//    print('canvasWidth / canvasHeight = ${canvasWidth / canvasHeight}');
-//    print('aspectRatio = $aspectRatio');
-//    print('borderX = $borderX');
-//    print('borderY = $borderY');
-//    print('imageWidth = $imageWidth');
-//    print('imageHeight = $imageHeight');
+
+    double flowerCentreX = imageWidth / 2;
+    double flowerCentreY = imageHeight / 2;
+    print('flowerCentreX: $flowerCentreX');
+    print('flowerCentreY: $flowerCentreY');
+
+    // randomise the palette
+    randomisePalette();
 
     // randomise the settings
-    randomise();
+    randomiseSettings();
 
     // colour in the canvas
     //a rectangle
@@ -283,23 +209,12 @@ class OpArtFibonacciPainter extends CustomPainter {
 
 
 
-
-
-    double flowerCentreX = imageWidth / 2;
-    double flowerCentreY = imageHeight / 2;
-    print('flowerCentreX: $flowerCentreX');
-    print('flowerCentreY: $flowerCentreY');
-
-
-
     generateFlower(
         canvas,
         imageWidth,
         imageHeight,
         borderX,
         borderY,
-        palette,
-        opacity,
         flowerCentreX,
         flowerCentreY
     );
@@ -324,7 +239,6 @@ class OpArtFibonacciPainter extends CustomPainter {
       double height,
       double borderX,
       double borderY,
-      Colours, opacity,
       flowerCentreX, flowerCentreY) {
 
     // start the colour order
@@ -333,7 +247,7 @@ class OpArtFibonacciPainter extends CustomPainter {
     
     // clear the canvas
     //ctx.clearRect(0, 0, canvas.width, canvas.height);
-    //ctxThumb.clearRect(0, 0, canvas.width, canvas.height);
+    //canvas.clearRect(0, 0, canvas.width, canvas.height);
 
 
     List P0 = [flowerCentreX + borderX, flowerCentreY + borderY];
@@ -418,105 +332,37 @@ class OpArtFibonacciPainter extends CustomPainter {
 
         break;
 
-      //
-      // case "triangle":
-      //
-      //   var P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
-      //   var petalRadius = radius * petalToRadius;
-      //
-      //   var PA = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio)];
-      //   var PB = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * petalPointiness)];
-      //   var PC = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio - pi * petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio - pi * petalPointiness)];
-      //
-      //
-      //   if (fullsize) {
-      //     ctx.fillStyle = colour;
-      //     ctx.strokeStyle = lineColour;
-      //     ctx.lineWidth = lineWidth;
-      //     ctx.lineJoin = "round";
-      //
-      //     if (gradientType != "none") {
-      //
-      //
-      //       if (gradientType == "radial") {
-      //         var grd = ctx.createLinearGradient(
-      //             P1[0] + petalRadius * cos(angle), P1[1] + petalRadius * sin(angle),
-      //             P1[0] + petalRadius * cos(angle + pi), P1[1] + petalRadius * sin(angle + pi)
-      //         );
-      //       }
-      //       if (gradientType == "clockwise") {
-      //         var grd = ctx.createLinearGradient(
-      //             P1[0] + petalRadius * cos(angle + pi/2), P1[1] + petalRadius * sin(angle + pi/2),
-      //             P1[0] + petalRadius * cos(angle + pi * 3/2), P1[1] + petalRadius * sin(angle + pi * 3/2)
-      //         );
-      //       }
-      //       if (gradientType == "anticlockwise") {
-      //         var grd = ctx.createLinearGradient(
-      //             P1[0] + petalRadius * cos(angle - pi/2), P1[1] + petalRadius * sin(angle - pi/2),
-      //             P1[0] + petalRadius * cos(angle + pi/2), P1[1] + petalRadius * sin(angle + pi/2)
-      //         );
-      //       }
-      //
-      //       grd.addColorStop(0, colour);
-      //       grd.addColorStop(1, colourGradient);
-      //       ctx.fillStyle = grd;
-      //
-      //     }
-      //
-      //
-      //     ctx.beginPath();
-      //     ctx.moveTo(PA[0], PA[1]);
-      //     ctx.lineTo(PB[0], PB[1]);
-      //     ctx.lineTo(PC[0], PC[1]);
-      //     ctx.closePath();
-      //     ctx.stroke();
-      //     ctx.fill();
-      //   }
-      //   if (thumbnail) {
-      //     ctxThumb.fillStyle = colour;
-      //     ctxThumb.strokeStyle = lineColour;
-      //     ctxThumb.lineWidth = lineWidth;
-      //     ctxThumb.lineJoin = "round";
-      //
-      //     if (gradientType != "none") {
-      //
-      //
-      //       if (gradientType == "radial") {
-      //         var grd = ctxThumb.createLinearGradient(
-      //             P1[0] + petalRadius * cos(angle), P1[1] + petalRadius * sin(angle),
-      //             P1[0] + petalRadius * cos(angle + pi), P1[1] + petalRadius * sin(angle + pi)
-      //         );
-      //       }
-      //       if (gradientType == "clockwise") {
-      //         var grd = ctxThumb.createLinearGradient(
-      //             P1[0] + petalRadius * cos(angle + pi/2), P1[1] + petalRadius * sin(angle + pi/2),
-      //             P1[0] + petalRadius * cos(angle + pi * 3/2), P1[1] + petalRadius * sin(angle + pi * 3/2)
-      //         );
-      //       }
-      //       if (gradientType == "anticlockwise") {
-      //         var grd = ctxThumb.createLinearGradient(
-      //             P1[0] + petalRadius * cos(angle - pi/2), P1[1] + petalRadius * sin(angle - pi/2),
-      //             P1[0] + petalRadius * cos(angle + pi/2), P1[1] + petalRadius * sin(angle + pi/2)
-      //         );
-      //       }
-      //
-      //       grd.addColorStop(0, colour);
-      //       grd.addColorStop(1, colourGradient);
-      //       ctxThumb.fillStyle = grd;
-      //
-      //     }
-      //
-      //     ctxThumb.beginPath();
-      //     ctxThumb.moveTo(PA[0], PA[1]);
-      //     ctxThumb.lineTo(PB[0], PB[1]);
-      //     ctxThumb.lineTo(PC[0], PC[1]);
-      //     ctxThumb.closePath();
-      //     ctxThumb.stroke();
-      //     ctxThumb.fill();
-      //   }
-      //
-      //
-      //   break;
+
+      case 1: //"triangle":
+
+        var P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
+        var petalRadius = radius * petalToRadius;
+
+        var PA = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio)];
+        var PB = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * petalPointiness)];
+        var PC = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio - pi * petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio - pi * petalPointiness)];
+
+        Path triangle = Path();
+        triangle.moveTo(PA[0], PA[1]);
+        triangle.lineTo(PB[0], PB[1]);
+        triangle.lineTo(PC[0], PC[1]);
+        triangle.close();
+
+        canvas.drawPath(
+            triangle,
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = lineWidth
+              ..color = lineColour);
+        canvas.drawPath(
+            triangle,
+            Paint()
+              ..style = PaintingStyle.fill
+              ..color = colour);
+
+
+
+        break;
       //
       // case "square":
       //
@@ -574,28 +420,28 @@ class OpArtFibonacciPainter extends CustomPainter {
       //     ctx.fill();
       //   }
       //   if (thumbnail) {
-      //     ctxThumb.fillStyle = colour;
-      //     ctxThumb.strokeStyle = lineColour;
-      //     ctxThumb.lineWidth = lineWidth;
-      //     ctxThumb.lineJoin = "round";
+      //     canvas.fillStyle = colour;
+      //     canvas.strokeStyle = lineColour;
+      //     canvas.lineWidth = lineWidth;
+      //     canvas.lineJoin = "round";
       //
       //     if (gradientType != "none") {
       //
       //
       //       if (gradientType == "radial") {
-      //         var grd = ctxThumb.createLinearGradient(
+      //         var grd = canvas.createLinearGradient(
       //           PA[0], PA[1],
       //           PC[0], PC[1],
       //         );
       //       }
       //       if (gradientType == "clockwise") {
-      //         var grd = ctxThumb.createLinearGradient(
+      //         var grd = canvas.createLinearGradient(
       //           PB[0], PB[1],
       //           PD[0], PD[1],
       //         );
       //       }
       //       if (gradientType == "anticlockwise") {
-      //         var grd = ctxThumb.createLinearGradient(
+      //         var grd = canvas.createLinearGradient(
       //           PD[0], PD[1],
       //           PB[0], PB[1],
       //         );
@@ -603,18 +449,18 @@ class OpArtFibonacciPainter extends CustomPainter {
       //
       //       grd.addColorStop(0, colour);
       //       grd.addColorStop(1, colourGradient);
-      //       ctxThumb.fillStyle = grd;
+      //       canvas.fillStyle = grd;
       //
       //     }
       //
-      //     ctxThumb.beginPath();
-      //     ctxThumb.moveTo(PA[0], PA[1]);
-      //     ctxThumb.lineTo(PB[0], PB[1]);
-      //     ctxThumb.lineTo(PC[0], PC[1]);
-      //     ctxThumb.lineTo(PD[0], PD[1]);
-      //     ctxThumb.closePath();
-      //     ctxThumb.stroke();
-      //     ctxThumb.fill();
+      //     canvas.beginPath();
+      //     canvas.moveTo(PA[0], PA[1]);
+      //     canvas.lineTo(PB[0], PB[1]);
+      //     canvas.lineTo(PC[0], PC[1]);
+      //     canvas.lineTo(PD[0], PD[1]);
+      //     canvas.closePath();
+      //     canvas.stroke();
+      //     canvas.fill();
       //   }
       //
       //
@@ -676,28 +522,28 @@ class OpArtFibonacciPainter extends CustomPainter {
       //     ctx.fill();
       //   }
       //   if (thumbnail) {
-      //     ctxThumb.fillStyle = colour;
-      //     ctxThumb.strokeStyle = lineColour;
-      //     ctxThumb.lineWidth = lineWidth;
-      //     ctxThumb.lineJoin = "round";
+      //     canvas.fillStyle = colour;
+      //     canvas.strokeStyle = lineColour;
+      //     canvas.lineWidth = lineWidth;
+      //     canvas.lineJoin = "round";
       //
       //     if (gradientType != "none") {
       //
       //
       //       if (gradientType == "radial") {
-      //         var grd = ctxThumb.createLinearGradient(
+      //         var grd = canvas.createLinearGradient(
       //           PA[0], PA[1],
       //           PC[0], PC[1],
       //         );
       //       }
       //       if (gradientType == "clockwise") {
-      //         var grd = ctxThumb.createLinearGradient(
+      //         var grd = canvas.createLinearGradient(
       //           PB[0], PB[1],
       //           PD[0], PD[1],
       //         );
       //       }
       //       if (gradientType == "anticlockwise") {
-      //         var grd = ctxThumb.createLinearGradient(
+      //         var grd = canvas.createLinearGradient(
       //           PD[0], PD[1],
       //           PB[0], PB[1],
       //         );
@@ -705,16 +551,16 @@ class OpArtFibonacciPainter extends CustomPainter {
       //
       //       grd.addColorStop(0, colour);
       //       grd.addColorStop(1, colourGradient);
-      //       ctxThumb.fillStyle = grd;
+      //       canvas.fillStyle = grd;
       //
       //     }
       //
-      //     ctxThumb.beginPath();
-      //     ctxThumb.arc(PB[0], PB[1], petalRadius * 2, angle + petalRotation + angle*petalRotationRatio + pi * (0.5 + 2/3), angle + petalRotation + angle*petalRotationRatio + pi * (0.5+4/3));
-      //     ctxThumb.arc(PD[0], PD[1], petalRadius * 2, angle + petalRotation + angle*petalRotationRatio + pi * (1.5 + 2/3), angle + petalRotation + angle*petalRotationRatio + pi * (1.5+4/3));
-      //     ctxThumb.closePath();
-      //     ctxThumb.stroke();
-      //     ctxThumb.fill();
+      //     canvas.beginPath();
+      //     canvas.arc(PB[0], PB[1], petalRadius * 2, angle + petalRotation + angle*petalRotationRatio + pi * (0.5 + 2/3), angle + petalRotation + angle*petalRotationRatio + pi * (0.5+4/3));
+      //     canvas.arc(PD[0], PD[1], petalRadius * 2, angle + petalRotation + angle*petalRotationRatio + pi * (1.5 + 2/3), angle + petalRotation + angle*petalRotationRatio + pi * (1.5+4/3));
+      //     canvas.closePath();
+      //     canvas.stroke();
+      //     canvas.fill();
       //   }
       //
       //
@@ -723,20 +569,13 @@ class OpArtFibonacciPainter extends CustomPainter {
 
   }
 
-  randomise(){
-
-    // angleIncrement,
-    angleIncrement = rnd.nextDouble()*pi;
-    print('angleIncrement: $angleIncrement');
+  randomisePalette(){
 
     //  backgroundColour
     backgroundColour = Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1);
     print('backgroundColor: $backgroundColour');
 
-
-
-    // SET UP THE PALETTE
-    // numberOfColours from 1 to 24
+  // numberOfColours from 1 to 24
     numberOfColours = rnd.nextInt(24)+1;
     print('numberOfColours: $numberOfColours');
 
@@ -810,10 +649,6 @@ class OpArtFibonacciPainter extends CustomPainter {
     Color backgroundColor = Colors.grey[200];
     print('backgroundColor: $backgroundColor');
 
-    // lineWidth
-    double lineWidth = rnd.nextDouble()*10;
-    print('lineWidth: $lineWidth');
-
     // lineColour
     lineColour = Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity);
     print('lineColour: $lineColour');
@@ -822,22 +657,34 @@ class OpArtFibonacciPainter extends CustomPainter {
     gradientType = 0;
     print('gradientType: $gradientType');
 
+  }
+
+  randomiseSettings(){
+
+
+    // lineWidth
+    double lineWidth = rnd.nextDouble()*10;
+    print('lineWidth: $lineWidth');
+
+    // angleIncrement,
+    angleIncrement = rnd.nextDouble()*pi;
+    print('angleIncrement: $angleIncrement');
 
     // flowerFill
     flowerFill = rnd.nextDouble() * 0.75 + 0.5;
     print('flowerFill: $flowerFill');
 
     // petalToRadius
-    petalToRadius = 0.03;
+    petalToRadius = rnd.nextDouble()*0.2+0.01;
     print('petalToRadius: $petalToRadius');
 
     // ratio
-    ratio = 0.999;
+    ratio = 1-rnd.nextDouble()/500;
     print('ratio: $ratio');
 
     // randomiseAngle
     randomiseAngle = rnd.nextDouble() * pi;
-    if (rnd.nextBool()) {
+    if (rnd.nextDouble()>0.2) {
       randomiseAngle = 0;
     }
     print('randomiseAngle: $randomiseAngle');
@@ -862,11 +709,11 @@ class OpArtFibonacciPainter extends CustomPainter {
     print('petalRotationRatio: $petalRotationRatio');
 
     // petalType,
-    petalType = 0;
+    petalType = rnd.nextInt(2);
     print('petalType: $petalType');
 
     // maxPetals,
-    maxPetals = 5000;
+    maxPetals = 20000;
     print('maxPetals: $maxPetals');
 
     // radialOscAmplitude,

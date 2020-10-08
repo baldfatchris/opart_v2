@@ -247,7 +247,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
           });
         },
         tooltip: 'Increment',
-        child: Icon(Icons.camera_alt_outlined),
+        child: Icon(Icons.camera_alt),
       ),
       body: widget.showSettings
           ? Column(
