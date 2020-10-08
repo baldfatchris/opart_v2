@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'side_drawer.dart';
+import 'opart_fibonacci.dart';
 import 'opart_tree.dart';
 import 'opart_waves.dart';
 import 'opart_wallpaper.dart';
@@ -14,16 +15,10 @@ bool showSettings = true;
 
 class _OpArtMenuState extends State<OpArtMenu> {
   List<OpArtType> OpArtTypes = [
-    OpArtType(
-        name: 'Trees',
-        icon: 'lib/assets/trees.png',
-        widget: OpArtTreeStudio(showSettings)),
-    OpArtType(
-        name: 'Waves', icon: 'lib/assets/waves.png', widget: OpArtWaves()),
-    OpArtType(
-        name: 'Wallpaper',
-        icon: 'lib/assets/wallpaper.png',
-        widget: OpArtWallpaper()),
+    OpArtType(name: 'Fibonacci', icon: 'lib/assets/fibonacci.png', widget: OpArtFibonacciStudio(showSettings)),
+    OpArtType(name: 'Trees', icon: 'lib/assets/trees.png', widget: OpArtTreeStudio(showSettings)),
+    OpArtType(name: 'Waves', icon: 'lib/assets/waves.png', widget: OpArtWaves()),
+    OpArtType(name: 'Wallpaper', icon: 'lib/assets/wallpaper.png', widget: OpArtWallpaper()),
   ];
 
 //  int currentWidget = Random().nextInt(3);

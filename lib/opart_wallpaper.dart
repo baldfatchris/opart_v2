@@ -196,9 +196,9 @@ class OpArtWallpaperPainter extends CustomPainter {
 
     // randomColours - true or false
     bool randomColours = rnd.nextBool();
-    randomColours = false;
     print('randomColours: $randomColours');
     
+    // keep track of the colour order
     int colourOrder = 0;
 
     Color backgroundColor = Colors.grey[200];
@@ -213,7 +213,7 @@ class OpArtWallpaperPainter extends CustomPainter {
     // Now make some art
 
     // fill
-    bool fill = rnd.nextBool();
+    bool fill = true; // rnd.nextBool();
     print('fill: $fill');
 
     int extraCellsX = 0;
@@ -240,8 +240,14 @@ class OpArtWallpaperPainter extends CustomPainter {
     print('ratio: $ratio');
 
     // offsetX & offsetY
-    double offsetX = rnd.nextDouble()*5;
-    double offsetY = rnd.nextDouble()*5;
+    double offsetX = rnd.nextDouble()*20-10;
+    double offsetY = rnd.nextDouble()*20-10;
+    if (rnd.nextBool()){
+      offsetX=0;
+      offsetY=0;
+    }
+    print('offsetX: $offsetX');
+    print('offsetY: $offsetY');
 
     // Squeeze
     double squeezeX = 1;
