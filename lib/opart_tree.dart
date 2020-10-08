@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:screenshot/screenshot.dart';
+import 'dart:typed_data';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 //void main() {
 //  runApp(OpArtTree());
@@ -66,14 +71,39 @@ class OpArtTreeStudio extends StatefulWidget {
   _OpArtTreeStudioState createState() => _OpArtTreeStudioState();
 }
 
+bool _showBackgroundColorPicker = false;
+
 class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
+  int _counter = 0;
+  File _imageFile;
+  ScreenshotController screenshotController = ScreenshotController();
   int _currentColor = 0;
   Widget settingsWidget() {
-    return Column(
+    return ListView(
       children: [
-        Text('Background Color'),
-        ColorPicker(
-          displayThumbColor: true,
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+              child: Text(
+            'Settings',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          )),
+        ),
+        SizedBox(height: 8),
+        Row(
+          children: [
+            Text('Background Color'),
+            IconButton(
+              icon: Icon(_showBackgroundColorPicker
+                  ? Icons.arrow_drop_up
+                  : Icons.arrow_drop_down),
+            onPressed: (){setState(() {
+              _showBackgroundColorPicker = !_showBackgroundColorPicker;
+            });},)
+          ],
+        ),
+        _showBackgroundColorPicker? ColorPicker(
+          displayThumbColor: false,
           pickerAreaHeightPercent: 0.3,
           pickerAreaBorderRadius: BorderRadius.circular(10.0),
           pickerColor: backgroundColor,
@@ -82,8 +112,8 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
               backgroundColor = color;
             });
           },
-          showLabel: true,
-        ),
+          showLabel: false,
+        ): Container(),
         Text('Trunk Width'),
         Slider(
           value: trunkWidth,
@@ -120,7 +150,6 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
           },
           label: '$segmentLength',
         ),
-
         Container(
           height: 200,
           child: GridView.builder(
@@ -152,7 +181,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
         ),
         SizedBox(height: 10),
         ColorPicker(
-          displayThumbColor: true,
+          displayThumbColor: false,
           pickerAreaHeightPercent: 0.3,
           pickerAreaBorderRadius: BorderRadius.circular(10.0),
           pickerColor: palette[_currentColor],
@@ -161,7 +190,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
               changeColor(_currentColor, color);
             });
           },
-          showLabel: true,
+          showLabel: false,
         ),
       ],
     );
@@ -175,40 +204,67 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
   }
 
   Widget bodyWidget() {
-    return Stack(
-      children: [
-        Visibility(
-          visible: true,
-          child: LayoutBuilder(
-            builder: (_, constraints) => Container(
-              width: constraints.widthConstraints().maxWidth,
-              height: constraints.heightConstraints().maxHeight,
-              child: CustomPaint(painter: OpArtTreePainter(rnd)),
+    return Screenshot(
+      controller: screenshotController,
+      child: Stack(
+        children: [
+          Visibility(
+            visible: true,
+            child: LayoutBuilder(
+              builder: (_, constraints) => Container(
+                width: constraints.widthConstraints().maxWidth,
+                height: constraints.heightConstraints().maxHeight,
+                child: CustomPaint(painter: OpArtTreePainter(rnd)),
+              ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    print('building tree');
+    //we need this because there are two floating action buttons so each one needs a herotag.
+    Hero btn1;
 
-    return widget.showSettings
-        ? ListView(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.7,
-                child: bodyWidget(),
-              ),
-              settingsWidget(),
-            ],
-          )
-        : bodyWidget();
+    return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
+      floatingActionButton: FloatingActionButton(
+        heroTag: btn1,
+        onPressed: () {
+          _imageFile = null;
+          screenshotController.capture().then((File image) async {
+            print("Capture Done");
+            setState(() {
+              _imageFile = image;
+            });
+            final result = await ImageGallerySaver.saveImage(image
+                .readAsBytesSync()); // Save image to gallery,  Needs plugin  https://pub.dev/packages/image_gallery_saver
+            print(result);
+          }).catchError((onError) {
+            print(onError);
+          });
+        },
+        tooltip: 'Increment',
+        child: Icon(Icons.camera_alt_outlined),
+      ),
+      body: widget.showSettings
+          ? Column(
+              children: [
+                Flexible(flex: 3, child: bodyWidget()),
+                Flexible(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: settingsWidget(),
+                    )),
+              ],
+            )
+          : bodyWidget(),
+    );
   }
 }
-
 
 class OpArtTreePainter extends CustomPainter {
   Random rnd;
@@ -250,8 +306,6 @@ class OpArtTreePainter extends CustomPainter {
     //a rectangle
     canvas.drawRect(
         Offset(borderX, borderY) & Size(imageWidth, imageHeight), paint1);
-
-
 
     double direction = pi / 2;
 

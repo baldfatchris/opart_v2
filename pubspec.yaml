@@ -34,6 +34,9 @@ dev_dependencies:
     sdk: flutter
   flutter_spinkit: "^4.1.2"
   flutter_colorpicker: ^0.3.4
+  screenshot: ^0.2.0
+  image_gallery_saver: '^1.5.0'
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

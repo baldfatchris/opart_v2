@@ -7,6 +7,7 @@ import 'package:opart_v2/opart_wallpaper.dart';
 import 'package:opart_v2/opart_waves.dart';
 
 
+
 void main() => runApp(MaterialApp(
   initialRoute: '/',
   routes: {
