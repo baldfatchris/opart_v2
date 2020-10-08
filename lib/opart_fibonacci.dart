@@ -246,7 +246,7 @@ class OpArtFibonacciPainter extends CustomPainter {
     print('flowerCentreX: $flowerCentreX');
     print('flowerCentreY: $flowerCentreY');
 
-    double flowerFill = rnd.nextDouble() * 2 + 0.5;
+    double flowerFill = rnd.nextDouble() * 0.75 + 0.5;
     print('flowerFill: $flowerFill');
 
     double petalToRadius = 0.03;
