@@ -127,6 +127,8 @@ class OpArtWallpaperPainter extends CustomPainter {
     print('imageWidth = $imageWidth');
     print('imageHeight = $imageHeight');
 
+
+    // SET UP THE PALLET
     // numberOfColours from 1 to 24
     int numberOfColours = rnd.nextInt(24)+1;
     print('numberOfColours: $numberOfColours');
@@ -148,9 +150,9 @@ class OpArtWallpaperPainter extends CustomPainter {
 
     // blended random
       case 1:{
-        double blendColour = Random().nextDouble() * 0xFFFFFF;
+        double blendColour = rnd.nextDouble() * 0xFFFFFF;
         for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
-          palette.add(Color(((blendColour + Random().nextDouble() * 0xFFFFFF)/2).toInt()).withOpacity(opacity));
+          palette.add(Color(((blendColour + rnd.nextDouble() * 0xFFFFFF)/2).toInt()).withOpacity(opacity));
         }
       }
       break;
@@ -186,7 +188,7 @@ class OpArtWallpaperPainter extends CustomPainter {
     // random
       default: {
         for (int colorIndex = 0; colorIndex < numberOfColours; colorIndex++){
-          palette.add(Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity));
+          palette.add(Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity));
         }
       }
       break;
@@ -196,18 +198,18 @@ class OpArtWallpaperPainter extends CustomPainter {
     // randomColours - true or false
     bool randomColours = rnd.nextBool();
     print('randomColours: $randomColours');
-    
-    // keep track of the colour order
-    int colourOrder = 0;
 
     Color backgroundColor = Colors.grey[200];
     print('backgroundColor: $backgroundColor');
+
     double lineWidth = rnd.nextDouble()*10;
     print('lineWidth: $lineWidth');
-    Color lineColor = Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity);
+
+    Color lineColor = Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity);
     print('lineColor: $lineColor');
 
-
+    // keep track of the colour order
+    int colourOrder = 0;
 
     // Now make some art
 

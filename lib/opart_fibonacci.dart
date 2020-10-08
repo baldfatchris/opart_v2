@@ -48,7 +48,71 @@ void changeColor(int index, Color color) {
   palette.replaceRange(index, index + 1, [color]);
 }
 
+// angleIncrement
 double angleIncrement = 1.6181;
+
+
+// numberOfColours
+int numberOfColours;
+
+// backgroundColour
+Color backgroundColour = Colors.white;
+
+// opacity
+double opacity = 1;
+
+// paletteType
+int paletteType = 0;
+
+// gradientType
+int gradientType = 0;
+
+// randomColours
+bool randomColours = false;
+
+// lineWidth
+double lineWidth = 0;
+
+// lineColour
+Color lineColour = Colors.black;
+
+// flowerFill
+double flowerFill = 1;
+
+// petalToRadius
+double petalToRadius = 0.03;
+
+// ratio
+double ratio = 0.999;
+
+// randomiseAngle
+double randomiseAngle = 0;
+
+// petalPointiness
+double petalPointiness = 1;
+
+// petalRotation,
+double petalRotation = 0;
+
+// petalRotationRatio,
+double petalRotationRatio = 1;
+
+// petalType,
+int petalType = 0;
+
+// maxPetals,
+int maxPetals = 5000;
+
+// radialOscAmplitude,
+double radialOscAmplitude = 0;
+
+// radialOscPeriod,
+double radialOscPeriod = 1;
+
+// direction
+bool direction = true;
+
+
 
 class OpArtFibonacciStudio extends StatefulWidget {
   bool showSettings;
@@ -206,114 +270,26 @@ class OpArtFibonacciPainter extends CustomPainter {
 //    print('imageWidth = $imageWidth');
 //    print('imageHeight = $imageHeight');
 
+    // randomise the settings
+    randomise();
+
     // colour in the canvas
-    var paint1 = Paint()
-      ..color = Color(0xff638965)
-      ..style = PaintingStyle.fill;
     //a rectangle
     canvas.drawRect(
-        Offset(borderX, borderY) & Size(imageWidth, imageHeight), paint1);
+        Offset(borderX, borderY) & Size(imageWidth, imageHeight), Paint()
+      ..color = backgroundColour
+      ..style = PaintingStyle.fill);
 
 
-    Color backgroundColour = Colors.white;
-    print('backgroundColor: $backgroundColour');
 
-    int gradientType = 0;
-    print('gradientType: $gradientType');
 
-    int numberOfColours = palette.length;
-    print('numberOfColours: $numberOfColours');
 
-    bool randomColours = rnd.nextBool();
-    print('randomColours: $randomColours');
-
-    double lineWidth = 0; //rnd.nextDouble() * 10;
-    print('lineWidth: $lineWidth');
-
-    // opacity - from 0 to 1 - 50% of time =1
-    double opacity = rnd.nextDouble();
-    if (rnd.nextInt(2) == 0) {
-      opacity = 1;
-    }
-    print('opacity: $opacity');
-
-    Color lineColour = Color((Random().nextDouble() * 0xFFFFFF).toInt())
-        .withOpacity(opacity);
-    print('lineColour: $lineColour');
 
     double flowerCentreX = imageWidth / 2;
     double flowerCentreY = imageHeight / 2;
     print('flowerCentreX: $flowerCentreX');
     print('flowerCentreY: $flowerCentreY');
 
-    double flowerFill = rnd.nextDouble() * 0.75 + 0.5;
-    print('flowerFill: $flowerFill');
-
-    double petalToRadius = 0.03;
-    print('petalToRadius: $petalToRadius');
-
-    double ratio = 0.999;
-    print('ratio: $ratio');
-
-    double randomiseAngle = rnd.nextDouble() * pi;
-    if (rnd.nextBool()) {
-      randomiseAngle = 0;
-    }
-    print('randomiseAngle: $randomiseAngle');
-
-    // angleIncrement,
-    double angleIncrement = rnd.nextDouble();
-    if (rnd.nextBool()) {
-      angleIncrement = 0;
-    }
-    print('angleIncrement: $angleIncrement');
-
-    double petalPointiness = rnd.nextDouble();
-    print('petalPointiness: $petalPointiness');
-
-
-    // petalRotation,
-    double petalRotation = rnd.nextDouble() * pi;
-    if (rnd.nextBool()) {
-      petalRotation = 0;
-    }
-    print('petalRotation: $petalRotation');
-
-    // petalRotationRatio,
-    double petalRotationRatio = rnd.nextDouble();
-    if (rnd.nextBool()) {
-      petalRotationRatio = 0;
-    }
-    print('petalRotationRatio: $petalRotationRatio');
-
-
-    // petalType,
-    int petalType = 0;
-    print('petalType: $petalType');
-
-    // maxPetals,
-    int maxPetals = 5000;
-    print('maxPetals: $maxPetals');
-
-
-    // radialOscAmplitude,
-    double radialOscAmplitude = rnd.nextDouble();
-    if (rnd.nextBool()) {
-      radialOscAmplitude = 0;
-    }
-    print('radialOscAmplitude: $radialOscAmplitude');
-
-    // radialOscPeriod,
-    double radialOscPeriod = rnd.nextDouble();
-    if (rnd.nextBool()) {
-      radialOscPeriod = 0;
-    }
-    print('radialOscPeriod: $radialOscPeriod');
-
-    // direction
-    bool direction = rnd.nextBool();
-    direction = true;
-    print('direction: $direction');
 
 
     generateFlower(
@@ -322,33 +298,14 @@ class OpArtFibonacciPainter extends CustomPainter {
         imageHeight,
         borderX,
         borderY,
-        backgroundColour,
-        gradientType,
-        numberOfColours,
-        randomColours,
         palette,
-        lineColour,
-        lineWidth,
         opacity,
         flowerCentreX,
-        flowerCentreY,
-        flowerFill,
-        petalToRadius,
-        ratio,
-        randomiseAngle,
-        angleIncrement,
-        petalPointiness,
-        petalRotation,
-        petalRotationRatio,
-        petalType,
-        maxPetals,
-        radialOscAmplitude,
-        radialOscPeriod,
-        direction
+        flowerCentreY
     );
 
     // colour in the outer canvas
-    paint1 = Paint()
+    Paint paint1 = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.fill;
     canvas.drawRect(Offset(0, 0) & Size(borderX, canvasHeight), paint1);
@@ -367,10 +324,8 @@ class OpArtFibonacciPainter extends CustomPainter {
       double height,
       double borderX,
       double borderY,
-      Color backgroundColour,
-      gradientType, numberOfColours, randomColours, Colours, lineColour, lineWidth, opacity,
-      flowerCentreX, flowerCentreY, flowerFill, petalToRadius, ratio, randomiseAngle, angleIncrement, petalPointiness, petalRotation, petalRotationRatio,
-      petalType, maxPetals, radialOscAmplitude, radialOscPeriod, direction) {
+      Colours, opacity,
+      flowerCentreX, flowerCentreY) {
 
     // start the colour order
     int colourOrder=0;
@@ -768,6 +723,175 @@ class OpArtFibonacciPainter extends CustomPainter {
 
   }
 
+  randomise(){
+
+    // angleIncrement,
+    angleIncrement = rnd.nextDouble()*pi;
+    print('angleIncrement: $angleIncrement');
+
+    //  backgroundColour
+    backgroundColour = Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1);
+    print('backgroundColor: $backgroundColour');
+
+
+
+    // SET UP THE PALETTE
+    // numberOfColours from 1 to 24
+    numberOfColours = rnd.nextInt(24)+1;
+    print('numberOfColours: $numberOfColours');
+
+    // opacity - from 0 to 1 - 50% of time =1
+    opacity = rnd.nextDouble();
+    if (rnd.nextInt(2)==0){
+      opacity = 1;
+    }
+    print('opacity: $opacity');
+
+    // paletteType - 0=random; 1=blended random; 2=linear random; 3=linear complimentary;
+    paletteType = rnd.nextInt(4);
+    print('paletteType: $paletteType');
+
+    // randomise the palette
+    List palette = [];
+    switch(paletteType){
+
+    // blended random
+      case 1:{
+        double blendColour = rnd.nextDouble() * 0xFFFFFF;
+        for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
+          palette.add(Color(((blendColour + rnd.nextDouble() * 0xFFFFFF)/2).toInt()).withOpacity(opacity));
+        }
+      }
+      break;
+
+    // linear random
+      case 2:{
+        List startColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
+        List endColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
+        for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
+          palette.add(Color.fromRGBO(
+              ((startColour[0]*colourIndex + endColour[0]*(numberOfColours-colourIndex))/numberOfColours).round(),
+              ((startColour[1]*colourIndex + endColour[1]*(numberOfColours-colourIndex))/numberOfColours).round(),
+              ((startColour[2]*colourIndex + endColour[2]*(numberOfColours-colourIndex))/numberOfColours).round(),
+              opacity));
+        }
+      }
+      break;
+
+    // linear complementary
+      case 2:{
+        List startColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
+        List endColour = [255-startColour[0],255-startColour[1],255-startColour[2]];
+        for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
+          palette.add(Color.fromRGBO(
+              ((startColour[0]*colourIndex + endColour[0]*(numberOfColours-colourIndex))/numberOfColours).round(),
+              ((startColour[1]*colourIndex + endColour[1]*(numberOfColours-colourIndex))/numberOfColours).round(),
+              ((startColour[2]*colourIndex + endColour[2]*(numberOfColours-colourIndex))/numberOfColours).round(),
+              opacity));
+        }
+      }
+      break;
+
+    // random
+      default: {
+        for (int colorIndex = 0; colorIndex < numberOfColours; colorIndex++){
+          palette.add(Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity));
+        }
+      }
+      break;
+
+    }
+
+    // randomColours - true or false
+    bool randomColours = rnd.nextBool();
+    print('randomColours: $randomColours');
+
+    // backgroundColor
+    Color backgroundColor = Colors.grey[200];
+    print('backgroundColor: $backgroundColor');
+
+    // lineWidth
+    double lineWidth = rnd.nextDouble()*10;
+    print('lineWidth: $lineWidth');
+
+    // lineColour
+    lineColour = Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity);
+    print('lineColour: $lineColour');
+
+    // gradientType
+    gradientType = 0;
+    print('gradientType: $gradientType');
+
+
+    // flowerFill
+    flowerFill = rnd.nextDouble() * 0.75 + 0.5;
+    print('flowerFill: $flowerFill');
+
+    // petalToRadius
+    petalToRadius = 0.03;
+    print('petalToRadius: $petalToRadius');
+
+    // ratio
+    ratio = 0.999;
+    print('ratio: $ratio');
+
+    // randomiseAngle
+    randomiseAngle = rnd.nextDouble() * pi;
+    if (rnd.nextBool()) {
+      randomiseAngle = 0;
+    }
+    print('randomiseAngle: $randomiseAngle');
+
+    // petalPointiness
+    petalPointiness = rnd.nextDouble();
+    print('petalPointiness: $petalPointiness');
+
+
+    // petalRotation,
+    petalRotation = rnd.nextDouble() * pi;
+    if (rnd.nextBool()) {
+      petalRotation = 0;
+    }
+    print('petalRotation: $petalRotation');
+
+    // petalRotationRatio,
+    petalRotationRatio = rnd.nextDouble();
+    if (rnd.nextBool()) {
+      petalRotationRatio = 0;
+    }
+    print('petalRotationRatio: $petalRotationRatio');
+
+    // petalType,
+    petalType = 0;
+    print('petalType: $petalType');
+
+    // maxPetals,
+    maxPetals = 5000;
+    print('maxPetals: $maxPetals');
+
+    // radialOscAmplitude,
+    radialOscAmplitude = rnd.nextDouble();
+    if (rnd.nextBool()) {
+      radialOscAmplitude = 0;
+    }
+    print('radialOscAmplitude: $radialOscAmplitude');
+
+    // radialOscPeriod,
+    radialOscPeriod = rnd.nextDouble();
+    if (rnd.nextBool()) {
+      radialOscPeriod = 0;
+    }
+    print('radialOscPeriod: $radialOscPeriod');
+
+    // direction
+    direction = rnd.nextBool();
+    direction = true;
+    print('direction: $direction');
+
+
+
+
+  }
 
   @override
   bool shouldRepaint(OpArtFibonacciPainter oldDelegate) => false;
