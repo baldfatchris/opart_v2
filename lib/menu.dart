@@ -39,17 +39,17 @@ class _OpArtMenuState extends State<OpArtMenu> {
   ];
 
 //  int currentWidget = Random().nextInt(3);
-  int currentWidget = 0;
+  int currentWidget = 1;
   @override
   void initState() {
     super.initState();
   }
-
+Hero btn2;
   @override
   Widget build(BuildContext context) {
     print(showSettings);
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: FloatingActionButton(heroTag: btn2,
           child: Icon(Icons.settings),
           onPressed: () {
             setState(() {
