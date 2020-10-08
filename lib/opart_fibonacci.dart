@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'side_drawer.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 //void main() {

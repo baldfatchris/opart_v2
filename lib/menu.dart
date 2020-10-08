@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'opart_fibonacci.dart';
 import 'opart_tree.dart';
 import 'opart_waves.dart';
 import 'opart_wallpaper.dart';
@@ -13,6 +14,12 @@ class OpArtMenu extends StatefulWidget {
 
 class _OpArtMenuState extends State<OpArtMenu> {
   List<OpArtType> OpArtTypes = [
+    OpArtType(
+      name: 'Fibonacci',
+      icon: 'lib/assets/fibonacci.png',
+      widgetWithSettings: OpArtFibonacciStudio(true),
+      widgetWithoutSettings: OpArtFibonacciStudio(false),
+    ),
     OpArtType(
       name: 'Trees',
       icon: 'lib/assets/trees.png',
