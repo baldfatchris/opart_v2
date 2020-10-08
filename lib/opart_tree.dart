@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'side_drawer.dart';
+
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 //void main() {
@@ -45,11 +45,18 @@ List palette = [
   Colors.orangeAccent,
   Colors.deepOrangeAccent,
 ];
+Color backgroundColor = Color(0xff638965);
 void changeColor(int index, Color color) {
   palette.replaceRange(index, index + 1, [color]);
 }
 
 double trunkWidth = 10.0;
+double widthDecay = 0.92;
+double segmentLength = 35.0;
+double segmentDecay = 0.92;
+double branch = 0.7;
+double angle = 0.5;
+double ratio = 0.7;
 
 class OpArtTreeStudio extends StatefulWidget {
   bool showSettings;
@@ -64,11 +71,24 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
   Widget settingsWidget() {
     return Column(
       children: [
+        Text('Background Color'),
+        ColorPicker(
+          displayThumbColor: true,
+          pickerAreaHeightPercent: 0.3,
+          pickerAreaBorderRadius: BorderRadius.circular(10.0),
+          pickerColor: backgroundColor,
+          onColorChanged: (color) {
+            setState(() {
+              backgroundColor = color;
+            });
+          },
+          showLabel: true,
+        ),
         Text('Trunk Width'),
         Slider(
           value: trunkWidth,
           min: 0,
-          max: 20,
+          max: 15,
           onChanged: (value) {
             setState(() {
               trunkWidth = value;
@@ -76,6 +96,31 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
           },
           label: '$trunkWidth',
         ),
+        Text('Width Decay'),
+        Slider(
+          value: widthDecay,
+          min: 0,
+          max: 0.99,
+          onChanged: (value) {
+            setState(() {
+              widthDecay = value;
+            });
+          },
+          label: '$widthDecay',
+        ),
+        Text('Segment Length'),
+        Slider(
+          value: segmentLength,
+          min: 20,
+          max: 40,
+          onChanged: (value) {
+            setState(() {
+              segmentLength = value;
+            });
+          },
+          label: '$segmentLength',
+        ),
+
         Container(
           height: 200,
           child: GridView.builder(
@@ -148,7 +193,8 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.showSettings);
+    print('building tree');
+
     return widget.showSettings
         ? ListView(
             children: [
@@ -199,18 +245,13 @@ class OpArtTreePainter extends CustomPainter {
 
     // colour in the canvas
     var paint1 = Paint()
-      ..color = Color(0xff638965)
+      ..color = backgroundColor
       ..style = PaintingStyle.fill;
     //a rectangle
     canvas.drawRect(
         Offset(borderX, borderY) & Size(imageWidth, imageHeight), paint1);
 
-    double widthDecay = 0.92;
-    double segmentLength = 40.0;
-    double segmentDecay = 0.92;
-    double branch = 0.7;
-    double angle = 0.5;
-    double ratio = 0.7;
+
 
     double direction = pi / 2;
 
