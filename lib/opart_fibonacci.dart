@@ -194,7 +194,7 @@ class OpArtFibonacciPainter extends CustomPainter {
     print('flowerCentreY: $flowerCentreY');
 
     // randomise the palette
-    randomisePalette();
+    palette = randomisePalette();
 
     // randomise the settings
     randomiseSettings();
@@ -656,6 +656,8 @@ class OpArtFibonacciPainter extends CustomPainter {
     // gradientType
     gradientType = 0;
     print('gradientType: $gradientType');
+
+    return palette;
 
   }
 
