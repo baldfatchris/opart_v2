@@ -592,6 +592,7 @@ class OpArtFibonacciPainter extends CustomPainter {
 
     // randomise the palette
     List palette = [];
+
     switch(paletteType){
 
     // blended random

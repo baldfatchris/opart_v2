@@ -36,6 +36,11 @@ dev_dependencies:
   flutter_colorpicker: ^0.3.4
   screenshot: ^0.2.0
   image_gallery_saver: '^1.5.0'
+  path_provider: ^1.6.18
+  permission_handler: ^5.0.1+1
+#  share: ^0.6.5+2
+
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
