@@ -5,17 +5,54 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 //void main() {
 //  runApp(OpArtFibonacci());
 //}
+bool firstTimeThrough = true;
 
 
-List palette = [];
+List palette  = [
+  Colors.red,
+  Colors.pink,
+  Colors.purple,
+  Colors.deepPurple,
+  Colors.indigo,
+  Colors.blue,
+  Colors.lightBlue,
+  Colors.cyan,
+  Colors.teal,
+  Colors.green,
+  Colors.lightGreen,
+  Colors.lime,
+  Colors.yellow,
+  Colors.amber,
+  Colors.orange,
+  Colors.deepOrange,
+  Colors.brown,
+  Colors.grey,
+  Colors.blueGrey,
+  Colors.white,
+  Colors.redAccent,
+  Colors.pinkAccent,
+  Colors.purpleAccent,
+  Colors.deepPurpleAccent,
+  Colors.indigoAccent,
+  Colors.blueAccent,
+  Colors.lightBlueAccent,
+  Colors.cyanAccent,
+  Colors.tealAccent,
+  Colors.greenAccent,
+  Colors.lightGreenAccent,
+  Colors.limeAccent,
+  Colors.yellowAccent,
+  Colors.amberAccent,
+  Colors.orangeAccent,
+  Colors.deepOrangeAccent,
+];
 void changeColor(int index, Color color) {
   palette.replaceRange(index, index + 1, [color]);
 }
 
-double angleIncrement = 1.6181;
 
-
-int numberOfColours;
+// pallette settings
+int numberOfColours = 35;
 Color backgroundColour = Colors.white;
 double opacity = 1;
 int paletteType = 0;
@@ -24,7 +61,8 @@ bool randomColours = false;
 double lineWidth = 0;
 Color lineColour = Colors.black;
 
-
+// image settings
+double angleIncrement = 1.6181;
 double flowerFill = 1;
 double petalToRadius = 0.03;
 double ratio = 0.999;
@@ -56,8 +94,8 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
         Text('Angle Increment'),
         Slider(
           value: angleIncrement,
-          min: 1.6,
-          max: 1.7,
+          min: 0,
+          max: pi,
           onChanged: (value) {
             setState(() {
               angleIncrement = value;
@@ -193,12 +231,16 @@ class OpArtFibonacciPainter extends CustomPainter {
     print('flowerCentreX: $flowerCentreX');
     print('flowerCentreY: $flowerCentreY');
 
-    // randomise the palette
-    palette = randomisePalette();
+    print('firstTimeThrough: $firstTimeThrough');
+    if (firstTimeThrough) {
+      // randomise the palette
+      palette = randomisePalette();
 
-    // randomise the settings
-    randomiseSettings();
+      // randomise the settings
+      randomiseSettings();
 
+      firstTimeThrough=false;
+    }
     // colour in the canvas
     //a rectangle
     canvas.drawRect(
@@ -244,7 +286,7 @@ class OpArtFibonacciPainter extends CustomPainter {
     // start the colour order
     int colourOrder=0;
     Color nextColour;
-    
+
     // clear the canvas
     //ctx.clearRect(0, 0, canvas.width, canvas.height);
     //canvas.clearRect(0, 0, canvas.width, canvas.height);
@@ -277,7 +319,7 @@ class OpArtFibonacciPainter extends CustomPainter {
         }
 
         radius = radius * ratio;
-        
+
         maxPetals = maxPetals - 1;
       }
       while (radius > minRadius && radius < maxRadius && maxPetals > 0);
@@ -310,7 +352,7 @@ class OpArtFibonacciPainter extends CustomPainter {
     }
 
 
-  
+
   }
 
 
