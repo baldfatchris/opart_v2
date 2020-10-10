@@ -7,11 +7,15 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:screenshot/screenshot.dart';
 import 'dart:typed_data';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+//import 'package:share/share.dart';
 
 //void main() {
 //  runApp(OpArtTree());
 //}
+File _imageFile;
 
+//Create an instance of ScreenshotController
+ScreenshotController screenshotController = ScreenshotController();
 List palette = [
   Colors.red,
   Colors.pink,
@@ -97,23 +101,28 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
               icon: Icon(_showBackgroundColorPicker
                   ? Icons.arrow_drop_up
                   : Icons.arrow_drop_down),
-            onPressed: (){setState(() {
-              _showBackgroundColorPicker = !_showBackgroundColorPicker;
-            });},)
+              onPressed: () {
+                setState(() {
+                  _showBackgroundColorPicker = !_showBackgroundColorPicker;
+                });
+              },
+            )
           ],
         ),
-        _showBackgroundColorPicker? ColorPicker(
-          displayThumbColor: false,
-          pickerAreaHeightPercent: 0.3,
-          pickerAreaBorderRadius: BorderRadius.circular(10.0),
-          pickerColor: backgroundColor,
-          onColorChanged: (color) {
-            setState(() {
-              backgroundColor = color;
-            });
-          },
-          showLabel: false,
-        ): Container(),
+        _showBackgroundColorPicker
+            ? ColorPicker(
+                displayThumbColor: false,
+                pickerAreaHeightPercent: 0.3,
+                pickerAreaBorderRadius: BorderRadius.circular(10.0),
+                pickerColor: backgroundColor,
+                onColorChanged: (color) {
+                  setState(() {
+                    backgroundColor = color;
+                  });
+                },
+                showLabel: false,
+              )
+            : Container(),
         Text('Trunk Width'),
         Slider(
           value: trunkWidth,
@@ -227,21 +236,29 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
   Widget build(BuildContext context) {
     //we need this because there are two floating action buttons so each one needs a herotag.
     Hero btn1;
-
+    _saved(File image) async {
+      final result = await ImageGallerySaver.saveImage(image.readAsBytesSync());
+      print("File Saved to Gallery");
+    }
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
       floatingActionButton: FloatingActionButton(
         heroTag: btn1,
         onPressed: () {
+          print(_imageFile);
+          print('button pressed');
           _imageFile = null;
-          screenshotController.capture().then((File image) async {
+          screenshotController
+              .capture(delay: Duration(milliseconds: 10))
+              .then((File image) async {
             print("Capture Done");
             setState(() {
               _imageFile = image;
+           //   Share.shareFiles([_imageFile], text: 'Great picture');
             });
-            final result = await ImageGallerySaver.saveImage(image
-                .readAsBytesSync()); // Save image to gallery,  Needs plugin  https://pub.dev/packages/image_gallery_saver
-            print(result);
+            final result =
+            await ImageGallerySaver.saveImage(image.readAsBytesSync());
+            print("File Saved to Gallery");
           }).catchError((onError) {
             print(onError);
           });
@@ -249,19 +266,26 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
         tooltip: 'Increment',
         child: Icon(Icons.camera_alt),
       ),
-      body: widget.showSettings
-          ? Column(
-              children: [
-                Flexible(flex: 3, child: bodyWidget()),
-                Flexible(
-                    flex: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: settingsWidget(),
-                    )),
-              ],
-            )
-          : bodyWidget(),
+      body: Column(
+        children: [
+          Flexible(flex: 7,
+            child: widget.showSettings
+                ? Column(
+                    children: [
+                      Flexible(flex: 3, child: bodyWidget()),
+                      Flexible(
+                          flex: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: settingsWidget(),
+                          )),
+                    ],
+                  )
+                : bodyWidget(),
+          ),
+          Flexible(flex: 1,child: _imageFile != null ? Image.file(_imageFile) : Container()),
+        ],
+      ),
     );
   }
 }
