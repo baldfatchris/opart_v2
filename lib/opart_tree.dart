@@ -7,7 +7,7 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:screenshot/screenshot.dart';
 import 'dart:typed_data';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-//import 'package:share/share.dart';
+import 'package:share/share.dart';
 
 //void main() {
 //  runApp(OpArtTree());
@@ -240,35 +240,31 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
       final result = await ImageGallerySaver.saveImage(image.readAsBytesSync());
       print("File Saved to Gallery");
     }
+
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
       floatingActionButton: FloatingActionButton(
         heroTag: btn1,
         onPressed: () {
-          print(_imageFile);
-          print('button pressed');
           _imageFile = null;
           screenshotController
-              .capture(delay: Duration(milliseconds: 10))
+              .capture(delay: Duration(milliseconds: 0))
               .then((File image) async {
-            print("Capture Done");
             setState(() {
               _imageFile = image;
-           //   Share.shareFiles([_imageFile], text: 'Great picture');
+              Share.shareFiles([_imageFile.path]);
             });
-            final result =
-            await ImageGallerySaver.saveImage(image.readAsBytesSync());
-            print("File Saved to Gallery");
-          }).catchError((onError) {
-            print(onError);
+
           });
+
         },
         tooltip: 'Increment',
         child: Icon(Icons.camera_alt),
       ),
       body: Column(
         children: [
-          Flexible(flex: 7,
+          Flexible(
+            flex: 7,
             child: widget.showSettings
                 ? Column(
                     children: [
@@ -283,7 +279,9 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                   )
                 : bodyWidget(),
           ),
-          Flexible(flex: 1,child: _imageFile != null ? Image.file(_imageFile) : Container()),
+          Flexible(
+              flex: 1,
+              child: _imageFile != null ? Image.file(_imageFile) : Container()),
         ],
       ),
     );
