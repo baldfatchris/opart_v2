@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'opart_fibonacci.dart';
 import 'opart_tree.dart';
-import 'opart_waves.dart';
+import 'opart_wave.dart';
 import 'opart_wallpaper.dart';
 
 bool showSettings = false;
@@ -29,8 +29,8 @@ class _OpArtMenuState extends State<OpArtMenu> {
     OpArtType(
         name: 'Waves',
         icon: 'lib/assets/waves.png',
-        widgetWithSettings: OpArtWaves(),
-        widgetWithoutSettings: OpArtWaves()),
+        widgetWithSettings: OpArtWaveStudio(true),
+        widgetWithoutSettings: OpArtWaveStudio(false)),
     OpArtType(
         name: 'Wallpaper',
         icon: 'lib/assets/wallpaper.png',

@@ -4,7 +4,7 @@ import 'package:opart_v2/menu.dart';
 import 'package:opart_v2/opart_fibonacci.dart';
 import 'package:opart_v2/opart_tree.dart';
 import 'package:opart_v2/opart_wallpaper.dart';
-import 'package:opart_v2/opart_waves.dart';
+import 'package:opart_v2/opart_wave.dart';
 
 
 
@@ -16,7 +16,7 @@ void main() => runApp(MaterialApp(
     '/fibonacci':(context) => OpArtFibonacciStudio(false),
     '/tree':(context) => OpArtTreeStudio(false),
     '/wallpaper':(context) => OpArtWallpaper(),
-    '/waves':(context) => OpArtWaves(),
+    '/waves':(context) => OpArtWaveStudio(false),
   },
 
 ));
