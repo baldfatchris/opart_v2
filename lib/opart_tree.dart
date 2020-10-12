@@ -15,7 +15,7 @@ import 'package:share/share.dart';
 File _imageFile;
 
 //Create an instance of ScreenshotController
-ScreenshotController screenshotController = ScreenshotController();
+
 List palette = [
   Colors.red,
   Colors.pink,
@@ -69,7 +69,8 @@ double ratio = 0.7;
 
 class OpArtTreeStudio extends StatefulWidget {
   bool showSettings;
-  OpArtTreeStudio(this.showSettings);
+  ScreenshotController screenshotController;
+  OpArtTreeStudio(this.showSettings,{this.screenshotController} );
 
   @override
   _OpArtTreeStudioState createState() => _OpArtTreeStudioState();
@@ -80,7 +81,8 @@ bool _showBackgroundColorPicker = false;
 class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
   int _counter = 0;
   File _imageFile;
-  ScreenshotController screenshotController = ScreenshotController();
+
+
   int _currentColor = 0;
   Widget settingsWidget() {
     return ListView(
@@ -212,55 +214,35 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
     rnd = Random(1001);
   }
 
-  Widget bodyWidget() {
-    return Screenshot(
-      controller: screenshotController,
-      child: Stack(
-        children: [
-          Visibility(
-            visible: true,
-            child: LayoutBuilder(
-              builder: (_, constraints) => Container(
-                width: constraints.widthConstraints().maxWidth,
-                height: constraints.heightConstraints().maxHeight,
-                child: CustomPaint(painter: OpArtTreePainter(rnd)),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
-    //we need this because there are two floating action buttons so each one needs a herotag.
-    Hero btn1;
-    _saved(File image) async {
-      final result = await ImageGallerySaver.saveImage(image.readAsBytesSync());
-      print("File Saved to Gallery");
+    ScreenshotController screenshotController = widget.screenshotController;
+    Widget bodyWidget() {
+      return Screenshot(
+        controller: screenshotController,
+        child: Stack(
+          children: [
+            Visibility(
+              visible: true,
+              child: LayoutBuilder(
+                builder: (_, constraints) => Container(
+                  width: constraints.widthConstraints().maxWidth,
+                  height: constraints.heightConstraints().maxHeight,
+                  child: CustomPaint(painter: OpArtTreePainter(rnd)),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
     }
 
+
+
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
-      floatingActionButton: FloatingActionButton(
-        heroTag: btn1,
-        onPressed: () {
-          _imageFile = null;
-          screenshotController
-              .capture(delay: Duration(milliseconds: 0))
-              .then((File image) async {
-            setState(() {
-              _imageFile = image;
-              Share.shareFiles([_imageFile.path]);
-            });
 
-          });
-
-        },
-        tooltip: 'Increment',
-        child: Icon(Icons.camera_alt),
-      ),
       body: Column(
         children: [
           Flexible(
@@ -279,9 +261,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                   )
                 : bodyWidget(),
           ),
-          Flexible(
-              flex: 1,
-              child: _imageFile != null ? Image.file(_imageFile) : Container()),
+
         ],
       ),
     );

@@ -1,11 +1,17 @@
+
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'opart_fibonacci.dart';
 import 'opart_tree.dart';
 import 'opart_wave.dart';
 import 'opart_wallpaper.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share/share.dart';
 
 bool showSettings = false;
+File imageFile;
+ScreenshotController screenshotController = ScreenshotController();
 
 class OpArtMenu extends StatefulWidget {
   @override
@@ -23,8 +29,8 @@ class _OpArtMenuState extends State<OpArtMenu> {
     OpArtType(
       name: 'Trees',
       icon: 'lib/assets/trees.png',
-      widgetWithSettings: OpArtTreeStudio(true),
-      widgetWithoutSettings: OpArtTreeStudio(false),
+      widgetWithSettings: OpArtTreeStudio(true, screenshotController: screenshotController),
+      widgetWithoutSettings: OpArtTreeStudio(false, screenshotController: screenshotController),
     ),
     OpArtType(
         name: 'Waves',
@@ -44,12 +50,14 @@ class _OpArtMenuState extends State<OpArtMenu> {
   void initState() {
     super.initState();
   }
-Hero btn2;
+
+  Hero btn2;
   @override
   Widget build(BuildContext context) {
     print(showSettings);
     return Scaffold(
-        floatingActionButton: FloatingActionButton(heroTag: btn2,
+        floatingActionButton: FloatingActionButton(
+          heroTag: btn2,
           child: Icon(Icons.settings),
           onPressed: () {
             setState(() {
@@ -90,6 +98,25 @@ Hero btn2;
           title: Text(OpArtTypes[currentWidget].name),
           centerTitle: true,
           elevation: 0,
+          actions: [
+            IconButton(
+                icon: Icon(
+                  Icons.share,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  imageFile = null;
+                  screenshotController
+                      .capture(delay: Duration(milliseconds: 0), )
+                      .then((File image) async {
+                    setState(() {
+                      imageFile = image;
+                      Share.shareFiles([imageFile.path]);
+                    });
+
+                  });
+                })
+          ],
         ),
         body: showSettings
             ? OpArtTypes[currentWidget].widgetWithSettings
