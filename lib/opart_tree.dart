@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:screenshot/screenshot.dart';
-import 'dart:typed_data';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:share/share.dart';
 
-//void main() {
-//  runApp(OpArtTree());
-//}
-File _imageFile;
 
-//Create an instance of ScreenshotController
+
+
+
 
 List palette = [
   Colors.red,

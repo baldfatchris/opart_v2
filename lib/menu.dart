@@ -23,8 +23,8 @@ class _OpArtMenuState extends State<OpArtMenu> {
     OpArtType(
       name: 'Fibonacci',
       icon: 'lib/assets/fibonacci.png',
-      widgetWithSettings: OpArtFibonacciStudio(true),
-      widgetWithoutSettings: OpArtFibonacciStudio(false),
+      widgetWithSettings: OpArtFibonacciStudio(true, screenshotController: screenshotController),
+      widgetWithoutSettings: OpArtFibonacciStudio(false, screenshotController: screenshotController),
     ),
     OpArtType(
       name: 'Trees',
@@ -35,13 +35,13 @@ class _OpArtMenuState extends State<OpArtMenu> {
     OpArtType(
         name: 'Waves',
         icon: 'lib/assets/waves.png',
-        widgetWithSettings: OpArtWaveStudio(true),
-        widgetWithoutSettings: OpArtWaveStudio(false)),
+        widgetWithSettings: OpArtWaveStudio(true, screenshotController: screenshotController),
+        widgetWithoutSettings: OpArtWaveStudio(false, screenshotController: screenshotController)),
     OpArtType(
         name: 'Wallpaper',
         icon: 'lib/assets/wallpaper.png',
-        widgetWithSettings: OpArtWallpaper(),
-        widgetWithoutSettings: OpArtWallpaper()),
+        widgetWithSettings: OpArtStudio(true, screenshotController: screenshotController),
+        widgetWithoutSettings: OpArtStudio(false, screenshotController: screenshotController)),
   ];
 
 //  int currentWidget = Random().nextInt(3);

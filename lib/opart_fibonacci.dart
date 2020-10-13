@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:screenshot/screenshot.dart';
 
 //void main() {
 //  runApp(OpArtFibonacci());
@@ -80,7 +81,8 @@ bool direction = true;
 
 class OpArtFibonacciStudio extends StatefulWidget {
   bool showSettings;
-  OpArtFibonacciStudio(this.showSettings);
+  ScreenshotController screenshotController;
+  OpArtFibonacciStudio(this.showSettings, {this.screenshotController});
 
   @override
   _OpArtFibonacciStudioState createState() => _OpArtFibonacciStudioState();
@@ -156,26 +158,30 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
     rnd = Random();
   }
 
-  Widget bodyWidget() {
-    return Stack(
-      children: [
-        Visibility(
-          visible: true,
-          child: LayoutBuilder(
-            builder: (_, constraints) => Container(
-              width: constraints.widthConstraints().maxWidth,
-              height: constraints.heightConstraints().maxHeight,
-              child: CustomPaint(painter: OpArtFibonacciPainter(rnd)),
-            ),
-          ),
-        )
-      ],
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
-    print(widget.showSettings);
+    ScreenshotController screenshotController = widget.screenshotController;
+
+    Widget bodyWidget() {
+      return Screenshot(controller: screenshotController,
+        child: Stack(
+          children: [
+            Visibility(
+              visible: true,
+              child: LayoutBuilder(
+                builder: (_, constraints) => Container(
+                  width: constraints.widthConstraints().maxWidth,
+                  height: constraints.heightConstraints().maxHeight,
+                  child: CustomPaint(painter: OpArtFibonacciPainter(rnd)),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    }
     return widget.showSettings
         ? ListView(
             children: [

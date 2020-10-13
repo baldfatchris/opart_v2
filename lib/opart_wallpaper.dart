@@ -1,27 +1,19 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:screenshot/screenshot.dart';
 
 
-void main() {
-  runApp(OpArtWallpaper());
-}
 
-class OpArtWallpaper extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: OpArtStudio(title: 'OpArt Wallpaper'),
-    );
-  }
-}
+
+
+
+
 
 class OpArtStudio extends StatefulWidget {
-  OpArtStudio({Key key, this.title}) : super(key: key);
+  bool showSettings;
+  ScreenshotController screenshotController;
+  OpArtStudio(this.showSettings,{this.screenshotController, this.title});
+
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -50,26 +42,29 @@ class _OpArtStudioState extends State<OpArtStudio> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenshotController screenshotController = widget.screenshotController;
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return  Stack(
-        children: [
-          Visibility(
-            visible: true,
-            child: LayoutBuilder(
-              builder: (_, constraints) => Container(
-                width: constraints.widthConstraints().maxWidth,
-                height: constraints.heightConstraints().maxHeight,
-                child: CustomPaint(painter: OpArtWallpaperPainter(rnd)),
+    return  Screenshot(controller: screenshotController,
+      child: Stack(
+          children: [
+            Visibility(
+              visible: true,
+              child: LayoutBuilder(
+                builder: (_, constraints) => Container(
+                  width: constraints.widthConstraints().maxWidth,
+                  height: constraints.heightConstraints().maxHeight,
+                  child: CustomPaint(painter: OpArtWallpaperPainter(rnd)),
+                ),
               ),
-            ),
-          )
-        ],
-      );
+            )
+          ],
+        ),
+    );
 
 //      floatingActionButton: FloatingActionButton(
 //        onPressed: () {
