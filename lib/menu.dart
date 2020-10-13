@@ -45,8 +45,8 @@ class _OpArtMenuState extends State<OpArtMenu> {
     OpArtType(
         name: 'Wallpaper',
         icon: 'lib/assets/wallpaper.png',
-        widgetWithSettings: OpArtStudio(true, screenshotController: screenshotController),
-        widgetWithoutSettings: OpArtStudio(false, screenshotController: screenshotController)),
+        widgetWithSettings: OpArtWallpaperStudio(seed, true, screenshotController: screenshotController),
+        widgetWithoutSettings: OpArtWallpaperStudio(seed, false, screenshotController: screenshotController)),
   ];
 
 //  int currentWidget = Random().nextInt(3);

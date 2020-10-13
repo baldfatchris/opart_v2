@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:screenshot/screenshot.dart';
-import 'dart:typed_data';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 //void main() {
 //  runApp(OpArtWave());
@@ -21,8 +17,8 @@ double stepY = 0.1;
 double amplitude = 100;
 double frequency = 1;
 bool randomColours = false;
-int numberOfColours = 2;
-int paletteType = 0;
+int numberOfColours = 12;
+int paletteType = 2;
 double opacity = 1;
 
 void changeColor(int index, Color color) {
@@ -103,8 +99,6 @@ class OpArtWaveStudio extends StatefulWidget {
   _OpArtWaveStudioState createState() => _OpArtWaveStudioState();
 }
 
-bool _showBackgroundColorPicker = false;
-
 class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
   int _counter = 0;
   File _imageFile;
@@ -174,10 +168,14 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
         Text('Number of Colours - $numberOfColours'),
         Slider(
           value: numberOfColours.toDouble(),
-          min: 0,
+          min: 2,
           max: 36,
           onChanged: (value) {
             setState(() {
+              if (numberOfColours<value){
+                palette = randomisePalette(value.toInt(), paletteType);
+
+              }
               numberOfColours  = value.toInt();
             });
           },
@@ -267,43 +265,52 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
 
   @override
   Widget build(BuildContext context) {
-    //we need this because there are two floating action buttons so each one needs a herotag.
-    Hero btn1;
+    ScreenshotController screenshotController = widget.screenshotController;
+    Widget bodyWidget() {
+      return Screenshot(
+        controller: screenshotController,
+        child: Stack(
+          children: [
+            Visibility(
+              visible: true,
+              child: LayoutBuilder(
+                builder: (_, constraints) => Container(
+                  width: constraints.widthConstraints().maxWidth,
+                  height: constraints.heightConstraints().maxHeight,
+                  child: CustomPaint(painter: OpArtWavePainter(widget.seed, rnd)),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    }
+
+
 
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
-      floatingActionButton: FloatingActionButton(
-        heroTag: btn1,
-        onPressed: () {
-          _imageFile = null;
-          screenshotController.capture().then((File image) async {
-            print("Capture Done");
-            setState(() {
-              _imageFile = image;
-            });
-            final result = await ImageGallerySaver.saveImage(image
-                .readAsBytesSync()); // Save image to gallery,  Needs plugin  https://pub.dev/packages/image_gallery_saver
-            print(result);
-          }).catchError((onError) {
-            print(onError);
-          });
-        },
-        tooltip: 'Increment',
-        child: Icon(Icons.camera_alt),
-      ),
-      body: widget.showSettings
-          ? Column(
+
+      body: Column(
         children: [
-          Flexible(flex: 3, child: bodyWidget()),
           Flexible(
-              flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: settingsWidget(),
-              )),
+            flex: 7,
+            child: widget.showSettings
+                ? Column(
+              children: [
+                Flexible(flex: 3, child: bodyWidget()),
+                Flexible(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: settingsWidget(),
+                    )),
+              ],
+            )
+                : bodyWidget(),
+          ),
+
         ],
-      )
-          : bodyWidget(),
+      ),
     );
   }
 }

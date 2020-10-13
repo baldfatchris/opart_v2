@@ -11,9 +11,9 @@ class _LoadingState extends State<Loading> {
 
   void WaitSome() async {
 
-    print('wait 2 seconds');
-    await new Future.delayed(const Duration(seconds : 2));
-    print('2 seconds gone');
+    print('wait 1 second');
+    await new Future.delayed(const Duration(seconds : 1));
+    print('1 second gone');
 
     Navigator.pushReplacementNamed(context, '/menu', arguments: {
       'location':'OpArt Menu',
