@@ -1,5 +1,7 @@
 
 import 'dart:io';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'opart_fibonacci.dart';
@@ -10,6 +12,9 @@ import 'package:screenshot/screenshot.dart';
 import 'package:share/share.dart';
 
 bool showSettings = false;
+Random rnd = Random();
+int seed = rnd.nextInt(1<<32);
+
 File imageFile;
 ScreenshotController screenshotController = ScreenshotController();
 
@@ -35,8 +40,8 @@ class _OpArtMenuState extends State<OpArtMenu> {
     OpArtType(
         name: 'Waves',
         icon: 'lib/assets/waves.png',
-        widgetWithSettings: OpArtWaveStudio(true, screenshotController: screenshotController),
-        widgetWithoutSettings: OpArtWaveStudio(false, screenshotController: screenshotController)),
+        widgetWithSettings: OpArtWaveStudio(seed, true, screenshotController: screenshotController),
+        widgetWithoutSettings: OpArtWaveStudio(seed, false, screenshotController: screenshotController)),
     OpArtType(
         name: 'Wallpaper',
         icon: 'lib/assets/wallpaper.png',
