@@ -11,9 +11,14 @@ List palette;
 Color backgroundColor = Colors.grey;
 
 int cellsX = 5;
+bool cellsXLOCK = false;
+
 int cellsY = 5;
+bool cellsYLOCK = false;
 
 int shape = 0;
+bool shapeLOCK = false;
+
 double driftX = 0;
 double driftXStep = 0;
 double driftY = 0;
@@ -32,8 +37,8 @@ double squareness = 0.7;
 double squeezeX = 1;
 double squeezeY = 1;
 
-int numberOfPetals = rnd.nextInt(15);
-bool randomPetals = rnd.nextBool();
+int numberOfPetals = 7;
+bool randomPetals = true;
 
 double lineWidth = 0;
 Color lineColor = Colors.grey;
@@ -43,10 +48,6 @@ bool randomColours = false;
 int numberOfColours = 12;
 int paletteType = 0;
 double opacity = 1;
-
-void changeColor(int index, Color color) {
-  palette.replaceRange(index, index + 1, [color]);
-}
 
 randomisePalette(int numberOfColours, int paletteType){
   print('numberOfColours: $numberOfColours paletteType: $paletteType');
@@ -105,14 +106,27 @@ randomisePalette(int numberOfColours, int paletteType){
   return palette;
 }
 
-
 randomiseSettings() {
-  cellsX = rnd.nextInt(9) + 1;
-  cellsY = rnd.nextInt(9) + 1;
-  if (rnd.nextBool()) {
-    cellsY = cellsX;
+
+  // cellsX 1 to 10
+  if (cellsXLOCK == false) {
+    cellsX = rnd.nextInt(9) + 1;
   }
-  shape = rnd.nextInt(3);
+
+  // cellsY 1 to 10
+  if (cellsYLOCK == false) {
+    cellsY = rnd.nextInt(9) + 1;
+    if (rnd.nextBool()) {
+      cellsY = cellsX;
+    }
+  }
+
+  // shape 0 to 2
+  if (shapeLOCK == false) {
+    shape = rnd.nextInt(3);
+  }
+
+
   if (rnd.nextBool()) {
     driftX = 0;
     driftY = 0;
@@ -276,7 +290,31 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           children: [
             Flexible(
             flex: 1,
-                child: Text('cellsX: $cellsX')
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (cellsXLOCK){
+                          cellsXLOCK=false;
+                        } else {
+                          cellsXLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'cellsX:',
+                          style: cellsXLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          cellsXLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: cellsXLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
             ),
             Flexible(
               flex: 2,
@@ -284,7 +322,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
                 value: cellsX.toDouble(),
                 min: 1,
                 max: 12,
-                onChanged: (value) {
+                onChanged: cellsXLOCK ? null : (value) {
                   setState(() {
                     cellsX  = value.toInt();
                   });
@@ -301,7 +339,31 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           children: [
             Flexible(
                 flex: 1,
-                child: Text('cellsY: $cellsY')
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (cellsYLOCK){
+                          cellsYLOCK=false;
+                        } else {
+                          cellsYLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'cellsY:',
+                          style: cellsYLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          cellsYLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: cellsYLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
             ),
             Flexible(
               flex: 2,
@@ -309,7 +371,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
                 value: cellsY.toDouble(),
                 min: 1,
                 max: 12,
-                onChanged: (value) {
+                onChanged: cellsYLOCK ? null : (value) {
                   setState(() {
                     cellsY  = value.toInt();
                   });
@@ -320,15 +382,39 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           ],
         ),
 
+
     // shape
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               flex: 1,
-              child: Text('shape')
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (shapeLOCK){
+                          shapeLOCK=false;
+                        } else {
+                          shapeLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'shape:',
+                          style: shapeLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          shapeLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: shapeLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
             ),
-
             Flexible(
               flex: 2,
               child: DropdownButton(
@@ -347,7 +433,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
                     value: 2,
                   ),
                 ],
-                onChanged:(value) {
+                onChanged: shapeLOCK ? null : (value) {
                   setState(() {
                     shape = value;
                   });
