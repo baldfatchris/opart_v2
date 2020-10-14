@@ -6,6 +6,7 @@ import 'package:screenshot/screenshot.dart';
 
 
 Random rnd;
+
 List palette;
 Color backgroundColor = Colors.grey;
 
@@ -33,7 +34,6 @@ double squeezeY = 1;
 
 int numberOfPetals = rnd.nextInt(15);
 bool randomPetals = rnd.nextBool();
-
 
 double lineWidth = 0;
 Color lineColor = Colors.grey;
@@ -179,10 +179,8 @@ randomiseSettings() {
     squeezeY = rnd.nextDouble() * 1 + 0.5;
   }
 
-  numberOfPetals = rnd.nextInt(15);
+  numberOfPetals = rnd.nextInt(14)+1;
   randomPetals = rnd.nextBool();
-
-
 
   numberOfColours = rnd.nextInt(34)+2;
   if (rnd.nextBool()){
@@ -252,14 +250,14 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
             Flexible(
               flex: 1,
               child: FloatingActionButton.extended(
-                label: Text('Randomise Everything'),
+                label: Text('Randomise All'),
 
                 icon: Icon(Icons.refresh),
 
                 onPressed:() {
                   setState(() {
 
-                    print('Randomise Everything');
+                    print('Randomise All');
                     randomiseSettings();
                     palette = randomisePalette(numberOfColours, paletteType);
 
@@ -276,17 +274,23 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('cellsX: $cellsX'),
-            Slider(
-              value: cellsX.toDouble(),
-              min: 1,
-              max: 12,
-              onChanged: (value) {
-                setState(() {
-                  cellsX  = value.toInt();
-                });
-              },
-              label: '$cellsX ',
+            Flexible(
+            flex: 1,
+                child: Text('cellsX: $cellsX')
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: cellsX.toDouble(),
+                min: 1,
+                max: 12,
+                onChanged: (value) {
+                  setState(() {
+                    cellsX  = value.toInt();
+                  });
+                },
+                label: '$cellsX ',
+              ),
             ),
           ],
         ),
@@ -295,17 +299,23 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('cellsY: $cellsY'),
-            Slider(
-              value: cellsY.toDouble(),
-              min: 1,
-              max: 12,
-              onChanged: (value) {
-                setState(() {
-                  cellsY  = value.toInt();
-                });
-              },
-              label: '$cellsY ',
+            Flexible(
+                flex: 1,
+                child: Text('cellsY: $cellsY')
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: cellsY.toDouble(),
+                min: 1,
+                max: 12,
+                onChanged: (value) {
+                  setState(() {
+                    cellsY  = value.toInt();
+                  });
+                },
+                label: '$cellsY ',
+              ),
             ),
           ],
         ),
@@ -314,28 +324,35 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('shape'),
-            DropdownButton(
-              value: shape,
-              items: [
-                DropdownMenuItem(
-                  child: Text("circle"),
-                  value: 0,
-                ),
-                DropdownMenuItem(
-                  child: Text("squaricle"),
-                  value: 1,
-                ),
-                DropdownMenuItem(
-                  child: Text("star"),
-                  value: 2,
-                ),
-              ],
-              onChanged:(value) {
-                setState(() {
-                  shape = value;
-                });
-              },
+            Flexible(
+              flex: 1,
+              child: Text('shape')
+            ),
+
+            Flexible(
+              flex: 2,
+              child: DropdownButton(
+                value: shape,
+                items: [
+                  DropdownMenuItem(
+                    child: Text("circle"),
+                    value: 0,
+                  ),
+                  DropdownMenuItem(
+                    child: Text("squaricle"),
+                    value: 1,
+                  ),
+                  DropdownMenuItem(
+                    child: Text("star"),
+                    value: 2,
+                  ),
+                ],
+                onChanged:(value) {
+                  setState(() {
+                    shape = value;
+                  });
+                },
+              ),
             ),
           ],
         ),
@@ -344,16 +361,22 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('driftX - ${driftX.toStringAsFixed(2)}'),
-            Slider(
-              value: driftX,
-              min: -20,
-              max: 20,
-              onChanged: (value) {
-                setState(() {
-                  driftX  = value;
-                });
-              },
+            Flexible(
+                flex: 1,
+                child: Text('driftX - ${driftX.toStringAsFixed(2)}')
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: driftX,
+                min: -20,
+                max: 20,
+                onChanged: (value) {
+                  setState(() {
+                    driftX  = value;
+                  });
+                },
+              ),
             ),
           ],
         ),
@@ -362,16 +385,21 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('driftXStep - ${driftXStep.toStringAsFixed(2)}'),
-            Slider(
-              value: driftXStep,
-              min: -2,
-              max: 2,
-              onChanged: (value) {
-                setState(() {
-                  driftXStep  = value;
-                });
-              },
+            Flexible(
+                flex:1,
+                child: Text('driftXStep - ${driftXStep.toStringAsFixed(2)}')),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: driftXStep,
+                min: -2,
+                max: 2,
+                onChanged: (value) {
+                  setState(() {
+                    driftXStep  = value;
+                  });
+                },
+              ),
             ),
           ],
         ),
@@ -380,16 +408,21 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('driftY - ${driftY.toStringAsFixed(2)}'),
-            Slider(
-              value: driftY,
-              min: -20,
-              max: 20,
-              onChanged: (value) {
-                setState(() {
-                  driftY  = value;
-                });
-              },
+            Flexible(
+                flex:1,
+                child: Text('driftY - ${driftY.toStringAsFixed(2)}')),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: driftY,
+                min: -20,
+                max: 20,
+                onChanged: (value) {
+                  setState(() {
+                    driftY  = value;
+                  });
+                },
+              ),
             ),
           ],
         ),
@@ -398,16 +431,21 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('driftYStep - ${driftYStep.toStringAsFixed(2)}'),
-            Slider(
-              value: driftYStep,
-              min: -2,
-              max: 2,
-              onChanged: (value) {
-                setState(() {
-                  driftYStep  = value;
-                });
-              },
+            Flexible(
+                flex:1,
+                child: Text('driftYStep - ${driftYStep.toStringAsFixed(2)}')),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: driftYStep,
+                min: -2,
+                max: 2,
+                onChanged: (value) {
+                  setState(() {
+                    driftYStep  = value;
+                  });
+                },
+              ),
             ),
           ],
         ),
@@ -416,14 +454,19 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('alternateDrift'),
-            Switch(
-              value: alternateDrift,
-              onChanged: (value) {
-                setState(() {
-                  alternateDrift  = value;
-                });
-              },
+            Flexible(
+                flex:1,
+                child: Text('alternateDrift')),
+            Flexible(
+              flex: 2,
+              child: Switch(
+                value: alternateDrift,
+                onChanged: (value) {
+                  setState(() {
+                    alternateDrift  = value;
+                  });
+                },
+              ),
             ),
 
           ],
@@ -434,14 +477,19 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('box'),
-            Switch(
-              value: box,
-              onChanged: (value) {
-                setState(() {
-                  box  = value;
-                });
-              },
+            Flexible(
+                flex:1,
+                child: Text('box')),
+            Flexible(
+              flex: 2,
+              child: Switch(
+                value: box,
+                onChanged: (value) {
+                  setState(() {
+                    box  = value;
+                  });
+                },
+              ),
             ),
 
           ],
@@ -451,16 +499,21 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('step - ${step.toStringAsFixed(2)}'),
-            Slider(
-              value: step,
-              min: 0.01,
-              max: 1,
-              onChanged: (value) {
-                setState(() {
-                  step  = value;
-                });
-              },
+            Flexible(
+                flex: 1,
+                child: Text('step - ${step.toStringAsFixed(2)}')),
+            Flexible(
+              flex:2,
+              child: Slider(
+                value: step,
+                min: 0.01,
+                max: 1,
+                onChanged: (value) {
+                  setState(() {
+                    step  = value;
+                  });
+                },
+              ),
             ),
           ],
         ),
@@ -469,16 +522,21 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('stepStep - ${stepStep.toStringAsFixed(2)}'),
-            Slider(
-              value: stepStep,
-              min: 0.5,
-              max: 1,
-              onChanged: (value) {
-                setState(() {
-                  stepStep  = value;
-                });
-              },
+            Flexible(
+                flex: 1,
+                child: Text('stepStep - ${stepStep.toStringAsFixed(2)}')),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: stepStep,
+                min: 0.5,
+                max: 1,
+                onChanged: (value) {
+                  setState(() {
+                    stepStep  = value;
+                  });
+                },
+              ),
             ),
           ],
         ),
@@ -487,16 +545,21 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('ratio - ${ratio.toStringAsFixed(2)}'),
-            Slider(
-              value: ratio,
-              min: 0,
-              max: 2,
-              onChanged: (value) {
-                setState(() {
-                  ratio  = value;
-                });
-              },
+            Flexible(
+                flex: 1,
+                child: Text('ratio - ${ratio.toStringAsFixed(2)}')),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: ratio,
+                min: 0,
+                max: 2,
+                onChanged: (value) {
+                  setState(() {
+                    ratio  = value;
+                  });
+                },
+              ),
             ),
           ],
         ),
@@ -506,16 +569,21 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('offsetX - ${offsetX.toStringAsFixed(2)}'),
-            Slider(
-              value: offsetX,
-              min: -50,
-              max: 50,
-              onChanged: (value) {
-                setState(() {
-                  offsetX  = value;
-                });
-              },
+            Flexible(
+                flex: 1,
+                child: Text('offsetX - ${offsetX.toStringAsFixed(2)}')),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: offsetX,
+                min: -50,
+                max: 50,
+                onChanged: (value) {
+                  setState(() {
+                    offsetX  = value;
+                  });
+                },
+              ),
             ),
           ],
         ),
@@ -524,16 +592,21 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('offsetY - ${offsetY.toStringAsFixed(2)}'),
-            Slider(
-              value: offsetY,
-              min: -50,
-              max: 50,
-              onChanged: (value) {
-                setState(() {
-                  offsetY  = value;
-                });
-              },
+            Flexible(
+                flex:1,
+                child: Text('offsetY - ${offsetY.toStringAsFixed(2)}')),
+            Flexible(
+              flex:2,
+              child: Slider(
+                value: offsetY,
+                min: -50,
+                max: 50,
+                onChanged: (value) {
+                  setState(() {
+                    offsetY  = value;
+                  });
+                },
+              ),
             ),
           ],
         ),
@@ -542,16 +615,21 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('rotate - ${rotate.toStringAsFixed(2)}'),
-            Slider(
-              value: rotate,
-              min: 0,
-              max: 2,
-              onChanged: (value) {
-                setState(() {
-                  rotate  = value;
-                });
-              },
+            Flexible(
+                flex:1,
+                child: Text('rotate - ${rotate.toStringAsFixed(2)}')),
+            Flexible(
+              flex:2,
+              child: Slider(
+                value: rotate,
+                min: 0,
+                max: 2,
+                onChanged: (value) {
+                  setState(() {
+                    rotate  = value;
+                  });
+                },
+              ),
             ),
           ],
         ),
@@ -560,16 +638,21 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('rotateStep - ${rotateStep.toStringAsFixed(2)}'),
-            Slider(
-              value: rotateStep,
-              min: 0,
-              max: 1,
-              onChanged: (value) {
-                setState(() {
-                  rotateStep  = value;
-                });
-              },
+            Flexible(
+                flex:1,
+                child: Text('rotateStep - ${rotateStep.toStringAsFixed(2)}')),
+            Flexible(
+              flex:2,
+              child: Slider(
+                value: rotateStep,
+                min: 0,
+                max: 1,
+                onChanged: (value) {
+                  setState(() {
+                    rotateStep  = value;
+                  });
+                },
+              ),
             ),
           ],
         ),
@@ -578,14 +661,19 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('randomRotation'),
-            Switch(
-              value: randomRotation,
-              onChanged: (value) {
-                setState(() {
-                  randomRotation  = value;
-                });
-              },
+            Flexible(
+                flex: 1,
+                child: Text('randomRotation')),
+            Flexible(
+              flex:2,
+              child: Switch(
+                value: randomRotation,
+                onChanged: (value) {
+                  setState(() {
+                    randomRotation  = value;
+                  });
+                },
+              ),
             ),
 
           ],
@@ -595,16 +683,21 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('squareness - ${squareness.toStringAsFixed(2)}'),
-            Slider(
-              value: squareness,
-              min: -2,
-              max: 2,
-              onChanged: (value) {
-                setState(() {
-                  squareness  = value;
-                });
-              },
+            Flexible(
+                flex:1,
+                child: Text('squareness - ${squareness.toStringAsFixed(2)}')),
+            Flexible(
+              flex:2,
+              child: Slider(
+                value: squareness,
+                min: -2,
+                max: 2,
+                onChanged: (value) {
+                  setState(() {
+                    squareness  = value;
+                  });
+                },
+              ),
             ),
           ],
         ),
@@ -613,16 +706,21 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('squeezeX - ${squeezeX.toStringAsFixed(2)}'),
-            Slider(
-              value: squeezeX,
-              min: 0.1,
-              max: 2,
-              onChanged: (value) {
-                setState(() {
-                  squeezeX  = value;
-                });
-              },
+            Flexible(
+                flex:1,
+                child: Text('squeezeX - ${squeezeX.toStringAsFixed(2)}')),
+            Flexible(
+              flex:2,
+              child: Slider(
+                value: squeezeX,
+                min: 0.1,
+                max: 2,
+                onChanged: (value) {
+                  setState(() {
+                    squeezeX  = value;
+                  });
+                },
+              ),
             ),
           ],
         ),
@@ -631,16 +729,21 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('squeezeY - ${squeezeY.toStringAsFixed(2)}'),
-            Slider(
-              value: squeezeY,
-              min: 0.1,
-              max: 2,
-              onChanged: (value) {
-                setState(() {
-                  squeezeY  = value;
-                });
-              },
+            Flexible(
+                flex:1,
+                child: Text('squeezeY - ${squeezeY.toStringAsFixed(2)}')),
+            Flexible(
+              flex:2,
+              child: Slider(
+                value: squeezeY,
+                min: 0.1,
+                max: 2,
+                onChanged: (value) {
+                  setState(() {
+                    squeezeY  = value;
+                  });
+                },
+              ),
             ),
           ],
         ),
@@ -652,17 +755,22 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('numberOfPetals: $numberOfPetals'),
-            Slider(
-              value: numberOfPetals.toDouble(),
-              min: 1,
-              max: 15,
-              onChanged: (value) {
-                setState(() {
-                  numberOfPetals  = value.toInt();
-                });
-              },
-              label: '$numberOfPetals',
+            Flexible(
+                flex:1,
+                child: Text('numberOfPetals: $numberOfPetals')),
+            Flexible(
+              flex:2,
+              child: Slider(
+                value: numberOfPetals.toDouble(),
+                min: 1,
+                max: 15,
+                onChanged: (value) {
+                  setState(() {
+                    numberOfPetals  = value.toInt();
+                  });
+                },
+                label: '$numberOfPetals',
+              ),
             ),
           ],
         ),
@@ -671,14 +779,19 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('randomPetals'),
-            Switch(
-              value: randomPetals,
-              onChanged: (value) {
-                setState(() {
-                  randomPetals  = value;
-                });
-              },
+            Flexible(
+                flex:1,
+                child: Text('randomPetals')),
+            Flexible(
+              flex:2,
+              child: Switch(
+                value: randomPetals,
+                onChanged: (value) {
+                  setState(() {
+                    randomPetals  = value;
+                  });
+                },
+              ),
             ),
 
           ],
@@ -690,19 +803,24 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('numberOfColours - $numberOfColours'),
-            Slider(
-              value: numberOfColours.toDouble(),
-              min: 2,
-              max: 36,
-              onChanged: (value) {
-                setState(() {
-                  if (numberOfColours<value){
-                    palette = randomisePalette(value.toInt(), paletteType);
-                  }
-                  numberOfColours  = value.toInt();
-                });
-              },
+            Flexible(
+                flex:1,
+                child: Text('numberOfColours - $numberOfColours')),
+            Flexible(
+              flex:2,
+              child: Slider(
+                value: numberOfColours.toDouble(),
+                min: 2,
+                max: 36,
+                onChanged: (value) {
+                  setState(() {
+                    if (numberOfColours<value){
+                      palette = randomisePalette(value.toInt(), paletteType);
+                    }
+                    numberOfColours  = value.toInt();
+                  });
+                },
+              ),
             ),
           ],
         ),
@@ -711,16 +829,21 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('opacity - ${opacity.toStringAsFixed(2)}'),
-            Slider(
-              value: opacity,
-              min: 0,
-              max: 1,
-              onChanged: (value) {
-                setState(() {
-                  opacity  = value;
-                });
-              },
+            Flexible(
+                flex:1,
+                child: Text('opacity - ${opacity.toStringAsFixed(2)}')),
+            Flexible(
+              flex:2,
+              child: Slider(
+                value: opacity,
+                min: 0,
+                max: 1,
+                onChanged: (value) {
+                  setState(() {
+                    opacity  = value;
+                  });
+                },
+              ),
             ),
           ],
         ),
@@ -730,14 +853,19 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('randomColours'),
-            Switch(
-              value: randomColours,
-              onChanged: (value) {
-                setState(() {
-                  randomColours  = value;
-                });
-              },
+            Flexible(
+                flex:1,
+                child: Text('randomColours')),
+            Flexible(
+              flex:2,
+              child: Switch(
+                value: randomColours,
+                onChanged: (value) {
+                  setState(() {
+                    randomColours  = value;
+                  });
+                },
+              ),
             ),
 
           ],
@@ -747,14 +875,19 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('resetColours'),
-            Switch(
-              value: resetColours,
-              onChanged: (value) {
-                setState(() {
-                  resetColours  = value;
-                });
-              },
+            Flexible(
+                flex:1,
+                child: Text('resetColours')),
+            Flexible(
+              flex:2,
+              child: Switch(
+                value: resetColours,
+                onChanged: (value) {
+                  setState(() {
+                    resetColours  = value;
+                  });
+                },
+              ),
             ),
 
           ],
@@ -765,34 +898,39 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('paletteType'),
+            Flexible(
+                flex:1,
+                child: Text('paletteType')),
 
-            DropdownButton(
-              value: paletteType,
-              items: [
-                DropdownMenuItem(
-                  child: Text("random"),
-                  value: 0,
-                ),
-                DropdownMenuItem(
-                  child: Text("blended random"),
-                  value: 1,
-                ),
-                DropdownMenuItem(
-                  child: Text("linear random"),
-                  value: 2,
-                ),
-                DropdownMenuItem(
-                  child: Text("linear complementary"),
-                  value: 3,
-                ),
-              ],
-              onChanged:(value) {
-                setState(() {
-                  paletteType = value;
-                  palette = randomisePalette(numberOfColours, value);
-                });
-              },
+            Flexible(
+              flex:2,
+              child: DropdownButton(
+                value: paletteType,
+                items: [
+                  DropdownMenuItem(
+                    child: Text("random"),
+                    value: 0,
+                  ),
+                  DropdownMenuItem(
+                    child: Text("blended random"),
+                    value: 1,
+                  ),
+                  DropdownMenuItem(
+                    child: Text("linear random"),
+                    value: 2,
+                  ),
+                  DropdownMenuItem(
+                    child: Text("linear complementary"),
+                    value: 3,
+                  ),
+                ],
+                onChanged:(value) {
+                  setState(() {
+                    paletteType = value;
+                    palette = randomisePalette(numberOfColours, value);
+                  });
+                },
+              ),
             ),
 
           ],
@@ -863,7 +1001,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
             child: widget.showSettings
                 ? Column(
               children: [
-                Flexible(flex: 3, child: bodyWidget()),
+                Flexible(flex: 2, child: bodyWidget()),
                 Flexible(
                     flex: 2,
                     child: Padding(
