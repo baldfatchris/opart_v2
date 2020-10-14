@@ -141,7 +141,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('cellsX - $cellsX'),
+            Text('cellsX: $cellsX'),
             Slider(
               value: cellsX.toDouble(),
               min: 1,
@@ -160,7 +160,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('cellsY - $cellsY'),
+            Text('cellsY: $cellsY'),
             Slider(
               value: cellsY.toDouble(),
               min: 1,
@@ -209,7 +209,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('driftX - $driftX'),
+            Text('driftX - ${driftX.toStringAsFixed(2)}'),
             Slider(
               value: driftX,
               min: -20,
@@ -223,45 +223,58 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           ],
         ),
 
-
-
-        Text('driftXStep - ${driftXStep.toStringAsFixed(3)}'),
-        Slider(
-          value: driftXStep,
-          min: -20,
-          max: 20,
-          onChanged: (value) {
-            setState(() {
-              driftXStep = value;
-            });
-          },
-          label: '$driftXStep',
+        // driftXStep
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('driftXStep - ${driftXStep.toStringAsFixed(2)}'),
+            Slider(
+              value: driftXStep,
+              min: -2,
+              max: 2,
+              onChanged: (value) {
+                setState(() {
+                  driftXStep  = value;
+                });
+              },
+            ),
+          ],
         ),
 
-        Text('driftY - $driftY'),
-        Slider(
-          value: driftY,
-          min: -20,
-          max: 20,
-          onChanged: (value) {
-            setState(() {
-              driftY = value;
-            });
-          },
-          label: '$driftY',
+        // driftY
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('driftY - ${driftY.toStringAsFixed(2)}'),
+            Slider(
+              value: driftY,
+              min: -20,
+              max: 20,
+              onChanged: (value) {
+                setState(() {
+                  driftY  = value;
+                });
+              },
+            ),
+          ],
         ),
 
-        Text('driftYStep - $driftYStep'),
-        Slider(
-          value: driftYStep,
-          min: -20,
-          max: 20,
-          onChanged: (value) {
-            setState(() {
-              driftYStep = value;
-            });
-          },
-          label: '$driftYStep',
+        // driftYStep
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('driftYStep - ${driftYStep.toStringAsFixed(2)}'),
+            Slider(
+              value: driftYStep,
+              min: -2,
+              max: 2,
+              onChanged: (value) {
+                setState(() {
+                  driftYStep  = value;
+                });
+              },
+            ),
+          ],
         ),
 
         // alternateDrift
@@ -286,7 +299,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('box - $box'),
+            Text('box'),
             Switch(
               value: box,
               onChanged: (value) {
@@ -299,247 +312,292 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           ],
         ),
 
-        Text('step - $step'),
-        Slider(
-          value: step,
-          min: 0.1,
-          max: 1,
-          onChanged: (value) {
-            setState(() {
-              step = value;
-            });
-          },
-          label: '$step',
+        // step
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('step - ${step.toStringAsFixed(2)}'),
+            Slider(
+              value: step,
+              min: 0.01,
+              max: 1,
+              onChanged: (value) {
+                setState(() {
+                  step  = value;
+                });
+              },
+            ),
+          ],
         ),
 
-        Text('stepStep - $stepStep'),
-        Slider(
-          value: stepStep,
-          min: 0.5,
-          max: 1,
-          onChanged: (value) {
-            setState(() {
-              stepStep = value;
-            });
-          },
-          label: '$stepStep',
+        // stepStep
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('stepStep - ${stepStep.toStringAsFixed(2)}'),
+            Slider(
+              value: stepStep,
+              min: 0.5,
+              max: 1,
+              onChanged: (value) {
+                setState(() {
+                  stepStep  = value;
+                });
+              },
+            ),
+          ],
         ),
 
-        Text('ratio - $ratio'),
-        Slider(
-          value: ratio,
-          min: 0,
-          max: 2,
-          onChanged: (value) {
-            setState(() {
-              ratio = value;
-            });
-          },
-          label: '$ratio',
-        ),
-
-        Text('offsetX - $offsetX'),
-        Slider(
-          value: offsetX,
-          min: -50,
-          max: 50,
-          onChanged: (value) {
-            setState(() {
-              offsetX = value;
-            });
-          },
-          label: '$offsetX',
-        ),
-
-        Text('offsetY - $offsetY'),
-        Slider(
-          value: offsetY,
-          min: -50,
-          max: 50,
-          onChanged: (value) {
-            setState(() {
-              offsetY = value;
-            });
-          },
-          label: '$offsetY',
-        ),
-
-        Text('rotate - $rotate'),
-        Slider(
-          value: rotate,
-          min: 0,
-          max: 2*pi,
-          onChanged: (value) {
-            setState(() {
-              rotate = value;
-            });
-          },
-          label: '$rotate',
-        ),
-
-        Text('randomRotation - $randomRotation'),
-        Switch(
-          value: randomRotation,
-          onChanged: (value) {
-            setState(() {
-              randomRotation  = value;
-            });
-          },
-        ),
-
-        Text('rotateStep - $rotateStep'),
-        Slider(
-          value: rotateStep,
-          min: 0,
-          max: 1,
-          onChanged: (value) {
-            setState(() {
-              rotateStep = value;
-            });
-          },
-          label: '$rotateStep',
-        ),
-
-        Text('squareness - $squareness'),
-        Slider(
-          value: squareness,
-          min: -2,
-          max: 2,
-          onChanged: (value) {
-            setState(() {
-              squareness = value;
-            });
-          },
-          label: '$squareness',
-        ),
-
-        Text('squeezeX - $squeezeX'),
-        Slider(
-          value: squeezeX,
-          min: 0.1,
-          max: 2,
-          onChanged: (value) {
-            setState(() {
-              squeezeX = value;
-            });
-          },
-          label: '$squeezeX',
-        ),
-
-        Text('squeezeY - $squeezeY'),
-        Slider(
-          value: squeezeY,
-          min: 0.1,
-          max: 2,
-          onChanged: (value) {
-            setState(() {
-              squeezeY = value;
-            });
-          },
-          label: '$squeezeY',
+        // ratio
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('ratio - ${ratio.toStringAsFixed(2)}'),
+            Slider(
+              value: ratio,
+              min: 0,
+              max: 2,
+              onChanged: (value) {
+                setState(() {
+                  ratio  = value;
+                });
+              },
+            ),
+          ],
         ),
 
 
-
-
-        Text('Number of Colours - $numberOfColours'),
-        Slider(
-          value: numberOfColours.toDouble(),
-          min: 2,
-          max: 36,
-          onChanged: (value) {
-            setState(() {
-              if (numberOfColours<value){
-                palette = randomisePalette(value.toInt(), paletteType);
-
-              }
-              numberOfColours  = value.toInt();
-            });
-          },
-          label: '$numberOfColours ',
+        // offsetX
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('offsetX - ${offsetX.toStringAsFixed(2)}'),
+            Slider(
+              value: offsetX,
+              min: -50,
+              max: 50,
+              onChanged: (value) {
+                setState(() {
+                  offsetX  = value;
+                });
+              },
+            ),
+          ],
         ),
 
-        Text('Random Colours - $randomColours'),
-        Switch(
-          value: randomColours,
-          onChanged: (value) {
-            setState(() {
-              randomColours  = value;
-            });
-          },
+        // offsetY
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('offsetY - ${offsetY.toStringAsFixed(2)}'),
+            Slider(
+              value: offsetY,
+              min: -50,
+              max: 50,
+              onChanged: (value) {
+                setState(() {
+                  offsetY  = value;
+                });
+              },
+            ),
+          ],
         ),
 
-        Text('Reset Colours - $resetColours'),
-        Switch(
-          value: resetColours,
-          onChanged: (value) {
-            setState(() {
-              resetColours  = value;
-            });
-          },
+        // rotate
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('rotate - ${rotate.toStringAsFixed(2)}'),
+            Slider(
+              value: rotate,
+              min: 0,
+              max: 2,
+              onChanged: (value) {
+                setState(() {
+                  rotate  = value;
+                });
+              },
+            ),
+          ],
         ),
 
-        Text('Palette Type'),
-        Column(
-          children: <Widget>[
-            ListTile(
-              dense: true,
-              title: const Text('Random'),
-              leading: Radio(
-                value: 0,
-                groupValue: paletteType,
-                onChanged: (value) {
-                  setState(() {
-                    paletteType = value;
-                    palette = randomisePalette(numberOfColours, value);
-                  });
-                },
-              ),
+        // rotateStep
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('rotateStep - ${rotateStep.toStringAsFixed(2)}'),
+            Slider(
+              value: rotateStep,
+              min: 0,
+              max: 1,
+              onChanged: (value) {
+                setState(() {
+                  rotateStep  = value;
+                });
+              },
+            ),
+          ],
+        ),
+
+        // randomRotation
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('randomRotation'),
+            Switch(
+              value: randomRotation,
+              onChanged: (value) {
+                setState(() {
+                  randomRotation  = value;
+                });
+              },
             ),
 
-            ListTile(
-              dense: true,
-              title: const Text('Blended Random'),
-              leading: Radio(
-                value: 1,
-                groupValue: paletteType,
-                onChanged: (value) {
-                  setState(() {
-                    paletteType = value;
-                    palette = randomisePalette(numberOfColours, value);
-                  });
-                },
-              ),
+          ],
+        ),
+
+        // squareness
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('squareness - ${squareness.toStringAsFixed(2)}'),
+            Slider(
+              value: squareness,
+              min: -2,
+              max: 2,
+              onChanged: (value) {
+                setState(() {
+                  squareness  = value;
+                });
+              },
+            ),
+          ],
+        ),
+
+        // squeezeX
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('squeezeX - ${squeezeX.toStringAsFixed(2)}'),
+            Slider(
+              value: squeezeX,
+              min: 0.1,
+              max: 2,
+              onChanged: (value) {
+                setState(() {
+                  squeezeX  = value;
+                });
+              },
+            ),
+          ],
+        ),
+
+        // squeezeY
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('squeezeY - ${squeezeY.toStringAsFixed(2)}'),
+            Slider(
+              value: squeezeY,
+              min: 0.1,
+              max: 2,
+              onChanged: (value) {
+                setState(() {
+                  squeezeY  = value;
+                });
+              },
+            ),
+          ],
+        ),
+
+        // numberOfColours
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('numberOfColours - $numberOfColours'),
+            Slider(
+              value: numberOfColours.toDouble(),
+              min: 2,
+              max: 36,
+              onChanged: (value) {
+                setState(() {
+                  if (numberOfColours<value){
+                    palette = randomisePalette(value.toInt(), paletteType);
+                  }
+                  numberOfColours  = value.toInt();
+                });
+              },
+            ),
+          ],
+        ),
+
+        // randomColours
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('randomColours'),
+            Switch(
+              value: randomColours,
+              onChanged: (value) {
+                setState(() {
+                  randomColours  = value;
+                });
+              },
             ),
 
-            ListTile(
-              dense: true,
-              title: const Text('Linear Random'),
-              leading: Radio(
-                value: 2,
-                groupValue: paletteType,
-                onChanged: (value) {
-                  setState(() {
-                    paletteType = value;
-                    palette = randomisePalette(numberOfColours, value);
-                  });
-                },
-              ),
+          ],
+        ),
+
+        // resetColours
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('resetColours'),
+            Switch(
+              value: resetColours,
+              onChanged: (value) {
+                setState(() {
+                  resetColours  = value;
+                });
+              },
             ),
 
-            ListTile(
-              dense: true,
-              title: const Text('Linear Complementary'),
-              leading: Radio(
-                value: 3,
-                groupValue: paletteType,
-                onChanged: (value) {
-                  setState(() {
-                    paletteType = value;
-                    palette = randomisePalette(numberOfColours, value);
-                  });
-                },
-              ),
+          ],
+        ),
+
+
+        // paletteType
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('paletteType'),
+
+            DropdownButton(
+              value: paletteType,
+              items: [
+                DropdownMenuItem(
+                  child: Text("random"),
+                  value: 0,
+                ),
+                DropdownMenuItem(
+                  child: Text("blended random"),
+                  value: 1,
+                ),
+                DropdownMenuItem(
+                  child: Text("linear random"),
+                  value: 2,
+                ),
+                DropdownMenuItem(
+                  child: Text("linear complementary"),
+                  value: 3,
+                ),
+              ],
+              onChanged:(value) {
+                setState(() {
+                  paletteType = value;
+                  palette = randomisePalette(numberOfColours, value);
+                });
+              },
             ),
 
           ],
