@@ -15,8 +15,8 @@ void main() => runApp(MaterialApp(
     '/menu':(context) => OpArtMenu(),
     '/fibonacci':(context) => OpArtFibonacciStudio(false),
     '/tree':(context) => OpArtTreeStudio(false),
-    '/wallpaper':(context) => OpArtStudio(false),
-    '/waves':(context) => OpArtWaveStudio(false),
+    '/wallpaper':(context) => OpArtWallpaperStudio(0, false),
+    '/waves':(context) => OpArtWaveStudio(0, false),
   },
 
 ));

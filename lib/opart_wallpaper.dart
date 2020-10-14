@@ -1,56 +1,841 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'dart:io';
+
 import 'package:screenshot/screenshot.dart';
 
 
+Random rnd;
+List palette;
+Color backgroundColor = Colors.grey;
+
+int cellsX = 5;
+int cellsY = 5;
+
+int shape = 0;
+double driftX = 0;
+double driftXStep = 0;
+double driftY = 0;
+double driftYStep = 0;
+bool alternateDrift = true;
+bool box = true;
+double step = 0.3;
+double stepStep = 0.9;
+double ratio = 1;
+double offsetX = 0;
+double offsetY = 0;
+double rotate = 0;
+bool randomRotation = false;
+double rotateStep = 0.5;
+double squareness = 0.7;
+double squeezeX = 1;
+double squeezeY = 1;
+
+int numberOfPetals = rnd.nextInt(15);
+bool randomPetals = rnd.nextBool();
 
 
+double lineWidth = 0;
+Color lineColor = Colors.grey;
+bool resetColours = true;
 
+bool randomColours = false;
+int numberOfColours = 12;
+int paletteType = 0;
+double opacity = 1;
 
-
-
-class OpArtStudio extends StatefulWidget {
-  bool showSettings;
-  ScreenshotController screenshotController;
-  OpArtStudio(this.showSettings,{this.screenshotController, this.title});
-
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _OpArtStudioState createState() => _OpArtStudioState();
+void changeColor(int index, Color color) {
+  palette.replaceRange(index, index + 1, [color]);
 }
 
-class _OpArtStudioState extends State<OpArtStudio> {
+randomisePalette(int numberOfColours, int paletteType){
+  print('numberOfColours: $numberOfColours paletteType: $paletteType');
+  rnd = Random(DateTime.now().millisecond);
 
 
-  Random rnd;
+  List palette = [];
+  switch(paletteType){
+
+  // blended random
+    case 1:{
+      double blendColour = rnd.nextDouble() * 0xFFFFFF;
+      for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
+        palette.add(Color(((blendColour + rnd.nextDouble() * 0xFFFFFF)/2).toInt()).withOpacity(opacity));
+      }
+    }
+    break;
+
+  // linear random
+    case 2:{
+      List startColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
+      List endColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
+      for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
+        palette.add(Color.fromRGBO(
+            ((startColour[0]*colourIndex + endColour[0]*(numberOfColours-colourIndex))/numberOfColours).round(),
+            ((startColour[1]*colourIndex + endColour[1]*(numberOfColours-colourIndex))/numberOfColours).round(),
+            ((startColour[2]*colourIndex + endColour[2]*(numberOfColours-colourIndex))/numberOfColours).round(),
+            opacity));
+      }
+    }
+    break;
+
+  // linear complementary
+    case 3:{
+      List startColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
+      List endColour = [255-startColour[0],255-startColour[1],255-startColour[2]];
+      for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
+        palette.add(Color.fromRGBO(
+            ((startColour[0]*colourIndex + endColour[0]*(numberOfColours-colourIndex))/numberOfColours).round(),
+            ((startColour[1]*colourIndex + endColour[1]*(numberOfColours-colourIndex))/numberOfColours).round(),
+            ((startColour[2]*colourIndex + endColour[2]*(numberOfColours-colourIndex))/numberOfColours).round(),
+            opacity));
+      }
+    }
+    break;
+
+  // random
+    default: {
+      for (int colorIndex = 0; colorIndex < numberOfColours; colorIndex++){
+        palette.add(Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity));
+      }
+    }
+    break;
+
+  }
+  return palette;
+}
+
+
+randomiseSettings() {
+  cellsX = rnd.nextInt(9) + 1;
+  cellsY = rnd.nextInt(9) + 1;
+  if (rnd.nextBool()) {
+    cellsY = cellsX;
+  }
+  shape = rnd.nextInt(3);
+  if (rnd.nextBool()) {
+    driftX = 0;
+    driftY = 0;
+    driftXStep = 0;
+    driftYStep = 0;
+  } else if (rnd.nextBool()) {
+    driftX = rnd.nextDouble() * 10 - 5;
+    driftY = rnd.nextDouble() * 10 - 5;
+    driftXStep = rnd.nextDouble() * 1 - 0.5;
+    driftYStep = rnd.nextDouble() * 1 - 0.5;
+  } else if (rnd.nextBool()) {
+    driftX = rnd.nextDouble() * 20 - 10;
+    driftY = rnd.nextDouble() * 20 - 10;
+    driftXStep = rnd.nextDouble() * 2 - 1;
+    driftYStep = rnd.nextDouble() * 2 - 1;
+  } else if (rnd.nextBool()) {
+    driftX = rnd.nextDouble() * 40 - 20;
+    driftY = rnd.nextDouble() * 40 - 20;
+    driftXStep = rnd.nextDouble() * 4 - 2;
+    driftYStep = rnd.nextDouble() * 4 - 2;
+  }
+  alternateDrift = rnd.nextBool();
+  box = rnd.nextBool();
+  step = rnd.nextDouble() * 0.95 + 0.05;
+  if (rnd.nextBool()){
+    stepStep = 1;
+  } else {
+    stepStep = rnd.nextDouble() * 0.5 + 0.5;
+  }
+  ratio = rnd.nextDouble() + 0.75;
+  if (rnd.nextBool()) {
+    offsetX = 0;
+    offsetY = 0;
+  } else if (rnd.nextBool()) {
+    offsetX = rnd.nextDouble() * 10 - 5;
+    offsetY = rnd.nextDouble() * 10 - 5;
+  } else if (rnd.nextBool()) {
+    offsetX = rnd.nextDouble() * 20 - 10;
+    offsetY = rnd.nextDouble() * 20 - 10;
+  } else if (rnd.nextBool()) {
+    offsetX = rnd.nextDouble() * 50 - 25;
+    offsetY = rnd.nextDouble() * 50 - 25;
+  } else if (rnd.nextBool()) {
+    offsetX = rnd.nextDouble() * 100 - 50;
+    offsetY = rnd.nextDouble() * 100 - 50;
+  }
+  if (rnd.nextBool()) {
+    rotate = 0;
+  } else if (rnd.nextBool()) {
+      rotate = rnd.nextDouble()*2;
+  }
+  if (rnd.nextBool()) {
+    rotateStep = 0;
+  } else if (rnd.nextBool()) {
+    rotateStep = rnd.nextDouble();
+  }
+  randomRotation = rnd.nextBool();
+  squareness = rnd.nextDouble()*4-2;
+  if (rnd.nextBool()) {
+    squeezeX = 1;
+    squeezeY = 1;
+  } else if (rnd.nextBool()) {
+    squeezeX = rnd.nextDouble() * 1 + 0.5;
+    squeezeY = rnd.nextDouble() * 1 + 0.5;
+  }
+
+  numberOfPetals = rnd.nextInt(15);
+  randomPetals = rnd.nextBool();
+
+
+
+  numberOfColours = rnd.nextInt(34)+2;
+  if (rnd.nextBool()){
+    opacity=rnd.nextDouble();
+  } else {
+    opacity=1;
+  }
+  randomColours = rnd.nextBool();
+  resetColours = rnd.nextBool();
+  paletteType = rnd.nextInt(4);
+
+}
+
+class OpArtWallpaperStudio extends StatefulWidget {
+
+  int seed;
+  bool showSettings;
+  ScreenshotController screenshotController;
+
+  OpArtWallpaperStudio(this.seed, this.showSettings, {this.screenshotController});
 
   @override
-  void initState() {
-    rnd = Random();
+  _OpArtWallpaperStudioState createState() => _OpArtWallpaperStudioState();
+}
+class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
+  int _counter = 0;
+  File _imageFile;
+  ScreenshotController screenshotController = ScreenshotController();
+  int _currentColor = 0;
+  Widget settingsWidget() {
+    return ListView(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+              child: Text(
+                'Settings',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              )),
+        ),
+        SizedBox(height: 8),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+
+            Flexible(
+              flex: 1,
+              child: FloatingActionButton.extended(
+                label: Text('Randomise Palette'),
+                icon: Icon(Icons.palette),
+                //backgroundColor: Colors.pink,
+
+                onPressed:() {
+                  setState(() {
+
+                    print('Randomise Palette');
+                    palette = randomisePalette(numberOfColours, paletteType);
+
+                  });
+                },
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Flexible(
+              flex: 1,
+              child: FloatingActionButton.extended(
+                label: Text('Randomise Everything'),
+
+                icon: Icon(Icons.refresh),
+
+                onPressed:() {
+                  setState(() {
+
+                    print('Randomise Everything');
+                    randomiseSettings();
+                    palette = randomisePalette(numberOfColours, paletteType);
+
+                  });
+                },
+              ),
+            ),
+
+          ],
+        ),
+
+
+        // cellsX
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('cellsX: $cellsX'),
+            Slider(
+              value: cellsX.toDouble(),
+              min: 1,
+              max: 12,
+              onChanged: (value) {
+                setState(() {
+                  cellsX  = value.toInt();
+                });
+              },
+              label: '$cellsX ',
+            ),
+          ],
+        ),
+
+        // cellsY
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('cellsY: $cellsY'),
+            Slider(
+              value: cellsY.toDouble(),
+              min: 1,
+              max: 12,
+              onChanged: (value) {
+                setState(() {
+                  cellsY  = value.toInt();
+                });
+              },
+              label: '$cellsY ',
+            ),
+          ],
+        ),
+
+    // shape
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('shape'),
+            DropdownButton(
+              value: shape,
+              items: [
+                DropdownMenuItem(
+                  child: Text("circle"),
+                  value: 0,
+                ),
+                DropdownMenuItem(
+                  child: Text("squaricle"),
+                  value: 1,
+                ),
+                DropdownMenuItem(
+                  child: Text("star"),
+                  value: 2,
+                ),
+              ],
+              onChanged:(value) {
+                setState(() {
+                  shape = value;
+                });
+              },
+            ),
+          ],
+        ),
+
+        // driftX
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('driftX - ${driftX.toStringAsFixed(2)}'),
+            Slider(
+              value: driftX,
+              min: -20,
+              max: 20,
+              onChanged: (value) {
+                setState(() {
+                  driftX  = value;
+                });
+              },
+            ),
+          ],
+        ),
+
+        // driftXStep
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('driftXStep - ${driftXStep.toStringAsFixed(2)}'),
+            Slider(
+              value: driftXStep,
+              min: -2,
+              max: 2,
+              onChanged: (value) {
+                setState(() {
+                  driftXStep  = value;
+                });
+              },
+            ),
+          ],
+        ),
+
+        // driftY
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('driftY - ${driftY.toStringAsFixed(2)}'),
+            Slider(
+              value: driftY,
+              min: -20,
+              max: 20,
+              onChanged: (value) {
+                setState(() {
+                  driftY  = value;
+                });
+              },
+            ),
+          ],
+        ),
+
+        // driftYStep
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('driftYStep - ${driftYStep.toStringAsFixed(2)}'),
+            Slider(
+              value: driftYStep,
+              min: -2,
+              max: 2,
+              onChanged: (value) {
+                setState(() {
+                  driftYStep  = value;
+                });
+              },
+            ),
+          ],
+        ),
+
+        // alternateDrift
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('alternateDrift'),
+            Switch(
+              value: alternateDrift,
+              onChanged: (value) {
+                setState(() {
+                  alternateDrift  = value;
+                });
+              },
+            ),
+
+          ],
+        ),
+
+
+    // box
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('box'),
+            Switch(
+              value: box,
+              onChanged: (value) {
+                setState(() {
+                  box  = value;
+                });
+              },
+            ),
+
+          ],
+        ),
+
+        // step
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('step - ${step.toStringAsFixed(2)}'),
+            Slider(
+              value: step,
+              min: 0.01,
+              max: 1,
+              onChanged: (value) {
+                setState(() {
+                  step  = value;
+                });
+              },
+            ),
+          ],
+        ),
+
+        // stepStep
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('stepStep - ${stepStep.toStringAsFixed(2)}'),
+            Slider(
+              value: stepStep,
+              min: 0.5,
+              max: 1,
+              onChanged: (value) {
+                setState(() {
+                  stepStep  = value;
+                });
+              },
+            ),
+          ],
+        ),
+
+        // ratio
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('ratio - ${ratio.toStringAsFixed(2)}'),
+            Slider(
+              value: ratio,
+              min: 0,
+              max: 2,
+              onChanged: (value) {
+                setState(() {
+                  ratio  = value;
+                });
+              },
+            ),
+          ],
+        ),
+
+
+        // offsetX
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('offsetX - ${offsetX.toStringAsFixed(2)}'),
+            Slider(
+              value: offsetX,
+              min: -50,
+              max: 50,
+              onChanged: (value) {
+                setState(() {
+                  offsetX  = value;
+                });
+              },
+            ),
+          ],
+        ),
+
+        // offsetY
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('offsetY - ${offsetY.toStringAsFixed(2)}'),
+            Slider(
+              value: offsetY,
+              min: -50,
+              max: 50,
+              onChanged: (value) {
+                setState(() {
+                  offsetY  = value;
+                });
+              },
+            ),
+          ],
+        ),
+
+        // rotate
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('rotate - ${rotate.toStringAsFixed(2)}'),
+            Slider(
+              value: rotate,
+              min: 0,
+              max: 2,
+              onChanged: (value) {
+                setState(() {
+                  rotate  = value;
+                });
+              },
+            ),
+          ],
+        ),
+
+        // rotateStep
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('rotateStep - ${rotateStep.toStringAsFixed(2)}'),
+            Slider(
+              value: rotateStep,
+              min: 0,
+              max: 1,
+              onChanged: (value) {
+                setState(() {
+                  rotateStep  = value;
+                });
+              },
+            ),
+          ],
+        ),
+
+        // randomRotation
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('randomRotation'),
+            Switch(
+              value: randomRotation,
+              onChanged: (value) {
+                setState(() {
+                  randomRotation  = value;
+                });
+              },
+            ),
+
+          ],
+        ),
+
+        // squareness
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('squareness - ${squareness.toStringAsFixed(2)}'),
+            Slider(
+              value: squareness,
+              min: -2,
+              max: 2,
+              onChanged: (value) {
+                setState(() {
+                  squareness  = value;
+                });
+              },
+            ),
+          ],
+        ),
+
+        // squeezeX
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('squeezeX - ${squeezeX.toStringAsFixed(2)}'),
+            Slider(
+              value: squeezeX,
+              min: 0.1,
+              max: 2,
+              onChanged: (value) {
+                setState(() {
+                  squeezeX  = value;
+                });
+              },
+            ),
+          ],
+        ),
+
+        // squeezeY
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('squeezeY - ${squeezeY.toStringAsFixed(2)}'),
+            Slider(
+              value: squeezeY,
+              min: 0.1,
+              max: 2,
+              onChanged: (value) {
+                setState(() {
+                  squeezeY  = value;
+                });
+              },
+            ),
+          ],
+        ),
+
+
+
+
+    // numberOfPetals = rnd.nextInt(15);
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('numberOfPetals: $numberOfPetals'),
+            Slider(
+              value: numberOfPetals.toDouble(),
+              min: 1,
+              max: 15,
+              onChanged: (value) {
+                setState(() {
+                  numberOfPetals  = value.toInt();
+                });
+              },
+              label: '$numberOfPetals',
+            ),
+          ],
+        ),
+
+    // randomPetals = rnd.nextBool();
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('randomPetals'),
+            Switch(
+              value: randomPetals,
+              onChanged: (value) {
+                setState(() {
+                  randomPetals  = value;
+                });
+              },
+            ),
+
+          ],
+        ),
+
+
+
+    // numberOfColours
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('numberOfColours - $numberOfColours'),
+            Slider(
+              value: numberOfColours.toDouble(),
+              min: 2,
+              max: 36,
+              onChanged: (value) {
+                setState(() {
+                  if (numberOfColours<value){
+                    palette = randomisePalette(value.toInt(), paletteType);
+                  }
+                  numberOfColours  = value.toInt();
+                });
+              },
+            ),
+          ],
+        ),
+
+        // opacity
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('opacity - ${opacity.toStringAsFixed(2)}'),
+            Slider(
+              value: opacity,
+              min: 0,
+              max: 1,
+              onChanged: (value) {
+                setState(() {
+                  opacity  = value;
+                });
+              },
+            ),
+          ],
+        ),
+
+
+        // randomColours
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('randomColours'),
+            Switch(
+              value: randomColours,
+              onChanged: (value) {
+                setState(() {
+                  randomColours  = value;
+                });
+              },
+            ),
+
+          ],
+        ),
+
+        // resetColours
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('resetColours'),
+            Switch(
+              value: resetColours,
+              onChanged: (value) {
+                setState(() {
+                  resetColours  = value;
+                });
+              },
+            ),
+
+          ],
+        ),
+
+
+        // paletteType
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('paletteType'),
+
+            DropdownButton(
+              value: paletteType,
+              items: [
+                DropdownMenuItem(
+                  child: Text("random"),
+                  value: 0,
+                ),
+                DropdownMenuItem(
+                  child: Text("blended random"),
+                  value: 1,
+                ),
+                DropdownMenuItem(
+                  child: Text("linear random"),
+                  value: 2,
+                ),
+                DropdownMenuItem(
+                  child: Text("linear complementary"),
+                  value: 3,
+                ),
+              ],
+              onChanged:(value) {
+                setState(() {
+                  paletteType = value;
+                  palette = randomisePalette(numberOfColours, value);
+                });
+              },
+            ),
+
+          ],
+        ),
+
+
+
+
+      ],
+    );
+  }
+
+
+
+  @override
+
+  Widget bodyWidget() {
+    return Screenshot(
+      controller: screenshotController,
+      child: Stack(
+        children: [
+          Visibility(
+            visible: true,
+            child: LayoutBuilder(
+              builder: (_, constraints) => Container(
+                width: constraints.widthConstraints().maxWidth,
+                height: constraints.heightConstraints().maxHeight,
+                child: CustomPaint(painter: OpArtWallpaperPainter(widget.seed, rnd)),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     ScreenshotController screenshotController = widget.screenshotController;
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return  Screenshot(controller: screenshotController,
-      child: Stack(
+    Widget bodyWidget() {
+      return Screenshot(
+        controller: screenshotController,
+        child: Stack(
           children: [
             Visibility(
               visible: true,
@@ -58,50 +843,71 @@ class _OpArtStudioState extends State<OpArtStudio> {
                 builder: (_, constraints) => Container(
                   width: constraints.widthConstraints().maxWidth,
                   height: constraints.heightConstraints().maxHeight,
-                  child: CustomPaint(painter: OpArtWallpaperPainter(rnd)),
+                  child: CustomPaint(painter: OpArtWallpaperPainter(widget.seed, rnd)),
                 ),
               ),
             )
           ],
         ),
-    );
+      );
+    }
 
-//      floatingActionButton: FloatingActionButton(
-//        onPressed: () {
-//          print('FloatingActionButton.onPressed');
-//        },
-//        tooltip: 'Settings',
-//        child: Icon(Icons.settings),
-//      ), // This trailing comma makes auto-formatting nicer for build methods.
-//    );
+
+
+    return Scaffold(
+
+      body: Column(
+        children: [
+          Flexible(
+            flex: 7,
+            child: widget.showSettings
+                ? Column(
+              children: [
+                Flexible(flex: 3, child: bodyWidget()),
+                Flexible(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: settingsWidget(),
+                    )),
+              ],
+            )
+                : bodyWidget(),
+          ),
+
+        ],
+      ),
+    );
   }
 }
 
 class OpArtWallpaperPainter extends CustomPainter {
+  int seed;//
   Random rnd;
-  OpArtWallpaperPainter(this.rnd);
+
+  OpArtWallpaperPainter( this.seed, this.rnd);
 
   @override
   void paint(Canvas canvas, Size size) {
     // define the paint object
 
-    Random rnd = new Random();
+print('-----------------------------------------------------------');
+
+    rnd = Random(seed);
+    print('seed: $seed');
+
+    print('cellsX: $cellsX');
+    print('cellsY: $cellsY');
 
     double canvasWidth = size.width;
     double canvasHeight = size.height;
-
     double borderX = 0;
     double borderY = 0;
 
     double imageWidth = canvasWidth;
     double imageHeight = canvasHeight;
 
-    int cellsX = 5;
-    int cellsY = 5;
-    print('cellsX: $cellsX');
-    print('cellsY: $cellsY');
-    
-    // aspectRatio determined from cellsY and cellsX
+    // aspectRation from 0.5 to 2 - or 33% of time fit to screen, 33% of time make it 1
     double aspectRatio = cellsX/cellsY;
 
     if (canvasWidth / canvasHeight < aspectRatio) {
@@ -122,89 +928,25 @@ class OpArtWallpaperPainter extends CustomPainter {
     print('imageWidth = $imageWidth');
     print('imageHeight = $imageHeight');
 
-
-    // SET UP THE PALLET
     // numberOfColours from 1 to 24
-    int numberOfColours = rnd.nextInt(24)+1;
     print('numberOfColours: $numberOfColours');
 
     // opacity - from 0 to 1 - 50% of time =1
-    double opacity = rnd.nextDouble();
-    if (rnd.nextInt(2)==0){
-      opacity = 1;
-    }
     print('opacity: $opacity');
 
     // paletteType - 0=random; 1=blended random; 2=linear random; 3=linear complimentary;
-    int paletteType = rnd.nextInt(4);
     print('paletteType: $paletteType');
 
     // randomise the palette
-    List palette = [];
-    switch(paletteType){
-
-    // blended random
-      case 1:{
-        double blendColour = rnd.nextDouble() * 0xFFFFFF;
-        for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
-          palette.add(Color(((blendColour + rnd.nextDouble() * 0xFFFFFF)/2).toInt()).withOpacity(opacity));
-        }
-      }
-      break;
-
-    // linear random
-      case 2:{
-        List startColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
-        List endColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
-        for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
-          palette.add(Color.fromRGBO(
-              ((startColour[0]*colourIndex + endColour[0]*(numberOfColours-colourIndex))/numberOfColours).round(),
-              ((startColour[1]*colourIndex + endColour[1]*(numberOfColours-colourIndex))/numberOfColours).round(),
-              ((startColour[2]*colourIndex + endColour[2]*(numberOfColours-colourIndex))/numberOfColours).round(),
-              opacity));
-        }
-      }
-      break;
-
-    // linear complementary
-      case 2:{
-        List startColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
-        List endColour = [255-startColour[0],255-startColour[1],255-startColour[2]];
-        for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
-          palette.add(Color.fromRGBO(
-              ((startColour[0]*colourIndex + endColour[0]*(numberOfColours-colourIndex))/numberOfColours).round(),
-              ((startColour[1]*colourIndex + endColour[1]*(numberOfColours-colourIndex))/numberOfColours).round(),
-              ((startColour[2]*colourIndex + endColour[2]*(numberOfColours-colourIndex))/numberOfColours).round(),
-              opacity));
-        }
-      }
-      break;
-
-    // random
-      default: {
-        for (int colorIndex = 0; colorIndex < numberOfColours; colorIndex++){
-          palette.add(Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity));
-        }
-      }
-      break;
-
+    if (palette == null) {
+      print('randomisePalette: $numberOfColours, $paletteType');
+      palette = randomisePalette(numberOfColours, paletteType);
     }
+    print('palette: $palette');
+    print('numberOfColours: $numberOfColours');
 
-    // randomColours - true or false
-    bool randomColours = rnd.nextBool();
-    print('randomColours: $randomColours');
-
-    Color backgroundColor = Colors.grey[200];
-    print('backgroundColor: $backgroundColor');
-
-    double lineWidth = rnd.nextDouble()*10;
-    print('lineWidth: $lineWidth');
-
-    Color lineColor = Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity);
-    print('lineColor: $lineColor');
-
-    // keep track of the colour order
     int colourOrder = 0;
+
 
     // Now make some art
 
@@ -224,87 +966,90 @@ class OpArtWallpaperPainter extends CustomPainter {
     print('radius: $radius');
 
     // Step
-    double step = rnd.nextDouble() * radius;
+    // double step = rnd.nextDouble() * radius;
     print('step: $step');
 
-    double stepStep = rnd.nextDouble() * 2;
-    if (rnd.nextBool()) {stepStep= 0;}
+    // double stepStep = rnd.nextDouble() * 2;
+    // if (rnd.nextBool()) {stepStep= 0;}
     print('stepStep: $stepStep');
 
     // Ratio
-    double ratio = 1;
+    // double ratio = 1;
     print('ratio: $ratio');
 
     // offsetX & offsetY
-    double offsetX = rnd.nextDouble()*20-10;
-    double offsetY = rnd.nextDouble()*20-10;
-    if (rnd.nextBool()){
-      offsetX=0;
-      offsetY=0;
-    }
+    // double offsetX = rnd.nextDouble()*20-10;
+    // double offsetY = rnd.nextDouble()*20-10;
+    // if (rnd.nextBool()){
+    //   offsetX=0;
+    //   offsetY=0;
+    // }
     print('offsetX: $offsetX');
     print('offsetY: $offsetY');
 
     // Squeeze
-    double squeezeX = 1;
-    double squeezeY = 1;
+    // double squeezeX = 1;
+    // double squeezeY = 1;
+    print('squeezeX: $squeezeX');
+    print('squeezeY: $squeezeY');
 
-    // Rotate
-    double rotate = rnd.nextDouble() * pi * 2;
-    if (rnd.nextBool()){rotate = 0;}
+// Rotate
+    // double rotate = rnd.nextDouble() * pi * 2;
+    // if (rnd.nextBool()){rotate = 0;}
     print('rotate: $rotate');
-    bool randomRotation = rnd.nextBool();
+
+    // bool randomRotation = rnd.nextBool();
     print('randomRotation: $randomRotation');
-    
-    double rotateStep = rnd.nextDouble()*5;
-    if (rnd.nextBool()){rotateStep = 0;}
+
+    // double rotateStep = rnd.nextDouble()*5;
+    // if (rnd.nextBool()){rotateStep = 0;}
     print('rotateStep: $rotateStep');
 
-    
+
     // alternateDrift
-    bool alternateDrift = rnd.nextBool();
+    // bool alternateDrift = rnd.nextBool();
     print('alternateDrift: $alternateDrift');
 
     // resetColours
-    bool resetColours = rnd.nextBool();
+    // bool resetColours = rnd.nextBool();
     print('resetColours: $resetColours');
 
     // box
-    bool box = rnd.nextBool();
     print('box: $box');
 
     // shape
-    int shape = rnd.nextInt(3);
+    // int shape = rnd.nextInt(3);
     print('shape: $shape');
 
     // driftX & driftY
-    double driftX = rnd.nextDouble() * 5;
-    double driftY = rnd.nextDouble() * 5;
-    if (rnd.nextBool()){
-      driftX=0;
-      driftY=0;
-    }
+    // double driftX = rnd.nextDouble() * 5;
+    // double driftY = rnd.nextDouble() * 5;
+    // if (rnd.nextBool()){
+    //   driftX=0;
+    //   driftY=0;
+    // }
     print('driftX: $driftX');
     print('driftY: $driftY');
 
-    double driftXStep = rnd.nextDouble() *2;
-    double driftYStep = rnd.nextDouble() *2;
-    if (rnd.nextBool()){
-      driftXStep=0;
-      driftYStep=0;
-    }
+    // double driftXStep = rnd.nextDouble() *2;
+    // double driftYStep = rnd.nextDouble() *2;
+    // if (rnd.nextBool()){
+    //   driftXStep=0;
+    //   driftYStep=0;
+    // }
     print('driftXStep: $driftXStep');
     print('driftYStep: $driftYStep');
 
     // squareness
-    double squareness = rnd.nextDouble()*2;
-    if (rnd.nextBool()){
-      squareness=rnd.nextDouble()/2+0.5;
-    }
+    // double squareness = rnd.nextDouble()*2;
+    // if (rnd.nextBool()){
+    //   squareness=rnd.nextDouble()/2+0.5;
+    // }
+    print('squareness: $squareness');
 
     // Number of petals
-    int numberOfPetals = rnd.nextInt(15);
-    bool randomPetals = rnd.nextBool();
+    // int numberOfPetals = rnd.nextInt(15);
+    // bool randomPetals = rnd.nextBool();
     print('numberOfPetals: $numberOfPetals');
     print('randomPetals: $randomPetals');
 
@@ -313,23 +1058,14 @@ class OpArtWallpaperPainter extends CustomPainter {
 
     for (int j = 0 - extraCellsY; j < cellsY + extraCellsY; j++) {
       for (int i = 0 - extraCellsX; i < cellsX + extraCellsX; i++) {
-        int k = 0; // count the steps
 
-        double localOffsetX = 0;
-        double localOffsetY = 0;
+        int k = 0; // count the steps
 
         double dX = 0;
         double dY = 0;
 
-        double localDriftX = driftX;
-        double localDriftY = driftY;
-        if (alternateDrift && (i + j) % 2 == 0) {
-          localDriftX = -driftX;
-          localDriftY = -driftY;
-        }
-
         double stepRadius = radius * ratio;
-        double localStep = step;
+        double localStep = step * radius;
 
         double localRotate = rotate;
         if (randomRotation) {
@@ -342,13 +1078,13 @@ class OpArtWallpaperPainter extends CustomPainter {
         // Number of petals
         var localNumberOfPetals = numberOfPetals;
         if (randomPetals) {
-          localNumberOfPetals =  rnd.nextInt(numberOfPetals-3) + 3;
+          localNumberOfPetals =  rnd.nextInt(numberOfPetals) + 3;
         }
 
         // Centre of the square
         List PO = [
-          borderX + radius * (1 - squeezeX) + localOffsetX + (offsetX * j) + (i * 2 + 1) * radius * squeezeX,
-          borderY + radius * (1 - squeezeY) + localOffsetY + (offsetY * i) + (j * 2 + 1) * radius * squeezeY
+          borderX + radius * (1 - squeezeX) + dX + (offsetX * j) + (i * 2 + 1) * radius * squeezeX,
+          borderY + radius * (1 - squeezeY) + dY + (offsetY * i) + (j * 2 + 1) * radius * squeezeY
         ];
         // print('i: $i j: $j');
         // print('PO: $PO');
@@ -394,8 +1130,8 @@ class OpArtWallpaperPainter extends CustomPainter {
           path.lineTo(PD[0], PD[1]);
           path.close();
 
-          canvas.drawPath(path, Paint() ..style = PaintingStyle.fill ..color = nextColour);
-          
+          canvas.drawPath(path, Paint() ..style = PaintingStyle.fill ..color = nextColour.withOpacity(opacity));
+
           // if (lineWidth > 0) {
           //   canvas.drawPath(path, Paint() ..style = PaintingStyle.stroke ..strokeWidth = lineWidth ..color = lineColor);
           // }
@@ -412,15 +1148,15 @@ class OpArtWallpaperPainter extends CustomPainter {
           switch (shape) {
             case 0: // "circle":
 
-                // Choose the next colour
-                colourOrder++;
-                nextColour = palette[colourOrder%numberOfColours];
-                if (randomColours) {
-                  nextColour = palette[rnd.nextInt(numberOfColours)];
-                }
+            // Choose the next colour
+              colourOrder++;
+              nextColour = palette[colourOrder%numberOfColours];
+              if (randomColours) {
+                nextColour = palette[rnd.nextInt(numberOfColours)];
+              }
 
-                canvas.drawCircle(Offset(PO[0], PO[1]), stepRadius, Paint() ..style = PaintingStyle.fill ..color = nextColour);
-                canvas.drawCircle(Offset(PO[0], PO[1]), stepRadius, Paint() ..style = PaintingStyle.stroke ..strokeWidth = lineWidth ..color = lineColor);
+              canvas.drawCircle(Offset(PO[0], PO[1]), stepRadius, Paint() ..style = PaintingStyle.fill ..color = nextColour.withOpacity(opacity));
+              canvas.drawCircle(Offset(PO[0], PO[1]), stepRadius, Paint() ..style = PaintingStyle.stroke ..strokeWidth = lineWidth ..color = lineColor.withOpacity(opacity));
 
               break;
 
@@ -459,7 +1195,7 @@ class OpArtWallpaperPainter extends CustomPainter {
               List P11 = edgePoint(PD, PA, 0.5 - squareness / 2);
 
               Path squaricle = Path();
-              
+
               squaricle.moveTo(P1[0], P1[1]);
               squaricle.lineTo(P2[0], P2[1]);
               squaricle.quadraticBezierTo(PB[0], PB[1], P4[0], P4[1]);
@@ -483,21 +1219,21 @@ class OpArtWallpaperPainter extends CustomPainter {
                   Paint()
                     ..style = PaintingStyle.stroke
                     ..strokeWidth = lineWidth
-                    ..color = lineColor);
+                    ..color = lineColor.withOpacity(opacity));
               canvas.drawPath(
                   squaricle,
                   Paint()
                     ..style = PaintingStyle.fill
-                    ..color = nextColour);
+                    ..color = nextColour.withOpacity(opacity));
 
               break;
-              
+
             case 2: //"star":
               for (var p = 0; p < localNumberOfPetals; p++) {
 
                 List petalPoint = [PO[0] + stepRadius * cos(localRotate * pi + p * pi * 2 / localNumberOfPetals),
                   PO[1] + stepRadius * sin(localRotate * pi + p * pi * 2 / localNumberOfPetals)];
-                
+
                 List petalMidPointA = [PO[0] + (squareness) * stepRadius * cos(localRotate * pi + (p - 1) * pi * 2 / localNumberOfPetals),
                   PO[1] + (squareness) * stepRadius * sin(localRotate * pi + (p - 1) * pi * 2 / localNumberOfPetals)];
 
@@ -524,18 +1260,18 @@ class OpArtWallpaperPainter extends CustomPainter {
                     Paint()
                       ..style = PaintingStyle.stroke
                       ..strokeWidth = lineWidth
-                      ..color = lineColor);
+                      ..color = lineColor.withOpacity(opacity));
                 canvas.drawPath(
                     star,
                     Paint()
                       ..style = PaintingStyle.fill
-                      ..color = nextColour);
+                      ..color = nextColour.withOpacity(opacity));
 
               }
 
               break;
-              
-              
+
+
           }
 
 
@@ -543,32 +1279,34 @@ class OpArtWallpaperPainter extends CustomPainter {
 
 
           // Drift & Rotate
-          localDriftX = localDriftX + driftXStep;
-          localDriftY = localDriftY + driftYStep;
           if (alternateDrift && (i + j) % 2 == 0) {
-            dX = dX - localDriftX;
-            dY = dY - localDriftY;
             localRotate = localRotate - rotateStep;
           }
           else {
-            dX = dX + localDriftX;
-            dY = dY + localDriftY;
             localRotate = localRotate + rotateStep;
           }
+          if (alternateDrift && (i) % 2 == 0) {
+            dX = dX - driftX - k * driftXStep;
+          }
+          else {
+            dX = dX + driftX + k * driftXStep;
+          }
+          if (alternateDrift && (j) % 2 == 0) {
+            dY = dY - driftY - k * driftYStep;
+          }
+          else {
+            dY = dY + driftY + k * driftYStep;
+          }
 
-          localStep = localStep + stepStep;
+          localStep = localStep * stepStep;
           stepRadius = stepRadius - localStep;
           k++;
 
 
-        } while (stepRadius > 0 && step > 0);
+        } while (k<40 && stepRadius > 0 && step > 0);
 
       }
     }
-
-
-
-
 
     // colour in the outer canvas
     var paint1 = Paint()
@@ -578,13 +1316,11 @@ class OpArtWallpaperPainter extends CustomPainter {
     canvas.drawRect(Offset(canvasWidth-borderX, 0) & Size(borderX, canvasHeight), paint1);
 
     canvas.drawRect(Offset(0, 0) & Size(canvasWidth, borderY ), paint1);
-    canvas.drawRect(Offset(0, canvasHeight-borderY, ) & Size(canvasWidth, borderY), paint1);
+    canvas.drawRect(Offset(0, canvasHeight-borderY, ) & Size(canvasWidth, borderY+1000), paint1);
 
 
 
   }
-
-
 
   @override
   bool shouldRepaint(OpArtWallpaperPainter oldDelegate) => false;
