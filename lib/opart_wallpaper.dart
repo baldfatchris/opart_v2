@@ -20,34 +20,84 @@ int shape = 0;
 bool shapeLOCK = false;
 
 double driftX = 0;
+bool driftXLOCK = false;
+
 double driftXStep = 0;
+bool driftXStepLOCK = false;
+
 double driftY = 0;
+bool driftYLOCK = false;
+
 double driftYStep = 0;
+bool driftYStepLOCK = false;
+
 bool alternateDrift = true;
+bool alternateDriftLOCK = false;
+
 bool box = true;
+bool boxLOCK = false;
+
 double step = 0.3;
+bool stepLOCK = false;
+
 double stepStep = 0.9;
+bool stepStepLOCK = false;
+
 double ratio = 1;
+bool ratioLOCK = false;
+
 double offsetX = 0;
+bool offsetXLOCK = false;
+
 double offsetY = 0;
+bool offsetYLOCK = false;
+
 double rotate = 0;
+bool rotateLOCK = false;
+
 bool randomRotation = false;
+bool randomRotationLOCK = false;
+
 double rotateStep = 0.5;
+bool rotateStepLOCK = false;
+
 double squareness = 0.7;
+bool squarenessLOCK = false;
+
 double squeezeX = 1;
+bool squeezeXLOCK = false;
+
 double squeezeY = 1;
+bool squeezeYLOCK = false;
+
 
 int numberOfPetals = 7;
+bool numberOfPetalsLOCK = false;
+
 bool randomPetals = true;
+bool randomPetalsLOCK = false;
+
 
 double lineWidth = 0;
+bool lineWidthLOCK = false;
+
 Color lineColor = Colors.grey;
+bool lineColorLOCK = false;
+
 bool resetColours = true;
+bool resetColoursLOCK = false;
 
 bool randomColours = false;
+bool randomColoursLOCK = false;
+
 int numberOfColours = 12;
+bool numberOfColoursLOCK = false;
+
 int paletteType = 0;
+bool paletteTypeLOCK = false;
+
 double opacity = 1;
+bool opacityLOCK = false;
 
 randomisePalette(int numberOfColours, int paletteType){
   print('numberOfColours: $numberOfColours paletteType: $paletteType');
@@ -126,37 +176,88 @@ randomiseSettings() {
     shape = rnd.nextInt(3);
   }
 
+  // driftX -20 to 20
+  if (driftXLOCK){
+    if (rnd.nextBool()) {
+      driftX = 0;
+    } else if (rnd.nextBool()) {
+      driftX = rnd.nextDouble() * 10 - 5;
+    } else if (rnd.nextBool()) {
+      driftX = rnd.nextDouble() * 20 - 10;
+    } else if (rnd.nextBool()) {
+      driftX = rnd.nextDouble() * 40 - 20;
+    }
+  }
 
-  if (rnd.nextBool()) {
-    driftX = 0;
-    driftY = 0;
-    driftXStep = 0;
-    driftYStep = 0;
-  } else if (rnd.nextBool()) {
-    driftX = rnd.nextDouble() * 10 - 5;
-    driftY = rnd.nextDouble() * 10 - 5;
-    driftXStep = rnd.nextDouble() * 1 - 0.5;
-    driftYStep = rnd.nextDouble() * 1 - 0.5;
-  } else if (rnd.nextBool()) {
-    driftX = rnd.nextDouble() * 20 - 10;
-    driftY = rnd.nextDouble() * 20 - 10;
-    driftXStep = rnd.nextDouble() * 2 - 1;
-    driftYStep = rnd.nextDouble() * 2 - 1;
-  } else if (rnd.nextBool()) {
-    driftX = rnd.nextDouble() * 40 - 20;
-    driftY = rnd.nextDouble() * 40 - 20;
-    driftXStep = rnd.nextDouble() * 4 - 2;
-    driftYStep = rnd.nextDouble() * 4 - 2;
+  // driftY -20 to 20
+  if (driftYLOCK){
+    if (rnd.nextBool()) {
+      driftY = 0;
+    } else if (rnd.nextBool()) {
+      driftY = rnd.nextDouble() * 10 - 5;
+    } else if (rnd.nextBool()) {
+      driftY = rnd.nextDouble() * 20 - 10;
+    } else if (rnd.nextBool()) {
+      driftY = rnd.nextDouble() * 40 - 20;
+    }
   }
-  alternateDrift = rnd.nextBool();
-  box = rnd.nextBool();
-  step = rnd.nextDouble() * 0.95 + 0.05;
-  if (rnd.nextBool()){
-    stepStep = 1;
-  } else {
-    stepStep = rnd.nextDouble() * 0.5 + 0.5;
+
+  // driftXStep -2 to 2
+  if (driftXStepLOCK){
+    if (rnd.nextBool()) {
+      driftXStep = 0;
+    } else if (rnd.nextBool()) {
+      driftXStep = rnd.nextDouble() * 1 - 0.5;
+    } else if (rnd.nextBool()) {
+      driftXStep = rnd.nextDouble() * 2 - 1;
+    } else if (rnd.nextBool()) {
+      driftXStep = rnd.nextDouble() * 4 - 2;
+    }
   }
-  ratio = rnd.nextDouble() + 0.75;
+
+  // driftYStep -2 to 2
+  if (driftYStepLOCK){
+    if (rnd.nextBool()) {
+      driftYStep = 0;
+    } else if (rnd.nextBool()) {
+      driftYStep = rnd.nextDouble() * 1 - 0.5;
+    } else if (rnd.nextBool()) {
+      driftYStep = rnd.nextDouble() * 2 - 1;
+    } else if (rnd.nextBool()) {
+      driftYStep = rnd.nextDouble() * 4 - 2;
+    }
+  }
+
+  // alternateDrift
+  if (alternateDriftLOCK) {
+    alternateDrift = rnd.nextBool();
+  }
+
+  // box
+  if (boxLOCK) {
+    box = rnd.nextBool();
+  }
+
+  // step 0.05 to 1
+  if (stepLOCK) {
+    step = rnd.nextDouble() * 0.95 + 0.05;
+  }
+
+  // stepStep 0.5 to 1
+  if (stepStepLOCK) {
+    if (rnd.nextBool()) {
+      stepStep = 1;
+    } else {
+      stepStep = rnd.nextDouble() * 0.5 + 0.5;
+    }
+  }
+
+  // ratio 0.75 to 1.75
+  if (ratioLOCK) {
+    ratio = rnd.nextDouble() + 0.75;
+  }
+
+
   if (rnd.nextBool()) {
     offsetX = 0;
     offsetY = 0;
@@ -449,7 +550,31 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           children: [
             Flexible(
                 flex: 1,
-                child: Text('driftX - ${driftX.toStringAsFixed(2)}')
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (driftXLOCK){
+                          driftXLOCK=false;
+                        } else {
+                          driftXLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'driftX:',
+                          style: driftXLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          driftXLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: driftXLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
             ),
             Flexible(
               flex: 2,
@@ -457,7 +582,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
                 value: driftX,
                 min: -20,
                 max: 20,
-                onChanged: (value) {
+                onChanged: driftXLOCK ? null : (value) {
                   setState(() {
                     driftX  = value;
                   });
@@ -473,14 +598,39 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           children: [
             Flexible(
                 flex:1,
-                child: Text('driftXStep - ${driftXStep.toStringAsFixed(2)}')),
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (driftXStepLOCK){
+                          driftXStepLOCK=false;
+                        } else {
+                          driftXStepLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'driftXStep:',
+                          style: driftXStepLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          driftXStepLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: driftXStepLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
             Flexible(
               flex: 2,
               child: Slider(
                 value: driftXStep,
                 min: -2,
                 max: 2,
-                onChanged: (value) {
+                onChanged: driftXStepLOCK ? null : (value) {
                   setState(() {
                     driftXStep  = value;
                   });
@@ -490,20 +640,46 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           ],
         ),
 
+
         // driftY
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-                flex:1,
-                child: Text('driftY - ${driftY.toStringAsFixed(2)}')),
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (driftYLOCK){
+                          driftYLOCK=false;
+                        } else {
+                          driftYLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'driftY:',
+                          style: driftYLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          driftYLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: driftYLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
             Flexible(
               flex: 2,
               child: Slider(
                 value: driftY,
                 min: -20,
                 max: 20,
-                onChanged: (value) {
+                onChanged: driftYLOCK ? null : (value) {
                   setState(() {
                     driftY  = value;
                   });
@@ -519,14 +695,39 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           children: [
             Flexible(
                 flex:1,
-                child: Text('driftYStep - ${driftYStep.toStringAsFixed(2)}')),
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (driftYStepLOCK){
+                          driftYStepLOCK=false;
+                        } else {
+                          driftYStepLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'driftYStep:',
+                          style: driftYStepLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          driftYStepLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: driftYStepLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
             Flexible(
               flex: 2,
               child: Slider(
                 value: driftYStep,
                 min: -2,
                 max: 2,
-                onChanged: (value) {
+                onChanged: driftYStepLOCK ? null : (value) {
                   setState(() {
                     driftYStep  = value;
                   });
@@ -535,6 +736,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
             ),
           ],
         ),
+
 
         // alternateDrift
         Row(
