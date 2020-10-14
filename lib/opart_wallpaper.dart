@@ -31,6 +31,8 @@ double squareness = 0.7;
 double squeezeX = 1;
 double squeezeY = 1;
 
+int numberOfPetals = rnd.nextInt(15);
+bool randomPetals = rnd.nextBool();
 
 
 double lineWidth = 0;
@@ -104,9 +106,95 @@ randomisePalette(int numberOfColours, int paletteType){
 }
 
 
+randomiseSettings() {
+  cellsX = rnd.nextInt(9) + 1;
+  cellsY = rnd.nextInt(9) + 1;
+  if (rnd.nextBool()) {
+    cellsY = cellsX;
+  }
+  shape = rnd.nextInt(3);
+  if (rnd.nextBool()) {
+    driftX = 0;
+    driftY = 0;
+    driftXStep = 0;
+    driftYStep = 0;
+  } else if (rnd.nextBool()) {
+    driftX = rnd.nextDouble() * 10 - 5;
+    driftY = rnd.nextDouble() * 10 - 5;
+    driftXStep = rnd.nextDouble() * 1 - 0.5;
+    driftYStep = rnd.nextDouble() * 1 - 0.5;
+  } else if (rnd.nextBool()) {
+    driftX = rnd.nextDouble() * 20 - 10;
+    driftY = rnd.nextDouble() * 20 - 10;
+    driftXStep = rnd.nextDouble() * 2 - 1;
+    driftYStep = rnd.nextDouble() * 2 - 1;
+  } else if (rnd.nextBool()) {
+    driftX = rnd.nextDouble() * 40 - 20;
+    driftY = rnd.nextDouble() * 40 - 20;
+    driftXStep = rnd.nextDouble() * 4 - 2;
+    driftYStep = rnd.nextDouble() * 4 - 2;
+  }
+  alternateDrift = rnd.nextBool();
+  box = rnd.nextBool();
+  step = rnd.nextDouble() * 0.95 + 0.05;
+  if (rnd.nextBool()){
+    stepStep = 1;
+  } else {
+    stepStep = rnd.nextDouble() * 0.5 + 0.5;
+  }
+  ratio = rnd.nextDouble() + 0.75;
+  if (rnd.nextBool()) {
+    offsetX = 0;
+    offsetY = 0;
+  } else if (rnd.nextBool()) {
+    offsetX = rnd.nextDouble() * 10 - 5;
+    offsetY = rnd.nextDouble() * 10 - 5;
+  } else if (rnd.nextBool()) {
+    offsetX = rnd.nextDouble() * 20 - 10;
+    offsetY = rnd.nextDouble() * 20 - 10;
+  } else if (rnd.nextBool()) {
+    offsetX = rnd.nextDouble() * 50 - 25;
+    offsetY = rnd.nextDouble() * 50 - 25;
+  } else if (rnd.nextBool()) {
+    offsetX = rnd.nextDouble() * 100 - 50;
+    offsetY = rnd.nextDouble() * 100 - 50;
+  }
+  if (rnd.nextBool()) {
+    rotate = 0;
+  } else if (rnd.nextBool()) {
+      rotate = rnd.nextDouble()*2;
+  }
+  if (rnd.nextBool()) {
+    rotateStep = 0;
+  } else if (rnd.nextBool()) {
+    rotateStep = rnd.nextDouble();
+  }
+  randomRotation = rnd.nextBool();
+  squareness = rnd.nextDouble()*4-2;
+  if (rnd.nextBool()) {
+    squeezeX = 1;
+    squeezeY = 1;
+  } else if (rnd.nextBool()) {
+    squeezeX = rnd.nextDouble() * 1 + 0.5;
+    squeezeY = rnd.nextDouble() * 1 + 0.5;
+  }
+
+  numberOfPetals = rnd.nextInt(15);
+  randomPetals = rnd.nextBool();
 
 
 
+  numberOfColours = rnd.nextInt(34)+2;
+  if (rnd.nextBool()){
+    opacity=rnd.nextDouble();
+  } else {
+    opacity=1;
+  }
+  randomColours = rnd.nextBool();
+  resetColours = rnd.nextBool();
+  paletteType = rnd.nextInt(4);
+
+}
 
 class OpArtWallpaperStudio extends StatefulWidget {
 
@@ -136,6 +224,53 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
               )),
         ),
         SizedBox(height: 8),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+
+            Flexible(
+              flex: 1,
+              child: FloatingActionButton.extended(
+                label: Text('Randomise Palette'),
+                icon: Icon(Icons.palette),
+                //backgroundColor: Colors.pink,
+
+                onPressed:() {
+                  setState(() {
+
+                    print('Randomise Palette');
+                    palette = randomisePalette(numberOfColours, paletteType);
+
+                  });
+                },
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Flexible(
+              flex: 1,
+              child: FloatingActionButton.extended(
+                label: Text('Randomise Everything'),
+
+                icon: Icon(Icons.refresh),
+
+                onPressed:() {
+                  setState(() {
+
+                    print('Randomise Everything');
+                    randomiseSettings();
+                    palette = randomisePalette(numberOfColours, paletteType);
+
+                  });
+                },
+              ),
+            ),
+
+          ],
+        ),
+
 
         // cellsX
         Row(
@@ -510,7 +645,48 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           ],
         ),
 
-        // numberOfColours
+
+
+
+    // numberOfPetals = rnd.nextInt(15);
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('numberOfPetals: $numberOfPetals'),
+            Slider(
+              value: numberOfPetals.toDouble(),
+              min: 1,
+              max: 15,
+              onChanged: (value) {
+                setState(() {
+                  numberOfPetals  = value.toInt();
+                });
+              },
+              label: '$numberOfPetals',
+            ),
+          ],
+        ),
+
+    // randomPetals = rnd.nextBool();
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('randomPetals'),
+            Switch(
+              value: randomPetals,
+              onChanged: (value) {
+                setState(() {
+                  randomPetals  = value;
+                });
+              },
+            ),
+
+          ],
+        ),
+
+
+
+    // numberOfColours
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -530,6 +706,25 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
             ),
           ],
         ),
+
+        // opacity
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('opacity - ${opacity.toStringAsFixed(2)}'),
+            Slider(
+              value: opacity,
+              min: 0,
+              max: 1,
+              onChanged: (value) {
+                setState(() {
+                  opacity  = value;
+                });
+              },
+            ),
+          ],
+        ),
+
 
         // randomColours
         Row(
@@ -605,21 +800,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
 
 
 
-        FloatingActionButton.extended(
-          label: Text('Randomise Palette'),
-          icon: Icon(Icons.donut_large),
-          //backgroundColor: Colors.pink,
 
-          onPressed:() {
-            setState(() {
-
-              print('FloatingActionButton Pressed');
-              palette = randomisePalette(numberOfColours, paletteType);
-              print('line 208  palette: $palette');
-
-            });
-          },
-        ),
       ],
     );
   }
@@ -867,8 +1048,8 @@ print('-----------------------------------------------------------');
     print('squareness: $squareness');
 
     // Number of petals
-    int numberOfPetals = rnd.nextInt(15);
-    bool randomPetals = rnd.nextBool();
+    // int numberOfPetals = rnd.nextInt(15);
+    // bool randomPetals = rnd.nextBool();
     print('numberOfPetals: $numberOfPetals');
     print('randomPetals: $randomPetals');
 
@@ -949,7 +1130,7 @@ print('-----------------------------------------------------------');
           path.lineTo(PD[0], PD[1]);
           path.close();
 
-          canvas.drawPath(path, Paint() ..style = PaintingStyle.fill ..color = nextColour);
+          canvas.drawPath(path, Paint() ..style = PaintingStyle.fill ..color = nextColour.withOpacity(opacity));
 
           // if (lineWidth > 0) {
           //   canvas.drawPath(path, Paint() ..style = PaintingStyle.stroke ..strokeWidth = lineWidth ..color = lineColor);
@@ -974,8 +1155,8 @@ print('-----------------------------------------------------------');
                 nextColour = palette[rnd.nextInt(numberOfColours)];
               }
 
-              canvas.drawCircle(Offset(PO[0], PO[1]), stepRadius, Paint() ..style = PaintingStyle.fill ..color = nextColour);
-              canvas.drawCircle(Offset(PO[0], PO[1]), stepRadius, Paint() ..style = PaintingStyle.stroke ..strokeWidth = lineWidth ..color = lineColor);
+              canvas.drawCircle(Offset(PO[0], PO[1]), stepRadius, Paint() ..style = PaintingStyle.fill ..color = nextColour.withOpacity(opacity));
+              canvas.drawCircle(Offset(PO[0], PO[1]), stepRadius, Paint() ..style = PaintingStyle.stroke ..strokeWidth = lineWidth ..color = lineColor.withOpacity(opacity));
 
               break;
 
@@ -1038,12 +1219,12 @@ print('-----------------------------------------------------------');
                   Paint()
                     ..style = PaintingStyle.stroke
                     ..strokeWidth = lineWidth
-                    ..color = lineColor);
+                    ..color = lineColor.withOpacity(opacity));
               canvas.drawPath(
                   squaricle,
                   Paint()
                     ..style = PaintingStyle.fill
-                    ..color = nextColour);
+                    ..color = nextColour.withOpacity(opacity));
 
               break;
 
@@ -1079,12 +1260,12 @@ print('-----------------------------------------------------------');
                     Paint()
                       ..style = PaintingStyle.stroke
                       ..strokeWidth = lineWidth
-                      ..color = lineColor);
+                      ..color = lineColor.withOpacity(opacity));
                 canvas.drawPath(
                     star,
                     Paint()
                       ..style = PaintingStyle.fill
-                      ..color = nextColour);
+                      ..color = nextColour.withOpacity(opacity));
 
               }
 
@@ -1122,7 +1303,7 @@ print('-----------------------------------------------------------');
           k++;
 
 
-        } while (k<50 && stepRadius > 0 && step > 0);
+        } while (k<40 && stepRadius > 0 && step > 0);
 
       }
     }
