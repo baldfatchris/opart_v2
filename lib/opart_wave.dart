@@ -4,26 +4,40 @@ import 'dart:io';
 
 import 'package:screenshot/screenshot.dart';
 
-//void main() {
-//  runApp(OpArtWave());
-//}
-
 Random rnd;
 List palette;
-Color backgroundColor = Colors.grey;
+
+// Settings
+double aspectRatio = pi/2;
+bool aspectRatioLOCK = false;
 
 double stepX = 10;
-double stepY = 0.1;
-double amplitude = 100;
-double frequency = 1;
-bool randomColours = false;
-int numberOfColours = 12;
-int paletteType = 2;
-double opacity = 1;
+bool stepXLOCK = false;
 
-void changeColor(int index, Color color) {
-  palette.replaceRange(index, index + 1, [color]);
-}
+double stepY = 0.1;
+bool stepYLOCK = false;
+
+double frequency = 1;
+bool frequencyLOCK = false;
+
+double amplitude = 100;
+bool amplitudeLOCK = false;
+
+
+// palette settings
+Color backgroundColor = Colors.grey;
+
+bool randomColours = false;
+bool randomColoursLOCK = false;
+
+int numberOfColours = 12;
+bool numberOfColoursLOCK = false;
+
+int paletteType = 2;
+bool paletteTypeLOCK = false;
+
+double opacity = 1;
+bool opacityLOCK = false;
 
 randomisePalette(int numberOfColours, int paletteType){
   print('numberOfColours: $numberOfColours paletteType: $paletteType');
@@ -82,7 +96,51 @@ randomisePalette(int numberOfColours, int paletteType){
   return palette;
 }
 
+randomiseSettings() {
 
+  // aspectRatioLOCK 0.5 to 1.5 - or pi/2 to set to the aspect ratio of the device
+  if (aspectRatioLOCK == false) {
+    aspectRatio = rnd.nextDouble() + 0.5;
+    if (rnd.nextBool()){
+      aspectRatio=pi/2;
+    }
+  }
+  
+  // stepX 1 - 30 
+  if (stepXLOCK == false) {
+    stepX = rnd.nextDouble()*29+1;
+  }
+
+  // stepY 0.01 - 100 
+  if (stepYLOCK == false) {
+    stepY = rnd.nextDouble() * 99.99 + 0.01;
+  }
+
+  // frequency - 0 3
+  if (frequencyLOCK == false) {
+    frequency = rnd.nextDouble() * 3;
+  }
+
+  // amplitude 0 - 200
+  if (amplitudeLOCK == false) {
+    amplitude = rnd.nextDouble() * 200;
+  }
+  
+  // numberOfColours 2 to 36
+  if (numberOfColoursLOCK == false) {
+    numberOfColours = rnd.nextInt(34) + 2;
+  }
+  
+  // randomColours 
+  if (randomColoursLOCK == false) {
+    randomColours = rnd.nextBool();
+  }
+
+  // paletteType 0 to 3
+  if (paletteTypeLOCK == false) {
+    paletteType = rnd.nextInt(4);
+  }
+}
 
 
 
@@ -117,128 +175,478 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
         ),
         SizedBox(height: 8),
 
-        Text('Step X - $stepX'),
-        Slider(
-          value: stepX,
-          min: 1,
-          max: 30,
-          onChanged: (value) {
-            setState(() {
-              stepX = value;
-            });
-          },
-          label: '$stepX',
-        ),
-        Text('Step Y- $stepY'),
-        Slider(
-          value: stepY,
-          min: 0.01,
-          max: 100,
-          onChanged: (value) {
-            setState(() {
-              stepY = value;
-            });
-          },
-          label: '$stepY',
-        ),
-        Text('Amplitude - $amplitude'),
-        Slider(
-          value: amplitude,
-          min: 0,
-          max: 100,
-          onChanged: (value) {
-            setState(() {
-              amplitude = value;
-            });
-          },
-          label: '$amplitude',
-        ),
-        Text('Frequency - $frequency'),
-        Slider(
-          value: frequency ,
-          min: 0,
-          max: 3,
-          onChanged: (value) {
-            setState(() {
-              frequency  = value;
-            });
-          },
-          label: '$frequency ',
-        ),
-        Text('Number of Colours - $numberOfColours'),
-        Slider(
-          value: numberOfColours.toDouble(),
-          min: 2,
-          max: 36,
-          onChanged: (value) {
-            setState(() {
-              if (numberOfColours<value){
-                palette = randomisePalette(value.toInt(), paletteType);
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
 
-              }
-              numberOfColours  = value.toInt();
-            });
-          },
-          label: '$numberOfColours ',
+            Flexible(
+              flex: 1,
+              child: FloatingActionButton.extended(
+                label: Text('Randomise Palette'),
+                icon: Icon(Icons.palette),
+                //backgroundColor: Colors.pink,
+
+                onPressed:() {
+                  setState(() {
+
+                    print('Randomise Palette');
+                    palette = randomisePalette(numberOfColours, paletteType);
+
+                  });
+                },
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Flexible(
+              flex: 1,
+              child: FloatingActionButton.extended(
+                label: Text('Randomise All'),
+
+                icon: Icon(Icons.refresh),
+
+                onPressed:() {
+                  setState(() {
+
+                    print('Randomise All');
+                    randomiseSettings();
+                    palette = randomisePalette(numberOfColours, paletteType);
+
+                  });
+                },
+              ),
+            ),
+
+          ],
         ),
-        Text('Random Colours - $randomColours'),
-        Switch(
-          value: randomColours,
-          onChanged: (value) {
-            setState(() {
-              randomColours  = value;
-            });
-          },
-        ),
-        Text('Palette Type - $paletteType'),
-        DropdownButton(
-          value: paletteType,
-          items: [
-            DropdownMenuItem(
-              child: Text("Random"),
-              value: 0,
+
+        // aspectRatio
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                  onLongPress: (){
+                    setState(() {
+                      // toggle lock
+                      if (aspectRatioLOCK){
+                        aspectRatioLOCK=false;
+                      } else {
+                        aspectRatioLOCK=true;
+                      }
+                    });
+                  },
+                    child: Row(
+                      children:[
+                        Text(
+                          'aspectRatio:',
+                          style: aspectRatioLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                            aspectRatioLOCK ? Icons.lock : Icons.lock_open,
+                            size: 20,
+                            color: aspectRatioLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
             ),
-            DropdownMenuItem(
-              child: Text("Blended Random"),
-              value: 1,
-            ),
-            DropdownMenuItem(
-              child: Text("Linear Random"),
-              value: 2,
-            ),
-            DropdownMenuItem(
-              child: Text("Linear Complementary"),
-              value: 3,
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: aspectRatio,
+                min: 0.5,
+                max: 2,
+                onChanged: aspectRatioLOCK ? null : (value) {
+                  setState(() {
+                    aspectRatio  = value;
+                  });
+                },
+                label: '$aspectRatio ',
+              ),
             ),
           ],
-          onChanged:(value) {
-            setState(() {
-              paletteType = value;
-              palette = randomisePalette(numberOfColours, value);
-
-            });
-          },
         ),
 
-        FloatingActionButton.extended(
-          label: Text('Randomise Palette'),
-          icon: Icon(Icons.donut_large),
-          //backgroundColor: Colors.pink,
 
-          onPressed:() {
-            setState(() {
-
-              print('FloatingActionButton Pressed');
-              palette = randomisePalette(numberOfColours, paletteType);
-              print('line 208  palette: $palette');
-
-            });
-          },
+        // stepX
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (stepXLOCK){
+                          stepXLOCK=false;
+                          print('stepX UNLOCK');
+                        } else {
+                          stepXLOCK=true;
+                          print('stepX LOCK');
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'stepX:',
+                          style: stepXLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          stepXLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: stepXLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: stepX,
+                min: 1,
+                max: 30,
+                onChanged: stepXLOCK ? null : (value) {
+                  setState(() {
+                    stepX  = value;
+                  });
+                },
+                label: '$stepX ',
+              ),
+            ),
+          ],
         ),
+
+        // stepY
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (stepYLOCK){
+                          stepYLOCK=false;
+                          print('stepY UNLOCK');
+                        } else {
+                          stepYLOCK=true;
+                          print('stepY LOCK');
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'stepY:',
+                          style: stepYLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          stepYLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: stepYLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: stepY,
+                min: 0.01,
+                max: 100,
+                onChanged: stepYLOCK ? null : (value) {
+                  setState(() {
+                    stepY  = value;
+                  });
+                },
+                label: '$stepY ',
+              ),
+            ),
+          ],
+        ),
+
+        // frequency
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (frequencyLOCK){
+                          frequencyLOCK=false;
+                          print('frequency UNLOCK');
+                        } else {
+                          frequencyLOCK=true;
+                          print('frequency LOCK');
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'frequency:',
+                          style: frequencyLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          frequencyLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: frequencyLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: frequency,
+                min: 0,
+                max: 3,
+                onChanged: frequencyLOCK ? null : (value) {
+                  setState(() {
+                    frequency  = value;
+                  });
+                },
+                label: '$frequency ',
+              ),
+            ),
+          ],
+        ),
+
+        // amplitude
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (amplitudeLOCK){
+                          amplitudeLOCK=false;
+                          print('amplitude UNLOCK');
+                        } else {
+                          amplitudeLOCK=true;
+                          print('amplitude LOCK');
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'amplitude:',
+                          style: amplitudeLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          amplitudeLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: amplitudeLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                ),
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: amplitude,
+                min: 0,
+                max: 200,
+                onChanged: amplitudeLOCK ? null : (value) {
+                  setState(() {
+                    amplitude  = value;
+                  });
+                },
+                label: '$amplitude ',
+              ),
+            ),
+          ],
+        ),
+
+
+        // numberOfColours
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex:1,
+              child: GestureDetector(
+                  onLongPress: (){
+                    setState(() {
+                      // toggle lock
+                      if (numberOfColoursLOCK){
+                        numberOfColoursLOCK=false;
+                      } else {
+                        numberOfColoursLOCK=true;
+                      }
+                    });
+                  },
+                  child: Row(
+                    children:[
+                      Text(
+                        '# colours:',
+                        style: numberOfColoursLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Icon(
+                        numberOfColoursLOCK ? Icons.lock : Icons.lock_open,
+                        size: 20,
+                        color: numberOfColoursLOCK ? Colors.grey : Colors.black,
+                      ),
+                    ],
+                  )
+              ),
+            ),
+            Flexible(
+              flex:2,
+              child: Slider(
+                value: numberOfColours.toDouble(),
+                min: 2,
+                max: 36,
+                onChanged: numberOfColoursLOCK ? null : (value) {
+                  setState(() {
+                    if (numberOfColours<value){
+                      palette = randomisePalette(value.toInt(), paletteType);
+                    }
+                    numberOfColours  = value.toInt();
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
+
+        // randomColours
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex:1,
+              child: GestureDetector(
+                  onLongPress: (){
+                    setState(() {
+                      // toggle lock
+                      if (randomColoursLOCK){
+                        randomColoursLOCK=false;
+                        print('randomColours UNLOCK');
+                      } else {
+                        randomColoursLOCK=true;
+                        print('randomColours LOCK');
+                      }
+                    });
+                  },
+                  child: Row(
+                    children:[
+                      Text(
+                        'randomColours:',
+                        style: randomColoursLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Icon(
+                        randomColoursLOCK ? Icons.lock : Icons.lock_open,
+                        size: 20,
+                        color: randomColoursLOCK ? Colors.grey : Colors.black,
+                      ),
+                    ],
+                  )
+              ),
+            ),
+            Flexible(
+              flex:2,
+              child: Switch(
+                value: randomColours,
+                onChanged: randomColoursLOCK ? null : (value) {
+                  setState(() {
+                    randomColours  = value;
+                  });
+                },
+              ),
+            ),
+
+          ],
+        ),
+
+        // paletteType
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex:1,
+              child: GestureDetector(
+                  onLongPress: (){
+                    setState(() {
+                      // toggle lock
+                      if (paletteTypeLOCK){
+                        paletteTypeLOCK=false;
+                        print('paletteType UNLOCK');
+                      } else {
+                        paletteTypeLOCK=true;
+                        print('paletteType LOCK');
+                      }
+                    });
+                  },
+                  child: Row(
+                    children:[
+                      Text(
+                        'paletteType:',
+                        style: paletteTypeLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Icon(
+                        paletteTypeLOCK ? Icons.lock : Icons.lock_open,
+                        size: 20,
+                        color: paletteTypeLOCK ? Colors.grey : Colors.black,
+                      ),
+                    ],
+                  )
+              ),
+            ),
+            Flexible(
+              flex:2,
+              child: DropdownButton(
+                value: paletteType,
+                items: [
+                  DropdownMenuItem(
+                    child: Text("random"),
+                    value: 0,
+                  ),
+                  DropdownMenuItem(
+                    child: Text("blended random"),
+                    value: 1,
+                  ),
+                  DropdownMenuItem(
+                    child: Text("linear random"),
+                    value: 2,
+                  ),
+                  DropdownMenuItem(
+                    child: Text("linear complementary"),
+                    value: 3,
+                  ),
+                ],
+                onChanged: paletteTypeLOCK ? null : (value) {
+                  setState(() {
+                    paletteType = value;
+                    palette = randomisePalette(numberOfColours, value);
+                  });
+                },
+              ),
+            ),
+
+          ],
+        ),
+
       ],
     );
   }
-
 
 
   @override
@@ -316,7 +724,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
 }
 
 class OpArtWavePainter extends CustomPainter {
-  int seed;//
+  int seed;
   Random rnd;
 
   OpArtWavePainter( this.seed, this.rnd);
@@ -337,10 +745,10 @@ class OpArtWavePainter extends CustomPainter {
     double imageHeight = canvasHeight;
 
     // aspectRation from 0.5 to 2 - or 33% of time fit to screen, 33% of time make it 1
-    double aspectRatio = canvasWidth/canvasHeight;
-    // if (rnd.nextBool()){
-    //   aspectRatio = 1;
-    // }
+    // double aspectRatio = canvasWidth/canvasHeight;
+    if (aspectRatio == pi/2){
+      aspectRatio = canvasWidth/canvasHeight;
+    }
 
     if (canvasWidth / canvasHeight < aspectRatio) {
       borderY = (canvasHeight - canvasWidth / aspectRatio) / 2;
@@ -375,7 +783,7 @@ class OpArtWavePainter extends CustomPainter {
     // int paletteType = rnd.nextInt(4);
     print('paletteType: $paletteType');
 
-    // randomise the palette
+    // set the initial palette
     if (palette == null) {
       print('randomisePalette: $numberOfColours, $paletteType');
       palette = randomisePalette(numberOfColours, paletteType);

@@ -13,7 +13,7 @@ void main() => runApp(MaterialApp(
   routes: {
     '/':(context) => Loading(),
     '/menu':(context) => OpArtMenu(),
-    '/fibonacci':(context) => OpArtFibonacciStudio(false),
+    '/fibonacci':(context) => OpArtFibonacciStudio(0, false),
     '/tree':(context) => OpArtTreeStudio(false),
     '/wallpaper':(context) => OpArtWallpaperStudio(0, false),
     '/waves':(context) => OpArtWaveStudio(0, false),
