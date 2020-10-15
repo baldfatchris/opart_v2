@@ -4,11 +4,6 @@ import 'dart:io';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:screenshot/screenshot.dart';
 
-
-
-
-
-
 class TreeSettings {
   int id;
   List<Color> palette;
@@ -23,16 +18,16 @@ class TreeSettings {
   File image = null;
   TreeSettings(
       {this.id,
-        this.palette,
-        this.backgroundColor,
-        this.trunkWidth,
-        this.widthDecay,
-        this.segmentDecay,
-        this.segmentLength,
-        this.branch,
-        this.angle,
-        this.ratio,
-        this.image});
+      this.palette,
+      this.backgroundColor,
+      this.trunkWidth,
+      this.widthDecay,
+      this.segmentDecay,
+      this.segmentLength,
+      this.branch,
+      this.angle,
+      this.ratio,
+      this.image});
 }
 
 List<TreeSettings> treeSettingsList = [
@@ -135,17 +130,18 @@ List<TreeSettings> treeSettingsList = [
     ratio: 0.7,
   ),
 ];
-int currentIndex = 1;
+int currentIndex = 0;
 
 void changeColor(int index, Color color) {
   treeSettingsList[currentIndex]
       .palette
       .replaceRange(index, index + 1, [color]);
 }
+
 class OpArtTreeStudio extends StatefulWidget {
   bool showSettings;
   ScreenshotController screenshotController;
-  OpArtTreeStudio(this.showSettings,{this.screenshotController} );
+  OpArtTreeStudio(this.showSettings, {this.screenshotController});
 
   @override
   _OpArtTreeStudioState createState() => _OpArtTreeStudioState();
@@ -157,7 +153,6 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
   int _counter = 0;
   File _imageFile;
 
-
   int _currentColor = 0;
   Widget settingsWidget() {
     return ListView(
@@ -166,9 +161,76 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
           padding: const EdgeInsets.all(8.0),
           child: Center(
               child: Text(
-                'Settings',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              )),
+            'Settings',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          )),
+        ),
+        Row(
+          children: [
+            Container(
+              width: 300,
+              height: 60,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: treeSettingsList.length,
+                  itemBuilder: (context, index) {
+                    if (treeSettingsList[index].image == null) {
+                      return Container();
+                    } else {
+                      return GestureDetector(onTap: (){
+                        setState(() {
+                          currentIndex = index;
+                        });
+                      },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Container(
+                              width: 50.0,
+                              height: 50.0,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: FileImage(
+                                          treeSettingsList[index].image)))),
+                        ),
+                      );
+                    }
+                  }),
+            ),
+            IconButton(
+              icon: Icon(Icons.save),
+              onPressed: () async {
+                treeSettingsList.add(
+                  TreeSettings(
+                    id: currentIndex+1,
+                    palette: treeSettingsList[currentIndex].palette,
+                    backgroundColor:
+                    treeSettingsList[currentIndex].backgroundColor,
+                    trunkWidth: treeSettingsList[currentIndex].trunkWidth,
+                    widthDecay: treeSettingsList[currentIndex].widthDecay,
+                    segmentLength: treeSettingsList[currentIndex].segmentLength,
+                    segmentDecay: treeSettingsList[currentIndex].segmentDecay,
+                    branch: treeSettingsList[currentIndex].branch,
+                    angle: treeSettingsList[currentIndex].angle,
+                    ratio: treeSettingsList[currentIndex].ratio,
+                  ),
+                );
+                widget.screenshotController
+                    .capture(delay: Duration(milliseconds: 0), pixelRatio: 0.1)
+                    .then((File image) async {
+                  treeSettingsList[currentIndex].image = image;
+                });
+                await new Future.delayed(const Duration(seconds : 1)).then((value){
+                  setState(() {
+                    currentIndex = treeSettingsList.length-1;
+                  });
+                });
+
+
+              },
+            )
+          ],
         ),
         SizedBox(height: 8),
         Row(
@@ -188,17 +250,17 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
         ),
         _showBackgroundColorPicker
             ? ColorPicker(
-          displayThumbColor: false,
-          pickerAreaHeightPercent: 0.3,
-          pickerAreaBorderRadius: BorderRadius.circular(10.0),
-          pickerColor: treeSettingsList[currentIndex].backgroundColor,
-          onColorChanged: (color) {
-            setState(() {
-              treeSettingsList[currentIndex].backgroundColor = color;
-            });
-          },
-          showLabel: false,
-        )
+                displayThumbColor: false,
+                pickerAreaHeightPercent: 0.3,
+                pickerAreaBorderRadius: BorderRadius.circular(10.0),
+                pickerColor: treeSettingsList[currentIndex].backgroundColor,
+                onColorChanged: (color) {
+                  setState(() {
+                    treeSettingsList[currentIndex].backgroundColor = color;
+                  });
+                },
+                showLabel: false,
+              )
             : Container(),
         Text('Trunk Width'),
         Slider(
@@ -240,7 +302,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
           height: 200,
           child: GridView.builder(
             gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),
+                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),
             scrollDirection: Axis.horizontal,
             itemCount: treeSettingsList[currentIndex].palette.length,
             itemBuilder: (context, index) {
@@ -248,15 +310,30 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                 padding: const EdgeInsets.all(8.0),
                 child: GestureDetector(
                   onTap: () {
+                    treeSettingsList.add(
+                      TreeSettings(
+                        id: treeSettingsList.length,
+                        palette: treeSettingsList[index].palette,
+                        backgroundColor:
+                        treeSettingsList[index].backgroundColor,
+                        trunkWidth: treeSettingsList[index].trunkWidth,
+                        widthDecay: treeSettingsList[index].widthDecay,
+                        segmentLength: treeSettingsList[index].segmentLength,
+                        segmentDecay: treeSettingsList[index].segmentDecay,
+                        branch: treeSettingsList[index].branch,
+                        angle: treeSettingsList[index].angle,
+                        ratio: treeSettingsList[index].ratio,
+                      ),
+                    );
                     setState(() {
-                      _currentColor = index;
+                      currentIndex = treeSettingsList.length-1;
                     });
                   },
                   child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
                           border:
-                          Border.all(width: _currentColor == index ? 3 : 0),
+                              Border.all(width: _currentColor == index ? 3 : 0),
                           color: treeSettingsList[currentIndex].palette[index]),
                       height: 50,
                       width: 50),
@@ -287,13 +364,25 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
   @override
   void initState() {
     rnd = Random(1001);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (currentIndex == 0) {
+        widget.screenshotController
+            .capture(delay: Duration(seconds: 1), pixelRatio: 0.1)
+            .then((File image) async {
+          setState(() {
+            treeSettingsList[0].image = image;
+          });
+        });
+
+        currentIndex = 1;
+      }
+    });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     ScreenshotController screenshotController = widget.screenshotController;
+
     Widget bodyWidget() {
       return Screenshot(
         controller: screenshotController,
@@ -302,7 +391,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
             Visibility(
               visible: true,
               child: LayoutBuilder(
-                builder: (_, constraints) => Container(
+                builder: (_, constraints) => Container(color: treeSettingsList[currentIndex].backgroundColor,
                   width: constraints.widthConstraints().maxWidth,
                   height: constraints.heightConstraints().maxHeight,
                   child: CustomPaint(painter: OpArtTreePainter(rnd)),
@@ -314,29 +403,25 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
       );
     }
 
-
-
     return Scaffold(
-
       body: Column(
         children: [
           Flexible(
             flex: 7,
             child: widget.showSettings
                 ? Column(
-              children: [
-                Flexible(flex: 3, child: bodyWidget()),
-                Flexible(
-                    flex: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: settingsWidget(),
-                    )),
-              ],
-            )
+                    children: [
+                      Flexible(flex: 3, child: bodyWidget()),
+                      Flexible(
+                          flex: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: settingsWidget(),
+                          )),
+                    ],
+                  )
                 : bodyWidget(),
           ),
-
         ],
       ),
     );
@@ -381,8 +466,8 @@ class OpArtTreePainter extends CustomPainter {
       ..color = treeSettingsList[currentIndex].backgroundColor
       ..style = PaintingStyle.fill;
     //a rectangle
-    canvas.drawRect(
-        Offset(borderX, borderY) & Size(imageWidth, imageHeight), paint1);
+    // canvas.drawRect(
+    //     Offset(borderX, borderY) & Size(imageWidth, imageHeight), paint1);
 
     double direction = pi / 2;
 
@@ -401,8 +486,14 @@ class OpArtTreePainter extends CustomPainter {
     double leafDecay = 1.01;
     String leafStyle = 'quadratic';
 
-    List treeBaseA = [(canvasWidth - treeSettingsList[currentIndex].trunkWidth) / 2, canvasHeight];
-    List treeBaseB = [(canvasWidth + treeSettingsList[currentIndex].trunkWidth) / 2, canvasHeight];
+    List treeBaseA = [
+      (canvasWidth - treeSettingsList[currentIndex].trunkWidth) / 2,
+      canvasHeight
+    ];
+    List treeBaseB = [
+      (canvasWidth + treeSettingsList[currentIndex].trunkWidth) / 2,
+      canvasHeight
+    ];
 
     drawSegment(
         canvas,
@@ -436,35 +527,35 @@ class OpArtTreePainter extends CustomPainter {
   }
 
   drawSegment(
-      Canvas canvas,
-      double borderX,
-      double borderY,
-      List rootA,
-      List rootB,
-      double width,
-      double branch,
-      double angle,
-      double ratio,
-      double widthDecay,
-      double segmentLength,
-      double segmentDecay,
-      double direction,
-      int currentDepth,
-      int maxDepth,
-      int leavesAfter,
-      double lineWidth,
-      Color trunkLineColor,
-      Color trunkFillColor,
-      double bulbousness,
-      List palette,
-      double leafAngle,
-      double leafLength,
-      double randomLeafLength,
-      double leafSquareness,
-      double leafDecay,
-      String leafStyle,
-      bool justBranched,
-      ) {
+    Canvas canvas,
+    double borderX,
+    double borderY,
+    List rootA,
+    List rootB,
+    double width,
+    double branch,
+    double angle,
+    double ratio,
+    double widthDecay,
+    double segmentLength,
+    double segmentDecay,
+    double direction,
+    int currentDepth,
+    int maxDepth,
+    int leavesAfter,
+    double lineWidth,
+    Color trunkLineColor,
+    Color trunkFillColor,
+    double bulbousness,
+    List palette,
+    double leafAngle,
+    double leafLength,
+    double randomLeafLength,
+    double leafSquareness,
+    double leafDecay,
+    String leafStyle,
+    bool justBranched,
+  ) {
     List segmentBaseCentre = [
       (rootA[0] + rootB[0]) / 2,
       (rootA[1] + rootB[1]) / 2
@@ -695,18 +786,18 @@ class OpArtTreePainter extends CustomPainter {
   }
 
   drawTheTrunk(
-      Canvas canvas,
-      double borderX,
-      double borderY,
-      List P1,
-      List P2,
-      List P3,
-      List P4,
-      double bulbousness,
-      double strokeWidth,
-      Color trunkLineColor,
-      Color trunkFillColor,
-      ) {
+    Canvas canvas,
+    double borderX,
+    double borderY,
+    List P1,
+    List P2,
+    List P3,
+    List P4,
+    double bulbousness,
+    double strokeWidth,
+    Color trunkLineColor,
+    Color trunkFillColor,
+  ) {
     List PC = [
       (P1[0] + P2[0] + P3[0] + P4[0]) / 4,
       (P1[1] + P2[1] + P3[1] + P4[1]) / 4
@@ -746,16 +837,16 @@ class OpArtTreePainter extends CustomPainter {
   }
 
   drawTheTriangle(
-      Canvas canvas,
-      double borderX,
-      double borderY,
-      List P1,
-      List P2,
-      List P3,
-      double strokeWidth,
-      Color trunkLineColor,
-      Color trunkFillColor,
-      ) {
+    Canvas canvas,
+    double borderX,
+    double borderY,
+    List P1,
+    List P2,
+    List P3,
+    double strokeWidth,
+    Color trunkLineColor,
+    Color trunkFillColor,
+  ) {
     Path trunk = Path();
     trunk.moveTo(borderX + P1[0], -borderY + P1[1]);
     trunk.lineTo(borderX + P2[0], -borderY + P2[1]);
@@ -778,18 +869,18 @@ class OpArtTreePainter extends CustomPainter {
   }
 
   drawTheLeaf(
-      Canvas canvas,
-      double borderX,
-      double borderY,
-      List palette,
-      List leafPosition,
-      double lineWidth,
-      double leafAngle,
-      double leafLength,
-      double randomLeafLength,
-      double leafSquareness,
-      String leafStyle,
-      ) {
+    Canvas canvas,
+    double borderX,
+    double borderY,
+    List palette,
+    List leafPosition,
+    double lineWidth,
+    double leafAngle,
+    double leafLength,
+    double randomLeafLength,
+    double leafSquareness,
+    String leafStyle,
+  ) {
     double leafAssymetery = 0.75;
 
     // pick a random color
