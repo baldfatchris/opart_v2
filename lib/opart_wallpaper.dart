@@ -177,7 +177,7 @@ randomiseSettings() {
   }
 
   // driftX -20 to 20
-  if (driftXLOCK){
+  if (driftXLOCK == false){
     if (rnd.nextBool()) {
       driftX = 0;
     } else if (rnd.nextBool()) {
@@ -190,7 +190,7 @@ randomiseSettings() {
   }
 
   // driftY -20 to 20
-  if (driftYLOCK){
+  if (driftYLOCK == false){
     if (rnd.nextBool()) {
       driftY = 0;
     } else if (rnd.nextBool()) {
@@ -203,7 +203,7 @@ randomiseSettings() {
   }
 
   // driftXStep -2 to 2
-  if (driftXStepLOCK){
+  if (driftXStepLOCK == false){
     if (rnd.nextBool()) {
       driftXStep = 0;
     } else if (rnd.nextBool()) {
@@ -216,7 +216,7 @@ randomiseSettings() {
   }
 
   // driftYStep -2 to 2
-  if (driftYStepLOCK){
+  if (driftYStepLOCK == false){
     if (rnd.nextBool()) {
       driftYStep = 0;
     } else if (rnd.nextBool()) {
@@ -229,22 +229,22 @@ randomiseSettings() {
   }
 
   // alternateDrift
-  if (alternateDriftLOCK) {
+  if (alternateDriftLOCK == false) {
     alternateDrift = rnd.nextBool();
   }
 
   // box
-  if (boxLOCK) {
+  if (boxLOCK == false) {
     box = rnd.nextBool();
   }
 
   // step 0.05 to 1
-  if (stepLOCK) {
+  if (stepLOCK == false) {
     step = rnd.nextDouble() * 0.95 + 0.05;
   }
 
   // stepStep 0.5 to 1
-  if (stepStepLOCK) {
+  if (stepStepLOCK == false) {
     if (rnd.nextBool()) {
       stepStep = 1;
     } else {
@@ -253,59 +253,113 @@ randomiseSettings() {
   }
 
   // ratio 0.75 to 1.75
-  if (ratioLOCK) {
+  if (ratioLOCK == false) {
     ratio = rnd.nextDouble() + 0.75;
   }
 
-
-  if (rnd.nextBool()) {
-    offsetX = 0;
-    offsetY = 0;
-  } else if (rnd.nextBool()) {
-    offsetX = rnd.nextDouble() * 10 - 5;
-    offsetY = rnd.nextDouble() * 10 - 5;
-  } else if (rnd.nextBool()) {
-    offsetX = rnd.nextDouble() * 20 - 10;
-    offsetY = rnd.nextDouble() * 20 - 10;
-  } else if (rnd.nextBool()) {
-    offsetX = rnd.nextDouble() * 50 - 25;
-    offsetY = rnd.nextDouble() * 50 - 25;
-  } else if (rnd.nextBool()) {
-    offsetX = rnd.nextDouble() * 100 - 50;
-    offsetY = rnd.nextDouble() * 100 - 50;
-  }
-  if (rnd.nextBool()) {
-    rotate = 0;
-  } else if (rnd.nextBool()) {
-      rotate = rnd.nextDouble()*2;
-  }
-  if (rnd.nextBool()) {
-    rotateStep = 0;
-  } else if (rnd.nextBool()) {
-    rotateStep = rnd.nextDouble();
-  }
-  randomRotation = rnd.nextBool();
-  squareness = rnd.nextDouble()*4-2;
-  if (rnd.nextBool()) {
-    squeezeX = 1;
-    squeezeY = 1;
-  } else if (rnd.nextBool()) {
-    squeezeX = rnd.nextDouble() * 1 + 0.5;
-    squeezeY = rnd.nextDouble() * 1 + 0.5;
+  // offsetX -50 to 50
+  if (offsetXLOCK == false) {
+    if (rnd.nextBool()) {
+      offsetX = 0;
+    } else if (rnd.nextBool()) {
+      offsetX = rnd.nextDouble() * 10 - 5;
+    } else if (rnd.nextBool()) {
+      offsetX = rnd.nextDouble() * 20 - 10;
+    } else if (rnd.nextBool()) {
+      offsetX = rnd.nextDouble() * 50 - 25;
+    } else if (rnd.nextBool()) {
+      offsetX = rnd.nextDouble() * 100 - 50;
+    }
   }
 
-  numberOfPetals = rnd.nextInt(14)+1;
-  randomPetals = rnd.nextBool();
+  // offsetY -50 to 50
+  if (offsetYLOCK == false) {
+    if (rnd.nextBool()) {
+      offsetY = 0;
+    } else if (rnd.nextBool()) {
+      offsetY = rnd.nextDouble() * 10 - 5;
+    } else if (rnd.nextBool()) {
+      offsetY = rnd.nextDouble() * 20 - 10;
+    } else if (rnd.nextBool()) {
+      offsetY = rnd.nextDouble() * 50 - 25;
+    } else if (rnd.nextBool()) {
+      offsetY = rnd.nextDouble() * 100 - 50;
+    }
+  }
 
+  // rotate 0 to 2
+  if (rotateLOCK == false) {
+    if (rnd.nextBool()) {
+      rotate = 0;
+    } else if (rnd.nextBool()) {
+      rotate = rnd.nextDouble() * 2;
+    }
+    if (rnd.nextBool()) {
+      rotateStep = 0;
+    } else if (rnd.nextBool()) {
+      rotateStep = rnd.nextDouble();
+    }
+  }
+
+  // randomRotation
+  if (randomRotationLOCK == false) {
+    randomRotation = rnd.nextBool();
+  }
+
+  // squareness -2 to 2
+  if (squarenessLOCK == false) {
+    squareness = rnd.nextDouble() * 4 - 2;
+  }
+
+  // squeezeX 0.5 to 1.5
+  if (squeezeXLOCK == false) {
+    if (rnd.nextBool()) {
+      squeezeX = 1;
+    } else if (rnd.nextBool()) {
+      squeezeX = rnd.nextDouble() * 1 + 0.5;
+    }
+  }
+
+  // squeezeY 0.5 to 1.5
+  if (squeezeYLOCK == false) {
+    if (rnd.nextBool()) {
+      squeezeY = 1;
+    } else if (rnd.nextBool()) {
+      squeezeY = rnd.nextDouble() * 1 + 0.5;
+    }
+  }
+
+  // numberOfPetals 1 to 15
+  if (numberOfPetalsLOCK == false) {
+    numberOfPetals = rnd.nextInt(14) + 1;
+  }
+  
+  // randomPetals
+  if (randomPetalsLOCK == false) {
+    randomPetals = rnd.nextBool();
+  }
+  
   numberOfColours = rnd.nextInt(34)+2;
   if (rnd.nextBool()){
     opacity=rnd.nextDouble();
   } else {
     opacity=1;
   }
-  randomColours = rnd.nextBool();
-  resetColours = rnd.nextBool();
-  paletteType = rnd.nextInt(4);
+
+  // randomColours 
+  if (randomColoursLOCK == false) {
+    randomColours = rnd.nextBool();
+  }
+  
+  // resetColours
+  if (resetColoursLOCK == false) {
+    resetColours = rnd.nextBool();
+  }
+  
+  // paletteType 0 to 3
+  if (paletteTypeLOCK == false) {
+    paletteType = rnd.nextInt(4);
+  }
 
 }
 
@@ -744,12 +798,37 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           children: [
             Flexible(
                 flex:1,
-                child: Text('alternateDrift')),
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (alternateDriftLOCK){
+                          alternateDriftLOCK=false;
+                        } else {
+                          alternateDriftLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'alternateDrift:',
+                          style: alternateDriftLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          alternateDriftLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: alternateDriftLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
             Flexible(
               flex: 2,
               child: Switch(
                 value: alternateDrift,
-                onChanged: (value) {
+                onChanged: alternateDriftLOCK ? null : (value) {
                   setState(() {
                     alternateDrift  = value;
                   });
@@ -767,12 +846,37 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           children: [
             Flexible(
                 flex:1,
-                child: Text('box')),
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (boxLOCK){
+                          boxLOCK=false;
+                        } else {
+                          boxLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'box:',
+                          style: boxLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          boxLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: boxLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
             Flexible(
               flex: 2,
               child: Switch(
                 value: box,
-                onChanged: (value) {
+                onChanged: boxLOCK ? null : (value) {
                   setState(() {
                     box  = value;
                   });
@@ -789,14 +893,39 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           children: [
             Flexible(
                 flex: 1,
-                child: Text('step - ${step.toStringAsFixed(2)}')),
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (stepLOCK){
+                          stepLOCK=false;
+                        } else {
+                          stepLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'step:',
+                          style: stepLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          stepLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: stepLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
             Flexible(
               flex:2,
               child: Slider(
                 value: step,
                 min: 0.01,
                 max: 1,
-                onChanged: (value) {
+                onChanged: stepLOCK ? null : (value) {
                   setState(() {
                     step  = value;
                   });
@@ -812,14 +941,39 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           children: [
             Flexible(
                 flex: 1,
-                child: Text('stepStep - ${stepStep.toStringAsFixed(2)}')),
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (stepStepLOCK){
+                          stepStepLOCK=false;
+                        } else {
+                          stepStepLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'stepStep:',
+                          style: stepStepLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          stepStepLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: stepStepLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
             Flexible(
               flex: 2,
               child: Slider(
                 value: stepStep,
                 min: 0.5,
                 max: 1,
-                onChanged: (value) {
+                onChanged: stepStepLOCK ? null : (value) {
                   setState(() {
                     stepStep  = value;
                   });
@@ -835,14 +989,39 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           children: [
             Flexible(
                 flex: 1,
-                child: Text('ratio - ${ratio.toStringAsFixed(2)}')),
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (ratioLOCK){
+                          ratioLOCK=false;
+                        } else {
+                          ratioLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'ratio:',
+                          style: ratioLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          ratioLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: ratioLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
             Flexible(
               flex: 2,
               child: Slider(
                 value: ratio,
                 min: 0,
                 max: 2,
-                onChanged: (value) {
+                onChanged: ratioLOCK ? null : (value) {
                   setState(() {
                     ratio  = value;
                   });
@@ -859,14 +1038,39 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           children: [
             Flexible(
                 flex: 1,
-                child: Text('offsetX - ${offsetX.toStringAsFixed(2)}')),
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (offsetXLOCK){
+                          offsetXLOCK=false;
+                        } else {
+                          offsetXLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'offsetX:',
+                          style: offsetXLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          offsetXLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: offsetXLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
             Flexible(
               flex: 2,
               child: Slider(
                 value: offsetX,
                 min: -50,
                 max: 50,
-                onChanged: (value) {
+                onChanged: offsetXLOCK ? null : (value) {
                   setState(() {
                     offsetX  = value;
                   });
@@ -881,15 +1085,40 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-                flex:1,
-                child: Text('offsetY - ${offsetY.toStringAsFixed(2)}')),
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (offsetYLOCK){
+                          offsetYLOCK=false;
+                        } else {
+                          offsetYLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'offsetY:',
+                          style: offsetYLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          offsetYLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: offsetYLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
             Flexible(
-              flex:2,
+              flex: 2,
               child: Slider(
                 value: offsetY,
                 min: -50,
                 max: 50,
-                onChanged: (value) {
+                onChanged: offsetYLOCK ? null : (value) {
                   setState(() {
                     offsetY  = value;
                   });
@@ -905,14 +1134,39 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           children: [
             Flexible(
                 flex:1,
-                child: Text('rotate - ${rotate.toStringAsFixed(2)}')),
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (rotateLOCK){
+                          rotateLOCK=false;
+                        } else {
+                          rotateLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'rotate:',
+                          style: rotateLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          rotateLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: rotateLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
             Flexible(
               flex:2,
               child: Slider(
                 value: rotate,
                 min: 0,
                 max: 2,
-                onChanged: (value) {
+                onChanged: rotateLOCK ? null : (value) {
                   setState(() {
                     rotate  = value;
                   });
@@ -928,14 +1182,39 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           children: [
             Flexible(
                 flex:1,
-                child: Text('rotateStep - ${rotateStep.toStringAsFixed(2)}')),
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (rotateStepLOCK){
+                          rotateStepLOCK=false;
+                        } else {
+                          rotateStepLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'rotateStep:',
+                          style: rotateStepLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          rotateStepLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: rotateStepLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
             Flexible(
               flex:2,
               child: Slider(
                 value: rotateStep,
                 min: 0,
                 max: 1,
-                onChanged: (value) {
+                onChanged: rotateStepLOCK ? null : (value) {
                   setState(() {
                     rotateStep  = value;
                   });
@@ -951,12 +1230,37 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           children: [
             Flexible(
                 flex: 1,
-                child: Text('randomRotation')),
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (randomRotationLOCK){
+                          randomRotationLOCK=false;
+                        } else {
+                          randomRotationLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'randomRotation:',
+                          style: randomRotationLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          randomRotationLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: randomRotationLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
             Flexible(
               flex:2,
               child: Switch(
                 value: randomRotation,
-                onChanged: (value) {
+                onChanged: randomRotationLOCK ? null : (value) {
                   setState(() {
                     randomRotation  = value;
                   });
@@ -973,14 +1277,39 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           children: [
             Flexible(
                 flex:1,
-                child: Text('squareness - ${squareness.toStringAsFixed(2)}')),
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (squarenessLOCK){
+                          squarenessLOCK=false;
+                        } else {
+                          squarenessLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'squareness:',
+                          style: squarenessLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          squarenessLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: squarenessLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
             Flexible(
               flex:2,
               child: Slider(
                 value: squareness,
                 min: -2,
                 max: 2,
-                onChanged: (value) {
+                onChanged: squarenessLOCK ? null : (value) {
                   setState(() {
                     squareness  = value;
                   });
@@ -996,14 +1325,39 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           children: [
             Flexible(
                 flex:1,
-                child: Text('squeezeX - ${squeezeX.toStringAsFixed(2)}')),
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (squeezeXLOCK){
+                          squeezeXLOCK=false;
+                        } else {
+                          squeezeXLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'squeezeX:',
+                          style: squeezeXLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          squeezeXLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: squeezeXLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
             Flexible(
               flex:2,
               child: Slider(
                 value: squeezeX,
                 min: 0.1,
                 max: 2,
-                onChanged: (value) {
+                onChanged: squeezeXLOCK ? null : (value) {
                   setState(() {
                     squeezeX  = value;
                   });
@@ -1019,14 +1373,39 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           children: [
             Flexible(
                 flex:1,
-                child: Text('squeezeY - ${squeezeY.toStringAsFixed(2)}')),
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (squeezeYLOCK){
+                          squeezeYLOCK=false;
+                        } else {
+                          squeezeYLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'squeezeY:',
+                          style: squeezeYLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          squeezeYLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: squeezeYLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
             Flexible(
               flex:2,
               child: Slider(
                 value: squeezeY,
                 min: 0.1,
                 max: 2,
-                onChanged: (value) {
+                onChanged: squeezeYLOCK ? null : (value) {
                   setState(() {
                     squeezeY  = value;
                   });
@@ -1035,24 +1414,46 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
             ),
           ],
         ),
-
-
-
-
+    
     // numberOfPetals = rnd.nextInt(15);
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
                 flex:1,
-                child: Text('numberOfPetals: $numberOfPetals')),
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (numberOfPetalsLOCK){
+                          numberOfPetalsLOCK=false;
+                        } else {
+                          numberOfPetalsLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'numberOfPetals:',
+                          style: numberOfPetalsLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          numberOfPetalsLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: numberOfPetalsLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
             Flexible(
               flex:2,
               child: Slider(
                 value: numberOfPetals.toDouble(),
                 min: 1,
                 max: 15,
-                onChanged: (value) {
+                onChanged: numberOfPetalsLOCK ? null : (value) {
                   setState(() {
                     numberOfPetals  = value.toInt();
                   });
@@ -1069,12 +1470,37 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           children: [
             Flexible(
                 flex:1,
-                child: Text('randomPetals')),
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (randomPetalsLOCK){
+                          randomPetalsLOCK=false;
+                        } else {
+                          randomPetalsLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'randomPetals:',
+                          style: randomPetalsLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          randomPetalsLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: randomPetalsLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
             Flexible(
               flex:2,
               child: Switch(
                 value: randomPetals,
-                onChanged: (value) {
+                onChanged: randomPetalsLOCK ? null : (value) {
                   setState(() {
                     randomPetals  = value;
                   });
@@ -1086,21 +1512,45 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         ),
 
 
-
     // numberOfColours
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-                flex:1,
-                child: Text('numberOfColours - $numberOfColours')),
+              flex:1,
+              child: GestureDetector(
+                  onLongPress: (){
+                    setState(() {
+                      // toggle lock
+                      if (numberOfColoursLOCK){
+                        numberOfColoursLOCK=false;
+                      } else {
+                        numberOfColoursLOCK=true;
+                      }
+                    });
+                  },
+                  child: Row(
+                    children:[
+                      Text(
+                        '# colours:',
+                        style: numberOfColoursLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Icon(
+                        numberOfColoursLOCK ? Icons.lock : Icons.lock_open,
+                        size: 20,
+                        color: numberOfColoursLOCK ? Colors.grey : Colors.black,
+                      ),
+                    ],
+                  )
+              ),
+            ),
             Flexible(
               flex:2,
               child: Slider(
                 value: numberOfColours.toDouble(),
                 min: 2,
                 max: 36,
-                onChanged: (value) {
+                onChanged: numberOfColoursLOCK ? null : (value) {
                   setState(() {
                     if (numberOfColours<value){
                       palette = randomisePalette(value.toInt(), paletteType);
@@ -1119,14 +1569,39 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           children: [
             Flexible(
                 flex:1,
-                child: Text('opacity - ${opacity.toStringAsFixed(2)}')),
+              child: GestureDetector(
+                  onLongPress: (){
+                    setState(() {
+                      // toggle lock
+                      if (opacityLOCK){
+                        opacityLOCK=false;
+                      } else {
+                        opacityLOCK=true;
+                      }
+                    });
+                  },
+                  child: Row(
+                    children:[
+                      Text(
+                        '# colours:',
+                        style: opacityLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Icon(
+                        opacityLOCK ? Icons.lock : Icons.lock_open,
+                        size: 20,
+                        color: opacityLOCK ? Colors.grey : Colors.black,
+                      ),
+                    ],
+                  )
+              ),
+            ),
             Flexible(
               flex:2,
               child: Slider(
                 value: opacity,
                 min: 0,
                 max: 1,
-                onChanged: (value) {
+                onChanged: opacityLOCK ? null : (value) {
                   setState(() {
                     opacity  = value;
                   });
@@ -1142,13 +1617,40 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-                flex:1,
-                child: Text('randomColours')),
+              flex:1,
+              child: GestureDetector(
+                  onLongPress: (){
+                    setState(() {
+                      // toggle lock
+                      if (randomColoursLOCK){
+                        randomColoursLOCK=false;
+                        print('randomColours UNLOCK');
+                      } else {
+                        randomColoursLOCK=true;
+                        print('randomColours LOCK');
+                      }
+                    });
+                  },
+                  child: Row(
+                    children:[
+                      Text(
+                        'randomColours:',
+                        style: randomColoursLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Icon(
+                        randomColoursLOCK ? Icons.lock : Icons.lock_open,
+                        size: 20,
+                        color: randomColoursLOCK ? Colors.grey : Colors.black,
+                      ),
+                    ],
+                  )
+              ),
+            ),
             Flexible(
               flex:2,
               child: Switch(
                 value: randomColours,
-                onChanged: (value) {
+                onChanged: randomColoursLOCK ? null : (value) {
                   setState(() {
                     randomColours  = value;
                   });
@@ -1187,9 +1689,35 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-                flex:1,
-                child: Text('paletteType')),
-
+              flex:1,
+              child: GestureDetector(
+                  onLongPress: (){
+                    setState(() {
+                      // toggle lock
+                      if (paletteTypeLOCK){
+                        paletteTypeLOCK=false;
+                        print('paletteType UNLOCK');
+                      } else {
+                        paletteTypeLOCK=true;
+                        print('paletteType LOCK');
+                      }
+                    });
+                  },
+                  child: Row(
+                    children:[
+                      Text(
+                        'paletteType:',
+                        style: paletteTypeLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Icon(
+                        paletteTypeLOCK ? Icons.lock : Icons.lock_open,
+                        size: 20,
+                        color: paletteTypeLOCK ? Colors.grey : Colors.black,
+                      ),
+                    ],
+                  )
+              ),
+            ),
             Flexible(
               flex:2,
               child: DropdownButton(
@@ -1212,7 +1740,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
                     value: 3,
                   ),
                 ],
-                onChanged:(value) {
+                onChanged: paletteTypeLOCK ? null : (value) {
                   setState(() {
                     paletteType = value;
                     palette = randomisePalette(numberOfColours, value);
@@ -1223,9 +1751,6 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
 
           ],
         ),
-
-
-
 
       ],
     );
