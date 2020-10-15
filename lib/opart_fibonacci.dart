@@ -53,7 +53,7 @@ bool directionLOCK = false;
 
 
 // palette settings
-Color backgroundColour = Colors.grey;
+Color backgroundColour = Colors.white;
 
 Color lineColour = Colors.grey;
 double lineWidth = 0;
@@ -1277,7 +1277,7 @@ class OpArtFibonacciPainter extends CustomPainter {
 
 
     int colourOrder = 0;
-    Color backgroundColour = Colors.grey[200];
+
 
 
     // Now make some art
