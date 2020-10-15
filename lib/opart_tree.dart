@@ -9,57 +9,139 @@ import 'package:screenshot/screenshot.dart';
 
 
 
-List palette = [
-  Colors.red,
-  Colors.pink,
-  Colors.purple,
-  Colors.deepPurple,
-  Colors.indigo,
-  Colors.blue,
-  Colors.lightBlue,
-  Colors.cyan,
-  Colors.teal,
-  Colors.green,
-  Colors.lightGreen,
-  Colors.lime,
-  Colors.yellow,
-  Colors.amber,
-  Colors.orange,
-  Colors.deepOrange,
-  Colors.brown,
-  Colors.grey,
-  Colors.blueGrey,
-  Colors.white,
-  Colors.redAccent,
-  Colors.pinkAccent,
-  Colors.purpleAccent,
-  Colors.deepPurpleAccent,
-  Colors.indigoAccent,
-  Colors.blueAccent,
-  Colors.lightBlueAccent,
-  Colors.cyanAccent,
-  Colors.tealAccent,
-  Colors.greenAccent,
-  Colors.lightGreenAccent,
-  Colors.limeAccent,
-  Colors.yellowAccent,
-  Colors.amberAccent,
-  Colors.orangeAccent,
-  Colors.deepOrangeAccent,
-];
-Color backgroundColor = Color(0xff638965);
-void changeColor(int index, Color color) {
-  palette.replaceRange(index, index + 1, [color]);
+class TreeSettings {
+  int id;
+  List<Color> palette;
+  Color backgroundColor;
+  double trunkWidth = 10.0;
+  double widthDecay = 0.92;
+  double segmentLength = 35.0;
+  double segmentDecay = 0.92;
+  double branch = 0.7;
+  double angle = 0.5;
+  double ratio = 0.7;
+  File image = null;
+  TreeSettings(
+      {this.id,
+        this.palette,
+        this.backgroundColor,
+        this.trunkWidth,
+        this.widthDecay,
+        this.segmentDecay,
+        this.segmentLength,
+        this.branch,
+        this.angle,
+        this.ratio,
+        this.image});
 }
 
-double trunkWidth = 10.0;
-double widthDecay = 0.92;
-double segmentLength = 35.0;
-double segmentDecay = 0.92;
-double branch = 0.7;
-double angle = 0.5;
-double ratio = 0.7;
+List<TreeSettings> treeSettingsList = [
+  TreeSettings(
+    id: 0,
+    palette: [
+      Colors.red,
+      Colors.pink,
+      Colors.purple,
+      Colors.deepPurple,
+      Colors.indigo,
+      Colors.blue,
+      Colors.lightBlue,
+      Colors.cyan,
+      Colors.teal,
+      Colors.green,
+      Colors.lightGreen,
+      Colors.lime,
+      Colors.yellow,
+      Colors.amber,
+      Colors.orange,
+      Colors.deepOrange,
+      Colors.brown,
+      Colors.grey,
+      Colors.blueGrey,
+      Colors.white,
+      Colors.redAccent,
+      Colors.pinkAccent,
+      Colors.purpleAccent,
+      Colors.deepPurpleAccent,
+      Colors.indigoAccent,
+      Colors.blueAccent,
+      Colors.lightBlueAccent,
+      Colors.cyanAccent,
+      Colors.tealAccent,
+      Colors.greenAccent,
+      Colors.lightGreenAccent,
+      Colors.limeAccent,
+      Colors.yellowAccent,
+      Colors.amberAccent,
+      Colors.orangeAccent,
+      Colors.deepOrangeAccent,
+    ],
+    backgroundColor: Color(0xff638965),
+    trunkWidth: 10.0,
+    widthDecay: 0.92,
+    segmentLength: 35.0,
+    segmentDecay: 0.92,
+    branch: 0.7,
+    angle: 0.5,
+    ratio: 0.7,
+  ),
+  TreeSettings(
+    id: 1,
+    palette: [
+      Colors.red,
+      Colors.pink,
+      Colors.purple,
+      Colors.deepPurple,
+      Colors.indigo,
+      Colors.blue,
+      Colors.lightBlue,
+      Colors.cyan,
+      Colors.teal,
+      Colors.green,
+      Colors.lightGreen,
+      Colors.lime,
+      Colors.yellow,
+      Colors.amber,
+      Colors.orange,
+      Colors.deepOrange,
+      Colors.brown,
+      Colors.grey,
+      Colors.blueGrey,
+      Colors.white,
+      Colors.redAccent,
+      Colors.pinkAccent,
+      Colors.purpleAccent,
+      Colors.deepPurpleAccent,
+      Colors.indigoAccent,
+      Colors.blueAccent,
+      Colors.lightBlueAccent,
+      Colors.cyanAccent,
+      Colors.tealAccent,
+      Colors.greenAccent,
+      Colors.lightGreenAccent,
+      Colors.limeAccent,
+      Colors.yellowAccent,
+      Colors.amberAccent,
+      Colors.orangeAccent,
+      Colors.deepOrangeAccent,
+    ],
+    backgroundColor: Color(0xff638965),
+    trunkWidth: 10.0,
+    widthDecay: 0.92,
+    segmentLength: 35.0,
+    segmentDecay: 0.92,
+    branch: 0.7,
+    angle: 0.5,
+    ratio: 0.7,
+  ),
+];
+int currentIndex = 1;
 
+void changeColor(int index, Color color) {
+  treeSettingsList[currentIndex]
+      .palette
+      .replaceRange(index, index + 1, [color]);
+}
 class OpArtTreeStudio extends StatefulWidget {
   bool showSettings;
   ScreenshotController screenshotController;
@@ -84,9 +166,9 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
           padding: const EdgeInsets.all(8.0),
           child: Center(
               child: Text(
-            'Settings',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          )),
+                'Settings',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              )),
         ),
         SizedBox(height: 8),
         Row(
@@ -106,61 +188,61 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
         ),
         _showBackgroundColorPicker
             ? ColorPicker(
-                displayThumbColor: false,
-                pickerAreaHeightPercent: 0.3,
-                pickerAreaBorderRadius: BorderRadius.circular(10.0),
-                pickerColor: backgroundColor,
-                onColorChanged: (color) {
-                  setState(() {
-                    backgroundColor = color;
-                  });
-                },
-                showLabel: false,
-              )
+          displayThumbColor: false,
+          pickerAreaHeightPercent: 0.3,
+          pickerAreaBorderRadius: BorderRadius.circular(10.0),
+          pickerColor: treeSettingsList[currentIndex].backgroundColor,
+          onColorChanged: (color) {
+            setState(() {
+              treeSettingsList[currentIndex].backgroundColor = color;
+            });
+          },
+          showLabel: false,
+        )
             : Container(),
         Text('Trunk Width'),
         Slider(
-          value: trunkWidth,
+          value: treeSettingsList[currentIndex].trunkWidth,
           min: 0,
           max: 15,
           onChanged: (value) {
             setState(() {
-              trunkWidth = value;
+              treeSettingsList[currentIndex].trunkWidth = value;
             });
           },
-          label: '$trunkWidth',
+          label: '$treeSettingsList[currentIndex].trunkWidth',
         ),
         Text('Width Decay'),
         Slider(
-          value: widthDecay,
+          value: treeSettingsList[currentIndex].widthDecay,
           min: 0,
           max: 0.99,
           onChanged: (value) {
             setState(() {
-              widthDecay = value;
+              treeSettingsList[currentIndex].widthDecay = value;
             });
           },
-          label: '$widthDecay',
+          label: '$treeSettingsList[currentIndex].widthDecay',
         ),
         Text('Segment Length'),
         Slider(
-          value: segmentLength,
+          value: treeSettingsList[currentIndex].segmentLength,
           min: 20,
           max: 40,
           onChanged: (value) {
             setState(() {
-              segmentLength = value;
+              treeSettingsList[currentIndex].segmentLength = value;
             });
           },
-          label: '$segmentLength',
+          label: '$treeSettingsList[currentIndex].segmentLength',
         ),
         Container(
           height: 200,
           child: GridView.builder(
             gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),
+            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),
             scrollDirection: Axis.horizontal,
-            itemCount: palette.length,
+            itemCount: treeSettingsList[currentIndex].palette.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -174,8 +256,8 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
                           border:
-                              Border.all(width: _currentColor == index ? 3 : 0),
-                          color: palette[index]),
+                          Border.all(width: _currentColor == index ? 3 : 0),
+                          color: treeSettingsList[currentIndex].palette[index]),
                       height: 50,
                       width: 50),
                 ),
@@ -188,7 +270,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
           displayThumbColor: false,
           pickerAreaHeightPercent: 0.3,
           pickerAreaBorderRadius: BorderRadius.circular(10.0),
-          pickerColor: palette[_currentColor],
+          pickerColor: treeSettingsList[currentIndex].palette[_currentColor],
           onColorChanged: (color) {
             setState(() {
               changeColor(_currentColor, color);
@@ -242,16 +324,16 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
             flex: 7,
             child: widget.showSettings
                 ? Column(
-                    children: [
-                      Flexible(flex: 3, child: bodyWidget()),
-                      Flexible(
-                          flex: 2,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: settingsWidget(),
-                          )),
-                    ],
-                  )
+              children: [
+                Flexible(flex: 3, child: bodyWidget()),
+                Flexible(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: settingsWidget(),
+                    )),
+              ],
+            )
                 : bodyWidget(),
           ),
 
@@ -296,7 +378,7 @@ class OpArtTreePainter extends CustomPainter {
 
     // colour in the canvas
     var paint1 = Paint()
-      ..color = backgroundColor
+      ..color = treeSettingsList[currentIndex].backgroundColor
       ..style = PaintingStyle.fill;
     //a rectangle
     canvas.drawRect(
@@ -319,8 +401,8 @@ class OpArtTreePainter extends CustomPainter {
     double leafDecay = 1.01;
     String leafStyle = 'quadratic';
 
-    List treeBaseA = [(canvasWidth - trunkWidth) / 2, canvasHeight];
-    List treeBaseB = [(canvasWidth + trunkWidth) / 2, canvasHeight];
+    List treeBaseA = [(canvasWidth - treeSettingsList[currentIndex].trunkWidth) / 2, canvasHeight];
+    List treeBaseB = [(canvasWidth + treeSettingsList[currentIndex].trunkWidth) / 2, canvasHeight];
 
     drawSegment(
         canvas,
@@ -328,13 +410,13 @@ class OpArtTreePainter extends CustomPainter {
         borderY,
         treeBaseA,
         treeBaseB,
-        trunkWidth,
-        branch,
-        angle,
-        ratio,
-        widthDecay,
-        segmentLength,
-        segmentDecay,
+        treeSettingsList[currentIndex].trunkWidth,
+        treeSettingsList[currentIndex].branch,
+        treeSettingsList[currentIndex].angle,
+        treeSettingsList[currentIndex].ratio,
+        treeSettingsList[currentIndex].widthDecay,
+        treeSettingsList[currentIndex].segmentLength,
+        treeSettingsList[currentIndex].segmentDecay,
         direction,
         0,
         maxDepth,
@@ -343,7 +425,7 @@ class OpArtTreePainter extends CustomPainter {
         trunkLineColor,
         trunkFillColor,
         bulbousness,
-        palette,
+        treeSettingsList[currentIndex].palette,
         leafAngle,
         leafLength,
         randomLeafLength,
@@ -354,35 +436,35 @@ class OpArtTreePainter extends CustomPainter {
   }
 
   drawSegment(
-    Canvas canvas,
-    double borderX,
-    double borderY,
-    List rootA,
-    List rootB,
-    double width,
-    double branch,
-    double angle,
-    double ratio,
-    double widthDecay,
-    double segmentLength,
-    double segmentDecay,
-    double direction,
-    int currentDepth,
-    int maxDepth,
-    int leavesAfter,
-    double lineWidth,
-    Color trunkLineColor,
-    Color trunkFillColor,
-    double bulbousness,
-    List palette,
-    double leafAngle,
-    double leafLength,
-    double randomLeafLength,
-    double leafSquareness,
-    double leafDecay,
-    String leafStyle,
-    bool justBranched,
-  ) {
+      Canvas canvas,
+      double borderX,
+      double borderY,
+      List rootA,
+      List rootB,
+      double width,
+      double branch,
+      double angle,
+      double ratio,
+      double widthDecay,
+      double segmentLength,
+      double segmentDecay,
+      double direction,
+      int currentDepth,
+      int maxDepth,
+      int leavesAfter,
+      double lineWidth,
+      Color trunkLineColor,
+      Color trunkFillColor,
+      double bulbousness,
+      List palette,
+      double leafAngle,
+      double leafLength,
+      double randomLeafLength,
+      double leafSquareness,
+      double leafDecay,
+      String leafStyle,
+      bool justBranched,
+      ) {
     List segmentBaseCentre = [
       (rootA[0] + rootB[0]) / 2,
       (rootA[1] + rootB[1]) / 2
@@ -613,18 +695,18 @@ class OpArtTreePainter extends CustomPainter {
   }
 
   drawTheTrunk(
-    Canvas canvas,
-    double borderX,
-    double borderY,
-    List P1,
-    List P2,
-    List P3,
-    List P4,
-    double bulbousness,
-    double strokeWidth,
-    Color trunkLineColor,
-    Color trunkFillColor,
-  ) {
+      Canvas canvas,
+      double borderX,
+      double borderY,
+      List P1,
+      List P2,
+      List P3,
+      List P4,
+      double bulbousness,
+      double strokeWidth,
+      Color trunkLineColor,
+      Color trunkFillColor,
+      ) {
     List PC = [
       (P1[0] + P2[0] + P3[0] + P4[0]) / 4,
       (P1[1] + P2[1] + P3[1] + P4[1]) / 4
@@ -664,16 +746,16 @@ class OpArtTreePainter extends CustomPainter {
   }
 
   drawTheTriangle(
-    Canvas canvas,
-    double borderX,
-    double borderY,
-    List P1,
-    List P2,
-    List P3,
-    double strokeWidth,
-    Color trunkLineColor,
-    Color trunkFillColor,
-  ) {
+      Canvas canvas,
+      double borderX,
+      double borderY,
+      List P1,
+      List P2,
+      List P3,
+      double strokeWidth,
+      Color trunkLineColor,
+      Color trunkFillColor,
+      ) {
     Path trunk = Path();
     trunk.moveTo(borderX + P1[0], -borderY + P1[1]);
     trunk.lineTo(borderX + P2[0], -borderY + P2[1]);
@@ -696,18 +778,18 @@ class OpArtTreePainter extends CustomPainter {
   }
 
   drawTheLeaf(
-    Canvas canvas,
-    double borderX,
-    double borderY,
-    List palette,
-    List leafPosition,
-    double lineWidth,
-    double leafAngle,
-    double leafLength,
-    double randomLeafLength,
-    double leafSquareness,
-    String leafStyle,
-  ) {
+      Canvas canvas,
+      double borderX,
+      double borderY,
+      List palette,
+      List leafPosition,
+      double lineWidth,
+      double leafAngle,
+      double leafLength,
+      double randomLeafLength,
+      double leafSquareness,
+      String leafStyle,
+      ) {
     double leafAssymetery = 0.75;
 
     // pick a random color

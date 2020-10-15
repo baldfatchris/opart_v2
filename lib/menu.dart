@@ -112,11 +112,11 @@ class _OpArtMenuState extends State<OpArtMenu> {
                 onPressed: () {
                   imageFile = null;
                   screenshotController
-                      .capture(delay: Duration(milliseconds: 0), )
+                      .capture(delay: Duration(milliseconds: 0),pixelRatio: 20 )
                       .then((File image) async {
                     setState(() {
                       imageFile = image;
-                      Share.shareFiles([imageFile.path]);
+                      Share.shareFiles([imageFile.path], subject: 'Using Chris\'s fabulous OpArt App', text: 'Download the OpArt App NOW!');
                     });
 
                   });

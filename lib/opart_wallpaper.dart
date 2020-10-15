@@ -225,50 +225,55 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         ),
         SizedBox(height: 8),
 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
 
-            Flexible(
-              flex: 1,
-              child: FloatingActionButton.extended(
-                label: Text('Randomise Palette'),
-                icon: Icon(Icons.palette),
-                //backgroundColor: Colors.pink,
+                Flexible(
+                  flex: 1,
+                  child: FloatingActionButton.extended(
+                    label: Text('Randomise Palette'),
+                    icon: Icon(Icons.palette),
+                    //backgroundColor: Colors.pink,
 
-                onPressed:() {
-                  setState(() {
+                    onPressed:() {
+                      setState(() {
 
-                    print('Randomise Palette');
-                    palette = randomisePalette(numberOfColours, paletteType);
+                        print('Randomise Palette');
+                        palette = randomisePalette(numberOfColours, paletteType);
 
-                  });
-                },
-              ),
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Flexible(
+                  flex: 1,
+                  child: FloatingActionButton.extended(
+                    label: Container(child: Text('Randomise All')),
+
+                    icon: Icon(Icons.all_inclusive_rounded),
+
+                    onPressed:() {
+                      setState(() {
+
+                        print('Randomise Everything');
+                        randomiseSettings();
+                        palette = randomisePalette(numberOfColours, paletteType);
+
+                      });
+                    },
+                  ),
+                ),
+
+              ],
             ),
-            SizedBox(
-              width: 10,
-            ),
-            Flexible(
-              flex: 1,
-              child: FloatingActionButton.extended(
-                label: Text('Randomise Everything'),
-
-                icon: Icon(Icons.refresh),
-
-                onPressed:() {
-                  setState(() {
-
-                    print('Randomise Everything');
-                    randomiseSettings();
-                    palette = randomisePalette(numberOfColours, paletteType);
-
-                  });
-                },
-              ),
-            ),
-
-          ],
+          ),
         ),
 
 
