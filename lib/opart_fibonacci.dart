@@ -183,15 +183,15 @@ randomiseSettings() {
     }
   }
 
-  // petalType = 0/1  circle/square
+  // petalType = 0/1/2/3  circle/triangle/square/petal
   if (petalTypeLOCK == false) {
-    petalType = rnd.nextInt(1);
+    petalType = rnd.nextInt(3);
   }
 
 
   // maxPetals = 1000 to 10000;
   if (maxPetalsLOCK == false) {
-    petalType = rnd.nextInt(9000)+1000;
+    maxPetals = rnd.nextInt(9000)+1000;
   }
 
 
@@ -264,6 +264,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
 
+            // Randomise Palette
             Flexible(
               flex: 1,
               child: FloatingActionButton.extended(
@@ -281,9 +282,12 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
                 },
               ),
             ),
+
             SizedBox(
               width: 10,
             ),
+
+            // Randomise All
             Flexible(
               flex: 1,
               child: FloatingActionButton.extended(
@@ -305,56 +309,6 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
 
           ],
         ),
-
-        // aspectRatio
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-                flex: 1,
-                child: GestureDetector(
-                    onLongPress: (){
-                      setState(() {
-                        // toggle lock
-                        if (aspectRatioLOCK){
-                          aspectRatioLOCK=false;
-                        } else {
-                          aspectRatioLOCK=true;
-                        }
-                      });
-                    },
-                    child: Row(
-                      children:[
-                        Text(
-                          'aspectRatio:',
-                          style: aspectRatioLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Icon(
-                          aspectRatioLOCK ? Icons.lock : Icons.lock_open,
-                          size: 20,
-                          color: aspectRatioLOCK ? Colors.grey : Colors.black,
-                        ),
-                      ],
-                    )
-                )
-            ),
-            Flexible(
-              flex: 2,
-              child: Slider(
-                value: aspectRatio,
-                min: 0.5,
-                max: 2,
-                onChanged: aspectRatioLOCK ? null : (value) {
-                  setState(() {
-                    aspectRatio  = value;
-                  });
-                },
-                label: '$aspectRatio ',
-              ),
-            ),
-          ],
-        ),
-
 
         // angleIncrement
         Row(
@@ -449,55 +403,6 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
                   });
                 },
                 label: '$flowerFill ',
-              ),
-            ),
-          ],
-        ),
-
-        // petalToRadius
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-                flex: 1,
-                child: GestureDetector(
-                    onLongPress: (){
-                      setState(() {
-                        // toggle lock
-                        if (petalToRadiusLOCK){
-                          petalToRadiusLOCK=false;
-                        } else {
-                          petalToRadiusLOCK=true;
-                        }
-                      });
-                    },
-                    child: Row(
-                      children:[
-                        Text(
-                          'petalToRadius:',
-                          style: petalToRadiusLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Icon(
-                          petalToRadiusLOCK ? Icons.lock : Icons.lock_open,
-                          size: 20,
-                          color: petalToRadiusLOCK ? Colors.grey : Colors.black,
-                        ),
-                      ],
-                    )
-                )
-            ),
-            Flexible(
-              flex: 2,
-              child: Slider(
-                value: petalToRadius,
-                min: 0.001,
-                max: 0.5,
-                onChanged: petalToRadiusLOCK ? null : (value) {
-                  setState(() {
-                    petalToRadius  = value;
-                  });
-                },
-                label: '$petalToRadius ',
               ),
             ),
           ],
@@ -601,7 +506,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
           ],
         ),
 
-        // petalPointiness
+        // petalToRadius
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -611,23 +516,23 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
                     onLongPress: (){
                       setState(() {
                         // toggle lock
-                        if (petalPointinessLOCK){
-                          petalPointinessLOCK=false;
+                        if (petalToRadiusLOCK){
+                          petalToRadiusLOCK=false;
                         } else {
-                          petalPointinessLOCK=true;
+                          petalToRadiusLOCK=true;
                         }
                       });
                     },
                     child: Row(
                       children:[
                         Text(
-                          'petalPointiness:',
-                          style: petalPointinessLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                          'petalToRadius:',
+                          style: petalToRadiusLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Icon(
-                          petalPointinessLOCK ? Icons.lock : Icons.lock_open,
+                          petalToRadiusLOCK ? Icons.lock : Icons.lock_open,
                           size: 20,
-                          color: petalPointinessLOCK ? Colors.grey : Colors.black,
+                          color: petalToRadiusLOCK ? Colors.grey : Colors.black,
                         ),
                       ],
                     )
@@ -636,116 +541,15 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
             Flexible(
               flex: 2,
               child: Slider(
-                value: petalPointiness,
-                min: 0,
-                max: pi,
-                onChanged: petalPointinessLOCK ? null : (value) {
+                value: petalToRadius,
+                min: 0.001,
+                max: 0.5,
+                onChanged: petalToRadiusLOCK ? null : (value) {
                   setState(() {
-                    petalPointiness  = value;
+                    petalToRadius  = value;
                   });
                 },
-                label: '$petalPointiness ',
-              ),
-            ),
-          ],
-        ),
-
-
-        // petalRotation 0 to pi
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-                flex: 1,
-                child: GestureDetector(
-                    onLongPress: (){
-                      setState(() {
-                        // toggle lock
-                        if (petalRotationLOCK){
-                          petalRotationLOCK=false;
-                        } else {
-                          petalRotationLOCK=true;
-                        }
-                      });
-                    },
-                    child: Row(
-                      children:[
-                        Text(
-                          'petalRotation:',
-                          style: petalRotationLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Icon(
-                          petalRotationLOCK ? Icons.lock : Icons.lock_open,
-                          size: 20,
-                          color: petalRotationLOCK ? Colors.grey : Colors.black,
-                        ),
-                      ],
-                    )
-                )
-            ),
-            Flexible(
-              flex: 2,
-              child: Slider(
-                value: petalRotation,
-                min: 0,
-                max: pi,
-                onChanged: petalRotationLOCK ? null : (value) {
-                  setState(() {
-                    petalRotation  = value;
-                  });
-                },
-                label: '$petalRotation ',
-              ),
-            ),
-          ],
-        ),
-
-
-
-      // petalRotationRatio 0 to 4
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-                flex: 1,
-                child: GestureDetector(
-                    onLongPress: (){
-                      setState(() {
-                        // toggle lock
-                        if (petalRotationRatioLOCK){
-                          petalRotationRatioLOCK=false;
-                        } else {
-                          petalRotationRatioLOCK=true;
-                        }
-                      });
-                    },
-                    child: Row(
-                      children:[
-                        Text(
-                          'rotationRatio:',
-                          style: petalRotationRatioLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Icon(
-                          petalRotationRatioLOCK ? Icons.lock : Icons.lock_open,
-                          size: 20,
-                          color: petalRotationRatioLOCK ? Colors.grey : Colors.black,
-                        ),
-                      ],
-                    )
-                )
-            ),
-            Flexible(
-              flex: 2,
-              child: Slider(
-                value: petalRotationRatio,
-                min: 0,
-                max: 4,
-                onChanged: petalRotationRatioLOCK ? null : (value) {
-                  setState(() {
-                    petalRotationRatio  = value;
-                  });
-                },
-                label: '$petalRotationRatio ',
+                label: '$petalToRadius ',
               ),
             ),
           ],
@@ -798,6 +602,14 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
                     child: Text("triangle"),
                     value: 1,
                   ),
+                  DropdownMenuItem(
+                    child: Text("square"),
+                    value: 2,
+                  ),
+                  DropdownMenuItem(
+                    child: Text("petal"),
+                    value: 3,
+                  ),
                 ],
                 onChanged: petalTypeLOCK ? null : (value) {
                   setState(() {
@@ -810,8 +622,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
           ],
         ),
 
-
-// maxPetals 1000 to 10000
+        // petalPointiness
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -821,23 +632,23 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
                     onLongPress: (){
                       setState(() {
                         // toggle lock
-                        if (maxPetalsLOCK){
-                          maxPetalsLOCK=false;
+                        if (petalPointinessLOCK){
+                          petalPointinessLOCK=false;
                         } else {
-                          maxPetalsLOCK=true;
+                          petalPointinessLOCK=true;
                         }
                       });
                     },
                     child: Row(
                       children:[
                         Text(
-                          'maxPetals:',
-                          style: maxPetalsLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                          'petalPointiness:',
+                          style: petalPointinessLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Icon(
-                          maxPetalsLOCK ? Icons.lock : Icons.lock_open,
+                          petalPointinessLOCK ? Icons.lock : Icons.lock_open,
                           size: 20,
-                          color: maxPetalsLOCK ? Colors.grey : Colors.black,
+                          color: petalPointinessLOCK ? Colors.grey : Colors.black,
                         ),
                       ],
                     )
@@ -846,15 +657,113 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
             Flexible(
               flex: 2,
               child: Slider(
-                value: maxPetals.toDouble(),
-                min: 1,
-                max: 10000,
-                onChanged: maxPetalsLOCK ? null : (value) {
+                value: petalPointiness,
+                min: 0,
+                max: pi,
+                onChanged: petalPointinessLOCK ? null : (value) {
                   setState(() {
-                    maxPetals  = value.toInt();
+                    petalPointiness  = value;
                   });
                 },
-                label: '$maxPetals ',
+                label: '$petalPointiness ',
+              ),
+            ),
+          ],
+        ),
+
+        // petalRotation 0 to pi
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (petalRotationLOCK){
+                          petalRotationLOCK=false;
+                        } else {
+                          petalRotationLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'petalRotation:',
+                          style: petalRotationLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          petalRotationLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: petalRotationLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: petalRotation,
+                min: 0,
+                max: pi,
+                onChanged: petalRotationLOCK ? null : (value) {
+                  setState(() {
+                    petalRotation  = value;
+                  });
+                },
+                label: '$petalRotation ',
+              ),
+            ),
+          ],
+        ),
+
+      // petalRotationRatio 0 to 4
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (petalRotationRatioLOCK){
+                          petalRotationRatioLOCK=false;
+                        } else {
+                          petalRotationRatioLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'rotationRatio:',
+                          style: petalRotationRatioLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          petalRotationRatioLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: petalRotationRatioLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: petalRotationRatio,
+                min: 0,
+                max: 4,
+                onChanged: petalRotationRatioLOCK ? null : (value) {
+                  setState(() {
+                    petalRotationRatio  = value;
+                  });
+                },
+                label: '$petalRotationRatio ',
               ),
             ),
           ],
@@ -909,7 +818,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
           ],
         ),
 
-// radialOscPeriod
+        // radialOscPeriod
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -958,10 +867,54 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
           ],
         ),
 
-
-
-
-
+        // maxPetals 1000 to 10000
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (maxPetalsLOCK){
+                          maxPetalsLOCK=false;
+                        } else {
+                          maxPetalsLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'maxPetals:',
+                          style: maxPetalsLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          maxPetalsLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: maxPetalsLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: maxPetals.toDouble(),
+                min: 1,
+                max: 10000,
+                onChanged: maxPetalsLOCK ? null : (value) {
+                  setState(() {
+                    maxPetals  = value.toInt();
+                  });
+                },
+                label: '$maxPetals ',
+              ),
+            ),
+          ],
+        ),
 
 
 
@@ -1132,6 +1085,56 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
 
           ],
         ),
+
+        // aspectRatio
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (aspectRatioLOCK){
+                          aspectRatioLOCK=false;
+                        } else {
+                          aspectRatioLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'aspectRatio:',
+                          style: aspectRatioLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          aspectRatioLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: aspectRatioLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: aspectRatio,
+                min: 0.5,
+                max: 2,
+                onChanged: aspectRatioLOCK ? null : (value) {
+                  setState(() {
+                    aspectRatio  = value;
+                  });
+                },
+                label: '$aspectRatio ',
+              ),
+            ),
+          ],
+        ),
+
 
       ],
     );
@@ -1429,12 +1432,12 @@ class OpArtFibonacciPainter extends CustomPainter {
 
       case 1: //"triangle":
 
-        var P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
-        var petalRadius = radius * petalToRadius;
+        List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
+        double petalRadius = radius * petalToRadius;
 
-        var PA = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio)];
-        var PB = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * petalPointiness)];
-        var PC = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio - pi * petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio - pi * petalPointiness)];
+        List PA = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio)];
+        List PB = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * petalPointiness)];
+        List PC = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio - pi * petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio - pi * petalPointiness)];
 
         Path triangle = Path();
         triangle.moveTo(PA[0], PA[1]);
@@ -1454,101 +1457,89 @@ class OpArtFibonacciPainter extends CustomPainter {
               ..style = PaintingStyle.fill
               ..color = colour);
 
+        break;
 
+      case 2: // "square":
+
+        List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
+        double petalRadius = radius * petalToRadius;
+
+        List PA = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 0.0 + petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 0.0 + petalPointiness)];
+        List PB = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 0.5 - petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 0.5 - petalPointiness)];
+        List PC = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 1.0 + petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 1.0 + petalPointiness)];
+        List PD = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 1.5 - petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 1.5 - petalPointiness)];
+
+        Path square = Path();
+        square.moveTo(PA[0], PA[1]);
+        square.lineTo(PB[0], PB[1]);
+        square.lineTo(PC[0], PC[1]);
+        square.lineTo(PD[0], PD[1]);
+        square.close();
+
+        canvas.drawPath(
+            square,
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = lineWidth
+              ..color = lineColour);
+        canvas.drawPath(
+            square,
+            Paint()
+              ..style = PaintingStyle.fill
+              ..color = colour);
 
         break;
-    //
-    // case "square":
-    //
-    //   var P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
-    //   var petalRadius = radius * petalToRadius;
-    //
-    //   var PA = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 0.0 + petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 0.0 + petalPointiness)];
-    //   var PB = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 0.5 - petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 0.5 - petalPointiness)];
-    //   var PC = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 1.0 + petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 1.0 + petalPointiness)];
-    //   var PD = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 1.5 - petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 1.5 - petalPointiness)];
-    //
-    //
-    //   if (fullsize) {
-    //     ctx.fillStyle = colour;
-    //     ctx.strokeStyle = lineColour;
-    //     ctx.lineWidth = lineWidth;
-    //     ctx.lineJoin = "round";
-    //
-    //     ctx.beginPath();
-    //     ctx.moveTo(PA[0], PA[1]);
-    //     ctx.lineTo(PB[0], PB[1]);
-    //     ctx.lineTo(PC[0], PC[1]);
-    //     ctx.lineTo(PD[0], PD[1]);
-    //     ctx.closePath();
-    //     ctx.stroke();
-    //     ctx.fill();
-    //   }
-    //   if (thumbnail) {
-    //     canvas.fillStyle = colour;
-    //     canvas.strokeStyle = lineColour;
-    //     canvas.lineWidth = lineWidth;
-    //     canvas.lineJoin = "round";
-    //
 
-    //
-    //     canvas.beginPath();
-    //     canvas.moveTo(PA[0], PA[1]);
-    //     canvas.lineTo(PB[0], PB[1]);
-    //     canvas.lineTo(PC[0], PC[1]);
-    //     canvas.lineTo(PD[0], PD[1]);
-    //     canvas.closePath();
-    //     canvas.stroke();
-    //     canvas.fill();
-    //   }
-    //
-    //
-    //   break;
-    //
-    // case "petal":
-    //
-    //   var P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
-    //   var petalRadius = radius * petalToRadius;
-    //
-    //   var PA = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 0.0), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 0.0)];
-    //   var PB = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 0.5), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 0.5)];
-    //   var PC = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 1.0), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 1.0)];
-    //   var PD = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 1.5), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 1.5)];
-    //
-    //
-    //   if (fullsize) {
-    //     ctx.fillStyle = colour;
-    //     ctx.strokeStyle = lineColour;
-    //     ctx.lineWidth = lineWidth;
-    //     ctx.lineJoin = "round";
-    //
-    //
-    //     ctx.beginPath();
-    //
-    //     ctx.arc(PB[0], PB[1], petalRadius * 2, angle + petalRotation + angle*petalRotationRatio + pi * (0.5 + 2/3), angle + petalRotation + angle*petalRotationRatio + pi * (0.5+4/3));
-    //     ctx.arc(PD[0], PD[1], petalRadius * 2, angle + petalRotation + angle*petalRotationRatio + pi * (1.5 + 2/3), angle + petalRotation + angle*petalRotationRatio + pi * (1.5+4/3));
-    //
-    //     ctx.closePath();
-    //     ctx.stroke();
-    //     ctx.fill();
-    //   }
-    //   if (thumbnail) {
-    //     canvas.fillStyle = colour;
-    //     canvas.strokeStyle = lineColour;
-    //     canvas.lineWidth = lineWidth;
-    //     canvas.lineJoin = "round";
-    //
-    //
-    //     canvas.beginPath();
-    //     canvas.arc(PB[0], PB[1], petalRadius * 2, angle + petalRotation + angle*petalRotationRatio + pi * (0.5 + 2/3), angle + petalRotation + angle*petalRotationRatio + pi * (0.5+4/3));
-    //     canvas.arc(PD[0], PD[1], petalRadius * 2, angle + petalRotation + angle*petalRotationRatio + pi * (1.5 + 2/3), angle + petalRotation + angle*petalRotationRatio + pi * (1.5+4/3));
-    //     canvas.closePath();
-    //     canvas.stroke();
-    //     canvas.fill();
-    //   }
-    //
-    //
-    //   break;
+      case 3: //"petal":
+
+      List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
+      double petalRadius = radius * petalToRadius;
+
+      List PA = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 0.0), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 0.0)];
+      List PB = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 0.5), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 0.5)];
+      List PC = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 1.0), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 1.0)];
+      List PD = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 1.5), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 1.5)];
+
+      canvas.drawArc(
+          Offset(PB[0]-petalRadius*2, PB[1]-petalRadius*2) & Size(petalRadius*4, petalRadius*4),
+          angle + petalRotation + angle*petalRotationRatio + pi * (0.5 + 2/3),
+          pi * 2/3,
+          false,
+          Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = lineWidth
+            ..color = lineColour);
+
+      canvas.drawArc(
+          Offset(PB[0]-petalRadius*2, PB[1]-petalRadius*2) & Size(petalRadius*4, petalRadius*4),
+          angle + petalRotation + angle*petalRotationRatio + pi * (0.5 + 2/3),
+          pi * 2/3,
+          false,
+          Paint()
+            ..style = PaintingStyle.fill
+            ..color = colour);
+
+      canvas.drawArc(
+          Offset(PD[0]-petalRadius*2, PD[1]-petalRadius*2) & Size(petalRadius*4, petalRadius*4),
+          angle + petalRotation + angle*petalRotationRatio + pi * (1.5 + 2/3),
+          pi * 2/3,
+          false,
+          Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = lineWidth
+            ..color = lineColour);
+
+      canvas.drawArc(
+          Offset(PD[0]-petalRadius*2, PD[1]-petalRadius*2) & Size(petalRadius*4, petalRadius*4),
+          angle + petalRotation + angle*petalRotationRatio + pi * (1.5 + 2/3),
+          pi * 2/3,
+          false,
+          Paint()
+            ..style = PaintingStyle.fill
+            ..color = colour);
+
+
+      break;
     }
 
   }
