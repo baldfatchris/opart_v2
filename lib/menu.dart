@@ -28,8 +28,8 @@ class _OpArtMenuState extends State<OpArtMenu> {
     OpArtType(
       name: 'Fibonacci',
       icon: 'lib/assets/fibonacci.png',
-      widgetWithSettings: OpArtFibonacciStudio(true, screenshotController: screenshotController),
-      widgetWithoutSettings: OpArtFibonacciStudio(false, screenshotController: screenshotController),
+      widgetWithSettings: OpArtFibonacciStudio(seed, true, screenshotController: screenshotController),
+      widgetWithoutSettings: OpArtFibonacciStudio(seed, false, screenshotController: screenshotController),
     ),
     OpArtType(
       name: 'Trees',

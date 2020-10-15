@@ -4,18 +4,10 @@ import 'dart:io';
 
 import 'package:screenshot/screenshot.dart';
 
-//void main() {
-//  runApp(OpArtWave());
-//}
-
-
 Random rnd;
 List palette;
 
 // Settings
-
-Color backgroundColor = Colors.grey;
-
 double aspectRatio = pi/2;
 bool aspectRatioLOCK = false;
 
@@ -30,6 +22,10 @@ bool frequencyLOCK = false;
 
 double amplitude = 100;
 bool amplitudeLOCK = false;
+
+
+// palette settings
+Color backgroundColor = Colors.grey;
 
 bool randomColours = false;
 bool randomColoursLOCK = false;
@@ -614,7 +610,6 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
                   )
               ),
             ),
-
             Flexible(
               flex:2,
               child: DropdownButton(
@@ -729,7 +724,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
 }
 
 class OpArtWavePainter extends CustomPainter {
-  int seed;//
+  int seed;
   Random rnd;
 
   OpArtWavePainter( this.seed, this.rnd);
@@ -788,7 +783,7 @@ class OpArtWavePainter extends CustomPainter {
     // int paletteType = rnd.nextInt(4);
     print('paletteType: $paletteType');
 
-    // randomise the palette
+    // set the initial palette
     if (palette == null) {
       print('randomisePalette: $numberOfColours, $paletteType');
       palette = randomisePalette(numberOfColours, paletteType);
