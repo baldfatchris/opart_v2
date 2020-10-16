@@ -36,6 +36,15 @@ bool ratioLOCK = false;
 double bulbousness = 2;
 bool bulbousnessLOCK = false;
 
+int maxDepth = 20;
+bool maxDepthLOCK = false;
+
+int leavesAfter = 5;
+bool leavesAfterLOCK = false;
+
+double leafAngle = 0.5;
+bool leafAngleLOCK = false;
+
 // palette settings
 Color backgroundColor = Colors.grey;
 bool backgroundColorLOCK = false;
@@ -171,10 +180,20 @@ randomiseSettings() {
     bulbousness = rnd.nextDouble() * 3;
   }
 
+  // maxDepth 10 - 28
+  if (maxDepthLOCK == false) {
+    maxDepth = rnd.nextInt(18) +10;
+  }
 
+  // leavesAfter 0 to maxDepth
+  if (leavesAfterLOCK == false) {
+    leavesAfter = rnd.nextInt(leavesAfter);
+  }
 
-
-
+  // leafAngle 0.2 - 0.8
+  if (leafAngleLOCK == false) {
+    leafAngle = rnd.nextDouble() * 0.6 + 0.2;
+  }
 
 
   // numberOfColours 2 to 36
@@ -210,6 +229,9 @@ class TreeSettings {
   double angle = 0.5;
   double ratio = 0.7;
   double bulbousness = 2;
+  int maxDepth = 20;
+  int leavesAfter = 10;
+  double leafAngle = 0.5;
   File image = null;
   TreeSettings(
       {
@@ -225,6 +247,9 @@ class TreeSettings {
         this.angle,
         this.ratio,
         this.bulbousness,
+        this.maxDepth,
+        this.leavesAfter,
+        this.leafAngle,
         this.image,
         }
       );
@@ -271,16 +296,19 @@ List<TreeSettings> treeSettingsList = [
       Colors.orangeAccent,
       Colors.deepOrangeAccent,
     ],
-    backgroundColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
-    trunkFillColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
-    trunkWidth: 10.0,
-    widthDecay: 0.92,
-    segmentLength: 35.0,
-    segmentDecay: 0.92,
-    branch: 0.7,
-    angle: 0.5,
-    ratio: 0.7,
+      backgroundColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
+      trunkFillColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
+      trunkWidth: 10.0,
+      widthDecay: 0.92,
+      segmentLength: 35.0,
+      segmentDecay: 0.92,
+      branch: 0.7,
+      angle: 0.5,
+      ratio: 0.7,
       bulbousness: 2,
+      maxDepth: 18,
+      leavesAfter: 10,
+      leafAngle: 0.7,
   ),
   TreeSettings(
     id: 1,
@@ -322,16 +350,19 @@ List<TreeSettings> treeSettingsList = [
       Colors.orangeAccent,
       Colors.deepOrangeAccent,
     ],
-    backgroundColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
-    trunkFillColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
-    trunkWidth: 10.0,
-    widthDecay: 0.92,
-    segmentLength: 35.0,
-    segmentDecay: 0.92,
-    branch: 0.7,
-    angle: 0.5,
-    ratio: 0.7,
+      backgroundColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
+      trunkFillColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
+      trunkWidth: 10.0,
+      widthDecay: 0.92,
+      segmentLength: 35.0,
+      segmentDecay: 0.92,
+      branch: 0.7,
+      angle: 0.5,
+      ratio: 0.7,
       bulbousness: 3,
+      maxDepth: 22,
+      leavesAfter: 20,
+      leafAngle: 0.6,
   ),
 ];
 
@@ -937,10 +968,160 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
           ],
         ),
 
+        // maxDepth
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (maxDepthLOCK){
+                          maxDepthLOCK=false;
+                        } else {
+                          maxDepthLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'maxDepth:',
+                          style: maxDepthLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          maxDepthLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: maxDepthLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: maxDepth.toDouble(),
+                min: 10,
+                max: 28,
+                onChanged: maxDepthLOCK ? null : (value) {
+                  setState(() {
+                    maxDepth  = value.toInt();
+                  });
+                },
+                label: '$maxDepth ',
+              ),
+            ),
+          ],
+        ),
 
 
+        // leavesAfter
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (leavesAfterLOCK){
+                          leavesAfterLOCK=false;
+                        } else {
+                          leavesAfterLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'leavesAfter:',
+                          style: leavesAfterLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          leavesAfterLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: leavesAfterLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: leavesAfter.toDouble(),
+                min: 0,
+                max: 28,
+                onChanged: leavesAfterLOCK ? null : (value) {
+                  setState(() {
+                    leavesAfter  = (leavesAfter<maxDepth) ? value.toInt() : maxDepth;
+                  });
+                },
+                label: '$leavesAfter ',
+              ),
+            ),
+          ],
+        ),
 
+        // leafAngle
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (leafAngleLOCK){
+                          leafAngleLOCK=false;
+                        } else {
+                          leafAngleLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'leafAngle:',
+                          style: leafAngleLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          leafAngleLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: leafAngleLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: leafAngle,
+                min: 0.2,
+                max: 0.8,
+                onChanged: leafAngleLOCK ? null : (value) {
+                  setState(() {
+                    leafAngle  = value;
+                  });
+                },
+                label: '$leafAngle ',
+              ),
+            ),
+          ],
+        ),
         
+
+
+
+
+
+
 
         Text('Width Decay'),
         Slider(
@@ -1379,11 +1560,11 @@ class OpArtTreePainter extends CustomPainter {
 
     print('ratio: $ratio');
     print('bulbousness: $bulbousness');
+    print('maxDepth: $maxDepth');
+    print('leavesAfter: $leavesAfter');
+    print('leafAngle: $leafAngle');
 
-    int maxDepth = 20;
-    int leavesAfter = 5;
 
-    double leafAngle = 0.5;
     double leafLength = 8;
     double randomLeafLength = 3.0;
     double leafSquareness = 1;
@@ -1409,10 +1590,7 @@ class OpArtTreePainter extends CustomPainter {
         segmentLength,
         direction,
         0,
-        maxDepth,
-        leavesAfter,
         lineWidth,
-        leafAngle,
         leafLength,
         randomLeafLength,
         leafSquareness,
@@ -1431,10 +1609,7 @@ class OpArtTreePainter extends CustomPainter {
     double segmentLength,
     double direction,
     int currentDepth,
-    int maxDepth,
-    int leavesAfter,
     double lineWidth,
-    double leafAngle,
     double leafLength,
     double randomLeafLength,
     double leafSquareness,
@@ -1480,10 +1655,7 @@ class OpArtTreePainter extends CustomPainter {
             segmentLength * segmentDecay,
             directionA,
             currentDepth + 1,
-            maxDepth,
-            leavesAfter,
             lineWidth,
-            leafAngle,
             leafLength,
             randomLeafLength,
             leafSquareness,
@@ -1500,10 +1672,7 @@ class OpArtTreePainter extends CustomPainter {
             segmentLength * segmentDecay,
             directionB,
             currentDepth + 1,
-            maxDepth,
-            leavesAfter,
             lineWidth,
-            leafAngle,
             leafLength,
             randomLeafLength,
             leafSquareness,
@@ -1521,10 +1690,7 @@ class OpArtTreePainter extends CustomPainter {
             segmentLength * segmentDecay,
             directionB,
             currentDepth + 1,
-            maxDepth,
-            leavesAfter,
             lineWidth,
-            leafAngle,
             leafLength,
             randomLeafLength,
             leafSquareness,
@@ -1541,10 +1707,7 @@ class OpArtTreePainter extends CustomPainter {
             segmentLength * segmentDecay,
             directionA,
             currentDepth + 1,
-            maxDepth,
-            leavesAfter,
             lineWidth,
-            leafAngle,
             leafLength,
             randomLeafLength,
             leafSquareness,
@@ -1608,10 +1771,7 @@ class OpArtTreePainter extends CustomPainter {
             segmentLength * segmentDecay,
             direction,
             currentDepth + 1,
-            maxDepth,
-            leavesAfter,
             lineWidth,
-            leafAngle,
             leafLength * leafDecay,
             randomLeafLength,
             leafSquareness,
