@@ -33,7 +33,7 @@ bool angleLOCK = false;
 double ratio = 0.7;
 bool ratioLOCK = false;
 
-double bulbousness = 2;
+double bulbousness = 1.5;
 bool bulbousnessLOCK = false;
 
 int maxDepth = 20;
@@ -44,6 +44,18 @@ bool leavesAfterLOCK = false;
 
 double leafAngle = 0.5;
 bool leafAngleLOCK = false;
+
+double leafLength = 8;
+bool leafLengthLOCK = false;
+
+double randomLeafLength = 3.0;
+bool randomLeafLengthLOCK = false;
+
+double leafSquareness = 1;
+bool leafSquarenessLOCK = false;
+
+double leafDecay = 0.95;
+bool leafDecayLOCK = false;
 
 // palette settings
 Color backgroundColor = Colors.grey;
@@ -175,9 +187,9 @@ randomiseSettings() {
     angle = rnd.nextDouble() * 0.6 + 0.1;
   }
 
-  // bulbousness 0-3
+  // bulbousness 0-2
   if (bulbousnessLOCK == false) {
-    bulbousness = rnd.nextDouble() * 3;
+    bulbousness = rnd.nextDouble() * 2;
   }
 
   // maxDepth 10 - 28
@@ -187,13 +199,37 @@ randomiseSettings() {
 
   // leavesAfter 0 to maxDepth
   if (leavesAfterLOCK == false) {
-    leavesAfter = rnd.nextInt(leavesAfter);
+    leavesAfter = rnd.nextInt(maxDepth);
   }
 
   // leafAngle 0.2 - 0.8
   if (leafAngleLOCK == false) {
     leafAngle = rnd.nextDouble() * 0.6 + 0.2;
   }
+
+  // leafLength 0 to 20
+  if (leafLengthLOCK == false) {
+    leafLength = rnd.nextDouble() * 20;
+  }
+
+  // randomLeafLength 0 to 20
+  if (randomLeafLengthLOCK == false) {
+    randomLeafLength = rnd.nextDouble() * 20;
+  }
+
+  // leafSquareness 0 -3
+  if (leafSquarenessLOCK == false) {
+    leafSquareness = rnd.nextDouble() * 2;
+  }
+
+  // leafDecay 0.9 - 1
+  if (leafDecayLOCK == false) {
+    leafDecay = rnd.nextDouble() * 0.1+0.9;
+  }
+
+
+
+
 
 
   // numberOfColours 2 to 36
@@ -212,9 +248,6 @@ randomiseSettings() {
   }
 }
 
-
-
-
 class TreeSettings {
 
   int id;
@@ -228,10 +261,15 @@ class TreeSettings {
   double branch = 0.7;
   double angle = 0.5;
   double ratio = 0.7;
-  double bulbousness = 2;
+  double bulbousness = 1.5;
   int maxDepth = 20;
   int leavesAfter = 10;
   double leafAngle = 0.5;
+  double leafLength = 8;
+  double randomLeafLength  = 4;
+  double leafSquareness  = 1.5;
+  double leafDecay  = 0.95;
+
   File image = null;
   TreeSettings(
       {
@@ -250,6 +288,10 @@ class TreeSettings {
         this.maxDepth,
         this.leavesAfter,
         this.leafAngle,
+        this.leafLength,
+        this.randomLeafLength ,
+        this.leafSquareness ,
+        this.leafDecay,
         this.image,
         }
       );
@@ -305,13 +347,18 @@ List<TreeSettings> treeSettingsList = [
       branch: 0.7,
       angle: 0.5,
       ratio: 0.7,
-      bulbousness: 2,
+      bulbousness: 1.9,
       maxDepth: 18,
       leavesAfter: 10,
       leafAngle: 0.7,
+    leafLength: 8,
+    randomLeafLength : 18,
+    leafSquareness : 1,
+    leafDecay : 0.99,
+
   ),
   TreeSettings(
-    id: 1,
+    id: 0,
     palette: [
       Colors.red,
       Colors.pink,
@@ -350,28 +397,32 @@ List<TreeSettings> treeSettingsList = [
       Colors.orangeAccent,
       Colors.deepOrangeAccent,
     ],
-      backgroundColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
-      trunkFillColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
-      trunkWidth: 10.0,
-      widthDecay: 0.92,
-      segmentLength: 35.0,
-      segmentDecay: 0.92,
-      branch: 0.7,
-      angle: 0.5,
-      ratio: 0.7,
-      bulbousness: 3,
-      maxDepth: 22,
-      leavesAfter: 20,
-      leafAngle: 0.6,
+    backgroundColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
+    trunkFillColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
+    trunkWidth: 10.0,
+    widthDecay: 0.92,
+    segmentLength: 35.0,
+    segmentDecay: 0.92,
+    branch: 0.7,
+    angle: 0.5,
+    ratio: 0.7,
+    bulbousness: 1.6,
+    maxDepth: 18,
+    leavesAfter: 10,
+    leafAngle: 0.7,
+    leafLength: 9,
+    randomLeafLength : 9,
+    leafSquareness : 1,
+    leafDecay : 0.96,
+
   ),
+
 ];
 
 int currentIndex = 0;
 
 void changeColor(int index, Color color) {
-  treeSettingsList[currentIndex]
-      .palette
-      .replaceRange(index, index + 1, [color]);
+  palette.replaceRange(index, index + 1, [color]);
 }
 
 class OpArtTreeStudio extends StatefulWidget {
@@ -397,56 +448,66 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
     return ListView(
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-              child: Text(
-            'Settings',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          )),
+          padding: const EdgeInsets.all(2.0),
+          // child: Center(
+          //     child: Text(
+          //   'Settings',
+          //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          // )),
         ),
         Row(
           children: [
               Container(
               width: 300,
               height: 60,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: treeSettingsList.length,
-                  itemBuilder: (context, index) {
-                    if (treeSettingsList[index].image == null) {
-                      return Container();
-                    } else {
-                      return GestureDetector(onTap: (){
-                        setState(() {
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: treeSettingsList.length,
+                    itemBuilder: (context, index) {
+                      if (treeSettingsList[index].image == null) {
+                        return Container();
+                      } else {
+                        return GestureDetector(onTap: (){
+                          setState(() {
+                            currentIndex = index;
+                            print('index: $index');
+                            palette = treeSettingsList[currentIndex].palette;
+                            backgroundColor = treeSettingsList[currentIndex].backgroundColor;
+                            trunkFillColor = treeSettingsList[currentIndex].trunkFillColor;
+                            trunkWidth = treeSettingsList[currentIndex].trunkWidth;
+                            widthDecay = treeSettingsList[currentIndex].widthDecay;
+                            segmentLength = treeSettingsList[currentIndex].segmentLength;
+                            segmentDecay = treeSettingsList[currentIndex].segmentDecay;
+                            branch = treeSettingsList[currentIndex].branch;
+                            angle = treeSettingsList[currentIndex].angle;
+                            ratio = treeSettingsList[currentIndex].ratio;
+                            bulbousness = treeSettingsList[currentIndex].bulbousness;
+                            maxDepth = treeSettingsList[currentIndex].maxDepth;
+                            leavesAfter = treeSettingsList[currentIndex].leavesAfter;
+                            leafAngle = treeSettingsList[currentIndex].leafAngle;
+                            leafLength = treeSettingsList[currentIndex].leafLength;
+                            randomLeafLength  = treeSettingsList[currentIndex].randomLeafLength ;
+                            leafSquareness  = treeSettingsList[currentIndex].leafSquareness ;
+                            leafDecay  = treeSettingsList[currentIndex].leafDecay ;
 
-                          currentIndex = index;
-                          print('index: $index');
 
-                          trunkWidth = treeSettingsList[currentIndex].trunkWidth;
-                          widthDecay = treeSettingsList[currentIndex].widthDecay;
-                          segmentLength = treeSettingsList[currentIndex].segmentLength;
-                          segmentDecay = treeSettingsList[currentIndex].segmentDecay;
-                          branch = treeSettingsList[currentIndex].branch;
-                          ratio = treeSettingsList[currentIndex].ratio;
-                          bulbousness = treeSettingsList[currentIndex].bulbousness;
-
-                        });
-                      },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Container(
-                              width: 50.0,
-                              height: 50.0,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image: FileImage(
-                                          treeSettingsList[index].image)))),
-                        ),
-                      );
-                    }
-                  }),
+                          });
+                        },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Container(
+                                width: 50.0,
+                                height: 50.0,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: FileImage(
+                                            treeSettingsList[index].image)))),
+                          ),
+                        );
+                      }
+                    }),
             ),
             IconButton(
               icon: Icon(Icons.save),
@@ -456,6 +517,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                     id: treeSettingsList.length + 1,
                     palette: palette,
                     backgroundColor: backgroundColor,
+                    trunkFillColor: trunkFillColor,
                     trunkWidth: trunkWidth,
                     widthDecay: widthDecay,
                     segmentLength: segmentLength,
@@ -464,7 +526,13 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                     angle: angle,
                     ratio: ratio,
                     bulbousness: bulbousness,
-
+                    maxDepth: maxDepth,
+                    leavesAfter: leavesAfter,
+                    leafAngle: leafAngle,
+                    leafLength: leafLength,
+                    randomLeafLength : randomLeafLength ,
+                    leafSquareness : leafSquareness ,
+                    leafDecay : leafDecay ,
                   ),
                 );
                 widget.screenshotController
@@ -483,6 +551,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
             )
           ],
         ),
+
         SizedBox(height: 8),
 
         Row(
@@ -556,10 +625,10 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                 displayThumbColor: false,
                 pickerAreaHeightPercent: 0.3,
                 pickerAreaBorderRadius: BorderRadius.circular(10.0),
-                pickerColor: treeSettingsList[currentIndex].backgroundColor,
+                pickerColor: backgroundColor,
                 onColorChanged: (color) {
                   setState(() {
-                    treeSettingsList[currentIndex].backgroundColor = color;
+                    backgroundColor = color;
                   });
                 },
                 showLabel: false,
@@ -956,7 +1025,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
               child: Slider(
                 value: bulbousness,
                 min: 0,
-                max: 5,
+                max: 3,
                 onChanged: bulbousnessLOCK ? null : (value) {
                   setState(() {
                     bulbousness  = value;
@@ -1115,26 +1184,211 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
             ),
           ],
         ),
-        
 
-
-
-
-
-
-
-        Text('Width Decay'),
-        Slider(
-          value: treeSettingsList[currentIndex].widthDecay,
-          min: 0,
-          max: 0.99,
-          onChanged: (value) {
-            setState(() {
-              treeSettingsList[currentIndex].widthDecay = value;
-            });
-          },
-          label: '$treeSettingsList[currentIndex].widthDecay',
+        // leafLength
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (leafLengthLOCK){
+                          leafLengthLOCK=false;
+                        } else {
+                          leafLengthLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'leafLength:',
+                          style: leafLengthLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          leafLengthLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: leafLengthLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: leafLength,
+                min: 0,
+                max: 20,
+                onChanged: leafLengthLOCK ? null : (value) {
+                  setState(() {
+                    leafLength  = value;
+                  });
+                },
+                label: '$leafLength ',
+              ),
+            ),
+          ],
         ),
+
+
+
+        // randomLeafLength
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (randomLeafLengthLOCK){
+                          randomLeafLengthLOCK=false;
+                        } else {
+                          randomLeafLengthLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'randomLength:',
+                          style: randomLeafLengthLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          randomLeafLengthLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: randomLeafLengthLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: randomLeafLength,
+                min: 0,
+                max: 20,
+                onChanged: randomLeafLengthLOCK ? null : (value) {
+                  setState(() {
+                    randomLeafLength  = value;
+                  });
+                },
+                label: '$randomLeafLength ',
+              ),
+            ),
+          ],
+        ),
+
+
+
+        // leafSquareness
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (leafSquarenessLOCK){
+                          leafSquarenessLOCK=false;
+                        } else {
+                          leafSquarenessLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'leafSquareness:',
+                          style: leafSquarenessLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          leafSquarenessLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: leafSquarenessLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: leafSquareness,
+                min: 0,
+                max: 2,
+                onChanged: leafSquarenessLOCK ? null : (value) {
+                  setState(() {
+                    leafSquareness  = value;
+                  });
+                },
+                label: '$leafSquareness ',
+              ),
+            ),
+          ],
+        ),
+
+
+
+        // leafDecay
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (leafDecayLOCK){
+                          leafDecayLOCK=false;
+                        } else {
+                          leafDecayLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'leafDecay:',
+                          style: leafDecayLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          leafDecayLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: leafDecayLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: leafDecay,
+                min: 0.9,
+                max: 1,
+                onChanged: leafDecayLOCK ? null : (value) {
+                  setState(() {
+                    leafDecay  = value;
+                  });
+                },
+                label: '$leafDecay ',
+              ),
+            ),
+          ],
+        ),
+
+
+
 
 
         // numberOfColours
@@ -1357,64 +1611,6 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
 
 
 
-
-        Container(
-          height: 200,
-          child: GridView.builder(
-            gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),
-            scrollDirection: Axis.horizontal,
-            itemCount: palette.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  onTap: () {
-                    treeSettingsList.add(
-                      TreeSettings(
-                        id: treeSettingsList.length,
-                        palette: treeSettingsList[index].palette,
-                        backgroundColor: treeSettingsList[index].backgroundColor,
-                        trunkWidth: treeSettingsList[index].trunkWidth,
-                        widthDecay: treeSettingsList[index].widthDecay,
-                        segmentLength: treeSettingsList[index].segmentLength,
-                        segmentDecay: treeSettingsList[index].segmentDecay,
-                        branch: treeSettingsList[index].branch,
-                        angle: treeSettingsList[index].angle,
-                        ratio: treeSettingsList[index].ratio,
-                        bulbousness: treeSettingsList[index].bulbousness,
-                      ),
-                    );
-                    setState(() {
-                      currentIndex = treeSettingsList.length-1;
-                    });
-                  },
-                  child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          border:
-                              Border.all(width: _currentColor == index ? 3 : 0),
-                          color: treeSettingsList[currentIndex].palette[index]),
-                      height: 50,
-                      width: 50),
-                ),
-              );
-            },
-          ),
-        ),
-        SizedBox(height: 10),
-        ColorPicker(
-          displayThumbColor: false,
-          pickerAreaHeightPercent: 0.3,
-          pickerAreaBorderRadius: BorderRadius.circular(10.0),
-          pickerColor: treeSettingsList[currentIndex].palette[_currentColor],
-          onColorChanged: (color) {
-            setState(() {
-              changeColor(_currentColor, color);
-            });
-          },
-          showLabel: false,
-        ),
       ],
     );
   }
@@ -1550,25 +1746,28 @@ class OpArtTreePainter extends CustomPainter {
     double lineWidth = 2;
     // Color trunkFillColor = Colors.grey[800];
 
+    print('palette: $palette');
+    print('backgroundColor: $backgroundColor');
+    print('trunkFillColor: $trunkFillColor');
     print('trunkWidth: $trunkWidth');
     print('widthDecay: $widthDecay');
     print('segmentLength: $segmentLength');
     print('segmentDecay: $segmentDecay');
     print('branch: $branch');
     print('angle: $angle');
-
-
     print('ratio: $ratio');
     print('bulbousness: $bulbousness');
     print('maxDepth: $maxDepth');
     print('leavesAfter: $leavesAfter');
     print('leafAngle: $leafAngle');
+    print('leafLength: $leafLength');
+    print('randomLeafLength: $randomLeafLength');
+    print('leafSquareness: $leafSquareness');
+    print('leafDecay: $leafDecay');
 
 
-    double leafLength = 8;
-    double randomLeafLength = 3.0;
-    double leafSquareness = 1;
-    double leafDecay = 1.01;
+
+
     String leafStyle = 'quadratic';
 
     List treeBaseA = [
@@ -1592,9 +1791,6 @@ class OpArtTreePainter extends CustomPainter {
         0,
         lineWidth,
         leafLength,
-        randomLeafLength,
-        leafSquareness,
-        leafDecay,
         leafStyle,
         false);
   }
@@ -1611,9 +1807,6 @@ class OpArtTreePainter extends CustomPainter {
     int currentDepth,
     double lineWidth,
     double leafLength,
-    double randomLeafLength,
-    double leafSquareness,
-    double leafDecay,
     String leafStyle,
     bool justBranched,
   ) {
@@ -1657,9 +1850,6 @@ class OpArtTreePainter extends CustomPainter {
             currentDepth + 1,
             lineWidth,
             leafLength,
-            randomLeafLength,
-            leafSquareness,
-            leafDecay,
             leafStyle,
             true);
         drawSegment(
@@ -1674,9 +1864,6 @@ class OpArtTreePainter extends CustomPainter {
             currentDepth + 1,
             lineWidth,
             leafLength,
-            randomLeafLength,
-            leafSquareness,
-            leafDecay,
             leafStyle,
             true);
       } else {
@@ -1692,9 +1879,6 @@ class OpArtTreePainter extends CustomPainter {
             currentDepth + 1,
             lineWidth,
             leafLength,
-            randomLeafLength,
-            leafSquareness,
-            leafDecay,
             leafStyle,
             true);
         drawSegment(
@@ -1709,9 +1893,6 @@ class OpArtTreePainter extends CustomPainter {
             currentDepth + 1,
             lineWidth,
             leafLength,
-            randomLeafLength,
-            leafSquareness,
-            leafDecay,
             leafStyle,
             true);
       }
@@ -1743,8 +1924,6 @@ class OpArtTreePainter extends CustomPainter {
             lineWidth,
             direction - leafAngle,
             leafLength,
-            randomLeafLength,
-            leafSquareness,
             leafStyle);
         drawTheLeaf(
             canvas,
@@ -1754,8 +1933,6 @@ class OpArtTreePainter extends CustomPainter {
             lineWidth,
             direction + leafAngle,
             leafLength,
-            randomLeafLength,
-            leafSquareness,
             leafStyle);
       }
 
@@ -1773,9 +1950,6 @@ class OpArtTreePainter extends CustomPainter {
             currentDepth + 1,
             lineWidth,
             leafLength * leafDecay,
-            randomLeafLength,
-            leafSquareness,
-            leafDecay,
             leafStyle,
             false);
       }
@@ -1856,8 +2030,6 @@ class OpArtTreePainter extends CustomPainter {
     double lineWidth,
     double leafAngle,
     double leafLength,
-    double randomLeafLength,
-    double leafSquareness,
     String leafStyle,
   ) {
     double leafAssymetery = 0.75;
