@@ -9,6 +9,9 @@ List palette;
 
 
 // Settings
+double aspectRatio = pi/2;
+bool aspectRatioLOCK = false;
+
 double trunkWidth = 10;
 bool trunkWidthLOCK = false;
 
@@ -21,6 +24,12 @@ bool segmentLengthLOCK = false;
 double segmentDecay = 0.92;
 bool segmentDecayLOCK = false;
 
+double branch = 0.7;
+bool branchLOCK = false;
+
+double angle = 0.5;
+bool angleLOCK = false;
+
 double ratio = 0.7;
 bool ratioLOCK = false;
 
@@ -29,6 +38,10 @@ bool bulbousnessLOCK = false;
 
 // palette settings
 Color backgroundColor = Colors.grey;
+bool backgroundColorLOCK = false;
+
+Color trunkFillColor = Colors.grey;
+bool trunkFillColorLOCK = false;
 
 bool randomColours = false;
 bool randomColoursLOCK = false;
@@ -43,15 +56,29 @@ double opacity = 1;
 bool opacityLOCK = false;
 
 randomisePalette(int numberOfColours, int paletteType){
+
   print('numberOfColours: $numberOfColours paletteType: $paletteType');
   rnd = Random(DateTime.now().millisecond);
 
+  // backgroundColor
+  if (backgroundColorLOCK == false) {
+    backgroundColor = Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1);
+  }
+  print('backgroundColor $backgroundColor');
+
+  // trunkFillColor
+  if (trunkFillColorLOCK == false) {
+    trunkFillColor = Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1);
+  }
+  print('trunkFillColor $trunkFillColor');
 
   List palette = [];
+
   switch(paletteType){
 
   // blended random
     case 1:{
+      print('blended random');
       double blendColour = rnd.nextDouble() * 0xFFFFFF;
       for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
         palette.add(Color(((blendColour + rnd.nextDouble() * 0xFFFFFF)/2).toInt()).withOpacity(opacity));
@@ -61,6 +88,7 @@ randomisePalette(int numberOfColours, int paletteType){
 
   // linear random
     case 2:{
+      print('linear random');
       List startColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
       List endColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
       for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
@@ -75,6 +103,7 @@ randomisePalette(int numberOfColours, int paletteType){
 
   // linear complementary
     case 3:{
+      print('linear complementary');
       List startColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
       List endColour = [255-startColour[0],255-startColour[1],255-startColour[2]];
       for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
@@ -89,6 +118,7 @@ randomisePalette(int numberOfColours, int paletteType){
 
   // random
     default: {
+      print('random');
       for (int colorIndex = 0; colorIndex < numberOfColours; colorIndex++){
         palette.add(Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity));
       }
@@ -96,6 +126,9 @@ randomisePalette(int numberOfColours, int paletteType){
     break;
 
   }
+
+  print('palette: $palette');
+
   return palette;
 }
 
@@ -108,9 +141,9 @@ randomiseSettings() {
     trunkWidth = rnd.nextDouble() * 50;
   }
 
-  // widthDecay 0.7-1.1
+  // widthDecay 0.7-1
   if (widthDecayLOCK == false) {
-    widthDecay = rnd.nextDouble() * 0.4 + 0.7;
+    widthDecay = rnd.nextDouble() * 0.3 + 0.7;
   }
 
   // segmentLength 10 to 50
@@ -123,31 +156,26 @@ randomiseSettings() {
     segmentDecay = rnd.nextDouble() * 0.3 + 0.7;
   }
 
-  // bulbousness 0-5
-  if (bulbousnessLOCK == false) {
-    bulbousness = rnd.nextDouble() * 5;
+  // branch 0.4 - 1
+  if (branchLOCK == false) {
+    branch = rnd.nextDouble() * 0.6 + 0.4;
   }
 
-  //
-  // // stepX 1 - 30
-  // if (stepXLOCK == false) {
-  //   stepX = rnd.nextDouble()*29+1;
-  // }
-  //
-  // // stepY 0.01 - 100
-  // if (stepYLOCK == false) {
-  //   stepY = rnd.nextDouble() * 99.99 + 0.01;
-  // }
-  //
-  // // frequency - 0 3
-  // if (frequencyLOCK == false) {
-  //   frequency = rnd.nextDouble() * 3;
-  // }
-  //
-  // // amplitude 0 - 200
-  // if (amplitudeLOCK == false) {
-  //   amplitude = rnd.nextDouble() * 200;
-  // }
+  // angle 0.1 - 0.7
+  if (angleLOCK == false) {
+    angle = rnd.nextDouble() * 0.6 + 0.1;
+  }
+
+  // bulbousness 0-3
+  if (bulbousnessLOCK == false) {
+    bulbousness = rnd.nextDouble() * 3;
+  }
+
+
+
+
+
+
 
   // numberOfColours 2 to 36
   if (numberOfColoursLOCK == false) {
@@ -166,11 +194,14 @@ randomiseSettings() {
 }
 
 
+
+
 class TreeSettings {
 
   int id;
-  List<Color> palette;
+  List palette;
   Color backgroundColor;
+  Color trunkFillColor;
   double trunkWidth = 10.0;
   double widthDecay = 0.92;
   double segmentLength = 35.0;
@@ -181,18 +212,22 @@ class TreeSettings {
   double bulbousness = 2;
   File image = null;
   TreeSettings(
-      {this.id,
-      this.palette,
-      this.backgroundColor,
-      this.trunkWidth,
-      this.widthDecay,
-      this.segmentDecay,
-      this.segmentLength,
-      this.branch,
-      this.angle,
-      this.ratio,
-      this.bulbousness,
-      this.image});
+      {
+        this.id,
+        this.palette,
+        this.backgroundColor,
+        this.trunkFillColor,
+        this.trunkWidth,
+        this.widthDecay,
+        this.segmentDecay,
+        this.segmentLength,
+        this.branch,
+        this.angle,
+        this.ratio,
+        this.bulbousness,
+        this.image,
+        }
+      );
 }
 
 List<TreeSettings> treeSettingsList = [
@@ -236,7 +271,8 @@ List<TreeSettings> treeSettingsList = [
       Colors.orangeAccent,
       Colors.deepOrangeAccent,
     ],
-    backgroundColor: Color(0xff638965),
+    backgroundColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
+    trunkFillColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
     trunkWidth: 10.0,
     widthDecay: 0.92,
     segmentLength: 35.0,
@@ -286,7 +322,8 @@ List<TreeSettings> treeSettingsList = [
       Colors.orangeAccent,
       Colors.deepOrangeAccent,
     ],
-    backgroundColor: Color(0xff638965),
+    backgroundColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
+    trunkFillColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
     trunkWidth: 10.0,
     widthDecay: 0.92,
     segmentLength: 35.0,
@@ -297,6 +334,7 @@ List<TreeSettings> treeSettingsList = [
       bulbousness: 3,
   ),
 ];
+
 int currentIndex = 0;
 
 void changeColor(int index, Color color) {
@@ -357,6 +395,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                           widthDecay = treeSettingsList[currentIndex].widthDecay;
                           segmentLength = treeSettingsList[currentIndex].segmentLength;
                           segmentDecay = treeSettingsList[currentIndex].segmentDecay;
+                          branch = treeSettingsList[currentIndex].branch;
                           ratio = treeSettingsList[currentIndex].ratio;
                           bulbousness = treeSettingsList[currentIndex].bulbousness;
 
@@ -384,14 +423,14 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                 treeSettingsList.add(
                   TreeSettings(
                     id: treeSettingsList.length + 1,
-                    palette: treeSettingsList[currentIndex].palette,
-                    backgroundColor: treeSettingsList[currentIndex].backgroundColor,
+                    palette: palette,
+                    backgroundColor: backgroundColor,
                     trunkWidth: trunkWidth,
                     widthDecay: widthDecay,
                     segmentLength: segmentLength,
                     segmentDecay: segmentDecay,
-                    branch: treeSettingsList[currentIndex].branch,
-                    angle: treeSettingsList[currentIndex].angle,
+                    branch: branch,
+                    angle: angle,
                     ratio: ratio,
                     bulbousness: bulbousness,
 
@@ -430,8 +469,8 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                 onPressed:() {
                   setState(() {
 
-                    // print('Randomise Palette');
-                    // palette = randomisePalette(numberOfColours, paletteType);
+                    print('Randomise Palette');
+                    palette = randomisePalette(numberOfColours, paletteType);
 
                   });
                 },
@@ -696,6 +735,109 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
           ],
         ),
 
+
+        // branch
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (branchLOCK){
+                          branchLOCK=false;
+                        } else {
+                          branchLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'branch:',
+                          style: branchLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          branchLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: branchLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: branch,
+                min: 0.4,
+                max: 1,
+                onChanged: branchLOCK ? null : (value) {
+                  setState(() {
+                    branch  = value;
+                  });
+                },
+                label: '$branch ',
+              ),
+            ),
+          ],
+        ),
+
+
+
+
+        // angle
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (angleLOCK){
+                          angleLOCK=false;
+                        } else {
+                          angleLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'angle:',
+                          style: angleLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          angleLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: angleLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: angle,
+                min: 0.1,
+                max: 0.7,
+                onChanged: angleLOCK ? null : (value) {
+                  setState(() {
+                    angle  = value;
+                  });
+                },
+                label: '$angle ',
+              ),
+            ),
+          ],
+        ),
+
+
         // ratio
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -814,6 +956,223 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
         ),
 
 
+        // numberOfColours
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              flex:1,
+              child: GestureDetector(
+                  onLongPress: (){
+                    setState(() {
+                      // toggle lock
+                      if (numberOfColoursLOCK){
+                        numberOfColoursLOCK=false;
+                      } else {
+                        numberOfColoursLOCK=true;
+                      }
+                    });
+                  },
+                  child: Row(
+                    children:[
+                      Text(
+                        '# colours:',
+                        style: numberOfColoursLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Icon(
+                        numberOfColoursLOCK ? Icons.lock : Icons.lock_open,
+                        size: 20,
+                        color: numberOfColoursLOCK ? Colors.grey : Colors.black,
+                      ),
+                    ],
+                  )
+              ),
+            ),
+            Flexible(
+              flex:2,
+              child: Slider(
+                value: numberOfColours.toDouble(),
+                min: 2,
+                max: 36,
+                onChanged: numberOfColoursLOCK ? null : (value) {
+                  setState(() {
+                    if (numberOfColours<value){
+                      palette = randomisePalette(value.toInt(), paletteType);
+                    }
+                    numberOfColours  = value.toInt();
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
+
+        // randomColours
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              flex:1,
+              child: GestureDetector(
+                  onLongPress: (){
+                    setState(() {
+                      // toggle lock
+                      if (randomColoursLOCK){
+                        randomColoursLOCK=false;
+                        print('randomColours UNLOCK');
+                      } else {
+                        randomColoursLOCK=true;
+                        print('randomColours LOCK');
+                      }
+                    });
+                  },
+                  child: Row(
+                    children:[
+                      Text(
+                        'randomColours:',
+                        style: randomColoursLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Icon(
+                        randomColoursLOCK ? Icons.lock : Icons.lock_open,
+                        size: 20,
+                        color: randomColoursLOCK ? Colors.grey : Colors.black,
+                      ),
+                    ],
+                  )
+              ),
+            ),
+            Flexible(
+              flex:2,
+              child: Switch(
+                value: randomColours,
+                onChanged: randomColoursLOCK ? null : (value) {
+                  setState(() {
+                    randomColours  = value;
+                  });
+                },
+              ),
+            ),
+
+          ],
+        ),
+
+        // paletteType
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              flex:1,
+              child: GestureDetector(
+                  onLongPress: (){
+                    setState(() {
+                      // toggle lock
+                      if (paletteTypeLOCK){
+                        paletteTypeLOCK=false;
+                        print('paletteType UNLOCK');
+                      } else {
+                        paletteTypeLOCK=true;
+                        print('paletteType LOCK');
+                      }
+                    });
+                  },
+                  child: Row(
+                    children:[
+                      Text(
+                        'paletteType:',
+                        style: paletteTypeLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Icon(
+                        paletteTypeLOCK ? Icons.lock : Icons.lock_open,
+                        size: 20,
+                        color: paletteTypeLOCK ? Colors.grey : Colors.black,
+                      ),
+                    ],
+                  )
+              ),
+            ),
+            Flexible(
+              flex:2,
+              child: DropdownButton(
+                value: paletteType,
+                items: [
+                  DropdownMenuItem(
+                    child: Text("random"),
+                    value: 0,
+                  ),
+                  DropdownMenuItem(
+                    child: Text("blended random"),
+                    value: 1,
+                  ),
+                  DropdownMenuItem(
+                    child: Text("linear random"),
+                    value: 2,
+                  ),
+                  DropdownMenuItem(
+                    child: Text("linear complementary"),
+                    value: 3,
+                  ),
+                ],
+                onChanged: paletteTypeLOCK ? null : (value) {
+                  setState(() {
+                    paletteType = value;
+                    palette = randomisePalette(numberOfColours, value);
+                  });
+                },
+              ),
+            ),
+
+          ],
+        ),
+
+        // aspectRatio
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (aspectRatioLOCK){
+                          aspectRatioLOCK=false;
+                        } else {
+                          aspectRatioLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'aspectRatio:',
+                          style: aspectRatioLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          aspectRatioLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: aspectRatioLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: aspectRatio,
+                min: 0.5,
+                max: 2,
+                onChanged: aspectRatioLOCK ? null : (value) {
+                  setState(() {
+                    aspectRatio  = value;
+                  });
+                },
+                label: '$aspectRatio ',
+              ),
+            ),
+          ],
+        ),
+
 
 
 
@@ -824,7 +1183,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
             gridDelegate:
                 SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),
             scrollDirection: Axis.horizontal,
-            itemCount: treeSettingsList[currentIndex].palette.length,
+            itemCount: palette.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -834,8 +1193,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                       TreeSettings(
                         id: treeSettingsList.length,
                         palette: treeSettingsList[index].palette,
-                        backgroundColor:
-                        treeSettingsList[index].backgroundColor,
+                        backgroundColor: treeSettingsList[index].backgroundColor,
                         trunkWidth: treeSettingsList[index].trunkWidth,
                         widthDecay: treeSettingsList[index].widthDecay,
                         segmentLength: treeSettingsList[index].segmentLength,
@@ -911,10 +1269,11 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
             Visibility(
               visible: true,
               child: LayoutBuilder(
-                builder: (_, constraints) => Container(color: treeSettingsList[currentIndex].backgroundColor,
+                builder: (_, constraints) => Container(
+                  color: backgroundColor,
                   width: constraints.widthConstraints().maxWidth,
                   height: constraints.heightConstraints().maxHeight,
-                  child: CustomPaint(painter: OpArtTreePainter(rnd)),
+                  child: CustomPaint(painter: OpArtTreePainter(widget.seed, rnd)),
                 ),
               ),
             )
@@ -949,11 +1308,20 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
 }
 
 class OpArtTreePainter extends CustomPainter {
+  int seed;
   Random rnd;
-  OpArtTreePainter(this.rnd);
+
+  OpArtTreePainter(this.seed, this.rnd);
+
   @override
   void paint(Canvas canvas, Size size) {
-    // define the paint object
+
+    print('----------------------------------------------------------------');
+    print('Tree');
+    print('----------------------------------------------------------------');
+
+    rnd = Random(seed);
+    print('seed: $seed');
 
     double canvasWidth = size.width;
     double canvasHeight = size.height;
@@ -983,22 +1351,31 @@ class OpArtTreePainter extends CustomPainter {
 
     // colour in the canvas
     var paint1 = Paint()
-      ..color = treeSettingsList[currentIndex].backgroundColor
+      ..color = backgroundColor
       ..style = PaintingStyle.fill;
     //a rectangle
     // canvas.drawRect(
     //     Offset(borderX, borderY) & Size(imageWidth, imageHeight), paint1);
 
+    // set the initial palette
+    if (palette == null) {
+      print('randomisePalette: $numberOfColours, $paletteType');
+      palette = randomisePalette(numberOfColours, paletteType);
+    }
+
+
     double direction = pi / 2;
 
     double lineWidth = 2;
-    Color trunkLineColor = Colors.grey[900];
-    Color trunkFillColor = Colors.grey[800];
+    // Color trunkFillColor = Colors.grey[800];
 
     print('trunkWidth: $trunkWidth');
     print('widthDecay: $widthDecay');
     print('segmentLength: $segmentLength');
     print('segmentDecay: $segmentDecay');
+    print('branch: $branch');
+    print('angle: $angle');
+
 
     print('ratio: $ratio');
     print('bulbousness: $bulbousness');
@@ -1029,17 +1406,12 @@ class OpArtTreePainter extends CustomPainter {
         treeBaseA,
         treeBaseB,
         trunkWidth,
-        treeSettingsList[currentIndex].branch,
-        treeSettingsList[currentIndex].angle,
         segmentLength,
         direction,
         0,
         maxDepth,
         leavesAfter,
         lineWidth,
-        trunkLineColor,
-        trunkFillColor,
-        treeSettingsList[currentIndex].palette,
         leafAngle,
         leafLength,
         randomLeafLength,
@@ -1056,17 +1428,12 @@ class OpArtTreePainter extends CustomPainter {
     List rootA,
     List rootB,
     double width,
-    double branch,
-    double angle,
     double segmentLength,
     double direction,
     int currentDepth,
     int maxDepth,
     int leavesAfter,
     double lineWidth,
-    Color trunkLineColor,
-    Color trunkFillColor,
-    List palette,
     double leafAngle,
     double leafLength,
     double randomLeafLength,
@@ -1089,8 +1456,7 @@ class OpArtTreePainter extends CustomPainter {
       ];
 
       // draw the triangle
-      drawTheTriangle(canvas, borderX, borderY, rootA, rootB, rootX, lineWidth,
-          trunkLineColor, trunkFillColor);
+      drawTheTriangle(canvas, borderX, borderY, rootA, rootB, rootX, lineWidth);
 
       double directionA;
       double directionB;
@@ -1111,17 +1477,12 @@ class OpArtTreePainter extends CustomPainter {
             rootA,
             rootX,
             width * widthDecay,
-            branch,
-            angle,
             segmentLength * segmentDecay,
             directionA,
             currentDepth + 1,
             maxDepth,
             leavesAfter,
             lineWidth,
-            trunkLineColor,
-            trunkFillColor,
-            palette,
             leafAngle,
             leafLength,
             randomLeafLength,
@@ -1136,17 +1497,12 @@ class OpArtTreePainter extends CustomPainter {
             rootX,
             rootB,
             width * widthDecay,
-            branch,
-            angle,
             segmentLength * segmentDecay,
             directionB,
             currentDepth + 1,
             maxDepth,
             leavesAfter,
             lineWidth,
-            trunkLineColor,
-            trunkFillColor,
-            palette,
             leafAngle,
             leafLength,
             randomLeafLength,
@@ -1162,17 +1518,12 @@ class OpArtTreePainter extends CustomPainter {
             rootX,
             rootB,
             width * widthDecay,
-            branch,
-            angle,
             segmentLength * segmentDecay,
             directionB,
             currentDepth + 1,
             maxDepth,
             leavesAfter,
             lineWidth,
-            trunkLineColor,
-            trunkFillColor,
-            palette,
             leafAngle,
             leafLength,
             randomLeafLength,
@@ -1187,17 +1538,12 @@ class OpArtTreePainter extends CustomPainter {
             rootA,
             rootX,
             width * widthDecay,
-            branch,
-            angle,
             segmentLength * segmentDecay,
             directionA,
             currentDepth + 1,
             maxDepth,
             leavesAfter,
             lineWidth,
-            trunkLineColor,
-            trunkFillColor,
-            palette,
             leafAngle,
             leafLength,
             randomLeafLength,
@@ -1222,8 +1568,7 @@ class OpArtTreePainter extends CustomPainter {
       ];
 
       // draw the trunk
-      drawTheTrunk(canvas, borderX, borderY, rootB, P2, P3, rootA, bulbousness,
-          lineWidth, trunkLineColor, trunkFillColor);
+      drawTheTrunk(canvas, borderX, borderY, rootB, P2, P3, rootA, bulbousness, lineWidth);
 
       // Draw the leaves
       if (currentDepth > leavesAfter) {
@@ -1231,7 +1576,6 @@ class OpArtTreePainter extends CustomPainter {
             canvas,
             borderX,
             borderY,
-            palette,
             P2,
             lineWidth,
             direction - leafAngle,
@@ -1243,7 +1587,6 @@ class OpArtTreePainter extends CustomPainter {
             canvas,
             borderX,
             borderY,
-            palette,
             P3,
             lineWidth,
             direction + leafAngle,
@@ -1262,17 +1605,12 @@ class OpArtTreePainter extends CustomPainter {
             P3,
             P2,
             width * widthDecay,
-            branch,
-            angle,
             segmentLength * segmentDecay,
             direction,
             currentDepth + 1,
             maxDepth,
             leavesAfter,
             lineWidth,
-            trunkLineColor,
-            trunkFillColor,
-            palette,
             leafAngle,
             leafLength * leafDecay,
             randomLeafLength,
@@ -1294,8 +1632,6 @@ class OpArtTreePainter extends CustomPainter {
     List P4,
     double bulbousness,
     double strokeWidth,
-    Color trunkLineColor,
-    Color trunkFillColor,
   ) {
     List PC = [
       (P1[0] + P2[0] + P3[0] + P4[0]) / 4,
@@ -1324,12 +1660,6 @@ class OpArtTreePainter extends CustomPainter {
     canvas.drawPath(
         trunk,
         Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = strokeWidth
-          ..color = trunkLineColor);
-    canvas.drawPath(
-        trunk,
-        Paint()
           ..style = PaintingStyle.fill
           ..strokeWidth = strokeWidth
           ..color = trunkFillColor);
@@ -1343,21 +1673,12 @@ class OpArtTreePainter extends CustomPainter {
     List P2,
     List P3,
     double strokeWidth,
-    Color trunkLineColor,
-    Color trunkFillColor,
   ) {
     Path trunk = Path();
     trunk.moveTo(borderX + P1[0], -borderY + P1[1]);
     trunk.lineTo(borderX + P2[0], -borderY + P2[1]);
     trunk.lineTo(borderX + P3[0], -borderY + P3[1]);
     trunk.close();
-
-    canvas.drawPath(
-        trunk,
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = strokeWidth
-          ..color = trunkLineColor);
 
     canvas.drawPath(
         trunk,
@@ -1371,7 +1692,6 @@ class OpArtTreePainter extends CustomPainter {
     Canvas canvas,
     double borderX,
     double borderY,
-    List palette,
     List leafPosition,
     double lineWidth,
     double leafAngle,
@@ -1383,7 +1703,6 @@ class OpArtTreePainter extends CustomPainter {
     double leafAssymetery = 0.75;
 
     // pick a random color
-    Random rnd = new Random();
     Color leafColor = palette[rnd.nextInt(palette.length)];
 
     var leafRadius = leafLength + rnd.nextDouble() * randomLeafLength;
