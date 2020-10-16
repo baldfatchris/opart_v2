@@ -5,6 +5,138 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:screenshot/screenshot.dart';
 
 Random rnd;
+List palette;
+
+// Settings
+double ratio = 0.7;
+bool ratioLOCK = false;
+
+double bulbousness = 2;
+bool bulbousnessLOCK = false;
+
+// palette settings
+Color backgroundColor = Colors.grey;
+
+bool randomColours = false;
+bool randomColoursLOCK = false;
+
+int numberOfColours = 12;
+bool numberOfColoursLOCK = false;
+
+int paletteType = 2;
+bool paletteTypeLOCK = false;
+
+double opacity = 1;
+bool opacityLOCK = false;
+
+randomisePalette(int numberOfColours, int paletteType){
+  print('numberOfColours: $numberOfColours paletteType: $paletteType');
+  rnd = Random(DateTime.now().millisecond);
+
+
+  List palette = [];
+  switch(paletteType){
+
+  // blended random
+    case 1:{
+      double blendColour = rnd.nextDouble() * 0xFFFFFF;
+      for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
+        palette.add(Color(((blendColour + rnd.nextDouble() * 0xFFFFFF)/2).toInt()).withOpacity(opacity));
+      }
+    }
+    break;
+
+  // linear random
+    case 2:{
+      List startColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
+      List endColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
+      for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
+        palette.add(Color.fromRGBO(
+            ((startColour[0]*colourIndex + endColour[0]*(numberOfColours-colourIndex))/numberOfColours).round(),
+            ((startColour[1]*colourIndex + endColour[1]*(numberOfColours-colourIndex))/numberOfColours).round(),
+            ((startColour[2]*colourIndex + endColour[2]*(numberOfColours-colourIndex))/numberOfColours).round(),
+            opacity));
+      }
+    }
+    break;
+
+  // linear complementary
+    case 3:{
+      List startColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
+      List endColour = [255-startColour[0],255-startColour[1],255-startColour[2]];
+      for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
+        palette.add(Color.fromRGBO(
+            ((startColour[0]*colourIndex + endColour[0]*(numberOfColours-colourIndex))/numberOfColours).round(),
+            ((startColour[1]*colourIndex + endColour[1]*(numberOfColours-colourIndex))/numberOfColours).round(),
+            ((startColour[2]*colourIndex + endColour[2]*(numberOfColours-colourIndex))/numberOfColours).round(),
+            opacity));
+      }
+    }
+    break;
+
+  // random
+    default: {
+      for (int colorIndex = 0; colorIndex < numberOfColours; colorIndex++){
+        palette.add(Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity));
+      }
+    }
+    break;
+
+  }
+  return palette;
+}
+
+randomiseSettings() {
+
+  print('RANDOMISE SETTINGS');
+
+  // ratio 0.75 - 1.25
+  if (ratioLOCK == false) {
+    ratio = rnd.nextDouble() * 0.5 + 0.75;
+  }
+
+  // bulbousness 0-3
+  if (bulbousnessLOCK == false) {
+    bulbousness = rnd.nextDouble() * 3;
+  }
+
+  //
+  // // stepX 1 - 30
+  // if (stepXLOCK == false) {
+  //   stepX = rnd.nextDouble()*29+1;
+  // }
+  //
+  // // stepY 0.01 - 100
+  // if (stepYLOCK == false) {
+  //   stepY = rnd.nextDouble() * 99.99 + 0.01;
+  // }
+  //
+  // // frequency - 0 3
+  // if (frequencyLOCK == false) {
+  //   frequency = rnd.nextDouble() * 3;
+  // }
+  //
+  // // amplitude 0 - 200
+  // if (amplitudeLOCK == false) {
+  //   amplitude = rnd.nextDouble() * 200;
+  // }
+
+  // numberOfColours 2 to 36
+  if (numberOfColoursLOCK == false) {
+    numberOfColours = rnd.nextInt(34) + 2;
+  }
+
+  // randomColours
+  if (randomColoursLOCK == false) {
+    randomColours = rnd.nextBool();
+  }
+
+  // paletteType 0 to 3
+  if (paletteTypeLOCK == false) {
+    paletteType = rnd.nextInt(4);
+  }
+}
+
 
 class TreeSettings {
 
@@ -278,8 +410,8 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                   setState(() {
 
                     print('Randomise All');
-                    // randomiseSettings();
-                    // palette = randomisePalette(numberOfColours, paletteType);
+                    randomiseSettings();
+                    palette = randomisePalette(numberOfColours, paletteType);
 
                   });
                 },
@@ -320,6 +452,8 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                 showLabel: false,
               )
             : Container(),
+
+
         Text('Trunk Width'),
         Slider(
           value: treeSettingsList[currentIndex].trunkWidth,
@@ -532,7 +666,9 @@ class OpArtTreePainter extends CustomPainter {
     Color trunkLineColor = Colors.grey[900];
     Color trunkFillColor = Colors.grey[800];
 
-    double bulbousness = 2.5;
+    print('ratio: $ratio');
+    print('bulbousness: $bulbousness');
+
     int maxDepth = 20;
     int leavesAfter = 5;
 
@@ -561,7 +697,7 @@ class OpArtTreePainter extends CustomPainter {
         treeSettingsList[currentIndex].trunkWidth,
         treeSettingsList[currentIndex].branch,
         treeSettingsList[currentIndex].angle,
-        treeSettingsList[currentIndex].ratio,
+        // treeSettingsList[currentIndex].ratio,
         treeSettingsList[currentIndex].widthDecay,
         treeSettingsList[currentIndex].segmentLength,
         treeSettingsList[currentIndex].segmentDecay,
@@ -592,7 +728,7 @@ class OpArtTreePainter extends CustomPainter {
     double width,
     double branch,
     double angle,
-    double ratio,
+    // double ratio,
     double widthDecay,
     double segmentLength,
     double segmentDecay,
@@ -651,7 +787,7 @@ class OpArtTreePainter extends CustomPainter {
             width * widthDecay,
             branch,
             angle,
-            ratio,
+            // ratio,
             widthDecay,
             segmentLength * segmentDecay,
             segmentDecay,
@@ -680,7 +816,7 @@ class OpArtTreePainter extends CustomPainter {
             width * widthDecay,
             branch,
             angle,
-            ratio,
+            // ratio,
             widthDecay,
             segmentLength * segmentDecay,
             segmentDecay,
@@ -710,7 +846,7 @@ class OpArtTreePainter extends CustomPainter {
             width * widthDecay,
             branch,
             angle,
-            ratio,
+            // ratio,
             widthDecay,
             segmentLength * segmentDecay,
             segmentDecay,
@@ -739,7 +875,7 @@ class OpArtTreePainter extends CustomPainter {
             width * widthDecay,
             branch,
             angle,
-            ratio,
+            // ratio,
             widthDecay,
             segmentLength * segmentDecay,
             segmentDecay,
@@ -818,7 +954,7 @@ class OpArtTreePainter extends CustomPainter {
             width * widthDecay,
             branch,
             angle,
-            ratio,
+            // ratio,
             widthDecay,
             segmentLength * segmentDecay,
             segmentDecay,
