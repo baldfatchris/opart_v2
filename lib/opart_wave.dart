@@ -41,6 +41,7 @@ bool opacityLOCK = false;
 
 randomisePalette(int numberOfColours, int paletteType){
   print('numberOfColours: $numberOfColours paletteType: $paletteType');
+
   rnd = Random(DateTime.now().millisecond);
 
 
@@ -735,7 +736,10 @@ class OpArtWavePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // define the paint object
+
+    print('----------------------------------------------------------------');
+    print('Wave');
+    print('----------------------------------------------------------------');
 
 
     rnd = Random(seed);

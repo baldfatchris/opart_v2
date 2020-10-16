@@ -338,12 +338,19 @@ randomiseSettings() {
   if (randomPetalsLOCK == false) {
     randomPetals = rnd.nextBool();
   }
-  
-  numberOfColours = rnd.nextInt(34)+2;
-  if (rnd.nextBool()){
-    opacity=rnd.nextDouble();
-  } else {
-    opacity=1;
+
+  // numberOfColours 2 to 36
+  if (numberOfColoursLOCK == false){
+    numberOfColours = rnd.nextInt(34)+2;
+  }
+
+  // opacity 0-1
+  if (opacityLOCK == false) {
+    if (rnd.nextBool()) {
+      opacity = rnd.nextDouble();
+    } else {
+      opacity = 1;
+    }
   }
 
   // randomColours 
