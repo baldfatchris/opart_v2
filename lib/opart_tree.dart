@@ -4,7 +4,10 @@ import 'dart:io';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:screenshot/screenshot.dart';
 
+Random rnd;
+
 class TreeSettings {
+
   int id;
   List<Color> palette;
   Color backgroundColor;
@@ -139,9 +142,11 @@ void changeColor(int index, Color color) {
 }
 
 class OpArtTreeStudio extends StatefulWidget {
+
+  int seed;
   bool showSettings;
   ScreenshotController screenshotController;
-  OpArtTreeStudio(this.showSettings, {this.screenshotController});
+  OpArtTreeStudio(this.seed, this.showSettings, {this.screenshotController});
 
   @override
   _OpArtTreeStudioState createState() => _OpArtTreeStudioState();
@@ -154,6 +159,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
   File _imageFile;
 
   int _currentColor = 0;
+
   Widget settingsWidget() {
     return ListView(
       children: [
@@ -167,7 +173,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
         ),
         Row(
           children: [
-            Container(
+              Container(
               width: 300,
               height: 60,
               child: ListView.builder(
@@ -233,6 +239,58 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
           ],
         ),
         SizedBox(height: 8),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+
+            // Randomise Palette
+            Flexible(
+              flex: 1,
+              child: FloatingActionButton.extended(
+                label: Text('Randomise Palette'),
+                icon: Icon(Icons.palette),
+                //backgroundColor: Colors.pink,
+
+                onPressed:() {
+                  setState(() {
+
+                    // print('Randomise Palette');
+                    // palette = randomisePalette(numberOfColours, paletteType);
+
+                  });
+                },
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+
+            // Randomise All
+            Flexible(
+              flex: 1,
+              child: FloatingActionButton.extended(
+                label: Text('Randomise All'),
+
+                icon: Icon(Icons.refresh),
+
+                onPressed:() {
+                  setState(() {
+
+                    print('Randomise All');
+                    // randomiseSettings();
+                    // palette = randomisePalette(numberOfColours, paletteType);
+
+                  });
+                },
+              ),
+            ),
+
+          ],
+        ),
+
+
+        // backgroundColor
         Row(
           children: [
             Text('Background Color'),
@@ -359,7 +417,6 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
     );
   }
 
-  Random rnd;
 
   @override
   void initState() {

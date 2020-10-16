@@ -34,8 +34,8 @@ class _OpArtMenuState extends State<OpArtMenu> {
     OpArtType(
       name: 'Trees',
       icon: 'lib/assets/trees.png',
-      widgetWithSettings: OpArtTreeStudio(true, screenshotController: screenshotController),
-      widgetWithoutSettings: OpArtTreeStudio(false, screenshotController: screenshotController),
+      widgetWithSettings: OpArtTreeStudio(seed, true, screenshotController: screenshotController),
+      widgetWithoutSettings: OpArtTreeStudio(seed, false, screenshotController: screenshotController),
     ),
     OpArtType(
         name: 'Waves',
@@ -59,6 +59,7 @@ class _OpArtMenuState extends State<OpArtMenu> {
   Hero btn2;
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     print(showSettings);
     return Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -70,33 +71,38 @@ class _OpArtMenuState extends State<OpArtMenu> {
             });
           },
         ),
-        drawer: Drawer(
-            // Add a ListView to the drawer. This ensures the user can scroll
-            // through the options in the drawer if there isn't enough vertical
-            // space to fit everything.
-            child: ListView.builder(
-          itemCount: OpArtTypes.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: EdgeInsets.symmetric(vertical: 1, horizontal: 4),
-              child: Card(
-                child: ListTile(
-                  onTap: () {
-                    print(OpArtTypes[index].name);
-                    setState(() {
-                      currentWidget = index;
-                      Navigator.pop(context);
-                    });
-                  },
-                  title: Text(OpArtTypes[index].name),
-                  leading: CircleAvatar(
-                    backgroundImage: AssetImage('${OpArtTypes[index].icon}'),
+
+        drawer: SizedBox(
+          width: size.width,
+          child: Drawer(
+              // Add a ListView to the drawer. This ensures the user can scroll
+              // through the options in the drawer if there isn't enough vertical
+              // space to fit everything.
+
+              child: ListView.builder(
+                itemCount: OpArtTypes.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: 1, horizontal: 4),
+                    child: Card(
+                      child: ListTile(
+                        onTap: () {
+                          print(OpArtTypes[index].name);
+                          setState(() {
+                            currentWidget = index;
+                            Navigator.pop(context);
+                          });
+                          },
+                        title: Text(OpArtTypes[index].name),
+                        leading: CircleAvatar(
+                      backgroundImage: AssetImage('${OpArtTypes[index].icon}'),
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
-        )),
+              );
+            },
+          )),
+        ),
         backgroundColor: Colors.grey[200],
         appBar: AppBar(
           backgroundColor: Colors.blue[900],

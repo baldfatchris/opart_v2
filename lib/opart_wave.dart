@@ -150,18 +150,20 @@ class OpArtWaveStudio extends StatefulWidget {
   int seed;
   bool showSettings;
   ScreenshotController screenshotController;
-
   OpArtWaveStudio(this.seed, this.showSettings, {this.screenshotController});
 
   @override
   _OpArtWaveStudioState createState() => _OpArtWaveStudioState();
 }
 
+
+
+
 class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
   int _counter = 0;
   File _imageFile;
-  ScreenshotController screenshotController = ScreenshotController();
   int _currentColor = 0;
+
   Widget settingsWidget() {
     return ListView(
       children: [
@@ -179,6 +181,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
 
+            // Randomise Palette
             Flexible(
               flex: 1,
               child: FloatingActionButton.extended(
@@ -199,6 +202,8 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
             SizedBox(
               width: 10,
             ),
+
+            // Randomise All
             Flexible(
               flex: 1,
               child: FloatingActionButton.extended(
@@ -648,12 +653,10 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
     );
   }
 
-
   @override
-
   Widget bodyWidget() {
     return Screenshot(
-      controller: screenshotController,
+//      controller: screenshotController,
       child: Stack(
         children: [
           Visibility(
@@ -721,6 +724,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
       ),
     );
   }
+
 }
 
 class OpArtWavePainter extends CustomPainter {
