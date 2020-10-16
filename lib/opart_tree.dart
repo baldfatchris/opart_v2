@@ -7,7 +7,11 @@ import 'package:screenshot/screenshot.dart';
 Random rnd;
 List palette;
 
+
 // Settings
+double trunkWidth = 10;
+bool trunkWidthLOCK = false;
+
 double ratio = 0.7;
 bool ratioLOCK = false;
 
@@ -90,14 +94,19 @@ randomiseSettings() {
 
   print('RANDOMISE SETTINGS');
 
-  // ratio 0.75 - 1.25
-  if (ratioLOCK == false) {
-    ratio = rnd.nextDouble() * 0.5 + 0.75;
+  // trunkWidth 0 to 50
+  if (trunkWidthLOCK == false) {
+    trunkWidth = rnd.nextDouble() * 50;
   }
 
-  // bulbousness 0-3
+  // ratio 0.5 - 1.5
+  if (ratioLOCK == false) {
+    ratio = rnd.nextDouble() * 0.1 + 0.5;
+  }
+
+  // bulbousness 0-5
   if (bulbousnessLOCK == false) {
-    bulbousness = rnd.nextDouble() * 3;
+    bulbousness = rnd.nextDouble() * 5;
   }
 
   //
@@ -150,6 +159,7 @@ class TreeSettings {
   double branch = 0.7;
   double angle = 0.5;
   double ratio = 0.7;
+  double bulbousness = 2;
   File image = null;
   TreeSettings(
       {this.id,
@@ -162,6 +172,7 @@ class TreeSettings {
       this.branch,
       this.angle,
       this.ratio,
+      this.bulbousness,
       this.image});
 }
 
@@ -214,6 +225,7 @@ List<TreeSettings> treeSettingsList = [
     branch: 0.7,
     angle: 0.5,
     ratio: 0.7,
+      bulbousness: 2,
   ),
   TreeSettings(
     id: 1,
@@ -263,6 +275,7 @@ List<TreeSettings> treeSettingsList = [
     branch: 0.7,
     angle: 0.5,
     ratio: 0.7,
+      bulbousness: 3,
   ),
 ];
 int currentIndex = 0;
@@ -352,6 +365,8 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                     branch: treeSettingsList[currentIndex].branch,
                     angle: treeSettingsList[currentIndex].angle,
                     ratio: treeSettingsList[currentIndex].ratio,
+                    bulbousness: treeSettingsList[currentIndex].bulbousness,
+
                   ),
                 );
                 widget.screenshotController
@@ -454,18 +469,163 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
             : Container(),
 
 
-        Text('Trunk Width'),
-        Slider(
-          value: treeSettingsList[currentIndex].trunkWidth,
-          min: 0,
-          max: 15,
-          onChanged: (value) {
-            setState(() {
-              treeSettingsList[currentIndex].trunkWidth = value;
-            });
-          },
-          label: '$treeSettingsList[currentIndex].trunkWidth',
+        // trunkWidth
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (trunkWidthLOCK){
+                          trunkWidthLOCK=false;
+                        } else {
+                          trunkWidthLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'trunkWidth:',
+                          style: trunkWidthLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          trunkWidthLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: trunkWidthLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: trunkWidth,
+                min: 0,
+                max: 50,
+                onChanged: trunkWidthLOCK ? null : (value) {
+                  setState(() {
+                    trunkWidth  = value;
+                  });
+                },
+                label: '$trunkWidth ',
+              ),
+            ),
+          ],
         ),
+
+
+
+
+
+        // ratio
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (ratioLOCK){
+                          ratioLOCK=false;
+                        } else {
+                          ratioLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'ratio:',
+                          style: ratioLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          ratioLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: ratioLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: ratio,
+                min: 0.5,
+                max: 1.5,
+                onChanged: ratioLOCK ? null : (value) {
+                  setState(() {
+                    ratio  = value;
+                  });
+                },
+                label: '$ratio ',
+              ),
+            ),
+          ],
+        ),
+
+
+        // bulbousness
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+                flex: 1,
+                child: GestureDetector(
+                    onLongPress: (){
+                      setState(() {
+                        // toggle lock
+                        if (bulbousnessLOCK){
+                          bulbousnessLOCK=false;
+                        } else {
+                          bulbousnessLOCK=true;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children:[
+                        Text(
+                          'bulbousness:',
+                          style: bulbousnessLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          bulbousnessLOCK ? Icons.lock : Icons.lock_open,
+                          size: 20,
+                          color: bulbousnessLOCK ? Colors.grey : Colors.black,
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Flexible(
+              flex: 2,
+              child: Slider(
+                value: bulbousness,
+                min: 0,
+                max: 5,
+                onChanged: bulbousnessLOCK ? null : (value) {
+                  setState(() {
+                    bulbousness  = value;
+                  });
+                },
+                label: '$bulbousness ',
+              ),
+            ),
+          ],
+        ),
+
+
+
+
+        
+
         Text('Width Decay'),
         Slider(
           value: treeSettingsList[currentIndex].widthDecay,
@@ -478,6 +638,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
           },
           label: '$treeSettingsList[currentIndex].widthDecay',
         ),
+
         Text('Segment Length'),
         Slider(
           value: treeSettingsList[currentIndex].segmentLength,
@@ -490,6 +651,8 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
           },
           label: '$treeSettingsList[currentIndex].segmentLength',
         ),
+
+
         Container(
           height: 200,
           child: GridView.builder(
@@ -515,6 +678,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                         branch: treeSettingsList[index].branch,
                         angle: treeSettingsList[index].angle,
                         ratio: treeSettingsList[index].ratio,
+                        bulbousness: treeSettingsList[index].bulbousness,
                       ),
                     );
                     setState(() {
@@ -666,6 +830,7 @@ class OpArtTreePainter extends CustomPainter {
     Color trunkLineColor = Colors.grey[900];
     Color trunkFillColor = Colors.grey[800];
 
+    print('trunkWidth: $trunkWidth');
     print('ratio: $ratio');
     print('bulbousness: $bulbousness');
 
@@ -680,11 +845,11 @@ class OpArtTreePainter extends CustomPainter {
     String leafStyle = 'quadratic';
 
     List treeBaseA = [
-      (canvasWidth - treeSettingsList[currentIndex].trunkWidth) / 2,
+      (canvasWidth - trunkWidth) / 2,
       canvasHeight
     ];
     List treeBaseB = [
-      (canvasWidth + treeSettingsList[currentIndex].trunkWidth) / 2,
+      (canvasWidth + trunkWidth) / 2,
       canvasHeight
     ];
 
@@ -694,7 +859,7 @@ class OpArtTreePainter extends CustomPainter {
         borderY,
         treeBaseA,
         treeBaseB,
-        treeSettingsList[currentIndex].trunkWidth,
+        trunkWidth,
         treeSettingsList[currentIndex].branch,
         treeSettingsList[currentIndex].angle,
         // treeSettingsList[currentIndex].ratio,
@@ -708,7 +873,7 @@ class OpArtTreePainter extends CustomPainter {
         lineWidth,
         trunkLineColor,
         trunkFillColor,
-        bulbousness,
+        // bulbousness,
         treeSettingsList[currentIndex].palette,
         leafAngle,
         leafLength,
@@ -739,7 +904,7 @@ class OpArtTreePainter extends CustomPainter {
     double lineWidth,
     Color trunkLineColor,
     Color trunkFillColor,
-    double bulbousness,
+    // double bulbousness,
     List palette,
     double leafAngle,
     double leafLength,
@@ -798,7 +963,7 @@ class OpArtTreePainter extends CustomPainter {
             lineWidth,
             trunkLineColor,
             trunkFillColor,
-            bulbousness,
+            // bulbousness,
             palette,
             leafAngle,
             leafLength,
@@ -827,7 +992,7 @@ class OpArtTreePainter extends CustomPainter {
             lineWidth,
             trunkLineColor,
             trunkFillColor,
-            bulbousness,
+            // bulbousness,
             palette,
             leafAngle,
             leafLength,
@@ -857,7 +1022,7 @@ class OpArtTreePainter extends CustomPainter {
             lineWidth,
             trunkLineColor,
             trunkFillColor,
-            bulbousness,
+            // bulbousness,
             palette,
             leafAngle,
             leafLength,
@@ -886,7 +1051,7 @@ class OpArtTreePainter extends CustomPainter {
             lineWidth,
             trunkLineColor,
             trunkFillColor,
-            bulbousness,
+            // bulbousness,
             palette,
             leafAngle,
             leafLength,
@@ -965,7 +1130,7 @@ class OpArtTreePainter extends CustomPainter {
             lineWidth,
             trunkLineColor,
             trunkFillColor,
-            bulbousness,
+            // bulbousness,
             palette,
             leafAngle,
             leafLength * leafDecay,
