@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:shake/shake.dart';
+import 'package:opart_v2/setting_slider.dart';
 
 Random rnd;
 List palette;
@@ -679,356 +680,41 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
 
 
         // trunkWidth
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-                flex: 1,
-                child: GestureDetector(
-                    onLongPress: (){
-                      setState(() {
-                        // toggle lock
-                        if (trunkWidthLOCK){
-                          trunkWidthLOCK=false;
-                        } else {
-                          trunkWidthLOCK=true;
-                        }
-                      });
-                    },
-                    child: Row(
-                      children:[
-                        Text(
-                          'trunkWidth:',
-                          style: trunkWidthLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Icon(
-                          trunkWidthLOCK ? Icons.lock : Icons.lock_open,
-                          size: 20,
-                          color: trunkWidthLOCK ? Colors.grey : Colors.black,
-                        ),
-                      ],
-                    )
-                )
-            ),
-            Flexible(
-              flex: 2,
-              child: Slider(
-                value: trunkWidth,
-                min: 0,
-                max: 50,
-                onChanged: trunkWidthLOCK ? null : (value) {
-                  setState(() {
-                    trunkWidth  = value;
-                  });
-                },
-                label: '$trunkWidth ',
-              ),
-            ),
-          ],
+        settingsSlider('trunkWidth', trunkWidth, 0, 50, trunkWidthLOCK,
+              (value) {setState(() {trunkWidth = value;});},
+              () {setState(() {trunkWidthLOCK = !trunkWidthLOCK;});},
         ),
+
 
         // widthDecay
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-                flex: 1,
-                child: GestureDetector(
-                    onLongPress: (){
-                      setState(() {
-                        // toggle lock
-                        if (widthDecayLOCK){
-                          widthDecayLOCK=false;
-                        } else {
-                          widthDecayLOCK=true;
-                        }
-                      });
-                    },
-                    child: Row(
-                      children:[
-                        Text(
-                          'widthDecay:',
-                          style: widthDecayLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Icon(
-                          widthDecayLOCK ? Icons.lock : Icons.lock_open,
-                          size: 20,
-                          color: widthDecayLOCK ? Colors.grey : Colors.black,
-                        ),
-                      ],
-                    )
-                )
-            ),
-            Flexible(
-              flex: 2,
-              child: Slider(
-                value: widthDecay,
-                min: 0.7,
-                max: 1.1,
-                onChanged: widthDecayLOCK ? null : (value) {
-                  setState(() {
-                    widthDecay  = value;
-                  });
-                },
-                label: '$widthDecay ',
-              ),
-            ),
-          ],
+        settingsSlider('widthDecay', widthDecay, 0.7, 1.1, widthDecayLOCK,
+              (value) {setState(() {widthDecay = value;});},
+              () {setState(() {widthDecayLOCK = !widthDecayLOCK;});},
         ),
 
-
-        // segmentLength
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-                flex: 1,
-                child: GestureDetector(
-                    onLongPress: (){
-                      setState(() {
-                        // toggle lock
-                        if (segmentLengthLOCK){
-                          segmentLengthLOCK=false;
-                        } else {
-                          segmentLengthLOCK=true;
-                        }
-                      });
-                    },
-                    child: Row(
-                      children:[
-                        Text(
-                          'segmentLength:',
-                          style: segmentLengthLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Icon(
-                          segmentLengthLOCK ? Icons.lock : Icons.lock_open,
-                          size: 20,
-                          color: segmentLengthLOCK ? Colors.grey : Colors.black,
-                        ),
-                      ],
-                    )
-                )
-            ),
-            Flexible(
-              flex: 2,
-              child: Slider(
-                value: segmentLength,
-                min: 10,
-                max: 50,
-                onChanged: segmentLengthLOCK ? null : (value) {
-                  setState(() {
-                    segmentLength  = value;
-                  });
-                },
-                label: '$segmentLength ',
-              ),
-            ),
-          ],
+        //
+        settingsSlider('segmentLength', segmentLength, 10, 50, segmentLengthLOCK,
+              (value) {setState(() {segmentLength = value;});},
+              () {setState(() {segmentLengthLOCK = !segmentLengthLOCK;});},
         ),
-
-
-
-        // segmentDecay
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-                flex: 1,
-                child: GestureDetector(
-                    onLongPress: (){
-                      setState(() {
-                        // toggle lock
-                        if (segmentDecayLOCK){
-                          segmentDecayLOCK=false;
-                        } else {
-                          segmentDecayLOCK=true;
-                        }
-                      });
-                    },
-                    child: Row(
-                      children:[
-                        Text(
-                          'segmentDecay:',
-                          style: segmentDecayLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Icon(
-                          segmentDecayLOCK ? Icons.lock : Icons.lock_open,
-                          size: 20,
-                          color: segmentDecayLOCK ? Colors.grey : Colors.black,
-                        ),
-                      ],
-                    )
-                )
-            ),
-            Flexible(
-              flex: 2,
-              child: Slider(
-                value: segmentDecay,
-                min: 0.7,
-                max: 1,
-                onChanged: segmentDecayLOCK ? null : (value) {
-                  setState(() {
-                    segmentDecay  = value;
-                  });
-                },
-                label: '$segmentDecay ',
-              ),
-            ),
-          ],
-        ),
-
 
         // branch
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-                flex: 1,
-                child: GestureDetector(
-                    onLongPress: (){
-                      setState(() {
-                        // toggle lock
-                        if (branchLOCK){
-                          branchLOCK=false;
-                        } else {
-                          branchLOCK=true;
-                        }
-                      });
-                    },
-                    child: Row(
-                      children:[
-                        Text(
-                          'branch:',
-                          style: branchLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Icon(
-                          branchLOCK ? Icons.lock : Icons.lock_open,
-                          size: 20,
-                          color: branchLOCK ? Colors.grey : Colors.black,
-                        ),
-                      ],
-                    )
-                )
-            ),
-            Flexible(
-              flex: 2,
-              child: Slider(
-                value: branch,
-                min: 0.4,
-                max: 1,
-                onChanged: branchLOCK ? null : (value) {
-                  setState(() {
-                    branch  = value;
-                  });
-                },
-                label: '$branch ',
-              ),
-            ),
-          ],
+        settingsSlider('branch', branch, 0.4, 1, branchLOCK,
+              (value) {setState(() {branch = value;});},
+              () {setState(() {branchLOCK = !branchLOCK;});},
         ),
-
-
-
 
         // angle
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-                flex: 1,
-                child: GestureDetector(
-                    onLongPress: (){
-                      setState(() {
-                        // toggle lock
-                        if (angleLOCK){
-                          angleLOCK=false;
-                        } else {
-                          angleLOCK=true;
-                        }
-                      });
-                    },
-                    child: Row(
-                      children:[
-                        Text(
-                          'angle:',
-                          style: angleLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Icon(
-                          angleLOCK ? Icons.lock : Icons.lock_open,
-                          size: 20,
-                          color: angleLOCK ? Colors.grey : Colors.black,
-                        ),
-                      ],
-                    )
-                )
-            ),
-            Flexible(
-              flex: 2,
-              child: Slider(
-                value: angle,
-                min: 0.1,
-                max: 0.7,
-                onChanged: angleLOCK ? null : (value) {
-                  setState(() {
-                    angle  = value;
-                  });
-                },
-                label: '$angle ',
-              ),
-            ),
-          ],
+        settingsSlider('angle', angle, 0.1, 0.7, angleLOCK,
+              (value) {setState(() {branch = value;});},
+              () {setState(() {angleLOCK = !angleLOCK;});},
         ),
-
 
         // ratio
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-                flex: 1,
-                child: GestureDetector(
-                    onLongPress: (){
-                      setState(() {
-                        // toggle lock
-                        if (ratioLOCK){
-                          ratioLOCK=false;
-                        } else {
-                          ratioLOCK=true;
-                        }
-                      });
-                    },
-                    child: Row(
-                      children:[
-                        Text(
-                          'ratio:',
-                          style: ratioLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Icon(
-                          ratioLOCK ? Icons.lock : Icons.lock_open,
-                          size: 20,
-                          color: ratioLOCK ? Colors.grey : Colors.black,
-                        ),
-                      ],
-                    )
-                )
-            ),
-            Flexible(
-              flex: 2,
-              child: Slider(
-                value: ratio,
-                min: 0.5,
-                max: 1.5,
-                onChanged: ratioLOCK ? null : (value) {
-                  setState(() {
-                    ratio  = value;
-                  });
-                },
-                label: '$ratio ',
-              ),
-            ),
-          ],
+        settingsSlider('ratio', ratio, 0.5, 1.5, ratioLOCK,
+              (value) {setState(() {branch = value;});},
+              () {setState(() {ratioLOCK = !ratioLOCK;});},
         ),
-
 
         // bulbousness
         Row(
@@ -1706,6 +1392,62 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
 
   @override
   Widget build(BuildContext context) {
+
+
+    Widget settingSlider(String label){
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+              flex: 1,
+              child: GestureDetector(
+                  onLongPress: (){
+                    setState(() {
+                      // toggle lock
+                      if (trunkWidthLOCK){
+                        trunkWidthLOCK=false;
+                      } else {
+                        trunkWidthLOCK=true;
+                      }
+                    });
+                  },
+                  child: Row(
+                    children:[
+                      Text(
+                        'trunkWidth:',
+                        style: trunkWidthLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Icon(
+                        trunkWidthLOCK ? Icons.lock : Icons.lock_open,
+                        size: 20,
+                        color: trunkWidthLOCK ? Colors.grey : Colors.black,
+                      ),
+                    ],
+                  )
+              )
+          ),
+          Flexible(
+            flex: 2,
+            child: Slider(
+              value: trunkWidth,
+              min: 0,
+              max: 50,
+              onChanged: trunkWidthLOCK ? null : (value) {
+                setState(() {
+                  trunkWidth  = value;
+                });
+              },
+              label: '$trunkWidth ',
+            ),
+          ),
+        ],
+      );
+    }
+
+
+
+
+
     ScreenshotController screenshotController = widget.screenshotController;
 
     Widget bodyWidget() {
@@ -1752,6 +1494,10 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
       ),
     );
   }
+
+
+
+
 
 
   @override
@@ -1912,9 +1658,9 @@ class OpArtTreePainter extends CustomPainter {
     //
     // });
     // currentIndex = treeSettingsList.length-1;
-    //
-    //
-    //
+
+
+
 
 
   }
