@@ -1392,62 +1392,6 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
 
   @override
   Widget build(BuildContext context) {
-
-
-    Widget settingSlider(String label){
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Flexible(
-              flex: 1,
-              child: GestureDetector(
-                  onLongPress: (){
-                    setState(() {
-                      // toggle lock
-                      if (trunkWidthLOCK){
-                        trunkWidthLOCK=false;
-                      } else {
-                        trunkWidthLOCK=true;
-                      }
-                    });
-                  },
-                  child: Row(
-                    children:[
-                      Text(
-                        'trunkWidth:',
-                        style: trunkWidthLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Icon(
-                        trunkWidthLOCK ? Icons.lock : Icons.lock_open,
-                        size: 20,
-                        color: trunkWidthLOCK ? Colors.grey : Colors.black,
-                      ),
-                    ],
-                  )
-              )
-          ),
-          Flexible(
-            flex: 2,
-            child: Slider(
-              value: trunkWidth,
-              min: 0,
-              max: 50,
-              onChanged: trunkWidthLOCK ? null : (value) {
-                setState(() {
-                  trunkWidth  = value;
-                });
-              },
-              label: '$trunkWidth ',
-            ),
-          ),
-        ],
-      );
-    }
-
-
-
-
-
     ScreenshotController screenshotController = widget.screenshotController;
 
     Widget bodyWidget() {
@@ -1494,10 +1438,6 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
       ),
     );
   }
-
-
-
-
 
 
   @override
@@ -1658,9 +1598,9 @@ class OpArtTreePainter extends CustomPainter {
     //
     // });
     // currentIndex = treeSettingsList.length-1;
-
-
-
+    //
+    //
+    //
 
 
   }
