@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:io';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:shake/shake.dart';
 
 Random rnd;
 List palette;
@@ -460,11 +461,15 @@ void changeColor(int index, Color color) {
   palette.replaceRange(index, index + 1, [color]);
 }
 
+
+
 class OpArtTreeStudio extends StatefulWidget {
 
   int seed;
   bool showSettings;
   ScreenshotController screenshotController;
+
+
   OpArtTreeStudio(this.seed, this.showSettings, {this.screenshotController});
 
   @override
@@ -474,10 +479,8 @@ class OpArtTreeStudio extends StatefulWidget {
 bool _showBackgroundColorPicker = false;
 
 class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
-  int _counter = 0;
-  File _imageFile;
 
-  int _currentColor = 0;
+
 
   Widget settingsWidget() {
     return ListView(
@@ -1701,7 +1704,6 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     ScreenshotController screenshotController = widget.screenshotController;
@@ -1718,7 +1720,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                   color: backgroundColor,
                   width: constraints.widthConstraints().maxWidth,
                   height: constraints.heightConstraints().maxHeight,
-                  child: CustomPaint(painter: OpArtTreePainter(widget.seed, rnd)),
+                  child: CustomPaint(painter: OpArtTreePainter(widget.seed, rnd, widget.screenshotController)),
                 ),
               ),
             )
@@ -1750,13 +1752,32 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
       ),
     );
   }
+
+
+  @override
+  void initState() {
+    super.initState();
+    ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
+      print('---------------------------------------------------------------------------');
+      print('SHAKE');
+      print('---------------------------------------------------------------------------');
+      setState(() {
+        randomisePalette(numberOfColours, paletteType);
+        randomiseSettings();
+      });
+    });
+    // To close: detector.stopListening();
+    // ShakeDetector.waitForStart() waits for user to call detector.startListening();
+  }
+
 }
 
 class OpArtTreePainter extends CustomPainter {
   int seed;
   Random rnd;
+  ScreenshotController screenshotController;
 
-  OpArtTreePainter(this.seed, this.rnd);
+  OpArtTreePainter(this.seed, this.rnd, this.screenshotController);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -1834,9 +1855,6 @@ class OpArtTreePainter extends CustomPainter {
     print('leafSquareness: $leafSquareness');
     print('leafDecay: $leafDecay');
 
-
-
-
     String leafStyle = 'quadratic';
 
     List treeBaseA = [
@@ -1862,6 +1880,43 @@ class OpArtTreePainter extends CustomPainter {
         leafLength,
         leafStyle,
         false);
+
+
+
+
+    // screenshotController.capture(delay: Duration(milliseconds: 0), pixelRatio: 0.1).then((File image) async {
+    //   treeSettingsList.add(TreeSettings(
+    //     id: treeSettingsList.length + 1,
+    //     palette: palette,
+    //     backgroundColor: backgroundColor,
+    //     trunkFillColor: trunkFillColor,
+    //     trunkOutlineColour: trunkOutlineColour,
+    //     opacity: opacity,
+    //     trunkWidth: trunkWidth,
+    //     widthDecay: widthDecay,
+    //     segmentLength: segmentLength,
+    //     segmentDecay: segmentDecay,
+    //     branch: branch,
+    //     angle: angle,
+    //     ratio: ratio,
+    //     bulbousness: bulbousness,
+    //     maxDepth: maxDepth,
+    //     leavesAfter: leavesAfter,
+    //     leafAngle: leafAngle,
+    //     leafLength: leafLength,
+    //     randomLeafLength : randomLeafLength ,
+    //     leafSquareness : leafSquareness ,
+    //     leafDecay : leafDecay ,
+    // ),);
+    //   treeSettingsList[currentIndex].image = image;
+    //
+    // });
+    // currentIndex = treeSettingsList.length-1;
+    //
+    //
+    //
+
+
   }
 
   drawSegment(
