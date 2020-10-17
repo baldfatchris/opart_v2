@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:io';
 
 import 'package:screenshot/screenshot.dart';
+import 'package:shake/shake.dart';
 
 Random rnd;
 List palette;
@@ -240,6 +241,8 @@ class OpArtFibonacciStudio extends StatefulWidget {
 
   @override
   _OpArtFibonacciStudioState createState() => _OpArtFibonacciStudioState();
+
+
 }
 
 class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
@@ -1213,6 +1216,24 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
       ),
     );
   }
+
+
+  @override
+  void initState() {
+    super.initState();
+    ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
+      print('---------------------------------------------------------------------------');
+      print('SHAKE');
+      print('---------------------------------------------------------------------------');
+      setState(() {
+        randomisePalette(numberOfColours, paletteType);
+        randomiseSettings();
+      });
+    });
+    // To close: detector.stopListening();
+    // ShakeDetector.waitForStart() waits for user to call detector.startListening();
+  }
+
 }
 
 class OpArtFibonacciPainter extends CustomPainter {

@@ -3,7 +3,7 @@ import 'dart:math';
 import 'dart:io';
 
 import 'package:screenshot/screenshot.dart';
-
+import 'package:shake/shake.dart';
 
 Random rnd;
 
@@ -380,7 +380,10 @@ class OpArtWallpaperStudio extends StatefulWidget {
 
   @override
   _OpArtWallpaperStudioState createState() => _OpArtWallpaperStudioState();
+
+
 }
+
 class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
   int _counter = 0;
   File _imageFile;
@@ -1837,6 +1840,24 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
       ),
     );
   }
+
+
+  @override
+  void initState() {
+    super.initState();
+    ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
+      print('---------------------------------------------------------------------------');
+      print('SHAKE');
+      print('---------------------------------------------------------------------------');
+      setState(() {
+        randomisePalette(numberOfColours, paletteType);
+        randomiseSettings();
+      });
+    });
+    // To close: detector.stopListening();
+    // ShakeDetector.waitForStart() waits for user to call detector.startListening();
+  }
+
 }
 
 class OpArtWallpaperPainter extends CustomPainter {

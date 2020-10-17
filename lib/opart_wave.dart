@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dart:io';
-
 import 'package:screenshot/screenshot.dart';
+import 'package:shake/shake.dart';
 
 Random rnd;
 List palette;
@@ -724,6 +724,24 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
         ],
       ),
     );
+  }
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
+      print('---------------------------------------------------------------------------');
+      print('SHAKE');
+      print('---------------------------------------------------------------------------');
+      setState(() {
+        randomisePalette(numberOfColours, paletteType);
+        randomiseSettings();
+      });
+    });
+    // To close: detector.stopListening();
+    // ShakeDetector.waitForStart() waits for user to call detector.startListening();
   }
 
 }
