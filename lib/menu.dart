@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'dart:math';
 
@@ -13,7 +12,7 @@ import 'package:share/share.dart';
 
 bool showSettings = false;
 Random rnd = Random();
-int seed = rnd.nextInt(1<<32);
+int seed = rnd.nextInt(1 << 32);
 
 File imageFile;
 ScreenshotController screenshotController = ScreenshotController();
@@ -28,25 +27,33 @@ class _OpArtMenuState extends State<OpArtMenu> {
     OpArtType(
       name: 'Fibonacci',
       icon: 'lib/assets/fibonacci.png',
-      widgetWithSettings: OpArtFibonacciStudio(seed, true, screenshotController: screenshotController),
-      widgetWithoutSettings: OpArtFibonacciStudio(seed, false, screenshotController: screenshotController),
+      widgetWithSettings: OpArtFibonacciStudio(seed, true,
+          screenshotController: screenshotController),
+      widgetWithoutSettings: OpArtFibonacciStudio(seed, false,
+          screenshotController: screenshotController),
     ),
     OpArtType(
       name: 'Trees',
       icon: 'lib/assets/trees.png',
-      widgetWithSettings: OpArtTreeStudio(seed, true, screenshotController: screenshotController),
-      widgetWithoutSettings: OpArtTreeStudio(seed, false, screenshotController: screenshotController),
+      widgetWithSettings: OpArtTreeStudio(seed, true,
+          screenshotController: screenshotController),
+      widgetWithoutSettings: OpArtTreeStudio(seed, false,
+          screenshotController: screenshotController),
     ),
     OpArtType(
         name: 'Waves',
         icon: 'lib/assets/waves.png',
-        widgetWithSettings: OpArtWaveStudio(seed, true, screenshotController: screenshotController),
-        widgetWithoutSettings: OpArtWaveStudio(seed, false, screenshotController: screenshotController)),
+        widgetWithSettings: OpArtWaveStudio(seed, true,
+            screenshotController: screenshotController),
+        widgetWithoutSettings: OpArtWaveStudio(seed, false,
+            screenshotController: screenshotController)),
     OpArtType(
         name: 'Wallpaper',
         icon: 'lib/assets/wallpaper.png',
-        widgetWithSettings: OpArtWallpaperStudio(seed, true, screenshotController: screenshotController),
-        widgetWithoutSettings: OpArtWallpaperStudio(seed, false, screenshotController: screenshotController)),
+        widgetWithSettings: OpArtWallpaperStudio(seed, true,
+            screenshotController: screenshotController),
+        widgetWithoutSettings: OpArtWallpaperStudio(seed, false,
+            screenshotController: screenshotController)),
   ];
 
 //  int currentWidget = Random().nextInt(3);
@@ -56,12 +63,95 @@ class _OpArtMenuState extends State<OpArtMenu> {
     super.initState();
   }
 
+  void _settingModalBottomSheet(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(height: 300,
+            child: GridView.count(
+              crossAxisCount: 4,
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Icon(Icons.text_rotation_angledown),Text('angle')],
+                ),Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Icon(Icons.photo_size_select_large_outlined),Text('size')],
+                ), Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Icon(Icons.text_rotation_angledown),Text('angle')],
+                ),Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Icon(Icons.photo_size_select_large_outlined),Text('size')],
+                ), Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Icon(Icons.text_rotation_angledown),Text('angle')],
+                ),Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Icon(Icons.photo_size_select_large_outlined),Text('size')],
+                ), Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Icon(Icons.text_rotation_angledown),Text('angle')],
+                ),Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Icon(Icons.photo_size_select_large_outlined),Text('size')],
+                ), Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Icon(Icons.text_rotation_angledown),Text('angle')],
+                ),Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Icon(Icons.photo_size_select_large_outlined),Text('size')],
+                ), Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Icon(Icons.text_rotation_angledown),Text('angle')],
+                ),Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Icon(Icons.photo_size_select_large_outlined),Text('size')],
+                ),
+
+              ],
+            ),
+          );
+        });
+  }
+
   Hero btn2;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     print(showSettings);
     return Scaffold(
+        bottomNavigationBar: BottomAppBar(
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  child: Row(
+                    children: [
+                      Icon(Icons.refresh),
+                      SizedBox(width: 5),
+                      Text('Randomise')
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                      onTap: () {
+                        _settingModalBottomSheet(context);
+                      },
+                      child: Text('TOOLS')),
+                ),
+                Container(width: 100, height: 1),
+              ],
+            )),
         floatingActionButton: FloatingActionButton(
           heroTag: btn2,
           child: Icon(Icons.settings),
@@ -71,7 +161,6 @@ class _OpArtMenuState extends State<OpArtMenu> {
             });
           },
         ),
-
         drawer: SizedBox(
           width: size.width,
           child: Drawer(
@@ -80,21 +169,21 @@ class _OpArtMenuState extends State<OpArtMenu> {
               // space to fit everything.
 
               child: ListView.builder(
-                itemCount: OpArtTypes.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(vertical: 1, horizontal: 4),
-                    child: Card(
-                      child: ListTile(
-                        onTap: () {
-                          print(OpArtTypes[index].name);
-                          setState(() {
-                            currentWidget = index;
-                            Navigator.pop(context);
-                          });
-                          },
-                        title: Text(OpArtTypes[index].name),
-                        leading: CircleAvatar(
+            itemCount: OpArtTypes.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsets.symmetric(vertical: 1, horizontal: 4),
+                child: Card(
+                  child: ListTile(
+                    onTap: () {
+                      print(OpArtTypes[index].name);
+                      setState(() {
+                        currentWidget = index;
+                        Navigator.pop(context);
+                      });
+                    },
+                    title: Text(OpArtTypes[index].name),
+                    leading: CircleAvatar(
                       backgroundImage: AssetImage('${OpArtTypes[index].icon}'),
                     ),
                   ),
@@ -118,13 +207,14 @@ class _OpArtMenuState extends State<OpArtMenu> {
                 onPressed: () {
                   imageFile = null;
                   screenshotController
-                      .capture(delay: Duration(milliseconds: 0),pixelRatio: 20 )
+                      .capture(delay: Duration(milliseconds: 0), pixelRatio: 20)
                       .then((File image) async {
                     setState(() {
                       imageFile = image;
-                      Share.shareFiles([imageFile.path], subject: 'Using Chris\'s fabulous OpArt App', text: 'Download the OpArt App NOW!');
+                      Share.shareFiles([imageFile.path],
+                          subject: 'Using Chris\'s fabulous OpArt App',
+                          text: 'Download the OpArt App NOW!');
                     });
-
                   });
                 })
           ],
