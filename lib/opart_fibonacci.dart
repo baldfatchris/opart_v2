@@ -525,66 +525,26 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
 
         // maxPetals 1000 to 10000
         settingsSlider('maxPetals', currentFibonacci.maxPetals.toDouble(), 1, 10000, currentFibonacci.maxPetalsLOCK,
-              (value) {setState(() {currentFibonacci.maxPetals = value;});},
+              (value) {setState(() {currentFibonacci.maxPetals = value.toInt();});},
               () {setState(() {currentFibonacci.maxPetalsLOCK = !currentFibonacci.maxPetalsLOCK;});},
         ),
 
-
-
-
         // numberOfColours
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              flex:1,
-              child: GestureDetector(
-                  onLongPress: (){
-                    setState(() {
-                      // toggle lock
-                      if (currentFibonacci.numberOfColoursLOCK){
-                        currentFibonacci.numberOfColoursLOCK=false;
-                      } else {
-                        currentFibonacci.numberOfColoursLOCK=true;
-                      }
-                    });
-                  },
-                  child: Row(
-                    children:[
-                      Text(
-                        '# colours:',
-                        style: currentFibonacci.numberOfColoursLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Icon(
-                        currentFibonacci.numberOfColoursLOCK ? Icons.lock : Icons.lock_open,
-                        size: 20,
-                        color: currentFibonacci.numberOfColoursLOCK ? Colors.grey : Colors.black,
-                      ),
-                    ],
-                  )
-              ),
-            ),
-            Flexible(
-              flex:2,
-              child: Slider(
-                value: currentFibonacci.numberOfColours.toDouble(),
-                min: 2,
-                max: 36,
-                onChanged: currentFibonacci.numberOfColoursLOCK ? null : (value) {
-                  setState(() {
-                    if (currentFibonacci.numberOfColours<value){
-                      currentFibonacci.numberOfColours  = value.toInt();
+        settingsSlider('numberOfColours', currentFibonacci.numberOfColours.toDouble(), 1, 36, currentFibonacci.numberOfColoursLOCK,
+              (value) {setState(() {
+                  if (currentFibonacci.numberOfColours < value.toInt())
+                    {
+                      currentFibonacci.numberOfColours = value.toInt();
                       currentFibonacci.randomizePalette();
                     }
-                    else {
-                      currentFibonacci.numberOfColours  = value.toInt();
+                  else
+                    {
+                      currentFibonacci.numberOfColours = value.toInt();
                     }
-                  });
-                },
-              ),
-            ),
-          ],
+              });},
+              () {setState(() {currentFibonacci.numberOfColoursLOCK = !currentFibonacci.numberOfColoursLOCK;});},
         ),
+
 
         // randomColours
         Row(
@@ -1007,7 +967,7 @@ class OpArtFibonacciPainter extends CustomPainter {
         }
 
         print('P0: $P0');
-        drawPetal(canvas, P0, angle, radius, nextColour, null, currentFibonacci.petalToRadius, currentFibonacci.petalType, currentFibonacci.petalPointiness, currentFibonacci.petalRotation, currentFibonacci.petalRotationRatio, currentFibonacci.lineWidth, currentFibonacci.lineColour, currentFibonacci.randomiseAngle, currentFibonacci.radialOscAmplitude, currentFibonacci.radialOscPeriod);
+        drawPetal(canvas, P0, angle, radius, nextColour);
 
         angle = angle + currentFibonacci.angleIncrement;
         if (angle > 2 * pi) {
@@ -1032,7 +992,7 @@ class OpArtFibonacciPainter extends CustomPainter {
           nextColour = currentFibonacci.palette[rnd.nextInt(currentFibonacci.numberOfColours)];
         }
 
-        drawPetal(canvas, P0, angle, radius, nextColour, null, currentFibonacci.petalToRadius, currentFibonacci.petalType, currentFibonacci.petalPointiness, currentFibonacci.petalRotation, currentFibonacci.petalRotationRatio, currentFibonacci.lineWidth, currentFibonacci.lineColour, currentFibonacci.randomiseAngle, currentFibonacci.radialOscAmplitude, currentFibonacci.radialOscPeriod);
+        drawPetal(canvas, P0, angle, radius, nextColour);
 
         angle = angle + currentFibonacci.angleIncrement;
         if (angle > 2 * pi) {
@@ -1052,21 +1012,21 @@ class OpArtFibonacciPainter extends CustomPainter {
   }
 
 
-  drawPetal(canvas, P0, angle, radius, colour, colourGradient, petalToRadius, petalType, petalPointiness, petalRotation, petalRotationRatio, lineWidth, lineColour, randomiseAngle, radialOscAmplitude, radialOscPeriod) {
+  drawPetal(canvas, P0, angle, radius, colour) {
 
-    angle = angle + (rnd.nextDouble() - 0.5) * randomiseAngle;
+    angle = angle + (rnd.nextDouble() - 0.5) * currentFibonacci.randomiseAngle;
 
-    radius = radius + radius * (sin(radialOscPeriod * angle)+1)*radialOscAmplitude;
+    radius = radius + radius * (sin(currentFibonacci.radialOscPeriod * angle)+1)*currentFibonacci.radialOscAmplitude;
 
-    switch (petalType) {
+    switch (currentFibonacci.petalType) {
       case 0: //"circle":
 
 
         List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
-        var petalRadius = radius * petalToRadius;
+        var petalRadius = radius * currentFibonacci.petalToRadius;
 
         canvas.drawCircle(Offset(P1[0], P1[1]), petalRadius, Paint() ..style = PaintingStyle.fill ..color = colour);
-        canvas.drawCircle(Offset(P1[0], P1[1]), petalRadius, Paint() ..style = PaintingStyle.stroke ..strokeWidth = lineWidth ..color = lineColour);
+        canvas.drawCircle(Offset(P1[0], P1[1]), petalRadius, Paint() ..style = PaintingStyle.stroke ..strokeWidth = currentFibonacci.lineWidth ..color = currentFibonacci.lineColour);
 
         break;
 
@@ -1074,11 +1034,11 @@ class OpArtFibonacciPainter extends CustomPainter {
       case 1: //"triangle":
 
         List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
-        double petalRadius = radius * petalToRadius;
+        double petalRadius = radius * currentFibonacci.petalToRadius;
 
-        List PA = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio)];
-        List PB = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * petalPointiness)];
-        List PC = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio - pi * petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio - pi * petalPointiness)];
+        List PA = [P1[0] + petalRadius * cos(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio), P1[1] + petalRadius * sin(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio)];
+        List PB = [P1[0] + petalRadius * cos(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * currentFibonacci.petalPointiness), P1[1] + petalRadius * sin(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * currentFibonacci.petalPointiness)];
+        List PC = [P1[0] + petalRadius * cos(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio - pi * currentFibonacci.petalPointiness), P1[1] + petalRadius * sin(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio - pi * currentFibonacci.petalPointiness)];
 
         Path triangle = Path();
         triangle.moveTo(PA[0], PA[1]);
@@ -1090,8 +1050,8 @@ class OpArtFibonacciPainter extends CustomPainter {
             triangle,
             Paint()
               ..style = PaintingStyle.stroke
-              ..strokeWidth = lineWidth
-              ..color = lineColour);
+              ..strokeWidth = currentFibonacci.lineWidth
+              ..color = currentFibonacci.lineColour);
         canvas.drawPath(
             triangle,
             Paint()
@@ -1103,12 +1063,12 @@ class OpArtFibonacciPainter extends CustomPainter {
       case 2: // "square":
 
         List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
-        double petalRadius = radius * petalToRadius;
+        double petalRadius = radius * currentFibonacci.petalToRadius;
 
-        List PA = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 0.0 + petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 0.0 + petalPointiness)];
-        List PB = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 0.5 - petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 0.5 - petalPointiness)];
-        List PC = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 1.0 + petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 1.0 + petalPointiness)];
-        List PD = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 1.5 - petalPointiness), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 1.5 - petalPointiness)];
+        List PA = [P1[0] + petalRadius * cos(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * 0.0 + currentFibonacci.petalPointiness), P1[1] + petalRadius * sin(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * 0.0 + currentFibonacci.petalPointiness)];
+        List PB = [P1[0] + petalRadius * cos(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * 0.5 - currentFibonacci.petalPointiness), P1[1] + petalRadius * sin(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * 0.5 - currentFibonacci.petalPointiness)];
+        List PC = [P1[0] + petalRadius * cos(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * 1.0 + currentFibonacci.petalPointiness), P1[1] + petalRadius * sin(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * 1.0 + currentFibonacci.petalPointiness)];
+        List PD = [P1[0] + petalRadius * cos(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * 1.5 - currentFibonacci.petalPointiness), P1[1] + petalRadius * sin(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * 1.5 - currentFibonacci.petalPointiness)];
 
         Path square = Path();
         square.moveTo(PA[0], PA[1]);
@@ -1121,8 +1081,8 @@ class OpArtFibonacciPainter extends CustomPainter {
             square,
             Paint()
               ..style = PaintingStyle.stroke
-              ..strokeWidth = lineWidth
-              ..color = lineColour);
+              ..strokeWidth = currentFibonacci.lineWidth
+              ..color = currentFibonacci.lineColour);
         canvas.drawPath(
             square,
             Paint()
@@ -1134,26 +1094,26 @@ class OpArtFibonacciPainter extends CustomPainter {
       case 3: //"petal":
 
       List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
-      double petalRadius = radius * petalToRadius;
+      double petalRadius = radius * currentFibonacci.petalToRadius;
 
-      List PA = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 0.0), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 0.0)];
-      List PB = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 0.5), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 0.5)];
-      List PC = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 1.0), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 1.0)];
-      List PD = [P1[0] + petalRadius * cos(angle + petalRotation + angle*petalRotationRatio + pi * 1.5), P1[1] + petalRadius * sin(angle + petalRotation + angle*petalRotationRatio + pi * 1.5)];
+      List PA = [P1[0] + petalRadius * cos(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * 0.0), P1[1] + petalRadius * sin(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * 0.0)];
+      List PB = [P1[0] + petalRadius * cos(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * 0.5), P1[1] + petalRadius * sin(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * 0.5)];
+      List PC = [P1[0] + petalRadius * cos(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * 1.0), P1[1] + petalRadius * sin(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * 1.0)];
+      List PD = [P1[0] + petalRadius * cos(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * 1.5), P1[1] + petalRadius * sin(angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * 1.5)];
 
       canvas.drawArc(
           Offset(PB[0]-petalRadius*2, PB[1]-petalRadius*2) & Size(petalRadius*4, petalRadius*4),
-          angle + petalRotation + angle*petalRotationRatio + pi * (0.5 + 2/3),
+          angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * (0.5 + 2/3),
           pi * 2/3,
           false,
           Paint()
             ..style = PaintingStyle.stroke
-            ..strokeWidth = lineWidth
-            ..color = lineColour);
+            ..strokeWidth = currentFibonacci.lineWidth
+            ..color = currentFibonacci.lineColour);
 
       canvas.drawArc(
           Offset(PB[0]-petalRadius*2, PB[1]-petalRadius*2) & Size(petalRadius*4, petalRadius*4),
-          angle + petalRotation + angle*petalRotationRatio + pi * (0.5 + 2/3),
+          angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * (0.5 + 2/3),
           pi * 2/3,
           false,
           Paint()
@@ -1162,17 +1122,17 @@ class OpArtFibonacciPainter extends CustomPainter {
 
       canvas.drawArc(
           Offset(PD[0]-petalRadius*2, PD[1]-petalRadius*2) & Size(petalRadius*4, petalRadius*4),
-          angle + petalRotation + angle*petalRotationRatio + pi * (1.5 + 2/3),
+          angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * (1.5 + 2/3),
           pi * 2/3,
           false,
           Paint()
             ..style = PaintingStyle.stroke
-            ..strokeWidth = lineWidth
-            ..color = lineColour);
+            ..strokeWidth = currentFibonacci.lineWidth
+            ..color = currentFibonacci.lineColour);
 
       canvas.drawArc(
           Offset(PD[0]-petalRadius*2, PD[1]-petalRadius*2) & Size(petalRadius*4, petalRadius*4),
-          angle + petalRotation + angle*petalRotationRatio + pi * (1.5 + 2/3),
+          angle + currentFibonacci.petalRotation + angle*currentFibonacci.petalRotationRatio + pi * (1.5 + 2/3),
           pi * 2/3,
           false,
           Paint()
