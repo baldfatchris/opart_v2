@@ -326,7 +326,7 @@ class TreeSettings {
         this.leafSquareness ,
         this.leafDecay,
         this.image,
-        }
+      }
       );
 }
 
@@ -371,21 +371,21 @@ List<TreeSettings> treeSettingsList = [
       Colors.orangeAccent,
       Colors.deepOrangeAccent,
     ],
-      backgroundColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
+    backgroundColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
     trunkFillColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
     trunkOutlineColour: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
-      opacity: 0.5,
-      trunkWidth: 10.0,
-      widthDecay: 0.92,
-      segmentLength: 35.0,
-      segmentDecay: 0.92,
-      branch: 0.7,
-      angle: 0.5,
-      ratio: 0.7,
-      bulbousness: 1.9,
-      maxDepth: 18,
-      leavesAfter: 10,
-      leafAngle: 0.7,
+    opacity: 0.5,
+    trunkWidth: 10.0,
+    widthDecay: 0.92,
+    segmentLength: 35.0,
+    segmentDecay: 0.92,
+    branch: 0.7,
+    angle: 0.5,
+    ratio: 0.7,
+    bulbousness: 1.9,
+    maxDepth: 18,
+    leavesAfter: 10,
+    leafAngle: 0.7,
     leafLength: 8,
     randomLeafLength : 18,
     leafSquareness : 1,
@@ -496,59 +496,59 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
         ),
         Row(
           children: [
-              Container(
+            Container(
               width: 300,
               height: 60,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: treeSettingsList.length,
-                    itemBuilder: (context, index) {
-                      if (treeSettingsList[index].image == null) {
-                        return Container();
-                      } else {
-                        return GestureDetector(onTap: (){
-                          setState(() {
-                            currentIndex = index;
-                            print('index: $index');
-                            palette = treeSettingsList[currentIndex].palette;
-                            backgroundColor = treeSettingsList[currentIndex].backgroundColor;
-                            opacity = treeSettingsList[currentIndex].opacity;
-                            trunkFillColor = treeSettingsList[currentIndex].trunkFillColor;
-                            trunkOutlineColour = treeSettingsList[currentIndex].trunkOutlineColour;
-                            trunkWidth = treeSettingsList[currentIndex].trunkWidth;
-                            widthDecay = treeSettingsList[currentIndex].widthDecay;
-                            segmentLength = treeSettingsList[currentIndex].segmentLength;
-                            segmentDecay = treeSettingsList[currentIndex].segmentDecay;
-                            branch = treeSettingsList[currentIndex].branch;
-                            angle = treeSettingsList[currentIndex].angle;
-                            ratio = treeSettingsList[currentIndex].ratio;
-                            bulbousness = treeSettingsList[currentIndex].bulbousness;
-                            maxDepth = treeSettingsList[currentIndex].maxDepth;
-                            leavesAfter = treeSettingsList[currentIndex].leavesAfter;
-                            leafAngle = treeSettingsList[currentIndex].leafAngle;
-                            leafLength = treeSettingsList[currentIndex].leafLength;
-                            randomLeafLength  = treeSettingsList[currentIndex].randomLeafLength ;
-                            leafSquareness  = treeSettingsList[currentIndex].leafSquareness ;
-                            leafDecay  = treeSettingsList[currentIndex].leafDecay ;
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: treeSettingsList.length,
+                  itemBuilder: (context, index) {
+                    if (treeSettingsList[index].image == null) {
+                      return Container();
+                    } else {
+                      return GestureDetector(onTap: (){
+                        setState(() {
+                          currentIndex = index;
+                          print('index: $index');
+                          palette = treeSettingsList[currentIndex].palette;
+                          backgroundColor = treeSettingsList[currentIndex].backgroundColor;
+                          opacity = treeSettingsList[currentIndex].opacity;
+                          trunkFillColor = treeSettingsList[currentIndex].trunkFillColor;
+                          trunkOutlineColour = treeSettingsList[currentIndex].trunkOutlineColour;
+                          trunkWidth = treeSettingsList[currentIndex].trunkWidth;
+                          widthDecay = treeSettingsList[currentIndex].widthDecay;
+                          segmentLength = treeSettingsList[currentIndex].segmentLength;
+                          segmentDecay = treeSettingsList[currentIndex].segmentDecay;
+                          branch = treeSettingsList[currentIndex].branch;
+                          angle = treeSettingsList[currentIndex].angle;
+                          ratio = treeSettingsList[currentIndex].ratio;
+                          bulbousness = treeSettingsList[currentIndex].bulbousness;
+                          maxDepth = treeSettingsList[currentIndex].maxDepth;
+                          leavesAfter = treeSettingsList[currentIndex].leavesAfter;
+                          leafAngle = treeSettingsList[currentIndex].leafAngle;
+                          leafLength = treeSettingsList[currentIndex].leafLength;
+                          randomLeafLength  = treeSettingsList[currentIndex].randomLeafLength ;
+                          leafSquareness  = treeSettingsList[currentIndex].leafSquareness ;
+                          leafDecay  = treeSettingsList[currentIndex].leafDecay ;
 
 
-                          });
-                        },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Container(
-                                width: 50.0,
-                                height: 50.0,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: FileImage(
-                                            treeSettingsList[index].image)))),
-                          ),
-                        );
-                      }
-                    }),
+                        });
+                      },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Container(
+                              width: 50.0,
+                              height: 50.0,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: FileImage(
+                                          treeSettingsList[index].image)))),
+                        ),
+                      );
+                    }
+                  }),
             ),
             IconButton(
               icon: Icon(Icons.save),
@@ -665,17 +665,17 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
         ),
         _showBackgroundColorPicker
             ? ColorPicker(
-                displayThumbColor: false,
-                pickerAreaHeightPercent: 0.3,
-                pickerAreaBorderRadius: BorderRadius.circular(10.0),
-                pickerColor: backgroundColor,
-                onColorChanged: (color) {
-                  setState(() {
-                    backgroundColor = color;
-                  });
-                },
-                showLabel: false,
-              )
+          displayThumbColor: false,
+          pickerAreaHeightPercent: 0.3,
+          pickerAreaBorderRadius: BorderRadius.circular(10.0),
+          pickerColor: backgroundColor,
+          onColorChanged: (color) {
+            setState(() {
+              backgroundColor = color;
+            });
+          },
+          showLabel: false,
+        )
             : Container(),
 
 
@@ -1422,16 +1422,16 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
             flex: 7,
             child: widget.showSettings
                 ? Column(
-                    children: [
-                      Flexible(flex: 3, child: bodyWidget()),
-                      Flexible(
-                          flex: 2,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: settingsWidget(),
-                          )),
-                    ],
-                  )
+              children: [
+                Flexible(flex: 3, child: bodyWidget()),
+                Flexible(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: settingsWidget(),
+                    )),
+              ],
+            )
                 : bodyWidget(),
           ),
         ],
@@ -1606,20 +1606,20 @@ class OpArtTreePainter extends CustomPainter {
   }
 
   drawSegment(
-    Canvas canvas,
-    double borderX,
-    double borderY,
-    List rootA,
-    List rootB,
-    double width,
-    double segmentLength,
-    double direction,
-    int currentDepth,
-    double lineWidth,
-    double leafLength,
-    String leafStyle,
-    bool justBranched,
-  ) {
+      Canvas canvas,
+      double borderX,
+      double borderY,
+      List rootA,
+      List rootB,
+      double width,
+      double segmentLength,
+      double direction,
+      int currentDepth,
+      double lineWidth,
+      double leafLength,
+      String leafStyle,
+      bool justBranched,
+      ) {
     List segmentBaseCentre = [
       (rootA[0] + rootB[0]) / 2,
       (rootA[1] + rootB[1]) / 2
@@ -1767,15 +1767,15 @@ class OpArtTreePainter extends CustomPainter {
   }
 
   drawTheTrunk(
-    Canvas canvas,
-    double borderX,
-    double borderY,
-    List P1,
-    List P2,
-    List P3,
-    List P4,
-    double bulbousness,
-  ) {
+      Canvas canvas,
+      double borderX,
+      double borderY,
+      List P1,
+      List P2,
+      List P3,
+      List P4,
+      double bulbousness,
+      ) {
     List PC = [
       (P1[0] + P2[0] + P3[0] + P4[0]) / 4,
       (P1[1] + P2[1] + P3[1] + P4[1]) / 4
@@ -1815,13 +1815,13 @@ class OpArtTreePainter extends CustomPainter {
   }
 
   drawTheTriangle(
-    Canvas canvas,
-    double borderX,
-    double borderY,
-    List P1,
-    List P2,
-    List P3,
-  ) {
+      Canvas canvas,
+      double borderX,
+      double borderY,
+      List P1,
+      List P2,
+      List P3,
+      ) {
     Path trunk = Path();
     trunk.moveTo(borderX + P1[0], -borderY + P1[1]);
     trunk.lineTo(borderX + P2[0], -borderY + P2[1]);
@@ -1844,15 +1844,15 @@ class OpArtTreePainter extends CustomPainter {
   }
 
   drawTheLeaf(
-    Canvas canvas,
-    double borderX,
-    double borderY,
-    List leafPosition,
-    double lineWidth,
-    double leafAngle,
-    double leafLength,
-    String leafStyle,
-  ) {
+      Canvas canvas,
+      double borderX,
+      double borderY,
+      List leafPosition,
+      double lineWidth,
+      double leafAngle,
+      double leafLength,
+      String leafStyle,
+      ) {
     double leafAssymetery = 0.75;
 
     // pick a random color
