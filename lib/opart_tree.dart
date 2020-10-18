@@ -5,6 +5,7 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:shake/shake.dart';
 import 'package:opart_v2/setting_slider.dart';
+import 'package:opart_v2/setting_slider2.dart';
 
 Random rnd;
 List palette;
@@ -545,39 +546,25 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                             currentIndex = index;
                             print('index: $index');
                             palette = treeSettingsList[currentIndex].palette;
-                            backgroundColor =
-                                treeSettingsList[currentIndex].backgroundColor;
+                            backgroundColor = treeSettingsList[currentIndex].backgroundColor;
                             opacity = treeSettingsList[currentIndex].opacity;
-                            trunkFillColor =
-                                treeSettingsList[currentIndex].trunkFillColor;
-                            trunkOutlineColour = treeSettingsList[currentIndex]
-                                .trunkOutlineColour;
-                            trunkWidth =
-                                treeSettingsList[currentIndex].trunkWidth;
-                            widthDecay =
-                                treeSettingsList[currentIndex].widthDecay;
-                            segmentLength =
-                                treeSettingsList[currentIndex].segmentLength;
-                            segmentDecay =
-                                treeSettingsList[currentIndex].segmentDecay;
+                            trunkFillColor = treeSettingsList[currentIndex].trunkFillColor;
+                            trunkOutlineColour = treeSettingsList[currentIndex].trunkOutlineColour;
+                            trunkWidth = treeSettingsList[currentIndex].trunkWidth;
+                            widthDecay = treeSettingsList[currentIndex].widthDecay;
+                            segmentLength = treeSettingsList[currentIndex].segmentLength;
+                            segmentDecay = treeSettingsList[currentIndex].segmentDecay;
                             branch = treeSettingsList[currentIndex].branch;
                             angle = treeSettingsList[currentIndex].angle;
                             ratio = treeSettingsList[currentIndex].ratio;
-                            bulbousness =
-                                treeSettingsList[currentIndex].bulbousness;
+                            bulbousness = treeSettingsList[currentIndex].bulbousness;
                             maxDepth = treeSettingsList[currentIndex].maxDepth;
-                            leavesAfter =
-                                treeSettingsList[currentIndex].leavesAfter;
-                            leafAngle =
-                                treeSettingsList[currentIndex].leafAngle;
-                            leafLength =
-                                treeSettingsList[currentIndex].leafLength;
-                            randomLeafLength =
-                                treeSettingsList[currentIndex].randomLeafLength;
-                            leafSquareness =
-                                treeSettingsList[currentIndex].leafSquareness;
-                            leafDecay =
-                                treeSettingsList[currentIndex].leafDecay;
+                            leavesAfter = treeSettingsList[currentIndex].leavesAfter;
+                            leafAngle = treeSettingsList[currentIndex].leafAngle;
+                            leafLength = treeSettingsList[currentIndex].leafLength;
+                            randomLeafLength = treeSettingsList[currentIndex].randomLeafLength;
+                            leafSquareness = treeSettingsList[currentIndex].leafSquareness;
+                            leafDecay = treeSettingsList[currentIndex].leafDecay;
                           });
                         },
                         child: Padding(
@@ -642,6 +629,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
 
         SizedBox(height: 8),
 
+        // Randomise buttons
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -1550,14 +1538,15 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
     void _showBottomSheetSettings(context) {
 
       showModalBottomSheet(
-barrierColor: Colors.white.withOpacity(0),
+          barrierColor: Colors.white.withOpacity(0),
           context: context,
           builder: (BuildContext bc) {
            return StatefulBuilder(
               builder: (BuildContext context, setLocalState){
              return Container(height: 80,
-               child: settingsSlider(
-                 'trunkWidth',
+               child: settingsSlider2(
+                 'Trunk Width',
+                 'The base width of the trunk. As the tree grows this decreases according to the "Width Decay" setting.',
                  trunkWidth,
                  0,
                  50,
@@ -1592,9 +1581,7 @@ barrierColor: Colors.white.withOpacity(0),
                     Navigator.pop(context);
                     _showBottomSheetSettings(context);
                   },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.center,
                       children: [Icon(Icons.nature),Text('trunk width')],
                     ),
                   ),Column(
