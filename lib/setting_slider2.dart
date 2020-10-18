@@ -26,7 +26,7 @@ class _settingsSlider2State extends State<settingsSlider2> {
       children: <Widget>[
         Container(
           height: 50,
-          color: Colors.blue[100].withOpacity(0.2),
+
           child: Text(
             widget.label,
             style: widget.locked ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
@@ -34,7 +34,7 @@ class _settingsSlider2State extends State<settingsSlider2> {
         ),
         Container(
           height: 50,
-          color: Colors.blue[100].withOpacity(0.2),
+
           child: Text(
             widget.tooltip,
             style: TextStyle(fontWeight: FontWeight.normal),
@@ -42,7 +42,7 @@ class _settingsSlider2State extends State<settingsSlider2> {
         ),
         Container(
           height: 50,
-            color: Colors.blue[100].withOpacity(0.2),
+
           child: Row(
             children:[
               Text(
@@ -59,7 +59,7 @@ class _settingsSlider2State extends State<settingsSlider2> {
         ),
         Container(
           height: 50,
-          color: Colors.blue[100].withOpacity(0.2),
+
           child:   Slider(
             value: widget.currentValue,
             min: widget.min,

@@ -6,7 +6,7 @@ import 'package:screenshot/screenshot.dart';
 import 'package:shake/shake.dart';
 import 'package:opart_v2/setting_slider.dart';
 import 'package:opart_v2/setting_dropdown.dart';
-
+import 'model.dart';
 
 Random rnd;
 
@@ -20,7 +20,8 @@ List Palettes = [
 class Fibonacci {
 
   // image settings
-  double angleIncrement;
+ // double angleIncrement;
+  SettingsModel angleIncrement;
   double flowerFill;
   double petalToRadius;
   double ratio;

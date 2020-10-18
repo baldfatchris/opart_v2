@@ -1537,36 +1537,41 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
     }
     void _showBottomSheetSettings(context) {
 
-      showModalBottomSheet(
+      showModalBottomSheet(backgroundColor: Colors.white.withOpacity(0.3),
           barrierColor: Colors.white.withOpacity(0.1),
           context: context,
           builder: (BuildContext bc) {
            return StatefulBuilder(
               builder: (BuildContext context, setLocalState){
-             return Container(
-                 decoration: new BoxDecoration(color: Colors.yellow.withOpacity(0.3),),
-               height: 500,
+             return Column(
+               children: <Widget>[
+                 Container(
+
+                   height: 200,
 
 
-               child: settingsSlider2(
-                 'Trunk Width',
-                 'The base width of the trunk. As the tree grows this decreases according to the "Width Decay" setting.',
-                 trunkWidth,
-                 0,
-                 50,
-                 trunkWidthLOCK,
-                     (value) {
-                   setState(() {
-                     trunkWidth = value;
-                   });
-                   setLocalState((){});
-                 },
-                     () {
-                   setState(() {
-                     trunkWidthLOCK = !trunkWidthLOCK;
-                   });
-                 },
-               ),
+                   child: settingsSlider2(
+                     'Trunk Width',
+                     'The base width of the trunk. As the tree grows this decreases according to the "Width Decay" setting.',
+                     trunkWidth,
+                     0,
+                     50,
+                     trunkWidthLOCK,
+                         (value) {
+                       setState(() {
+                         trunkWidth = value;
+                       });
+                       setLocalState((){});
+                     },
+                         () {
+                       setState(() {
+                         trunkWidthLOCK = !trunkWidthLOCK;
+                       });
+                     },
+                   ),
+                 ),
+                 Container(height: 100)
+               ],
              );
               });
 
