@@ -1538,12 +1538,16 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
     void _showBottomSheetSettings(context) {
 
       showModalBottomSheet(
-          barrierColor: Colors.white.withOpacity(0),
+          barrierColor: Colors.white.withOpacity(0.1),
           context: context,
           builder: (BuildContext bc) {
            return StatefulBuilder(
               builder: (BuildContext context, setLocalState){
-             return Container(height: 80,
+             return Container(
+                 decoration: new BoxDecoration(color: Colors.yellow.withOpacity(0.3),),
+               height: 500,
+
+
                child: settingsSlider2(
                  'Trunk Width',
                  'The base width of the trunk. As the tree grows this decreases according to the "Width Decay" setting.',
