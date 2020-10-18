@@ -77,42 +77,42 @@ class _OpArtMenuState extends State<OpArtMenu> {
                   children: [Icon(Icons.text_rotation_angledown),Text('angle')],
                 ),Column(
                   crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Icon(Icons.photo_size_select_large_outlined),Text('size')],
+                  children: [Icon(Icons.ac_unit),Text('size')],
                 ), Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [Icon(Icons.text_rotation_angledown),Text('angle')],
                 ),Column(
                   crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Icon(Icons.photo_size_select_large_outlined),Text('size')],
+                  children: [Icon(Icons.accessibility),Text('size')],
                 ), Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [Icon(Icons.text_rotation_angledown),Text('angle')],
                 ),Column(
                   crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Icon(Icons.photo_size_select_large_outlined),Text('size')],
+                  children: [Icon(Icons.account_circle),Text('size')],
                 ), Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [Icon(Icons.text_rotation_angledown),Text('angle')],
                 ),Column(
                   crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Icon(Icons.photo_size_select_large_outlined),Text('size')],
+                  children: [Icon(Icons.account_balance),Text('size')],
                 ), Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [Icon(Icons.text_rotation_angledown),Text('angle')],
                 ),Column(
                   crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Icon(Icons.photo_size_select_large_outlined),Text('size')],
+                  children: [Icon(Icons.arrow_downward),Text('size')],
                 ), Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [Icon(Icons.text_rotation_angledown),Text('angle')],
                 ),Column(
                   crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Icon(Icons.photo_size_select_large_outlined),Text('size')],
+                  children: [Icon(Icons.battery_alert),Text('size')],
                 ),
 
               ],

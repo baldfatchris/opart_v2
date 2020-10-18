@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:screenshot/screenshot.dart';
 import 'package:shake/shake.dart';
 import 'package:opart_v2/setting_slider.dart';
+import 'package:opart_v2/setting_dropdown.dart';
 
 
 Random rnd;
@@ -25,7 +26,7 @@ class Fibonacci {
   double petalPointiness;
   double petalRotation;
   double petalRotationRatio;
-  int petalType;
+  String petalType;
   int maxPetals;
   double radialOscAmplitude;
   double radialOscPeriod;
@@ -37,7 +38,7 @@ class Fibonacci {
   double lineWidth;
   bool randomColours;
   int numberOfColours;
-  int paletteType;
+  String paletteType;
   double opacity;
   List palette;
   double aspectRatio;
@@ -68,7 +69,7 @@ class Fibonacci {
   bool aspectRatioLOCK = false;
 
   Random random;
-  
+
   Fibonacci({
 
         // image settings
@@ -120,7 +121,7 @@ class Fibonacci {
         this.opacityLOCK = false,
         this.paletteLOCK = false,
         this.aspectRatioLOCK = false,
-    
+
         this.random,
 
       });
@@ -177,7 +178,7 @@ class Fibonacci {
 
     // petalType = 0/1/2/3  circle/triangle/square/petal
     if (this.petalTypeLOCK == false) {
-      this.petalType = random.nextInt(3);
+      this.petalType = ['circle','triangle','square','petal'][random.nextInt(3)];
     }
 
 
@@ -213,26 +214,26 @@ class Fibonacci {
       // }
     }
 
+    // numberOfColours 2 to 36
+    if (this.numberOfColoursLOCK == false) {
+      this.numberOfColours = rnd.nextInt(34) + 2;
+    }
+
+    // paletteType 0 to 3
+    if (this.paletteTypeLOCK == false) {
+      this.paletteType = ['random','blended random','linear random','linear complementary'][rnd.nextInt(4)];
+    }
+
+
   }
 
   void randomizePalette() {
 
     rnd = Random(DateTime.now().millisecond);
 
-
-    // numberOfColours 2 to 36
-    if (this.numberOfColoursLOCK == false) {
-      this.numberOfColours = rnd.nextInt(34) + 2;
-    }
-
     // randomColours
     if (this.randomColoursLOCK == false) {
       this.randomColours = rnd.nextBool();
-    }
-
-    // paletteType 0 to 3
-    if (this.paletteTypeLOCK == false) {
-      this.paletteType = rnd.nextInt(4);
     }
 
     // lineWidth 0 to 3
@@ -259,7 +260,7 @@ class Fibonacci {
     switch(this.paletteType){
 
     // blended random
-      case 1:{
+      case 'blended random':{
         double blendColour = rnd.nextDouble() * 0xFFFFFF;
         for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
           palette.add(Color(((blendColour + rnd.nextDouble() * 0xFFFFFF)/2).toInt()).withOpacity(opacity));
@@ -268,7 +269,7 @@ class Fibonacci {
       break;
 
     // linear random
-      case 2:{
+      case 'linear random':{
         List startColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
         List endColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
         for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
@@ -282,7 +283,7 @@ class Fibonacci {
       break;
 
     // linear complementary
-      case 3:{
+      case 'linear complementary':{
         List startColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
         List endColour = [255-startColour[0],255-startColour[1],255-startColour[2]];
         for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
@@ -427,70 +428,9 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
         ),
 
         // petalType
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              flex:1,
-              child: GestureDetector(
-                  onLongPress: (){
-                    setState(() {
-                      // toggle lock
-                      if (currentFibonacci.petalTypeLOCK){
-                        currentFibonacci.petalTypeLOCK=false;
-                        print('petalType UNLOCK');
-                      } else {
-                        currentFibonacci.petalTypeLOCK=true;
-                        print('petalType LOCK');
-                      }
-                    });
-                  },
-                  child: Row(
-                    children:[
-                      Text(
-                        'petalType:',
-                        style: currentFibonacci.petalTypeLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Icon(
-                        currentFibonacci.petalTypeLOCK ? Icons.lock : Icons.lock_open,
-                        size: 20,
-                        color: currentFibonacci.petalTypeLOCK ? Colors.grey : Colors.black,
-                      ),
-                    ],
-                  )
-              ),
-            ),
-            Flexible(
-              flex:2,
-              child: DropdownButton(
-                value: currentFibonacci.petalType,
-                items: [
-                  DropdownMenuItem(
-                    child: Text("circle"),
-                    value: 0,
-                  ),
-                  DropdownMenuItem(
-                    child: Text("triangle"),
-                    value: 1,
-                  ),
-                  DropdownMenuItem(
-                    child: Text("square"),
-                    value: 2,
-                  ),
-                  DropdownMenuItem(
-                    child: Text("petal"),
-                    value: 3,
-                  ),
-                ],
-                onChanged: currentFibonacci.petalTypeLOCK ? null : (value) {
-                  setState(() {
-                    currentFibonacci.petalType = value;
-                  });
-                },
-              ),
-            ),
-
-          ],
+        settingsDropdown('petalType', currentFibonacci.petalType, ['circle','triangle','square','petal'], currentFibonacci.petalTypeLOCK,
+              (value) {setState(() {currentFibonacci.petalType = value;});},
+              () {setState(() {currentFibonacci.petalToRadiusLOCK = !currentFibonacci.petalTypeLOCK;});},
         ),
 
         // petalPointiness
@@ -504,7 +444,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
               (value) {setState(() {currentFibonacci.petalRotation = value;});},
               () {setState(() {currentFibonacci.petalRotationLOCK = !currentFibonacci.petalRotationLOCK;});},
         ),
-        
+
       // petalRotationRatioRatio 0 to 4
         settingsSlider('petalRotationRatio', currentFibonacci.petalRotationRatio, 0, 4, currentFibonacci.petalRotationRatioLOCK,
               (value) {setState(() {currentFibonacci.petalRotationRatio = value;});},
@@ -595,72 +535,11 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
           ],
         ),
 
-        // paletteType
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              flex:1,
-              child: GestureDetector(
-                  onLongPress: (){
-                    setState(() {
-                      // toggle lock
-                      if (currentFibonacci.paletteTypeLOCK){
-                        currentFibonacci.paletteTypeLOCK=false;
-                        print('paletteType UNLOCK');
-                      } else {
-                        currentFibonacci.paletteTypeLOCK=true;
-                        print('paletteType LOCK');
-                      }
-                    });
-                  },
-                  child: Row(
-                    children:[
-                      Text(
-                        'paletteType:',
-                        style: currentFibonacci.paletteTypeLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Icon(
-                        currentFibonacci.paletteTypeLOCK ? Icons.lock : Icons.lock_open,
-                        size: 20,
-                        color: currentFibonacci.paletteTypeLOCK ? Colors.grey : Colors.black,
-                      ),
-                    ],
-                  )
-              ),
-            ),
-            Flexible(
-              flex:2,
-              child: DropdownButton(
-                value: currentFibonacci.paletteType,
-                items: [
-                  DropdownMenuItem(
-                    child: Text("random"),
-                    value: 0,
-                  ),
-                  DropdownMenuItem(
-                    child: Text("blended random"),
-                    value: 1,
-                  ),
-                  DropdownMenuItem(
-                    child: Text("linear random"),
-                    value: 2,
-                  ),
-                  DropdownMenuItem(
-                    child: Text("linear complementary"),
-                    value: 3,
-                  ),
-                ],
-                onChanged: currentFibonacci.paletteTypeLOCK ? null : (value) {
-                  setState(() {
-                    currentFibonacci.paletteType = value;
-                    currentFibonacci.randomizePalette();
-                  });
-                },
-              ),
-            ),
 
-          ],
+        // paletteType
+        settingsDropdown('paletteType', currentFibonacci.paletteType, ['random','blended random','linear random','linear complementary'], currentFibonacci.paletteTypeLOCK,
+              (value) {setState(() {print('new paletteType: $value');currentFibonacci.paletteType = value;currentFibonacci.randomizePalette();});},
+              () {setState(() {currentFibonacci.petalToRadiusLOCK = !currentFibonacci.paletteTypeLOCK;});},
         ),
 
         // aspectRatio
@@ -1019,7 +898,7 @@ class OpArtFibonacciPainter extends CustomPainter {
     radius = radius + radius * (sin(currentFibonacci.radialOscPeriod * angle)+1)*currentFibonacci.radialOscAmplitude;
 
     switch (currentFibonacci.petalType) {
-      case 0: //"circle":
+      case 'circle': //"circle":
 
 
         List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
@@ -1031,7 +910,7 @@ class OpArtFibonacciPainter extends CustomPainter {
         break;
 
 
-      case 1: //"triangle":
+      case 'triangle': //"triangle":
 
         List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
         double petalRadius = radius * currentFibonacci.petalToRadius;
@@ -1060,7 +939,7 @@ class OpArtFibonacciPainter extends CustomPainter {
 
         break;
 
-      case 2: // "square":
+      case 'square': // "square":
 
         List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
         double petalRadius = radius * currentFibonacci.petalToRadius;
@@ -1091,7 +970,7 @@ class OpArtFibonacciPainter extends CustomPainter {
 
         break;
 
-      case 3: //"petal":
+      case 'petal': //"petal":
 
       List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
       double petalRadius = radius * currentFibonacci.petalToRadius;

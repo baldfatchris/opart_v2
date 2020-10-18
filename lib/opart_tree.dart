@@ -302,6 +302,7 @@ class TreeSettings {
   double leafDecay  = 0.95;
 
   File image = null;
+
   TreeSettings(
       {
         this.id,
