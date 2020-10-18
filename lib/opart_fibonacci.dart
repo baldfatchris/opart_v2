@@ -21,7 +21,7 @@ class Fibonacci {
 
   // image settings
  // double angleIncrement;
-  SettingsModel angleIncrement;
+  SettingsModelDouble angleIncrement = SettingsModelDouble(label: 'Angle Increment', tooltip: 'The angle in radians between successive petals of the flower', min: 0, max: 2*pi, defaultValue: (sqrt(5)+1)/2, icon: Icon(Icons.ac_unit));
   double flowerFill;
   double petalToRadius;
   double ratio;
@@ -102,7 +102,7 @@ class Fibonacci {
         this.aspectRatio = pi/2,
         this.image,
 
-        this.angleIncrementLOCK = false,
+        // this.angleIncrementLOCK = false,
         this.flowerFillLOCK = false,
         this.petalToRadiusLOCK = false,
         this.ratioLOCK = false,
@@ -139,9 +139,10 @@ class Fibonacci {
 
 
     // angleIncrement 0 - pi
-    if (this.angleIncrementLOCK == false) {
-      this.angleIncrement = random.nextDouble()*pi;
-    }
+    // if (this.angleIncrementLOCK == false) {
+    //   this.angleIncrement.value = random.nextDouble()*(this.angleIncrement.max - this.angleIncrement.min) + this.angleIncrement.min;
+    // }
+    this.angleIncrement.randomise(this.random);
 
     // flowerFill 0.7 - 1.3
     if (this.flowerFillLOCK == false) {
@@ -318,7 +319,7 @@ class Fibonacci {
   void defaultSettings() {
     // resets to default settings
 
-    this.angleIncrement = 1.6180339887498948;
+    this.angleIncrement.value = this.angleIncrement.defaultValue;
     this.flowerFill = 1;
     this.petalToRadius = 0.03;
     this.ratio = 0.999;
@@ -344,7 +345,7 @@ class Fibonacci {
     this.aspectRatio = pi/2;
     this.image;
 
-    this.angleIncrementLOCK = false;
+    //this.angleIncrementLOCK = false;
     this.flowerFillLOCK = false;
     this.petalToRadiusLOCK = false;
     this.ratioLOCK = false;
@@ -461,11 +462,9 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> with Ticker
         ),
 
         // angleIncrement
-        settingsSlider('angleIncrement', currentFibonacci.angleIncrement, 0, 2*pi, currentFibonacci.angleIncrementLOCK,
-              (value) {setState(() {currentFibonacci.angleIncrement = value;
-              print('currentFibonacci.angleIncrement: ${currentFibonacci.angleIncrement}');
-              });},
-              () {setState(() {currentFibonacci.angleIncrementLOCK = !currentFibonacci.angleIncrementLOCK;});},
+        settingsSlider(currentFibonacci.angleIncrement.label, currentFibonacci.angleIncrement.value, currentFibonacci.angleIncrement.min, currentFibonacci.angleIncrement.max, currentFibonacci.angleIncrement.locked,
+              (value) {setState(() {currentFibonacci.angleIncrement.value = value;});},
+              () {setState(() {currentFibonacci.angleIncrement.locked = !currentFibonacci.angleIncrement.locked;});},
         ),
 
 
@@ -771,47 +770,47 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> with Ticker
     // ShakeDetector.waitForStart() waits for user to call detector.startListening();
 
 
-    // Animation Stuff
-    controller1 = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 7200),
-    );
-
-    // controller2 = AnimationController(
-    //   vsync: this,
-    //   duration: Duration(seconds: 60),
-    // );
-
-    Tween<double> _angleTween = Tween(begin: -pi, end: pi);
-    // Tween<double> _fillTween = Tween(begin: 1, end: 1);
-
-    animation1 = _angleTween.animate(controller1)
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          controller1.repeat();
-        } else if (status == AnimationStatus.dismissed) {
-          controller1.forward();
-        }
-      });
-
-    // animation2 = _fillTween.animate(controller2)
-    //   ..addListener(() {
-    //     setState(() {});
-    //   })
-    //   ..addStatusListener((status) {
-    //     if (status == AnimationStatus.completed) {
-    //       controller2.reverse();
-    //     } else if (status == AnimationStatus.dismissed) {
-    //       controller2.forward();
-    //     }
-    //   });
-
-    controller1.forward();
-    // controller2.forward();
-  }
+  //   // Animation Stuff
+  //   controller1 = AnimationController(
+  //     vsync: this,
+  //     duration: Duration(seconds: 7200),
+  //   );
+  //
+  //   // controller2 = AnimationController(
+  //   //   vsync: this,
+  //   //   duration: Duration(seconds: 60),
+  //   // );
+  //
+  //   Tween<double> _angleTween = Tween(begin: -pi, end: pi);
+  //   // Tween<double> _fillTween = Tween(begin: 1, end: 1);
+  //
+  //   animation1 = _angleTween.animate(controller1)
+  //     ..addListener(() {
+  //       setState(() {});
+  //     })
+  //     ..addStatusListener((status) {
+  //       if (status == AnimationStatus.completed) {
+  //         controller1.repeat();
+  //       } else if (status == AnimationStatus.dismissed) {
+  //         controller1.forward();
+  //       }
+  //     });
+  //
+  //   // animation2 = _fillTween.animate(controller2)
+  //   //   ..addListener(() {
+  //   //     setState(() {});
+  //   //   })
+  //   //   ..addStatusListener((status) {
+  //   //     if (status == AnimationStatus.completed) {
+  //   //       controller2.reverse();
+  //   //     } else if (status == AnimationStatus.dismissed) {
+  //   //       controller2.forward();
+  //   //     }
+  //   //   });
+  //
+  //   controller1.forward();
+  //   // controller2.forward();
+  // }
 
   @override
   void dispose() {
@@ -907,7 +906,8 @@ class OpArtFibonacciPainter extends CustomPainter {
         flowerCentreX,
         flowerCentreY,
 
-        angle, //currentFibonacci.angleIncrement,
+        // angle, //currentFibonacci.angleIncrement,
+        currentFibonacci.angleIncrement.value,
         currentFibonacci.flowerFill,
         currentFibonacci.petalToRadius,
         currentFibonacci.ratio,
