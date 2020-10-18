@@ -130,6 +130,11 @@ class Fibonacci {
 
   void randomize(){
 
+    print('-----------------------------------------------------');
+    print('randomize');
+    print('-----------------------------------------------------');
+
+
     // angleIncrement 0 - pi
     if (this.angleIncrementLOCK == false) {
       this.angleIncrement = random.nextDouble()*pi;
@@ -214,13 +219,6 @@ class Fibonacci {
       // }
     }
 
-  }
-
-  void randomizePalette() {
-
-    rnd = Random(DateTime.now().millisecond);
-
-
     // numberOfColours 2 to 36
     if (this.numberOfColoursLOCK == false) {
       this.numberOfColours = rnd.nextInt(34) + 2;
@@ -245,6 +243,16 @@ class Fibonacci {
     if (this.backgroundColourLOCK == false) {
       this.backgroundColour = Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity);
     }
+    
+  }
+
+  void randomizePalette() {
+
+    print('-----------------------------------------------------');
+    print('randomizePalette');
+    print('-----------------------------------------------------');
+
+    rnd = Random(DateTime.now().millisecond);
 
     // lineColour
     if (this.lineColourLOCK == false) {
@@ -257,7 +265,7 @@ class Fibonacci {
     // blended random
       case 'blended random':{
         double blendColour = rnd.nextDouble() * 0xFFFFFF;
-        for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
+        for (int colourIndex = 0; colourIndex < this.numberOfColours; colourIndex++){
           palette.add(Color(((blendColour + rnd.nextDouble() * 0xFFFFFF)/2).toInt()).withOpacity(opacity));
         }
       }
@@ -267,11 +275,11 @@ class Fibonacci {
       case 'linear random':{
         List startColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
         List endColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
-        for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
+        for (int colourIndex = 0; colourIndex < this.numberOfColours; colourIndex++){
           palette.add(Color.fromRGBO(
-              ((startColour[0]*colourIndex + endColour[0]*(numberOfColours-colourIndex))/numberOfColours).round(),
-              ((startColour[1]*colourIndex + endColour[1]*(numberOfColours-colourIndex))/numberOfColours).round(),
-              ((startColour[2]*colourIndex + endColour[2]*(numberOfColours-colourIndex))/numberOfColours).round(),
+              ((startColour[0]*colourIndex + endColour[0]*(this.numberOfColours-colourIndex))/this.numberOfColours).round(),
+              ((startColour[1]*colourIndex + endColour[1]*(this.numberOfColours-colourIndex))/this.numberOfColours).round(),
+              ((startColour[2]*colourIndex + endColour[2]*(this.numberOfColours-colourIndex))/this.numberOfColours).round(),
               opacity));
         }
       }
@@ -281,11 +289,11 @@ class Fibonacci {
       case 'linear complementary':{
         List startColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
         List endColour = [255-startColour[0],255-startColour[1],255-startColour[2]];
-        for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
+        for (int colourIndex = 0; colourIndex < this.numberOfColours; colourIndex++){
           palette.add(Color.fromRGBO(
-              ((startColour[0]*colourIndex + endColour[0]*(numberOfColours-colourIndex))/numberOfColours).round(),
-              ((startColour[1]*colourIndex + endColour[1]*(numberOfColours-colourIndex))/numberOfColours).round(),
-              ((startColour[2]*colourIndex + endColour[2]*(numberOfColours-colourIndex))/numberOfColours).round(),
+              ((startColour[0]*colourIndex + endColour[0]*(this.numberOfColours-colourIndex))/this.numberOfColours).round(),
+              ((startColour[1]*colourIndex + endColour[1]*(this.numberOfColours-colourIndex))/this.numberOfColours).round(),
+              ((startColour[2]*colourIndex + endColour[2]*(this.numberOfColours-colourIndex))/this.numberOfColours).round(),
               opacity));
         }
       }
@@ -293,7 +301,7 @@ class Fibonacci {
 
     // random
       default: {
-        for (int colorIndex = 0; colorIndex < numberOfColours; colorIndex++){
+        for (int colorIndex = 0; colorIndex < this.numberOfColours; colorIndex++){
           palette.add(Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity));
         }
       }
@@ -303,9 +311,61 @@ class Fibonacci {
 
     this.palette = palette;
   }
+
+  void defaultSettings() {
+    // resets to default settings
+
+    this.angleIncrement = 1.6180339887498948;
+    this.flowerFill = 1;
+    this.petalToRadius = 0.03;
+    this.ratio = 0.999;
+    this.randomiseAngle = 0;
+    this.petalPointiness = 0.8;
+    this.petalRotation = 0;
+    this.petalRotationRatio = 0;
+    this.petalType = 'circle';
+    this.maxPetals = 10000;
+    this.radialOscAmplitude = 0;
+    this.radialOscPeriod = 0;
+    this.direction = 'inward';
+
+    // palette settings
+    this.backgroundColour = Colors.white;
+    this.lineColour = Colors.white;
+    this.lineWidth = 0;
+    this.randomColours = false;
+    this.numberOfColours = 6;
+    this.paletteType = 'random';
+    this.opacity = 1;
+    this.palette = [Color(0xFF34a1af), Color(0xFFa570a8), Color(0xFFd6aa27), Color(0xFF5f9d50), Color(0xFF789dd1), Color(0xFFc25666), Color(0xFF2b7b1), Color(0xFFd63aa), Color(0xFF1f4ed), Color(0xFF383c47)];
+    this.aspectRatio = pi/2;
+    this.image;
+
+    this.angleIncrementLOCK = false;
+    this.flowerFillLOCK = false;
+    this.petalToRadiusLOCK = false;
+    this.ratioLOCK = false;
+    this.randomiseAngleLOCK = false;
+    this.petalPointinessLOCK = false;
+    this.petalRotationLOCK = false;
+    this.petalRotationRatioLOCK = false;
+    this.petalTypeLOCK = false;
+    this.maxPetalsLOCK = false;
+    this.radialOscAmplitudeLOCK = false;
+    this.radialOscPeriodLOCK = false;
+    this.directionLOCK = false;
+    this.backgroundColourLOCK = false;
+    this.lineColourLOCK = false;
+    this.lineWidthLOCK = false;
+    this.randomColoursLOCK = false;
+    this.numberOfColoursLOCK = false;
+    this.paletteTypeLOCK = false;
+    this.opacityLOCK = false;
+    this.paletteLOCK = false;
+    this.aspectRatioLOCK = false;
+
+  }
 }
-
-
 
 class OpArtFibonacciStudio extends StatefulWidget {
 
@@ -321,11 +381,19 @@ class OpArtFibonacciStudio extends StatefulWidget {
 
 }
 
-class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
+class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> with TickerProviderStateMixin {
   int _counter = 0;
   File _imageFile;
   ScreenshotController screenshotController = ScreenshotController();
   int _currentColor = 0;
+
+  Animation<double> animation1;
+  AnimationController controller1;
+
+  Animation<double> animation2;
+  AnimationController controller2;
+
+
   Widget settingsWidget() {
     return ListView(
       children: [
@@ -354,7 +422,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
                 onPressed:() {
                   setState(() {
 
-                    print('Randomise Palette');
+                    print('Randomise Palette Button Pressed');
                     currentFibonacci.randomizePalette();
 
                   });
@@ -605,9 +673,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
     );
   }
 
-
   @override
-
   Widget bodyWidget() {
     return Screenshot(
       controller: screenshotController,
@@ -619,7 +685,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
               builder: (_, constraints) => Container(
                 width: constraints.widthConstraints().maxWidth,
                 height: constraints.heightConstraints().maxHeight,
-                child: CustomPaint(painter: OpArtFibonacciPainter(widget.seed, rnd)),
+                child: CustomPaint(painter: OpArtFibonacciPainter(widget.seed, rnd, animation1.value, animation2.value)),
               ),
             ),
           )
@@ -642,7 +708,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
                 builder: (_, constraints) => Container(
                   width: constraints.widthConstraints().maxWidth,
                   height: constraints.heightConstraints().maxHeight,
-                  child: CustomPaint(painter: OpArtFibonacciPainter(widget.seed, rnd)),
+                  child: CustomPaint(painter: OpArtFibonacciPainter(widget.seed, rnd, animation1.value, animation2.value)),
                 ),
               ),
             )
@@ -683,6 +749,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
   @override
   void initState() {
     super.initState();
+
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
       print('---------------------------------------------------------------------------');
       print('SHAKE');
@@ -695,6 +762,55 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
     });
     // To close: detector.stopListening();
     // ShakeDetector.waitForStart() waits for user to call detector.startListening();
+
+
+    // Animation Stuff
+    controller1 = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 7200),
+    );
+
+    controller2 = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 60),
+    );
+
+    Tween<double> _angleTween = Tween(begin: -pi, end: pi);
+    Tween<double> _fillTween = Tween(begin: 1, end: 1);
+
+    animation1 = _angleTween.animate(controller1)
+      ..addListener(() {
+        setState(() {});
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          controller1.repeat();
+        } else if (status == AnimationStatus.dismissed) {
+          controller1.forward();
+        }
+      });
+
+    animation2 = _fillTween.animate(controller2)
+      ..addListener(() {
+        setState(() {});
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          controller2.reverse();
+        } else if (status == AnimationStatus.dismissed) {
+          controller2.forward();
+        }
+      });
+
+    controller1.forward();
+    controller2.forward();
+  }
+
+  @override
+  void dispose() {
+    controller1.dispose();
+    controller2.dispose();
+    super.dispose();
   }
 
 }
@@ -702,8 +818,10 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
 class OpArtFibonacciPainter extends CustomPainter {
   int seed;
   Random rnd;
+  double angle;
+  double fill;
 
-  OpArtFibonacciPainter( this.seed, this.rnd);
+  OpArtFibonacciPainter( this.seed, this.rnd, this.angle, this.fill);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -718,8 +836,7 @@ class OpArtFibonacciPainter extends CustomPainter {
 
     if (currentFibonacci == null){
       currentFibonacci = new Fibonacci(random: rnd);
-      currentFibonacci.randomize();
-      currentFibonacci.randomizePalette();
+      currentFibonacci.defaultSettings();
     }
 
 
@@ -770,11 +887,7 @@ class OpArtFibonacciPainter extends CustomPainter {
 
     // Now make some art
 
-
-
-
-
-    generateFlower(
+      generateFlower(
         canvas,
         canvasWidth,
         canvasHeight,
@@ -785,7 +898,7 @@ class OpArtFibonacciPainter extends CustomPainter {
         flowerCentreX,
         flowerCentreY,
 
-        currentFibonacci.angleIncrement,
+        angle, //currentFibonacci.angleIncrement,
         currentFibonacci.flowerFill,
         currentFibonacci.petalToRadius,
         currentFibonacci.ratio,
@@ -807,7 +920,7 @@ class OpArtFibonacciPainter extends CustomPainter {
         currentFibonacci.opacity,
         currentFibonacci.palette,
 
-    );
+      );
   }
 
 
