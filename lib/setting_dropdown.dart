@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 
 
-class settingsSlider extends StatefulWidget {
+class settingsDropdown extends StatefulWidget {
   String label;
-  double currentValue;
-  double min;
+  String currentValue;
+  List<String> dropdownItems;
   double max;
   bool locked;
   Function onChanged;
   Function toggleLock;
 
-
-  settingsSlider(this.label, this.currentValue, this.min, this.max, this.locked, this.onChanged, this.toggleLock);
+  settingsDropdown(this.label, this.currentValue, this.dropdownItems, this.locked, this.onChanged, this.toggleLock);
 
   @override
-  _settingsSliderState createState() => _settingsSliderState();
+  _settingsDropdownState createState() => _settingsDropdownState();
 }
 
-class _settingsSliderState extends State<settingsSlider> {
+class _settingsDropdownState extends State<settingsDropdown> {
+  
+  
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -44,13 +45,20 @@ class _settingsSliderState extends State<settingsSlider> {
         ),
         Flexible(
           flex: 3,
-          child: Slider(
+
+          child: DropdownButton<String>(
             value: widget.currentValue,
-            min: widget.min,
-            max: widget.max,
             onChanged: widget.locked ? null : widget.onChanged,
-            label: '${widget.label}',
-          ),
+            items: widget.dropdownItems
+                .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+
+          )
+
         ),
       ],
     );
