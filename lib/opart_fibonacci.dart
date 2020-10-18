@@ -214,22 +214,17 @@ class Fibonacci {
       // }
     }
 
-    // numberOfColours 2 to 36
-    if (this.numberOfColoursLOCK == false) {
-      this.numberOfColours = rnd.nextInt(34) + 2;
-    }
-
-    // paletteType 0 to 3
-    if (this.paletteTypeLOCK == false) {
-      this.paletteType = ['random','blended random','linear random','linear complementary'][rnd.nextInt(4)];
-    }
-
-
   }
 
   void randomizePalette() {
 
     rnd = Random(DateTime.now().millisecond);
+
+
+    // numberOfColours 2 to 36
+    if (this.numberOfColoursLOCK == false) {
+      this.numberOfColours = rnd.nextInt(34) + 2;
+    }
 
     // randomColours
     if (this.randomColoursLOCK == false) {
@@ -468,6 +463,13 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> {
               (value) {setState(() {currentFibonacci.maxPetals = value.toInt();});},
               () {setState(() {currentFibonacci.maxPetalsLOCK = !currentFibonacci.maxPetalsLOCK;});},
         ),
+
+        // lineWidth 0-3
+        settingsSlider('lineWidth', currentFibonacci.lineWidth, 0, 3, currentFibonacci.lineWidthLOCK,
+              (value) {setState(() {currentFibonacci.lineWidth = value;});},
+              () {setState(() {currentFibonacci.lineWidthLOCK = !currentFibonacci.lineWidthLOCK;});},
+        ),
+
 
         // numberOfColours
         settingsSlider('numberOfColours', currentFibonacci.numberOfColours.toDouble(), 1, 36, currentFibonacci.numberOfColoursLOCK,

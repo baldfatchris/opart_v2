@@ -25,7 +25,7 @@ class _settingsDropdownState extends State<settingsDropdown> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-            flex: 1,
+            flex: 2,
             child: GestureDetector(
                 onLongPress: widget.toggleLock,
                 child: Row(
@@ -44,7 +44,7 @@ class _settingsDropdownState extends State<settingsDropdown> {
             )
         ),
         Flexible(
-          flex: 2,
+          flex: 3,
 
           child: DropdownButton<String>(
             value: widget.currentValue,

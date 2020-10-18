@@ -24,7 +24,7 @@ class _settingsSliderState extends State<settingsSlider> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-            flex: 1,
+            flex: 2,
             child: GestureDetector(
                 onLongPress: widget.toggleLock,
                 child: Row(
@@ -43,7 +43,7 @@ class _settingsSliderState extends State<settingsSlider> {
             )
         ),
         Flexible(
-          flex: 2,
+          flex: 3,
           child: Slider(
             value: widget.currentValue,
             min: widget.min,
