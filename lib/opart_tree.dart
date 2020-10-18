@@ -1595,7 +1595,7 @@ barrierColor: Colors.white.withOpacity(0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Icon(Icons.text_rotation_angledown),Text('angle')],
+                      children: [Icon(Icons.nature),Text('trunk width')],
                     ),
                   ),Column(
                     crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
