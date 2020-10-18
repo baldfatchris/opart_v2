@@ -390,8 +390,8 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> with Ticker
   Animation<double> animation1;
   AnimationController controller1;
 
-  Animation<double> animation2;
-  AnimationController controller2;
+  // Animation<double> animation2;
+  // AnimationController controller2;
 
 
   Widget settingsWidget() {
@@ -685,7 +685,9 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> with Ticker
               builder: (_, constraints) => Container(
                 width: constraints.widthConstraints().maxWidth,
                 height: constraints.heightConstraints().maxHeight,
-                child: CustomPaint(painter: OpArtFibonacciPainter(widget.seed, rnd, animation1.value, animation2.value)),
+                child: CustomPaint(painter: OpArtFibonacciPainter(widget.seed, rnd, animation1.value,
+                    // animation2.value
+                )),
               ),
             ),
           )
@@ -708,7 +710,9 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> with Ticker
                 builder: (_, constraints) => Container(
                   width: constraints.widthConstraints().maxWidth,
                   height: constraints.heightConstraints().maxHeight,
-                  child: CustomPaint(painter: OpArtFibonacciPainter(widget.seed, rnd, animation1.value, animation2.value)),
+                  child: CustomPaint(painter: OpArtFibonacciPainter(widget.seed, rnd, animation1.value,
+                      // animation2.value
+                  )),
                 ),
               ),
             )
@@ -770,13 +774,13 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> with Ticker
       duration: Duration(seconds: 7200),
     );
 
-    controller2 = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 60),
-    );
+    // controller2 = AnimationController(
+    //   vsync: this,
+    //   duration: Duration(seconds: 60),
+    // );
 
     Tween<double> _angleTween = Tween(begin: -pi, end: pi);
-    Tween<double> _fillTween = Tween(begin: 1, end: 1);
+    // Tween<double> _fillTween = Tween(begin: 1, end: 1);
 
     animation1 = _angleTween.animate(controller1)
       ..addListener(() {
@@ -790,26 +794,26 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> with Ticker
         }
       });
 
-    animation2 = _fillTween.animate(controller2)
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          controller2.reverse();
-        } else if (status == AnimationStatus.dismissed) {
-          controller2.forward();
-        }
-      });
+    // animation2 = _fillTween.animate(controller2)
+    //   ..addListener(() {
+    //     setState(() {});
+    //   })
+    //   ..addStatusListener((status) {
+    //     if (status == AnimationStatus.completed) {
+    //       controller2.reverse();
+    //     } else if (status == AnimationStatus.dismissed) {
+    //       controller2.forward();
+    //     }
+    //   });
 
     controller1.forward();
-    controller2.forward();
+    // controller2.forward();
   }
 
   @override
   void dispose() {
     controller1.dispose();
-    controller2.dispose();
+    // controller2.dispose();
     super.dispose();
   }
 
@@ -819,9 +823,11 @@ class OpArtFibonacciPainter extends CustomPainter {
   int seed;
   Random rnd;
   double angle;
-  double fill;
+  // double fill;
 
-  OpArtFibonacciPainter( this.seed, this.rnd, this.angle, this.fill);
+  OpArtFibonacciPainter( this.seed, this.rnd, this.angle,
+      // this.fill
+      );
 
   @override
   void paint(Canvas canvas, Size size) {
