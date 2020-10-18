@@ -127,31 +127,31 @@ class _OpArtMenuState extends State<OpArtMenu> {
     Size size = MediaQuery.of(context).size;
     print(showSettings);
     return Scaffold(
-        bottomNavigationBar: BottomAppBar(
-            color: Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  child: Row(
-                    children: [
-                      Icon(Icons.refresh),
-                      SizedBox(width: 5),
-                      Text('Randomise')
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                      onTap: () {
-                        _settingModalBottomSheet(context);
-                      },
-                      child: Text('TOOLS')),
-                ),
-                Container(width: 100, height: 1),
-              ],
-            )),
+        // bottomNavigationBar: BottomAppBar(
+        //     color: Colors.white,
+        //     child: Row(
+        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //       children: [
+        //         GestureDetector(
+        //           child: Row(
+        //             children: [
+        //               Icon(Icons.refresh),
+        //               SizedBox(width: 5),
+        //               Text('Randomise')
+        //             ],
+        //           ),
+        //         ),
+        //         Padding(
+        //           padding: const EdgeInsets.all(8.0),
+        //           child: GestureDetector(
+        //               onTap: () {
+        //                 _settingModalBottomSheet(context);
+        //               },
+        //               child: Text('TOOLS')),
+        //         ),
+        //         Container(width: 100, height: 1),
+        //       ],
+        //     )),
         floatingActionButton: FloatingActionButton(
           heroTag: btn2,
           child: Icon(Icons.settings),

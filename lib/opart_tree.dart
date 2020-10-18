@@ -9,9 +9,8 @@ import 'package:opart_v2/setting_slider.dart';
 Random rnd;
 List palette;
 
-
 // Settings
-double aspectRatio = pi/2;
+double aspectRatio = pi / 2;
 bool aspectRatioLOCK = false;
 
 double trunkWidth = 10;
@@ -20,7 +19,7 @@ bool trunkWidthLOCK = false;
 double widthDecay = 0.92;
 bool widthDecayLOCK = false;
 
-double segmentLength= 35;
+double segmentLength = 35;
 bool segmentLengthLOCK = false;
 
 double segmentDecay = 0.92;
@@ -72,7 +71,6 @@ bool trunkOutlineColourLOCK = false;
 double trunkStrokeWidth = 0.1;
 bool trunkStrokeWidthLOCK = false;
 
-
 bool randomColours = false;
 bool randomColoursLOCK = false;
 
@@ -85,7 +83,7 @@ bool paletteTypeLOCK = false;
 double opacity = 0.5;
 bool opacityLOCK = false;
 
-randomisePalette(int numberOfColours, int paletteType){
+randomisePalette(int numberOfColours, int paletteType) {
   print('Randomise Palette');
   print('numberOfColours: $numberOfColours paletteType: $paletteType');
   print('opacity: $opacity');
@@ -94,75 +92,120 @@ randomisePalette(int numberOfColours, int paletteType){
 
   // backgroundColor
   if (backgroundColorLOCK == false) {
-    backgroundColor = Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1);
+    backgroundColor =
+        Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1);
   }
   print('backgroundColor $backgroundColor');
 
   // trunkFillColor
   if (trunkFillColorLOCK == false) {
-    trunkFillColor = Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity);
+    trunkFillColor =
+        Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity);
   }
   print('trunkFillColor $trunkFillColor');
 
   // trunkOutlineColour
   if (trunkOutlineColourLOCK == false) {
-    trunkOutlineColour = Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity);
+    trunkOutlineColour =
+        Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity);
   }
   print('trunkOutlineColour $trunkOutlineColour');
 
   List palette = [];
 
-  switch(paletteType){
+  switch (paletteType) {
 
-  // blended random
-    case 1:{
-      print('blended random');
-      double blendColour = rnd.nextDouble() * 0xFFFFFF;
-      for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
-        palette.add(Color(((blendColour + rnd.nextDouble() * 0xFFFFFF)/2).toInt()).withOpacity(opacity));
+    // blended random
+    case 1:
+      {
+        print('blended random');
+        double blendColour = rnd.nextDouble() * 0xFFFFFF;
+        for (int colourIndex = 0;
+            colourIndex < numberOfColours;
+            colourIndex++) {
+          palette.add(
+              Color(((blendColour + rnd.nextDouble() * 0xFFFFFF) / 2).toInt())
+                  .withOpacity(opacity));
+        }
       }
-    }
-    break;
+      break;
 
-  // linear random
-    case 2:{
-      print('linear random');
-      List startColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
-      List endColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
-      for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
-        palette.add(Color.fromRGBO(
-            ((startColour[0]*colourIndex + endColour[0]*(numberOfColours-colourIndex))/numberOfColours).round(),
-            ((startColour[1]*colourIndex + endColour[1]*(numberOfColours-colourIndex))/numberOfColours).round(),
-            ((startColour[2]*colourIndex + endColour[2]*(numberOfColours-colourIndex))/numberOfColours).round(),
-            opacity));
+    // linear random
+    case 2:
+      {
+        print('linear random');
+        List startColour = [
+          rnd.nextInt(255),
+          rnd.nextInt(255),
+          rnd.nextInt(255)
+        ];
+        List endColour = [rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)];
+        for (int colourIndex = 0;
+            colourIndex < numberOfColours;
+            colourIndex++) {
+          palette.add(Color.fromRGBO(
+              ((startColour[0] * colourIndex +
+                          endColour[0] * (numberOfColours - colourIndex)) /
+                      numberOfColours)
+                  .round(),
+              ((startColour[1] * colourIndex +
+                          endColour[1] * (numberOfColours - colourIndex)) /
+                      numberOfColours)
+                  .round(),
+              ((startColour[2] * colourIndex +
+                          endColour[2] * (numberOfColours - colourIndex)) /
+                      numberOfColours)
+                  .round(),
+              opacity));
+        }
       }
-    }
-    break;
+      break;
 
-  // linear complementary
-    case 3:{
-      print('linear complementary');
-      List startColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
-      List endColour = [255-startColour[0],255-startColour[1],255-startColour[2]];
-      for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
-        palette.add(Color.fromRGBO(
-            ((startColour[0]*colourIndex + endColour[0]*(numberOfColours-colourIndex))/numberOfColours).round(),
-            ((startColour[1]*colourIndex + endColour[1]*(numberOfColours-colourIndex))/numberOfColours).round(),
-            ((startColour[2]*colourIndex + endColour[2]*(numberOfColours-colourIndex))/numberOfColours).round(),
-            opacity));
+    // linear complementary
+    case 3:
+      {
+        print('linear complementary');
+        List startColour = [
+          rnd.nextInt(255),
+          rnd.nextInt(255),
+          rnd.nextInt(255)
+        ];
+        List endColour = [
+          255 - startColour[0],
+          255 - startColour[1],
+          255 - startColour[2]
+        ];
+        for (int colourIndex = 0;
+            colourIndex < numberOfColours;
+            colourIndex++) {
+          palette.add(Color.fromRGBO(
+              ((startColour[0] * colourIndex +
+                          endColour[0] * (numberOfColours - colourIndex)) /
+                      numberOfColours)
+                  .round(),
+              ((startColour[1] * colourIndex +
+                          endColour[1] * (numberOfColours - colourIndex)) /
+                      numberOfColours)
+                  .round(),
+              ((startColour[2] * colourIndex +
+                          endColour[2] * (numberOfColours - colourIndex)) /
+                      numberOfColours)
+                  .round(),
+              opacity));
+        }
       }
-    }
-    break;
+      break;
 
-  // random
-    default: {
-      print('random');
-      for (int colorIndex = 0; colorIndex < numberOfColours; colorIndex++){
-        palette.add(Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity));
+    // random
+    default:
+      {
+        print('random');
+        for (int colorIndex = 0; colorIndex < numberOfColours; colorIndex++) {
+          palette.add(Color((rnd.nextDouble() * 0xFFFFFF).toInt())
+              .withOpacity(opacity));
+        }
       }
-    }
-    break;
-
+      break;
   }
 
   print('palette: $palette');
@@ -171,7 +214,6 @@ randomisePalette(int numberOfColours, int paletteType){
 }
 
 randomiseSettings() {
-
   print('RANDOMISE SETTINGS');
 
   // trunkWidth 0 to 50
@@ -216,7 +258,7 @@ randomiseSettings() {
 
   // maxDepth 10 - 28
   if (maxDepthLOCK == false) {
-    maxDepth = rnd.nextInt(18) +10;
+    maxDepth = rnd.nextInt(18) + 10;
   }
 
   // leavesAfter 0 to maxDepth
@@ -246,10 +288,8 @@ randomiseSettings() {
 
   // leafDecay 0.9 - 1
   if (leafDecayLOCK == false) {
-    leafDecay = rnd.nextDouble() * 0.1+0.9;
+    leafDecay = rnd.nextDouble() * 0.1 + 0.9;
   }
-
-
 
   // opacity 0.5-1
   if (opacityLOCK == false) {
@@ -259,7 +299,6 @@ randomiseSettings() {
       opacity = 1;
     }
   }
-
 
   // numberOfColours 1 to 36
   if (numberOfColoursLOCK == false) {
@@ -278,7 +317,6 @@ randomiseSettings() {
 }
 
 class TreeSettings {
-
   int id;
   List palette;
   Color backgroundColor;
@@ -297,38 +335,36 @@ class TreeSettings {
   int leavesAfter = 10;
   double leafAngle = 0.5;
   double leafLength = 8;
-  double randomLeafLength  = 4;
-  double leafSquareness  = 1.5;
-  double leafDecay  = 0.95;
+  double randomLeafLength = 4;
+  double leafSquareness = 1.5;
+  double leafDecay = 0.95;
 
   File image = null;
 
-  TreeSettings(
-      {
-        this.id,
-        this.palette,
-        this.backgroundColor,
-        this.trunkFillColor,
-        this.trunkOutlineColour,
-        this.opacity,
-        this.trunkWidth,
-        this.widthDecay,
-        this.segmentDecay,
-        this.segmentLength,
-        this.branch,
-        this.angle,
-        this.ratio,
-        this.bulbousness,
-        this.maxDepth,
-        this.leavesAfter,
-        this.leafAngle,
-        this.leafLength,
-        this.randomLeafLength ,
-        this.leafSquareness ,
-        this.leafDecay,
-        this.image,
-      }
-      );
+  TreeSettings({
+    this.id,
+    this.palette,
+    this.backgroundColor,
+    this.trunkFillColor,
+    this.trunkOutlineColour,
+    this.opacity,
+    this.trunkWidth,
+    this.widthDecay,
+    this.segmentDecay,
+    this.segmentLength,
+    this.branch,
+    this.angle,
+    this.ratio,
+    this.bulbousness,
+    this.maxDepth,
+    this.leavesAfter,
+    this.leafAngle,
+    this.leafLength,
+    this.randomLeafLength,
+    this.leafSquareness,
+    this.leafDecay,
+    this.image,
+  });
 }
 
 List<TreeSettings> treeSettingsList = [
@@ -372,9 +408,12 @@ List<TreeSettings> treeSettingsList = [
       Colors.orangeAccent,
       Colors.deepOrangeAccent,
     ],
-    backgroundColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
-    trunkFillColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
-    trunkOutlineColour: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
+    backgroundColor:
+        Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
+    trunkFillColor:
+        Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
+    trunkOutlineColour:
+        Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
     opacity: 0.5,
     trunkWidth: 10.0,
     widthDecay: 0.92,
@@ -388,10 +427,9 @@ List<TreeSettings> treeSettingsList = [
     leavesAfter: 10,
     leafAngle: 0.7,
     leafLength: 8,
-    randomLeafLength : 18,
-    leafSquareness : 1,
-    leafDecay : 0.99,
-
+    randomLeafLength: 18,
+    leafSquareness: 1,
+    leafDecay: 0.99,
   ),
   TreeSettings(
     id: 0,
@@ -433,9 +471,12 @@ List<TreeSettings> treeSettingsList = [
       Colors.orangeAccent,
       Colors.deepOrangeAccent,
     ],
-    backgroundColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
-    trunkFillColor: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
-    trunkOutlineColour: Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
+    backgroundColor:
+        Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
+    trunkFillColor:
+        Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
+    trunkOutlineColour:
+        Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity),
     opacity: 1,
     trunkWidth: 10.0,
     widthDecay: 0.92,
@@ -449,12 +490,10 @@ List<TreeSettings> treeSettingsList = [
     leavesAfter: 10,
     leafAngle: 0.7,
     leafLength: 9,
-    randomLeafLength : 9,
-    leafSquareness : 1,
-    leafDecay : 0.96,
-
+    randomLeafLength: 9,
+    leafSquareness: 1,
+    leafDecay: 0.96,
   ),
-
 ];
 
 int currentIndex = 0;
@@ -463,14 +502,10 @@ void changeColor(int index, Color color) {
   palette.replaceRange(index, index + 1, [color]);
 }
 
-
-
 class OpArtTreeStudio extends StatefulWidget {
-
   int seed;
   bool showSettings;
   ScreenshotController screenshotController;
-
 
   OpArtTreeStudio(this.seed, this.showSettings, {this.screenshotController});
 
@@ -481,9 +516,6 @@ class OpArtTreeStudio extends StatefulWidget {
 bool _showBackgroundColorPicker = false;
 
 class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
-
-
-
   Widget settingsWidget() {
     return ListView(
       children: [
@@ -507,34 +539,47 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                     if (treeSettingsList[index].image == null) {
                       return Container();
                     } else {
-                      return GestureDetector(onTap: (){
-                        setState(() {
-                          currentIndex = index;
-                          print('index: $index');
-                          palette = treeSettingsList[currentIndex].palette;
-                          backgroundColor = treeSettingsList[currentIndex].backgroundColor;
-                          opacity = treeSettingsList[currentIndex].opacity;
-                          trunkFillColor = treeSettingsList[currentIndex].trunkFillColor;
-                          trunkOutlineColour = treeSettingsList[currentIndex].trunkOutlineColour;
-                          trunkWidth = treeSettingsList[currentIndex].trunkWidth;
-                          widthDecay = treeSettingsList[currentIndex].widthDecay;
-                          segmentLength = treeSettingsList[currentIndex].segmentLength;
-                          segmentDecay = treeSettingsList[currentIndex].segmentDecay;
-                          branch = treeSettingsList[currentIndex].branch;
-                          angle = treeSettingsList[currentIndex].angle;
-                          ratio = treeSettingsList[currentIndex].ratio;
-                          bulbousness = treeSettingsList[currentIndex].bulbousness;
-                          maxDepth = treeSettingsList[currentIndex].maxDepth;
-                          leavesAfter = treeSettingsList[currentIndex].leavesAfter;
-                          leafAngle = treeSettingsList[currentIndex].leafAngle;
-                          leafLength = treeSettingsList[currentIndex].leafLength;
-                          randomLeafLength  = treeSettingsList[currentIndex].randomLeafLength ;
-                          leafSquareness  = treeSettingsList[currentIndex].leafSquareness ;
-                          leafDecay  = treeSettingsList[currentIndex].leafDecay ;
-
-
-                        });
-                      },
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            currentIndex = index;
+                            print('index: $index');
+                            palette = treeSettingsList[currentIndex].palette;
+                            backgroundColor =
+                                treeSettingsList[currentIndex].backgroundColor;
+                            opacity = treeSettingsList[currentIndex].opacity;
+                            trunkFillColor =
+                                treeSettingsList[currentIndex].trunkFillColor;
+                            trunkOutlineColour = treeSettingsList[currentIndex]
+                                .trunkOutlineColour;
+                            trunkWidth =
+                                treeSettingsList[currentIndex].trunkWidth;
+                            widthDecay =
+                                treeSettingsList[currentIndex].widthDecay;
+                            segmentLength =
+                                treeSettingsList[currentIndex].segmentLength;
+                            segmentDecay =
+                                treeSettingsList[currentIndex].segmentDecay;
+                            branch = treeSettingsList[currentIndex].branch;
+                            angle = treeSettingsList[currentIndex].angle;
+                            ratio = treeSettingsList[currentIndex].ratio;
+                            bulbousness =
+                                treeSettingsList[currentIndex].bulbousness;
+                            maxDepth = treeSettingsList[currentIndex].maxDepth;
+                            leavesAfter =
+                                treeSettingsList[currentIndex].leavesAfter;
+                            leafAngle =
+                                treeSettingsList[currentIndex].leafAngle;
+                            leafLength =
+                                treeSettingsList[currentIndex].leafLength;
+                            randomLeafLength =
+                                treeSettingsList[currentIndex].randomLeafLength;
+                            leafSquareness =
+                                treeSettingsList[currentIndex].leafSquareness;
+                            leafDecay =
+                                treeSettingsList[currentIndex].leafDecay;
+                          });
+                        },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Container(
@@ -574,9 +619,9 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                     leavesAfter: leavesAfter,
                     leafAngle: leafAngle,
                     leafLength: leafLength,
-                    randomLeafLength : randomLeafLength ,
-                    leafSquareness : leafSquareness ,
-                    leafDecay : leafDecay ,
+                    randomLeafLength: randomLeafLength,
+                    leafSquareness: leafSquareness,
+                    leafDecay: leafDecay,
                   ),
                 );
                 widget.screenshotController
@@ -584,13 +629,12 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                     .then((File image) async {
                   treeSettingsList[currentIndex].image = image;
                 });
-                await new Future.delayed(const Duration(seconds : 1)).then((value){
+                await new Future.delayed(const Duration(seconds: 1))
+                    .then((value) {
                   setState(() {
-                    currentIndex = treeSettingsList.length-1;
+                    currentIndex = treeSettingsList.length - 1;
                   });
                 });
-
-
               },
             )
           ],
@@ -601,7 +645,6 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-
             // Randomise Palette
             Flexible(
               flex: 1,
@@ -610,12 +653,10 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                 icon: Icon(Icons.palette),
                 //backgroundColor: Colors.pink,
 
-                onPressed:() {
+                onPressed: () {
                   setState(() {
-
                     print('Randomise Palette');
                     palette = randomisePalette(numberOfColours, paletteType);
-
                   });
                 },
               ),
@@ -629,24 +670,18 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
               flex: 1,
               child: FloatingActionButton.extended(
                 label: Text('Randomise All'),
-
                 icon: Icon(Icons.refresh),
-
-                onPressed:() {
+                onPressed: () {
                   setState(() {
-
                     print('Randomise All');
                     randomiseSettings();
                     palette = randomisePalette(numberOfColours, paletteType);
-
                   });
                 },
               ),
             ),
-
           ],
         ),
-
 
         // backgroundColor
         Row(
@@ -666,55 +701,131 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
         ),
         _showBackgroundColorPicker
             ? ColorPicker(
-          displayThumbColor: false,
-          pickerAreaHeightPercent: 0.3,
-          pickerAreaBorderRadius: BorderRadius.circular(10.0),
-          pickerColor: backgroundColor,
-          onColorChanged: (color) {
-            setState(() {
-              backgroundColor = color;
-            });
-          },
-          showLabel: false,
-        )
+                displayThumbColor: false,
+                pickerAreaHeightPercent: 0.3,
+                pickerAreaBorderRadius: BorderRadius.circular(10.0),
+                pickerColor: backgroundColor,
+                onColorChanged: (color) {
+                  setState(() {
+                    backgroundColor = color;
+                  });
+                },
+                showLabel: false,
+              )
             : Container(),
 
-
         // trunkWidth
-        settingsSlider('trunkWidth', trunkWidth, 0, 50, trunkWidthLOCK,
-              (value) {setState(() {trunkWidth = value;});},
-              () {setState(() {trunkWidthLOCK = !trunkWidthLOCK;});},
+        settingsSlider(
+          'trunkWidth',
+          trunkWidth,
+          0,
+          50,
+          trunkWidthLOCK,
+          (value) {
+            setState(() {
+              trunkWidth = value;
+            });
+          },
+          () {
+            setState(() {
+              trunkWidthLOCK = !trunkWidthLOCK;
+            });
+          },
         ),
 
-
         // widthDecay
-        settingsSlider('widthDecay', widthDecay, 0.7, 1.1, widthDecayLOCK,
-              (value) {setState(() {widthDecay = value;});},
-              () {setState(() {widthDecayLOCK = !widthDecayLOCK;});},
+        settingsSlider(
+          'widthDecay',
+          widthDecay,
+          0.7,
+          1.1,
+          widthDecayLOCK,
+          (value) {
+            setState(() {
+              widthDecay = value;
+            });
+          },
+          () {
+            setState(() {
+              widthDecayLOCK = !widthDecayLOCK;
+            });
+          },
         ),
 
         //
-        settingsSlider('segmentLength', segmentLength, 10, 50, segmentLengthLOCK,
-              (value) {setState(() {segmentLength = value;});},
-              () {setState(() {segmentLengthLOCK = !segmentLengthLOCK;});},
+        settingsSlider(
+          'segmentLength',
+          segmentLength,
+          10,
+          50,
+          segmentLengthLOCK,
+          (value) {
+            setState(() {
+              segmentLength = value;
+            });
+          },
+          () {
+            setState(() {
+              segmentLengthLOCK = !segmentLengthLOCK;
+            });
+          },
         ),
 
         // branch
-        settingsSlider('branch', branch, 0.4, 1, branchLOCK,
-              (value) {setState(() {branch = value;});},
-              () {setState(() {branchLOCK = !branchLOCK;});},
+        settingsSlider(
+          'branch',
+          branch,
+          0.4,
+          1,
+          branchLOCK,
+          (value) {
+            setState(() {
+              branch = value;
+            });
+          },
+          () {
+            setState(() {
+              branchLOCK = !branchLOCK;
+            });
+          },
         ),
 
         // angle
-        settingsSlider('angle', angle, 0.1, 0.7, angleLOCK,
-              (value) {setState(() {branch = value;});},
-              () {setState(() {angleLOCK = !angleLOCK;});},
+        settingsSlider(
+          'angle',
+          angle,
+          0.1,
+          0.7,
+          angleLOCK,
+          (value) {
+            setState(() {
+              branch = value;
+            });
+          },
+          () {
+            setState(() {
+              angleLOCK = !angleLOCK;
+            });
+          },
         ),
 
         // ratio
-        settingsSlider('ratio', ratio, 0.5, 1.5, ratioLOCK,
-              (value) {setState(() {branch = value;});},
-              () {setState(() {ratioLOCK = !ratioLOCK;});},
+        settingsSlider(
+          'ratio',
+          ratio,
+          0.5,
+          1.5,
+          ratioLOCK,
+          (value) {
+            setState(() {
+              branch = value;
+            });
+          },
+          () {
+            setState(() {
+              ratioLOCK = !ratioLOCK;
+            });
+          },
         ),
 
         // bulbousness
@@ -724,21 +835,23 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
             Flexible(
                 flex: 1,
                 child: GestureDetector(
-                    onLongPress: (){
+                    onLongPress: () {
                       setState(() {
                         // toggle lock
-                        if (bulbousnessLOCK){
-                          bulbousnessLOCK=false;
+                        if (bulbousnessLOCK) {
+                          bulbousnessLOCK = false;
                         } else {
-                          bulbousnessLOCK=true;
+                          bulbousnessLOCK = true;
                         }
                       });
                     },
                     child: Row(
-                      children:[
+                      children: [
                         Text(
                           'bulbousness:',
-                          style: bulbousnessLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                          style: bulbousnessLOCK
+                              ? TextStyle(fontWeight: FontWeight.normal)
+                              : TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Icon(
                           bulbousnessLOCK ? Icons.lock : Icons.lock_open,
@@ -746,20 +859,20 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                           color: bulbousnessLOCK ? Colors.grey : Colors.black,
                         ),
                       ],
-                    )
-                )
-            ),
+                    ))),
             Flexible(
               flex: 2,
               child: Slider(
                 value: bulbousness,
                 min: 0,
                 max: 3,
-                onChanged: bulbousnessLOCK ? null : (value) {
-                  setState(() {
-                    bulbousness  = value;
-                  });
-                },
+                onChanged: bulbousnessLOCK
+                    ? null
+                    : (value) {
+                        setState(() {
+                          bulbousness = value;
+                        });
+                      },
                 label: '$bulbousness ',
               ),
             ),
@@ -773,21 +886,23 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
             Flexible(
                 flex: 1,
                 child: GestureDetector(
-                    onLongPress: (){
+                    onLongPress: () {
                       setState(() {
                         // toggle lock
-                        if (maxDepthLOCK){
-                          maxDepthLOCK=false;
+                        if (maxDepthLOCK) {
+                          maxDepthLOCK = false;
                         } else {
-                          maxDepthLOCK=true;
+                          maxDepthLOCK = true;
                         }
                       });
                     },
                     child: Row(
-                      children:[
+                      children: [
                         Text(
                           'maxDepth:',
-                          style: maxDepthLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                          style: maxDepthLOCK
+                              ? TextStyle(fontWeight: FontWeight.normal)
+                              : TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Icon(
                           maxDepthLOCK ? Icons.lock : Icons.lock_open,
@@ -795,26 +910,25 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                           color: maxDepthLOCK ? Colors.grey : Colors.black,
                         ),
                       ],
-                    )
-                )
-            ),
+                    ))),
             Flexible(
               flex: 2,
               child: Slider(
                 value: maxDepth.toDouble(),
                 min: 10,
                 max: 28,
-                onChanged: maxDepthLOCK ? null : (value) {
-                  setState(() {
-                    maxDepth  = value.toInt();
-                  });
-                },
+                onChanged: maxDepthLOCK
+                    ? null
+                    : (value) {
+                        setState(() {
+                          maxDepth = value.toInt();
+                        });
+                      },
                 label: '$maxDepth ',
               ),
             ),
           ],
         ),
-
 
         // leavesAfter
         Row(
@@ -823,21 +937,23 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
             Flexible(
                 flex: 1,
                 child: GestureDetector(
-                    onLongPress: (){
+                    onLongPress: () {
                       setState(() {
                         // toggle lock
-                        if (leavesAfterLOCK){
-                          leavesAfterLOCK=false;
+                        if (leavesAfterLOCK) {
+                          leavesAfterLOCK = false;
                         } else {
-                          leavesAfterLOCK=true;
+                          leavesAfterLOCK = true;
                         }
                       });
                     },
                     child: Row(
-                      children:[
+                      children: [
                         Text(
                           'leavesAfter:',
-                          style: leavesAfterLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                          style: leavesAfterLOCK
+                              ? TextStyle(fontWeight: FontWeight.normal)
+                              : TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Icon(
                           leavesAfterLOCK ? Icons.lock : Icons.lock_open,
@@ -845,20 +961,22 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                           color: leavesAfterLOCK ? Colors.grey : Colors.black,
                         ),
                       ],
-                    )
-                )
-            ),
+                    ))),
             Flexible(
               flex: 2,
               child: Slider(
                 value: leavesAfter.toDouble(),
                 min: 0,
                 max: 28,
-                onChanged: leavesAfterLOCK ? null : (value) {
-                  setState(() {
-                    leavesAfter  = (leavesAfter<maxDepth) ? value.toInt() : maxDepth;
-                  });
-                },
+                onChanged: leavesAfterLOCK
+                    ? null
+                    : (value) {
+                        setState(() {
+                          leavesAfter = (leavesAfter < maxDepth)
+                              ? value.toInt()
+                              : maxDepth;
+                        });
+                      },
                 label: '$leavesAfter ',
               ),
             ),
@@ -872,21 +990,23 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
             Flexible(
                 flex: 1,
                 child: GestureDetector(
-                    onLongPress: (){
+                    onLongPress: () {
                       setState(() {
                         // toggle lock
-                        if (leafAngleLOCK){
-                          leafAngleLOCK=false;
+                        if (leafAngleLOCK) {
+                          leafAngleLOCK = false;
                         } else {
-                          leafAngleLOCK=true;
+                          leafAngleLOCK = true;
                         }
                       });
                     },
                     child: Row(
-                      children:[
+                      children: [
                         Text(
                           'leafAngle:',
-                          style: leafAngleLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                          style: leafAngleLOCK
+                              ? TextStyle(fontWeight: FontWeight.normal)
+                              : TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Icon(
                           leafAngleLOCK ? Icons.lock : Icons.lock_open,
@@ -894,20 +1014,20 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                           color: leafAngleLOCK ? Colors.grey : Colors.black,
                         ),
                       ],
-                    )
-                )
-            ),
+                    ))),
             Flexible(
               flex: 2,
               child: Slider(
                 value: leafAngle,
                 min: 0.2,
                 max: 0.8,
-                onChanged: leafAngleLOCK ? null : (value) {
-                  setState(() {
-                    leafAngle  = value;
-                  });
-                },
+                onChanged: leafAngleLOCK
+                    ? null
+                    : (value) {
+                        setState(() {
+                          leafAngle = value;
+                        });
+                      },
                 label: '$leafAngle ',
               ),
             ),
@@ -921,21 +1041,23 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
             Flexible(
                 flex: 1,
                 child: GestureDetector(
-                    onLongPress: (){
+                    onLongPress: () {
                       setState(() {
                         // toggle lock
-                        if (leafLengthLOCK){
-                          leafLengthLOCK=false;
+                        if (leafLengthLOCK) {
+                          leafLengthLOCK = false;
                         } else {
-                          leafLengthLOCK=true;
+                          leafLengthLOCK = true;
                         }
                       });
                     },
                     child: Row(
-                      children:[
+                      children: [
                         Text(
                           'leafLength:',
-                          style: leafLengthLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                          style: leafLengthLOCK
+                              ? TextStyle(fontWeight: FontWeight.normal)
+                              : TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Icon(
                           leafLengthLOCK ? Icons.lock : Icons.lock_open,
@@ -943,27 +1065,25 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                           color: leafLengthLOCK ? Colors.grey : Colors.black,
                         ),
                       ],
-                    )
-                )
-            ),
+                    ))),
             Flexible(
               flex: 2,
               child: Slider(
                 value: leafLength,
                 min: 0,
                 max: 20,
-                onChanged: leafLengthLOCK ? null : (value) {
-                  setState(() {
-                    leafLength  = value;
-                  });
-                },
+                onChanged: leafLengthLOCK
+                    ? null
+                    : (value) {
+                        setState(() {
+                          leafLength = value;
+                        });
+                      },
                 label: '$leafLength ',
               ),
             ),
           ],
         ),
-
-
 
         // randomLeafLength
         Row(
@@ -972,49 +1092,50 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
             Flexible(
                 flex: 1,
                 child: GestureDetector(
-                    onLongPress: (){
+                    onLongPress: () {
                       setState(() {
                         // toggle lock
-                        if (randomLeafLengthLOCK){
-                          randomLeafLengthLOCK=false;
+                        if (randomLeafLengthLOCK) {
+                          randomLeafLengthLOCK = false;
                         } else {
-                          randomLeafLengthLOCK=true;
+                          randomLeafLengthLOCK = true;
                         }
                       });
                     },
                     child: Row(
-                      children:[
+                      children: [
                         Text(
                           'randomLength:',
-                          style: randomLeafLengthLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                          style: randomLeafLengthLOCK
+                              ? TextStyle(fontWeight: FontWeight.normal)
+                              : TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Icon(
                           randomLeafLengthLOCK ? Icons.lock : Icons.lock_open,
                           size: 20,
-                          color: randomLeafLengthLOCK ? Colors.grey : Colors.black,
+                          color:
+                              randomLeafLengthLOCK ? Colors.grey : Colors.black,
                         ),
                       ],
-                    )
-                )
-            ),
+                    ))),
             Flexible(
               flex: 2,
               child: Slider(
                 value: randomLeafLength,
                 min: 0,
                 max: 20,
-                onChanged: randomLeafLengthLOCK ? null : (value) {
-                  setState(() {
-                    randomLeafLength  = value;
-                  });
-                },
+                onChanged: randomLeafLengthLOCK
+                    ? null
+                    : (value) {
+                        setState(() {
+                          randomLeafLength = value;
+                        });
+                      },
                 label: '$randomLeafLength ',
               ),
             ),
           ],
         ),
-
-
 
         // leafSquareness
         Row(
@@ -1023,49 +1144,50 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
             Flexible(
                 flex: 1,
                 child: GestureDetector(
-                    onLongPress: (){
+                    onLongPress: () {
                       setState(() {
                         // toggle lock
-                        if (leafSquarenessLOCK){
-                          leafSquarenessLOCK=false;
+                        if (leafSquarenessLOCK) {
+                          leafSquarenessLOCK = false;
                         } else {
-                          leafSquarenessLOCK=true;
+                          leafSquarenessLOCK = true;
                         }
                       });
                     },
                     child: Row(
-                      children:[
+                      children: [
                         Text(
                           'leafSquareness:',
-                          style: leafSquarenessLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                          style: leafSquarenessLOCK
+                              ? TextStyle(fontWeight: FontWeight.normal)
+                              : TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Icon(
                           leafSquarenessLOCK ? Icons.lock : Icons.lock_open,
                           size: 20,
-                          color: leafSquarenessLOCK ? Colors.grey : Colors.black,
+                          color:
+                              leafSquarenessLOCK ? Colors.grey : Colors.black,
                         ),
                       ],
-                    )
-                )
-            ),
+                    ))),
             Flexible(
               flex: 2,
               child: Slider(
                 value: leafSquareness,
                 min: 0,
                 max: 2,
-                onChanged: leafSquarenessLOCK ? null : (value) {
-                  setState(() {
-                    leafSquareness  = value;
-                  });
-                },
+                onChanged: leafSquarenessLOCK
+                    ? null
+                    : (value) {
+                        setState(() {
+                          leafSquareness = value;
+                        });
+                      },
                 label: '$leafSquareness ',
               ),
             ),
           ],
         ),
-
-
 
         // leafDecay
         Row(
@@ -1074,21 +1196,23 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
             Flexible(
                 flex: 1,
                 child: GestureDetector(
-                    onLongPress: (){
+                    onLongPress: () {
                       setState(() {
                         // toggle lock
-                        if (leafDecayLOCK){
-                          leafDecayLOCK=false;
+                        if (leafDecayLOCK) {
+                          leafDecayLOCK = false;
                         } else {
-                          leafDecayLOCK=true;
+                          leafDecayLOCK = true;
                         }
                       });
                     },
                     child: Row(
-                      children:[
+                      children: [
                         Text(
                           'leafDecay:',
-                          style: leafDecayLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                          style: leafDecayLOCK
+                              ? TextStyle(fontWeight: FontWeight.normal)
+                              : TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Icon(
                           leafDecayLOCK ? Icons.lock : Icons.lock_open,
@@ -1096,52 +1220,50 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                           color: leafDecayLOCK ? Colors.grey : Colors.black,
                         ),
                       ],
-                    )
-                )
-            ),
+                    ))),
             Flexible(
               flex: 2,
               child: Slider(
                 value: leafDecay,
                 min: 0.9,
                 max: 1,
-                onChanged: leafDecayLOCK ? null : (value) {
-                  setState(() {
-                    leafDecay  = value;
-                  });
-                },
+                onChanged: leafDecayLOCK
+                    ? null
+                    : (value) {
+                        setState(() {
+                          leafDecay = value;
+                        });
+                      },
                 label: '$leafDecay ',
               ),
             ),
           ],
         ),
 
-
-
-
-
         // numberOfColours
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              flex:1,
+              flex: 1,
               child: GestureDetector(
-                  onLongPress: (){
+                  onLongPress: () {
                     setState(() {
                       // toggle lock
-                      if (numberOfColoursLOCK){
-                        numberOfColoursLOCK=false;
+                      if (numberOfColoursLOCK) {
+                        numberOfColoursLOCK = false;
                       } else {
-                        numberOfColoursLOCK=true;
+                        numberOfColoursLOCK = true;
                       }
                     });
                   },
                   child: Row(
-                    children:[
+                    children: [
                       Text(
                         '# colours:',
-                        style: numberOfColoursLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        style: numberOfColoursLOCK
+                            ? TextStyle(fontWeight: FontWeight.normal)
+                            : TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Icon(
                         numberOfColoursLOCK ? Icons.lock : Icons.lock_open,
@@ -1149,23 +1271,25 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                         color: numberOfColoursLOCK ? Colors.grey : Colors.black,
                       ),
                     ],
-                  )
-              ),
+                  )),
             ),
             Flexible(
-              flex:2,
+              flex: 2,
               child: Slider(
                 value: numberOfColours.toDouble(),
                 min: 2,
                 max: 36,
-                onChanged: numberOfColoursLOCK ? null : (value) {
-                  setState(() {
-                    if (numberOfColours<value){
-                      palette = randomisePalette(value.toInt(), paletteType);
-                    }
-                    numberOfColours  = value.toInt();
-                  });
-                },
+                onChanged: numberOfColoursLOCK
+                    ? null
+                    : (value) {
+                        setState(() {
+                          if (numberOfColours < value) {
+                            palette =
+                                randomisePalette(value.toInt(), paletteType);
+                          }
+                          numberOfColours = value.toInt();
+                        });
+                      },
               ),
             ),
           ],
@@ -1176,25 +1300,27 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              flex:1,
+              flex: 1,
               child: GestureDetector(
-                  onLongPress: (){
+                  onLongPress: () {
                     setState(() {
                       // toggle lock
-                      if (randomColoursLOCK){
-                        randomColoursLOCK=false;
+                      if (randomColoursLOCK) {
+                        randomColoursLOCK = false;
                         print('randomColours UNLOCK');
                       } else {
-                        randomColoursLOCK=true;
+                        randomColoursLOCK = true;
                         print('randomColours LOCK');
                       }
                     });
                   },
                   child: Row(
-                    children:[
+                    children: [
                       Text(
                         'randomColours:',
-                        style: randomColoursLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        style: randomColoursLOCK
+                            ? TextStyle(fontWeight: FontWeight.normal)
+                            : TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Icon(
                         randomColoursLOCK ? Icons.lock : Icons.lock_open,
@@ -1202,21 +1328,21 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                         color: randomColoursLOCK ? Colors.grey : Colors.black,
                       ),
                     ],
-                  )
-              ),
+                  )),
             ),
             Flexible(
-              flex:2,
+              flex: 2,
               child: Switch(
                 value: randomColours,
-                onChanged: randomColoursLOCK ? null : (value) {
-                  setState(() {
-                    randomColours  = value;
-                  });
-                },
+                onChanged: randomColoursLOCK
+                    ? null
+                    : (value) {
+                        setState(() {
+                          randomColours = value;
+                        });
+                      },
               ),
             ),
-
           ],
         ),
 
@@ -1225,25 +1351,27 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              flex:1,
+              flex: 1,
               child: GestureDetector(
-                  onLongPress: (){
+                  onLongPress: () {
                     setState(() {
                       // toggle lock
-                      if (paletteTypeLOCK){
-                        paletteTypeLOCK=false;
+                      if (paletteTypeLOCK) {
+                        paletteTypeLOCK = false;
                         print('paletteType UNLOCK');
                       } else {
-                        paletteTypeLOCK=true;
+                        paletteTypeLOCK = true;
                         print('paletteType LOCK');
                       }
                     });
                   },
                   child: Row(
-                    children:[
+                    children: [
                       Text(
                         'paletteType:',
-                        style: paletteTypeLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        style: paletteTypeLOCK
+                            ? TextStyle(fontWeight: FontWeight.normal)
+                            : TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Icon(
                         paletteTypeLOCK ? Icons.lock : Icons.lock_open,
@@ -1251,11 +1379,10 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                         color: paletteTypeLOCK ? Colors.grey : Colors.black,
                       ),
                     ],
-                  )
-              ),
+                  )),
             ),
             Flexible(
-              flex:2,
+              flex: 2,
               child: DropdownButton(
                 value: paletteType,
                 items: [
@@ -1276,15 +1403,16 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                     value: 3,
                   ),
                 ],
-                onChanged: paletteTypeLOCK ? null : (value) {
-                  setState(() {
-                    paletteType = value;
-                    palette = randomisePalette(numberOfColours, value);
-                  });
-                },
+                onChanged: paletteTypeLOCK
+                    ? null
+                    : (value) {
+                        setState(() {
+                          paletteType = value;
+                          palette = randomisePalette(numberOfColours, value);
+                        });
+                      },
               ),
             ),
-
           ],
         ),
 
@@ -1295,21 +1423,23 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
             Flexible(
                 flex: 1,
                 child: GestureDetector(
-                    onLongPress: (){
+                    onLongPress: () {
                       setState(() {
                         // toggle lock
-                        if (aspectRatioLOCK){
-                          aspectRatioLOCK=false;
+                        if (aspectRatioLOCK) {
+                          aspectRatioLOCK = false;
                         } else {
-                          aspectRatioLOCK=true;
+                          aspectRatioLOCK = true;
                         }
                       });
                     },
                     child: Row(
-                      children:[
+                      children: [
                         Text(
                           'aspectRatio:',
-                          style: aspectRatioLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                          style: aspectRatioLOCK
+                              ? TextStyle(fontWeight: FontWeight.normal)
+                              : TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Icon(
                           aspectRatioLOCK ? Icons.lock : Icons.lock_open,
@@ -1317,20 +1447,20 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                           color: aspectRatioLOCK ? Colors.grey : Colors.black,
                         ),
                       ],
-                    )
-                )
-            ),
+                    ))),
             Flexible(
               flex: 2,
               child: Slider(
                 value: aspectRatio,
                 min: 0.5,
                 max: 2,
-                onChanged: aspectRatioLOCK ? null : (value) {
-                  setState(() {
-                    aspectRatio  = value;
-                  });
-                },
+                onChanged: aspectRatioLOCK
+                    ? null
+                    : (value) {
+                        setState(() {
+                          aspectRatio = value;
+                        });
+                      },
                 label: '$aspectRatio ',
               ),
             ),
@@ -1342,23 +1472,25 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              flex:1,
+              flex: 1,
               child: GestureDetector(
-                  onLongPress: (){
+                  onLongPress: () {
                     setState(() {
                       // toggle lock
-                      if (opacityLOCK){
-                        opacityLOCK=false;
+                      if (opacityLOCK) {
+                        opacityLOCK = false;
                       } else {
-                        opacityLOCK=true;
+                        opacityLOCK = true;
                       }
                     });
                   },
                   child: Row(
-                    children:[
+                    children: [
                       Text(
                         'opacity:',
-                        style: opacityLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+                        style: opacityLOCK
+                            ? TextStyle(fontWeight: FontWeight.normal)
+                            : TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Icon(
                         opacityLOCK ? Icons.lock : Icons.lock_open,
@@ -1366,27 +1498,25 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                         color: opacityLOCK ? Colors.grey : Colors.black,
                       ),
                     ],
-                  )
-              ),
+                  )),
             ),
             Flexible(
-              flex:2,
+              flex: 2,
               child: Slider(
                 value: opacity,
                 min: 0,
                 max: 1,
-                onChanged: opacityLOCK ? null : (value) {
-                  setState(() {
-                    opacity  = value;});
-                },
+                onChanged: opacityLOCK
+                    ? null
+                    : (value) {
+                        setState(() {
+                          opacity = value;
+                        });
+                      },
               ),
             ),
           ],
         ),
-
-
-
-
       ],
     );
   }
@@ -1407,7 +1537,9 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                   color: backgroundColor,
                   width: constraints.widthConstraints().maxWidth,
                   height: constraints.heightConstraints().maxHeight,
-                  child: CustomPaint(painter: OpArtTreePainter(widget.seed, rnd, widget.screenshotController)),
+                  child: CustomPaint(
+                      painter: OpArtTreePainter(
+                          widget.seed, rnd, widget.screenshotController)),
                 ),
               ),
             )
@@ -1415,24 +1547,173 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
         ),
       );
     }
+    void _showBottomSheetSettings(context) {
 
+      showModalBottomSheet(
+barrierColor: Colors.white.withOpacity(0),
+          context: context,
+          builder: (BuildContext bc) {
+           return StatefulBuilder(
+              builder: (BuildContext context, setLocalState){
+             return Container(height: 80,
+               child: settingsSlider(
+                 'trunkWidth',
+                 trunkWidth,
+                 0,
+                 50,
+                 trunkWidthLOCK,
+                     (value) {
+                   setState(() {
+                     trunkWidth = value;
+                   });
+                   setLocalState((){});
+                 },
+                     () {
+                   setState(() {
+                     trunkWidthLOCK = !trunkWidthLOCK;
+                   });
+                 },
+               ),
+             );
+              });
+
+          });
+    }
+
+    void _showBottomSheet(context) {
+      showModalBottomSheet(
+          context: context,
+          builder: (BuildContext bc) {
+            return Container(height: 300,
+              child: GridView.count(
+                crossAxisCount: 4,
+                children: <Widget>[
+                  GestureDetector(onTap:(){
+                    Navigator.pop(context);
+                    _showBottomSheetSettings(context);
+                  },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [Icon(Icons.text_rotation_angledown),Text('angle')],
+                    ),
+                  ),Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Icon(Icons.ac_unit),Text('trunk width')],
+                  ), Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Icon(Icons.text_rotation_angledown),Text('angle')],
+                  ),Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Icon(Icons.accessibility),Text('size')],
+                  ), Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Icon(Icons.text_rotation_angledown),Text('angle')],
+                  ),Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Icon(Icons.account_circle),Text('size')],
+                  ), Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Icon(Icons.text_rotation_angledown),Text('angle')],
+                  ),Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Icon(Icons.account_balance),Text('size')],
+                  ), Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Icon(Icons.text_rotation_angledown),Text('angle')],
+                  ),Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Icon(Icons.arrow_downward),Text('size')],
+                  ), Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Icon(Icons.text_rotation_angledown),Text('angle')],
+                  ),Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Icon(Icons.battery_alert),Text('size')],
+                  ),
+
+                ],
+              ),
+            );
+          });
+    }
     return Scaffold(
+      bottomNavigationBar: Container(height: 50,
+        child: BottomAppBar(
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        randomisePalette(numberOfColours, paletteType);
+                        randomiseSettings();
+                      });
+
+                    },
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.refresh),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Randomise \nEverything',
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      ],
+                    )),
+                GestureDetector(
+                    onTap: () {_showBottomSheet(context);
+                    },
+                    child: Text(
+                      'Tools',
+                      textAlign: TextAlign.center,
+                    )),
+                GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        randomisePalette(numberOfColours, paletteType);
+                      });
+
+                    },
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.palette),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Randomise \nPalette',
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      ],
+                    ))
+              ],
+            )),
+      ),
       body: Column(
         children: [
           Flexible(
             flex: 7,
             child: widget.showSettings
                 ? Column(
-              children: [
-                Flexible(flex: 3, child: bodyWidget()),
-                Flexible(
-                    flex: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: settingsWidget(),
-                    )),
-              ],
-            )
+                    children: [
+                      Flexible(flex: 3, child: bodyWidget()),
+                      Flexible(
+                          flex: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: settingsWidget(),
+                          )),
+                    ],
+                  )
                 : bodyWidget(),
           ),
         ],
@@ -1440,14 +1721,15 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
     );
   }
 
-
   @override
   void initState() {
     super.initState();
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
-      print('---------------------------------------------------------------------------');
+      print(
+          '---------------------------------------------------------------------------');
       print('SHAKE');
-      print('---------------------------------------------------------------------------');
+      print(
+          '---------------------------------------------------------------------------');
       setState(() {
         randomisePalette(numberOfColours, paletteType);
         randomiseSettings();
@@ -1456,7 +1738,6 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
     // To close: detector.stopListening();
     // ShakeDetector.waitForStart() waits for user to call detector.startListening();
   }
-
 }
 
 class OpArtTreePainter extends CustomPainter {
@@ -1468,7 +1749,6 @@ class OpArtTreePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-
     print('----------------------------------------------------------------');
     print('Tree');
     print('----------------------------------------------------------------');
@@ -1501,7 +1781,6 @@ class OpArtTreePainter extends CustomPainter {
 //    print('borderY = $borderY');
 //    print('imageWidth = $imageWidth');
 //    print('imageHeight = $imageHeight');
-
 
     // set the initial palette
     if (palette == null || palette == []) {
@@ -1544,32 +1823,11 @@ class OpArtTreePainter extends CustomPainter {
 
     String leafStyle = 'quadratic';
 
-    List treeBaseA = [
-      (canvasWidth - trunkWidth) / 2,
-      canvasHeight
-    ];
-    List treeBaseB = [
-      (canvasWidth + trunkWidth) / 2,
-      canvasHeight
-    ];
+    List treeBaseA = [(canvasWidth - trunkWidth) / 2, canvasHeight];
+    List treeBaseB = [(canvasWidth + trunkWidth) / 2, canvasHeight];
 
-    drawSegment(
-        canvas,
-        borderX,
-        borderY,
-        treeBaseA,
-        treeBaseB,
-        trunkWidth,
-        segmentLength,
-        direction,
-        0,
-        lineWidth,
-        leafLength,
-        leafStyle,
-        false);
-
-
-
+    drawSegment(canvas, borderX, borderY, treeBaseA, treeBaseB, trunkWidth,
+        segmentLength, direction, 0, lineWidth, leafLength, leafStyle, false);
 
     // screenshotController.capture(delay: Duration(milliseconds: 0), pixelRatio: 0.1).then((File image) async {
     //   treeSettingsList.add(TreeSettings(
@@ -1602,25 +1860,23 @@ class OpArtTreePainter extends CustomPainter {
     //
     //
     //
-
-
   }
 
   drawSegment(
-      Canvas canvas,
-      double borderX,
-      double borderY,
-      List rootA,
-      List rootB,
-      double width,
-      double segmentLength,
-      double direction,
-      int currentDepth,
-      double lineWidth,
-      double leafLength,
-      String leafStyle,
-      bool justBranched,
-      ) {
+    Canvas canvas,
+    double borderX,
+    double borderY,
+    List rootA,
+    List rootB,
+    double width,
+    double segmentLength,
+    double direction,
+    int currentDepth,
+    double lineWidth,
+    double leafLength,
+    String leafStyle,
+    bool justBranched,
+  ) {
     List segmentBaseCentre = [
       (rootA[0] + rootB[0]) / 2,
       (rootA[1] + rootB[1]) / 2
@@ -1727,24 +1983,10 @@ class OpArtTreePainter extends CustomPainter {
 
       // Draw the leaves
       if (currentDepth > leavesAfter) {
-        drawTheLeaf(
-            canvas,
-            borderX,
-            borderY,
-            P2,
-            lineWidth,
-            direction - leafAngle,
-            leafLength,
-            leafStyle);
-        drawTheLeaf(
-            canvas,
-            borderX,
-            borderY,
-            P3,
-            lineWidth,
-            direction + leafAngle,
-            leafLength,
-            leafStyle);
+        drawTheLeaf(canvas, borderX, borderY, P2, lineWidth,
+            direction - leafAngle, leafLength, leafStyle);
+        drawTheLeaf(canvas, borderX, borderY, P3, lineWidth,
+            direction + leafAngle, leafLength, leafStyle);
       }
 
       // next
@@ -1768,15 +2010,15 @@ class OpArtTreePainter extends CustomPainter {
   }
 
   drawTheTrunk(
-      Canvas canvas,
-      double borderX,
-      double borderY,
-      List P1,
-      List P2,
-      List P3,
-      List P4,
-      double bulbousness,
-      ) {
+    Canvas canvas,
+    double borderX,
+    double borderY,
+    List P1,
+    List P2,
+    List P3,
+    List P4,
+    double bulbousness,
+  ) {
     List PC = [
       (P1[0] + P2[0] + P3[0] + P4[0]) / 4,
       (P1[1] + P2[1] + P3[1] + P4[1]) / 4
@@ -1816,13 +2058,13 @@ class OpArtTreePainter extends CustomPainter {
   }
 
   drawTheTriangle(
-      Canvas canvas,
-      double borderX,
-      double borderY,
-      List P1,
-      List P2,
-      List P3,
-      ) {
+    Canvas canvas,
+    double borderX,
+    double borderY,
+    List P1,
+    List P2,
+    List P3,
+  ) {
     Path trunk = Path();
     trunk.moveTo(borderX + P1[0], -borderY + P1[1]);
     trunk.lineTo(borderX + P2[0], -borderY + P2[1]);
@@ -1841,19 +2083,18 @@ class OpArtTreePainter extends CustomPainter {
           ..style = PaintingStyle.stroke
           ..strokeWidth = trunkStrokeWidth
           ..color = trunkOutlineColour.withOpacity(opacity));
-
   }
 
   drawTheLeaf(
-      Canvas canvas,
-      double borderX,
-      double borderY,
-      List leafPosition,
-      double lineWidth,
-      double leafAngle,
-      double leafLength,
-      String leafStyle,
-      ) {
+    Canvas canvas,
+    double borderX,
+    double borderY,
+    List leafPosition,
+    double lineWidth,
+    double leafAngle,
+    double leafLength,
+    String leafStyle,
+  ) {
     double leafAssymetery = 0.75;
 
     // pick a random color

@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'opart_tree.dart';
 
 class TreeSettingsCubit extends Cubit<TreeSettings> {
-  TreeSettingsCubit() : super(TreeSettings(
+  TreeSettingsCubit(TreeSettings initialState) : super(TreeSettings(
                                  id: 0,
                                  palette: [
                                    Colors.red,
@@ -66,9 +66,10 @@ class TreeSettingsCubit extends Cubit<TreeSettings> {
 
                                ),);
 
-void changeTrunkWidth( var value){
-state.trunkWidth = value;
-emit(state);
-}
+  void changeTrunkWidth(double trunkWidth){
+  state.trunkWidth = trunkWidth;
+  emit(state);
   }
+
+
 }
