@@ -30,18 +30,18 @@ class Fibonacci {
   SettingsModelDouble petalRotationRatio;
   String petalType;
   int maxPetals;
-  double radialOscAmplitude;
-  double radialOscPeriod;
+  SettingsModelDouble radialOscAmplitude;
+  SettingsModelDouble radialOscPeriod;
   String direction;
 
 // palette settings
   Color backgroundColour;
   Color lineColour;
-  double lineWidth;
+  SettingsModelDouble lineWidth;
   bool randomColours;
   int numberOfColours;
   String paletteType;
-  double opacity;
+  SettingsModelDouble opacity;
   List palette;
   double aspectRatio;
   File image;
@@ -49,16 +49,12 @@ class Fibonacci {
 // lock settings
   bool petalTypeLOCK = false;
   bool maxPetalsLOCK = false;
-  bool radialOscAmplitudeLOCK = false;
-  bool radialOscPeriodLOCK = false;
   bool directionLOCK = false;
   bool backgroundColourLOCK = false;
   bool lineColourLOCK = false;
-  bool lineWidthLOCK = false;
   bool randomColoursLOCK = false;
   bool numberOfColoursLOCK = false;
   bool paletteTypeLOCK = false;
-  bool opacityLOCK = false;
   bool paletteLOCK = false;
   bool aspectRatioLOCK = false;
 
@@ -95,16 +91,12 @@ class Fibonacci {
 
         this.petalTypeLOCK = false,
         this.maxPetalsLOCK = false,
-        this.radialOscAmplitudeLOCK = false,
-        this.radialOscPeriodLOCK = false,
         this.directionLOCK = false,
         this.backgroundColourLOCK = false,
         this.lineColourLOCK = false,
-        this.lineWidthLOCK = false,
         this.randomColoursLOCK = false,
         this.numberOfColoursLOCK = false,
         this.paletteTypeLOCK = false,
-        this.opacityLOCK = false,
         this.paletteLOCK = false,
         this.aspectRatioLOCK = false,
 
@@ -164,17 +156,14 @@ class Fibonacci {
 
 
     // radialOscAmplitude 0 to 5
-    if (this.radialOscAmplitudeLOCK == false) {
-      this.radialOscAmplitude = 0;
-      if (random.nextDouble()>0.7){
-        this.radialOscAmplitude = random.nextDouble() * 5;
-      }
+    this.radialOscAmplitude.randomise(random);
+    if (this.radialOscAmplitude.locked == false && random.nextDouble()<0.7) {
+      this.radialOscAmplitude.value = 0;
     }
 
     // radialOscPeriod 0 to 2
-    if (this.radialOscPeriodLOCK == false) {
-      this.radialOscPeriod = random.nextDouble() * 2;
-    }
+    this.radialOscPeriod.randomise(random);
+
 
     // direction
     if (this.directionLOCK == false){
@@ -200,18 +189,17 @@ class Fibonacci {
     }
 
     // lineWidth 0 to 3
-    if (this.lineWidthLOCK == false) {
-      this.lineWidth = random.nextDouble() * 3;
+    this.lineWidth.randomise(random);
+    if (this.lineWidth.locked == false && rnd.nextBool()) {
+      this.lineWidth.value = 0;
     }
 
     // opacity 0.6 to 1
-    if (this.opacityLOCK == false) {
-      this.opacity = random.nextDouble() * 0.4 + 0.6;
-    }
+    this.opacity.randomise(random);
 
     // backgroundColour
     if (this.backgroundColourLOCK == false) {
-      this.backgroundColour = Color((random.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity);
+      this.backgroundColour = Color((random.nextDouble() * 0xFFFFFF).toInt());
     }
     
   }
@@ -223,6 +211,7 @@ class Fibonacci {
     print('-----------------------------------------------------');
 
     rnd = Random(DateTime.now().millisecond);
+    double opacity = currentFibonacci.opacity.value;
 
     // lineColour
     if (this.lineColourLOCK == false) {
@@ -315,34 +304,50 @@ class Fibonacci {
 
     this.petalType = 'circle';
     this.maxPetals = 10000;
-    this.radialOscAmplitude = 0;
-    this.radialOscPeriod = 0;
+
+    // radialOscAmplitude 0 to 5
+    this.radialOscAmplitude = SettingsModelDouble(label: 'Radial Oscillation', tooltip: 'The amplitude of the radial oscillation', min: 0, max: 5, defaultValue: 0, icon: Icon(Icons.bluetooth_audio));
+    this.radialOscAmplitude.value = this.radialOscAmplitude.defaultValue;
+
+    // radialOscPeriod 0 to 2
+    this.radialOscPeriod = SettingsModelDouble(label: 'Oscillation Period', tooltip: 'The period of the radial oscillation', min: 0, max: 2, defaultValue: 0, icon: Icon(Icons.bubble_chart));
+    this.radialOscPeriod.value = this.radialOscPeriod.defaultValue;
+
     this.direction = 'inward';
 
     // palette settings
     this.backgroundColour = Colors.white;
     this.lineColour = Colors.white;
-    this.lineWidth = 0;
+
+    // lineWidth 0 to 3
+    this.lineWidth = SettingsModelDouble(label: 'Outline Width', tooltip: 'The width of the petal outline', min: 0, max: 3, defaultValue: 0, icon: Icon(Icons.line_weight));
+    this.lineWidth.value = this.lineWidth.defaultValue;
+
     this.randomColours = false;
     this.numberOfColours = 6;
     this.paletteType = 'random';
-    this.opacity = 1;
+
+    // opacity 0.6 to 1
+    this.opacity = SettingsModelDouble(label: 'Opactity', tooltip: 'The opactity of the petal', min: 0.6, max: 1, defaultValue: 1, icon: Icon(Icons.opacity));
+    this.opacity.value = this.opacity.defaultValue;
+
     this.palette = [Color(0xFF34a1af), Color(0xFFa570a8), Color(0xFFd6aa27), Color(0xFF5f9d50), Color(0xFF789dd1), Color(0xFFc25666), Color(0xFF2b7b1), Color(0xFFd63aa), Color(0xFF1f4ed), Color(0xFF383c47)];
     this.aspectRatio = pi/2;
     this.image;
 
     this.petalTypeLOCK = false;
     this.maxPetalsLOCK = false;
-    this.radialOscAmplitudeLOCK = false;
-    this.radialOscPeriodLOCK = false;
     this.directionLOCK = false;
     this.backgroundColourLOCK = false;
     this.lineColourLOCK = false;
-    this.lineWidthLOCK = false;
     this.randomColoursLOCK = false;
     this.numberOfColoursLOCK = false;
     this.paletteTypeLOCK = false;
-    this.opacityLOCK = false;
+
+    // opacity 0.6 to 1
+    this.opacity = SettingsModelDouble(label: 'Opactity', tooltip: 'The opactity of the petal', min: 0.6, max: 1, defaultValue: 1, icon: Icon(Icons.opacity));
+    this.opacity.value = this.opacity.defaultValue;
+
     this.paletteLOCK = false;
     this.aspectRatioLOCK = false;
 
@@ -495,16 +500,17 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> with Ticker
         ),
 
         // radialOscAmplitude
-        settingsSlider('radialOscAmplitude', currentFibonacci.radialOscAmplitude, 0, 5, currentFibonacci.radialOscAmplitudeLOCK,
-              (value) {setState(() {currentFibonacci.radialOscAmplitude = value;});},
-              () {setState(() {currentFibonacci.radialOscAmplitudeLOCK = !currentFibonacci.radialOscAmplitudeLOCK;});},
+        settingsSlider(currentFibonacci.radialOscAmplitude.label, currentFibonacci.radialOscAmplitude.value, currentFibonacci.radialOscAmplitude.min, currentFibonacci.radialOscAmplitude.max, currentFibonacci.radialOscAmplitude.locked,
+              (value) {setState(() {currentFibonacci.radialOscAmplitude.value = value;});},
+              () {setState(() {currentFibonacci.radialOscAmplitude.locked = !currentFibonacci.radialOscAmplitude.locked;});},
         ),
 
         // radialOscPeriod
-        settingsSlider('radialOscPeriod', currentFibonacci.radialOscPeriod, 0, 2, currentFibonacci.radialOscPeriodLOCK,
-              (value) {setState(() {currentFibonacci.radialOscPeriod = value;});},
-              () {setState(() {currentFibonacci.radialOscPeriodLOCK = !currentFibonacci.radialOscPeriodLOCK;});},
+        settingsSlider(currentFibonacci.radialOscPeriod.label, currentFibonacci.radialOscPeriod.value, currentFibonacci.radialOscPeriod.min, currentFibonacci.radialOscPeriod.max, currentFibonacci.radialOscPeriod.locked,
+              (value) {setState(() {currentFibonacci.radialOscPeriod.value = value;});},
+              () {setState(() {currentFibonacci.radialOscPeriod.locked = !currentFibonacci.radialOscPeriod.locked;});},
         ),
+
 
         // direction
         settingsDropdown('direction', currentFibonacci.direction, ['inward','outward'], currentFibonacci.directionLOCK,
@@ -520,9 +526,16 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> with Ticker
         ),
 
         // lineWidth 0-3
-        settingsSlider('lineWidth', currentFibonacci.lineWidth, 0, 3, currentFibonacci.lineWidthLOCK,
-              (value) {setState(() {currentFibonacci.lineWidth = value;});},
-              () {setState(() {currentFibonacci.lineWidthLOCK = !currentFibonacci.lineWidthLOCK;});},
+        settingsSlider(currentFibonacci.lineWidth.label, currentFibonacci.lineWidth.value, currentFibonacci.lineWidth.min, currentFibonacci.lineWidth.max, currentFibonacci.lineWidth.locked,
+              (value) {setState(() {currentFibonacci.lineWidth.value = value;});},
+              () {setState(() {currentFibonacci.lineWidth.locked = !currentFibonacci.lineWidth.locked;});},
+        ),
+
+
+        // Opacity
+        settingsSlider(currentFibonacci.opacity.label, currentFibonacci.opacity.value, currentFibonacci.opacity.min, currentFibonacci.opacity.max, currentFibonacci.opacity.locked,
+              (value) {setState(() {currentFibonacci.opacity.value = value;});},
+              () {setState(() {currentFibonacci.opacity.locked = !currentFibonacci.opacity.locked;});},
         ),
 
 
@@ -898,16 +911,16 @@ class OpArtFibonacciPainter extends CustomPainter {
         currentFibonacci.petalRotationRatio.value,
         currentFibonacci.petalType,
         currentFibonacci.maxPetals,
-        currentFibonacci.radialOscAmplitude,
-        currentFibonacci.radialOscPeriod,
+        currentFibonacci.radialOscAmplitude.value,
+        currentFibonacci.radialOscPeriod.value,
         currentFibonacci.direction,
         currentFibonacci.backgroundColour,
         currentFibonacci.lineColour,
-        currentFibonacci.lineWidth,
+        currentFibonacci.lineWidth.value,
         currentFibonacci.randomColours,
         currentFibonacci.numberOfColours,
         currentFibonacci.paletteType,
-        currentFibonacci.opacity,
+        currentFibonacci.opacity.value,
         currentFibonacci.palette,
 
       );
