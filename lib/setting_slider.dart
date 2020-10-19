@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class settingsSlider extends StatefulWidget {
   String label;
   String tooltip;
@@ -10,16 +9,16 @@ class settingsSlider extends StatefulWidget {
   bool locked;
   Function onChanged;
   Function toggleLock;
+  Function updateCache;
 
-
-  settingsSlider(this.label, this.tooltip, this.currentValue, this.min, this.max, this.locked, this.onChanged, this.toggleLock);
+  settingsSlider(this.label, this.tooltip, this.currentValue, this.min,
+      this.max, this.locked, this.onChanged, this.toggleLock,this.updateCache );
 
   @override
   _settingsSliderState createState() => _settingsSliderState();
 }
 
 class _settingsSliderState extends State<settingsSlider> {
-
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -27,41 +26,43 @@ class _settingsSliderState extends State<settingsSlider> {
       children: <Widget>[
         Container(
           height: 50,
-
           child: Text(
             widget.label,
-            style: widget.locked ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
+            style: widget.locked
+                ? TextStyle(fontWeight: FontWeight.normal)
+                : TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         Container(
           height: 50,
-
           child: Text(
             widget.tooltip,
             style: TextStyle(fontWeight: FontWeight.normal),
           ),
         ),
         Container(
-          height: 50,
-
-          child: Row(
-            children:[
-              Text(
-                'Lock',
-                style: widget.locked ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Icon(
-                widget.locked ? Icons.lock : Icons.lock_open,
-                size: 20,
-                color: widget.locked ? Colors.grey : Colors.black,
-              ),
-            ],
-          )
-        ),
+            height: 50,
+            child: Row(
+              children: [
+                Text(
+                  'Lock',
+                  style: widget.locked
+                      ? TextStyle(fontWeight: FontWeight.normal)
+                      : TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Icon(
+                  widget.locked ? Icons.lock : Icons.lock_open,
+                  size: 20,
+                  color: widget.locked ? Colors.grey : Colors.black,
+                ),
+              ],
+            )),
         Container(
           height: 50,
-
-          child:   Slider(
+          child: Slider(
+            onChangeEnd: (double) {
+              widget.updateCache();
+            },
             value: widget.currentValue,
             min: widget.min,
             max: widget.max,
@@ -69,7 +70,7 @@ class _settingsSliderState extends State<settingsSlider> {
             label: '${widget.label}',
           ),
         ),
-          ],
+      ],
     );
   }
 }
