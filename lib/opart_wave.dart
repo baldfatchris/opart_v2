@@ -25,7 +25,7 @@ class Wave {
 
 
   SettingsModelDouble stepX = SettingsModelDouble(label: 'stepX',tooltip: 'The horizontal width of each stripe ', min: 0.01, max: 50, defaultValue: 10, icon: Icon(Icons.ac_unit));
-  SettingsModelDouble stepY = SettingsModelDouble(label: 'stepY',tooltip: 'The vertical distance between points on each stripe ',min: 0.01,max: 50, defaultValue: 0.1, icon: Icon(Icons.bluetooth_audio));
+  SettingsModelDouble stepY = SettingsModelDouble(label: 'stepY',tooltip: 'The vertical distance between points on each stripe ',min: 0.01,max: 500, defaultValue: 0.1, icon: Icon(Icons.bluetooth_audio));
   SettingsModelDouble frequency = SettingsModelDouble(label: 'frequency',tooltip: 'The frequency of the wave ', min: 0, max: 5, defaultValue: 1, icon: Icon(Icons.smoke_free));
   SettingsModelDouble amplitude = SettingsModelDouble(label: 'amplitude',tooltip: 'The amplitude of the wave ', min: 0, max: 500, defaultValue: 100, icon: Icon(Icons.weekend));
 
@@ -246,7 +246,7 @@ class Wave {
 
 List settingsList = [
   currentWave.stepX,
-  currentWave.stepX,
+  currentWave.stepY,
   currentWave.frequency,
   currentWave.amplitude,
   currentWave.paletteType,
@@ -340,6 +340,33 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
     );
   }
 
+  List<Wave> cachedWaveList = [];
+  cacheWave(ScreenshotController screenshotController, Function SetState) async {
+    print('cache wave');
+    screenshotController
+        .capture(delay: Duration(milliseconds: 10), pixelRatio: 0.2)
+        .then((File image) async {
+      currentWave.image = image;
+
+      cachedWaveList.add(Wave(
+        // stepX: currentWave.stepX,
+        // stepY: currentWave.stepY,
+        // frequency: currentWave.frequency,
+        // amplitude: currentWave.amplitude,
+        // numberOfColours: currentWave.numberOfColours,
+        // paletteType: currentWave.paletteType,
+        palette: currentWave.palette,
+        aspectRatio: currentWave.aspectRatio,
+        image: currentWave.image,
+      ));
+      SetState();
+    });
+
+  }
+  ScrollController _scrollController = new ScrollController();
+
+
+
   @override
   Widget bodyWidget() {
     return Screenshot(
@@ -368,7 +395,11 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
 
   @override
   Widget build(BuildContext context) {
-    ScreenshotController screenshotController = widget.screenshotController;
+    SetState(){
+      setState(() {
+
+      });
+    }ScreenshotController screenshotController = widget.screenshotController;
     Widget bodyWidget() {
       return Screenshot(
         controller: screenshotController,
@@ -411,7 +442,8 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
 
                           settingsSlider(
                             settingsList[index].label,
-                            settingsList[index].tooltip,    settingsList[index].value,
+                            settingsList[index].tooltip,
+                            settingsList[index].value,
                             settingsList[index].min,
                             settingsList[index].max,
                             settingsList[index].locked,
@@ -447,7 +479,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                               setState(() {
                                 settingsList[index].locked = !settingsList[index].locked;
                               });
-                            },
+                            }
                           )
                               :
                           (settingsList[index].type == 'List') ?

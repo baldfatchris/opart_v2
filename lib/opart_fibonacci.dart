@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:screenshot/screenshot.dart';
 import 'package:shake/shake.dart';
 import 'package:opart_v2/setting_slider.dart';
+import 'package:opart_v2/setting_intslider.dart';
 import 'package:opart_v2/setting_dropdown.dart';
 import 'package:opart_v2/setting_radiobutton.dart';
 import 'model.dart';
@@ -52,13 +53,13 @@ class Fibonacci {
       defaultValue: 1,
       icon: Icon(Icons.access_alarm));
   SettingsModelDouble petalToRadius = SettingsModelDouble(
-      label: 'Petal to Radius',
+      label: 'Petal Size',
       tooltip:
           'The size of the petal as a multiple of its distance from the centre',
       min: 0.01,
       max: 0.1,
       defaultValue: 0.03,
-      icon: Icon(Icons.backup));
+      icon: Icon(Icons.zoom_in));
   SettingsModelDouble ratio = SettingsModelDouble(
       label: 'Ratio',
       tooltip: 'The fill ratio of the flower',
@@ -141,7 +142,8 @@ class Fibonacci {
       defaultValue: false,
       icon: Icon(Icons.gamepad));
 
-  int numberOfColours;
+  SettingsModelInt numberOfColours = SettingsModelInt(label: 'Number of Colours',tooltip: 'The number of colours in the palette', min: 1, max: 36, defaultValue: 10, icon: Icon(Icons.palette));
+
   String paletteType;
 
   SettingsModelDouble opacity = SettingsModelDouble(
@@ -161,7 +163,6 @@ class Fibonacci {
   bool directionLOCK = false;
   bool backgroundColourLOCK = false;
   bool lineColourLOCK = false;
-  bool numberOfColoursLOCK = false;
   bool paletteTypeLOCK = false;
   bool paletteLOCK = false;
   bool aspectRatioLOCK = false;
@@ -176,7 +177,6 @@ class Fibonacci {
     // palette settings
     this.backgroundColour,
     this.lineColour,
-    this.numberOfColours,
     this.paletteType,
     this.palette,
     this.aspectRatio = pi / 2,
@@ -185,7 +185,6 @@ class Fibonacci {
     this.directionLOCK = false,
     this.backgroundColourLOCK = false,
     this.lineColourLOCK = false,
-    this.numberOfColoursLOCK = false,
     this.paletteTypeLOCK = false,
     this.paletteLOCK = false,
     this.aspectRatioLOCK = false,
@@ -256,10 +255,8 @@ class Fibonacci {
       // }
     }
 
-    // numberOfColours 2 to 36
-    if (this.numberOfColoursLOCK == false) {
-      this.numberOfColours = random.nextInt(34) + 2;
-    }
+    // numberOfColours 1 to 36
+    this.numberOfColours.randomise(random);
 
     // randomColours
     this.randomColours.randomise(random);
@@ -300,7 +297,7 @@ class Fibonacci {
         {
           double blendColour = rnd.nextDouble() * 0xFFFFFF;
           for (int colourIndex = 0;
-              colourIndex < this.numberOfColours;
+              colourIndex < this.numberOfColours.value;
               colourIndex++) {
             palette.add(
                 Color(((blendColour + rnd.nextDouble() * 0xFFFFFF) / 2).toInt())
@@ -323,23 +320,23 @@ class Fibonacci {
             rnd.nextInt(255)
           ];
           for (int colourIndex = 0;
-              colourIndex < this.numberOfColours;
+              colourIndex < this.numberOfColours.value;
               colourIndex++) {
             palette.add(Color.fromRGBO(
                 ((startColour[0] * colourIndex +
                             endColour[0] *
-                                (this.numberOfColours - colourIndex)) /
-                        this.numberOfColours)
+                                (this.numberOfColours.value - colourIndex)) /
+                        this.numberOfColours.value)
                     .round(),
                 ((startColour[1] * colourIndex +
                             endColour[1] *
-                                (this.numberOfColours - colourIndex)) /
-                        this.numberOfColours)
+                                (this.numberOfColours.value - colourIndex)) /
+                        this.numberOfColours.value)
                     .round(),
                 ((startColour[2] * colourIndex +
                             endColour[2] *
-                                (this.numberOfColours - colourIndex)) /
-                        this.numberOfColours)
+                                (this.numberOfColours.value - colourIndex)) /
+                        this.numberOfColours.value)
                     .round(),
                 1));
           }
@@ -360,23 +357,23 @@ class Fibonacci {
             255 - startColour[2]
           ];
           for (int colourIndex = 0;
-              colourIndex < this.numberOfColours;
+              colourIndex < this.numberOfColours.value;
               colourIndex++) {
             palette.add(Color.fromRGBO(
                 ((startColour[0] * colourIndex +
                             endColour[0] *
-                                (this.numberOfColours - colourIndex)) /
-                        this.numberOfColours)
+                                (this.numberOfColours.value - colourIndex)) /
+                        this.numberOfColours.value)
                     .round(),
                 ((startColour[1] * colourIndex +
                             endColour[1] *
-                                (this.numberOfColours - colourIndex)) /
-                        this.numberOfColours)
+                                (this.numberOfColours.value - colourIndex)) /
+                        this.numberOfColours.value)
                     .round(),
                 ((startColour[2] * colourIndex +
                             endColour[2] *
-                                (this.numberOfColours - colourIndex)) /
-                        this.numberOfColours)
+                                (this.numberOfColours.value - colourIndex)) /
+                        this.numberOfColours.value)
                     .round(),
                 1));
           }
@@ -387,7 +384,7 @@ class Fibonacci {
       default:
         {
           for (int colorIndex = 0;
-              colorIndex < this.numberOfColours;
+              colorIndex < this.numberOfColours.value;
               colorIndex++) {
             palette.add(
                 Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1));
@@ -426,9 +423,9 @@ class Fibonacci {
     this.lineWidth.value = this.lineWidth.defaultValue;
 
     this.randomColours.value = this.randomColours.defaultValue;
-    ;
 
-    this.numberOfColours = 6;
+    this.numberOfColours.value = this.numberOfColours.defaultValue;
+
     this.paletteType = 'random';
 
     this.opacity.value = this.opacity.defaultValue;
@@ -452,7 +449,6 @@ class Fibonacci {
     this.directionLOCK = false;
     this.backgroundColourLOCK = false;
     this.lineColourLOCK = false;
-    this.numberOfColoursLOCK = false;
     this.paletteTypeLOCK = false;
     this.paletteLOCK = false;
     this.aspectRatioLOCK = false;
@@ -473,6 +469,7 @@ List settingsList = [
   currentFibonacci.radialOscAmplitude,
   currentFibonacci.radialOscPeriod,
   currentFibonacci.randomiseAngle,
+  currentFibonacci.numberOfColours,
   currentFibonacci.randomColours,
 ];
 
@@ -628,7 +625,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
         'direction': currentFibonacci.direction,
         'backgroundColour': currentFibonacci.backgroundColour,
         'lineColour': currentFibonacci.lineColour,
-        'numberOfColours': currentFibonacci.numberOfColours,
+        'numberOfColours': currentFibonacci.numberOfColours.value,
         'paletteType': currentFibonacci.paletteType,
         'palette': currentFibonacci.palette,
         'aspectRatio': currentFibonacci.aspectRatio,
@@ -722,68 +719,96 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                 children: <Widget>[
                   Container(
                       height: 200,
-                      child: (settingsList[index].type == 'Double')
-                          ? settingsSlider(
-                              settingsList[index].label,
-                              settingsList[index].tooltip,
-                              settingsList[index].value,
-                              settingsList[index].min,
-                              settingsList[index].max,
-                              settingsList[index].locked, (value) {
-                              setState(() {
-                                settingsList[index].value = value;
-                              });
-                              setLocalState(() {});
-                            }, () {
-                              setState(() {
-                                settingsList[index].locked =
-                                    !settingsList[index].locked;
-                              });
-                            }, () {
-                              cacheFibonacci(screenshotController, SetState);
-                            })
-                          : (settingsList[index].type == 'List')
-                              ? settingsDropdown(
-                                  settingsList[index].label,
-                                  settingsList[index].tooltip,
-                                  settingsList[index].value,
-                                  settingsList[index].options,
-                                  settingsList[index].locked,
-                                  (value) {
-                                    setState(() {
-                                      settingsList[index].value = value;
-                                      cacheFibonacci(
-                                          screenshotController, SetState);
-                                    });
-                                    setLocalState(() {});
-                                  },
-                                  () {
-                                    setState(() {
-                                      settingsList[index].locked =
-                                          !settingsList[index].locked;
-                                    });
-                                  },
-                                )
-                              : settingsRadioButton(
-                                  settingsList[index].label,
-                                  settingsList[index].tooltip,
-                                  settingsList[index].value,
-                                  settingsList[index].locked,
-                                  (value) {
-                                    setState(() {
-                                      settingsList[index].value = value;
-                                      cacheFibonacci(
-                                          screenshotController, SetState);
-                                    });
-                                    setLocalState(() {});
-                                  },
-                                  () {
-                                    setState(() {
-                                      settingsList[index].locked =
-                                          !settingsList[index].locked;
-                                    });
-                                  },
-                                )),
+                      child:
+                      (settingsList[index].type == 'Double') ?
+
+                      settingsSlider(
+                        settingsList[index].label,
+                        settingsList[index].tooltip,
+                        settingsList[index].value,
+                        settingsList[index].min,
+                        settingsList[index].max,
+                        settingsList[index].locked,
+                            (value) {
+                          setState(() {
+                            settingsList[index].value = value;
+                          });
+                          setLocalState((){});
+                        },
+                            () {
+                          setState(() {
+                            settingsList[index].locked = !settingsList[index].locked;
+                          });
+                        },(){},
+                      )
+                          :
+                      (settingsList[index].type == 'Int') ?
+
+                      settingsIntSlider(
+                          settingsList[index].label,
+                          settingsList[index].tooltip,
+                          settingsList[index].value,
+                          settingsList[index].min,
+                          settingsList[index].max,
+                          settingsList[index].locked,
+                              (value) {
+                            setState(() {
+                              settingsList[index].value = value.toInt();
+                            });
+                            setLocalState((){});
+                          },
+                              () {
+                            setState(() {
+                              settingsList[index].locked = !settingsList[index].locked;
+                            });
+                          }
+                      )
+                          :
+                      (settingsList[index].type == 'List') ?
+
+                      settingsDropdown(
+                        settingsList[index].label,
+                        settingsList[index].tooltip,
+                        settingsList[index].value,
+                        settingsList[index].options,
+                        settingsList[index].locked,
+
+                            (value) {
+                          setState(() {
+                            settingsList[index].value = value;
+                          });
+                          setLocalState((){});
+                        },
+                            () {
+                          setState(() {
+                            settingsList[index].locked = !settingsList[index].locked;
+                          });
+                        },
+
+                      )
+                          :
+                      settingsRadioButton(
+                        settingsList[index].label,
+                        settingsList[index].tooltip,
+                        settingsList[index].value,
+                        settingsList[index].locked,
+
+                            (value) {
+                          setState(() {
+                            settingsList[index].value = value.round();
+                          });
+                          setLocalState((){});
+                        },
+                            () {
+                          setState(() {
+                            settingsList[index].locked = !settingsList[index].locked;
+                          });
+                        },
+
+                      )
+
+
+                  ),
                   Container(height: 100)
                 ],
               );
@@ -910,17 +935,11 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                           child: GestureDetector(
                             onTap: () {
                               setState(() {
-                                currentFibonacci.maxPetals =
-                                    cachedFibonacciList[index]['maxPetals'];
-                                currentFibonacci.direction =
-                                    cachedFibonacciList[index]['direction'];
-                                currentFibonacci.backgroundColour =
-                                    cachedFibonacciList[index]
-                                        ['backgroundColour'];
-                                currentFibonacci.lineColour =
-                                    cachedFibonacciList[index]['lineColour'];
-                                currentFibonacci.numberOfColours =
-                                    cachedFibonacciList[index]
+                                currentFibonacci.maxPetals = cachedFibonacciList[index]['maxPetals'];
+                                currentFibonacci.direction = cachedFibonacciList[index]['direction'];
+                                currentFibonacci.backgroundColour = cachedFibonacciList[index]['backgroundColour'];
+                                currentFibonacci.lineColour = cachedFibonacciList[index]['lineColour'];
+                                currentFibonacci.numberOfColours = cachedFibonacciList[index]
                                         ['numberOfColours'];
                                 currentFibonacci.paletteType =
                                     cachedFibonacciList[index]['paletteType'];
@@ -1069,6 +1088,9 @@ class OpArtFibonacciPainter extends CustomPainter {
       currentFibonacci = new Fibonacci(random: rnd);
       currentFibonacci.defaultSettings();
     }
+    if (currentFibonacci.numberOfColours.value>currentFibonacci.palette.length){
+      currentFibonacci.randomizePalette();
+    }
 
     double canvasWidth = size.width;
     double canvasHeight = size.height;
@@ -1143,7 +1165,7 @@ class OpArtFibonacciPainter extends CustomPainter {
       currentFibonacci.lineColour,
       currentFibonacci.lineWidth.value,
       currentFibonacci.randomColours.value,
-      currentFibonacci.numberOfColours,
+      currentFibonacci.numberOfColours.value,
       currentFibonacci.paletteType,
       currentFibonacci.opacity.value,
       currentFibonacci.palette,
