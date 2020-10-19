@@ -43,6 +43,8 @@ dev_dependencies:
   shake: ^0.1.0
   bloc: ^6.1.0
   flutter_bloc: ^6.0.0
+  expandable: ^4.1.4
+
 
 
 
