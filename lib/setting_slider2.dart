@@ -19,6 +19,7 @@ class settingsSlider2 extends StatefulWidget {
 }
 
 class _settingsSlider2State extends State<settingsSlider2> {
+
   @override
   Widget build(BuildContext context) {
     return ListView(

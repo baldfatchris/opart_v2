@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:opart_v2/setting_radiobutton.dart';
 import 'dart:math';
 import 'dart:io';
 
@@ -97,8 +98,16 @@ class Fibonacci {
       defaultValue: 0,
       icon: Icon(Icons.autorenew));
 
-  String petalType;
+  SettingsModelList petalType = SettingsModelList(
+    label: "Petal Type",
+    tooltip: "The shape of the petal",
+    defaultValue: "circle",
+    icon: Icon(Icons.format_shapes),
+    options: ['circle', 'triangle', 'square', 'petal'],
+  );
+
   int maxPetals;
+
 
   SettingsModelDouble radialOscAmplitude = SettingsModelDouble(
       label: 'Radial Oscillation',
@@ -129,7 +138,13 @@ class Fibonacci {
       defaultValue: 0,
       icon: Icon(Icons.line_weight));
 
-  bool randomColours;
+  SettingsModelBool randomColours = SettingsModelBool(
+      label: 'Random Colours',
+      tooltip: 'Randomise the coloursl',
+      defaultValue: false,
+      icon: Icon(Icons.gamepad));
+
+
   int numberOfColours;
   String paletteType;
 
@@ -146,12 +161,10 @@ class Fibonacci {
   File image;
 
 // lock settings
-  bool petalTypeLOCK = false;
   bool maxPetalsLOCK = false;
   bool directionLOCK = false;
   bool backgroundColourLOCK = false;
   bool lineColourLOCK = false;
-  bool randomColoursLOCK = false;
   bool numberOfColoursLOCK = false;
   bool paletteTypeLOCK = false;
   bool paletteLOCK = false;
@@ -161,25 +174,21 @@ class Fibonacci {
 
   Fibonacci({
     // image settings
-    this.petalType,
     this.maxPetals,
     this.direction,
 
     // palette settings
     this.backgroundColour,
     this.lineColour,
-    this.randomColours,
     this.numberOfColours,
     this.paletteType,
     this.palette,
     this.aspectRatio = pi / 2,
     this.image,
-    this.petalTypeLOCK = false,
     this.maxPetalsLOCK = false,
     this.directionLOCK = false,
     this.backgroundColourLOCK = false,
     this.lineColourLOCK = false,
-    this.randomColoursLOCK = false,
     this.numberOfColoursLOCK = false,
     this.paletteTypeLOCK = false,
     this.paletteLOCK = false,
@@ -223,10 +232,7 @@ class Fibonacci {
     }
 
     // petalType = 0/1/2/3  circle/triangle/square/petal
-    if (this.petalTypeLOCK == false) {
-      this.petalType =
-          ['circle', 'triangle', 'square', 'petal'][random.nextInt(3)];
-    }
+    this.petalType.randomise(random);
 
     // maxPetals = 5000 to 10000;
     if (this.maxPetalsLOCK == false) {
@@ -260,9 +266,7 @@ class Fibonacci {
     }
 
     // randomColours
-    if (this.randomColoursLOCK == false) {
-      this.randomColours = random.nextBool();
-    }
+    this.randomColours.randomise(random);
 
     // lineWidth 0 to 3
     this.lineWidth.randomise(random);
@@ -410,8 +414,8 @@ class Fibonacci {
     this.petalPointiness.value = this.petalPointiness.defaultValue;
     this.petalRotation.value = this.petalRotation.defaultValue;
     this.petalRotationRatio.value = this.petalRotationRatio.defaultValue;
+    this.petalType.value = this.petalType.defaultValue;
 
-    this.petalType = 'circle';
     this.maxPetals = 10000;
 
     this.radialOscAmplitude.value = this.radialOscAmplitude.defaultValue;
@@ -425,7 +429,8 @@ class Fibonacci {
 
     this.lineWidth.value = this.lineWidth.defaultValue;
 
-    this.randomColours = false;
+    this.randomColours.value = this.randomColours.defaultValue;;
+
     this.numberOfColours = 6;
     this.paletteType = 'random';
 
@@ -446,12 +451,10 @@ class Fibonacci {
     this.aspectRatio = pi / 2;
     this.image;
 
-    this.petalTypeLOCK = false;
     this.maxPetalsLOCK = false;
     this.directionLOCK = false;
     this.backgroundColourLOCK = false;
     this.lineColourLOCK = false;
-    this.randomColoursLOCK = false;
     this.numberOfColoursLOCK = false;
     this.paletteTypeLOCK = false;
     this.paletteLOCK = false;
@@ -459,19 +462,21 @@ class Fibonacci {
   }
 }
 
-List<SettingsModelDouble> settingsList = [
+List settingsList = [
   currentFibonacci.angleIncrement,
   currentFibonacci.ratio,
   currentFibonacci.flowerFill,
   currentFibonacci.lineWidth,
   currentFibonacci.opacity,
+  currentFibonacci.petalType,
   currentFibonacci.petalPointiness,
   currentFibonacci.petalRotation,
   currentFibonacci.petalRotationRatio,
   currentFibonacci.petalToRadius,
   currentFibonacci.radialOscAmplitude,
   currentFibonacci.radialOscPeriod,
-  currentFibonacci.randomiseAngle
+  currentFibonacci.randomiseAngle,
+  currentFibonacci.randomColours,
 ];
 
 class OpArtFibonacciStudio extends StatefulWidget {
@@ -654,22 +659,6 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
         ),
 
         // petalType
-        settingsDropdown(
-          'petalType',
-          currentFibonacci.petalType,
-          ['circle', 'triangle', 'square', 'petal'],
-          currentFibonacci.petalTypeLOCK,
-          (value) {
-            setState(() {
-              currentFibonacci.petalType = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.petalTypeLOCK = !currentFibonacci.petalTypeLOCK;
-            });
-          },
-        ),
 
         // petalPointiness
         settingsSlider(
@@ -772,22 +761,22 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
         ),
 
         // direction
-        settingsDropdown(
-          'direction',
-          currentFibonacci.direction,
-          ['inward', 'outward'],
-          currentFibonacci.directionLOCK,
-          (value) {
-            setState(() {
-              currentFibonacci.direction = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.directionLOCK = !currentFibonacci.directionLOCK;
-            });
-          },
-        ),
+        // settingsDropdown(
+        //   'direction',
+        //   currentFibonacci.direction,
+        //   ['inward', 'outward'],
+        //   currentFibonacci.directionLOCK,
+        //   (value) {
+        //     setState(() {
+        //       currentFibonacci.direction = value;
+        //     });
+        //   },
+        //   () {
+        //     setState(() {
+        //       currentFibonacci.directionLOCK = !currentFibonacci.directionLOCK;
+        //     });
+        //   },
+        // ),
 
         // maxPetals 1000 to 10000
         settingsSlider(
@@ -873,81 +862,27 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
           },
         ),
 
-        // randomColours
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              flex: 1,
-              child: GestureDetector(
-                  onLongPress: () {
-                    setState(() {
-                      // toggle lock
-                      if (currentFibonacci.randomColoursLOCK) {
-                        currentFibonacci.randomColoursLOCK = false;
-                        print('randomColours UNLOCK');
-                      } else {
-                        currentFibonacci.randomColoursLOCK = true;
-                        print('randomColours LOCK');
-                      }
-                    });
-                  },
-                  child: Row(
-                    children: [
-                      Text(
-                        'randomColours:',
-                        style: currentFibonacci.randomColoursLOCK
-                            ? TextStyle(fontWeight: FontWeight.normal)
-                            : TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Icon(
-                        currentFibonacci.randomColoursLOCK
-                            ? Icons.lock
-                            : Icons.lock_open,
-                        size: 20,
-                        color: currentFibonacci.randomColoursLOCK
-                            ? Colors.grey
-                            : Colors.black,
-                      ),
-                    ],
-                  )),
-            ),
-            Flexible(
-              flex: 2,
-              child: Switch(
-                value: currentFibonacci.randomColours,
-                onChanged: currentFibonacci.randomColoursLOCK
-                    ? null
-                    : (value) {
-                        setState(() {
-                          currentFibonacci.randomColours = value;
-                        });
-                      },
-              ),
-            ),
-          ],
-        ),
 
         // paletteType
-        settingsDropdown(
-          'paletteType',
-          currentFibonacci.paletteType,
-          ['random', 'blended random', 'linear random', 'linear complementary'],
-          currentFibonacci.paletteTypeLOCK,
-          (value) {
-            setState(() {
-              print('new paletteType: $value');
-              currentFibonacci.paletteType = value;
-              currentFibonacci.randomizePalette();
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.paletteTypeLOCK =
-                  !currentFibonacci.paletteTypeLOCK;
-            });
-          },
-        ),
+        // settingsDropdown(
+        //   'paletteType',
+        //   currentFibonacci.paletteType,
+        //   ['random', 'blended random', 'linear random', 'linear complementary'],
+        //   currentFibonacci.paletteTypeLOCK,
+        //   (value) {
+        //     setState(() {
+        //       print('new paletteType: $value');
+        //       currentFibonacci.paletteType = value;
+        //       currentFibonacci.randomizePalette();
+        //     });
+        //   },
+        //   () {
+        //     setState(() {
+        //       currentFibonacci.paletteTypeLOCK =
+        //           !currentFibonacci.paletteTypeLOCK;
+        //     });
+        //   },
+        // ),
 
         // aspectRatio
         Row(
@@ -1075,8 +1010,10 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
 
                     height: 200,
 
+                    child:
+                    (settingsList[index].type == 'Double') ?
 
-                    child: settingsSlider2(
+                    settingsSlider2(
                       settingsList[index].label,
                       settingsList[index].tooltip,    settingsList[index].value,
                       settingsList[index].min,
@@ -1093,7 +1030,54 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                           settingsList[index].locked = !settingsList[index].locked;
                         });
                       },
-                    ),
+                    )
+                        :
+                    (settingsList[index].type == 'List') ?
+
+                    settingsDropdown(
+                      settingsList[index].label,
+                      settingsList[index].tooltip,
+                      settingsList[index].value,
+                      settingsList[index].options,
+                      settingsList[index].locked,
+
+                          (value) {
+                        setState(() {
+                          settingsList[index].value = value;
+                        });
+                        setLocalState((){});
+                      },
+                          () {
+                        setState(() {
+                          settingsList[index].locked = !settingsList[index].locked;
+                        });
+                      },
+
+                    )
+                        :
+                    settingsRadioButton(
+                      settingsList[index].label,
+                      settingsList[index].tooltip,
+                      settingsList[index].value,
+                      settingsList[index].locked,
+
+                          (value) {
+                        setState(() {
+                          settingsList[index].value = value;
+                        });
+                        setLocalState((){});
+                      },
+                          () {
+                        setState(() {
+                          settingsList[index].locked = !settingsList[index].locked;
+                        });
+                      },
+
+                    )
+
+
+
+
                   ),
                   Container(height: 100)
                 ],
@@ -1373,7 +1357,7 @@ class OpArtFibonacciPainter extends CustomPainter {
       currentFibonacci.petalPointiness.value,
       currentFibonacci.petalRotation.value,
       currentFibonacci.petalRotationRatio.value,
-      currentFibonacci.petalType,
+      currentFibonacci.petalType.value,
       currentFibonacci.maxPetals,
       currentFibonacci.radialOscAmplitude.value,
       currentFibonacci.radialOscPeriod.value,
@@ -1381,7 +1365,7 @@ class OpArtFibonacciPainter extends CustomPainter {
       currentFibonacci.backgroundColour,
       currentFibonacci.lineColour,
       currentFibonacci.lineWidth.value,
-      currentFibonacci.randomColours,
+      currentFibonacci.randomColours.value,
       currentFibonacci.numberOfColours,
       currentFibonacci.paletteType,
       currentFibonacci.opacity.value,
