@@ -21,18 +21,10 @@ class settingsSlider extends StatefulWidget {
 class _settingsSliderState extends State<settingsSlider> {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(8),
+    return Column(mainAxisSize: MainAxisSize.min,
+     // padding: const EdgeInsets.all(8),
       children: <Widget>[
-        Container(
-          height: 50,
-          child: Text(
-            widget.label,
-            style: widget.locked
-                ? TextStyle(fontWeight: FontWeight.normal)
-                : TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ),
+
         Container(
           height: 50,
           child: Text(

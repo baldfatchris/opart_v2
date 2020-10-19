@@ -142,7 +142,13 @@ class Fibonacci {
       defaultValue: false,
       icon: Icon(Icons.gamepad));
 
-  SettingsModelInt numberOfColours = SettingsModelInt(label: 'Number of Colours',tooltip: 'The number of colours in the palette', min: 1, max: 36, defaultValue: 10, icon: Icon(Icons.palette));
+  SettingsModelInt numberOfColours = SettingsModelInt(
+      label: 'Number of Colours',
+      tooltip: 'The number of colours in the palette',
+      min: 1,
+      max: 36,
+      defaultValue: 10,
+      icon: Icon(Icons.palette));
 
   String paletteType;
 
@@ -649,7 +655,6 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
   ScrollController _scrollController = new ScrollController();
   @override
   Widget bodyWidget() {
-
     return Screenshot(
       controller: screenshotController,
       child: Stack(
@@ -676,7 +681,9 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
 
   @override
   Widget build(BuildContext context) {
-    if(_scrollController.hasClients){_scrollController.jumpTo(_scrollController.position.maxScrollExtent);}
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+    }
     SetState() {
       setState(() {});
     }
@@ -707,19 +714,112 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
       );
     }
 
+    //Container(height: 400,
+    //               child: Column(
+    //                 children: <Widget>[
+    //                   (settingsList[index].type == 'Double') ?
+    //
+    //                   settingsSlider(
+    //                     settingsList[index].label,
+    //                     settingsList[index].tooltip,
+    //                     settingsList[index].value,
+    //                     settingsList[index].min,
+    //                     settingsList[index].max,
+    //                     settingsList[index].locked,
+    //                         (value) {
+    //                       setState(() {
+    //                         settingsList[index].value = value;
+    //                       });
+    //                       SetState();
+    //                     },
+    //                         () {
+    //                       setState(() {
+    //                         settingsList[index].locked = !settingsList[index].locked;
+    //                       });
+    //                     },(){},
+    //                   )
+    //                       :
+    //                   (settingsList[index].type == 'Int') ?
+    //
+    //                   settingsIntSlider(
+    //                       settingsList[index].label,
+    //                       settingsList[index].tooltip,
+    //                       settingsList[index].value,
+    //                       settingsList[index].min,
+    //                       settingsList[index].max,
+    //                       settingsList[index].locked,
+    //                           (value) {
+    //                         setState(() {
+    //                           settingsList[index].value = value.toInt();
+    //                         });
+    //                         SetState();
+    //                       },
+    //                           () {
+    //                         setState(() {
+    //                           settingsList[index].locked = !settingsList[index].locked;
+    //                         });
+    //                       }
+    //                   )
+    //                       :
+    //                   (settingsList[index].type == 'List') ?
+    //
+    //                   settingsDropdown(
+    //                     settingsList[index].label,
+    //                     settingsList[index].tooltip,
+    //                     settingsList[index].value,
+    //                     settingsList[index].options,
+    //                     settingsList[index].locked,
+    //
+    //                         (value) {
+    //                       setState(() {
+    //                         settingsList[index].value = value;
+    //                       });
+    //                       SetState();
+    //                     },
+    //                         () {
+    //                       setState(() {
+    //                         settingsList[index].locked = !settingsList[index].locked;
+    //                       });
+    //                     },
+    //
+    //                   )
+    //                       :
+    //                   settingsRadioButton(
+    //                     settingsList[index].label,
+    //                     settingsList[index].tooltip,
+    //                     settingsList[index].value,
+    //                     settingsList[index].locked,
+    //
+    //                         (value) {
+    //                       setState(() {
+    //                         settingsList[index].value = value.round();
+    //                       });
+    //                       SetState();
+    //                     },
+    //                         () {
+    //                       setState(() {
+    //                         settingsList[index].locked = !settingsList[index].locked;
+    //                       });
+    //                     },
+    //
+    //                   ),
+    //
+    //                 ],
+    //               ),
+    //             )
     void _showBottomSheetSettings(context, int index) {
-      showModalBottomSheet(
-          backgroundColor: Colors.white.withOpacity(0.8),
+      showDialog(
+        //  backgroundColor: Colors.white.withOpacity(0.8),
           barrierColor: Colors.white.withOpacity(0.1),
           context: context,
           builder: (BuildContext bc) {
             return StatefulBuilder(
                 builder: (BuildContext context, setLocalState) {
-              return Column(
-                children: <Widget>[
-                  Container(
-                      height: 200,
-                      child:
+              return Center(
+                child: AlertDialog(backgroundColor: Colors.white.withOpacity(0.5),
+                  title: Text(settingsList[index].label),
+                  content: Column(mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
                       (settingsList[index].type == 'Double') ?
 
                       settingsSlider(
@@ -805,12 +905,10 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                           });
                         },
 
-                      )
-
-
+                      ),
+                    ],
                   ),
-                  Container(height: 100)
-                ],
+                ),
               );
             });
           });
@@ -833,7 +931,8 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                         child: GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
-                            _showBottomSheetSettings(context, index);
+                            _showBottomSheetSettings(context, index,
+                            );
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -918,7 +1017,8 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
       body: Stack(
         children: [
           bodyWidget(),
-          Container(width: MediaQuery.of(context).size.width,
+          Container(
+              width: MediaQuery.of(context).size.width,
               color: Colors.white,
               height: 60,
               child: cachedFibonacciList.length == 0
@@ -935,11 +1035,17 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                           child: GestureDetector(
                             onTap: () {
                               setState(() {
-                                currentFibonacci.maxPetals = cachedFibonacciList[index]['maxPetals'];
-                                currentFibonacci.direction = cachedFibonacciList[index]['direction'];
-                                currentFibonacci.backgroundColour = cachedFibonacciList[index]['backgroundColour'];
-                                currentFibonacci.lineColour = cachedFibonacciList[index]['lineColour'];
-                                currentFibonacci.numberOfColours = cachedFibonacciList[index]
+                                currentFibonacci.maxPetals =
+                                    cachedFibonacciList[index]['maxPetals'];
+                                currentFibonacci.direction =
+                                    cachedFibonacciList[index]['direction'];
+                                currentFibonacci.backgroundColour =
+                                    cachedFibonacciList[index]
+                                        ['backgroundColour'];
+                                currentFibonacci.lineColour =
+                                    cachedFibonacciList[index]['lineColour'];
+                                currentFibonacci.numberOfColours =
+                                    cachedFibonacciList[index]
                                         ['numberOfColours'];
                                 currentFibonacci.paletteType =
                                     cachedFibonacciList[index]['paletteType'];
@@ -1088,7 +1194,8 @@ class OpArtFibonacciPainter extends CustomPainter {
       currentFibonacci = new Fibonacci(random: rnd);
       currentFibonacci.defaultSettings();
     }
-    if (currentFibonacci.numberOfColours.value>currentFibonacci.palette.length){
+    if (currentFibonacci.numberOfColours.value >
+        currentFibonacci.palette.length) {
       currentFibonacci.randomizePalette();
     }
 

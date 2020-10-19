@@ -19,8 +19,8 @@ class _settingsRadioButtonState extends State<settingsRadioButton> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(8),
+    return Column(
+     mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Container(
           height: 50,
