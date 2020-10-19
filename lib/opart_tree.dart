@@ -6,6 +6,7 @@ import 'package:screenshot/screenshot.dart';
 import 'package:shake/shake.dart';
 import 'package:opart_v2/setting_slider.dart';
 import 'package:opart_v2/setting_slider2.dart';
+import 'setting_slider2.dart';
 
 Random rnd;
 List palette;
