@@ -641,7 +641,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
           paletteTypeLOCK: currentFibonacci.paletteTypeLOCK,
           aspectRatioLOCK: currentFibonacci.aspectRatioLOCK,
         ));
-        SetState();
+        SetState(); 
       });
 
   }
