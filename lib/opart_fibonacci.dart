@@ -20,11 +20,10 @@ List Palettes = [
 class Fibonacci {
 
   // image settings
- // double angleIncrement;
-  SettingsModelDouble angleIncrement = SettingsModelDouble(label: 'Angle Increment', tooltip: 'The angle in radians between successive petals of the flower', min: 0, max: 2*pi, defaultValue: (sqrt(5)+1)/2, icon: Icon(Icons.ac_unit));
-  double flowerFill;
+  SettingsModelDouble angleIncrement;
+  SettingsModelDouble flowerFill;
   double petalToRadius;
-  double ratio;
+  SettingsModelDouble ratio;
   double randomiseAngle;
   double petalPointiness;
   double petalRotation;
@@ -48,10 +47,7 @@ class Fibonacci {
   File image;
 
 // lock settings
-  bool angleIncrementLOCK = false;
-  bool flowerFillLOCK = false;
   bool petalToRadiusLOCK = false;
-  bool ratioLOCK = false;
   bool randomiseAngleLOCK = false;
   bool petalPointinessLOCK = false;
   bool petalRotationLOCK = false;
@@ -76,36 +72,33 @@ class Fibonacci {
   Fibonacci({
 
         // image settings
-        this.angleIncrement,
-        this.flowerFill,
-        this.petalToRadius,
-        this.ratio,
-        this.randomiseAngle,
-        this.petalPointiness,
-        this.petalRotation,
-        this.petalRotationRatio,
-        this.petalType,
-        this.maxPetals,
-        this.radialOscAmplitude,
-        this.radialOscPeriod,
-        this.direction,
+    this.angleIncrement  ,
+    this.flowerFill,
+    this.petalToRadius,
+    this.ratio,
+    this.randomiseAngle,
+    this.petalPointiness,
+    this.petalRotation,
+    this.petalRotationRatio,
+    this.petalType,
+    this.maxPetals,
+    this.radialOscAmplitude,
+    this.radialOscPeriod,
+    this.direction,
 
-        // palette settings
-        this.backgroundColour,
-        this.lineColour,
-        this.lineWidth,
-        this.randomColours,
-        this.numberOfColours,
-        this.paletteType,
-        this.opacity,
-        this.palette,
-        this.aspectRatio = pi/2,
-        this.image,
+    // palette settings
+    this.backgroundColour,
+    this.lineColour,
+    this.lineWidth,
+    this.randomColours,
+    this.numberOfColours,
+    this.paletteType,
+    this.opacity,
+    this.palette,
+    this.aspectRatio = pi/2,
+    this.image,
 
-        // this.angleIncrementLOCK = false,
-        this.flowerFillLOCK = false,
         this.petalToRadiusLOCK = false,
-        this.ratioLOCK = false,
         this.randomiseAngleLOCK = false,
         this.petalPointinessLOCK = false,
         this.petalRotationLOCK = false,
@@ -139,15 +132,10 @@ class Fibonacci {
 
 
     // angleIncrement 0 - pi
-    // if (this.angleIncrementLOCK == false) {
-    //   this.angleIncrement.value = random.nextDouble()*(this.angleIncrement.max - this.angleIncrement.min) + this.angleIncrement.min;
-    // }
-    this.angleIncrement.randomise(this.random);
+    this.angleIncrement.randomise(random);
 
     // flowerFill 0.7 - 1.3
-    if (this.flowerFillLOCK == false) {
-      this.flowerFill = random.nextDouble() * 0.6 + 0.7;
-    }
+    this.flowerFill.randomise(random);
 
     // petalToRadius - 0 01 to 0.1
     if (this.petalToRadiusLOCK == false) {
@@ -155,9 +143,7 @@ class Fibonacci {
     }
 
     // ratio 0.995 - 0.99999
-    if (this.ratioLOCK == false) {
-      this.ratio = random.nextDouble() * 0.00499 + 0.995;
-    }
+    this.ratio.randomise(random);
 
     // randomiseAngle 0 to 0.2
     if (this.randomiseAngleLOCK == false){
@@ -225,27 +211,27 @@ class Fibonacci {
 
     // numberOfColours 2 to 36
     if (this.numberOfColoursLOCK == false) {
-      this.numberOfColours = rnd.nextInt(34) + 2;
+      this.numberOfColours = random.nextInt(34) + 2;
     }
 
     // randomColours
     if (this.randomColoursLOCK == false) {
-      this.randomColours = rnd.nextBool();
+      this.randomColours = random.nextBool();
     }
 
     // lineWidth 0 to 3
     if (this.lineWidthLOCK == false) {
-      this.lineWidth = rnd.nextDouble() * 3;
+      this.lineWidth = random.nextDouble() * 3;
     }
 
     // opacity 0.6 to 1
     if (this.opacityLOCK == false) {
-      this.opacity = rnd.nextDouble() * 0.4 + 0.6;
+      this.opacity = random.nextDouble() * 0.4 + 0.6;
     }
 
     // backgroundColour
     if (this.backgroundColourLOCK == false) {
-      this.backgroundColour = Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity);
+      this.backgroundColour = Color((random.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity);
     }
     
   }
@@ -319,10 +305,17 @@ class Fibonacci {
   void defaultSettings() {
     // resets to default settings
 
+    this.angleIncrement = SettingsModelDouble(label: 'Angle Increment', tooltip: 'The angle in radians between successive petals of the flower', min: 0, max: 2*pi, defaultValue: (sqrt(5)+1)/2, icon: Icon(Icons.ac_unit));
     this.angleIncrement.value = this.angleIncrement.defaultValue;
-    this.flowerFill = 1;
+
+    this.flowerFill = SettingsModelDouble(label: 'Zoom', tooltip: 'Zoom in and out', min: 0.3, max: 2, defaultValue: 1, icon: Icon(Icons.access_alarm));
+    this.flowerFill.value = this.flowerFill.defaultValue;
+
     this.petalToRadius = 0.03;
-    this.ratio = 0.999;
+
+    this.ratio = SettingsModelDouble(label: 'Ratio', tooltip: 'The fill ratio of the flower', min: 0.995, max: 0.9999, defaultValue: 0.999, icon: Icon(Icons.adjust));
+    this.ratio.value = this.ratio.defaultValue;
+
     this.randomiseAngle = 0;
     this.petalPointiness = 0.8;
     this.petalRotation = 0;
@@ -345,10 +338,7 @@ class Fibonacci {
     this.aspectRatio = pi/2;
     this.image;
 
-    //this.angleIncrementLOCK = false;
-    this.flowerFillLOCK = false;
     this.petalToRadiusLOCK = false;
-    this.ratioLOCK = false;
     this.randomiseAngleLOCK = false;
     this.petalPointinessLOCK = false;
     this.petalRotationLOCK = false;
@@ -391,8 +381,8 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> with Ticker
   ScreenshotController screenshotController = ScreenshotController();
   int _currentColor = 0;
 
-  Animation<double> animation1;
-  AnimationController controller1;
+  // Animation<double> animation1;
+  // AnimationController controller1;
 
   // Animation<double> animation2;
   // AnimationController controller2;
@@ -461,24 +451,26 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> with Ticker
           ],
         ),
 
+
         // angleIncrement
         settingsSlider(currentFibonacci.angleIncrement.label, currentFibonacci.angleIncrement.value, currentFibonacci.angleIncrement.min, currentFibonacci.angleIncrement.max, currentFibonacci.angleIncrement.locked,
               (value) {setState(() {currentFibonacci.angleIncrement.value = value;});},
               () {setState(() {currentFibonacci.angleIncrement.locked = !currentFibonacci.angleIncrement.locked;});},
         ),
 
-
         // flowerFill
-        settingsSlider('flowerFill', currentFibonacci.flowerFill, 0.5, 2, currentFibonacci.flowerFillLOCK,
-              (value) {setState(() {currentFibonacci.flowerFill = value;});},
-              () {setState(() {currentFibonacci.flowerFillLOCK = !currentFibonacci.flowerFillLOCK;});},
+        settingsSlider(currentFibonacci.flowerFill.label, currentFibonacci.flowerFill.value, currentFibonacci.flowerFill.min, currentFibonacci.flowerFill.max, currentFibonacci.flowerFill.locked,
+              (value) {setState(() {currentFibonacci.flowerFill.value = value;});},
+              () {setState(() {currentFibonacci.flowerFill.locked = !currentFibonacci.flowerFill.locked;});},
         ),
 
         // ratio
-        settingsSlider('ratio', currentFibonacci.ratio, 0.99, 0.99999, currentFibonacci.ratioLOCK,
-              (value) {setState(() {currentFibonacci.ratio = value;});},
-              () {setState(() {currentFibonacci.ratioLOCK = !currentFibonacci.ratioLOCK;});},
+        settingsSlider(currentFibonacci.ratio.label, currentFibonacci.ratio.value, currentFibonacci.ratio.min, currentFibonacci.ratio.max, currentFibonacci.ratio.locked,
+              (value) {setState(() {currentFibonacci.ratio.value = value;});},
+              () {setState(() {currentFibonacci.ratio.locked = !currentFibonacci.ratio.locked;});},
         ),
+        
+
 
         // randomiseAngle
         settingsSlider('randomiseAngle', currentFibonacci.randomiseAngle, 0, 0.2, currentFibonacci.randomiseAngleLOCK,
@@ -687,7 +679,8 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> with Ticker
               builder: (_, constraints) => Container(
                 width: constraints.widthConstraints().maxWidth,
                 height: constraints.heightConstraints().maxHeight,
-                child: CustomPaint(painter: OpArtFibonacciPainter(widget.seed, rnd, animation1.value,
+                child: CustomPaint(painter: OpArtFibonacciPainter(widget.seed, rnd,
+                    // animation1.value,
                     // animation2.value
                 )),
               ),
@@ -712,7 +705,8 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> with Ticker
                 builder: (_, constraints) => Container(
                   width: constraints.widthConstraints().maxWidth,
                   height: constraints.heightConstraints().maxHeight,
-                  child: CustomPaint(painter: OpArtFibonacciPainter(widget.seed, rnd, animation1.value,
+                  child: CustomPaint(painter: OpArtFibonacciPainter(widget.seed, rnd,
+                      // animation1.value,
                       // animation2.value
                   )),
                 ),
@@ -770,64 +764,65 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> with Ticker
     // ShakeDetector.waitForStart() waits for user to call detector.startListening();
 
 
-  //   // Animation Stuff
-  //   controller1 = AnimationController(
-  //     vsync: this,
-  //     duration: Duration(seconds: 7200),
-  //   );
-  //
-  //   // controller2 = AnimationController(
-  //   //   vsync: this,
-  //   //   duration: Duration(seconds: 60),
-  //   // );
-  //
-  //   Tween<double> _angleTween = Tween(begin: -pi, end: pi);
-  //   // Tween<double> _fillTween = Tween(begin: 1, end: 1);
-  //
-  //   animation1 = _angleTween.animate(controller1)
-  //     ..addListener(() {
-  //       setState(() {});
-  //     })
-  //     ..addStatusListener((status) {
-  //       if (status == AnimationStatus.completed) {
-  //         controller1.repeat();
-  //       } else if (status == AnimationStatus.dismissed) {
-  //         controller1.forward();
-  //       }
-  //     });
-  //
-  //   // animation2 = _fillTween.animate(controller2)
-  //   //   ..addListener(() {
-  //   //     setState(() {});
-  //   //   })
-  //   //   ..addStatusListener((status) {
-  //   //     if (status == AnimationStatus.completed) {
-  //   //       controller2.reverse();
-  //   //     } else if (status == AnimationStatus.dismissed) {
-  //   //       controller2.forward();
-  //   //     }
-  //   //   });
-  //
-  //   controller1.forward();
-  //   // controller2.forward();
-  // }
+    // Animation Stuff
+    // controller1 = AnimationController(
+    //   vsync: this,
+    //   duration: Duration(seconds: 7200),
+    // );
 
-  @override
-  void dispose() {
-    controller1.dispose();
-    // controller2.dispose();
-    super.dispose();
+    // controller2 = AnimationController(
+    //   vsync: this,
+    //   duration: Duration(seconds: 60),
+    // );
+
+    // Tween<double> _angleTween = Tween(begin: -pi, end: pi);
+    // Tween<double> _fillTween = Tween(begin: 1, end: 1);
+
+    // animation1 = _angleTween.animate(controller1)
+    //   ..addListener(() {
+    //     setState(() {});
+    //   })
+    //   ..addStatusListener((status) {
+    //     if (status == AnimationStatus.completed) {
+    //       controller1.repeat();
+    //     } else if (status == AnimationStatus.dismissed) {
+    //       controller1.forward();
+    //     }
+    //   });
+
+    // animation2 = _fillTween.animate(controller2)
+    //   ..addListener(() {
+    //     setState(() {});
+    //   })
+    //   ..addStatusListener((status) {
+    //     if (status == AnimationStatus.completed) {
+    //       controller2.reverse();
+    //     } else if (status == AnimationStatus.dismissed) {
+    //       controller2.forward();
+    //     }
+    //   });
+
+    // controller1.forward();
+    // controller2.forward();
   }
+
+  // @override
+  // void dispose() {
+  //   controller1.dispose();
+  //   // controller2.dispose();
+  //   super.dispose();
+  // }
 
 }
 
 class OpArtFibonacciPainter extends CustomPainter {
   int seed;
   Random rnd;
-  double angle;
+  // double angle;
   // double fill;
 
-  OpArtFibonacciPainter( this.seed, this.rnd, this.angle,
+  OpArtFibonacciPainter( this.seed, this.rnd,
+      // this.angle,
       // this.fill
       );
 
@@ -908,9 +903,9 @@ class OpArtFibonacciPainter extends CustomPainter {
 
         // angle, //currentFibonacci.angleIncrement,
         currentFibonacci.angleIncrement.value,
-        currentFibonacci.flowerFill,
+        currentFibonacci.flowerFill.value,
         currentFibonacci.petalToRadius,
-        currentFibonacci.ratio,
+        currentFibonacci.ratio.value,
         currentFibonacci.randomiseAngle,
         currentFibonacci.petalPointiness,
         currentFibonacci.petalRotation,
