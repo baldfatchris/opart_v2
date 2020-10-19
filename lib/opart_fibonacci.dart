@@ -22,12 +22,12 @@ class Fibonacci {
   // image settings
   SettingsModelDouble angleIncrement;
   SettingsModelDouble flowerFill;
-  double petalToRadius;
+  SettingsModelDouble petalToRadius;
   SettingsModelDouble ratio;
-  double randomiseAngle;
-  double petalPointiness;
-  double petalRotation;
-  double petalRotationRatio;
+  SettingsModelDouble randomiseAngle;
+  SettingsModelDouble petalPointiness;
+  SettingsModelDouble petalRotation;
+  SettingsModelDouble petalRotationRatio;
   String petalType;
   int maxPetals;
   double radialOscAmplitude;
@@ -47,11 +47,6 @@ class Fibonacci {
   File image;
 
 // lock settings
-  bool petalToRadiusLOCK = false;
-  bool randomiseAngleLOCK = false;
-  bool petalPointinessLOCK = false;
-  bool petalRotationLOCK = false;
-  bool petalRotationRatioLOCK = false;
   bool petalTypeLOCK = false;
   bool maxPetalsLOCK = false;
   bool radialOscAmplitudeLOCK = false;
@@ -98,11 +93,6 @@ class Fibonacci {
     this.aspectRatio = pi/2,
     this.image,
 
-        this.petalToRadiusLOCK = false,
-        this.randomiseAngleLOCK = false,
-        this.petalPointinessLOCK = false,
-        this.petalRotationLOCK = false,
-        this.petalRotationRatioLOCK = false,
         this.petalTypeLOCK = false,
         this.maxPetalsLOCK = false,
         this.radialOscAmplitudeLOCK = false,
@@ -138,37 +128,27 @@ class Fibonacci {
     this.flowerFill.randomise(random);
 
     // petalToRadius - 0 01 to 0.1
-    if (this.petalToRadiusLOCK == false) {
-      this.petalToRadius = random.nextDouble() * 0.09 + 0.01;
-    }
+    this.petalToRadius.randomise(random);
 
     // ratio 0.995 - 0.99999
     this.ratio.randomise(random);
 
     // randomiseAngle 0 to 0.2
-    if (this.randomiseAngleLOCK == false){
-      this.randomiseAngle = 0;
-      if (random.nextDouble() > 0.8) {
-        this.randomiseAngle = random.nextDouble() * 0.2;
-      }
+    this.randomiseAngle.randomise(random);
+    if (this.randomiseAngle.locked  == false && random.nextDouble() > 0.2){
+      this.randomiseAngle.value = 0;
     }
 
     // petalPointiness: 0 to pi
-    if (this.petalPointinessLOCK == false) {
-      this.petalPointiness = random.nextDouble() * pi;
-    }
+    this.petalPointiness.randomise(random);
 
     // petalRotation: 0 to pi
-    if (this.petalRotationLOCK == false) {
-      this.petalRotation = random.nextDouble() * pi;
-    }
+    this.petalRotation.randomise(random);
 
     // petalRotationRatio 0 to 4
-    if (this.petalRotationRatioLOCK == false) {
-      this.petalRotationRatio = random.nextDouble() * 4;
-      if (random.nextDouble() > 0.3) {
-        this.petalRotationRatio = random.nextInt(4).toDouble();
-      }
+    this.petalRotation.randomise(random);
+    if (this.petalRotation.locked == false && random.nextDouble() > 0.3) {
+      this.petalRotationRatio.value = random.nextInt(4).toDouble();
     }
 
     // petalType = 0/1/2/3  circle/triangle/square/petal
@@ -311,15 +291,28 @@ class Fibonacci {
     this.flowerFill = SettingsModelDouble(label: 'Zoom', tooltip: 'Zoom in and out', min: 0.3, max: 2, defaultValue: 1, icon: Icon(Icons.access_alarm));
     this.flowerFill.value = this.flowerFill.defaultValue;
 
-    this.petalToRadius = 0.03;
+    this.petalToRadius = SettingsModelDouble(label: 'Petal to Radius', tooltip: 'The size of the petal as a multiple of its distance from the centre', min: 0.01, max: 0.1, defaultValue: 0.03, icon: Icon(Icons.backup));
+    this.petalToRadius.value = this.petalToRadius.defaultValue;
 
     this.ratio = SettingsModelDouble(label: 'Ratio', tooltip: 'The fill ratio of the flower', min: 0.995, max: 0.9999, defaultValue: 0.999, icon: Icon(Icons.adjust));
     this.ratio.value = this.ratio.defaultValue;
 
-    this.randomiseAngle = 0;
-    this.petalPointiness = 0.8;
-    this.petalRotation = 0;
-    this.petalRotationRatio = 0;
+    // randomiseAngle 0 to 0.2
+    this.randomiseAngle = SettingsModelDouble(label: 'Randomise Angle', tooltip: 'Randomise the petal position by moving it around the centre by a random angle up to this maximum', min: 0, max: 0.2, defaultValue: 0, icon: Icon(Icons.all_inclusive));
+    this.randomiseAngle.value = this.randomiseAngle.defaultValue;
+
+    // petalPointiness: 0 to pi
+    this.petalPointiness = SettingsModelDouble(label: 'Petal Pointiness', tooltip: 'the pointiness of the petal', min: 0, max: pi, defaultValue: 0.8, icon: Icon(Icons.account_circle));
+    this.petalPointiness.value = this.petalPointiness.defaultValue;
+
+    // petalRotation: 0 to pi
+    this.petalRotation = SettingsModelDouble(label: 'Petal Rotation', tooltip: 'the rotation of the petal', min: 0, max: pi, defaultValue: 0, icon: Icon(Icons.all_out));
+    this.petalRotation.value = this.petalRotation.defaultValue;
+
+    // petalRotationRatio 0 to 4
+    this.petalRotationRatio = SettingsModelDouble(label: 'Rotation Ratio', tooltip: 'the rotation of the petal as multiple of the petal angle', min: 0, max: 4, defaultValue: 0, icon: Icon(Icons.autorenew));
+    this.petalRotationRatio.value = this.petalRotationRatio.defaultValue;
+
     this.petalType = 'circle';
     this.maxPetals = 10000;
     this.radialOscAmplitude = 0;
@@ -338,11 +331,6 @@ class Fibonacci {
     this.aspectRatio = pi/2;
     this.image;
 
-    this.petalToRadiusLOCK = false;
-    this.randomiseAngleLOCK = false;
-    this.petalPointinessLOCK = false;
-    this.petalRotationLOCK = false;
-    this.petalRotationRatioLOCK = false;
     this.petalTypeLOCK = false;
     this.maxPetalsLOCK = false;
     this.radialOscAmplitudeLOCK = false;
@@ -469,43 +457,41 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> with Ticker
               (value) {setState(() {currentFibonacci.ratio.value = value;});},
               () {setState(() {currentFibonacci.ratio.locked = !currentFibonacci.ratio.locked;});},
         ),
-        
-
-
-        // randomiseAngle
-        settingsSlider('randomiseAngle', currentFibonacci.randomiseAngle, 0, 0.2, currentFibonacci.randomiseAngleLOCK,
-              (value) {setState(() {currentFibonacci.randomiseAngle = value;});},
-              () {setState(() {currentFibonacci.randomiseAngleLOCK = !currentFibonacci.randomiseAngleLOCK;});},
-        ),
 
         // petalToRadius
-        settingsSlider('petalToRadius', currentFibonacci.petalToRadius, 0.001, 0.5, currentFibonacci.petalToRadiusLOCK,
-              (value) {setState(() {currentFibonacci.petalToRadius = value;});},
-              () {setState(() {currentFibonacci.petalToRadiusLOCK = !currentFibonacci.petalToRadiusLOCK;});},
+        settingsSlider(currentFibonacci.petalToRadius.label, currentFibonacci.petalToRadius.value, currentFibonacci.petalToRadius.min, currentFibonacci.petalToRadius.max, currentFibonacci.petalToRadius.locked,
+              (value) {setState(() {currentFibonacci.petalToRadius.value = value;});},
+              () {setState(() {currentFibonacci.petalToRadius.locked = !currentFibonacci.petalToRadius.locked;});},
+        ),
+
+        // randomiseAngle
+        settingsSlider(currentFibonacci.randomiseAngle.label, currentFibonacci.randomiseAngle.value, currentFibonacci.randomiseAngle.min, currentFibonacci.randomiseAngle.max, currentFibonacci.randomiseAngle.locked,
+              (value) {setState(() {currentFibonacci.randomiseAngle.value = value;});},
+              () {setState(() {currentFibonacci.randomiseAngle.locked = !currentFibonacci.randomiseAngle.locked;});},
         ),
 
         // petalType
         settingsDropdown('petalType', currentFibonacci.petalType, ['circle','triangle','square','petal'], currentFibonacci.petalTypeLOCK,
               (value) {setState(() {currentFibonacci.petalType = value;});},
-              () {setState(() {currentFibonacci.petalToRadiusLOCK = !currentFibonacci.petalTypeLOCK;});},
+              () {setState(() {currentFibonacci.petalTypeLOCK = !currentFibonacci.petalTypeLOCK;});},
         ),
 
         // petalPointiness
-        settingsSlider('petalPointiness', currentFibonacci.petalPointiness, 0, pi, currentFibonacci.petalPointinessLOCK,
-              (value) {setState(() {currentFibonacci.petalPointiness = value;});},
-              () {setState(() {currentFibonacci.petalPointinessLOCK = !currentFibonacci.petalPointinessLOCK;});},
+        settingsSlider(currentFibonacci.petalPointiness.label, currentFibonacci.petalPointiness.value, currentFibonacci.petalPointiness.min, currentFibonacci.petalPointiness.max, currentFibonacci.petalPointiness.locked,
+              (value) {setState(() {currentFibonacci.petalPointiness.value = value;});},
+              () {setState(() {currentFibonacci.petalPointiness.locked = !currentFibonacci.petalPointiness.locked;});},
         ),
 
-       // petalRotation 0 to pi
-        settingsSlider('petalRotation', currentFibonacci.petalRotation, 0, pi, currentFibonacci.petalRotationLOCK,
-              (value) {setState(() {currentFibonacci.petalRotation = value;});},
-              () {setState(() {currentFibonacci.petalRotationLOCK = !currentFibonacci.petalRotationLOCK;});},
+        // petalRotation 0 to pi
+        settingsSlider(currentFibonacci.petalRotation.label, currentFibonacci.petalRotation.value, currentFibonacci.petalRotation.min, currentFibonacci.petalRotation.max, currentFibonacci.petalRotation.locked,
+              (value) {setState(() {currentFibonacci.petalRotation.value = value;});},
+              () {setState(() {currentFibonacci.petalRotation.locked = !currentFibonacci.petalRotation.locked;});},
         ),
 
-      // petalRotationRatioRatio 0 to 4
-        settingsSlider('petalRotationRatio', currentFibonacci.petalRotationRatio, 0, 4, currentFibonacci.petalRotationRatioLOCK,
-              (value) {setState(() {currentFibonacci.petalRotationRatio = value;});},
-              () {setState(() {currentFibonacci.petalRotationRatioLOCK = !currentFibonacci.petalRotationRatioLOCK;});},
+        // petalRotationRatio 0 to 4
+        settingsSlider(currentFibonacci.petalRotationRatio.label, currentFibonacci.petalRotationRatio.value, currentFibonacci.petalRotationRatio.min, currentFibonacci.petalRotationRatio.max, currentFibonacci.petalRotationRatio.locked,
+              (value) {setState(() {currentFibonacci.petalRotationRatio.value = value;});},
+              () {setState(() {currentFibonacci.petalRotationRatio.locked = !currentFibonacci.petalRotationRatio.locked;});},
         ),
 
         // radialOscAmplitude
@@ -523,7 +509,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> with Ticker
         // direction
         settingsDropdown('direction', currentFibonacci.direction, ['inward','outward'], currentFibonacci.directionLOCK,
               (value) {setState(() {currentFibonacci.direction = value;});},
-              () {setState(() {currentFibonacci.petalToRadiusLOCK = !currentFibonacci.directionLOCK;});},
+              () {setState(() {currentFibonacci.directionLOCK = !currentFibonacci.directionLOCK;});},
         ),
 
 
@@ -610,7 +596,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio> with Ticker
         // paletteType
         settingsDropdown('paletteType', currentFibonacci.paletteType, ['random','blended random','linear random','linear complementary'], currentFibonacci.paletteTypeLOCK,
               (value) {setState(() {print('new paletteType: $value');currentFibonacci.paletteType = value;currentFibonacci.randomizePalette();});},
-              () {setState(() {currentFibonacci.petalToRadiusLOCK = !currentFibonacci.paletteTypeLOCK;});},
+              () {setState(() {currentFibonacci.paletteTypeLOCK = !currentFibonacci.paletteTypeLOCK;});},
         ),
 
         // aspectRatio
@@ -904,12 +890,12 @@ class OpArtFibonacciPainter extends CustomPainter {
         // angle, //currentFibonacci.angleIncrement,
         currentFibonacci.angleIncrement.value,
         currentFibonacci.flowerFill.value,
-        currentFibonacci.petalToRadius,
+        currentFibonacci.petalToRadius.value,
         currentFibonacci.ratio.value,
-        currentFibonacci.randomiseAngle,
-        currentFibonacci.petalPointiness,
-        currentFibonacci.petalRotation,
-        currentFibonacci.petalRotationRatio,
+        currentFibonacci.randomiseAngle.value,
+        currentFibonacci.petalPointiness.value,
+        currentFibonacci.petalRotation.value,
+        currentFibonacci.petalRotationRatio.value,
         currentFibonacci.petalType,
         currentFibonacci.maxPetals,
         currentFibonacci.radialOscAmplitude,
