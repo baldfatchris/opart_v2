@@ -621,6 +621,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
         .capture(delay: Duration(milliseconds: 10), pixelRatio: 0.2)
         .then((File image) async {
           currentFibonacci.image = image;
+
         cachedFibonacciList.add(Fibonacci(
 
           maxPetals: currentFibonacci.maxPetals,
@@ -644,9 +645,10 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
       });
 
   }
-
+  ScrollController _scrollController = new ScrollController();
   @override
   Widget bodyWidget() {
+    _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
     return Screenshot(
       controller: screenshotController,
       child: Stack(
@@ -896,6 +898,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                   ? Container()
                   : ListView.builder(
                 scrollDirection: Axis.horizontal,
+                controller: _scrollController,
                 itemCount: cachedFibonacciList.length,
                 itemBuilder: (context, index) {
                   return Padding(
