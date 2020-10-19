@@ -7,7 +7,7 @@ import 'package:shake/shake.dart';
 import 'package:opart_v2/setting_slider.dart';
 import 'package:opart_v2/setting_dropdown.dart';
 import 'model.dart';
-
+import 'model.dart';
 import 'setting_slider2.dart';
 
 Random rnd;
@@ -459,63 +459,7 @@ class Fibonacci {
   }
 }
 
-List<Fibonacci> cachedFibonacciList = [];
-
-void _cacheFibonacci(BuildContext context,
-    ScreenshotController screenshotController, Function refresh) async {
-  print('cache fibonacci');
-  screenshotController
-      .capture(delay: Duration(milliseconds: 0), pixelRatio: 0.3)
-      .then((File image) async {
-    print(image);
-
-    currentFibonacci.image = image;
-//  Fibonacci({
-//     // image settings
-//     this.petalType,
-//     this.maxPetals,
-//     this.direction,
-//
-//     // palette settings
-//     this.backgroundColour,
-//     this.lineColour,
-//     this.randomColours,
-//     this.numberOfColours,
-//     this.paletteType,
-//     this.palette,
-//     this.aspectRatio = pi / 2,
-//     this.image,
-//     this.petalTypeLOCK = false,
-//     this.maxPetalsLOCK = false,
-//     this.directionLOCK = false,
-//     this.backgroundColourLOCK = false,
-//     this.lineColourLOCK = false,
-//     this.randomColoursLOCK = false,
-//     this.numberOfColoursLOCK = false,
-//     this.paletteTypeLOCK = false,
-//     this.paletteLOCK = false,
-//     this.aspectRatioLOCK = false,
-//     this.random,
-//   });
-    cachedFibonacciList.add(
-      Fibonacci(
-        backgroundColour: currentFibonacci.backgroundColour,
-        petalType: currentFibonacci.petalType,
-        lineColour: currentFibonacci.lineColour,
-        randomColours: currentFibonacci.randomColours,
-        numberOfColours: currentFibonacci.numberOfColours,
-        paletteType: currentFibonacci.paletteType,
-        palette: currentFibonacci.palette,
-        aspectRatio: currentFibonacci.aspectRatio,
-        image: currentFibonacci.image,
-      ),
-    );
-    refresh();
-    //print(cachedFibonacciList);
-  });
-}
-
-List settingsList = [
+List<SettingsModelDouble> settingsList = [
   currentFibonacci.angleIncrement,
   currentFibonacci.ratio,
   currentFibonacci.flowerFill,
@@ -1030,12 +974,6 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                               ? TextStyle(fontWeight: FontWeight.normal)
                               : TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Text(
-                          'aspectRatio:',
-                          style: currentFibonacci.aspectRatioLOCK
-                              ? TextStyle(fontWeight: FontWeight.normal)
-                              : TextStyle(fontWeight: FontWeight.bold),
-                        ),
                         Icon(
                           currentFibonacci.aspectRatioLOCK
                               ? Icons.lock
@@ -1097,10 +1035,6 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
 
   @override
   Widget build(BuildContext context) {
-    refreshScreen() {
-      setState(() {});
-    }
-
     ScreenshotController screenshotController = widget.screenshotController;
     Widget bodyWidget() {
       return Screenshot(
@@ -1138,24 +1072,25 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
               return Column(
                 children: <Widget>[
                   Container(
+
                     height: 200,
+
+
                     child: settingsSlider2(
                       settingsList[index].label,
-                      settingsList[index].tooltip,
-                      settingsList[index].value,
+                      settingsList[index].tooltip,    settingsList[index].value,
                       settingsList[index].min,
                       settingsList[index].max,
                       settingsList[index].locked,
-                      (value) {
+                          (value) {
                         setState(() {
                           settingsList[index].value = value;
                         });
-                        setLocalState(() {});
+                        setLocalState((){});
                       },
-                      () {
+                          () {
                         setState(() {
-                          settingsList[index].locked =
-                              !settingsList[index].locked;
+                          settingsList[index].locked = !settingsList[index].locked;
                         });
                       },
                     ),
@@ -1172,41 +1107,31 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
           context: context,
           builder: (BuildContext bc) {
             return Container(
-                height: 300,
-                child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4),
-                    itemCount: settingsList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        height: 100,
-                        width: 100,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                            _showBottomSheetSettings(context, index);
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              settingsList[index].icon,
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                    height: 50,
-                                    child: Text(
-                                      settingsList[index].label,
-                                      textAlign: TextAlign.center,
-                                    )),
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    }));
-          });
-    }
+              height: 300,
+              child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4),
+                itemCount: settingsList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(height: 100, width: 100,
+                  child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        _showBottomSheetSettings(context, index);
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [settingsList[index].icon,Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(height: 50,child: Text(settingsList[index].label, textAlign: TextAlign.center,)),
+                        )],
+                      ),
+                    ),
+                );})
+              );});}
+
+
 
     return Scaffold(
       bottomNavigationBar: Container(
@@ -1217,12 +1142,10 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 GestureDetector(
-                    onTap: () async {
+                    onTap: () {
                       setState(() {
-                        // currentFibonacci.randomize();
-                        // currentFibonacci.randomizePalette();
-                        _cacheFibonacci(
-                            context, screenshotController, refreshScreen);
+                        currentFibonacci.randomize();
+                        currentFibonacci.randomizePalette();
                       });
                     },
                     child: Row(
@@ -1268,42 +1191,6 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
       ),
       body: Column(
         children: [
-          cachedFibonacciList.length == 0
-              ? Container()
-              : Container(
-                  height: 100,
-                  child: ListView.builder(
-                      itemCount: cachedFibonacciList.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        print('cached Fib list');
-                        print(cachedFibonacciList[index].angleIncrement.value);
-                        return Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                currentFibonacci =    Fibonacci(
-                                  backgroundColour: cachedFibonacciList[index].backgroundColour,
-                                  petalType: cachedFibonacciList[index].petalType,
-                                  lineColour: cachedFibonacciList[index].lineColour,
-                                  randomColours: cachedFibonacciList[index].randomColours,
-                                  numberOfColours: cachedFibonacciList[index].numberOfColours,
-                                  paletteType: cachedFibonacciList[index].paletteType,
-                                  palette: cachedFibonacciList[index].palette,
-                                  aspectRatio: cachedFibonacciList[index].aspectRatio,
-                                  image: cachedFibonacciList[index].image,
-                                );
-                              });
-                            },
-                            child: Container(
-                                height: 50,
-                                width: 50,
-                                child: Image.file(
-                                    cachedFibonacciList[index].image)),
-                          ),
-                        );
-                      })),
           Flexible(
             flex: 7,
             child: widget.showSettings

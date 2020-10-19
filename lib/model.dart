@@ -12,6 +12,7 @@ class SettingsModelDouble {
   final double min;
   final double max;
   final double defaultValue;
+  final String type = 'Double';
 
   SettingsModelDouble({this.label, this.tooltip, this.icon, this.min, this.max, this.defaultValue, this.value});
 
@@ -32,6 +33,8 @@ class SettingsModelInt {
   final int min;
   final int max;
   final int defaultValue;
+  final String type = 'Int';
+
 
   SettingsModelInt({this.label, this.tooltip, this.icon, this.min, this.max, this.defaultValue, this.value});
 
@@ -51,6 +54,8 @@ class SettingsModelBool {
   final String falseLabel;
   final String trueLabel;
   final bool defaultValue;
+  final String type = 'Bool';
+
 
   SettingsModelBool({this.label, this.tooltip, this.icon, this.falseLabel, this.trueLabel, this.defaultValue, this.value});
 
@@ -70,6 +75,8 @@ class SettingsModelList {
   final String tooltip;
   final Icon icon;
   final String defaultValue;
+  final String type = 'List';
+
 
   SettingsModelList({this.options, this.label, this.tooltip, this.icon, this.defaultValue, this.value});
 

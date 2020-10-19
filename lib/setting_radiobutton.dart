@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 
 
-class settingsDropdown extends StatefulWidget {
+class settingsRadioButton extends StatefulWidget {
   String label;
   String tooltip;
-  String currentValue;
-  List<String> dropdownItems;
+  bool currentValue;
   bool locked;
   Function onChanged;
   Function toggleLock;
 
-  settingsDropdown(this.label, this.tooltip, this.currentValue, this.dropdownItems, this.locked, this.onChanged, this.toggleLock);
+  settingsRadioButton(this.label, this.tooltip, this.currentValue, this.locked, this.onChanged, this.toggleLock);
 
   @override
-  _settingsDropdownState createState() => _settingsDropdownState();
+  _settingsRadioButtonState createState() => _settingsRadioButtonState();
 }
 
-class _settingsDropdownState extends State<settingsDropdown> {
-  
-  
+class _settingsRadioButtonState extends State<settingsRadioButton> {
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -60,23 +58,14 @@ class _settingsDropdownState extends State<settingsDropdown> {
         Container(
           height: 50,
 
-            child: DropdownButton<String>(
+          child:   Switch(
               value: widget.currentValue,
-              onChanged: widget.locked ? null : widget.onChanged,
-              items: widget.dropdownItems
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-
-            )
+              onChanged: widget.locked ? null : widget.onChanged
+          ),
 
         ),
       ],
     );
-
 
   }
 }
