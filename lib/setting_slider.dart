@@ -67,7 +67,7 @@ class _settingsSliderState extends State<settingsSlider> {
             min: widget.min,
             max: widget.max,
             onChanged: widget.locked ? null : widget.onChanged,
-            label: '${widget.label}',
+            label: widget.currentValue.round().toString(),
           ),
         ),
       ],

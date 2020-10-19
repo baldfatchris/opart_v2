@@ -35,7 +35,6 @@ class SettingsModelInt {
   final int defaultValue;
   final String type = 'Int';
 
-
   SettingsModelInt({this.label, this.tooltip, this.icon, this.min, this.max, this.defaultValue, this.value});
 
   void randomise(Random rnd){
