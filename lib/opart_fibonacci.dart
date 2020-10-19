@@ -20,28 +20,36 @@ List Palettes = [
 class Fibonacci {
 
   // image settings
-  SettingsModelDouble angleIncrement;
-  SettingsModelDouble flowerFill;
-  SettingsModelDouble petalToRadius;
-  SettingsModelDouble ratio;
-  SettingsModelDouble randomiseAngle;
-  SettingsModelDouble petalPointiness;
-  SettingsModelDouble petalRotation;
-  SettingsModelDouble petalRotationRatio;
+  SettingsModelDouble angleIncrement = SettingsModelDouble(label: 'Angle Increment', tooltip: 'The angle in radians between successive petals of the flower', min: 0, max: 2*pi, defaultValue: (sqrt(5)+1)/2, icon: Icon(Icons.ac_unit));
+  SettingsModelDouble flowerFill = SettingsModelDouble(label: 'Zoom', tooltip: 'Zoom in and out', min: 0.3, max: 2, defaultValue: 1, icon: Icon(Icons.access_alarm));
+  SettingsModelDouble petalToRadius = SettingsModelDouble(label: 'Petal to Radius', tooltip: 'The size of the petal as a multiple of its distance from the centre', min: 0.01, max: 0.1, defaultValue: 0.03, icon: Icon(Icons.backup));
+  SettingsModelDouble ratio = SettingsModelDouble(label: 'Ratio', tooltip: 'The fill ratio of the flower', min: 0.995, max: 0.9999, defaultValue: 0.999, icon: Icon(Icons.adjust));
+  SettingsModelDouble randomiseAngle = SettingsModelDouble(label: 'Randomise Angle', tooltip: 'Randomise the petal position by moving it around the centre by a random angle up to this maximum', min: 0, max: 0.2, defaultValue: 0, icon: Icon(Icons.all_inclusive));
+  SettingsModelDouble petalPointiness = SettingsModelDouble(label: 'Petal Pointiness', tooltip: 'the pointiness of the petal', min: 0, max: pi, defaultValue: 0.8, icon: Icon(Icons.account_circle));
+  SettingsModelDouble petalRotation = SettingsModelDouble(label: 'Petal Rotation', tooltip: 'the rotation of the petal', min: 0, max: pi, defaultValue: 0, icon: Icon(Icons.all_out));
+  SettingsModelDouble petalRotationRatio = SettingsModelDouble(label: 'Rotation Ratio', tooltip: 'the rotation of the petal as multiple of the petal angle', min: 0, max: 4, defaultValue: 0, icon: Icon(Icons.autorenew));
+
   String petalType;
   int maxPetals;
-  SettingsModelDouble radialOscAmplitude;
-  SettingsModelDouble radialOscPeriod;
+
+  SettingsModelDouble radialOscAmplitude = SettingsModelDouble(label: 'Radial Oscillation', tooltip: 'The amplitude of the radial oscillation', min: 0, max: 5, defaultValue: 0, icon: Icon(Icons.bluetooth_audio));
+  SettingsModelDouble radialOscPeriod = SettingsModelDouble(label: 'Oscillation Period', tooltip: 'The period of the radial oscillation', min: 0, max: 2, defaultValue: 0, icon: Icon(Icons.bubble_chart));
+
   String direction;
 
 // palette settings
   Color backgroundColour;
   Color lineColour;
-  SettingsModelDouble lineWidth;
+
+  SettingsModelDouble lineWidth = SettingsModelDouble(label: 'Outline Width', tooltip: 'The width of the petal outline', min: 0, max: 3, defaultValue: 0, icon: Icon(Icons.line_weight));
+
   bool randomColours;
   int numberOfColours;
   String paletteType;
-  SettingsModelDouble opacity;
+
+  SettingsModelDouble opacity = SettingsModelDouble(label: 'Opactity', tooltip: 'The opactity of the petal', min: 0, max: 1, defaultValue: 1, icon: Icon(Icons.opacity));
+
+
   List palette;
   double aspectRatio;
   File image;
@@ -62,29 +70,17 @@ class Fibonacci {
 
   Fibonacci({
 
-        // image settings
-    this.angleIncrement  ,
-    this.flowerFill,
-    this.petalToRadius,
-    this.ratio,
-    this.randomiseAngle,
-    this.petalPointiness,
-    this.petalRotation,
-    this.petalRotationRatio,
+    // image settings
     this.petalType,
     this.maxPetals,
-    this.radialOscAmplitude,
-    this.radialOscPeriod,
     this.direction,
 
     // palette settings
     this.backgroundColour,
     this.lineColour,
-    this.lineWidth,
     this.randomColours,
     this.numberOfColours,
     this.paletteType,
-    this.opacity,
     this.palette,
     this.aspectRatio = pi/2,
     this.image,
@@ -119,7 +115,7 @@ class Fibonacci {
     // flowerFill 0.7 - 1.3
     this.flowerFill.randomise(random);
 
-    // petalToRadius - 0 01 to 0.1
+    // petalToRadius - 0 01 to 0.5
     this.petalToRadius.randomise(random);
 
     // ratio 0.995 - 0.99999
@@ -211,11 +207,10 @@ class Fibonacci {
     print('-----------------------------------------------------');
 
     rnd = Random(DateTime.now().millisecond);
-    double opacity = currentFibonacci.opacity.value;
 
     // lineColour
     if (this.lineColourLOCK == false) {
-      this.lineColour = Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity);
+      this.lineColour = Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1);
     }
 
     List palette = [];
@@ -225,7 +220,7 @@ class Fibonacci {
       case 'blended random':{
         double blendColour = rnd.nextDouble() * 0xFFFFFF;
         for (int colourIndex = 0; colourIndex < this.numberOfColours; colourIndex++){
-          palette.add(Color(((blendColour + rnd.nextDouble() * 0xFFFFFF)/2).toInt()).withOpacity(opacity));
+          palette.add(Color(((blendColour + rnd.nextDouble() * 0xFFFFFF)/2).toInt()).withOpacity(1));
         }
       }
       break;
@@ -239,7 +234,7 @@ class Fibonacci {
               ((startColour[0]*colourIndex + endColour[0]*(this.numberOfColours-colourIndex))/this.numberOfColours).round(),
               ((startColour[1]*colourIndex + endColour[1]*(this.numberOfColours-colourIndex))/this.numberOfColours).round(),
               ((startColour[2]*colourIndex + endColour[2]*(this.numberOfColours-colourIndex))/this.numberOfColours).round(),
-              opacity));
+              1));
         }
       }
       break;
@@ -253,7 +248,7 @@ class Fibonacci {
               ((startColour[0]*colourIndex + endColour[0]*(this.numberOfColours-colourIndex))/this.numberOfColours).round(),
               ((startColour[1]*colourIndex + endColour[1]*(this.numberOfColours-colourIndex))/this.numberOfColours).round(),
               ((startColour[2]*colourIndex + endColour[2]*(this.numberOfColours-colourIndex))/this.numberOfColours).round(),
-              opacity));
+              1));
         }
       }
       break;
@@ -261,7 +256,7 @@ class Fibonacci {
     // random
       default: {
         for (int colorIndex = 0; colorIndex < this.numberOfColours; colorIndex++){
-          palette.add(Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity));
+          palette.add(Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1));
         }
       }
       break;
@@ -274,43 +269,19 @@ class Fibonacci {
   void defaultSettings() {
     // resets to default settings
 
-    this.angleIncrement = SettingsModelDouble(label: 'Angle Increment', tooltip: 'The angle in radians between successive petals of the flower', min: 0, max: 2*pi, defaultValue: (sqrt(5)+1)/2, icon: Icon(Icons.ac_unit));
     this.angleIncrement.value = this.angleIncrement.defaultValue;
-
-    this.flowerFill = SettingsModelDouble(label: 'Zoom', tooltip: 'Zoom in and out', min: 0.3, max: 2, defaultValue: 1, icon: Icon(Icons.access_alarm));
     this.flowerFill.value = this.flowerFill.defaultValue;
-
-    this.petalToRadius = SettingsModelDouble(label: 'Petal to Radius', tooltip: 'The size of the petal as a multiple of its distance from the centre', min: 0.01, max: 0.1, defaultValue: 0.03, icon: Icon(Icons.backup));
     this.petalToRadius.value = this.petalToRadius.defaultValue;
-
-    this.ratio = SettingsModelDouble(label: 'Ratio', tooltip: 'The fill ratio of the flower', min: 0.995, max: 0.9999, defaultValue: 0.999, icon: Icon(Icons.adjust));
     this.ratio.value = this.ratio.defaultValue;
-
-    // randomiseAngle 0 to 0.2
-    this.randomiseAngle = SettingsModelDouble(label: 'Randomise Angle', tooltip: 'Randomise the petal position by moving it around the centre by a random angle up to this maximum', min: 0, max: 0.2, defaultValue: 0, icon: Icon(Icons.all_inclusive));
     this.randomiseAngle.value = this.randomiseAngle.defaultValue;
-
-    // petalPointiness: 0 to pi
-    this.petalPointiness = SettingsModelDouble(label: 'Petal Pointiness', tooltip: 'the pointiness of the petal', min: 0, max: pi, defaultValue: 0.8, icon: Icon(Icons.account_circle));
     this.petalPointiness.value = this.petalPointiness.defaultValue;
-
-    // petalRotation: 0 to pi
-    this.petalRotation = SettingsModelDouble(label: 'Petal Rotation', tooltip: 'the rotation of the petal', min: 0, max: pi, defaultValue: 0, icon: Icon(Icons.all_out));
     this.petalRotation.value = this.petalRotation.defaultValue;
-
-    // petalRotationRatio 0 to 4
-    this.petalRotationRatio = SettingsModelDouble(label: 'Rotation Ratio', tooltip: 'the rotation of the petal as multiple of the petal angle', min: 0, max: 4, defaultValue: 0, icon: Icon(Icons.autorenew));
     this.petalRotationRatio.value = this.petalRotationRatio.defaultValue;
 
     this.petalType = 'circle';
     this.maxPetals = 10000;
 
-    // radialOscAmplitude 0 to 5
-    this.radialOscAmplitude = SettingsModelDouble(label: 'Radial Oscillation', tooltip: 'The amplitude of the radial oscillation', min: 0, max: 5, defaultValue: 0, icon: Icon(Icons.bluetooth_audio));
     this.radialOscAmplitude.value = this.radialOscAmplitude.defaultValue;
-
-    // radialOscPeriod 0 to 2
-    this.radialOscPeriod = SettingsModelDouble(label: 'Oscillation Period', tooltip: 'The period of the radial oscillation', min: 0, max: 2, defaultValue: 0, icon: Icon(Icons.bubble_chart));
     this.radialOscPeriod.value = this.radialOscPeriod.defaultValue;
 
     this.direction = 'inward';
@@ -319,16 +290,12 @@ class Fibonacci {
     this.backgroundColour = Colors.white;
     this.lineColour = Colors.white;
 
-    // lineWidth 0 to 3
-    this.lineWidth = SettingsModelDouble(label: 'Outline Width', tooltip: 'The width of the petal outline', min: 0, max: 3, defaultValue: 0, icon: Icon(Icons.line_weight));
     this.lineWidth.value = this.lineWidth.defaultValue;
 
     this.randomColours = false;
     this.numberOfColours = 6;
     this.paletteType = 'random';
 
-    // opacity 0.6 to 1
-    this.opacity = SettingsModelDouble(label: 'Opactity', tooltip: 'The opactity of the petal', min: 0.6, max: 1, defaultValue: 1, icon: Icon(Icons.opacity));
     this.opacity.value = this.opacity.defaultValue;
 
     this.palette = [Color(0xFF34a1af), Color(0xFFa570a8), Color(0xFFd6aa27), Color(0xFF5f9d50), Color(0xFF789dd1), Color(0xFFc25666), Color(0xFF2b7b1), Color(0xFFd63aa), Color(0xFF1f4ed), Color(0xFF383c47)];
@@ -343,11 +310,6 @@ class Fibonacci {
     this.randomColoursLOCK = false;
     this.numberOfColoursLOCK = false;
     this.paletteTypeLOCK = false;
-
-    // opacity 0.6 to 1
-    this.opacity = SettingsModelDouble(label: 'Opactity', tooltip: 'The opactity of the petal', min: 0.6, max: 1, defaultValue: 1, icon: Icon(Icons.opacity));
-    this.opacity.value = this.opacity.defaultValue;
-
     this.paletteLOCK = false;
     this.aspectRatioLOCK = false;
 
@@ -1000,9 +962,11 @@ class OpArtFibonacciPainter extends CustomPainter {
         if (currentRandomColours) {
           nextColour = currentPalette[rnd.nextInt(currentNumberOfColours)];
         }
+        Color petalColor = nextColour.withOpacity(currentOpacity);
+
 
         print('P0: $P0');
-        drawPetal(canvas, P0, angle, radius, nextColour,
+        drawPetal(canvas, P0, angle, radius, petalColor,
           currentAngleIncrement,
           currentFlowerFill,
           currentPetalToRadius,
@@ -1048,8 +1012,10 @@ class OpArtFibonacciPainter extends CustomPainter {
         if (currentRandomColours) {
           nextColour = currentPalette[rnd.nextInt(currentNumberOfColours)];
         }
+        Color petalColor = nextColour.withOpacity(currentOpacity);
 
-        drawPetal(canvas, P0, angle, radius, nextColour,
+
+        drawPetal(canvas, P0, angle, radius, petalColor,
           currentAngleIncrement,
           currentFlowerFill,
           currentPetalToRadius,
@@ -1135,8 +1101,12 @@ class OpArtFibonacciPainter extends CustomPainter {
         var petalRadius = radius * currentPetalToRadius;
 
         canvas.drawCircle(Offset(P1[0], P1[1]), petalRadius, Paint() ..style = PaintingStyle.fill ..color = colour);
-        canvas.drawCircle(Offset(P1[0], P1[1]), petalRadius, Paint() ..style = PaintingStyle.stroke ..strokeWidth = currentLineWidth ..color = currentLineColour);
-
+        if (currentLineWidth>0) {
+          canvas.drawCircle(Offset(P1[0], P1[1]), petalRadius, Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = currentLineWidth
+            ..color = currentLineColour);
+        }
         break;
 
 
@@ -1158,15 +1128,16 @@ class OpArtFibonacciPainter extends CustomPainter {
         canvas.drawPath(
             triangle,
             Paint()
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = currentLineWidth
-              ..color = currentLineColour);
-        canvas.drawPath(
-            triangle,
-            Paint()
               ..style = PaintingStyle.fill
               ..color = colour);
-
+        if (currentLineWidth>0) {
+          canvas.drawPath(
+              triangle,
+              Paint()
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = currentLineWidth
+                ..color = currentLineColour);
+        }
         break;
 
       case 'square': // "square":
@@ -1189,15 +1160,16 @@ class OpArtFibonacciPainter extends CustomPainter {
         canvas.drawPath(
             square,
             Paint()
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = currentLineWidth
-              ..color = currentLineColour);
-        canvas.drawPath(
-            square,
-            Paint()
               ..style = PaintingStyle.fill
               ..color = colour);
-
+        if (currentLineWidth>0) {
+          canvas.drawPath(
+              square,
+              Paint()
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = currentLineWidth
+                ..color = currentLineColour);
+        }
         break;
 
       case 'petal': //"petal":
@@ -1210,16 +1182,19 @@ class OpArtFibonacciPainter extends CustomPainter {
       List PC = [P1[0] + petalRadius * cos(angle + currentPetalRotation + angle*currentPetalRotationRatio + pi * 1.0), P1[1] + petalRadius * sin(angle + currentPetalRotation + angle*currentPetalRotationRatio + pi * 1.0)];
       List PD = [P1[0] + petalRadius * cos(angle + currentPetalRotation + angle*currentPetalRotationRatio + pi * 1.5), P1[1] + petalRadius * sin(angle + currentPetalRotation + angle*currentPetalRotationRatio + pi * 1.5)];
 
-      canvas.drawArc(
-          Offset(PB[0]-petalRadius*2, PB[1]-petalRadius*2) & Size(petalRadius*4, petalRadius*4),
-          angle + currentPetalRotation + angle*currentPetalRotationRatio + pi * (0.5 + 2/3),
-          pi * 2/3,
-          false,
-          Paint()
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = currentLineWidth
-            ..color = currentLineColour);
-
+      if (currentLineWidth>0) {
+        canvas.drawArc(
+            Offset(PB[0] - petalRadius * 2, PB[1] - petalRadius * 2) & Size(
+                petalRadius * 4, petalRadius * 4),
+            angle + currentPetalRotation + angle * currentPetalRotationRatio +
+                pi * (0.5 + 2 / 3),
+            pi * 2 / 3,
+            false,
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = currentLineWidth
+              ..color = currentLineColour);
+      }
       canvas.drawArc(
           Offset(PB[0]-petalRadius*2, PB[1]-petalRadius*2) & Size(petalRadius*4, petalRadius*4),
           angle + currentPetalRotation + angle*currentPetalRotationRatio + pi * (0.5 + 2/3),
@@ -1229,16 +1204,19 @@ class OpArtFibonacciPainter extends CustomPainter {
             ..style = PaintingStyle.fill
             ..color = colour);
 
-      canvas.drawArc(
-          Offset(PD[0]-petalRadius*2, PD[1]-petalRadius*2) & Size(petalRadius*4, petalRadius*4),
-          angle + currentPetalRotation + angle*currentPetalRotationRatio + pi * (1.5 + 2/3),
-          pi * 2/3,
-          false,
-          Paint()
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = currentLineWidth
-            ..color = currentLineColour);
-
+      if (currentLineWidth>0) {
+        canvas.drawArc(
+            Offset(PD[0] - petalRadius * 2, PD[1] - petalRadius * 2) & Size(
+                petalRadius * 4, petalRadius * 4),
+            angle + currentPetalRotation + angle * currentPetalRotationRatio +
+                pi * (1.5 + 2 / 3),
+            pi * 2 / 3,
+            false,
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = currentLineWidth
+              ..color = currentLineColour);
+      }
       canvas.drawArc(
           Offset(PD[0]-petalRadius*2, PD[1]-petalRadius*2) & Size(petalRadius*4, petalRadius*4),
           angle + currentPetalRotation + angle*currentPetalRotationRatio + pi * (1.5 + 2/3),

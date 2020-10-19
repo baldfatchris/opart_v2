@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class SettingsModelDouble {
   double value;
-  bool locked;
+  bool locked = false;
   final String label;
   final String tooltip;
   final Icon icon;
@@ -13,7 +13,7 @@ class SettingsModelDouble {
   final double max;
   final double defaultValue;
 
-  SettingsModelDouble({this.label, this.tooltip, this.icon, this.min, this.max, this.defaultValue, this.value, this.locked = false});
+  SettingsModelDouble({this.label, this.tooltip, this.icon, this.min, this.max, this.defaultValue, this.value});
 
 
 
