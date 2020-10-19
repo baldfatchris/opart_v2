@@ -672,7 +672,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
 
     void _showBottomSheetSettings(context, int index) {
       showModalBottomSheet(
-          backgroundColor: Colors.white.withOpacity(0.3),
+          backgroundColor: Colors.white.withOpacity(0.8),
           barrierColor: Colors.white.withOpacity(0.1),
           context: context,
           builder: (BuildContext bc) {
@@ -681,9 +681,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
               return Column(
                 children: <Widget>[
                   Container(
-
                     height: 200,
-
                     child:
                     (settingsList[index].type == 'Double') ?
 
@@ -748,8 +746,6 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                       },
 
                     )
-
-
 
 
                   ),
