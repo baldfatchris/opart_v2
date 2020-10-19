@@ -1,169 +1,284 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dart:io';
+
 import 'package:screenshot/screenshot.dart';
 import 'package:shake/shake.dart';
+import 'package:opart_v2/setting_slider.dart';
+import 'package:opart_v2/setting_intslider.dart';
+import 'package:opart_v2/setting_dropdown.dart';
+import 'package:opart_v2/setting_radiobutton.dart';
+import 'model.dart';
 
 Random rnd;
-List palette;
 
 // Settings
-double aspectRatio = pi/2;
-bool aspectRatioLOCK = false;
+Wave currentWave;
 
-double stepX = 10;
-bool stepXLOCK = false;
+List Palettes = [
+  ['default',10,Color(0xFFffffff),[Color(0xFF34a1af),Color(0xFFa570a8),Color(0xFFd6aa27),Color(0xFF5f9d50),Color(0xFF789dd1),Color(0xFFc25666), Color(0xFF2b7b1),Color(0xFFd63aa),Color(0xFF1f4ed),Color(0xFF383c47)]]
+];
 
-double stepY = 0.1;
-bool stepYLOCK = false;
+class Wave {
+  // image settings
 
-double frequency = 1;
-bool frequencyLOCK = false;
 
-double amplitude = 100;
-bool amplitudeLOCK = false;
 
+  SettingsModelDouble stepX = SettingsModelDouble(label: 'stepX',tooltip: 'The horizontal width of each stripe ', min: 0.01, max: 50, defaultValue: 10, icon: Icon(Icons.ac_unit));
+  SettingsModelDouble stepY = SettingsModelDouble(label: 'stepY',tooltip: 'The vertical distance between points on each stripe ',min: 0.01,max: 50, defaultValue: 0.1, icon: Icon(Icons.bluetooth_audio));
+  SettingsModelDouble frequency = SettingsModelDouble(label: 'frequency',tooltip: 'The frequency of the wave ', min: 0, max: 5, defaultValue: 1, icon: Icon(Icons.smoke_free));
+  SettingsModelDouble amplitude = SettingsModelDouble(label: 'amplitude',tooltip: 'The amplitude of the wave ', min: 0, max: 500, defaultValue: 100, icon: Icon(Icons.weekend));
 
 // palette settings
-Color backgroundColor = Colors.grey;
+  Color backgroundColour;
 
-bool randomColours = false;
-bool randomColoursLOCK = false;
+  SettingsModelBool randomColours = SettingsModelBool(label: 'Random Colours', tooltip: 'Randomise the coloursl', defaultValue: false, icon: Icon(Icons.gamepad));
+  SettingsModelInt numberOfColours = SettingsModelInt(label: 'Number of Colours',tooltip: 'The number of colours in the palette', min: 2, max: 36, defaultValue: 10, icon: Icon(Icons.book));
+  SettingsModelList paletteType = SettingsModelList(label: "Palette Type", tooltip: "The nature of the palette", defaultValue: "random", icon: Icon(Icons.colorize), options: ['random', 'blended random ', 'linear random', 'linear complementary'],);
+  SettingsModelDouble opacity = SettingsModelDouble(label: 'Opactity', tooltip: 'The opactity of the petal', min: 0, max: 1, defaultValue: 1, icon: Icon(Icons.opacity));
 
-int numberOfColours = 12;
-bool numberOfColoursLOCK = false;
+  List palette;
+  double aspectRatio;
+  File image;
 
-int paletteType = 2;
-bool paletteTypeLOCK = false;
+// lock settings
+  bool backgroundColourLOCK = false;
+  bool paletteLOCK = false;
+  bool aspectRatioLOCK = false;
 
-double opacity = 1;
-bool opacityLOCK = false;
+  Random random;
 
-randomisePalette(int numberOfColours, int paletteType){
-  print('numberOfColours: $numberOfColours paletteType: $paletteType');
+  Wave({
+    this.backgroundColour,
+    this.palette,
 
-  rnd = Random(DateTime.now().millisecond);
+    this.aspectRatio = pi / 2,
+    this.image,
+    this.backgroundColourLOCK = false,
+    this.paletteLOCK = false,
+    this.aspectRatioLOCK = false,
+    this.random,
+  });
 
+  void randomize() {
+    print('-----------------------------------------------------');
+    print('randomize');
+    print('-----------------------------------------------------');
 
-  List palette = [];
-  switch(paletteType){
+    this.stepX.randomise(random);
+    this.stepY.randomise(random);
+    this.frequency.randomise(random);
+    this.amplitude.randomise(random);
 
-  // blended random
-    case 1:{
-      double blendColour = rnd.nextDouble() * 0xFFFFFF;
-      for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
-        palette.add(Color(((blendColour + rnd.nextDouble() * 0xFFFFFF)/2).toInt()).withOpacity(opacity));
-      }
+    // backgroundColour
+    if (this.backgroundColourLOCK == false) {
+      this.backgroundColour = Color((random.nextDouble() * 0xFFFFFF).toInt());
     }
-    break;
 
-  // linear random
-    case 2:{
-      List startColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
-      List endColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
-      for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
-        palette.add(Color.fromRGBO(
-            ((startColour[0]*colourIndex + endColour[0]*(numberOfColours-colourIndex))/numberOfColours).round(),
-            ((startColour[1]*colourIndex + endColour[1]*(numberOfColours-colourIndex))/numberOfColours).round(),
-            ((startColour[2]*colourIndex + endColour[2]*(numberOfColours-colourIndex))/numberOfColours).round(),
-            opacity));
-      }
-    }
-    break;
+    this.randomColours.randomise(random);
+    this.numberOfColours.randomise(random);
+    this.paletteType.randomise(random);
+    this.opacity.randomise(random);
 
-  // linear complementary
-    case 3:{
-      List startColour = [rnd.nextInt(255),rnd.nextInt(255),rnd.nextInt(255)];
-      List endColour = [255-startColour[0],255-startColour[1],255-startColour[2]];
-      for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++){
-        palette.add(Color.fromRGBO(
-            ((startColour[0]*colourIndex + endColour[0]*(numberOfColours-colourIndex))/numberOfColours).round(),
-            ((startColour[1]*colourIndex + endColour[1]*(numberOfColours-colourIndex))/numberOfColours).round(),
-            ((startColour[2]*colourIndex + endColour[2]*(numberOfColours-colourIndex))/numberOfColours).round(),
-            opacity));
-      }
+    if (this.aspectRatioLOCK == false) {
+      // this.aspectRatio = random.nextDouble() + 0.5;
+      // if (random.nextBool()){
+      this.aspectRatio = pi / 2;
+      // }
     }
-    break;
-
-  // random
-    default: {
-      for (int colorIndex = 0; colorIndex < numberOfColours; colorIndex++){
-        palette.add(Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(opacity));
-      }
-    }
-    break;
 
   }
-  return palette;
+
+  void randomizePalette() {
+    print('-----------------------------------------------------');
+    print('randomizePalette');
+    print('-----------------------------------------------------');
+
+    rnd = Random(DateTime.now().millisecond);
+
+
+    List palette = [];
+    switch (this.paletteType.value) {
+
+    // blended random
+      case 'blended random':
+        {
+          double blendColour = rnd.nextDouble() * 0xFFFFFF;
+          for (int colourIndex = 0;
+          colourIndex < this.numberOfColours.value;
+          colourIndex++) {
+            palette.add(
+                Color(((blendColour + rnd.nextDouble() * 0xFFFFFF) / 2).toInt())
+                    .withOpacity(1));
+          }
+        }
+        break;
+
+    // linear random
+      case 'linear random':
+        {
+          List startColour = [
+            rnd.nextInt(255),
+            rnd.nextInt(255),
+            rnd.nextInt(255)
+          ];
+          List endColour = [
+            rnd.nextInt(255),
+            rnd.nextInt(255),
+            rnd.nextInt(255)
+          ];
+          for (int colourIndex = 0;
+          colourIndex < this.numberOfColours.value;
+          colourIndex++) {
+            palette.add(Color.fromRGBO(
+                ((startColour[0] * colourIndex +
+                    endColour[0] *
+                        (this.numberOfColours.value - colourIndex)) /
+                    this.numberOfColours.value)
+                    .round(),
+                ((startColour[1] * colourIndex +
+                    endColour[1] *
+                        (this.numberOfColours.value - colourIndex)) /
+                    this.numberOfColours)
+                    .round(),
+                ((startColour[2] * colourIndex +
+                    endColour[2] *
+                        (this.numberOfColours.value - colourIndex)) /
+                    this.numberOfColours.value)
+                    .round(),
+                1));
+          }
+        }
+        break;
+
+    // linear complementary
+      case 'linear complementary':
+        {
+          List startColour = [
+            rnd.nextInt(255),
+            rnd.nextInt(255),
+            rnd.nextInt(255)
+          ];
+          List endColour = [
+            255 - startColour[0],
+            255 - startColour[1],
+            255 - startColour[2]
+          ];
+          for (int colourIndex = 0;
+          colourIndex < this.numberOfColours.value;
+          colourIndex++) {
+            palette.add(Color.fromRGBO(
+                ((startColour[0] * colourIndex +
+                    endColour[0] *
+                        (this.numberOfColours.value - colourIndex)) /
+                    this.numberOfColours)
+                    .round(),
+                ((startColour[1] * colourIndex +
+                    endColour[1] *
+                        (this.numberOfColours.value - colourIndex)) /
+                    this.numberOfColours.value)
+                    .round(),
+                ((startColour[2] * colourIndex +
+                    endColour[2] *
+                        (this.numberOfColours.value - colourIndex)) /
+                    this.numberOfColours.value)
+                    .round(),
+                1));
+          }
+        }
+        break;
+
+    // random
+      default:
+        {
+          for (int colorIndex = 0;
+          colorIndex < this.numberOfColours.value;
+          colorIndex++) {
+            palette.add(
+                Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1));
+          }
+        }
+        break;
+    }
+
+    this.palette = palette;
+  }
+
+  void defaultSettings() {
+    // resets to default settings
+
+    this.stepX.value = this.stepX.defaultValue;
+    this.stepY.value = this.stepY.defaultValue;
+    this.frequency.value = this.frequency.defaultValue;
+    this.amplitude.value = this.amplitude.defaultValue;
+
+    // palette settings
+    this.backgroundColour = Colors.white;
+
+    this.randomColours.value = this.randomColours.defaultValue;
+
+    this.numberOfColours.value = this.numberOfColours.defaultValue;
+    this.paletteType.value = this.paletteType.defaultValue;
+
+    this.opacity.value = this.opacity.defaultValue;
+
+    this.palette = [
+      Color(0xFF34a1af),
+      Color(0xFFa570a8),
+      Color(0xFFd6aa27),
+      Color(0xFF5f9d50),
+      Color(0xFF789dd1),
+      Color(0xFFc25666),
+      Color(0xFF2b7b1),
+      Color(0xFFd63aa),
+      Color(0xFF1f4ed),
+      Color(0xFF383c47)
+    ];
+    this.aspectRatio = pi / 2;
+    this.image;
+
+
+    this.backgroundColourLOCK = false;
+    this.paletteLOCK = false;
+    this.aspectRatioLOCK = false;
+  }
 }
 
-randomiseSettings() {
-
-  // aspectRatioLOCK 0.5 to 1.5 - or pi/2 to set to the aspect ratio of the device
-  if (aspectRatioLOCK == false) {
-    aspectRatio = rnd.nextDouble() + 0.5;
-    if (rnd.nextBool()){
-      aspectRatio=pi/2;
-    }
-  }
-  
-  // stepX 1 - 30 
-  if (stepXLOCK == false) {
-    stepX = rnd.nextDouble()*29+1;
-  }
-
-  // stepY 0.01 - 100 
-  if (stepYLOCK == false) {
-    stepY = rnd.nextDouble() * 99.99 + 0.01;
-  }
-
-  // frequency - 0 3
-  if (frequencyLOCK == false) {
-    frequency = rnd.nextDouble() * 3;
-  }
-
-  // amplitude 0 - 200
-  if (amplitudeLOCK == false) {
-    amplitude = rnd.nextDouble() * 200;
-  }
-  
-  // numberOfColours 2 to 36
-  if (numberOfColoursLOCK == false) {
-    numberOfColours = rnd.nextInt(34) + 2;
-  }
-  
-  // randomColours 
-  if (randomColoursLOCK == false) {
-    randomColours = rnd.nextBool();
-  }
-
-  // paletteType 0 to 3
-  if (paletteTypeLOCK == false) {
-    paletteType = rnd.nextInt(4);
-  }
-}
-
-
-
+List settingsList = [
+  currentWave.stepX,
+  currentWave.stepX,
+  currentWave.frequency,
+  currentWave.amplitude,
+  currentWave.paletteType,
+  currentWave.numberOfColours,
+  currentWave.opacity,
+  currentWave.randomColours,
+];
 
 class OpArtWaveStudio extends StatefulWidget {
-
   int seed;
   bool showSettings;
   ScreenshotController screenshotController;
-  OpArtWaveStudio(this.seed, this.showSettings, {this.screenshotController});
+
+  OpArtWaveStudio(this.seed, this.showSettings,
+      {this.screenshotController});
 
   @override
   _OpArtWaveStudioState createState() => _OpArtWaveStudioState();
 }
 
-
-
-
-class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
+class _OpArtWaveStudioState extends State<OpArtWaveStudio>
+    with TickerProviderStateMixin {
   int _counter = 0;
   File _imageFile;
+  ScreenshotController screenshotController = ScreenshotController();
   int _currentColor = 0;
+
+  // Animation<double> animation1;
+  // AnimationController controller1;
+
+  // Animation<double> animation2;
+  // AnimationController controller2;
 
   Widget settingsWidget() {
     return ListView(
@@ -181,25 +296,23 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-
             // Randomise Palette
             Flexible(
               flex: 1,
               child: FloatingActionButton.extended(
                 label: Text('Randomise Palette'),
                 icon: Icon(Icons.palette),
-                //backgroundColor: Colors.pink,
+                //backgroundColour: Colors.pink,
 
-                onPressed:() {
+                onPressed: () {
                   setState(() {
-
-                    print('Randomise Palette');
-                    palette = randomisePalette(numberOfColours, paletteType);
-
+                    print('Randomise Palette Button Pressed');
+                    currentWave.randomizePalette();
                   });
                 },
               ),
             ),
+
             SizedBox(
               width: 10,
             ),
@@ -209,323 +322,12 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
               flex: 1,
               child: FloatingActionButton.extended(
                 label: Text('Randomise All'),
-
                 icon: Icon(Icons.refresh),
-
-                onPressed:() {
+                onPressed: () {
                   setState(() {
-
                     print('Randomise All');
-                    randomiseSettings();
-                    palette = randomisePalette(numberOfColours, paletteType);
-
-                  });
-                },
-              ),
-            ),
-
-          ],
-        ),
-
-        // aspectRatio
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-                flex: 1,
-                child: GestureDetector(
-                  onLongPress: (){
-                    setState(() {
-                      // toggle lock
-                      if (aspectRatioLOCK){
-                        aspectRatioLOCK=false;
-                      } else {
-                        aspectRatioLOCK=true;
-                      }
-                    });
-                  },
-                    child: Row(
-                      children:[
-                        Text(
-                          'aspectRatio:',
-                          style: aspectRatioLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Icon(
-                            aspectRatioLOCK ? Icons.lock : Icons.lock_open,
-                            size: 20,
-                            color: aspectRatioLOCK ? Colors.grey : Colors.black,
-                        ),
-                      ],
-                    )
-                )
-            ),
-            Flexible(
-              flex: 2,
-              child: Slider(
-                value: aspectRatio,
-                min: 0.5,
-                max: 2,
-                onChanged: aspectRatioLOCK ? null : (value) {
-                  setState(() {
-                    aspectRatio  = value;
-                  });
-                },
-                label: '$aspectRatio ',
-              ),
-            ),
-          ],
-        ),
-
-
-        // stepX
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-                flex: 1,
-                child: GestureDetector(
-                    onLongPress: (){
-                      setState(() {
-                        // toggle lock
-                        if (stepXLOCK){
-                          stepXLOCK=false;
-                          print('stepX UNLOCK');
-                        } else {
-                          stepXLOCK=true;
-                          print('stepX LOCK');
-                        }
-                      });
-                    },
-                    child: Row(
-                      children:[
-                        Text(
-                          'stepX:',
-                          style: stepXLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Icon(
-                          stepXLOCK ? Icons.lock : Icons.lock_open,
-                          size: 20,
-                          color: stepXLOCK ? Colors.grey : Colors.black,
-                        ),
-                      ],
-                    )
-                )
-            ),
-            Flexible(
-              flex: 2,
-              child: Slider(
-                value: stepX,
-                min: 1,
-                max: 30,
-                onChanged: stepXLOCK ? null : (value) {
-                  setState(() {
-                    stepX  = value;
-                  });
-                },
-                label: '$stepX ',
-              ),
-            ),
-          ],
-        ),
-
-        // stepY
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-                flex: 1,
-                child: GestureDetector(
-                    onLongPress: (){
-                      setState(() {
-                        // toggle lock
-                        if (stepYLOCK){
-                          stepYLOCK=false;
-                          print('stepY UNLOCK');
-                        } else {
-                          stepYLOCK=true;
-                          print('stepY LOCK');
-                        }
-                      });
-                    },
-                    child: Row(
-                      children:[
-                        Text(
-                          'stepY:',
-                          style: stepYLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Icon(
-                          stepYLOCK ? Icons.lock : Icons.lock_open,
-                          size: 20,
-                          color: stepYLOCK ? Colors.grey : Colors.black,
-                        ),
-                      ],
-                    )
-                )
-            ),
-            Flexible(
-              flex: 2,
-              child: Slider(
-                value: stepY,
-                min: 0.01,
-                max: 100,
-                onChanged: stepYLOCK ? null : (value) {
-                  setState(() {
-                    stepY  = value;
-                  });
-                },
-                label: '$stepY ',
-              ),
-            ),
-          ],
-        ),
-
-        // frequency
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-                flex: 1,
-                child: GestureDetector(
-                    onLongPress: (){
-                      setState(() {
-                        // toggle lock
-                        if (frequencyLOCK){
-                          frequencyLOCK=false;
-                          print('frequency UNLOCK');
-                        } else {
-                          frequencyLOCK=true;
-                          print('frequency LOCK');
-                        }
-                      });
-                    },
-                    child: Row(
-                      children:[
-                        Text(
-                          'frequency:',
-                          style: frequencyLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Icon(
-                          frequencyLOCK ? Icons.lock : Icons.lock_open,
-                          size: 20,
-                          color: frequencyLOCK ? Colors.grey : Colors.black,
-                        ),
-                      ],
-                    )
-                )
-            ),
-            Flexible(
-              flex: 2,
-              child: Slider(
-                value: frequency,
-                min: 0,
-                max: 3,
-                onChanged: frequencyLOCK ? null : (value) {
-                  setState(() {
-                    frequency  = value;
-                  });
-                },
-                label: '$frequency ',
-              ),
-            ),
-          ],
-        ),
-
-        // amplitude
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-                flex: 1,
-                child: GestureDetector(
-                    onLongPress: (){
-                      setState(() {
-                        // toggle lock
-                        if (amplitudeLOCK){
-                          amplitudeLOCK=false;
-                          print('amplitude UNLOCK');
-                        } else {
-                          amplitudeLOCK=true;
-                          print('amplitude LOCK');
-                        }
-                      });
-                    },
-                    child: Row(
-                      children:[
-                        Text(
-                          'amplitude:',
-                          style: amplitudeLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Icon(
-                          amplitudeLOCK ? Icons.lock : Icons.lock_open,
-                          size: 20,
-                          color: amplitudeLOCK ? Colors.grey : Colors.black,
-                        ),
-                      ],
-                    )
-                ),
-            ),
-            Flexible(
-              flex: 2,
-              child: Slider(
-                value: amplitude,
-                min: 0,
-                max: 200,
-                onChanged: amplitudeLOCK ? null : (value) {
-                  setState(() {
-                    amplitude  = value;
-                  });
-                },
-                label: '$amplitude ',
-              ),
-            ),
-          ],
-        ),
-
-
-        // numberOfColours
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-                flex:1,
-              child: GestureDetector(
-                  onLongPress: (){
-                    setState(() {
-                      // toggle lock
-                      if (numberOfColoursLOCK){
-                        numberOfColoursLOCK=false;
-                      } else {
-                        numberOfColoursLOCK=true;
-                      }
-                    });
-                  },
-                  child: Row(
-                    children:[
-                      Text(
-                        '# colours:',
-                        style: numberOfColoursLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Icon(
-                        numberOfColoursLOCK ? Icons.lock : Icons.lock_open,
-                        size: 20,
-                        color: numberOfColoursLOCK ? Colors.grey : Colors.black,
-                      ),
-                    ],
-                  )
-              ),
-            ),
-            Flexible(
-              flex:2,
-              child: Slider(
-                value: numberOfColours.toDouble(),
-                min: 2,
-                max: 36,
-                onChanged: numberOfColoursLOCK ? null : (value) {
-                  setState(() {
-                    if (numberOfColours<value){
-                      palette = randomisePalette(value.toInt(), paletteType);
-                    }
-                    numberOfColours  = value.toInt();
+                    currentWave.randomize();
+                    currentWave.randomizePalette();
                   });
                 },
               ),
@@ -533,122 +335,6 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
           ],
         ),
 
-        // randomColours
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-                flex:1,
-              child: GestureDetector(
-                  onLongPress: (){
-                    setState(() {
-                      // toggle lock
-                      if (randomColoursLOCK){
-                        randomColoursLOCK=false;
-                        print('randomColours UNLOCK');
-                      } else {
-                        randomColoursLOCK=true;
-                        print('randomColours LOCK');
-                      }
-                    });
-                  },
-                  child: Row(
-                    children:[
-                      Text(
-                        'randomColours:',
-                        style: randomColoursLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Icon(
-                        randomColoursLOCK ? Icons.lock : Icons.lock_open,
-                        size: 20,
-                        color: randomColoursLOCK ? Colors.grey : Colors.black,
-                      ),
-                    ],
-                  )
-              ),
-            ),
-            Flexible(
-              flex:2,
-              child: Switch(
-                value: randomColours,
-                onChanged: randomColoursLOCK ? null : (value) {
-                  setState(() {
-                    randomColours  = value;
-                  });
-                },
-              ),
-            ),
-
-          ],
-        ),
-
-        // paletteType
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-                flex:1,
-              child: GestureDetector(
-                  onLongPress: (){
-                    setState(() {
-                      // toggle lock
-                      if (paletteTypeLOCK){
-                        paletteTypeLOCK=false;
-                        print('paletteType UNLOCK');
-                      } else {
-                        paletteTypeLOCK=true;
-                        print('paletteType LOCK');
-                      }
-                    });
-                  },
-                  child: Row(
-                    children:[
-                      Text(
-                        'paletteType:',
-                        style: paletteTypeLOCK ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Icon(
-                        paletteTypeLOCK ? Icons.lock : Icons.lock_open,
-                        size: 20,
-                        color: paletteTypeLOCK ? Colors.grey : Colors.black,
-                      ),
-                    ],
-                  )
-              ),
-            ),
-            Flexible(
-              flex:2,
-              child: DropdownButton(
-                value: paletteType,
-                items: [
-                  DropdownMenuItem(
-                    child: Text("random"),
-                    value: 0,
-                  ),
-                  DropdownMenuItem(
-                    child: Text("blended random"),
-                    value: 1,
-                  ),
-                  DropdownMenuItem(
-                    child: Text("linear random"),
-                    value: 2,
-                  ),
-                  DropdownMenuItem(
-                    child: Text("linear complementary"),
-                    value: 3,
-                  ),
-                ],
-                onChanged: paletteTypeLOCK ? null : (value) {
-                  setState(() {
-                    paletteType = value;
-                    palette = randomisePalette(numberOfColours, value);
-                  });
-                },
-              ),
-            ),
-
-          ],
-        ),
 
       ],
     );
@@ -657,7 +343,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
   @override
   Widget bodyWidget() {
     return Screenshot(
-//      controller: screenshotController,
+      controller: screenshotController,
       child: Stack(
         children: [
           Visibility(
@@ -666,7 +352,12 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
               builder: (_, constraints) => Container(
                 width: constraints.widthConstraints().maxWidth,
                 height: constraints.heightConstraints().maxHeight,
-                child: CustomPaint(painter: OpArtWavePainter(widget.seed, rnd)),
+                child: CustomPaint(
+                    painter: OpArtWavePainter(
+                      widget.seed, rnd,
+                      // animation1.value,
+                      // animation2.value
+                    )),
               ),
             ),
           )
@@ -689,7 +380,12 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
                 builder: (_, constraints) => Container(
                   width: constraints.widthConstraints().maxWidth,
                   height: constraints.heightConstraints().maxHeight,
-                  child: CustomPaint(painter: OpArtWavePainter(widget.seed, rnd)),
+                  child: CustomPaint(
+                      painter: OpArtWavePainter(
+                        widget.seed, rnd,
+                        // animation1.value,
+                        // animation2.value
+                      )),
                 ),
               ),
             )
@@ -698,10 +394,201 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
       );
     }
 
+    void _showBottomSheetSettings(context, int index) {
+      showModalBottomSheet(
+          backgroundColor: Colors.white.withOpacity(0.8),
+          barrierColor: Colors.white.withOpacity(0.1),
+          context: context,
+          builder: (BuildContext bc) {
+            return StatefulBuilder(
+                builder: (BuildContext context, setLocalState) {
+                  return Column(
+                    children: <Widget>[
+                      Container(
+                          height: 200,
+                          child:
+                          (settingsList[index].type == 'Double') ?
+
+                          settingsSlider(
+                            settingsList[index].label,
+                            settingsList[index].tooltip,    settingsList[index].value,
+                            settingsList[index].min,
+                            settingsList[index].max,
+                            settingsList[index].locked,
+                                (value) {
+                              setState(() {
+                                settingsList[index].value = value;
+                              });
+                              setLocalState((){});
+                            },
+                                () {
+                              setState(() {
+                                settingsList[index].locked = !settingsList[index].locked;
+                              });
+                            },
+                          )
+                              :
+                          (settingsList[index].type == 'Int') ?
+
+                          settingsIntSlider(
+                            settingsList[index].label,
+                            settingsList[index].tooltip,
+                            settingsList[index].value,
+                            settingsList[index].min,
+                            settingsList[index].max,
+                            settingsList[index].locked,
+                                (value) {
+                              setState(() {
+                                settingsList[index].value = value.toInt();
+                              });
+                              setLocalState((){});
+                            },
+                                () {
+                              setState(() {
+                                settingsList[index].locked = !settingsList[index].locked;
+                              });
+                            },
+                          )
+                              :
+                          (settingsList[index].type == 'List') ?
+
+                          settingsDropdown(
+                            settingsList[index].label,
+                            settingsList[index].tooltip,
+                            settingsList[index].value,
+                            settingsList[index].options,
+                            settingsList[index].locked,
+
+                                (value) {
+                              setState(() {
+                                settingsList[index].value = value;
+                              });
+                              setLocalState((){});
+                            },
+                                () {
+                              setState(() {
+                                settingsList[index].locked = !settingsList[index].locked;
+                              });
+                            },
+
+                          )
+                              :
+                          settingsRadioButton(
+                            settingsList[index].label,
+                            settingsList[index].tooltip,
+                            settingsList[index].value,
+                            settingsList[index].locked,
+
+                                (value) {
+                              setState(() {
+                                settingsList[index].value = value.round();
+                              });
+                              setLocalState((){});
+                            },
+                                () {
+                              setState(() {
+                                settingsList[index].locked = !settingsList[index].locked;
+                              });
+                            },
+
+                          )
+
+
+                      ),
+                      Container(height: 100)
+                    ],
+                  );
+                });
+          });
+    }
+
+    void _showBottomSheet(context) {
+      showModalBottomSheet(
+          context: context,
+          builder: (BuildContext bc) {
+            return Container(
+                height: 300,
+                child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4),
+                    itemCount: settingsList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(height: 100, width: 100,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                            _showBottomSheetSettings(context, index);
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [settingsList[index].icon,Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(height: 50,child: Text(settingsList[index].label, textAlign: TextAlign.center,)),
+                            )],
+                          ),
+                        ),
+                      );})
+            );});}
+
 
 
     return Scaffold(
-
+      bottomNavigationBar: Container(
+        height: 50,
+        child: BottomAppBar(
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        currentWave.randomize();
+                        currentWave.randomizePalette();
+                      });
+                    },
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.refresh),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Randomise \nEverything',
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      ],
+                    )),
+                GestureDetector(
+                    onTap: () {
+                      _showBottomSheet(context);
+                    },
+                    child: Text(
+                      'Tools',
+                      textAlign: TextAlign.center,
+                    )),
+                GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        currentWave.randomizePalette();
+                      });
+                    },
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.palette),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Randomise \nPalette',
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      ],
+                    ))
+              ],
+            )),
+      ),
       body: Column(
         children: [
           Flexible(
@@ -720,147 +607,223 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio> {
             )
                 : bodyWidget(),
           ),
-
         ],
       ),
     );
   }
 
-
-
   @override
   void initState() {
     super.initState();
+
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
-      print('---------------------------------------------------------------------------');
+      print(
+          '---------------------------------------------------------------------------');
       print('SHAKE');
-      print('---------------------------------------------------------------------------');
+      print(
+          '---------------------------------------------------------------------------');
       setState(() {
-        randomisePalette(numberOfColours, paletteType);
-        randomiseSettings();
+        currentWave.randomize();
+        currentWave.randomizePalette();
+        //randomiseSettings();
       });
     });
     // To close: detector.stopListening();
     // ShakeDetector.waitForStart() waits for user to call detector.startListening();
+
+    // Animation Stuff
+    // controller1 = AnimationController(
+    //   vsync: this,
+    //   duration: Duration(seconds: 7200),
+    // );
+
+    // controller2 = AnimationController(
+    //   vsync: this,
+    //   duration: Duration(seconds: 60),
+    // );
+
+    // Tween<double> _angleTween = Tween(begin: -pi, end: pi);
+    // Tween<double> _fillTween = Tween(begin: 1, end: 1);
+
+    // animation1 = _angleTween.animate(controller1)
+    //   ..addListener(() {
+    //     setState(() {});
+    //   })
+    //   ..addStatusListener((status) {
+    //     if (status == AnimationStatus.completed) {
+    //       controller1.repeat();
+    //     } else if (status == AnimationStatus.dismissed) {
+    //       controller1.forward();
+    //     }
+    //   });
+
+    // animation2 = _fillTween.animate(controller2)
+    //   ..addListener(() {
+    //     setState(() {});
+    //   })
+    //   ..addStatusListener((status) {
+    //     if (status == AnimationStatus.completed) {
+    //       controller2.reverse();
+    //     } else if (status == AnimationStatus.dismissed) {
+    //       controller2.forward();
+    //     }
+    //   });
+
+    // controller1.forward();
+    // controller2.forward();
   }
+
+// @override
+// void dispose() {
+//   controller1.dispose();
+//   // controller2.dispose();
+//   super.dispose();
+// }
 
 }
 
 class OpArtWavePainter extends CustomPainter {
   int seed;
   Random rnd;
+  // double angle;
+  // double fill;
 
-  OpArtWavePainter( this.seed, this.rnd);
+  OpArtWavePainter(
+      this.seed,
+      this.rnd,
+      // this.angle,
+      // this.fill
+      );
 
   @override
   void paint(Canvas canvas, Size size) {
+    rnd = Random(seed);
+    print('seed: $seed');
 
     print('----------------------------------------------------------------');
     print('Wave');
     print('----------------------------------------------------------------');
 
 
-    rnd = Random(seed);
-    print('seed: $seed');
+    if (currentWave == null) {
+      currentWave = new Wave(random: rnd);
+      currentWave.defaultSettings();
+    }
+
+    if (currentWave.numberOfColours.value>currentWave.palette.length){
+      currentWave.randomizePalette();
+    }
 
     double canvasWidth = size.width;
     double canvasHeight = size.height;
+    print('canvasWidth: $canvasWidth');
+    print('canvasHeight: $canvasHeight');
+    print('canvasWidth / canvasHeight = ${canvasWidth / canvasHeight}');
+
     double borderX = 0;
     double borderY = 0;
     double imageWidth = canvasWidth;
     double imageHeight = canvasHeight;
 
-    // aspectRation from 0.5 to 2 - or 33% of time fit to screen, 33% of time make it 1
-    // double aspectRatio = canvasWidth/canvasHeight;
-    if (aspectRatio == pi/2){
-      aspectRatio = canvasWidth/canvasHeight;
+    // if (currentWave.aspectRatio == pi/2){
+    currentWave.aspectRatio = canvasWidth / canvasHeight;
+    // }
+
+    if (canvasWidth / canvasHeight < currentWave.aspectRatio) {
+      borderY = (canvasHeight - canvasWidth / currentWave.aspectRatio) / 2;
+      imageHeight = imageWidth / currentWave.aspectRatio;
+    } else {
+      borderX = (canvasWidth - canvasHeight * currentWave.aspectRatio) / 2;
+      imageWidth = imageHeight * currentWave.aspectRatio;
     }
 
-    if (canvasWidth / canvasHeight < aspectRatio) {
-      borderY = (canvasHeight - canvasWidth / aspectRatio) / 2;
-      imageHeight = imageWidth /aspectRatio;
-    }
-    else {
-      borderX = (canvasWidth - canvasHeight * aspectRatio) / 2;
-      imageWidth = imageHeight * aspectRatio;
-    }
 
-    print('width: ${canvasWidth}');
-    print('height: ${canvasHeight}');
-    print('canvasWidth / canvasHeight = ${canvasWidth / canvasHeight}');
-    print('aspectRatio = $aspectRatio');
-    print('borderX = $borderX');
-    print('borderY = $borderY');
+    print('aspectRatio = $currentWave.aspectRatio');
     print('imageWidth = $imageWidth');
     print('imageHeight = $imageHeight');
+    print('borderX = $borderX');
+    print('borderY = $borderY');
 
-    // numberOfColours from 1 to 24
-    // int numberOfColours = rnd.nextInt(24)+1;
-    print('numberOfColours: $numberOfColours');
-
-    // opacity - from 0 to 1 - 50% of time =1
-    // double opacity = rnd.nextDouble();
-    // if (rnd.nextInt(2)==0){
-    //   opacity = 1;
-    // }
-    print('opacity: $opacity');
-
-    // paletteType - 0=random; 1=blended random; 2=linear random; 3=linear complimentary;
-    // int paletteType = rnd.nextInt(4);
-    print('paletteType: $paletteType');
-
-    // set the initial palette
-    if (palette == null) {
-      print('randomisePalette: $numberOfColours, $paletteType');
-      palette = randomisePalette(numberOfColours, paletteType);
-    }
-
-
-    // // randomColours - true or false
-    // bool randomColours = rnd.nextBool();
-    // randomColours = false;
-    // print('randomColours: $randomColours');
+    print('numberOfColours: ${currentWave.numberOfColours}');
+    print('opacity: ${currentWave.opacity}');
+    print('paletteType: ${currentWave.paletteType}');
+    print('randomColours: ${currentWave.randomColours}');
 
     int colourOrder = 0;
-    Color backgroundColor = Colors.grey[200];
-
 
     // Now make some art
 
-    // // stepX - from 1 to 30
-    // double stepX = rnd.nextDouble()*29+1;
-    // print('stepX: $stepX');
-    //
-    //
-    // // stepY = from 10 to 100 - 50% of time = 0.1
-    // double stepY = rnd.nextDouble()*90+10;
-    // if (rnd.nextInt(2)==0){
-    //   stepY = 0.1;
-    // }
-    //
-    // // amplitude = from 0 to width/5
-    // double amplitude = rnd.nextDouble()*imageWidth/5;
-    // print('amplitude: $amplitude');
-    //
-    // // frequency = from 0 to 3
-    // double frequency = rnd.nextDouble()*3;
-    // print('frequency: $frequency');
+    generateWave(
+      canvas,
+      canvasWidth,
+      canvasHeight,
+      imageWidth,
+      imageHeight,
+      borderX,
+      borderY,
+
+      // angle, //currentWave.angleIncrement,
+      currentWave.stepX.value,
+      currentWave.stepY.value,
+      currentWave.frequency.value,
+      currentWave.amplitude.value,
+      currentWave.backgroundColour,
+      currentWave.randomColours.value,
+      currentWave.numberOfColours.value,
+      currentWave.paletteType.value,
+      currentWave.opacity.value,
+      currentWave.palette,
+    );
+  }
+
+  generateWave(
+      Canvas canvas,
+      double canvasWidth,
+      double canvasHeight,
+      double imageWidth,
+      double imageHeight,
+      double borderX,
+      double borderY,
+
+      double currentStepX,
+      double currentStepY,
+      double currentFrequency,
+      double currentAmplitude,
+      Color currentBackgroundColour,
+      bool currentRandomColours,
+      int currentNumberOfColours,
+      String currentPaletteType,
+      double currentOpacity,
+      List currentPalette,
+      ) {
+
+    int colourOrder = 0;
+
+
+    // colour in the canvas
+    //a rectangle
+    canvas.drawRect(
+        Offset(borderX, borderY) & Size(imageWidth, imageHeight * 2),
+        Paint()
+          ..color = currentBackgroundColour
+          ..style = PaintingStyle.fill);
+
 
 
     double offset = 1;
-    double start = 0 - amplitude;
-    double end = imageWidth + stepX + amplitude;
+    double start = 0 - currentAmplitude;
+    double end = imageWidth + currentStepX + currentAmplitude;
 
-    for (double i = start; i < end; i+= stepX ) {
+    for (double i = start; i < end; i+= currentStepX ) {
 
       Color waveColor;
-      if (randomColours){
-        waveColor = palette[rnd.nextInt(numberOfColours)];
+      if (currentRandomColours){
+        waveColor = currentPalette[rnd.nextInt(currentNumberOfColours)];
       }
       else
       {
         colourOrder++;
-        waveColor = palette[colourOrder%numberOfColours];
+        waveColor = currentPalette[colourOrder%currentNumberOfColours];
       }
 
       // var paint1 = Paint()
@@ -871,8 +834,8 @@ class OpArtWavePainter extends CustomPainter {
       Path wave = Path();
 
       double j;
-      for (j = 0; j < imageHeight + stepY; j+=stepY) {
-        var delta = amplitude * sin(pi * 2 * (j / imageHeight * frequency + offset * i / imageWidth));
+      for (j = 0; j < imageHeight + currentStepY; j+=currentStepY) {
+        var delta = currentAmplitude * sin(pi * 2 * (j / imageHeight * currentFrequency + offset * i / imageWidth));
         if (j==0){
           wave.moveTo(borderX + i + delta, borderY + j);
         }
@@ -880,9 +843,9 @@ class OpArtWavePainter extends CustomPainter {
           wave.lineTo(borderX + i + delta, borderY + j);
         }
       }
-      for (double k = j; k >= -stepY; k-=stepY) {
-        var delta = amplitude * sin(pi * 2 * (k / imageHeight * frequency + offset * (i+stepX) / imageWidth));
-        wave.lineTo(borderX + i + stepX + delta, borderY + k);
+      for (double k = j; k >= -currentStepY; k-=currentStepY) {
+        var delta = currentAmplitude * sin(pi * 2 * (k / imageHeight * currentFrequency + offset * (i+currentStepX) / imageWidth));
+        wave.lineTo(borderX + i + currentStepX + delta, borderY + k);
       }
 
 
@@ -898,21 +861,24 @@ class OpArtWavePainter extends CustomPainter {
     }
 
 
+
     // colour in the outer canvas
     var paint1 = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.fill;
-    canvas.drawRect(Offset(0, 0) & Size(borderX, canvasHeight+stepY), paint1);
-    canvas.drawRect(Offset(canvasWidth-borderX, 0) & Size(borderX, canvasHeight+stepY), paint1);
+    canvas.drawRect(Offset(0, 0) & Size(borderX, canvasHeight), paint1);
+    canvas.drawRect(
+        Offset(canvasWidth - borderX, 0) & Size(borderX, canvasHeight), paint1);
 
-    canvas.drawRect(Offset(0, 0) & Size(canvasWidth, borderY ), paint1);
-    canvas.drawRect(Offset(0, canvasHeight-borderY, ) & Size(canvasWidth, borderY+2*stepY), paint1);
-
-
-
-
+    canvas.drawRect(Offset(0, 0) & Size(canvasWidth, borderY), paint1);
+    canvas.drawRect(
+        Offset(
+          0,
+          canvasHeight - borderY,
+        ) &
+        Size(canvasWidth, borderY + canvasHeight * 2),
+        paint1);
   }
-
 
   @override
   bool shouldRepaint(OpArtWavePainter oldDelegate) => false;

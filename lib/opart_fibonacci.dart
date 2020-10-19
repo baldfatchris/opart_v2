@@ -15,23 +15,7 @@ Random rnd;
 Fibonacci currentFibonacci;
 
 List Palettes = [
-  [
-    'default',
-    10,
-    Color(0xFFffffff),
-    [
-      Color(0xFF34a1af),
-      Color(0xFFa570a8),
-      Color(0xFFd6aa27),
-      Color(0xFF5f9d50),
-      Color(0xFF789dd1),
-      Color(0xFFc25666),
-      Color(0xFF2b7b1),
-      Color(0xFFd63aa),
-      Color(0xFF1f4ed),
-      Color(0xFF383c47)
-    ]
-  ]
+  ['default',10,Color(0xFFffffff),[Color(0xFF34a1af),Color(0xFFa570a8),Color(0xFFd6aa27),Color(0xFF5f9d50),Color(0xFF789dd1),Color(0xFFc25666), Color(0xFF2b7b1),Color(0xFFd63aa),Color(0xFF1f4ed),Color(0xFF383c47)]]
 ];
 
 class Fibonacci {
