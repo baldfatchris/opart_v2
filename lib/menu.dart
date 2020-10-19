@@ -207,7 +207,7 @@ class _OpArtMenuState extends State<OpArtMenu> {
                 onPressed: () {
                   imageFile = null;
                   screenshotController
-                      .capture(delay: Duration(milliseconds: 0), pixelRatio: 20)
+                      .capture(delay: Duration(milliseconds: 0), pixelRatio: 1)
                       .then((File image) async {
                     setState(() {
                       imageFile = image;
