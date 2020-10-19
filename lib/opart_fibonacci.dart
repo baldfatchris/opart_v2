@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:opart_v2/setting_radiobutton.dart';
 import 'dart:math';
 import 'dart:io';
 
@@ -7,9 +6,8 @@ import 'package:screenshot/screenshot.dart';
 import 'package:shake/shake.dart';
 import 'package:opart_v2/setting_slider.dart';
 import 'package:opart_v2/setting_dropdown.dart';
+import 'package:opart_v2/setting_radiobutton.dart';
 import 'model.dart';
-import 'model.dart';
-import 'setting_slider2.dart';
 
 Random rnd;
 
@@ -274,7 +272,7 @@ class Fibonacci {
       this.lineWidth.value = 0;
     }
 
-    // opacity 0.6 to 1
+    // opacity 0 to 1
     this.opacity.randomise(random);
 
     // backgroundColour
@@ -559,330 +557,6 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
           ],
         ),
 
-        // angleIncrement
-        settingsSlider(
-          currentFibonacci.angleIncrement.label,
-          currentFibonacci.angleIncrement.value,
-          currentFibonacci.angleIncrement.min,
-          currentFibonacci.angleIncrement.max,
-          currentFibonacci.angleIncrement.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.angleIncrement.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.angleIncrement.locked =
-                  !currentFibonacci.angleIncrement.locked;
-            });
-          },
-        ),
-
-        // flowerFill
-        settingsSlider(
-          currentFibonacci.flowerFill.label,
-          currentFibonacci.flowerFill.value,
-          currentFibonacci.flowerFill.min,
-          currentFibonacci.flowerFill.max,
-          currentFibonacci.flowerFill.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.flowerFill.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.flowerFill.locked =
-                  !currentFibonacci.flowerFill.locked;
-            });
-          },
-        ),
-
-        // ratio
-        settingsSlider(
-          currentFibonacci.ratio.label,
-          currentFibonacci.ratio.value,
-          currentFibonacci.ratio.min,
-          currentFibonacci.ratio.max,
-          currentFibonacci.ratio.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.ratio.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.ratio.locked = !currentFibonacci.ratio.locked;
-            });
-          },
-        ),
-
-        // petalToRadius
-        settingsSlider(
-          currentFibonacci.petalToRadius.label,
-          currentFibonacci.petalToRadius.value,
-          currentFibonacci.petalToRadius.min,
-          currentFibonacci.petalToRadius.max,
-          currentFibonacci.petalToRadius.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.petalToRadius.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.petalToRadius.locked =
-                  !currentFibonacci.petalToRadius.locked;
-            });
-          },
-        ),
-
-        // randomiseAngle
-        settingsSlider(
-          currentFibonacci.randomiseAngle.label,
-          currentFibonacci.randomiseAngle.value,
-          currentFibonacci.randomiseAngle.min,
-          currentFibonacci.randomiseAngle.max,
-          currentFibonacci.randomiseAngle.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.randomiseAngle.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.randomiseAngle.locked =
-                  !currentFibonacci.randomiseAngle.locked;
-            });
-          },
-        ),
-
-        // petalType
-
-        // petalPointiness
-        settingsSlider(
-          currentFibonacci.petalPointiness.label,
-          currentFibonacci.petalPointiness.value,
-          currentFibonacci.petalPointiness.min,
-          currentFibonacci.petalPointiness.max,
-          currentFibonacci.petalPointiness.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.petalPointiness.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.petalPointiness.locked =
-                  !currentFibonacci.petalPointiness.locked;
-            });
-          },
-        ),
-
-        // petalRotation 0 to pi
-        settingsSlider(
-          currentFibonacci.petalRotation.label,
-          currentFibonacci.petalRotation.value,
-          currentFibonacci.petalRotation.min,
-          currentFibonacci.petalRotation.max,
-          currentFibonacci.petalRotation.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.petalRotation.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.petalRotation.locked =
-                  !currentFibonacci.petalRotation.locked;
-            });
-          },
-        ),
-
-        // petalRotationRatio 0 to 4
-        settingsSlider(
-          currentFibonacci.petalRotationRatio.label,
-          currentFibonacci.petalRotationRatio.value,
-          currentFibonacci.petalRotationRatio.min,
-          currentFibonacci.petalRotationRatio.max,
-          currentFibonacci.petalRotationRatio.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.petalRotationRatio.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.petalRotationRatio.locked =
-                  !currentFibonacci.petalRotationRatio.locked;
-            });
-          },
-        ),
-
-        // radialOscAmplitude
-        settingsSlider(
-          currentFibonacci.radialOscAmplitude.label,
-          currentFibonacci.radialOscAmplitude.value,
-          currentFibonacci.radialOscAmplitude.min,
-          currentFibonacci.radialOscAmplitude.max,
-          currentFibonacci.radialOscAmplitude.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.radialOscAmplitude.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.radialOscAmplitude.locked =
-                  !currentFibonacci.radialOscAmplitude.locked;
-            });
-          },
-        ),
-
-        // radialOscPeriod
-        settingsSlider(
-          currentFibonacci.radialOscPeriod.label,
-          currentFibonacci.radialOscPeriod.value,
-          currentFibonacci.radialOscPeriod.min,
-          currentFibonacci.radialOscPeriod.max,
-          currentFibonacci.radialOscPeriod.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.radialOscPeriod.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.radialOscPeriod.locked =
-                  !currentFibonacci.radialOscPeriod.locked;
-            });
-          },
-        ),
-
-        // direction
-        // settingsDropdown(
-        //   'direction',
-        //   currentFibonacci.direction,
-        //   ['inward', 'outward'],
-        //   currentFibonacci.directionLOCK,
-        //   (value) {
-        //     setState(() {
-        //       currentFibonacci.direction = value;
-        //     });
-        //   },
-        //   () {
-        //     setState(() {
-        //       currentFibonacci.directionLOCK = !currentFibonacci.directionLOCK;
-        //     });
-        //   },
-        // ),
-
-        // maxPetals 1000 to 10000
-        settingsSlider(
-          'maxPetals',
-          currentFibonacci.maxPetals.toDouble(),
-          1,
-          10000,
-          currentFibonacci.maxPetalsLOCK,
-          (value) {
-            setState(() {
-              currentFibonacci.maxPetals = value.toInt();
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.maxPetalsLOCK = !currentFibonacci.maxPetalsLOCK;
-            });
-          },
-        ),
-
-        // lineWidth 0-3
-        settingsSlider(
-          currentFibonacci.lineWidth.label,
-          currentFibonacci.lineWidth.value,
-          currentFibonacci.lineWidth.min,
-          currentFibonacci.lineWidth.max,
-          currentFibonacci.lineWidth.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.lineWidth.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.lineWidth.locked =
-                  !currentFibonacci.lineWidth.locked;
-            });
-          },
-        ),
-
-        // Opacity
-        settingsSlider(
-          currentFibonacci.opacity.label,
-          currentFibonacci.opacity.value,
-          currentFibonacci.opacity.min,
-          currentFibonacci.opacity.max,
-          currentFibonacci.opacity.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.opacity.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.opacity.locked =
-                  !currentFibonacci.opacity.locked;
-            });
-          },
-        ),
-
-        // numberOfColours
-        settingsSlider(
-          'numberOfColours',
-          currentFibonacci.numberOfColours.toDouble(),
-          1,
-          36,
-          currentFibonacci.numberOfColoursLOCK,
-          (value) {
-            setState(() {
-              if (currentFibonacci.numberOfColours < value.toInt()) {
-                currentFibonacci.numberOfColours = value.toInt();
-                currentFibonacci.randomizePalette();
-              } else {
-                currentFibonacci.numberOfColours = value.toInt();
-              }
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.numberOfColoursLOCK =
-                  !currentFibonacci.numberOfColoursLOCK;
-            });
-          },
-        ),
-
-
-        // paletteType
-        // settingsDropdown(
-        //   'paletteType',
-        //   currentFibonacci.paletteType,
-        //   ['random', 'blended random', 'linear random', 'linear complementary'],
-        //   currentFibonacci.paletteTypeLOCK,
-        //   (value) {
-        //     setState(() {
-        //       print('new paletteType: $value');
-        //       currentFibonacci.paletteType = value;
-        //       currentFibonacci.randomizePalette();
-        //     });
-        //   },
-        //   () {
-        //     setState(() {
-        //       currentFibonacci.paletteTypeLOCK =
-        //           !currentFibonacci.paletteTypeLOCK;
-        //     });
-        //   },
-        // ),
 
         // aspectRatio
         Row(
@@ -1013,7 +687,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                     child:
                     (settingsList[index].type == 'Double') ?
 
-                    settingsSlider2(
+                    settingsSlider(
                       settingsList[index].label,
                       settingsList[index].tooltip,    settingsList[index].value,
                       settingsList[index].min,

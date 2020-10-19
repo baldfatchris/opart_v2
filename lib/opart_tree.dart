@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:shake/shake.dart';
+import 'package:opart_v2/setting_sliderOLD.dart';
 import 'package:opart_v2/setting_slider.dart';
-import 'package:opart_v2/setting_slider2.dart';
-import 'setting_slider2.dart';
+import 'setting_slider.dart';
 
 Random rnd;
 List palette;
@@ -704,7 +704,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
             : Container(),
 
         // trunkWidth
-        settingsSlider(
+        settingsSliderOLD(
           'trunkWidth',
           trunkWidth,
           0,
@@ -723,7 +723,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
         ),
 
         // widthDecay
-        settingsSlider(
+        settingsSliderOLD(
           'widthDecay',
           widthDecay,
           0.7,
@@ -742,7 +742,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
         ),
 
         //
-        settingsSlider(
+        settingsSliderOLD(
           'segmentLength',
           segmentLength,
           10,
@@ -761,7 +761,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
         ),
 
         // branch
-        settingsSlider(
+        settingsSliderOLD(
           'branch',
           branch,
           0.4,
@@ -780,7 +780,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
         ),
 
         // angle
-        settingsSlider(
+        settingsSliderOLD(
           'angle',
           angle,
           0.1,
@@ -799,7 +799,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
         ),
 
         // ratio
-        settingsSlider(
+        settingsSliderOLD(
           'ratio',
           ratio,
           0.5,
@@ -1551,7 +1551,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                    height: 200,
 
 
-                   child: settingsSlider2(
+                   child: settingsSlider(
                      'Trunk Width',
                      'The base width of the trunk. As the tree grows this decreases according to the "Width Decay" setting.',
                      trunkWidth,
