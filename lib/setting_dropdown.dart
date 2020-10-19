@@ -62,6 +62,7 @@ class _settingsDropdownState extends State<settingsDropdown> {
 
             child: DropdownButton<String>(
               value: widget.currentValue,
+
               onChanged: widget.locked ? null : widget.onChanged,
               items: widget.dropdownItems
                   .map<DropdownMenuItem<String>>((String value) {

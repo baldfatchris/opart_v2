@@ -1570,6 +1570,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio> {
                          trunkWidthLOCK = !trunkWidthLOCK;
                        });
                      },
+                       (){},
                    ),
                  ),
                  Container(height: 100)

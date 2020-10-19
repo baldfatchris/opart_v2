@@ -6,9 +6,8 @@ import 'package:screenshot/screenshot.dart';
 import 'package:shake/shake.dart';
 import 'package:opart_v2/setting_slider.dart';
 import 'package:opart_v2/setting_dropdown.dart';
+import 'package:opart_v2/setting_radiobutton.dart';
 import 'model.dart';
-import 'model.dart';
-import 'setting_slider2.dart';
 
 Random rnd;
 
@@ -97,7 +96,14 @@ class Fibonacci {
       defaultValue: 0,
       icon: Icon(Icons.autorenew));
 
-  String petalType;
+  SettingsModelList petalType = SettingsModelList(
+    label: "Petal Type",
+    tooltip: "The shape of the petal",
+    defaultValue: "circle",
+    icon: Icon(Icons.format_shapes),
+    options: ['circle', 'triangle', 'square', 'petal'],
+  );
+
   int maxPetals;
 
   SettingsModelDouble radialOscAmplitude = SettingsModelDouble(
@@ -129,7 +135,12 @@ class Fibonacci {
       defaultValue: 0,
       icon: Icon(Icons.line_weight));
 
-  bool randomColours;
+  SettingsModelBool randomColours = SettingsModelBool(
+      label: 'Random Colours',
+      tooltip: 'Randomise the coloursl',
+      defaultValue: false,
+      icon: Icon(Icons.gamepad));
+
   int numberOfColours;
   String paletteType;
 
@@ -146,12 +157,10 @@ class Fibonacci {
   File image;
 
 // lock settings
-  bool petalTypeLOCK = false;
   bool maxPetalsLOCK = false;
   bool directionLOCK = false;
   bool backgroundColourLOCK = false;
   bool lineColourLOCK = false;
-  bool randomColoursLOCK = false;
   bool numberOfColoursLOCK = false;
   bool paletteTypeLOCK = false;
   bool paletteLOCK = false;
@@ -161,25 +170,21 @@ class Fibonacci {
 
   Fibonacci({
     // image settings
-    this.petalType,
     this.maxPetals,
     this.direction,
 
     // palette settings
     this.backgroundColour,
     this.lineColour,
-    this.randomColours,
     this.numberOfColours,
     this.paletteType,
     this.palette,
     this.aspectRatio = pi / 2,
     this.image,
-    this.petalTypeLOCK = false,
     this.maxPetalsLOCK = false,
     this.directionLOCK = false,
     this.backgroundColourLOCK = false,
     this.lineColourLOCK = false,
-    this.randomColoursLOCK = false,
     this.numberOfColoursLOCK = false,
     this.paletteTypeLOCK = false,
     this.paletteLOCK = false,
@@ -223,10 +228,7 @@ class Fibonacci {
     }
 
     // petalType = 0/1/2/3  circle/triangle/square/petal
-    if (this.petalTypeLOCK == false) {
-      this.petalType =
-          ['circle', 'triangle', 'square', 'petal'][random.nextInt(3)];
-    }
+    this.petalType.randomise(random);
 
     // maxPetals = 5000 to 10000;
     if (this.maxPetalsLOCK == false) {
@@ -260,9 +262,7 @@ class Fibonacci {
     }
 
     // randomColours
-    if (this.randomColoursLOCK == false) {
-      this.randomColours = random.nextBool();
-    }
+    this.randomColours.randomise(random);
 
     // lineWidth 0 to 3
     this.lineWidth.randomise(random);
@@ -270,7 +270,7 @@ class Fibonacci {
       this.lineWidth.value = 0;
     }
 
-    // opacity 0.6 to 1
+    // opacity 0 to 1
     this.opacity.randomise(random);
 
     // backgroundColour
@@ -410,8 +410,8 @@ class Fibonacci {
     this.petalPointiness.value = this.petalPointiness.defaultValue;
     this.petalRotation.value = this.petalRotation.defaultValue;
     this.petalRotationRatio.value = this.petalRotationRatio.defaultValue;
+    this.petalType.value = this.petalType.defaultValue;
 
-    this.petalType = 'circle';
     this.maxPetals = 10000;
 
     this.radialOscAmplitude.value = this.radialOscAmplitude.defaultValue;
@@ -425,7 +425,9 @@ class Fibonacci {
 
     this.lineWidth.value = this.lineWidth.defaultValue;
 
-    this.randomColours = false;
+    this.randomColours.value = this.randomColours.defaultValue;
+    ;
+
     this.numberOfColours = 6;
     this.paletteType = 'random';
 
@@ -446,12 +448,10 @@ class Fibonacci {
     this.aspectRatio = pi / 2;
     this.image;
 
-    this.petalTypeLOCK = false;
     this.maxPetalsLOCK = false;
     this.directionLOCK = false;
     this.backgroundColourLOCK = false;
     this.lineColourLOCK = false;
-    this.randomColoursLOCK = false;
     this.numberOfColoursLOCK = false;
     this.paletteTypeLOCK = false;
     this.paletteLOCK = false;
@@ -459,19 +459,21 @@ class Fibonacci {
   }
 }
 
-List<SettingsModelDouble> settingsList = [
+List settingsList = [
   currentFibonacci.angleIncrement,
   currentFibonacci.ratio,
   currentFibonacci.flowerFill,
   currentFibonacci.lineWidth,
   currentFibonacci.opacity,
+  currentFibonacci.petalType,
   currentFibonacci.petalPointiness,
   currentFibonacci.petalRotation,
   currentFibonacci.petalRotationRatio,
   currentFibonacci.petalToRadius,
   currentFibonacci.radialOscAmplitude,
   currentFibonacci.radialOscPeriod,
-  currentFibonacci.randomiseAngle
+  currentFibonacci.randomiseAngle,
+  currentFibonacci.randomColours,
 ];
 
 class OpArtFibonacciStudio extends StatefulWidget {
@@ -554,401 +556,6 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
           ],
         ),
 
-        // angleIncrement
-        settingsSlider(
-          currentFibonacci.angleIncrement.label,
-          currentFibonacci.angleIncrement.value,
-          currentFibonacci.angleIncrement.min,
-          currentFibonacci.angleIncrement.max,
-          currentFibonacci.angleIncrement.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.angleIncrement.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.angleIncrement.locked =
-                  !currentFibonacci.angleIncrement.locked;
-            });
-          },
-        ),
-
-        // flowerFill
-        settingsSlider(
-          currentFibonacci.flowerFill.label,
-          currentFibonacci.flowerFill.value,
-          currentFibonacci.flowerFill.min,
-          currentFibonacci.flowerFill.max,
-          currentFibonacci.flowerFill.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.flowerFill.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.flowerFill.locked =
-                  !currentFibonacci.flowerFill.locked;
-            });
-          },
-        ),
-
-        // ratio
-        settingsSlider(
-          currentFibonacci.ratio.label,
-          currentFibonacci.ratio.value,
-          currentFibonacci.ratio.min,
-          currentFibonacci.ratio.max,
-          currentFibonacci.ratio.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.ratio.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.ratio.locked = !currentFibonacci.ratio.locked;
-            });
-          },
-        ),
-
-        // petalToRadius
-        settingsSlider(
-          currentFibonacci.petalToRadius.label,
-          currentFibonacci.petalToRadius.value,
-          currentFibonacci.petalToRadius.min,
-          currentFibonacci.petalToRadius.max,
-          currentFibonacci.petalToRadius.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.petalToRadius.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.petalToRadius.locked =
-                  !currentFibonacci.petalToRadius.locked;
-            });
-          },
-        ),
-
-        // randomiseAngle
-        settingsSlider(
-          currentFibonacci.randomiseAngle.label,
-          currentFibonacci.randomiseAngle.value,
-          currentFibonacci.randomiseAngle.min,
-          currentFibonacci.randomiseAngle.max,
-          currentFibonacci.randomiseAngle.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.randomiseAngle.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.randomiseAngle.locked =
-                  !currentFibonacci.randomiseAngle.locked;
-            });
-          },
-        ),
-
-        // petalType
-        settingsDropdown(
-          'petalType',
-          currentFibonacci.petalType,
-          ['circle', 'triangle', 'square', 'petal'],
-          currentFibonacci.petalTypeLOCK,
-          (value) {
-            setState(() {
-              currentFibonacci.petalType = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.petalTypeLOCK = !currentFibonacci.petalTypeLOCK;
-            });
-          },
-        ),
-
-        // petalPointiness
-        settingsSlider(
-          currentFibonacci.petalPointiness.label,
-          currentFibonacci.petalPointiness.value,
-          currentFibonacci.petalPointiness.min,
-          currentFibonacci.petalPointiness.max,
-          currentFibonacci.petalPointiness.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.petalPointiness.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.petalPointiness.locked =
-                  !currentFibonacci.petalPointiness.locked;
-            });
-          },
-        ),
-
-        // petalRotation 0 to pi
-        settingsSlider(
-          currentFibonacci.petalRotation.label,
-          currentFibonacci.petalRotation.value,
-          currentFibonacci.petalRotation.min,
-          currentFibonacci.petalRotation.max,
-          currentFibonacci.petalRotation.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.petalRotation.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.petalRotation.locked =
-                  !currentFibonacci.petalRotation.locked;
-            });
-          },
-        ),
-
-        // petalRotationRatio 0 to 4
-        settingsSlider(
-          currentFibonacci.petalRotationRatio.label,
-          currentFibonacci.petalRotationRatio.value,
-          currentFibonacci.petalRotationRatio.min,
-          currentFibonacci.petalRotationRatio.max,
-          currentFibonacci.petalRotationRatio.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.petalRotationRatio.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.petalRotationRatio.locked =
-                  !currentFibonacci.petalRotationRatio.locked;
-            });
-          },
-        ),
-
-        // radialOscAmplitude
-        settingsSlider(
-          currentFibonacci.radialOscAmplitude.label,
-          currentFibonacci.radialOscAmplitude.value,
-          currentFibonacci.radialOscAmplitude.min,
-          currentFibonacci.radialOscAmplitude.max,
-          currentFibonacci.radialOscAmplitude.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.radialOscAmplitude.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.radialOscAmplitude.locked =
-                  !currentFibonacci.radialOscAmplitude.locked;
-            });
-          },
-        ),
-
-        // radialOscPeriod
-        settingsSlider(
-          currentFibonacci.radialOscPeriod.label,
-          currentFibonacci.radialOscPeriod.value,
-          currentFibonacci.radialOscPeriod.min,
-          currentFibonacci.radialOscPeriod.max,
-          currentFibonacci.radialOscPeriod.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.radialOscPeriod.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.radialOscPeriod.locked =
-                  !currentFibonacci.radialOscPeriod.locked;
-            });
-          },
-        ),
-
-        // direction
-        settingsDropdown(
-          'direction',
-          currentFibonacci.direction,
-          ['inward', 'outward'],
-          currentFibonacci.directionLOCK,
-          (value) {
-            setState(() {
-              currentFibonacci.direction = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.directionLOCK = !currentFibonacci.directionLOCK;
-            });
-          },
-        ),
-
-        // maxPetals 1000 to 10000
-        settingsSlider(
-          'maxPetals',
-          currentFibonacci.maxPetals.toDouble(),
-          1,
-          10000,
-          currentFibonacci.maxPetalsLOCK,
-          (value) {
-            setState(() {
-              currentFibonacci.maxPetals = value.toInt();
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.maxPetalsLOCK = !currentFibonacci.maxPetalsLOCK;
-            });
-          },
-        ),
-
-        // lineWidth 0-3
-        settingsSlider(
-          currentFibonacci.lineWidth.label,
-          currentFibonacci.lineWidth.value,
-          currentFibonacci.lineWidth.min,
-          currentFibonacci.lineWidth.max,
-          currentFibonacci.lineWidth.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.lineWidth.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.lineWidth.locked =
-                  !currentFibonacci.lineWidth.locked;
-            });
-          },
-        ),
-
-        // Opacity
-        settingsSlider(
-          currentFibonacci.opacity.label,
-          currentFibonacci.opacity.value,
-          currentFibonacci.opacity.min,
-          currentFibonacci.opacity.max,
-          currentFibonacci.opacity.locked,
-          (value) {
-            setState(() {
-              currentFibonacci.opacity.value = value;
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.opacity.locked =
-                  !currentFibonacci.opacity.locked;
-            });
-          },
-        ),
-
-        // numberOfColours
-        settingsSlider(
-          'numberOfColours',
-          currentFibonacci.numberOfColours.toDouble(),
-          1,
-          36,
-          currentFibonacci.numberOfColoursLOCK,
-          (value) {
-            setState(() {
-              if (currentFibonacci.numberOfColours < value.toInt()) {
-                currentFibonacci.numberOfColours = value.toInt();
-                currentFibonacci.randomizePalette();
-              } else {
-                currentFibonacci.numberOfColours = value.toInt();
-              }
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.numberOfColoursLOCK =
-                  !currentFibonacci.numberOfColoursLOCK;
-            });
-          },
-        ),
-
-        // randomColours
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              flex: 1,
-              child: GestureDetector(
-                  onLongPress: () {
-                    setState(() {
-                      // toggle lock
-                      if (currentFibonacci.randomColoursLOCK) {
-                        currentFibonacci.randomColoursLOCK = false;
-                        print('randomColours UNLOCK');
-                      } else {
-                        currentFibonacci.randomColoursLOCK = true;
-                        print('randomColours LOCK');
-                      }
-                    });
-                  },
-                  child: Row(
-                    children: [
-                      Text(
-                        'randomColours:',
-                        style: currentFibonacci.randomColoursLOCK
-                            ? TextStyle(fontWeight: FontWeight.normal)
-                            : TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Icon(
-                        currentFibonacci.randomColoursLOCK
-                            ? Icons.lock
-                            : Icons.lock_open,
-                        size: 20,
-                        color: currentFibonacci.randomColoursLOCK
-                            ? Colors.grey
-                            : Colors.black,
-                      ),
-                    ],
-                  )),
-            ),
-            Flexible(
-              flex: 2,
-              child: Switch(
-                value: currentFibonacci.randomColours,
-                onChanged: currentFibonacci.randomColoursLOCK
-                    ? null
-                    : (value) {
-                        setState(() {
-                          currentFibonacci.randomColours = value;
-                        });
-                      },
-              ),
-            ),
-          ],
-        ),
-
-        // paletteType
-        settingsDropdown(
-          'paletteType',
-          currentFibonacci.paletteType,
-          ['random', 'blended random', 'linear random', 'linear complementary'],
-          currentFibonacci.paletteTypeLOCK,
-          (value) {
-            setState(() {
-              print('new paletteType: $value');
-              currentFibonacci.paletteType = value;
-              currentFibonacci.randomizePalette();
-            });
-          },
-          () {
-            setState(() {
-              currentFibonacci.paletteTypeLOCK =
-                  !currentFibonacci.paletteTypeLOCK;
-            });
-          },
-        ),
-
         // aspectRatio
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1007,6 +614,37 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
     );
   }
 
+  List<Fibonacci> cachedFibonacciList = [];
+  cacheFibonacci(ScreenshotController screenshotController, Function SetState) async {
+    print('cache fibonacci');
+    screenshotController
+        .capture(delay: Duration(milliseconds: 10), pixelRatio: 0.2)
+        .then((File image) async {
+          currentFibonacci.image = image;
+        cachedFibonacciList.add(Fibonacci(
+
+          maxPetals: currentFibonacci.maxPetals,
+          direction: currentFibonacci.direction,
+          backgroundColour: currentFibonacci.backgroundColour,
+          lineColour: currentFibonacci.lineColour,
+          numberOfColours: currentFibonacci.numberOfColours,
+          paletteType: currentFibonacci.paletteType,
+          palette: currentFibonacci.palette,
+          aspectRatio: currentFibonacci.aspectRatio,
+          image: currentFibonacci.image,
+          maxPetalsLOCK: currentFibonacci.maxPetalsLOCK,
+          directionLOCK: currentFibonacci.directionLOCK,
+          backgroundColourLOCK: currentFibonacci.backgroundColourLOCK,
+          lineColourLOCK: currentFibonacci.lineColourLOCK,
+          numberOfColoursLOCK: currentFibonacci.numberOfColoursLOCK,
+          paletteTypeLOCK: currentFibonacci.paletteTypeLOCK,
+          aspectRatioLOCK: currentFibonacci.aspectRatioLOCK,
+        ));
+        SetState();
+      });
+
+  }
+
   @override
   Widget bodyWidget() {
     return Screenshot(
@@ -1035,6 +673,11 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
 
   @override
   Widget build(BuildContext context) {
+    SetState(){
+      setState(() {
+
+      });
+    }
     ScreenshotController screenshotController = widget.screenshotController;
     Widget bodyWidget() {
       return Screenshot(
@@ -1063,7 +706,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
 
     void _showBottomSheetSettings(context, int index) {
       showModalBottomSheet(
-          backgroundColor: Colors.white.withOpacity(0.3),
+          backgroundColor: Colors.white.withOpacity(0.8),
           barrierColor: Colors.white.withOpacity(0.1),
           context: context,
           builder: (BuildContext bc) {
@@ -1072,29 +715,71 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
               return Column(
                 children: <Widget>[
                   Container(
-
-                    height: 200,
-
-
-                    child: settingsSlider2(
-                      settingsList[index].label,
-                      settingsList[index].tooltip,    settingsList[index].value,
-                      settingsList[index].min,
-                      settingsList[index].max,
-                      settingsList[index].locked,
-                          (value) {
-                        setState(() {
-                          settingsList[index].value = value;
-                        });
-                        setLocalState((){});
-                      },
-                          () {
-                        setState(() {
-                          settingsList[index].locked = !settingsList[index].locked;
-                        });
-                      },
-                    ),
-                  ),
+                      height: 200,
+                      child: (settingsList[index].type == 'Double')
+                          ? settingsSlider(
+                              settingsList[index].label,
+                              settingsList[index].tooltip,
+                              settingsList[index].value,
+                              settingsList[index].min,
+                              settingsList[index].max,
+                              settingsList[index].locked,
+                              (value) {
+                                setState(() {
+                                  settingsList[index].value = value;
+                                });
+                                setLocalState(() {});
+                              },
+                              () {
+                                setState(() {
+                                  settingsList[index].locked =
+                                      !settingsList[index].locked;
+                                });
+                              },
+                          (){
+                            cacheFibonacci(screenshotController, SetState);
+                          }
+                            )
+                          : (settingsList[index].type == 'List')
+                              ? settingsDropdown(
+                                  settingsList[index].label,
+                                  settingsList[index].tooltip,
+                                  settingsList[index].value,
+                                  settingsList[index].options,
+                                  settingsList[index].locked,
+                                  (value) {
+                                    setState(() {
+                                      settingsList[index].value = value;
+                                      cacheFibonacci(screenshotController, SetState);
+                                    });
+                                    setLocalState(() {});
+                                  },
+                                  () {
+                                    setState(() {
+                                      settingsList[index].locked =
+                                          !settingsList[index].locked;
+                                    });
+                                  },
+                                )
+                              : settingsRadioButton(
+                                  settingsList[index].label,
+                                  settingsList[index].tooltip,
+                                  settingsList[index].value,
+                                  settingsList[index].locked,
+                                  (value) {
+                                    setState(() {
+                                      settingsList[index].value = value;
+                                      cacheFibonacci(screenshotController, SetState);
+                                    });
+                                    setLocalState(() {});
+                                  },
+                                  () {
+                                    setState(() {
+                                      settingsList[index].locked =
+                                          !settingsList[index].locked;
+                                    });
+                                  },
+                                )),
                   Container(height: 100)
                 ],
               );
@@ -1107,30 +792,41 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
           context: context,
           builder: (BuildContext bc) {
             return Container(
-              height: 300,
-              child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4),
-                itemCount: settingsList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(height: 100, width: 100,
-                  child: GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                        _showBottomSheetSettings(context, index);
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [settingsList[index].icon,Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(height: 50,child: Text(settingsList[index].label, textAlign: TextAlign.center,)),
-                        )],
-                      ),
-                    ),
-                );})
-              );});}
-
+                height: 300,
+                child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4),
+                    itemCount: settingsList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        height: 100,
+                        width: 100,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                            _showBottomSheetSettings(context, index);
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              settingsList[index].icon,
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                    height: 50,
+                                    child: Text(
+                                      settingsList[index].label,
+                                      textAlign: TextAlign.center,
+                                    )),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    }));
+          });
+    }
 
 
     return Scaffold(
@@ -1146,6 +842,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                       setState(() {
                         currentFibonacci.randomize();
                         currentFibonacci.randomizePalette();
+                        cacheFibonacci(screenshotController, SetState);
                       });
                     },
                     child: Row(
@@ -1172,6 +869,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                     onTap: () {
                       setState(() {
                         currentFibonacci.randomizePalette();
+                        cacheFibonacci(screenshotController, SetState);
                       });
                     },
                     child: Row(
@@ -1189,24 +887,50 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
               ],
             )),
       ),
-      body: Column(
+      body: Stack(
         children: [
-          Flexible(
-            flex: 7,
-            child: widget.showSettings
-                ? Column(
-                    children: [
-                      Flexible(flex: 3, child: bodyWidget()),
-                      Flexible(
-                          flex: 2,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: settingsWidget(),
-                          )),
-                    ],
-                  )
-                : bodyWidget(),
-          ),
+
+          bodyWidget(),Container(
+              height: 60,
+              child: cachedFibonacciList.length == 0
+                  ? Container()
+                  : ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: cachedFibonacciList.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: GestureDetector(
+                      onTap:(){
+                        setState(() {
+                          currentFibonacci.maxPetals =  cachedFibonacciList[index].maxPetals;
+                          currentFibonacci.direction= cachedFibonacciList[index].direction;
+                          currentFibonacci.backgroundColour= cachedFibonacciList[index].backgroundColour;
+                          currentFibonacci.lineColour= cachedFibonacciList[index].lineColour;
+                          currentFibonacci.numberOfColours= cachedFibonacciList[index].numberOfColours;
+                          currentFibonacci.paletteType= cachedFibonacciList[index].paletteType;
+                          currentFibonacci.palette= cachedFibonacciList[index].palette;
+                          currentFibonacci.aspectRatio= cachedFibonacciList[index].aspectRatio;
+                          currentFibonacci.image= cachedFibonacciList[index].image;
+                          currentFibonacci.maxPetalsLOCK= cachedFibonacciList[index].maxPetalsLOCK;
+                          currentFibonacci.directionLOCK= cachedFibonacciList[index].directionLOCK;
+                          currentFibonacci.backgroundColourLOCK= cachedFibonacciList[index].backgroundColourLOCK;
+                          currentFibonacci.lineColourLOCK= cachedFibonacciList[index].lineColourLOCK;
+                          currentFibonacci.numberOfColoursLOCK= cachedFibonacciList[index].numberOfColoursLOCK;
+                          currentFibonacci.paletteTypeLOCK= cachedFibonacciList[index].paletteTypeLOCK;
+                          currentFibonacci.aspectRatioLOCK= cachedFibonacciList[index].aspectRatioLOCK;
+
+                        });
+                      },
+                      child: Container(decoration: BoxDecoration(shape: BoxShape.circle),
+                        width: 50,
+                        height: 50,
+                        child: Image.file(cachedFibonacciList[index].image),
+                      ),
+                    ),
+                  );
+                },
+              )),
         ],
       ),
     );
@@ -1273,12 +997,12 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
     // controller2.forward();
   }
 
-  // @override
-  // void dispose() {
-  //   controller1.dispose();
-  //   // controller2.dispose();
-  //   super.dispose();
-  // }
+// @override
+// void dispose() {
+//   controller1.dispose();
+//   // controller2.dispose();
+//   super.dispose();
+// }
 
 }
 
@@ -1373,7 +1097,7 @@ class OpArtFibonacciPainter extends CustomPainter {
       currentFibonacci.petalPointiness.value,
       currentFibonacci.petalRotation.value,
       currentFibonacci.petalRotationRatio.value,
-      currentFibonacci.petalType,
+      currentFibonacci.petalType.value,
       currentFibonacci.maxPetals,
       currentFibonacci.radialOscAmplitude.value,
       currentFibonacci.radialOscPeriod.value,
@@ -1381,7 +1105,7 @@ class OpArtFibonacciPainter extends CustomPainter {
       currentFibonacci.backgroundColour,
       currentFibonacci.lineColour,
       currentFibonacci.lineWidth.value,
-      currentFibonacci.randomColours,
+      currentFibonacci.randomColours.value,
       currentFibonacci.numberOfColours,
       currentFibonacci.paletteType,
       currentFibonacci.opacity.value,
