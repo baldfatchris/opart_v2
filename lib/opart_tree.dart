@@ -349,8 +349,8 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
       Map<String, dynamic> currentCache = {
         'aspectRatio': currentTree.aspectRatio,
         'trunkWidth': currentTree.trunkWidth.value,
-        'backgroundColour': currentTree.backgroundColour,
-        'widthDecay': currentTree.widthDecay,
+        'backgroundColour': currentTree.backgroundColour.value,
+        'widthDecay': currentTree.widthDecay.value,
         'segmentLength': currentTree.segmentLength.value,
         'segmentDecay': currentTree.segmentDecay.value,
         'branch': currentTree.branch.value,
@@ -709,14 +709,14 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          currentTree.trunkWidth = cachedTreeList[index]['trunkWidth'];
-                          currentTree.widthDecay = cachedTreeList[index]['widthDecay'];
-                          currentTree.segmentLength = cachedTreeList[index]['segmentLength'];
-                          currentTree.segmentDecay = cachedTreeList[index]['segmentDecay'];
-                          currentTree.branch = cachedTreeList[index]['branch'];
-                          currentTree.angle = cachedTreeList[index]['angle'];
-                          currentTree.ratio =  cachedTreeList[index]['ratio'];
-                          currentTree.bulbousness = cachedTreeList[index]['bulbousness'];
+                          currentTree.trunkWidth.value = cachedTreeList[index]['trunkWidth'];
+                          currentTree.widthDecay.value = cachedTreeList[index]['widthDecay'];
+                          currentTree.segmentLength.value = cachedTreeList[index]['segmentLength'];
+                          currentTree.segmentDecay.value = cachedTreeList[index]['segmentDecay'];
+                          currentTree.branch.value = cachedTreeList[index]['branch'];
+                          currentTree.angle.value = cachedTreeList[index]['angle'];
+                          currentTree.ratio.value =  cachedTreeList[index]['ratio'];
+                          currentTree.bulbousness.value = cachedTreeList[index]['bulbousness'];
                           currentTree.image = cachedTreeList[index]['image'];
                           currentTree.maxDepth.value = cachedTreeList[index]['maxDepth'];
                           currentTree.leavesAfter.value = cachedTreeList[index]['leavesAfter'];
