@@ -505,6 +505,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
                               });
                               setLocalState((){});
                             },
+                                (){},
                           )
                               :
                           (settingsList[index].type == 'List') ?
