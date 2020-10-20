@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:io' show File, Platform;
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -10,6 +10,7 @@ import 'opart_wallpaper.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share/share.dart';
 import 'model.dart';
+
 
 bool showSettings = false;
 
@@ -104,16 +105,19 @@ class _OpArtMenuState extends State<OpArtMenu> {
             actions: [
               IconButton(
                   icon: Icon(
-                    Icons.share,
+                    Platform.isAndroid? Icons.share: Icons.ios_share,
                     color: Colors.white,
                   ),
                   onPressed: () {
+
                     imageFile = null;
                     screenshotController
-                        .capture(delay: Duration(milliseconds: 0), pixelRatio: 1)
+                        .capture(delay: Duration(milliseconds: 100), pixelRatio: 1.5)
                         .then((File image) async {
+
                       setState(() {
                         imageFile = image;
+
                         Share.shareFiles([imageFile.path],
                             subject: 'Using Chris\'s fabulous OpArt App',
                             text: 'Download the OpArt App NOW!');
