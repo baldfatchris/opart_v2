@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 Random rnd = Random();
 int seed = rnd.nextInt(1 << 32);
 ScreenshotController screenshotController = ScreenshotController();
+Image file;
 class SettingsModelDouble {
   double value;
   bool locked = false;

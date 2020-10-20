@@ -1446,8 +1446,6 @@ List settingsList = [
 ];
 
 class OpArtFibonacciStudio extends StatefulWidget {
-
-
   OpArtFibonacciStudio();
 
   @override
@@ -1458,7 +1456,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
     with TickerProviderStateMixin {
   int _counter = 0;
   File _imageFile;
-  ScreenshotController screenshotController = ScreenshotController();
+
   int _currentColor = 0;
 
   // Animation<double> animation1;
@@ -1472,8 +1470,9 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
   cacheFibonacci(
       ScreenshotController screenshotController, Function SetState) async {
     screenshotController
-        .capture( delay: Duration(microseconds: 1),pixelRatio: 0.2)
+        .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
         .then((File image) async {
+      await new Future.delayed(const Duration(milliseconds : 20));
       currentFibonacci.image = image;
       Map<String, dynamic> currentCache = {
         'maxPetals': currentFibonacci.maxPetals.value,
@@ -1536,7 +1535,6 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
     SetState() {
       setState(() {});
     }
-
 
     Widget bodyWidget() {
       return Screenshot(
