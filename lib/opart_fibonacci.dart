@@ -762,8 +762,8 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                GestureDetector(
-                    onTap: () {
+                FlatButton(
+                    onPressed: () {
                       setState(() {
                         currentFibonacci.randomize();
                         currentFibonacci.randomizePalette();
@@ -782,8 +782,8 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                         )
                       ],
                     )),
-                GestureDetector(
-                    onTap: () {
+                FlatButton(
+                    onPressed: () {
                       _showBottomSheet(context);
                     },
                     child: Row(
@@ -798,8 +798,8 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                         )
                       ],
                     )),
-                GestureDetector(
-                    onTap: () {
+                FlatButton(
+                    onPressed: () {
                       setState(() {
                         currentFibonacci.randomizePalette();
                         cacheFibonacci(screenshotController, SetState);
