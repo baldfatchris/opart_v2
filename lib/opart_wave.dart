@@ -479,7 +479,10 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                               setState(() {
                                 settingsList[index].locked = !settingsList[index].locked;
                               });
-                            }
+                            }, (){
+
+
+                          },
                           )
                               :
                           (settingsList[index].type == 'List') ?

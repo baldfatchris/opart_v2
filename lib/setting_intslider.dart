@@ -10,9 +10,10 @@ class settingsIntSlider extends StatefulWidget {
   bool locked;
   Function onChanged;
   Function toggleLock;
+  Function updateCache;
 
 
-  settingsIntSlider(this.label, this.tooltip, this.currentValue, this.min, this.max, this.locked, this.onChanged, this.toggleLock);
+  settingsIntSlider(this.label, this.tooltip, this.currentValue, this.min, this.max, this.locked, this.onChanged, this.toggleLock, this.updateCache);
 
   @override
   _settingsIntSliderState createState() => _settingsIntSliderState();
@@ -50,6 +51,7 @@ class _settingsIntSliderState extends State<settingsIntSlider> {
         Container(
           height: 50,
           child:   Slider(
+            onChangeEnd: (value){widget.updateCache();},
             value: widget.currentValue.toDouble(),
             min: widget.min.toDouble(),
             max: widget.max.toDouble(),
