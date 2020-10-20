@@ -315,12 +315,9 @@ List settingsList = [
 ];
 
 class OpArtTreeStudio extends StatefulWidget {
-  int seed;
-  bool showSettings;
-  ScreenshotController screenshotController;
 
-  OpArtTreeStudio(this.seed, this.showSettings,
-      {this.screenshotController});
+
+  OpArtTreeStudio();
 
   @override
   _OpArtTreeStudioState createState() => _OpArtTreeStudioState();
@@ -399,7 +396,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
                 height: constraints.heightConstraints().maxHeight,
                 child: CustomPaint(
                     painter: OpArtTreePainter(
-                      widget.seed, rnd,
+                      seed, rnd,
                       // animation1.value,
                       // animation2.value
                     )),
@@ -420,7 +417,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
       setState(() {});
     }
 
-    ScreenshotController screenshotController = widget.screenshotController;
+
     Widget bodyWidget() {
       return Screenshot(
         controller: screenshotController,
@@ -434,7 +431,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
                   height: constraints.heightConstraints().maxHeight,
                   child: CustomPaint(
                       painter: OpArtTreePainter(
-                        widget.seed, rnd,
+                        seed, rnd,
                         // animation1.value,
                         // animation2.value
                       )),

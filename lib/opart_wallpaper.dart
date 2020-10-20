@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:screenshot/screenshot.dart';
 import 'package:shake/shake.dart';
-
+import 'model.dart';
 Random rnd;
 
 List palette;
@@ -372,11 +372,9 @@ randomiseSettings() {
 
 class OpArtWallpaperStudio extends StatefulWidget {
 
-  int seed;
-  bool showSettings;
-  ScreenshotController screenshotController;
 
-  OpArtWallpaperStudio(this.seed, this.showSettings, {this.screenshotController});
+
+  OpArtWallpaperStudio();
 
   @override
   _OpArtWallpaperStudioState createState() => _OpArtWallpaperStudioState();
@@ -1781,7 +1779,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
               builder: (_, constraints) => Container(
                 width: constraints.widthConstraints().maxWidth,
                 height: constraints.heightConstraints().maxHeight,
-                child: CustomPaint(painter: OpArtWallpaperPainter(widget.seed, rnd)),
+                child: CustomPaint(painter: OpArtWallpaperPainter(seed, rnd)),
               ),
             ),
           )
@@ -1792,7 +1790,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenshotController screenshotController = widget.screenshotController;
+
     Widget bodyWidget() {
       return Screenshot(
         controller: screenshotController,
@@ -1804,7 +1802,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
                 builder: (_, constraints) => Container(
                   width: constraints.widthConstraints().maxWidth,
                   height: constraints.heightConstraints().maxHeight,
-                  child: CustomPaint(painter: OpArtWallpaperPainter(widget.seed, rnd)),
+                  child: CustomPaint(painter: OpArtWallpaperPainter(seed, rnd)),
                 ),
               ),
             )
@@ -1821,19 +1819,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio> {
         children: [
           Flexible(
             flex: 7,
-            child: widget.showSettings
-                ? Column(
-              children: [
-                Flexible(flex: 2, child: bodyWidget()),
-                Flexible(
-                    flex: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: settingsWidget(),
-                    )),
-              ],
-            )
-                : bodyWidget(),
+            child:  bodyWidget(),
           ),
 
         ],

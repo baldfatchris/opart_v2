@@ -37,10 +37,10 @@ void main() {
     routes: {
       '/': (context) => Loading(),
       '/menu': (context) => OpArtMenu(),
-      '/fibonacci': (context) => OpArtFibonacciStudio(0, false),
-      '/tree': (context) => OpArtTreeStudio(0, false),
-      '/wallpaper': (context) => OpArtWallpaperStudio(0, false),
-      '/waves': (context) => OpArtWaveStudio(0, false),
+      '/fibonacci': (context) => OpArtFibonacciStudio(),
+      '/tree': (context) => OpArtTreeStudio( ),
+      '/wallpaper': (context) => OpArtWallpaperStudio(),
+      '/waves': (context) => OpArtWaveStudio( ),
     },
   ));
 }

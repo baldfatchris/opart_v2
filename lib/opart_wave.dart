@@ -256,12 +256,9 @@ List settingsList = [
 ];
 
 class OpArtWaveStudio extends StatefulWidget {
-  int seed;
-  bool showSettings;
-  ScreenshotController screenshotController;
 
-  OpArtWaveStudio(this.seed, this.showSettings,
-      {this.screenshotController});
+
+  OpArtWaveStudio();
 
   @override
   _OpArtWaveStudioState createState() => _OpArtWaveStudioState();
@@ -381,7 +378,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                 height: constraints.heightConstraints().maxHeight,
                 child: CustomPaint(
                     painter: OpArtWavePainter(
-                      widget.seed, rnd,
+                      seed, rnd,
                       // animation1.value,
                       // animation2.value
                     )),
@@ -399,7 +396,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
       setState(() {
 
       });
-    }ScreenshotController screenshotController = widget.screenshotController;
+    }
     Widget bodyWidget() {
       return Screenshot(
         controller: screenshotController,
@@ -413,7 +410,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                   height: constraints.heightConstraints().maxHeight,
                   child: CustomPaint(
                       painter: OpArtWavePainter(
-                        widget.seed, rnd,
+                        seed, rnd,
                         // animation1.value,
                         // animation2.value
                       )),
@@ -628,19 +625,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
         children: [
           Flexible(
             flex: 7,
-            child: widget.showSettings
-                ? Column(
-              children: [
-                Flexible(flex: 3, child: bodyWidget()),
-                Flexible(
-                    flex: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: settingsWidget(),
-                    )),
-              ],
-            )
-                : bodyWidget(),
+            child: bodyWidget(),
           ),
         ],
       ),
