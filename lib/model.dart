@@ -23,7 +23,6 @@ class SettingsModelDouble {
   }
 }
 
-
 class SettingsModelInt {
   int value;
   bool locked = false;
@@ -85,6 +84,25 @@ class SettingsModelList {
     }
   }
 }
+
+class SettingsModelColour {
+  Color value;
+  bool locked = false;
+  final String label;
+  final String tooltip;
+  final Icon icon;
+  final Color defaultValue;
+  final String type = 'Colour';
+
+  SettingsModelColour({this.label, this.tooltip, this.icon, this.defaultValue, this.value});
+
+  void randomise(Random rnd){
+    if (this.locked == false) {
+      this.value =  Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1);
+    }
+  }
+}
+
 
 
 

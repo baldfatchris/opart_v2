@@ -121,7 +121,7 @@ class _OpArtMenuState extends State<OpArtMenu> {
         });
   }
 
-  Hero btn2;
+  // Hero btn2;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -152,15 +152,15 @@ class _OpArtMenuState extends State<OpArtMenu> {
         //         Container(width: 100, height: 1),
         //       ],
         //     )),
-        floatingActionButton: FloatingActionButton(
-          heroTag: btn2,
-          child: Icon(Icons.settings),
-          onPressed: () {
-            setState(() {
-              showSettings = !showSettings;
-            });
-          },
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   heroTag: btn2,
+        //   child: Icon(Icons.settings),
+        //   onPressed: () {
+        //     setState(() {
+        //       showSettings = !showSettings;
+        //     });
+        //   },
+        // ),
         drawer: SizedBox(
           width: size.width,
           child: Drawer(

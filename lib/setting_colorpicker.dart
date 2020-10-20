@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
-class settingsDropdown extends StatefulWidget {
+
+
+class settingsColourPicker extends StatefulWidget {
   String label;
   String tooltip;
-  String currentValue;
-  List<String> dropdownItems;
+  Color currentValue;
   bool locked;
   Function onChanged;
   Function toggleLock;
 
-  settingsDropdown(this.label, this.tooltip, this.currentValue, this.dropdownItems, this.locked, this.onChanged, this.toggleLock);
+  settingsColourPicker(this.label, this.tooltip, this.currentValue, this.locked, this.onChanged, this.toggleLock);
 
   @override
-  _settingsDropdownState createState() => _settingsDropdownState();
+  _settingsColourPickerState createState() => _settingsColourPickerState();
 }
 
-
-
-
-class _settingsDropdownState extends State<settingsDropdown> {
+class _settingsColourPickerState extends State<settingsColourPicker> {
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min,
+     mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Container(
           height: 50,
@@ -34,7 +33,7 @@ class _settingsDropdownState extends State<settingsDropdown> {
           ),
         ),
         Container(
-            height: 50,
+            height: 30,
 
             child: Row(
               children:[
@@ -51,26 +50,20 @@ class _settingsDropdownState extends State<settingsDropdown> {
             )
         ),
         Container(
-          height: 50,
+          height: 200,
 
-            child: DropdownButton<String>(
-              value: widget.currentValue,
-
-              onChanged: widget.locked ? null : widget.onChanged,
-              items: widget.dropdownItems
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-
-            )
+          child:   ColorPicker(
+            displayThumbColor: false,
+            pickerAreaHeightPercent: 0.3,
+            pickerAreaBorderRadius: BorderRadius.circular(10.0),
+            pickerColor: widget.currentValue,
+            onColorChanged: widget.locked ? null : widget.onChanged,
+            showLabel: false,
+          )
 
         ),
       ],
     );
-
 
   }
 }

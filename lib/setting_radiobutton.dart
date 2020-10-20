@@ -26,14 +26,6 @@ class _settingsRadioButtonState extends State<settingsRadioButton> {
           height: 50,
 
           child: Text(
-            widget.label,
-            style: widget.locked ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ),
-        Container(
-          height: 50,
-
-          child: Text(
             widget.tooltip,
             style: TextStyle(fontWeight: FontWeight.normal),
           ),

@@ -7,6 +7,7 @@ import 'package:shake/shake.dart';
 import 'package:opart_v2/setting_slider.dart';
 import 'package:opart_v2/setting_intslider.dart';
 import 'package:opart_v2/setting_dropdown.dart';
+import 'package:opart_v2/setting_colorpicker.dart';
 import 'package:opart_v2/setting_radiobutton.dart';
 import 'model.dart';
 
@@ -16,57 +17,16 @@ Random rnd;
 Fibonacci currentFibonacci;
 
 List Palettes = [
-  [
-    'default',
-    10,
-    Color(0xFFffffff),
-    [
-      Color(0xFF34a1af),
-      Color(0xFFa570a8),
-      Color(0xFFd6aa27),
-      Color(0xFF5f9d50),
-      Color(0xFF789dd1),
-      Color(0xFFc25666),
-      Color(0xFF2b7b1),
-      Color(0xFFd63aa),
-      Color(0xFF1f4ed),
-      Color(0xFF383c47)
-    ]
-  ]
+  ['default', 10, Color(0xFFffffff), [Color(0xFF34a1af), Color(0xFFa570a8), Color(0xFFd6aa27), Color(0xFF5f9d50), Color(0xFF789dd1), Color(0xFFc25666), Color(0xFF2b7b1), Color(0xFFd63aa), Color(0xFF1f4ed), Color(0xFF383c47)]],
 ];
 
 class Fibonacci {
   // image settings
 
-  SettingsModelDouble angleIncrement = SettingsModelDouble(
-      label: 'Angle Increment',
-      tooltip: 'The angle in radians between successive petals of the flower',
-      min: 0,
-      max: 2 * pi,
-      defaultValue: (sqrt(5) + 1) / 2,
-      icon: Icon(Icons.ac_unit));
-  SettingsModelDouble flowerFill = SettingsModelDouble(
-      label: 'Zoom',
-      tooltip: 'Zoom in and out',
-      min: 0.3,
-      max: 2,
-      defaultValue: 1,
-      icon: Icon(Icons.access_alarm));
-  SettingsModelDouble petalToRadius = SettingsModelDouble(
-      label: 'Petal Size',
-      tooltip:
-          'The size of the petal as a multiple of its distance from the centre',
-      min: 0.01,
-      max: 0.1,
-      defaultValue: 0.03,
-      icon: Icon(Icons.zoom_in));
-  SettingsModelDouble ratio = SettingsModelDouble(
-      label: 'Ratio',
-      tooltip: 'The fill ratio of the flower',
-      min: 0.995,
-      max: 0.9999,
-      defaultValue: 0.999,
-      icon: Icon(Icons.adjust));
+  SettingsModelDouble angleIncrement = SettingsModelDouble(label: 'Angle Increment', tooltip: 'The angle in radians between successive petals of the flower', min: 0, max: 2 * pi, defaultValue: (sqrt(5) + 1) / 2, icon: Icon(Icons.ac_unit));
+  SettingsModelDouble flowerFill = SettingsModelDouble(label: 'Zoom', tooltip: 'Zoom in and out', min: 0.3, max: 2, defaultValue: 1, icon: Icon(Icons.access_alarm));
+  SettingsModelDouble petalToRadius = SettingsModelDouble(label: 'Petal Size', tooltip: 'The size of the petal as a multiple of its distance from the centre', min: 0.01, max: 0.1, defaultValue: 0.03,icon: Icon(Icons.zoom_in));
+  SettingsModelDouble ratio = SettingsModelDouble(label: 'Ratio', tooltip: 'The fill ratio of the flower', min: 0.995, max: 0.9999, defaultValue: 0.999, icon: Icon(Icons.adjust));
   SettingsModelDouble randomiseAngle = SettingsModelDouble(
       label: 'Randomise Angle',
       tooltip:
@@ -79,7 +39,7 @@ class Fibonacci {
       label: 'Petal Pointiness',
       tooltip: 'the pointiness of the petal',
       min: 0,
-      max: pi,
+      max: pi/2,
       defaultValue: 0.8,
       icon: Icon(Icons.account_circle));
   SettingsModelDouble petalRotation = SettingsModelDouble(
@@ -97,15 +57,9 @@ class Fibonacci {
       defaultValue: 0,
       icon: Icon(Icons.autorenew));
 
-  SettingsModelList petalType = SettingsModelList(
-    label: "Petal Type",
-    tooltip: "The shape of the petal",
-    defaultValue: "circle",
-    icon: Icon(Icons.format_shapes),
-    options: ['circle', 'triangle', 'square', 'petal'],
-  );
+  SettingsModelList petalType = SettingsModelList(label: "Petal Type", tooltip: "The shape of the petal", defaultValue: "circle", icon: Icon(Icons.format_shapes), options: ['circle', 'triangle', 'square', 'petal'],);
 
-  int maxPetals;
+  SettingsModelInt maxPetals = SettingsModelInt(label: 'Max Petals', tooltip: 'The maximum number of petals to draw', min: 0, max: 20000, defaultValue: 10000, icon: Icon(Icons.fiber_smart_record));
 
   SettingsModelDouble radialOscAmplitude = SettingsModelDouble(
       label: 'Radial Oscillation',
@@ -122,11 +76,11 @@ class Fibonacci {
       defaultValue: 0,
       icon: Icon(Icons.bubble_chart));
 
-  String direction;
+  SettingsModelList direction = SettingsModelList(label: "Direction", tooltip: "Start from the outside and draw Inward, or start from the centre and draw Outward", defaultValue: "inward", icon: Icon(Icons.zoom_out_map), options: ['inward', 'outward'], );
 
 // palette settings
-  Color backgroundColour;
-  Color lineColour;
+  SettingsModelColour backgroundColour = SettingsModelColour(label: "Background Colour", tooltip: "The background colour for the canvas", defaultValue: Colors.white, icon: Icon(Icons.zoom_out_map), );
+  SettingsModelColour lineColour = SettingsModelColour(label: "Outline Colour", tooltip: "The outline colour for the petals", defaultValue: Colors.white, icon: Icon(Icons.zoom_out_map), );
 
   SettingsModelDouble lineWidth = SettingsModelDouble(
       label: 'Outline Width',
@@ -150,7 +104,7 @@ class Fibonacci {
       defaultValue: 10,
       icon: Icon(Icons.palette));
 
-  String paletteType;
+  SettingsModelList paletteType = SettingsModelList(label: "Palette Type", tooltip: "The nature of the palette", defaultValue: "random", icon: Icon(Icons.colorize), options: ['random', 'blended random ', 'linear random', 'linear complementary'],);
 
   SettingsModelDouble opacity = SettingsModelDouble(
       label: 'Opactity',
@@ -165,33 +119,18 @@ class Fibonacci {
   File image;
 
 // lock settings
-  bool maxPetalsLOCK = false;
-  bool directionLOCK = false;
-  bool backgroundColourLOCK = false;
-  bool lineColourLOCK = false;
-  bool paletteTypeLOCK = false;
   bool paletteLOCK = false;
   bool aspectRatioLOCK = false;
 
   Random random;
 
   Fibonacci({
-    // image settings
-    this.maxPetals,
-    this.direction,
 
     // palette settings
-    this.backgroundColour,
-    this.lineColour,
-    this.paletteType,
     this.palette,
     this.aspectRatio = pi / 2,
     this.image,
-    this.maxPetalsLOCK = false,
-    this.directionLOCK = false,
-    this.backgroundColourLOCK = false,
-    this.lineColourLOCK = false,
-    this.paletteTypeLOCK = false,
+
     this.paletteLOCK = false,
     this.aspectRatioLOCK = false,
     this.random,
@@ -236,9 +175,7 @@ class Fibonacci {
     this.petalType.randomise(random);
 
     // maxPetals = 5000 to 10000;
-    if (this.maxPetalsLOCK == false) {
-      this.maxPetals = random.nextInt(5000) + 5000;
-    }
+    this.maxPetals.randomise(random);
 
     // radialOscAmplitude 0 to 5
     this.radialOscAmplitude.randomise(random);
@@ -250,9 +187,7 @@ class Fibonacci {
     this.radialOscPeriod.randomise(random);
 
     // direction
-    if (this.directionLOCK == false) {
-      this.direction = random.nextBool() ? 'inward' : 'outward';
-    }
+    this.direction.randomise(random);
 
     if (this.aspectRatioLOCK == false) {
       // this.aspectRatio = random.nextDouble() + 0.5;
@@ -277,9 +212,7 @@ class Fibonacci {
     this.opacity.randomise(random);
 
     // backgroundColour
-    if (this.backgroundColourLOCK == false) {
-      this.backgroundColour = Color((random.nextDouble() * 0xFFFFFF).toInt());
-    }
+    this.backgroundColour.randomise(random);
   }
 
   void randomizePalette() {
@@ -290,24 +223,19 @@ class Fibonacci {
     rnd = Random(DateTime.now().millisecond);
 
     // lineColour
-    if (this.lineColourLOCK == false) {
-      this.lineColour =
-          Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1);
-    }
+    this.lineColour.randomise(random);
+
+    int numberOfColours = this.numberOfColours.value;
 
     List palette = [];
-    switch (this.paletteType) {
+    switch (this.paletteType.value) {
 
       // blended random
       case 'blended random':
         {
           double blendColour = rnd.nextDouble() * 0xFFFFFF;
-          for (int colourIndex = 0;
-              colourIndex < this.numberOfColours.value;
-              colourIndex++) {
-            palette.add(
-                Color(((blendColour + rnd.nextDouble() * 0xFFFFFF) / 2).toInt())
-                    .withOpacity(1));
+          for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++) {
+            palette.add(Color(((blendColour + rnd.nextDouble() * 0xFFFFFF) / 2).toInt()).withOpacity(1));
           }
         }
         break;
@@ -315,35 +243,13 @@ class Fibonacci {
       // linear random
       case 'linear random':
         {
-          List startColour = [
-            rnd.nextInt(255),
-            rnd.nextInt(255),
-            rnd.nextInt(255)
-          ];
-          List endColour = [
-            rnd.nextInt(255),
-            rnd.nextInt(255),
-            rnd.nextInt(255)
-          ];
-          for (int colourIndex = 0;
-              colourIndex < this.numberOfColours.value;
-              colourIndex++) {
+          List startColour = [rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)];
+          List endColour = [rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)];
+          for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++) {
             palette.add(Color.fromRGBO(
-                ((startColour[0] * colourIndex +
-                            endColour[0] *
-                                (this.numberOfColours.value - colourIndex)) /
-                        this.numberOfColours.value)
-                    .round(),
-                ((startColour[1] * colourIndex +
-                            endColour[1] *
-                                (this.numberOfColours.value - colourIndex)) /
-                        this.numberOfColours.value)
-                    .round(),
-                ((startColour[2] * colourIndex +
-                            endColour[2] *
-                                (this.numberOfColours.value - colourIndex)) /
-                        this.numberOfColours.value)
-                    .round(),
+                ((startColour[0] * colourIndex + endColour[0] * (numberOfColours - colourIndex)) / numberOfColours).round(),
+                ((startColour[1] * colourIndex + endColour[1] * (numberOfColours - colourIndex)) / numberOfColours).round(),
+                ((startColour[2] * colourIndex + endColour[2] * (numberOfColours - colourIndex)) / numberOfColours).round(),
                 1));
           }
         }
@@ -352,35 +258,13 @@ class Fibonacci {
       // linear complementary
       case 'linear complementary':
         {
-          List startColour = [
-            rnd.nextInt(255),
-            rnd.nextInt(255),
-            rnd.nextInt(255)
-          ];
-          List endColour = [
-            255 - startColour[0],
-            255 - startColour[1],
-            255 - startColour[2]
-          ];
-          for (int colourIndex = 0;
-              colourIndex < this.numberOfColours.value;
-              colourIndex++) {
+          List startColour = [rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)];
+          List endColour = [255 - startColour[0], 255 - startColour[1], 255 - startColour[2]];
+          for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++) {
             palette.add(Color.fromRGBO(
-                ((startColour[0] * colourIndex +
-                            endColour[0] *
-                                (this.numberOfColours.value - colourIndex)) /
-                        this.numberOfColours.value)
-                    .round(),
-                ((startColour[1] * colourIndex +
-                            endColour[1] *
-                                (this.numberOfColours.value - colourIndex)) /
-                        this.numberOfColours.value)
-                    .round(),
-                ((startColour[2] * colourIndex +
-                            endColour[2] *
-                                (this.numberOfColours.value - colourIndex)) /
-                        this.numberOfColours.value)
-                    .round(),
+                ((startColour[0] * colourIndex + endColour[0] * (numberOfColours - colourIndex)) / numberOfColours).round(),
+                ((startColour[1] * colourIndex + endColour[1] * (numberOfColours - colourIndex)) / numberOfColours).round(),
+                ((startColour[2] * colourIndex + endColour[2] * (numberOfColours - colourIndex)) / numberOfColours).round(),
                 1));
           }
         }
@@ -390,7 +274,7 @@ class Fibonacci {
       default:
         {
           for (int colorIndex = 0;
-              colorIndex < this.numberOfColours.value;
+              colorIndex < numberOfColours;
               colorIndex++) {
             palette.add(
                 Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1));
@@ -414,48 +298,27 @@ class Fibonacci {
     this.petalRotation.value = this.petalRotation.defaultValue;
     this.petalRotationRatio.value = this.petalRotationRatio.defaultValue;
     this.petalType.value = this.petalType.defaultValue;
-
-    this.maxPetals = 10000;
-
+    this.maxPetals.value = this.maxPetals.defaultValue;
     this.radialOscAmplitude.value = this.radialOscAmplitude.defaultValue;
     this.radialOscPeriod.value = this.radialOscPeriod.defaultValue;
-
-    this.direction = 'inward';
+    this.direction.value = this.direction.defaultValue;
 
     // palette settings
-    this.backgroundColour = Colors.white;
-    this.lineColour = Colors.white;
+    this.backgroundColour.value = this.backgroundColour.defaultValue;
+    this.lineColour.value = this.lineColour.defaultValue;
 
     this.lineWidth.value = this.lineWidth.defaultValue;
-
     this.randomColours.value = this.randomColours.defaultValue;
-
     this.numberOfColours.value = this.numberOfColours.defaultValue;
-
-    this.paletteType = 'random';
+    this.paletteType.value = this.paletteType.defaultValue;
 
     this.opacity.value = this.opacity.defaultValue;
 
-    this.palette = [
-      Color(0xFF34a1af),
-      Color(0xFFa570a8),
-      Color(0xFFd6aa27),
-      Color(0xFF5f9d50),
-      Color(0xFF789dd1),
-      Color(0xFFc25666),
-      Color(0xFF2b7b1),
-      Color(0xFFd63aa),
-      Color(0xFF1f4ed),
-      Color(0xFF383c47)
-    ];
+    this.palette = [Color(0xFF34a1af), Color(0xFFa570a8), Color(0xFFd6aa27), Color(0xFF5f9d50), Color(0xFF789dd1), Color(0xFFc25666), Color(0xFF2b7b1), Color(0xFFd63aa), Color(0xFF1f4ed), Color(0xFF383c47)];
     this.aspectRatio = pi / 2;
+
     this.image;
 
-    this.maxPetalsLOCK = false;
-    this.directionLOCK = false;
-    this.backgroundColourLOCK = false;
-    this.lineColourLOCK = false;
-    this.paletteTypeLOCK = false;
     this.paletteLOCK = false;
     this.aspectRatioLOCK = false;
   }
@@ -465,7 +328,6 @@ List settingsList = [
   currentFibonacci.angleIncrement,
   currentFibonacci.ratio,
   currentFibonacci.flowerFill,
-  currentFibonacci.lineWidth,
   currentFibonacci.opacity,
   currentFibonacci.petalType,
   currentFibonacci.petalPointiness,
@@ -475,8 +337,14 @@ List settingsList = [
   currentFibonacci.radialOscAmplitude,
   currentFibonacci.radialOscPeriod,
   currentFibonacci.randomiseAngle,
+  currentFibonacci.maxPetals,
+  currentFibonacci.direction,
+  currentFibonacci.backgroundColour,
+  currentFibonacci.lineColour,
+  currentFibonacci.lineWidth,
   currentFibonacci.numberOfColours,
   currentFibonacci.randomColours,
+  currentFibonacci.paletteType,
 ];
 
 class OpArtFibonacciStudio extends StatefulWidget {
@@ -627,12 +495,12 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
       currentFibonacci.image = image;
 
       Map<String, dynamic> currentCache = {
-        'maxPetals': currentFibonacci.maxPetals,
-        'direction': currentFibonacci.direction,
+        'maxPetals': currentFibonacci.maxPetals.value,
+        'direction': currentFibonacci.direction.value,
         'backgroundColour': currentFibonacci.backgroundColour,
         'lineColour': currentFibonacci.lineColour,
         'numberOfColours': currentFibonacci.numberOfColours.value,
-        'paletteType': currentFibonacci.paletteType,
+        'paletteType': currentFibonacci.paletteType.value,
         'palette': currentFibonacci.palette,
         'aspectRatio': currentFibonacci.aspectRatio,
         'image': currentFibonacci.image,
@@ -816,7 +684,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
             return StatefulBuilder(
                 builder: (BuildContext context, setLocalState) {
               return Center(
-                child: AlertDialog(backgroundColor: Colors.white.withOpacity(0.5),
+                child: AlertDialog(backgroundColor: Colors.white.withOpacity(0.7),
                   title: Text(settingsList[index].label),
                   content: Column(mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
@@ -887,6 +755,28 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
 
                       )
                           :
+                      (settingsList[index].type == 'Colour') ?
+
+                      settingsColourPicker(
+                        settingsList[index].label,
+                        settingsList[index].tooltip,
+                        settingsList[index].value,
+                        settingsList[index].locked,
+
+                            (value) {
+                          setState(() {
+                            settingsList[index].value = value;
+                          });
+                          setLocalState((){});
+                        },
+                            () {
+                          setState(() {
+                            settingsList[index].locked = !settingsList[index].locked;
+                          });
+                        },
+
+                      )
+                          :
                       settingsRadioButton(
                         settingsList[index].label,
                         settingsList[index].tooltip,
@@ -895,7 +785,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
 
                             (value) {
                           setState(() {
-                            settingsList[index].value = value.round();
+                            settingsList[index].value = value;
                           });
                           setLocalState((){});
                         },
@@ -988,9 +878,17 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                     onTap: () {
                       _showBottomSheet(context);
                     },
-                    child: Text(
-                      'Tools',
-                      textAlign: TextAlign.center,
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.blur_circular),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Tools',
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      ],
                     )),
                 GestureDetector(
                     onTap: () {
@@ -1035,51 +933,25 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                           child: GestureDetector(
                             onTap: () {
                               setState(() {
-                                currentFibonacci.maxPetals =
-                                    cachedFibonacciList[index]['maxPetals'];
-                                currentFibonacci.direction =
-                                    cachedFibonacciList[index]['direction'];
-                                currentFibonacci.backgroundColour =
-                                    cachedFibonacciList[index]
-                                        ['backgroundColour'];
-                                currentFibonacci.lineColour =
-                                    cachedFibonacciList[index]['lineColour'];
-                                currentFibonacci.numberOfColours =
-                                    cachedFibonacciList[index]
-                                        ['numberOfColours'];
-                                currentFibonacci.paletteType =
-                                    cachedFibonacciList[index]['paletteType'];
-                                currentFibonacci.palette =
-                                    cachedFibonacciList[index]['palette'];
-                                currentFibonacci.aspectRatio =
-                                    cachedFibonacciList[index]['aspectRatio'];
-                                currentFibonacci.image =
-                                    cachedFibonacciList[index]['image'];
-                                currentFibonacci.angleIncrement.value =
-                                    cachedFibonacciList[index]
-                                        ['angleIncrement'];
-                                currentFibonacci.flowerFill.value =
-                                    cachedFibonacciList[index]['flowerFill'];
-                                currentFibonacci.petalToRadius.value =
-                                    cachedFibonacciList[index]['petalToRadius'];
-                                currentFibonacci.ratio.value =
-                                    cachedFibonacciList[index]['ratio'];
-                                currentFibonacci.randomiseAngle.value =
-                                    cachedFibonacciList[index]
-                                        ['randomiseAngle'];
-                                currentFibonacci.petalPointiness.value =
-                                    cachedFibonacciList[index]
-                                        ['petalPointiness'];
-                                currentFibonacci.petalRotation.value =
-                                    cachedFibonacciList[index]['petalRotation'];
-                                currentFibonacci.petalType.value =
-                                    cachedFibonacciList[index]['petalType'];
-                                currentFibonacci.radialOscAmplitude.value =
-                                    cachedFibonacciList[index]
-                                        ['radialOscAmplitude'];
-                                currentFibonacci.radialOscPeriod.value =
-                                    cachedFibonacciList[index]
-                                        ['radialOscPeriod'];
+                                currentFibonacci.maxPetals = cachedFibonacciList[index]['maxPetals'];
+                                currentFibonacci.direction = cachedFibonacciList[index]['direction'];
+                                currentFibonacci.backgroundColour = cachedFibonacciList[index]['backgroundColour'];
+                                currentFibonacci.lineColour = cachedFibonacciList[index]['lineColour'];
+                                currentFibonacci.numberOfColours = cachedFibonacciList[index]['numberOfColours'];
+                                currentFibonacci.paletteType = cachedFibonacciList[index]['paletteType'];
+                                currentFibonacci.palette =  cachedFibonacciList[index]['palette'];
+                                currentFibonacci.aspectRatio = cachedFibonacciList[index]['aspectRatio'];
+                                currentFibonacci.image = cachedFibonacciList[index]['image'];
+                                currentFibonacci.angleIncrement.value = cachedFibonacciList[index]['angleIncrement'];
+                                currentFibonacci.flowerFill.value = cachedFibonacciList[index]['flowerFill'];
+                                currentFibonacci.petalToRadius.value = cachedFibonacciList[index]['petalToRadius'];
+                                currentFibonacci.ratio.value = cachedFibonacciList[index]['ratio'];
+                                currentFibonacci.randomiseAngle.value = cachedFibonacciList[index]['randomiseAngle'];
+                                currentFibonacci.petalPointiness.value = cachedFibonacciList[index]['petalPointiness'];
+                                currentFibonacci.petalRotation.value = cachedFibonacciList[index]['petalRotation'];
+                                currentFibonacci.petalType.value = cachedFibonacciList[index]['petalType'];
+                                currentFibonacci.radialOscAmplitude.value = cachedFibonacciList[index]['radialOscAmplitude'];
+                                currentFibonacci.radialOscPeriod.value = cachedFibonacciList[index]['radialOscPeriod'];
                               });
                             },
                             child: Container(
@@ -1226,18 +1098,7 @@ class OpArtFibonacciPainter extends CustomPainter {
     double flowerCentreY = imageHeight / 2;
 
     print('aspectRatio = $currentFibonacci.aspectRatio');
-    print('imageWidth = $imageWidth');
-    print('imageHeight = $imageHeight');
-    print('borderX = $borderX');
-    print('borderY = $borderY');
-    print('flowerCentreX: $flowerCentreX');
-    print('flowerCentreY: $flowerCentreY');
 
-    print('numberOfColours: ${currentFibonacci.numberOfColours}');
-    print('opacity: ${currentFibonacci.opacity}');
-    print('paletteType: ${currentFibonacci.paletteType}');
-    print('direction ${currentFibonacci.direction}');
-    print('randomColours: ${currentFibonacci.randomColours}');
 
     int colourOrder = 0;
 
@@ -1264,16 +1125,16 @@ class OpArtFibonacciPainter extends CustomPainter {
       currentFibonacci.petalRotation.value,
       currentFibonacci.petalRotationRatio.value,
       currentFibonacci.petalType.value,
-      currentFibonacci.maxPetals,
+      currentFibonacci.maxPetals.value,
       currentFibonacci.radialOscAmplitude.value,
       currentFibonacci.radialOscPeriod.value,
-      currentFibonacci.direction,
-      currentFibonacci.backgroundColour,
-      currentFibonacci.lineColour,
+      currentFibonacci.direction.value,
+      currentFibonacci.backgroundColour.value,
+      currentFibonacci.lineColour.value,
       currentFibonacci.lineWidth.value,
       currentFibonacci.randomColours.value,
       currentFibonacci.numberOfColours.value,
-      currentFibonacci.paletteType,
+      currentFibonacci.paletteType.value,
       currentFibonacci.opacity.value,
       currentFibonacci.palette,
     );
@@ -1311,6 +1172,35 @@ class OpArtFibonacciPainter extends CustomPainter {
     double currentOpacity,
     List currentPalette,
   ) {
+
+    print('canvasWidth: $canvasWidth');
+    print('canvasHeight: $canvasHeight');
+    print('imageWidth: $imageWidth');
+    print('imageHeight: $imageHeight');
+    print('borderX: $borderX');
+    print('borderY: $borderY');
+    print('flowerCentreX: $flowerCentreX');
+    print('flowerCentreY: $flowerCentreY');
+    print('AngleIncrement: $currentAngleIncrement');
+    print('FlowerFill: $currentFlowerFill');
+    print('PetalToRadius: $currentPetalToRadius');
+    print('RandomiseAngle: $currentRandomiseAngle');
+    print('PetalPointiness: $currentPetalPointiness');
+    print('PetalRotation: $currentPetalRotation');
+    print('PetalRotationRatio: $currentPetalRotationRatio');
+    print('PetalType: $currentPetalType');
+    print('MaxPetals: $currentMaxPetals');
+    print('RadialOscAmplitude: $currentRadialOscAmplitude');
+    print('RadialOscPeriod: $currentRadialOscPeriod');
+    print('Direction: $currentDirection');
+    print('BackgroundColour: $currentBackgroundColour');
+    print('LineColour: $currentLineColour');
+    print('LineWidth: $currentLineWidth');
+    print('RandomColours: $currentRandomColours');
+    print('NumberOfColours: $currentNumberOfColours');
+    print('PaletteType: $currentPaletteType');
+    print('Opacity: $currentOpacity');
+
     // colour in the canvas
     //a rectangle
     canvas.drawRect(
@@ -1594,14 +1484,14 @@ class OpArtFibonacciPainter extends CustomPainter {
                       currentPetalRotation +
                       angle * currentPetalRotationRatio +
                       pi * 0.0 +
-                      currentPetalPointiness),
+                      currentPetalPointiness + pi/4),
           P1[1] +
               petalRadius *
                   sin(angle +
                       currentPetalRotation +
                       angle * currentPetalRotationRatio +
                       pi * 0.0 +
-                      currentPetalPointiness)
+                      currentPetalPointiness + pi/4)
         ];
         List PB = [
           P1[0] +
@@ -1610,14 +1500,14 @@ class OpArtFibonacciPainter extends CustomPainter {
                       currentPetalRotation +
                       angle * currentPetalRotationRatio +
                       pi * 0.5 -
-                      currentPetalPointiness),
+                      currentPetalPointiness - pi/4),
           P1[1] +
               petalRadius *
                   sin(angle +
                       currentPetalRotation +
                       angle * currentPetalRotationRatio +
                       pi * 0.5 -
-                      currentPetalPointiness)
+                      currentPetalPointiness - pi/4)
         ];
         List PC = [
           P1[0] +
@@ -1626,14 +1516,14 @@ class OpArtFibonacciPainter extends CustomPainter {
                       currentPetalRotation +
                       angle * currentPetalRotationRatio +
                       pi * 1.0 +
-                      currentPetalPointiness),
+                      currentPetalPointiness + pi/4),
           P1[1] +
               petalRadius *
                   sin(angle +
                       currentPetalRotation +
                       angle * currentPetalRotationRatio +
                       pi * 1.0 +
-                      currentPetalPointiness)
+                      currentPetalPointiness + pi/4)
         ];
         List PD = [
           P1[0] +
@@ -1642,14 +1532,14 @@ class OpArtFibonacciPainter extends CustomPainter {
                       currentPetalRotation +
                       angle * currentPetalRotationRatio +
                       pi * 1.5 -
-                      currentPetalPointiness),
+                      currentPetalPointiness - pi/4),
           P1[1] +
               petalRadius *
                   sin(angle +
                       currentPetalRotation +
                       angle * currentPetalRotationRatio +
                       pi * 1.5 -
-                      currentPetalPointiness)
+                      currentPetalPointiness - pi/4)
         ];
 
         Path square = Path();

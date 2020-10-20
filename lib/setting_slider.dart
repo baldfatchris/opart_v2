@@ -19,6 +19,7 @@ class settingsSlider extends StatefulWidget {
 }
 
 class _settingsSliderState extends State<settingsSlider> {
+
   @override
   Widget build(BuildContext context) {
     return Column(mainAxisSize: MainAxisSize.min,
