@@ -27,8 +27,7 @@ class Fibonacci {
   SettingsModelDouble flowerFill = SettingsModelDouble(label: 'Zoom', tooltip: 'Zoom in and out', min: 0.3, max: 2, defaultValue: 1, icon: Icon(Icons.access_alarm));
   SettingsModelDouble petalToRadius = SettingsModelDouble(label: 'Petal Size', tooltip: 'The size of the petal as a multiple of its distance from the centre', min: 0.01, max: 0.1, defaultValue: 0.03,icon: Icon(Icons.zoom_in));
   SettingsModelDouble ratio = SettingsModelDouble(label: 'Ratio', tooltip: 'The fill ratio of the flower', min: 0.995, max: 0.9999, defaultValue: 0.999, icon: Icon(Icons.adjust));
-  SettingsModelDouble randomiseAngle = SettingsModelDouble(
-      label: 'Randomise Angle',
+  SettingsModelDouble randomiseAngle = SettingsModelDouble(label: 'Randomise Angle',
       tooltip:
           'Randomise the petal position by moving it around the centre by a random angle up to this maximum',
       min: 0,
@@ -140,6 +139,8 @@ class Fibonacci {
     print('-----------------------------------------------------');
     print('randomize');
     print('-----------------------------------------------------');
+
+    rnd = Random(DateTime.now().millisecond);
 
     // angleIncrement 0 - pi
     this.angleIncrement.randomise(random);
@@ -372,118 +373,6 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
   // Animation<double> animation2;
   // AnimationController controller2;
 
-  Widget settingsWidget() {
-    return ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-              child: Text(
-            'Settings',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          )),
-        ),
-        SizedBox(height: 8),
-
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            // Randomise Palette
-            Flexible(
-              flex: 1,
-              child: FloatingActionButton.extended(
-                label: Text('Randomise Palette'),
-                icon: Icon(Icons.palette),
-                //backgroundColour: Colors.pink,
-
-                onPressed: () {
-                  setState(() {
-                    print('Randomise Palette Button Pressed');
-                    currentFibonacci.randomizePalette();
-                  });
-                },
-              ),
-            ),
-
-            SizedBox(
-              width: 10,
-            ),
-
-            // Randomise All
-            Flexible(
-              flex: 1,
-              child: FloatingActionButton.extended(
-                label: Text('Randomise All'),
-                icon: Icon(Icons.refresh),
-                onPressed: () {
-                  setState(() {
-                    print('Randomise All');
-                    currentFibonacci.randomize();
-                    currentFibonacci.randomizePalette();
-                  });
-                },
-              ),
-            ),
-          ],
-        ),
-
-        // aspectRatio
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-                flex: 1,
-                child: GestureDetector(
-                    onLongPress: () {
-                      setState(() {
-                        // toggle lock
-                        if (currentFibonacci.aspectRatioLOCK) {
-                          currentFibonacci.aspectRatioLOCK = false;
-                        } else {
-                          currentFibonacci.aspectRatioLOCK = true;
-                        }
-                      });
-                    },
-                    child: Row(
-                      children: [
-                        Text(
-                          'aspectRatio:',
-                          style: currentFibonacci.aspectRatioLOCK
-                              ? TextStyle(fontWeight: FontWeight.normal)
-                              : TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Icon(
-                          currentFibonacci.aspectRatioLOCK
-                              ? Icons.lock
-                              : Icons.lock_open,
-                          size: 20,
-                          color: currentFibonacci.aspectRatioLOCK
-                              ? Colors.grey
-                              : Colors.black,
-                        ),
-                      ],
-                    ))),
-            Flexible(
-              flex: 2,
-              child: Slider(
-                value: currentFibonacci.aspectRatio,
-                min: 0.5,
-                max: 2,
-                onChanged: currentFibonacci.aspectRatioLOCK
-                    ? null
-                    : (value) {
-                        setState(() {
-                          currentFibonacci.aspectRatio = value;
-                        });
-                      },
-                label: '$currentFibonacci.aspectRatio ',
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
 
   List<Map<String, dynamic>> cachedFibonacciList = [];
   cacheFibonacci(
@@ -611,33 +500,36 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                           });
                           setLocalState((){});
                         },
-                            () {
+                            (value) {
                           setState(() {
-                            settingsList[index].locked = !settingsList[index].locked;
+                            settingsList[index].locked = value;
                           });
-                        },(){},
+                          setLocalState((){});
+                        },
+                            (){},
                       )
                           :
                       (settingsList[index].type == 'Int') ?
 
                       settingsIntSlider(
-                          settingsList[index].label,
-                          settingsList[index].tooltip,
-                          settingsList[index].value,
-                          settingsList[index].min,
-                          settingsList[index].max,
-                          settingsList[index].locked,
-                              (value) {
-                            setState(() {
-                              settingsList[index].value = value.toInt();
-                            });
-                            setLocalState((){});
-                          },
-                              () {
-                            setState(() {
-                              settingsList[index].locked = !settingsList[index].locked;
-                            });
-                          }
+                        settingsList[index].label,
+                        settingsList[index].tooltip,
+                        settingsList[index].value,
+                        settingsList[index].min,
+                        settingsList[index].max,
+                        settingsList[index].locked,
+                            (value) {
+                          setState(() {
+                            settingsList[index].value = value.toInt();
+                          });
+                          setLocalState((){});
+                        },
+                            (value) {
+                          setState(() {
+                            settingsList[index].locked = value;
+                          });
+                          setLocalState((){});
+                        },
                       )
                           :
                       (settingsList[index].type == 'List') ?
@@ -677,10 +569,11 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                           });
                           setLocalState((){});
                         },
-                            () {
+                            (value) {
                           setState(() {
-                            settingsList[index].locked = !settingsList[index].locked;
+                            settingsList[index].locked = value;
                           });
+                          setLocalState((){});
                         },
 
                       )
@@ -697,11 +590,13 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                           });
                           setLocalState((){});
                         },
-                            () {
+                            (value) {
                           setState(() {
-                            settingsList[index].locked = !settingsList[index].locked;
+                            settingsList[index].locked = value;
                           });
+                          setLocalState((){});
                         },
+
 
                       ),
                     ],

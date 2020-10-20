@@ -35,21 +35,18 @@ class _settingsDropdownState extends State<settingsDropdown> {
         ),
         Container(
             height: 50,
-
             child: Row(
-              children:[
+              children: [
                 Text(
                   'Lock',
-                  style: widget.locked ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Icon(
-                  widget.locked ? Icons.lock : Icons.lock_open,
-                  size: 20,
-                  color: widget.locked ? Colors.grey : Colors.black,
+                Checkbox(
+                  value: widget.locked,
+                  onChanged: widget.toggleLock,
                 ),
               ],
-            )
-        ),
+            )),
+
         Container(
           height: 50,
 

@@ -34,22 +34,19 @@ class _settingsIntSliderState extends State<settingsIntSlider> {
           ),
         ),
         Container(
-          height: 50,
+            height: 50,
+            child: Row(
+              children: [
+                Text(
+                  'Lock',
+                ),
+                Checkbox(
+                  value: widget.locked,
+                  onChanged: widget.toggleLock,
+                ),
+              ],
+            )),
 
-          child: Row(
-            children:[
-              Text(
-                'Lock',
-                style: widget.locked ? TextStyle(fontWeight: FontWeight.normal) : TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Icon(
-                widget.locked ? Icons.lock : Icons.lock_open,
-                size: 20,
-                color: widget.locked ? Colors.grey : Colors.black,
-              ),
-            ],
-          )
-        ),
         Container(
           height: 50,
           child:   Slider(

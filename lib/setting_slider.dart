@@ -19,7 +19,6 @@ class settingsSlider extends StatefulWidget {
 }
 
 class _settingsSliderState extends State<settingsSlider> {
-
   @override
   Widget build(BuildContext context) {
     return Column(mainAxisSize: MainAxisSize.min,
@@ -39,14 +38,10 @@ class _settingsSliderState extends State<settingsSlider> {
               children: [
                 Text(
                   'Lock',
-                  style: widget.locked
-                      ? TextStyle(fontWeight: FontWeight.normal)
-                      : TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Icon(
-                  widget.locked ? Icons.lock : Icons.lock_open,
-                  size: 20,
-                  color: widget.locked ? Colors.grey : Colors.black,
+                Checkbox(
+                  value: widget.locked,
+                  onChanged: widget.toggleLock,
                 ),
               ],
             )),
