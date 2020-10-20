@@ -582,99 +582,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
       );
     }
 
-    //Container(height: 400,
-    //               child: Column(
-    //                 children: <Widget>[
-    //                   (settingsList[index].type == 'Double') ?
-    //
-    //                   settingsSlider(
-    //                     settingsList[index].label,
-    //                     settingsList[index].tooltip,
-    //                     settingsList[index].value,
-    //                     settingsList[index].min,
-    //                     settingsList[index].max,
-    //                     settingsList[index].locked,
-    //                         (value) {
-    //                       setState(() {
-    //                         settingsList[index].value = value;
-    //                       });
-    //                       SetState();
-    //                     },
-    //                         () {
-    //                       setState(() {
-    //                         settingsList[index].locked = !settingsList[index].locked;
-    //                       });
-    //                     },(){},
-    //                   )
-    //                       :
-    //                   (settingsList[index].type == 'Int') ?
-    //
-    //                   settingsIntSlider(
-    //                       settingsList[index].label,
-    //                       settingsList[index].tooltip,
-    //                       settingsList[index].value,
-    //                       settingsList[index].min,
-    //                       settingsList[index].max,
-    //                       settingsList[index].locked,
-    //                           (value) {
-    //                         setState(() {
-    //                           settingsList[index].value = value.toInt();
-    //                         });
-    //                         SetState();
-    //                       },
-    //                           () {
-    //                         setState(() {
-    //                           settingsList[index].locked = !settingsList[index].locked;
-    //                         });
-    //                       }
-    //                   )
-    //                       :
-    //                   (settingsList[index].type == 'List') ?
-    //
-    //                   settingsDropdown(
-    //                     settingsList[index].label,
-    //                     settingsList[index].tooltip,
-    //                     settingsList[index].value,
-    //                     settingsList[index].options,
-    //                     settingsList[index].locked,
-    //
-    //                         (value) {
-    //                       setState(() {
-    //                         settingsList[index].value = value;
-    //                       });
-    //                       SetState();
-    //                     },
-    //                         () {
-    //                       setState(() {
-    //                         settingsList[index].locked = !settingsList[index].locked;
-    //                       });
-    //                     },
-    //
-    //                   )
-    //                       :
-    //                   settingsRadioButton(
-    //                     settingsList[index].label,
-    //                     settingsList[index].tooltip,
-    //                     settingsList[index].value,
-    //                     settingsList[index].locked,
-    //
-    //                         (value) {
-    //                       setState(() {
-    //                         settingsList[index].value = value.round();
-    //                       });
-    //                       SetState();
-    //                     },
-    //                         () {
-    //                       setState(() {
-    //                         settingsList[index].locked = !settingsList[index].locked;
-    //                       });
-    //                     },
-    //
-    //                   ),
-    //
-    //                 ],
-    //               ),
-    //             )
+
     void _showBottomSheetSettings(context, int index) {
       showDialog(
         //  backgroundColor: Colors.white.withOpacity(0.8),
@@ -809,15 +717,15 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
           context: context,
           builder: (BuildContext bc) {
             return Container(
-                height: 300,
+                height: 350,
                 child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4),
                     itemCount: settingsList.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
-                        height: 100,
-                        width: 100,
+                        height: 10,
+                        width: 10,
                         child: GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
@@ -830,9 +738,9 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                             children: [
                               settingsList[index].icon,
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(4.0),
                                 child: Container(
-                                    height: 50,
+                                    height: 40,
                                     child: Text(
                                       settingsList[index].label,
                                       textAlign: TextAlign.center,
