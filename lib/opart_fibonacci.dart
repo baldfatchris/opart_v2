@@ -18,7 +18,6 @@ Fibonacci currentFibonacci;
 
 const List palettes = [
   ['default', 10, Color(0xFFffffff), [Color(0xFF34a1af), Color(0xFFa570a8), Color(0xFFd6aa27), Color(0xFF5f9d50), Color(0xFF789dd1), Color(0xFFc25666), Color(0xFF2b7b1), Color(0xFFd63aa), Color(0xFF1f4ed), Color(0xFF383c47)]],
-
   ['Black and White',2,'0xFF111111',['0xFF000000','0xFFffffff']],
   ['Doge Leonardo',10,'0xFFffffff',['0xFF335362','0xFF30444C','0xFF324B56','0xFF5C381E','0xFF403424','0xFF605239','0xFF7B6A4C','0xFF9A8564','0xFFB3A889','0xFF273638']],
   ['The Birth of Venus',10,'0xFFffffff',['0xFF303227','0xFF13160F','0xFF514F3D','0xFF7AA58B','0xFF647A63','0xFF9C8E64','0xFFA9C9AB','0xFFC0B381','0xFF8C6240','0xFFE3E0B0']],
@@ -32,9 +31,9 @@ const List palettes = [
   ['Gaugin - Woman of the Mango',10,'0xFFffffff',['0xFF222843','0xFF313350','0xFF121C2E','0xFFBD8F03','0xFF403825','0xFF614020','0xFF606E70','0xFF88928B','0xFFA68319','0xFF8D501A']],
   ['Gericault - Raft of the Medusa',10,'0xFFffffff',['0xFF46341A','0xFF21190E','0xFF342514','0xFF0D0D08','0xFF554525','0xFF695531','0xFF856A3E','0xFFA28250','0xFFBE9E63','0xFFE3C47F']],
   ['Grant Wood - American Gothic',10,'0xFFffffff',['0xFF1A1F24','0xFFC5B088','0xFF7E7966','0xFF6A624C','0xFFC0DECD','0xFFA49477','0xFFD7CAA4','0xFF50462E','0xFFCAEAE1','0xFFECE9C5']],
-  ['Hockney - Felled Trees on Wold',10,'0xFFffffff',['0xFF0D9155','0xFF167691','0xFF14341D','0xFFB1D3E7','0xFFB9A0AC','0xFF604065','0xFF52A3BC','0xFFE5BD81','0xFFA88451','0xFF51B871']],
-  ['Hockney - Pacific Coast Highwa',10,'0xFFffffff',['0xFF1157A0','0xFFB04A12','0xFF0B5B24','0xFF5C6E9D','0xFF6D942B','0xFF272A36','0xFF7BACAD','0xFFA87BA2','0xFF22846E','0xFFCBBC09']],
-  ['Hockney - The Arrival of Sprin',10,'0xFFffffff',['0xFF15987B','0xFF2A6A3B','0xFF852308','0xFF502F18','0xFF0F4318','0xFF98553F','0xFF805986','0xFF5B955E','0xFFCCBF56','0xFF0FBF16']],
+  ['Hockney - Felled Trees on Woldgate',10,'0xFFffffff',['0xFF0D9155','0xFF167691','0xFF14341D','0xFFB1D3E7','0xFFB9A0AC','0xFF604065','0xFF52A3BC','0xFFE5BD81','0xFFA88451','0xFF51B871']],
+  ['Hockney - Pacific Coast Highway',10,'0xFFffffff',['0xFF1157A0','0xFFB04A12','0xFF0B5B24','0xFF5C6E9D','0xFF6D942B','0xFF272A36','0xFF7BACAD','0xFFA87BA2','0xFF22846E','0xFFCBBC09']],
+  ['Hockney - The Arrival of Spring',10,'0xFFffffff',['0xFF15987B','0xFF2A6A3B','0xFF852308','0xFF502F18','0xFF0F4318','0xFF98553F','0xFF805986','0xFF5B955E','0xFFCCBF56','0xFF0FBF16']],
   ['Hopper - Nighthawks',10,'0xFFffffff',['0xFF1C2521','0xFF1F3430','0xFF659170','0xFFDEDD86','0xFF3E5C48','0xFF342315','0xFF53311F','0xFF462212','0xFF70331B','0xFFAC772D']],
   ['Hokusai - The Great Wave',6,'0xFFffffff',['0xFFEBE5CC','0xFFD6CDB2','0xFFB7B5A2','0xFF888B82','0xFF4B5560','0xFF243042']],
   ['Klimt - The Kiss',10,'0xFFffffff',['0xFFBFA552','0xFFD0B350','0xFF786331','0xFFB19543','0xFFC0B393','0xFF907839','0xFF968E72','0xFF66588F','0xFFB85D3C','0xFF413526']],
@@ -45,20 +44,20 @@ const List palettes = [
   ['Matisse - La Gerbe',6,'0xFFffffff',['0xFFEFEAD9','0xFF266EA8','0xFF255B37','0xFF8DAA8A','0xFFD7AA3F','0xFFB9454E']],
   ['Matisse - Les Codomas',8,'0xFFffffff',['0xFFCF881C','0xFFE6DF2D','0xFF1D1D14','0xFFD7DCD6','0xFF5A9C8A','0xFF97263F','0xFF264AC6','0xFFE2EBE9']],
   ['Matisse - Snow Flowers',9,'0xFFffffff',['DA803A','0xFFDC9E84','0xFFE2D7C5','0xFFD16886','0xFFE9E5DC','0xFF1E433E','0xFFCCCABF','0xFFA51612','0xFF527799']],
-  ['Matisse - Parakeet and the Mer',10,'0xFFffffff',['0xFFF4FAFC','0xFFD18707','0xFFA710AA','0xFF3A3408','0xFF0B8AB3','0xFF1DB314','0xFF1F152C','0xFF8D5A09','0xFF6A0F69','0xFF0C526D']],
+  ['Matisse - Parakeet and the Mermaid',10,'0xFFffffff',['0xFFF4FAFC','0xFFD18707','0xFFA710AA','0xFF3A3408','0xFF0B8AB3','0xFF1DB314','0xFF1F152C','0xFF8D5A09','0xFF6A0F69','0xFF0C526D']],
   ['Matisse - The Snail',8,'0xFFffffff',['0xFFFB7C1C','0xFF4AE95F','0xFFEADECB','0xFFC864E2','0xFF407CF5','0xFFE4A060','0xFFE2162A','0xFF131716']],
   ['Mondrian',6,'0xFFffffff',['0xFFF50F0F','0xFFF8E213','0xFF0C7EBD','0xFFF2F2F2','0xFF000000','0xFF363636']],
   ['Monet - Charing Cross Bridge',10,'0xFFffffff',['0xFF929696','0xFF778D99','0xFF86918D','0xFF788B86','0xFF84969E','0xFF9CA19F','0xFF688796','0xFF9E9585','0xFF587D8A','0xFFB7AB9D']],
   ['Munch - The Scream',10,'0xFFffffff',['0xFF403130','0xFF644D3C','0xFFD6995C','0xFFCF5629','0xFF8D6D46','0xFFD57C42','0xFF21141B','0xFFAE8552','0xFF625E67','0xFFD18C2D']],
   ['Picasso - Guernica',10,'0xFFffffff',['0xFF33362D','0xFF292B22','0xFFDAD5CF','0xFFC5C0B8','0xFF1B1C14','0xFFAAA89F','0xFF595C51','0xFF8D8D82','0xFF45483D','0xFF6F7268']],
   ['Picasso - The Tragedy',10,'0xFFffffff',['0xFF1E4056','0xFF5398AC','0xFF285873','0xFF6DBFE6','0xFF4CA4D7','0xFF6FAEBA','0xFF132833','0xFF8FD4E8','0xFF417C8F','0xFF2D7CAD']],
-  ['Picasso - The Tragedy - reduce',5,'0xFFffffff',['0xFF5AA5C3','0xFF3D81A0','0xFF7DC8E5','0xFF26536D','0xFF173140']],
+  ['Picasso - The Tragedy - reduced',5,'0xFFffffff',['0xFF5AA5C3','0xFF3D81A0','0xFF7DC8E5','0xFF26536D','0xFF173140']],
   ['Seurat - Sunday Afternoon',10,'0xFFffffff',['0xFF343C33','0xFF495B42','0xFF64665F','0xFF4A4956','0xFFB4AE79','0xFF7E7E7D','0xFF9F9A69','0xFF817E56','0xFFA0A6A9','0xFFC8C6BA']],
-  ['Van Eyck - The Arnolfini Portr',10,'0xFFffffff',['0xFF292225','0xFF141517','0xFF393231','0xFF542527','0xFF20350B','0xFF634B3C','0xFF304E0A','0xFF726859','0xFF9C907A','0xFFC4BCAB']],
+  ['Van Eyck - The Arnolfini Portrait',10,'0xFFffffff',['0xFF292225','0xFF141517','0xFF393231','0xFF542527','0xFF20350B','0xFF634B3C','0xFF304E0A','0xFF726859','0xFF9C907A','0xFFC4BCAB']],
   ['Van Gogh - Self Portrait',10,'0xFFffffff',['89A696','0xFF7E9989','0xFF93B2A4','0xFF70897B','0xFFA4C3B3','0xFF999C6D','0xFF7B7442','0xFF556D65','0xFFBFC092','0xFF4F4F2D']],
   ['Van Gogh - The Starry Night',10,'0xFFffffff',['0xFF44608A','0xFF191F1E','0xFF5A799D','0xFF283441','0xFF2C4175','0xFF8098A4','0xFF6E837F','0xFFA8B391','0xFF47585C','0xFFA79F39']],
-  ['Van Gogh - Wheat Field with Cy',10,'0xFFffffff',['0xFF94A3A7','0xFFABB6B4','0xFF7E9196','0xFF8B791A','0xFF495936','0xFFC7CDC2','0xFF213421','0xFFAC9934','0xFF6C7B51','0xFF637982']],
-  ['Vermeer - Girl with a Pearl Ea',10,'0xFFffffff',['0xFF181308','0xFF28261C','0xFF716046','0xFF9A8059','0xFF4A3E2C','0xFF2A3844','0xFFC0A687','0xFFDBC7B5','0xFF93A2AF','0xFF617586']],
+  ['Van Gogh - Wheat Field with Cypresses',10,'0xFFffffff',['0xFF94A3A7','0xFFABB6B4','0xFF7E9196','0xFF8B791A','0xFF495936','0xFFC7CDC2','0xFF213421','0xFFAC9934','0xFF6C7B51','0xFF637982']],
+  ['Vermeer - Girl with a Pearl Earring',10,'0xFFffffff',['0xFF181308','0xFF28261C','0xFF716046','0xFF9A8059','0xFF4A3E2C','0xFF2A3844','0xFFC0A687','0xFFDBC7B5','0xFF93A2AF','0xFF617586']],
   ['Whistlers Mother',10,'0xFFffffff',['0xFF111012','0xFF2E2D30','0xFF888985','0xFFFEFEFE','0xFF42403D','0xFF5E594B','0xFF767772','0xFFE7E7E8','0xFFB2AA9C','0xFFC9C6BF']],
   ['Goat 1',8,'0xFFffffff',['0xFF413734','0xFF282222','0xFF76665E','0xFF674A3E','0xFF4E4F50','0xFF8E8078','0xFFB0A59C','0xFFDFD7CD']],
   ['Goat 2',8,'0xFFffffff',['0xFF3E3E40','0xFF202123','0xFF5E5C5C','0xFF82817F','0xFFA1A9AB','0xFFCDD2CE','0xFF7393AF','0xFF516E8A']],
@@ -83,40 +82,28 @@ String currentNamedPalette;
 class Fibonacci {
   // image settings
 
-  SettingsModelDouble angleIncrement = SettingsModelDouble(label: 'Angle Increment', tooltip: 'The angle in radians between successive petals of the flower', min: 0, max: 2 * pi, defaultValue: (sqrt(5) + 1) / 2, icon: Icon(Icons.ac_unit));
-  SettingsModelDouble flowerFill = SettingsModelDouble(label: 'Zoom', tooltip: 'Zoom in and out', min: 0.3, max: 2, defaultValue: 1, icon: Icon(Icons.access_alarm));
-  SettingsModelDouble petalToRadius = SettingsModelDouble(label: 'Petal Size', tooltip: 'The size of the petal as a multiple of its distance from the centre', min: 0.01, max: 0.1, defaultValue: 0.03,icon: Icon(Icons.zoom_in));
-  SettingsModelDouble ratio = SettingsModelDouble(label: 'Ratio', tooltip: 'The fill ratio of the flower', min: 0.995, max: 0.9999, defaultValue: 0.999, icon: Icon(Icons.adjust));
+  SettingsModelDouble angleIncrement = SettingsModelDouble(label: 'Angle Increment', tooltip: 'The angle in radians between successive petals of the flower', min: 0, max: 2 * pi, defaultValue: (sqrt(5) + 1) / 2, icon: Icon(Icons.track_changes));
+  SettingsModelDouble flowerFill = SettingsModelDouble(label: 'Zoom', tooltip: 'Zoom in and out', min: 0.3, max: 2, defaultValue: 1, icon: Icon(Icons.zoom_in));
+  SettingsModelDouble petalToRadius = SettingsModelDouble(label: 'Petal Size', tooltip: 'The size of the petal as a multiple of its distance from the centre', min: 0.01, max: 0.3, defaultValue: 0.05,icon: Icon(Icons.swap_horizontal_circle));
+  SettingsModelDouble ratio = SettingsModelDouble(label: 'Fill Ratio', tooltip: 'The fill ratio of the flower', min: 0.995, max: 0.9999, defaultValue: 0.999, icon: Icon(Icons.format_color_fill));
   SettingsModelDouble randomiseAngle = SettingsModelDouble(label: 'Randomise Angle',
       tooltip:
           'Randomise the petal position by moving it around the centre by a random angle up to this maximum',
       min: 0,
       max: 0.2,
       defaultValue: 0,
-      icon: Icon(Icons.all_inclusive));
+      icon: Icon(Icons.ac_unit));
   SettingsModelDouble petalPointiness = SettingsModelDouble(
       label: 'Petal Pointiness',
       tooltip: 'the pointiness of the petal',
       min: 0,
       max: pi/2,
       defaultValue: 0.8,
-      icon: Icon(Icons.account_circle));
-  SettingsModelDouble petalRotation = SettingsModelDouble(
-      label: 'Petal Rotation',
-      tooltip: 'the rotation of the petal',
-      min: 0,
-      max: pi,
-      defaultValue: 0,
-      icon: Icon(Icons.all_out));
-  SettingsModelDouble petalRotationRatio = SettingsModelDouble(
-      label: 'Rotation Ratio',
-      tooltip: 'the rotation of the petal as multiple of the petal angle',
-      min: 0,
-      max: 4,
-      defaultValue: 0,
-      icon: Icon(Icons.autorenew));
+      icon: Icon(Icons.change_history));
+  SettingsModelDouble petalRotation = SettingsModelDouble(label: 'Petal Rotation', tooltip: 'the rotation of the petal', min: 0, max: pi, defaultValue: 0, icon: Icon(Icons.rotate_right));
+  SettingsModelDouble petalRotationRatio = SettingsModelDouble(label: 'Rotation Ratio', tooltip: 'the rotation of the petal as multiple of the petal angle', min: 0, max: 4, defaultValue: 0, icon: Icon(Icons.autorenew));
 
-  SettingsModelList petalType = SettingsModelList(label: "Petal Type", tooltip: "The shape of the petal", defaultValue: "circle", icon: Icon(Icons.format_shapes), options: ['circle', 'triangle', 'square', 'petal'],);
+  SettingsModelList petalType = SettingsModelList(label: "Petal Type", tooltip: "The shape of the petal", defaultValue: "circle", icon: Icon(Icons.local_florist), options: ['circle', 'triangle', 'square', 'petal'],);
 
   SettingsModelInt maxPetals = SettingsModelInt(label: 'Max Petals', tooltip: 'The maximum number of petals to draw', min: 0, max: 20000, defaultValue: 10000, icon: Icon(Icons.fiber_smart_record));
 
@@ -126,7 +113,7 @@ class Fibonacci {
       min: 0,
       max: 5,
       defaultValue: 0,
-      icon: Icon(Icons.bluetooth_audio));
+      icon: Icon(Icons.all_inclusive));
   SettingsModelDouble radialOscPeriod = SettingsModelDouble(
       label: 'Oscillation Period',
       tooltip: 'The period of the radial oscillation',
@@ -135,25 +122,15 @@ class Fibonacci {
       defaultValue: 0,
       icon: Icon(Icons.bubble_chart));
 
-  SettingsModelList direction = SettingsModelList(label: "Direction", tooltip: "Start from the outside and draw Inward, or start from the centre and draw Outward", defaultValue: "inward", icon: Icon(Icons.zoom_out_map), options: ['inward', 'outward'], );
+  SettingsModelList direction = SettingsModelList(label: "Direction", tooltip: "Start from the outside and draw Inward, or start from the centre and draw Outward", defaultValue: "inward", icon: Icon(Icons.directions), options: ['inward', 'outward'], );
 
 // palette settings
-  SettingsModelColour backgroundColour = SettingsModelColour(label: "Background Colour", tooltip: "The background colour for the canvas", defaultValue: Colors.white, icon: Icon(Icons.zoom_out_map), );
+  SettingsModelColour backgroundColour = SettingsModelColour(label: "Background Colour", tooltip: "The background colour for the canvas", defaultValue: Colors.white, icon: Icon(Icons.settings_overscan), );
   SettingsModelColour lineColour = SettingsModelColour(label: "Outline Colour", tooltip: "The outline colour for the petals", defaultValue: Colors.white, icon: Icon(Icons.zoom_out_map), );
 
-  SettingsModelDouble lineWidth = SettingsModelDouble(
-      label: 'Outline Width',
-      tooltip: 'The width of the petal outline',
-      min: 0,
-      max: 3,
-      defaultValue: 0,
-      icon: Icon(Icons.line_weight));
+  SettingsModelDouble lineWidth = SettingsModelDouble(label: 'Outline Width', tooltip: 'The width of the petal outline', min: 0, max: 3, defaultValue: 0, icon: Icon(Icons.line_weight));
 
-  SettingsModelBool randomColours = SettingsModelBool(
-      label: 'Random Colours',
-      tooltip: 'Randomise the coloursl',
-      defaultValue: false,
-      icon: Icon(Icons.gamepad));
+  SettingsModelBool randomColours = SettingsModelBool(label: 'Random Colours', tooltip: 'Randomise the coloursl', defaultValue: false, icon: Icon(Icons.gamepad));
 
   SettingsModelInt numberOfColours = SettingsModelInt(
       label: 'Number of Colours',
@@ -165,7 +142,7 @@ class Fibonacci {
 
   SettingsModelList paletteType = SettingsModelList(label: "Palette Type", tooltip: "The nature of the palette", defaultValue: "random", icon: Icon(Icons.colorize), options: ['random', 'blended random ', 'linear random', 'linear complementary'],);
 
-  SettingsModelList paletteList = SettingsModelList(label: "Palette", tooltip: "Choose from a list of palettes", defaultValue: "Default", icon: Icon(Icons.colorize), options: ['Default', 'Black and White',	'Doge Leonardo',	'The Birth of Venus',	'Bridget Riley - Achæan',	'Bridget Riley - Evoe 3',	'Bridget Riley - Fete',	'Bridget Riley - Nataraja',	'Bridget Riley - Summers Day',	'Da Vinci - The Last Supper',	'Da Vinci - The Mona Lisa',	'Gaugin - Woman of the Mango',	'Gericault - Raft of the Medusa',	'Grant Wood - American Gothic',	'Hockney - Felled Trees on Woldgate',	'Hockney - Pacific Coast Highway',	'Hockney - The Arrival of Spring',	'Hopper - Nighthawks',	'Hokusai - The Great Wave',	'Klimt - The Kiss',	'Matisse - Danse',	'Matisse - Danse I',	'Matisse - Icarus',	'Matisse - Jazz',	'Matisse - La Gerbe',	'Matisse - Les Codomas',	'Matisse - Snow Flowers',	'Matisse - Parakeet and the Mermaid',	'Matisse - The Snail',	'Mondrian',	'Monet - Charing Cross Bridge',	'Munch - The Scream',	'Picasso - Guernica',	'Picasso - The Tragedy',	'Picasso - The Tragedy - reduced',	'Seurat - Sunday Afternoon',	'Van Eyck - The Arnolfini Portrait',	'Van Gogh - Self Portrait',	'Van Gogh - The Starry Night',	'Van Gogh - Wheat Field with Cypresses',	'Vermeer - Girl with a Pearl Earring',	'Whistlers Mother',	'Goat 1',	'Goat 2',	'Goat 3',	'Maits Stairs',	'Lilly',	'Man in blue hat',	'Spider',	'Deck Chairs',	'Bo Kaap',	'Pantone Pop Stripes',	'Purple Artichokes',	'Stained Glass',	'Ferns',	'Rhubarb',	'SriDevi',	'Peacock',	'Coronavirus',],);
+  SettingsModelList paletteList = SettingsModelList(label: "Palette", tooltip: "Choose from a list of palettes", defaultValue: "Default", icon: Icon(Icons.palette), options: ['Default', 'Black and White',	'Doge Leonardo',	'The Birth of Venus',	'Bridget Riley - Achæan',	'Bridget Riley - Evoe 3',	'Bridget Riley - Fete',	'Bridget Riley - Nataraja',	'Bridget Riley - Summers Day',	'Da Vinci - The Last Supper',	'Da Vinci - The Mona Lisa',	'Gaugin - Woman of the Mango',	'Gericault - Raft of the Medusa',	'Grant Wood - American Gothic',	'Hockney - Felled Trees on Woldgate',	'Hockney - Pacific Coast Highway',	'Hockney - The Arrival of Spring',	'Hopper - Nighthawks',	'Hokusai - The Great Wave',	'Klimt - The Kiss',	'Matisse - Danse',	'Matisse - Danse I',	'Matisse - Icarus',	'Matisse - Jazz',	'Matisse - La Gerbe',	'Matisse - Les Codomas',	'Matisse - Snow Flowers',	'Matisse - Parakeet and the Mermaid',	'Matisse - The Snail',	'Mondrian',	'Monet - Charing Cross Bridge',	'Munch - The Scream',	'Picasso - Guernica',	'Picasso - The Tragedy',	'Picasso - The Tragedy - reduced',	'Seurat - Sunday Afternoon',	'Van Eyck - The Arnolfini Portrait',	'Van Gogh - Self Portrait',	'Van Gogh - The Starry Night',	'Van Gogh - Wheat Field with Cypresses',	'Vermeer - Girl with a Pearl Earring',	'Whistlers Mother',	'Goat 1',	'Goat 2',	'Goat 3',	'Maits Stairs',	'Lilly',	'Man in blue hat',	'Spider',	'Deck Chairs',	'Bo Kaap',	'Pantone Pop Stripes',	'Purple Artichokes',	'Stained Glass',	'Ferns',	'Rhubarb',	'SriDevi',	'Peacock',	'Coronavirus',],);
 
   SettingsModelDouble opacity = SettingsModelDouble(
       label: 'Opactity',
@@ -173,7 +150,7 @@ class Fibonacci {
       min: 0,
       max: 1,
       defaultValue: 1,
-      icon: Icon(Icons.opacity));
+      icon: Icon(Icons.remove_red_eye));
 
   List palette;
   double aspectRatio;
@@ -938,33 +915,25 @@ class OpArtFibonacciPainter extends CustomPainter {
     print('Fibonacci');
     print('----------------------------------------------------------------');
 
+
     // Initialise the palette
     if (currentFibonacci == null) {
       currentFibonacci = new Fibonacci(random: rnd);
       currentFibonacci.defaultSettings();
+      currentNamedPalette = currentFibonacci.paletteList.value;
     }
-    else if (currentFibonacci.paletteList.value != currentNamedPalette) {
-      // find the index of the plette in the list
-      print('find the palette');
-      print(currentFibonacci.paletteList.value);
-      print(palettes.firstWhere((palette) => palette[0]==currentFibonacci.paletteList.value));
+
+
+    if (currentNamedPalette != null && currentFibonacci.paletteList.value != currentNamedPalette) {
+      // find the index of the palette in the list
 
       List newPalette = palettes.firstWhere((palette) => palette[0]==currentFibonacci.paletteList.value);
-
-      print(newPalette);
-      print(newPalette[1]);
-      print(newPalette[2]);
-      print(newPalette[3]);
 
       // set the palette details
       currentFibonacci.numberOfColours.value = newPalette[1].toInt();
       currentFibonacci.backgroundColour.value = Color(int.parse(newPalette[2]));
       currentFibonacci.palette = [];
       for (int z = 0; z < currentFibonacci.numberOfColours.value; z++){
-        print(newPalette[3][z]);
-        print(int.parse(newPalette[3][z]));
-        print(Color(int.parse(newPalette[3][z])));
-
         currentFibonacci.palette.add(Color(int.parse(newPalette[3][z])));
       }
 
