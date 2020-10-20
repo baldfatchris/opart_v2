@@ -49,6 +49,7 @@ class _settingsSliderState extends State<settingsSlider> {
           height: 50,
           child: Slider(
             onChangeEnd: (double) {
+              print('*********** should update cache');
               widget.updateCache();
             },
             value: widget.currentValue,
