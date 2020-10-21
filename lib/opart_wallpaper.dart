@@ -3,12 +3,13 @@ import 'dart:math';
 import 'dart:io';
 import 'package:screenshot/screenshot.dart';
 import 'package:shake/shake.dart';
+import 'package:opart_v2/setting_button.dart';
 import 'package:opart_v2/setting_slider.dart';
 import 'package:opart_v2/setting_intslider.dart';
 import 'package:opart_v2/setting_dropdown.dart';
 import 'package:opart_v2/setting_colorpicker.dart';
 import 'package:opart_v2/setting_radiobutton.dart';
-import 'model.dart';
+import 'opart_model.dart';
 import 'palettes.dart';
 
 Random rnd;
@@ -57,6 +58,7 @@ class Wallpaper {
   SettingsModelList paletteType = SettingsModelList(label: "Palette Type", tooltip: "The nature of the palette", defaultValue: "random", icon: Icon(Icons.colorize), options: ['random', 'blended random ', 'linear random', 'linear complementary'],);
   SettingsModelDouble opacity = SettingsModelDouble(label: 'Opactity', tooltip: 'The opactity of the petal', min: 0.2, max: 1, zoom: 100, defaultValue: 1, icon: Icon(Icons.remove_red_eye));
   SettingsModelList paletteList = SettingsModelList(label: "Palette", tooltip: "Choose from a list of palettes", defaultValue: "Default", icon: Icon(Icons.palette), options: defaultPalleteNames(),);
+  SettingsModelButton resetDefaults = SettingsModelButton(label: 'Reset Defaults', tooltip: 'Reset all settings to defaults', defaultValue: false, icon: Icon(Icons.low_priority));
 
   List palette;
   double aspectRatio;
@@ -168,10 +170,9 @@ class Wallpaper {
     this.opacity.value = this.opacity.defaultValue;
 
     this.paletteList.value = this.paletteList.defaultValue;
+    this.resetDefaults.value = this.resetDefaults.defaultValue;
 
     this.palette = [Color(0xFF37A7BC), Color(0xFFB4B165), Color(0xFFA47EA4), Color(0xFF69ABCB), Color(0xFF79B38E), Color(0xFF17B8E0), Color(0xFFD1EFED), Color(0xFF151E2A), Color(0xFF725549), Color(0xFF074E71)];
-
-
 
     this.aspectRatio = pi / 2;
 
@@ -214,6 +215,7 @@ List settingsList = [
   currentWallpaper.paletteType,
   currentWallpaper.opacity ,
   currentWallpaper.paletteList,
+  currentWallpaper.resetDefaults,
 ];
 
 class OpArtWallpaperStudio extends StatefulWidget {
@@ -460,6 +462,9 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
 
                           )
                               :
+
+                          (settingsList[index].type == 'Bool') ?
+
                           settingsRadioButton(
                             settingsList[index].label,
                             settingsList[index].tooltip,
@@ -480,7 +485,21 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
                             },
 
 
+                          )
+                          :
+                          settingsButton(
+                            settingsList[index].label,
+                            settingsList[index].tooltip,
+                            settingsList[index].value,
+
+                                () {
+                              setState(() {
+                                settingsList[index].value = true;
+                              });
+                              setLocalState((){});
+                            },
                           ),
+
                         ],
                       ),
                     ),
@@ -760,7 +779,6 @@ class OpArtWallpaperPainter extends CustomPainter {
     print('Wallpaper');
     print('----------------------------------------------------------------');
 
-
     // Initialise the palette
     if (currentWallpaper == null) {
       currentWallpaper = new Wallpaper(random: rnd);
@@ -783,6 +801,10 @@ class OpArtWallpaperPainter extends CustomPainter {
       currentWallpaper.randomizePalette();
     }
 
+    // reset the defaults
+    if (currentWallpaper.resetDefaults.value == true){
+      currentWallpaper.defaultSettings();
+    }
 
     // Initialise the canvas
     double canvasWidth = size.width;

@@ -70,6 +70,17 @@ class SettingsModelBool {
   }
 }
 
+class SettingsModelButton {
+  bool value;
+  final String label;
+  final String tooltip;
+  final Icon icon;
+  final bool defaultValue;
+  final String type = 'Button';
+
+  SettingsModelButton({this.label, this.tooltip, this.icon, this.defaultValue, this.value});
+
+}
 
 class SettingsModelList {
   String value;
