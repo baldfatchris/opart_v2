@@ -26,36 +26,36 @@ class Wallpaper {
   SettingsModelInt cellsX = SettingsModelInt(label: 'Horizontal Cells', tooltip: 'The number of horizontal cells', min: 1, max: 10, defaultValue: 5, icon: Icon(Icons.swap_horiz));
   SettingsModelInt cellsY = SettingsModelInt(label: 'Vertical Cells', tooltip: 'The number of vertical cells', min: 1, max: 10, defaultValue: 5, icon: Icon(Icons.swap_vert));
   SettingsModelList shape = SettingsModelList(label: "Shape", tooltip: "The shape in the cell", defaultValue: "circle", icon: Icon(Icons.settings), options: ['circle', 'squaricle', 'star',],);
-  SettingsModelDouble driftX = SettingsModelDouble(label: 'Horizontal Drift', tooltip: 'The drift in the horizontal axis', min: -20, max: 20, defaultValue: 0, icon: Icon(Icons.more_horiz));
-  SettingsModelDouble driftXStep = SettingsModelDouble(label: 'Horizontal Step', tooltip: 'The acceleration of the drift in the horizontal axis', min: -2, max: 2, defaultValue: 0, icon: Icon(Icons.screen_lock_landscape));
-  SettingsModelDouble driftY = SettingsModelDouble(label: 'Vertical Drift', tooltip: 'The drift in the vertical axis', min: -20, max: 20, defaultValue: 0, icon: Icon(Icons.more_vert));
-  SettingsModelDouble driftYStep = SettingsModelDouble(label: 'Vertical Step', tooltip: 'The acceleration of the drift in the vertical axis', min: -2, max: 2, defaultValue: 0, icon: Icon(Icons.screen_lock_portrait));
+  SettingsModelDouble driftX = SettingsModelDouble(label: 'Horizontal Drift', tooltip: 'The drift in the horizontal axis', min: -20, max: 20, zoom: 100,defaultValue: 0, icon: Icon(Icons.more_horiz));
+  SettingsModelDouble driftXStep = SettingsModelDouble(label: 'Horizontal Step', tooltip: 'The acceleration of the drift in the horizontal axis', min: -2, max: 2, zoom: 100, defaultValue: 0, icon: Icon(Icons.screen_lock_landscape));
+  SettingsModelDouble driftY = SettingsModelDouble(label: 'Vertical Drift', tooltip: 'The drift in the vertical axis', min: -20, max: 20, zoom: 100, defaultValue: 0, icon: Icon(Icons.more_vert));
+  SettingsModelDouble driftYStep = SettingsModelDouble(label: 'Vertical Step', tooltip: 'The acceleration of the drift in the vertical axis', min: -2, max: 2, zoom: 100, defaultValue: 0, icon: Icon(Icons.screen_lock_portrait));
   SettingsModelBool alternateDrift = SettingsModelBool(label: 'Alternate Drift', tooltip: 'Alternate the drift', defaultValue: true, icon: Icon(Icons.gamepad));
   SettingsModelBool box = SettingsModelBool(label: 'Box', tooltip: 'Fill in the box', defaultValue: true, icon: Icon(Icons.check_box_outline_blank));
-  SettingsModelDouble step = SettingsModelDouble(label: 'Step', tooltip: 'The decrease ratio of concentric shapes', min: 0.05, max: 1, defaultValue: 0.3, icon: Icon(Icons.control_point));
-  SettingsModelDouble stepStep = SettingsModelDouble(label: 'Step Ratio', tooltip: 'The ratio of change of the ratio', min: 0.5, max: 1,   defaultValue: 0.9, icon: Icon(Icons.control_point_duplicate));
-  SettingsModelDouble ratio  = SettingsModelDouble(label: 'Ratio', tooltip: 'The ratio of the shape to the box', min: 0.75, max: 1.75, defaultValue: 1, icon: Icon(Icons.zoom_out_map));
-  SettingsModelDouble offsetX = SettingsModelDouble(label: 'Horizontal Offset', tooltip: 'The offset in the horizontal axis', min: -40, max: 40, defaultValue: 0, icon: Icon(Icons.more_horiz));
-  SettingsModelDouble offsetY = SettingsModelDouble(label: 'Vertical Offset', tooltip: 'The offset in the vertical axis', min: -40, max: 40, defaultValue: 0, icon: Icon(Icons.more_vert));
-  SettingsModelDouble rotate = SettingsModelDouble(label: 'Rotate', tooltip: 'The shape rotation', min: 0, max: pi, defaultValue: 0, icon: Icon(Icons.rotate_right));
+  SettingsModelDouble step = SettingsModelDouble(label: 'Step', tooltip: 'The decrease ratio of concentric shapes', min: 0.05, max: 1, zoom: 100, defaultValue: 0.3, icon: Icon(Icons.control_point));
+  SettingsModelDouble stepStep = SettingsModelDouble(label: 'Step Ratio', tooltip: 'The ratio of change of the ratio', min: 0.5, max: 1, zoom: 100,   defaultValue: 0.9, icon: Icon(Icons.control_point_duplicate));
+  SettingsModelDouble ratio  = SettingsModelDouble(label: 'Ratio', tooltip: 'The ratio of the shape to the box', min: 0.75, max: 1.75, zoom: 100, defaultValue: 1, icon: Icon(Icons.zoom_out_map));
+  SettingsModelDouble offsetX = SettingsModelDouble(label: 'Horizontal Offset', tooltip: 'The offset in the horizontal axis', min: -40, max: 40, zoom: 100, defaultValue: 0, icon: Icon(Icons.more_horiz));
+  SettingsModelDouble offsetY = SettingsModelDouble(label: 'Vertical Offset', tooltip: 'The offset in the vertical axis', min: -40, max: 40, zoom: 100, defaultValue: 0, icon: Icon(Icons.more_vert));
+  SettingsModelDouble rotate = SettingsModelDouble(label: 'Rotate', tooltip: 'The shape rotation', min: 0, max: pi, zoom: 200, defaultValue: 0, icon: Icon(Icons.rotate_right));
   SettingsModelBool randomRotation = SettingsModelBool(label: 'Random Rotate', tooltip: 'The random shape rotation', defaultValue: false, icon: Icon(Icons.crop_rotate));
-  SettingsModelDouble rotateStep  = SettingsModelDouble(label: 'Rotate Step', tooltip: 'The rate of increase of the rotation', min: 0, max: 2, defaultValue: 0, icon: Icon(Icons.screen_rotation));
+  SettingsModelDouble rotateStep  = SettingsModelDouble(label: 'Rotate Step', tooltip: 'The rate of increase of the rotation', min: 0, max: 2, zoom: 100, defaultValue: 0, icon: Icon(Icons.screen_rotation));
 
-  SettingsModelDouble squareness = SettingsModelDouble(label: 'Squareness', tooltip: 'The squareness of the shape', min: -2, max: 2, defaultValue: 1, icon: Icon(Icons.center_focus_weak));
-  SettingsModelDouble squeezeX = SettingsModelDouble(label: 'Horizontal Squeeze', tooltip: 'The squeeze in the horizontal axis', min: 0.5, max: 1.5, defaultValue: 1, icon: Icon(Icons.more_horiz));
-  SettingsModelDouble squeezeY = SettingsModelDouble(label: 'Vertical Squeeze', tooltip: 'The squeeze in the vertical axis', min: 0.5, max: 1.5, defaultValue: 1, icon: Icon(Icons.more_vert));
+  SettingsModelDouble squareness = SettingsModelDouble(label: 'Squareness', tooltip: 'The squareness of the shape', min: -2, max: 2, zoom: 100, defaultValue: 1, icon: Icon(Icons.center_focus_weak));
+  SettingsModelDouble squeezeX = SettingsModelDouble(label: 'Horizontal Squeeze', tooltip: 'The squeeze in the horizontal axis', min: 0.5, max: 1.5, zoom: 100, defaultValue: 1, icon: Icon(Icons.more_horiz));
+  SettingsModelDouble squeezeY = SettingsModelDouble(label: 'Vertical Squeeze', tooltip: 'The squeeze in the vertical axis', min: 0.5, max: 1.5, zoom: 100, defaultValue: 1, icon: Icon(Icons.more_vert));
   SettingsModelInt numberOfPetals = SettingsModelInt(label: 'Number Of Points', tooltip: 'The number of points', min: 1, max: 15, defaultValue: 5, icon: Icon(Icons.star));
   SettingsModelBool randomPetals = SettingsModelBool(label: 'Random Petals', tooltip: 'Random Petals', defaultValue: true, icon: Icon(Icons.stars));
 
 // palette settings
   SettingsModelColor backgroundColor = SettingsModelColor(label: "Background Color", tooltip: "The background colour for the canvas", defaultValue: Colors.white, icon: Icon(Icons.settings_overscan), );
   SettingsModelColor lineColor  = SettingsModelColor(label: "Outline Color", tooltip: "The outline colour", defaultValue: Colors.black, icon: Icon(Icons.settings_overscan), );
-  SettingsModelDouble lineWidth  = SettingsModelDouble(label: 'Outline Width', tooltip: 'The width of the outline', min: 0, max: 1, defaultValue: 0.1, icon: Icon(Icons.line_weight));
+  SettingsModelDouble lineWidth  = SettingsModelDouble(label: 'Outline Width', tooltip: 'The width of the outline', min: 0, max: 1, zoom: 100, defaultValue: 0.1, icon: Icon(Icons.line_weight));
   SettingsModelBool randomColors = SettingsModelBool(label: 'Random Colors', tooltip: 'Randomise the colours', defaultValue: true, icon: Icon(Icons.gamepad));
   SettingsModelBool resetColors = SettingsModelBool(label: 'Reset Colors', tooltip: 'Reset the colours for each cell', defaultValue: false, icon: Icon(Icons.gamepad));
   SettingsModelInt numberOfColors = SettingsModelInt(label: 'Number of Colors', tooltip: 'The number of colours in the palette', min: 1, max: 36, defaultValue: 10, icon: Icon(Icons.palette));
   SettingsModelList paletteType = SettingsModelList(label: "Palette Type", tooltip: "The nature of the palette", defaultValue: "random", icon: Icon(Icons.colorize), options: ['random', 'blended random ', 'linear random', 'linear complementary'],);
-  SettingsModelDouble opacity = SettingsModelDouble(label: 'Opactity', tooltip: 'The opactity of the petal', min: 0.2, max: 1, defaultValue: 1, icon: Icon(Icons.remove_red_eye));
+  SettingsModelDouble opacity = SettingsModelDouble(label: 'Opactity', tooltip: 'The opactity of the petal', min: 0.2, max: 1, zoom: 100, defaultValue: 1, icon: Icon(Icons.remove_red_eye));
   SettingsModelList paletteList = SettingsModelList(label: "Palette", tooltip: "Choose from a list of palettes", defaultValue: "Default", icon: Icon(Icons.palette), options: defaultPalleteNames(),);
 
   List palette;
@@ -374,6 +374,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
                             settingsList[index].min,
                             settingsList[index].max,
                             settingsList[index].locked,
+                            settingsList[index].zoom,
                                 (value) {
                               setState(() {
                                 settingsList[index].value = value;

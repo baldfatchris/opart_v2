@@ -23,17 +23,17 @@ String currentNamedPalette;
 class Wave {
   // image settings
 
-  SettingsModelDouble stepX = SettingsModelDouble(label: 'stepX',tooltip: 'The horizontal width of each stripe ', min: 0.01, max: 50, defaultValue: 10, icon: Icon(Icons.ac_unit));
-  SettingsModelDouble stepY = SettingsModelDouble(label: 'stepY',tooltip: 'The vertical distance between points on each stripe ',min: 0.01,max: 500, defaultValue: 0.1, icon: Icon(Icons.bluetooth_audio));
-  SettingsModelDouble frequency = SettingsModelDouble(label: 'frequency',tooltip: 'The frequency of the wave ', min: 0, max: 5, defaultValue: 1, icon: Icon(Icons.smoke_free));
-  SettingsModelDouble amplitude = SettingsModelDouble(label: 'amplitude',tooltip: 'The amplitude of the wave ', min: 0, max: 500, defaultValue: 100, icon: Icon(Icons.weekend));
+  SettingsModelDouble stepX = SettingsModelDouble(label: 'stepX',tooltip: 'The horizontal width of each stripe ', min: 0.01, max: 50, zoom: 100, defaultValue: 10, icon: Icon(Icons.ac_unit));
+  SettingsModelDouble stepY = SettingsModelDouble(label: 'stepY',tooltip: 'The vertical distance between points on each stripe ',min: 0.01,max: 500, zoom: 100, defaultValue: 0.1, icon: Icon(Icons.bluetooth_audio));
+  SettingsModelDouble frequency = SettingsModelDouble(label: 'frequency',tooltip: 'The frequency of the wave ', min: 0, max: 5, zoom: 100, defaultValue: 1, icon: Icon(Icons.smoke_free));
+  SettingsModelDouble amplitude = SettingsModelDouble(label: 'amplitude',tooltip: 'The amplitude of the wave ', min: 0, max: 500, zoom: 100, defaultValue: 100, icon: Icon(Icons.weekend));
 
 // palette settings
   SettingsModelColor backgroundColor = SettingsModelColor(label: "Background Color", tooltip: "The background colour for the canvas", defaultValue: Colors.white, icon: Icon(Icons.settings_overscan), );
   SettingsModelBool randomColors = SettingsModelBool(label: 'Random Colors', tooltip: 'Randomise the coloursl', defaultValue: false, icon: Icon(Icons.gamepad));
   SettingsModelInt numberOfColors = SettingsModelInt(label: 'Number of Colors', tooltip: 'The number of colours in the palette', min: 1, max: 36, defaultValue: 10, icon: Icon(Icons.palette));
   SettingsModelList paletteType = SettingsModelList(label: "Palette Type", tooltip: "The nature of the palette", defaultValue: "random", icon: Icon(Icons.colorize), options: ['random', 'blended random ', 'linear random', 'linear complementary'],);
-  SettingsModelDouble opacity = SettingsModelDouble(label: 'Opactity', tooltip: 'The opactity of the petal', min: 0.2, max: 1, defaultValue: 1, icon: Icon(Icons.remove_red_eye));
+  SettingsModelDouble opacity = SettingsModelDouble(label: 'Opactity', tooltip: 'The opactity of the petal', min: 0.2, max: 1, zoom: 100, defaultValue: 1, icon: Icon(Icons.remove_red_eye));
   SettingsModelList paletteList = SettingsModelList(label: "Palette", tooltip: "Choose from a list of palettes", defaultValue: "Default", icon: Icon(Icons.palette), options: defaultPalleteNames(),);
 
   List palette;
@@ -274,6 +274,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                             settingsList[index].min,
                             settingsList[index].max,
                             settingsList[index].locked,
+                            settingsList[index].zoom,
                                 (value) {
                               setState(() {
                                 settingsList[index].value = value;

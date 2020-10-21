@@ -14,10 +14,11 @@ class SettingsModelDouble {
   final Icon icon;
   final double min;
   final double max;
+  final double zoom;
   final double defaultValue;
   final String type = 'Double';
 
-  SettingsModelDouble({this.label, this.tooltip, this.icon, this.min, this.max, this.defaultValue, this.value});
+  SettingsModelDouble({this.label, this.tooltip, this.icon, this.min, this.max, this.zoom, this.defaultValue, this.value});
 
   void randomise(Random rnd){
     if (this.locked == false) {

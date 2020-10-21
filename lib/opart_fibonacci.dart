@@ -30,6 +30,7 @@ class Fibonacci {
       tooltip: 'The angle in radians between successive petals of the flower',
       min: 0,
       max: 2 * pi,
+      zoom: 2000,
       defaultValue: (sqrt(5) + 1) / 2,
       icon: Icon(Icons.track_changes));
   SettingsModelDouble flowerFill = SettingsModelDouble(
@@ -37,6 +38,7 @@ class Fibonacci {
       tooltip: 'Zoom in and out',
       min: 0.3,
       max: 2,
+      zoom: 100,
       defaultValue: 1,
       icon: Icon(Icons.zoom_in));
   SettingsModelDouble petalToRadius = SettingsModelDouble(
@@ -45,6 +47,7 @@ class Fibonacci {
           'The size of the petal as a multiple of its distance from the centre',
       min: 0.01,
       max: 0.3,
+      zoom: 100,
       defaultValue: 0.05,
       icon: Icon(Icons.swap_horizontal_circle));
   SettingsModelDouble ratio = SettingsModelDouble(
@@ -52,6 +55,7 @@ class Fibonacci {
       tooltip: 'The fill ratio of the flower',
       min: 0.995,
       max: 0.9999,
+      zoom: 100,
       defaultValue: 0.999,
       icon: Icon(Icons.format_color_fill));
   SettingsModelDouble randomiseAngle = SettingsModelDouble(
@@ -60,6 +64,7 @@ class Fibonacci {
           'Randomise the petal position by moving it around the centre by a random angle up to this maximum',
       min: 0,
       max: 0.2,
+      zoom: 100,
       defaultValue: 0,
       icon: Icon(Icons.ac_unit));
   SettingsModelDouble petalPointiness = SettingsModelDouble(
@@ -67,6 +72,7 @@ class Fibonacci {
       tooltip: 'the pointiness of the petal',
       min: 0,
       max: pi / 2,
+      zoom: 200,
       defaultValue: 0.8,
       icon: Icon(Icons.change_history));
   SettingsModelDouble petalRotation = SettingsModelDouble(
@@ -74,6 +80,7 @@ class Fibonacci {
       tooltip: 'the rotation of the petal',
       min: 0,
       max: pi,
+      zoom: 200,
       defaultValue: 0,
       icon: Icon(Icons.rotate_right));
   SettingsModelDouble petalRotationRatio = SettingsModelDouble(
@@ -81,6 +88,7 @@ class Fibonacci {
       tooltip: 'the rotation of the petal as multiple of the petal angle',
       min: 0,
       max: 4,
+      zoom: 100,
       defaultValue: 0,
       icon: Icon(Icons.autorenew));
 
@@ -105,6 +113,7 @@ class Fibonacci {
       tooltip: 'The amplitude of the radial oscillation',
       min: 0,
       max: 5,
+      zoom: 100,
       defaultValue: 0,
       icon: Icon(Icons.all_inclusive));
   SettingsModelDouble radialOscPeriod = SettingsModelDouble(
@@ -112,6 +121,7 @@ class Fibonacci {
       tooltip: 'The period of the radial oscillation',
       min: 0,
       max: 2,
+      zoom: 100,
       defaultValue: 0,
       icon: Icon(Icons.bubble_chart));
 
@@ -143,6 +153,7 @@ class Fibonacci {
       tooltip: 'The width of the petal outline',
       min: 0,
       max: 3,
+      zoom: 100,
       defaultValue: 0,
       icon: Icon(Icons.line_weight));
 
@@ -180,6 +191,7 @@ class Fibonacci {
       tooltip: 'The opactity of the petal',
       min: 0.2,
       max: 1,
+      zoom: 100,
       defaultValue: 1,
       icon: Icon(Icons.remove_red_eye));
 
@@ -475,6 +487,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                               settingsList[index].min,
                               settingsList[index].max,
                               settingsList[index].locked,
+                              settingsList[index].zoom,
                               (value) {
                                 setState(() {
                                   settingsList[index].value = value;

@@ -23,21 +23,21 @@ String currentNamedPalette;
 class Tree {
   // image settings
 
-  SettingsModelDouble trunkWidth  = SettingsModelDouble(label: 'Trunk Width', tooltip: 'The width of the base of the trunk', min: 0, max: 50, defaultValue: 10, icon: Icon(Icons.track_changes));
-  SettingsModelDouble widthDecay  = SettingsModelDouble(label: 'Trunk Decay ', tooltip: 'The rate at which the trunk width decays', min: 0.7, max: 1, defaultValue: 0.92, icon: Icon(Icons.zoom_in));
-  SettingsModelDouble segmentLength = SettingsModelDouble(label: 'Segment Length', tooltip: 'The length of the first segment of the trunk', min: 10, max: 50, defaultValue: 35,icon: Icon(Icons.swap_horizontal_circle));
-  SettingsModelDouble segmentDecay = SettingsModelDouble(label: 'Segment Decay', tooltip: 'The rate at which the length of each successive segment decays', min: 0.7, max: 1, defaultValue: 0.92, icon: Icon(Icons.format_color_fill));
-  SettingsModelDouble branch  = SettingsModelDouble(label: 'Branch Ratio', tooltip: 'The proportion of segments that branch', min: 0.4, max: 1,  defaultValue: 0.7, icon: Icon(Icons.ac_unit));
-  SettingsModelDouble angle  = SettingsModelDouble(label: 'Branch Angle', tooltip: 'The angle of the branch', min: 0.1, max: 0.7, defaultValue: 0.5, icon: Icon(Icons.rotate_right));
-  SettingsModelDouble ratio  = SettingsModelDouble(label: 'Angle Ratio', tooltip: 'The ratio of the branch', min: 0.5, max: 1.5, defaultValue: 0.7, icon: Icon(Icons.rotate_right));
-  SettingsModelDouble bulbousness = SettingsModelDouble(label: 'Bulbousness', tooltip: 'The bulbousness of each segment', min: 0, max: 2, defaultValue: 1.5, icon: Icon(Icons.autorenew));
+  SettingsModelDouble trunkWidth  = SettingsModelDouble(label: 'Trunk Width', tooltip: 'The width of the base of the trunk', min: 0, max: 50, zoom: 100, defaultValue: 10, icon: Icon(Icons.track_changes));
+  SettingsModelDouble widthDecay  = SettingsModelDouble(label: 'Trunk Decay ', tooltip: 'The rate at which the trunk width decays', min: 0.7, max: 1, zoom: 100, defaultValue: 0.92, icon: Icon(Icons.zoom_in));
+  SettingsModelDouble segmentLength = SettingsModelDouble(label: 'Segment Length', tooltip: 'The length of the first segment of the trunk', min: 10, max: 50, zoom: 100, defaultValue: 35,icon: Icon(Icons.swap_horizontal_circle));
+  SettingsModelDouble segmentDecay = SettingsModelDouble(label: 'Segment Decay', tooltip: 'The rate at which the length of each successive segment decays', min: 0.7, max: 1, zoom: 100, defaultValue: 0.92, icon: Icon(Icons.format_color_fill));
+  SettingsModelDouble branch  = SettingsModelDouble(label: 'Branch Ratio', tooltip: 'The proportion of segments that branch', min: 0.4, max: 1, zoom: 100,  defaultValue: 0.7, icon: Icon(Icons.ac_unit));
+  SettingsModelDouble angle  = SettingsModelDouble(label: 'Branch Angle', tooltip: 'The angle of the branch', min: 0.1, max: 0.7, zoom: 100, defaultValue: 0.5, icon: Icon(Icons.rotate_right));
+  SettingsModelDouble ratio  = SettingsModelDouble(label: 'Angle Ratio', tooltip: 'The ratio of the branch', min: 0.5, max: 1.5, zoom: 100, defaultValue: 0.7, icon: Icon(Icons.rotate_right));
+  SettingsModelDouble bulbousness = SettingsModelDouble(label: 'Bulbousness', tooltip: 'The bulbousness of each segment', min: 0, max: 2, zoom: 100, defaultValue: 1.5, icon: Icon(Icons.autorenew));
   SettingsModelInt maxDepth = SettingsModelInt(label: 'Max Depth', tooltip: 'The number of segments', min: 10, max: 28, defaultValue: 20, icon: Icon(Icons.fiber_smart_record));
   SettingsModelInt leavesAfter = SettingsModelInt(label: 'Leaves After', tooltip: 'The number of segments before leaves start to sprout', min: 0, max: 28, defaultValue: 5, icon: Icon(Icons.fiber_smart_record));
-  SettingsModelDouble leafAngle = SettingsModelDouble(label: 'Branch Angle', tooltip: 'The angle of the leaf', min: 0.2, max: 0.8, defaultValue: 0.5, icon: Icon(Icons.rotate_right));
-  SettingsModelDouble leafLength = SettingsModelDouble(label: 'Leaf Length', tooltip: 'The fixed length of each leaf', min: 0, max: 20, defaultValue: 8, icon: Icon(Icons.rotate_right));
-  SettingsModelDouble randomLeafLength = SettingsModelDouble(label: 'Random Length', tooltip: 'The random length of each leaf', min: 0, max: 20, defaultValue: 3, icon: Icon(Icons.rotate_right));
-  SettingsModelDouble leafSquareness = SettingsModelDouble(label: 'Squareness', tooltip: 'The squareness leaf', min: 0, max: 3, defaultValue: 1, icon: Icon(Icons.rotate_right));
-  SettingsModelDouble leafDecay  = SettingsModelDouble(label: 'Leaf Decay', tooltip: 'The rate at which the leaves decay along the branch', min: 0.9, max: 1, defaultValue: 0.95, icon: Icon(Icons.rotate_right));
+  SettingsModelDouble leafAngle = SettingsModelDouble(label: 'Branch Angle', tooltip: 'The angle of the leaf', min: 0.2, max: 0.8, zoom: 100, defaultValue: 0.5, icon: Icon(Icons.rotate_right));
+  SettingsModelDouble leafLength = SettingsModelDouble(label: 'Leaf Length', tooltip: 'The fixed length of each leaf', min: 0, max: 20, zoom: 100, defaultValue: 8, icon: Icon(Icons.rotate_right));
+  SettingsModelDouble randomLeafLength = SettingsModelDouble(label: 'Random Length', tooltip: 'The random length of each leaf', min: 0, max: 20, zoom: 100, defaultValue: 3, icon: Icon(Icons.rotate_right));
+  SettingsModelDouble leafSquareness = SettingsModelDouble(label: 'Squareness', tooltip: 'The squareness leaf', min: 0, max: 3, zoom: 100, defaultValue: 1, icon: Icon(Icons.rotate_right));
+  SettingsModelDouble leafDecay  = SettingsModelDouble(label: 'Leaf Decay', tooltip: 'The rate at which the leaves decay along the branch', min: 0.9, max: 1, zoom: 100, defaultValue: 0.95, icon: Icon(Icons.rotate_right));
 
   SettingsModelList petalType = SettingsModelList(label: "Petal Type", tooltip: "The shape of the petal", defaultValue: "circle", icon: Icon(Icons.local_florist), options: ['circle', 'triangle', 'square', 'petal'],);
 
@@ -47,11 +47,11 @@ class Tree {
   SettingsModelColor backgroundColor = SettingsModelColor(label: "Background Color", tooltip: "The background colour for the canvas", defaultValue: Colors.white, icon: Icon(Icons.settings_overscan), );
   SettingsModelColor trunkFillColor = SettingsModelColor(label: "Trunk Color", tooltip: "The fill colour of the trunk", defaultValue: Colors.grey, icon: Icon(Icons.settings_overscan), );
   SettingsModelColor trunkOutlineColor  = SettingsModelColor(label: "Trunk Outline", tooltip: "The outline colour of the trunk", defaultValue: Colors.black, icon: Icon(Icons.settings_overscan), );
-  SettingsModelDouble trunkStrokeWidth  = SettingsModelDouble(label: 'Outline Width', tooltip: 'The width of the trunk outline', min: 0, max: 1, defaultValue: 0.1, icon: Icon(Icons.line_weight));
+  SettingsModelDouble trunkStrokeWidth  = SettingsModelDouble(label: 'Outline Width', tooltip: 'The width of the trunk outline', min: 0, max: 1, zoom: 100, defaultValue: 0.1, icon: Icon(Icons.line_weight));
   SettingsModelBool randomColors = SettingsModelBool(label: 'Random Colors', tooltip: 'Randomise the coloursl', defaultValue: false, icon: Icon(Icons.gamepad));
   SettingsModelInt numberOfColors = SettingsModelInt(label: 'Number of Colors', tooltip: 'The number of colours in the palette', min: 1, max: 36, defaultValue: 10, icon: Icon(Icons.palette));
   SettingsModelList paletteType = SettingsModelList(label: "Palette Type", tooltip: "The nature of the palette", defaultValue: "random", icon: Icon(Icons.colorize), options: ['random', 'blended random ', 'linear random', 'linear complementary'],);
-  SettingsModelDouble opacity = SettingsModelDouble(label: 'Opactity', tooltip: 'The opactity of the petal', min: 0.2, max: 1, defaultValue: 1, icon: Icon(Icons.remove_red_eye));
+  SettingsModelDouble opacity = SettingsModelDouble(label: 'Opactity', tooltip: 'The opactity of the petal', min: 0.2, max: 1, zoom: 100, defaultValue: 1, icon: Icon(Icons.remove_red_eye));
   SettingsModelList paletteList = SettingsModelList(label: "Palette", tooltip: "Choose from a list of palettes", defaultValue: "Default", icon: Icon(Icons.palette), options: defaultPalleteNames(),);
 
   List palette;
@@ -348,6 +348,7 @@ currentTree.image = image;
                             settingsList[index].min,
                             settingsList[index].max,
                             settingsList[index].locked,
+                            settingsList[index].zoom,
                                 (value) {
                               setState(() {
                                 settingsList[index].value = value;
