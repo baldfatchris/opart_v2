@@ -903,6 +903,7 @@ class OpArtWallpaperPainter extends CustomPainter {
     double imageWidth = canvasWidth;
     double imageHeight = canvasHeight;
 
+    print('currentWallpaper.aspectRatio: ${currentWallpaper.aspectRatio}');
     // Initialise the aspect ratio
     if (currentWallpaper.aspectRatio == pi/2){
       if (canvasHeight>canvasWidth){
@@ -915,12 +916,13 @@ class OpArtWallpaperPainter extends CustomPainter {
     }
 
     if (canvasWidth / canvasHeight < currentWallpaper.aspectRatio) {
-      borderY = (canvasHeight - canvasWidth / currentWallpaper.aspectRatio) / 2;
+      borderY = (canvasHeight - canvasWidth * currentWallpaper.aspectRatio) / 2;
       imageHeight = imageWidth / currentWallpaper.aspectRatio;
     } else {
-      borderX = (canvasWidth - canvasHeight * currentWallpaper.aspectRatio) / 2;
+      borderX = (canvasWidth - canvasHeight / currentWallpaper.aspectRatio) / 2;
       imageWidth = imageHeight * currentWallpaper.aspectRatio;
     }
+    print('currentWallpaper.aspectRatio: ${currentWallpaper.aspectRatio}');
 
     print('height: ${canvasHeight}');
     print('width: ${canvasWidth}');
@@ -934,6 +936,7 @@ class OpArtWallpaperPainter extends CustomPainter {
     print('cellsX: ${currentWallpaper.cellsX.value}');
     print('cellsY: ${currentWallpaper.cellsY.value}');
 
+    borderY = 55;
     int colourOrder = 0;
 
 
@@ -1211,7 +1214,12 @@ class OpArtWallpaperPainter extends CustomPainter {
     canvas.drawRect(Offset(canvasWidth-borderX, 0) & Size(borderX, canvasHeight), paint1);
 
     canvas.drawRect(Offset(0, 0) & Size(canvasWidth, borderY ), paint1);
-    canvas.drawRect(Offset(0, canvasHeight-borderY, ) & Size(canvasWidth, borderY+1000), paint1);
+    canvas.drawRect(Offset(0, borderY+currentWallpaper.cellsY.value*radius*2) & Size(canvasWidth, borderY+1000), paint1);
+
+    print('borderX: $borderX');
+    print('borderY: $borderY');
+    print('canvasWidth: $canvasWidth');
+    print('canvasHeight: $canvasHeight');
 
 
 
