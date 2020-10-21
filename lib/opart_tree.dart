@@ -327,7 +327,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
     with TickerProviderStateMixin {
   int _counter = 0;
   File _imageFile;
-  ScreenshotController screenshotController = ScreenshotController();
+
   int _currentColor = 0;
 
   // Animation<double> animation1;
