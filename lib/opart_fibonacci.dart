@@ -10,7 +10,6 @@ import 'package:opart_v2/setting_dropdown.dart';
 import 'package:opart_v2/setting_colorpicker.dart';
 import 'package:opart_v2/setting_radiobutton.dart';
 import 'model.dart';
-import 'bottom_app_bar_custom.dart';
 
 Random rnd;
 
@@ -1258,7 +1257,7 @@ class Fibonacci {
     // backgroundColour
     this.backgroundColour.randomise(random);
 
-    // this.paletteList.randomise(random);
+   // this.paletteList.randomise(random);
   }
 
   void randomizePalette() {
@@ -1738,25 +1737,73 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
     return Scaffold(
       bottomNavigationBar: Container(
         height: 50,
-        child: GestureDetector(
-          onVerticalDragUpdate: (value) {
-            _showBottomSheet(context);
-          },
-          child: CustomBottomAppBar(randomise: () {
-            setState(() {
-              currentFibonacci.randomize();
-              currentFibonacci.randomizePalette();
-              cacheFibonacci(SetState);
-            });
-          }, randomisePalette: () {
-            setState(() {
-              currentFibonacci.randomizePalette();
-              cacheFibonacci(SetState);
-            });
-          }, showBottomSheet: () {
-            _showBottomSheet(context);
-          }),
-        ),
+        child: BottomAppBar(
+            color: Colors.white,
+            child: Row(
+
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        currentFibonacci.randomize();
+                        currentFibonacci.randomizePalette();
+                        cacheFibonacci(SetState);
+                      });
+                    },
+                  icon: Icon(Icons.refresh),
+                    // child: Row(
+                    //   children: <Widget>[
+                    //     Icon(Icons.refresh),
+                    //     Padding(
+                    //       padding: const EdgeInsets.all(8.0),
+                    //       child: Text(
+                    //         'Randomise \nEverything',
+                    //         textAlign: TextAlign.center,
+                    //       ),
+                    //     )
+                    //   ],
+                    // ),
+                ),
+                OutlineButton(
+                    onPressed: () {
+                      _showBottomSheet(context);
+                    },
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.blur_circular),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Tools',
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      ],
+                    )),
+                IconButton(
+                    onPressed: () {
+                      setState(()  {
+                        currentFibonacci.randomizePalette();
+                        cacheFibonacci(SetState);
+                      });
+                    },
+                  icon: Icon(Icons.palette),
+                    // child: Row(
+                    //   children: <Widget>[
+                    //     Icon(Icons.palette),
+                    //     Padding(
+                    //       padding: const EdgeInsets.all(8.0),
+                    //       child: Text(
+                    //         'Randomise \nPalette',
+                    //         textAlign: TextAlign.center,
+                    //       ),
+                    //     )
+                    //   ],
+                    // ),
+                )
+              ],
+            )),
       ),
       body: Column(
         children: [
@@ -1963,7 +2010,8 @@ class OpArtFibonacciPainter extends CustomPainter {
       currentNamedPalette = currentFibonacci.paletteList.value;
     }
 
-    if (currentFibonacci.paletteList.value != currentNamedPalette) {
+    if (
+        currentFibonacci.paletteList.value != currentNamedPalette) {
       // find the index of the palette in the list
 
       List newPalette = palettes.firstWhere(

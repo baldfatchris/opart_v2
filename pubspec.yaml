@@ -35,8 +35,8 @@ dev_dependencies:
   permission_handler: ^5.0.1+1
   share: ^0.6.5+3
   shake: ^0.1.0
+  flutter_icons: ^1.1.0
 
-  cupertino_icons: ^1.0.0
 
 
 
