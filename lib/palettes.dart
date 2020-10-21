@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 List defaultPalleteNames () {
   return ['Default', 'Black and White',	'Doge Leonardo',	'The Birth of Venus',	'Bridget Riley - Achæan',	'Bridget Riley - Evoe 3',	'Bridget Riley - Fete',	'Bridget Riley - Nataraja',	'Bridget Riley - Summers Day',	'Da Vinci - The Last Supper',	'Da Vinci - The Mona Lisa',	'Gaugin - Woman of the Mango',	'Gericault - Raft of the Medusa',	'Grant Wood - American Gothic',	'Hockney - Felled Trees on Woldgate',	'Hockney - Pacific Coast Highway',	'Hockney - The Arrival of Spring',	'Hopper - Nighthawks',	'Hokusai - The Great Wave',	'Klimt - The Kiss',	'Matisse - Danse',	'Matisse - Danse I',	'Matisse - Icarus',	'Matisse - Jazz',	'Matisse - La Gerbe',	'Matisse - Les Codomas',	'Matisse - Snow Flowers',	'Matisse - Parakeet and the Mermaid',	'Matisse - The Snail',	'Mondrian',	'Monet - Charing Cross Bridge',	'Munch - The Scream',	'Picasso - Guernica',	'Picasso - The Tragedy',	'Picasso - The Tragedy - reduced',	'Seurat - Sunday Afternoon',	'Van Eyck - The Arnolfini Portrait',	'Van Gogh - Self Portrait',	'Van Gogh - The Starry Night',	'Van Gogh - Wheat Field with Cypresses',	'Vermeer - Girl with a Pearl Earring',	'Whistlers Mother',	'Goat 1',	'Goat 2',	'Goat 3',	'Maits Stairs',	'Lilly',	'Man in blue hat',	'Spider',	'Deck Chairs',	'Bo Kaap',	'Pantone Pop Stripes',	'Purple Artichokes',	'Stained Glass',	'Ferns',	'Rhubarb',	'SriDevi',	'Peacock',	'Coronavirus',];
@@ -68,6 +68,68 @@ List defaultPalettes () {
     ['Coronavirus',8,'0xFFffffff',['0xFF1B1919','0xFF641C19','0xFF922F2E','0xFF8C837E','0xFFB8A49C','0xFFBE4F4D','0xFF695C57','0xFFDDD3CB']],
   ];
 
+}
 
+List randomisedPalette(String paletteType, int numberOfColours, Random rnd) {
+
+  List palette = [];
+
+  switch (paletteType) {
+
+  // blended random
+    case 'blended random':
+      {
+        double blendColour = rnd.nextDouble() * 0xFFFFFF;
+        for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++) {
+          palette.add(Color(((blendColour + rnd.nextDouble() * 0xFFFFFF) / 2).toInt()).withOpacity(1));
+        }
+      }
+      break;
+
+  // linear random
+    case 'linear random':
+      {
+        List startColour = [rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)];
+        List endColour = [rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)];
+        for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++) {
+          palette.add(Color.fromRGBO(
+              ((startColour[0] * colourIndex + endColour[0] * (numberOfColours - colourIndex)) / numberOfColours).round(),
+              ((startColour[1] * colourIndex + endColour[1] * (numberOfColours - colourIndex)) / numberOfColours).round(),
+              ((startColour[2] * colourIndex + endColour[2] * (numberOfColours - colourIndex)) / numberOfColours).round(),
+              1));
+        }
+      }
+      break;
+
+  // linear complementary
+    case 'linear complementary':
+      {
+        List startColour = [rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)];
+        List endColour = [255 - startColour[0], 255 - startColour[1], 255 - startColour[2]];
+        for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++) {
+          palette.add(Color.fromRGBO(
+              ((startColour[0] * colourIndex + endColour[0] * (numberOfColours - colourIndex)) / numberOfColours).round(),
+              ((startColour[1] * colourIndex + endColour[1] * (numberOfColours - colourIndex)) / numberOfColours).round(),
+              ((startColour[2] * colourIndex + endColour[2] * (numberOfColours - colourIndex)) / numberOfColours).round(),
+              1));
+        }
+      }
+      break;
+
+  // random
+    default:
+      {
+        for (int colorIndex = 0;
+        colorIndex < numberOfColours;
+        colorIndex++) {
+          palette.add(
+              Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1));
+        }
+      }
+      break;
+  }
+
+
+  return palette;
 
 }

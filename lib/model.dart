@@ -72,7 +72,7 @@ class SettingsModelBool {
 
 class SettingsModelList {
   String value;
-  List<String> options;
+  List options;
   bool locked = false;
   final String label;
   final String tooltip;
@@ -91,16 +91,16 @@ class SettingsModelList {
   }
 }
 
-class SettingsModelColour {
+class SettingsModelColor {
   Color value;
   bool locked = false;
   final String label;
   final String tooltip;
   final Icon icon;
   final Color defaultValue;
-  final String type = 'Colour';
+  final String type = 'Color';
 
-  SettingsModelColour({this.label, this.tooltip, this.icon, this.defaultValue, this.value});
+  SettingsModelColor({this.label, this.tooltip, this.icon, this.defaultValue, this.value});
 
   void randomise(Random rnd){
     if (this.locked == false) {

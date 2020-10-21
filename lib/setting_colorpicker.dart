@@ -3,7 +3,7 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 
 
-class settingsColourPicker extends StatefulWidget {
+class settingsColorPicker extends StatefulWidget {
   String label;
   String tooltip;
   Color currentValue;
@@ -11,13 +11,13 @@ class settingsColourPicker extends StatefulWidget {
   Function onChanged;
   Function toggleLock;
 
-  settingsColourPicker(this.label, this.tooltip, this.currentValue, this.locked, this.onChanged, this.toggleLock);
+  settingsColorPicker(this.label, this.tooltip, this.currentValue, this.locked, this.onChanged, this.toggleLock);
 
   @override
-  _settingsColourPickerState createState() => _settingsColourPickerState();
+  _settingsColorPickerState createState() => _settingsColorPickerState();
 }
 
-class _settingsColourPickerState extends State<settingsColourPicker> {
+class _settingsColorPickerState extends State<settingsColorPicker> {
 
   @override
   Widget build(BuildContext context) {
