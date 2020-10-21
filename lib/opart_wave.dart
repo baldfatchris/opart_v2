@@ -603,9 +603,9 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
               ],
             )),
       ),
-      body: Stack(
+      body: Column(
         children: [
-          bodyWidget(),
+
           Container(
               width: MediaQuery.of(context).size.width,
               color: Colors.white,
@@ -647,6 +647,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                   );
                 },
               )),
+          Expanded(child: ClipRect(child: bodyWidget())),
         ],
       ),
     );

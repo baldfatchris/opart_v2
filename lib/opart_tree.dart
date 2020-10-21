@@ -682,9 +682,9 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
               ],
             )),
       ),
-      body: Stack(
+      body: Column(
         children: [
-          bodyWidget(),
+
           Container(
               width: MediaQuery.of(context).size.width,
               color: Colors.white,
@@ -739,6 +739,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
                   );
                 },
               )),
+          Expanded(child: ClipRect(child: bodyWidget())),
         ],
       ),
     );
