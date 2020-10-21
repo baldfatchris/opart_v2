@@ -1736,14 +1736,14 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
 
     return Scaffold(
       bottomNavigationBar: Container(
-        height: 70,
+        height: 50,
         child: BottomAppBar(
             color: Colors.white,
             child: Row(
 
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                FlatButton(
+                IconButton(
                     onPressed: () {
                       setState(() {
                         currentFibonacci.randomize();
@@ -1751,19 +1751,21 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                         cacheFibonacci(SetState);
                       });
                     },
-                    child: Row(
-                      children: <Widget>[
-                       // Icon(Icons.refresh),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Randomise \nEverything',
-                            textAlign: TextAlign.center,
-                          ),
-                        )
-                      ],
-                    )),
-                FlatButton(
+                  icon: Icon(Icons.refresh),
+                    // child: Row(
+                    //   children: <Widget>[
+                    //     Icon(Icons.refresh),
+                    //     Padding(
+                    //       padding: const EdgeInsets.all(8.0),
+                    //       child: Text(
+                    //         'Randomise \nEverything',
+                    //         textAlign: TextAlign.center,
+                    //       ),
+                    //     )
+                    //   ],
+                    // ),
+                ),
+                OutlineButton(
                     onPressed: () {
                       _showBottomSheet(context);
                     },
@@ -1779,25 +1781,27 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                         )
                       ],
                     )),
-                FlatButton(
+                IconButton(
                     onPressed: () {
-                      setState(() async {
+                      setState(()  {
                         currentFibonacci.randomizePalette();
                         cacheFibonacci(SetState);
                       });
                     },
-                    child: Row(
-                      children: <Widget>[
-                        Icon(Icons.palette),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Randomise \nPalette',
-                            textAlign: TextAlign.center,
-                          ),
-                        )
-                      ],
-                    ))
+                  icon: Icon(Icons.palette),
+                    // child: Row(
+                    //   children: <Widget>[
+                    //     Icon(Icons.palette),
+                    //     Padding(
+                    //       padding: const EdgeInsets.all(8.0),
+                    //       child: Text(
+                    //         'Randomise \nPalette',
+                    //         textAlign: TextAlign.center,
+                    //       ),
+                    //     )
+                    //   ],
+                    // ),
+                )
               ],
             )),
       ),
