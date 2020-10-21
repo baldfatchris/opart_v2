@@ -1468,7 +1468,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
   List<Map<String, dynamic>> cachedFibonacciList = List<Map<String, dynamic>>();
 
   cacheFibonacci(Function SetState) async {
-    await new Future.delayed(const Duration(milliseconds: 100));
+    await new Future.delayed(const Duration(seconds: 1));
     screenshotController
         .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
         .then((File image) async {
