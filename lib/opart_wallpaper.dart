@@ -679,17 +679,12 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
                     onPressed: () {
                       _showBottomSheet(context);
                     },
-                    child: Row(
-                      children: <Widget>[
-                        Icon(Icons.blur_circular),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Tools',
-                            textAlign: TextAlign.center,
-                          ),
-                        )
-                      ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Tools',
+                        textAlign: TextAlign.center,
+                      ),
                     )),
                 FlatButton(
                     onPressed: () {
