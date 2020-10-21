@@ -48,8 +48,7 @@ class _OpArtMenuState extends State<OpArtMenu> {
        ),
   ];
 
-//  int currentWidget = Random().nextInt(3);
-  int currentWidget = 0;
+
   @override
   void initState() {
     super.initState();
