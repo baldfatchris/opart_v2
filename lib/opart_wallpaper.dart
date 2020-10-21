@@ -55,7 +55,7 @@ class Wallpaper {
   SettingsModelBool resetColors = SettingsModelBool(label: 'Reset Colors', tooltip: 'Reset the colours for each cell', defaultValue: false, icon: Icon(Icons.gamepad));
   SettingsModelInt numberOfColors = SettingsModelInt(label: 'Number of Colors', tooltip: 'The number of colours in the palette', min: 1, max: 36, defaultValue: 10, icon: Icon(Icons.palette));
   SettingsModelList paletteType = SettingsModelList(label: "Palette Type", tooltip: "The nature of the palette", defaultValue: "random", icon: Icon(Icons.colorize), options: ['random', 'blended random ', 'linear random', 'linear complementary'],);
-  SettingsModelDouble opacity = SettingsModelDouble(label: 'Opactity', tooltip: 'The opactity of the petal', min: 0, max: 1, defaultValue: 1, icon: Icon(Icons.remove_red_eye));
+  SettingsModelDouble opacity = SettingsModelDouble(label: 'Opactity', tooltip: 'The opactity of the petal', min: 0.2, max: 1, defaultValue: 1, icon: Icon(Icons.remove_red_eye));
   SettingsModelList paletteList = SettingsModelList(label: "Palette", tooltip: "Choose from a list of palettes", defaultValue: "Default", icon: Icon(Icons.palette), options: defaultPalleteNames(),);
 
   List palette;

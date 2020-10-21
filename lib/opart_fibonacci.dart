@@ -178,7 +178,7 @@ class Fibonacci {
   SettingsModelDouble opacity = SettingsModelDouble(
       label: 'Opactity',
       tooltip: 'The opactity of the petal',
-      min: 0,
+      min: 0.2,
       max: 1,
       defaultValue: 1,
       icon: Icon(Icons.remove_red_eye));
