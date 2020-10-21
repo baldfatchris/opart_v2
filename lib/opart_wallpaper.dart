@@ -109,7 +109,7 @@ class Wallpaper {
   SettingsModelColour backgroundColor = SettingsModelColour(label: "Background Color", tooltip: "The background colour for the canvas", defaultValue: Colors.white, icon: Icon(Icons.settings_overscan), );
   SettingsModelColour lineColor  = SettingsModelColour(label: "Outline Color", tooltip: "The outline colour", defaultValue: Colors.black, icon: Icon(Icons.settings_overscan), );
   SettingsModelDouble lineWidth  = SettingsModelDouble(label: 'Outline Width', tooltip: 'The width of the outline', min: 0, max: 1, defaultValue: 0.1, icon: Icon(Icons.line_weight));
-  SettingsModelBool randomColors = SettingsModelBool(label: 'Random Colors', tooltip: 'Randomise the colours', defaultValue: false, icon: Icon(Icons.gamepad));
+  SettingsModelBool randomColors = SettingsModelBool(label: 'Random Colors', tooltip: 'Randomise the colours', defaultValue: true, icon: Icon(Icons.gamepad));
   SettingsModelBool resetColours = SettingsModelBool(label: 'Reset Colors', tooltip: 'Reset the colours for each cell', defaultValue: false, icon: Icon(Icons.gamepad));
   SettingsModelInt numberOfColors = SettingsModelInt(label: 'Number of Colors', tooltip: 'The number of colours in the palette', min: 1, max: 36, defaultValue: 10, icon: Icon(Icons.palette));
   SettingsModelList paletteType = SettingsModelList(label: "Palette Type", tooltip: "The nature of the palette", defaultValue: "random", icon: Icon(Icons.colorize), options: ['random', 'blended random ', 'linear random', 'linear complementary'],);
@@ -880,13 +880,9 @@ class OpArtWallpaperPainter extends CustomPainter {
       currentWallpaper.defaultSettings();
       currentNamedPalette = currentWallpaper.paletteList.value;
     }
-
-
     if (currentNamedPalette != null && currentWallpaper.paletteList.value != currentNamedPalette) {
       // find the index of the palette in the list
-
       List newPalette = palettes.firstWhere((palette) => palette[0]==currentWallpaper.paletteList.value);
-
       // set the palette details
       currentWallpaper.numberOfColors.value = newPalette[1].toInt();
       currentWallpaper.backgroundColor.value = Color(int.parse(newPalette[2]));
@@ -894,7 +890,6 @@ class OpArtWallpaperPainter extends CustomPainter {
       for (int z = 0; z < currentWallpaper.numberOfColors.value; z++){
         currentWallpaper.palette.add(Color(int.parse(newPalette[3][z])));
       }
-
       currentNamedPalette = currentWallpaper.paletteList.value;
     } else if (currentWallpaper.numberOfColors.value >
         currentWallpaper.palette.length) {
@@ -902,30 +897,37 @@ class OpArtWallpaperPainter extends CustomPainter {
     }
 
 
+    // Initialise the canvas
     double canvasWidth = size.width;
     double canvasHeight = size.height;
-
     double borderX = 0;
     double borderY = 0;
-
     double imageWidth = canvasWidth;
     double imageHeight = canvasHeight;
 
-    // aspectRatio from 0.5 to 2 - or 33% of time fit to screen, 33% of time make it 1
-    double aspectRatio = currentWallpaper.cellsX.value/currentWallpaper.cellsY.value;
+    // Initialise the aspect ratio
+    if (currentWallpaper.aspectRatio == pi/2){
+      if (canvasHeight>canvasWidth){
+        currentWallpaper.cellsY.value  = (canvasHeight/canvasWidth*currentWallpaper.cellsX.value).toInt();
+      }
+      else {
+        currentWallpaper.cellsX.value  = (canvasWidth/canvasHeight*currentWallpaper.cellsY.value).toInt();
+      }
+      currentWallpaper.aspectRatio = currentWallpaper.cellsX.value / currentWallpaper.cellsY.value;
+    }
 
     if (canvasWidth / canvasHeight < currentWallpaper.aspectRatio) {
-      borderY = (canvasHeight - canvasWidth / aspectRatio) / 2;
+      borderY = (canvasHeight - canvasWidth / currentWallpaper.aspectRatio) / 2;
       imageHeight = imageWidth / currentWallpaper.aspectRatio;
     } else {
-      borderX = (canvasWidth - canvasHeight * aspectRatio) / 2;
+      borderX = (canvasWidth - canvasHeight * currentWallpaper.aspectRatio) / 2;
       imageWidth = imageHeight * currentWallpaper.aspectRatio;
     }
 
     print('height: ${canvasHeight}');
     print('width: ${canvasWidth}');
     print('canvasWidth / canvasHeight = ${canvasWidth / canvasHeight}');
-    print('aspectRatio = $aspectRatio');
+    print('aspectRatio = ${currentWallpaper.aspectRatio}');
     print('borderX = $borderX');
     print('borderY = $borderY');
     print('imageWidth = $imageWidth');

@@ -21,7 +21,8 @@ class SettingsModelDouble {
 
   void randomise(Random rnd){
     if (this.locked == false) {
-      this.value =  rnd.nextDouble() * (this.max - this.min) + this.min;
+      // half the time use the default
+      this.value =  (rnd.nextBool() == true) ? rnd.nextDouble() * (this.max - this.min) + this.min : this.defaultValue;
     }
   }
 }
@@ -41,7 +42,8 @@ class SettingsModelInt {
 
   void randomise(Random rnd){
     if (this.locked == false) {
-      this.value =  rnd.nextInt(this.max - this.min) + this.min;
+      // half the time use the default
+      this.value =  (rnd.nextBool() == true) ? rnd.nextInt(this.max - this.min) + this.min : this.defaultValue;
     }
   }
 }
@@ -83,7 +85,8 @@ class SettingsModelList {
 
   void randomise(Random rnd){
     if (this.locked == false) {
-      this.value =  this.options[rnd.nextInt(this.options.length)];
+      // half the time use the default
+      this.value =  (rnd.nextBool() == true) ? this.options[rnd.nextInt(this.options.length)] : this.defaultValue;
     }
   }
 }

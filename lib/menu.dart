@@ -105,7 +105,8 @@ class _OpArtMenuState extends State<OpArtMenu> {
             actions: [
               IconButton(
                   icon: Icon(
-                    Platform.isAndroid? Icons.share: Icons.ios_share,
+//                    Platform.isAndroid? Icons.share: Icons.ios_share,
+                    Icons.share,
                     color: Colors.white,
                   ),
                   onPressed: () {
