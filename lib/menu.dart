@@ -118,9 +118,11 @@ class _OpArtMenuState extends State<OpArtMenu> {
 
                       setState(() {
                         imageFile = image;
-                        Share.shareFiles([imageFile.path],
-                          text:'This is the text I would like included'
+                        Share.shareFiles(['imageFile.path']
                         );
+                        // Share.shareFiles([],
+                        //   text:'This is the text I would like included'
+                        // );
                       });
                     });
                   })

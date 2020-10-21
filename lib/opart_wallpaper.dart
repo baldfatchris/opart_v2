@@ -10,6 +10,7 @@ import 'package:opart_v2/setting_colorpicker.dart';
 import 'package:opart_v2/setting_radiobutton.dart';
 import 'model.dart';
 import 'palettes.dart';
+import 'bottom_app_bar_custom.dart';
 
 Random rnd;
 
@@ -536,62 +537,18 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
         height: 50,
         child: BottomAppBar(
             color: Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                FlatButton(
-                    onPressed: () {
-                      setState(() {
-                        currentWallpaper.randomize();
-                        currentWallpaper.randomizePalette();
-                        cacheWallpaper( SetState);
-                      });
-                    },
-                    child: Row(
-                      children: <Widget>[
-                        Icon(Icons.refresh),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Randomise \nEverything',
-                            textAlign: TextAlign.center,
-                          ),
-                        )
-                      ],
-                    )),
-                FlatButton(
-                    onPressed: () {
-                      _showBottomSheet(context);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Tools',
-                        textAlign: TextAlign.center,
-                      ),
-                    )),
-                FlatButton(
-                    onPressed: () {
-                      setState(() {
-                        currentWallpaper.randomizePalette();
-                        cacheWallpaper( SetState);
-                      });
-                    },
-                    child: Row(
-                      children: <Widget>[
-                        Icon(Icons.palette),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Randomise \nPalette',
-                            textAlign: TextAlign.center,
-                          ),
-                        )
-                      ],
-                    ))
-              ],
-            )),
-      ),
+            child:CustomBottomAppBar(randomise: (){
+      setState(() {
+        currentWallpaper.randomize();
+        currentWallpaper.randomizePalette();
+        cacheWallpaper(SetState);
+      });},randomisePalette: (){              setState(()  {
+    currentWallpaper.randomizePalette();
+    cacheWallpaper(SetState);
+    });}, showBottomSheet: (){
+    _showBottomSheet(context);
+    } ),
+        ),),
       body: Column(
         children: [
 

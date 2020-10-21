@@ -10,7 +10,7 @@ import 'package:opart_v2/setting_colorpicker.dart';
 import 'package:opart_v2/setting_radiobutton.dart';
 import 'model.dart';
 import 'palettes.dart';
-
+import 'bottom_app_bar_custom.dart';
 Random rnd;
 
 // Settings
@@ -506,66 +506,22 @@ currentTree.image = image;
     }
 
     return Scaffold(
-      bottomNavigationBar: Container(
-        height: 50,
-        child: BottomAppBar(
-            color: Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                FlatButton(
-                    onPressed: () {
-                      setState(() {
-                        currentTree.randomize();
-                        currentTree.randomizePalette();
-                        cacheTree( SetState);
-                      });
-                    },
-                    child: Row(
-                      children: <Widget>[
-                        Icon(Icons.refresh),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Randomise \nEverything',
-                            textAlign: TextAlign.center,
-                          ),
-                        )
-                      ],
-                    )),
-                FlatButton(
-                    onPressed: () {
-                      _showBottomSheet(context);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Tools',
-                        textAlign: TextAlign.center,
-                      ),
-                    )),
-                FlatButton(
-                    onPressed: () {
-                      setState(() {
-                        currentTree.randomizePalette();
-                        cacheTree(SetState);
-                      });
-                    },
-                    child: Row(
-                      children: <Widget>[
-                        Icon(Icons.palette),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Randomise \nPalette',
-                            textAlign: TextAlign.center,
-                          ),
-                        )
-                      ],
-                    ))
-              ],
-            )),
-      ),
+        bottomNavigationBar: Container(
+      height: 50,
+      child: GestureDetector(onVerticalDragUpdate: (value){
+        _showBottomSheet(context);
+      },
+        child:CustomBottomAppBar(randomise: (){
+          setState(() {
+            currentTree.randomize();
+            currentTree.randomizePalette();
+            cacheTree(SetState);
+          });},randomisePalette: (){              setState(()  {
+          currentTree.randomizePalette();
+          cacheTree(SetState);
+        });}, showBottomSheet: (){
+          _showBottomSheet(context);
+        } ), ),),
       body: Column(
         children: [
 
