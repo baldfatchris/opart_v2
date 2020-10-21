@@ -110,13 +110,6 @@ class Wallpaper {
     this.numberOfPetals.randomise(random);
     this.randomPetals.randomise(random);
 
-    this.lineColor.randomise(random);
-    this.lineWidth.randomise(random);
-    this.randomColors.randomise(random);
-    this.numberOfColors.randomise(random);
-    this.paletteType.randomise(random);
-    this.opacity.randomise(random);
-   // this.paletteList.randomise(random);
     }
 
   void randomizePalette() {
@@ -127,6 +120,12 @@ class Wallpaper {
     rnd = Random(DateTime.now().millisecond);
 
     this.backgroundColor.randomise(random);
+    this.lineColor.randomise(random);
+    this.lineWidth.randomise(random);
+    this.randomColors.randomise(random);
+    this.numberOfColors.randomise(random);
+    this.paletteType.randomise(random);
+    this.opacity.randomise(random);
 
     this.palette = randomisedPalette(this.paletteType.value, this.numberOfColors.value, rnd);
 

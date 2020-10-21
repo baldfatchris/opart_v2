@@ -210,52 +210,27 @@ class Fibonacci {
 
     rnd = Random(DateTime.now().millisecond);
 
-    // angleIncrement 0 - pi
     this.angleIncrement.randomise(random);
-
-    // flowerFill 0.7 - 1.3
     this.flowerFill.randomise(random);
-
-    // petalToRadius - 0 01 to 0.5
     this.petalToRadius.randomise(random);
-
-    // ratio 0.995 - 0.99999
     this.ratio.randomise(random);
-
-    // randomiseAngle 0 to 0.2
     this.randomiseAngle.randomise(random);
     if (this.randomiseAngle.locked == false && random.nextDouble() > 0.2) {
       this.randomiseAngle.value = 0;
     }
-
-    // petalPointiness: 0 to pi
     this.petalPointiness.randomise(random);
-
-    // petalRotation: 0 to pi
     this.petalRotation.randomise(random);
-
-    // petalRotationRatio 0 to 4
     this.petalRotation.randomise(random);
     if (this.petalRotation.locked == false && random.nextDouble() > 0.3) {
       this.petalRotationRatio.value = random.nextInt(4).toDouble();
     }
-
-    // petalType = 0/1/2/3  circle/triangle/square/petal
     this.petalType.randomise(random);
-
-    // maxPetals = 5000 to 10000;
     this.maxPetals.randomise(random);
-
-    // radialOscAmplitude 0 to 5
     this.radialOscAmplitude.randomise(random);
     if (this.radialOscAmplitude.locked == false && random.nextDouble() < 0.7) {
       this.radialOscAmplitude.value = 0;
     }
-
-    // radialOscPeriod 0 to 2
     this.radialOscPeriod.randomise(random);
-
-    // direction
     this.direction.randomise(random);
 
     if (this.aspectRatioLOCK == false) {
@@ -265,25 +240,8 @@ class Fibonacci {
       // }
     }
 
-    // numberOfColors 1 to 36
-    this.numberOfColors.randomise(random);
 
-    // randomColors
-    this.randomColors.randomise(random);
 
-    // lineWidth 0 to 3
-    this.lineWidth.randomise(random);
-    if (this.lineWidth.locked == false && rnd.nextBool()) {
-      this.lineWidth.value = 0;
-    }
-
-    // opacity 0 to 1
-    this.opacity.randomise(random);
-
-    // backgroundColor
-    this.backgroundColor.randomise(random);
-
-   // this.paletteList.randomise(random);
   }
 
   void randomizePalette() {
@@ -293,7 +251,14 @@ class Fibonacci {
 
     rnd = Random(DateTime.now().millisecond);
 
-    // lineColor
+    this.numberOfColors.randomise(random);
+    this.randomColors.randomise(random);
+    this.lineWidth.randomise(random);
+    if (this.lineWidth.locked == false && rnd.nextBool()) {
+      this.lineWidth.value = 0;
+    }
+    this.opacity.randomise(random);
+    this.backgroundColor.randomise(random);
     this.lineColor.randomise(random);
 
     this.palette = randomisedPalette(this.paletteType.value, this.numberOfColors.value, rnd);

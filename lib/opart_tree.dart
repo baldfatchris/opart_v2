@@ -100,10 +100,6 @@ class Tree {
     this.leafSquareness.randomise(random);
     this.leafDecay.randomise(random);
     this.trunkStrokeWidth.randomise(random);
-    this.randomColors.randomise(random);
-    this.numberOfColors.randomise(random);
-    this.paletteType.randomise(random);
-    this.opacity.randomise(random);
 
 
  //  this.paletteList.randomise(random);
@@ -119,7 +115,11 @@ class Tree {
     this.backgroundColor.randomise(random);
     this.trunkFillColor.randomise(random);
     this.trunkOutlineColor.randomise(random);
-    
+    this.randomColors.randomise(random);
+    this.numberOfColors.randomise(random);
+    this.paletteType.randomise(random);
+    this.opacity.randomise(random);
+
     this.palette = randomisedPalette(this.paletteType.value, this.numberOfColors.value, rnd);
 
   }

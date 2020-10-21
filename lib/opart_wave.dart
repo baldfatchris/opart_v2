@@ -71,11 +71,6 @@ class Wave {
     this.frequency.randomise(random);
     this.amplitude.randomise(random);
 
-    this.backgroundColor.randomise(random);
-    this.randomColors.randomise(random);
-    this.numberOfColors.randomise(random);
-    this.paletteType.randomise(random);
-    this.opacity.randomise(random);
 
 
     // this.paletteList.randomise(random);
@@ -89,6 +84,10 @@ class Wave {
     rnd = Random(DateTime.now().millisecond);
 
     this.backgroundColor.randomise(random);
+    this.randomColors.randomise(random);
+    this.numberOfColors.randomise(random);
+    this.paletteType.randomise(random);
+    this.opacity.randomise(random);
 
     int numberOfColors = this.numberOfColors.value;
 
