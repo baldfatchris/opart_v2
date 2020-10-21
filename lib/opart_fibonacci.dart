@@ -1467,8 +1467,8 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
 
   List<Map<String, dynamic>> cachedFibonacciList = List<Map<String, dynamic>>();
 
-  cacheFibonacci(
-      ScreenshotController screenshotController, Function SetState) async {
+  cacheFibonacci(Function SetState) async {
+    await new Future.delayed(const Duration(milliseconds: 100));
     screenshotController
         .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
         .then((File image) async {
@@ -1602,7 +1602,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                                 setLocalState(() {});
                               },
                               () {
-                                cacheFibonacci(screenshotController, SetState);
+                                cacheFibonacci( SetState);
                               },
                             )
                           : (settingsList[index].type == 'Int')
@@ -1627,7 +1627,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                                   },
                                   () {
                                     cacheFibonacci(
-                                        screenshotController, SetState);
+                                         SetState);
                                   },
                                 )
                               : (settingsList[index].type == 'List')
@@ -1643,7 +1643,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                                         });
                                         setLocalState(() {});
                                         cacheFibonacci(
-                                            screenshotController, SetState);
+                                             SetState);
                                       },
                                       (value) {
                                         setState(() {
@@ -1664,7 +1664,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                                             });
                                             setLocalState(() {});
                                             cacheFibonacci(
-                                                screenshotController, SetState);
+                                                SetState);
                                           },
                                           (value) {
                                             setState(() {
@@ -1759,7 +1759,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                       setState(() {
                         currentFibonacci.randomize();
                         currentFibonacci.randomizePalette();
-                        cacheFibonacci(screenshotController, SetState);
+                        cacheFibonacci( SetState);
                       });
                     },
                     child: Row(
@@ -1794,7 +1794,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                     onPressed: () {
                       setState(() async {
                         currentFibonacci.randomizePalette();
-                        cacheFibonacci(screenshotController, SetState);
+                        cacheFibonacci( SetState);
                       });
                     },
                     child: Row(
@@ -1926,7 +1926,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
       setState(() {
         currentFibonacci.randomize();
         currentFibonacci.randomizePalette();
-        //randomiseSettings();
+
       });
     });
     // To close: detector.stopListening();
@@ -1972,6 +1972,10 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
 
     // controller1.forward();
     // controller2.forward();
+
+    cacheFibonacci( (){setState(() {
+
+    });});
   }
 
 // @override
