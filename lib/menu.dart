@@ -60,8 +60,8 @@ class _OpArtMenuState extends State<OpArtMenu> {
 
   @override
   Widget build(BuildContext context) {
-  //  PageController _pageController = PageController(initialPage: Random().nextInt(4));
-    PageController _pageController = PageController(initialPage: 0);
+  PageController _pageController = PageController(initialPage: Random().nextInt(4));
+  //  PageController _pageController = PageController(initialPage: 2);
 
     Size size = MediaQuery.of(context).size;
     print(showSettings);

@@ -274,8 +274,9 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
 
   List<Map<String, dynamic>> cachedWaveList = [];
   cacheWave(
-      ScreenshotController screenshotController, Function SetState) async {
+       Function SetState) async {
     print('cache fibonacci');
+    await new Future.delayed(const Duration(milliseconds: 200));
     screenshotController
         .capture(delay: Duration(milliseconds: 10), pixelRatio: 0.2)
         .then((File image) async {
@@ -284,6 +285,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
       Map<String, dynamic> currentCache = {
         'aspectRatio': currentWave.aspectRatio,
         'stepX': currentWave.stepX.value,
+        'stepY': currentWave.stepY.value,
         'frequency': currentWave.frequency.value,
         'amplitude': currentWave.amplitude.value,
 
@@ -292,7 +294,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
         'numberOfColours': currentWave.numberOfColours.value,
         'paletteType': currentWave.paletteType.value,
         'opacity': currentWave.opacity.value,
-
+        'paletteList': currentWave.paletteList.value,
         'image': currentWave.image,
 
       };
@@ -555,7 +557,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                       setState(() {
                         currentWave.randomize();
                         currentWave.randomizePalette();
-                        cacheWave(screenshotController, SetState);
+                        cacheWave( SetState);
                       });
                     },
                     child: Row(
@@ -585,7 +587,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                     onPressed: () {
                       setState(() {
                         currentWave.randomizePalette();
-                        cacheWave(screenshotController, SetState);
+                        cacheWave( SetState);
                       });
                     },
                     child: Row(
@@ -625,15 +627,19 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                       onTap: () {
                         setState(() {
                           currentWave.stepX.value = cachedWaveList[index]['stepX'];
-                          currentWave.stepY.value = cachedWaveList[index]['stepY'];
+                    currentWave.stepY.value = cachedWaveList[index]['stepY'];
+
                           currentWave.frequency.value = cachedWaveList[index]['frequency'];
                           currentWave.amplitude.value = cachedWaveList[index]['amplitude'];
                           currentWave.image = cachedWaveList[index]['image'];
+
                           currentWave.backgroundColour.value = cachedWaveList[index]['backgroundColour'];
                           currentWave.randomColours.value = cachedWaveList[index]['randomColours'];
                           currentWave.numberOfColours.value = cachedWaveList[index]['numberOfColours'];
                           currentWave.paletteType.value = cachedWaveList[index]['paletteType'];
+                          currentWave.paletteList.value = cachedWaveList[index]['paletteList'];
                           currentWave.opacity.value = cachedWaveList[index]['opacity'];
+
                         });
                       },
                       child: Container(
@@ -712,6 +718,9 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
 
     // controller1.forward();
     // controller2.forward();
+    cacheWave( (){setState(() {
+
+    });});
   }
 
 // @override

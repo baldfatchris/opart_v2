@@ -338,14 +338,13 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
 
 
   List<Map<String, dynamic>> cachedTreeList = [];
-  cacheTree(
-      ScreenshotController screenshotController, Function SetState) async {
-    print('cache fibonacci');
+  cacheTree(Function SetState) async {
+    await new Future.delayed(const Duration(milliseconds: 200));
     screenshotController
-        .capture(delay: Duration(milliseconds: 10), pixelRatio: 0.2)
+        .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
         .then((File image) async {
-      currentTree.image = image;
-
+      await new Future.delayed(const Duration(milliseconds: 20));
+currentTree.image = image;
       Map<String, dynamic> currentCache = {
         'aspectRatio': currentTree.aspectRatio,
         'trunkWidth': currentTree.trunkWidth.value,
@@ -634,7 +633,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
                       setState(() {
                         currentTree.randomize();
                         currentTree.randomizePalette();
-                        cacheTree(screenshotController, SetState);
+                        cacheTree( SetState);
                       });
                     },
                     child: Row(
@@ -664,7 +663,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
                     onPressed: () {
                       setState(() {
                         currentTree.randomizePalette();
-                        cacheTree(screenshotController, SetState);
+                        cacheTree(SetState);
                       });
                     },
                     child: Row(
@@ -803,7 +802,11 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
     //   });
 
     // controller1.forward();
+
     // controller2.forward();
+    cacheTree((){setState(() {
+
+    });});
   }
 
 // @override

@@ -321,7 +321,6 @@ List settingsList = [
   currentWallpaper.squeezeY ,
   currentWallpaper.numberOfPetals ,
   currentWallpaper.randomPetals ,
-
   currentWallpaper.backgroundColor,
   currentWallpaper.lineColor ,
   currentWallpaper.lineWidth,
@@ -358,10 +357,10 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
 
   List<Map<String, dynamic>> cachedWallpaperList = [];
   cacheWallpaper(
-      ScreenshotController screenshotController, Function SetState) async {
-    print('cache fibonacci');
+     Function SetState) async {
+    await new Future.delayed(const Duration(milliseconds: 200));
     screenshotController
-        .capture(delay: Duration(milliseconds: 10), pixelRatio: 0.2)
+        .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
         .then((File image) async {
       currentWallpaper.image = image;
 
@@ -397,7 +396,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
         'numberOfColors': currentWallpaper.numberOfColors.value,
         'paletteType': currentWallpaper.paletteType.value,
         'opacity': currentWallpaper.opacity.value,
-
+        'paletteList': currentWallpaper.paletteList.value,
         'image': currentWallpaper.image,
 
       };
@@ -660,7 +659,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
                       setState(() {
                         currentWallpaper.randomize();
                         currentWallpaper.randomizePalette();
-                        cacheWallpaper(screenshotController, SetState);
+                        cacheWallpaper( SetState);
                       });
                     },
                     child: Row(
@@ -690,7 +689,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
                     onPressed: () {
                       setState(() {
                         currentWallpaper.randomizePalette();
-                        cacheWallpaper(screenshotController, SetState);
+                        cacheWallpaper( SetState);
                       });
                     },
                     child: Row(
@@ -760,6 +759,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
                           currentWallpaper.resetColours.value = cachedWallpaperList[index]['resetColours'];
                           currentWallpaper.numberOfColors.value = cachedWallpaperList[index]['numberOfColors'];
                           currentWallpaper.paletteType.value = cachedWallpaperList[index]['paletteType'];
+                          currentWallpaper.paletteList.value = cachedWallpaperList[index]['paletteList'];
                           currentWallpaper.opacity.value = cachedWallpaperList[index]['opacity'];
                         });
                       },
@@ -839,6 +839,9 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
 
     // controller1.forward();
     // controller2.forward();
+    cacheWallpaper( (){setState(() {
+
+    });});
   }
 
 // @override
