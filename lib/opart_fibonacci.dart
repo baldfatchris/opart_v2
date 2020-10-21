@@ -10,7 +10,7 @@ import 'package:opart_v2/setting_dropdown.dart';
 import 'package:opart_v2/setting_colorpicker.dart';
 import 'package:opart_v2/setting_radiobutton.dart';
 import 'bottom_app_bar_custom.dart';
-import 'model.dart';
+import 'opart_model.dart';
 import 'palettes.dart';
 
 Random rnd;
