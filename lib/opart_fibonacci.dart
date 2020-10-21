@@ -101,7 +101,7 @@ class Fibonacci {
       tooltip:
           'The size of the petal as a multiple of its distance from the centre',
       min: 0.01,
-      max: 0.3,
+      max: 0.5,
       defaultValue: 0.05,
       icon: Icon(Icons.swap_horizontal_circle));
   SettingsModelDouble ratio = SettingsModelDouble(

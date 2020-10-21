@@ -238,7 +238,7 @@ class Wave {
 
 List settingsList = [
   currentWave.stepX ,
-  currentWave.stepX ,
+  currentWave.stepY ,
   currentWave.frequency ,
   currentWave.amplitude ,
 

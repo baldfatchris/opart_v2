@@ -99,7 +99,7 @@ class Wallpaper {
   SettingsModelBool randomRotation = SettingsModelBool(label: 'Random Rotate', tooltip: 'The random shape rotation', defaultValue: false, icon: Icon(Icons.crop_rotate));
   SettingsModelDouble rotateStep  = SettingsModelDouble(label: 'Rotate Step', tooltip: 'The rate of increase of the rotation', min: 0, max: 2, defaultValue: 0, icon: Icon(Icons.screen_rotation));
 
-  SettingsModelDouble squareness = SettingsModelDouble(label: 'Squareness', tooltip: 'The squareness of the shape', min: -2, max: 2, defaultValue: 0, icon: Icon(Icons.center_focus_weak));
+  SettingsModelDouble squareness = SettingsModelDouble(label: 'Squareness', tooltip: 'The squareness of the shape', min: -2, max: 2, defaultValue: 1, icon: Icon(Icons.center_focus_weak));
   SettingsModelDouble squeezeX = SettingsModelDouble(label: 'Horizontal Squeeze', tooltip: 'The squeeze in the horizontal axis', min: 0.5, max: 1.5, defaultValue: 1, icon: Icon(Icons.more_horiz));
   SettingsModelDouble squeezeY = SettingsModelDouble(label: 'Vertical Squeeze', tooltip: 'The squeeze in the vertical axis', min: 0.5, max: 1.5, defaultValue: 1, icon: Icon(Icons.more_vert));
   SettingsModelInt numberOfPetals = SettingsModelInt(label: 'Number Of Points', tooltip: 'The number of points', min: 1, max: 15, defaultValue: 5, icon: Icon(Icons.star));
