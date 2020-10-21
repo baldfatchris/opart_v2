@@ -136,7 +136,7 @@ class Wave {
     this.opacity.randomise(random);
 
 
-    this.paletteList.randomise(random);
+ //   this.paletteList.randomise(random);
   }
 
   void randomizePalette() {

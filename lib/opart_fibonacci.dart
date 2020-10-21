@@ -1257,7 +1257,7 @@ class Fibonacci {
     // backgroundColour
     this.backgroundColour.randomise(random);
 
-    this.paletteList.randomise(random);
+   // this.paletteList.randomise(random);
   }
 
   void randomizePalette() {
@@ -1739,9 +1739,9 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
         height: 70,
         child: BottomAppBar(
             color: Colors.white,
-            child: ButtonBar(
-              alignment: MainAxisAlignment.spaceBetween,
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Row(
+
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 FlatButton(
                     onPressed: () {
@@ -1753,7 +1753,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                     },
                     child: Row(
                       children: <Widget>[
-                        Icon(Icons.refresh),
+                       // Icon(Icons.refresh),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
@@ -2006,7 +2006,7 @@ class OpArtFibonacciPainter extends CustomPainter {
       currentNamedPalette = currentFibonacci.paletteList.value;
     }
 
-    if (currentNamedPalette != null &&
+    if (
         currentFibonacci.paletteList.value != currentNamedPalette) {
       // find the index of the palette in the list
 

@@ -117,7 +117,7 @@ class _OpArtMenuState extends State<OpArtMenu> {
 
                       setState(() {
                         imageFile = image;
-                        Share.shareFiles([imageFile.path],
+                        Share.shareFiles([imageFile.path],mimeTypes: ['image/jpeg'],
 
                             text: 'Download the OpArt App NOW!');
                       });

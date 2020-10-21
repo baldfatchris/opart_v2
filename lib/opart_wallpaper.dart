@@ -174,7 +174,7 @@ class Wallpaper {
     this.numberOfColors.randomise(random);
     this.paletteType.randomise(random);
     this.opacity.randomise(random);
-    this.paletteList.randomise(random);
+   // this.paletteList.randomise(random);
     }
 
   void randomizePalette() {
