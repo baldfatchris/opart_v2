@@ -9,7 +9,7 @@ import 'opart_wave.dart';
 import 'opart_wallpaper.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share/share.dart';
-import 'model.dart';
+import 'opart_model.dart';
 
 
 

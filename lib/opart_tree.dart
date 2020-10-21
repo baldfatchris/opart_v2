@@ -8,7 +8,7 @@ import 'package:opart_v2/setting_intslider.dart';
 import 'package:opart_v2/setting_dropdown.dart';
 import 'package:opart_v2/setting_colorpicker.dart';
 import 'package:opart_v2/setting_radiobutton.dart';
-import 'model.dart';
+import 'opart_model.dart';
 import 'palettes.dart';
 import 'bottom_app_bar_custom.dart';
 Random rnd;
