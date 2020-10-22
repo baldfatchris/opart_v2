@@ -29,24 +29,24 @@ class OpArtMenu extends StatefulWidget {
 List<OpArtType> OpArtTypes = [
   OpArtType(
     name: 'Fibonacci',
-    icon: 'lib/assets/fibonacci.png',
+    icon: 'lib/assets/fibonacci_200.png',
     widget: OpArtFibonacciStudio(),
 
   ),
   OpArtType(
     name: 'Trees',
-    icon: 'lib/assets/trees.png',
+    icon: 'lib/assets/tree_200.png',
     widget: OpArtTreeStudio(),
 
   ),
   OpArtType(
     name: 'Waves',
-    icon: 'lib/assets/waves.png',
+    icon: 'lib/assets/wave_200.png',
     widget: OpArtWaveStudio(),
   ),
   OpArtType(
     name: 'Wallpaper',
-    icon: 'lib/assets/wallpaper.png',
+    icon: 'lib/assets/wallpaper_200.png',
     widget: OpArtWallpaperStudio(),
   ),
 ];
@@ -108,7 +108,8 @@ class _OpArtMenuState extends State<OpArtMenu> {
             title: Text(OpArtTypes[position].name),
             centerTitle: true,
             elevation: 0,
-            leading: IconButton(icon: Icon(Icons.home, color: Colors.white,), onPressed: (){
+            leading: IconButton(
+              icon: Icon(Icons.home, color: Colors.white,), onPressed: (){
               Navigator.pop(context);
             },),
             actions: [
