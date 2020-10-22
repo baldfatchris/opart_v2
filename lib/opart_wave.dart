@@ -24,18 +24,85 @@ String currentNamedPalette;
 class Wave {
   // image settings
 
-  SettingsModelDouble stepX = SettingsModelDouble(label: 'stepX',tooltip: 'The horizontal width of each stripe ', min: 0.01, max: 50, zoom: 100, defaultValue: 5, icon: Icon(Icons.ac_unit));
-  SettingsModelDouble stepY = SettingsModelDouble(label: 'stepY',tooltip: 'The vertical distance between points on each stripe ',min: 0.01,max: 500, zoom: 100, defaultValue: 0.1, icon: Icon(Icons.bluetooth_audio));
-  SettingsModelDouble frequency = SettingsModelDouble(label: 'frequency',tooltip: 'The frequency of the wave ', min: 0, max: 5, zoom: 100, defaultValue: 1, icon: Icon(Icons.smoke_free));
-  SettingsModelDouble amplitude = SettingsModelDouble(label: 'amplitude',tooltip: 'The amplitude of the wave ', min: 0, max: 500, zoom: 100, defaultValue: 15, icon: Icon(Icons.weekend));
+  SettingsModelDouble stepX = SettingsModelDouble(
+      label: 'stepX',
+      tooltip: 'The horizontal width of each stripe ',
+      min: 0.01,
+      max: 50,
+      zoom: 100,
+      defaultValue: 5,
+      icon: Icon(Icons.ac_unit));
+  SettingsModelDouble stepY = SettingsModelDouble(
+      label: 'stepY',
+      tooltip: 'The vertical distance between points on each stripe ',
+      min: 0.01,
+      max: 500,
+      zoom: 100,
+      defaultValue: 0.1,
+      icon: Icon(Icons.bluetooth_audio));
+  SettingsModelDouble frequency = SettingsModelDouble(
+      label: 'frequency',
+      tooltip: 'The frequency of the wave ',
+      min: 0,
+      max: 5,
+      zoom: 100,
+      defaultValue: 1,
+      icon: Icon(Icons.smoke_free));
+  SettingsModelDouble amplitude = SettingsModelDouble(
+      label: 'amplitude',
+      tooltip: 'The amplitude of the wave ',
+      min: 0,
+      max: 500,
+      zoom: 100,
+      defaultValue: 15,
+      icon: Icon(Icons.weekend));
 
 // palette settings
-  SettingsModelColor backgroundColor = SettingsModelColor(label: "Background Color", tooltip: "The background colour for the canvas", defaultValue: Colors.white, icon: Icon(Icons.settings_overscan), );
-  SettingsModelBool randomColors = SettingsModelBool(label: 'Random Colors', tooltip: 'Randomise the coloursl', defaultValue: false, icon: Icon(Icons.gamepad));
-  SettingsModelInt numberOfColors = SettingsModelInt(label: 'Number of Colors', tooltip: 'The number of colours in the palette', min: 1, max: 36, defaultValue: 10, icon: Icon(Icons.palette));
-  SettingsModelList paletteType = SettingsModelList(label: "Palette Type", tooltip: "The nature of the palette", defaultValue: "random", icon: Icon(Icons.colorize), options: ['random', 'blended random ', 'linear random', 'linear complementary'],);
-  SettingsModelDouble opacity = SettingsModelDouble(label: 'Opactity', tooltip: 'The opactity of the petal', min: 0.2, max: 1, zoom: 100, defaultValue: 1, icon: Icon(Icons.remove_red_eye));
-  SettingsModelList paletteList = SettingsModelList(label: "Palette", tooltip: "Choose from a list of palettes", defaultValue: "Default", icon: Icon(Icons.palette), options: defaultPalleteNames(),);
+  SettingsModelColor backgroundColor = SettingsModelColor(
+    label: "Background Color",
+    tooltip: "The background colour for the canvas",
+    defaultValue: Colors.white,
+    icon: Icon(Icons.settings_overscan),
+  );
+  SettingsModelBool randomColors = SettingsModelBool(
+      label: 'Random Colors',
+      tooltip: 'Randomise the coloursl',
+      defaultValue: false,
+      icon: Icon(Icons.gamepad));
+  SettingsModelInt numberOfColors = SettingsModelInt(
+      label: 'Number of Colors',
+      tooltip: 'The number of colours in the palette',
+      min: 1,
+      max: 36,
+      defaultValue: 10,
+      icon: Icon(Icons.palette));
+  SettingsModelList paletteType = SettingsModelList(
+    label: "Palette Type",
+    tooltip: "The nature of the palette",
+    defaultValue: "random",
+    icon: Icon(Icons.colorize),
+    options: [
+      'random',
+      'blended random ',
+      'linear random',
+      'linear complementary'
+    ],
+  );
+  SettingsModelDouble opacity = SettingsModelDouble(
+      label: 'Opactity',
+      tooltip: 'The opactity of the petal',
+      min: 0.2,
+      max: 1,
+      zoom: 100,
+      defaultValue: 1,
+      icon: Icon(Icons.remove_red_eye));
+  SettingsModelList paletteList = SettingsModelList(
+    label: "Palette",
+    tooltip: "Choose from a list of palettes",
+    defaultValue: "Default",
+    icon: Icon(Icons.palette),
+    options: defaultPalleteNames(),
+  );
 
   List palette;
   double aspectRatio;
@@ -48,12 +115,10 @@ class Wave {
   Random random;
 
   Wave({
-
     // palette settings
     this.palette,
     this.aspectRatio = pi / 2,
     this.image,
-
     this.paletteLOCK = false,
     this.aspectRatioLOCK = false,
     this.random,
@@ -66,13 +131,10 @@ class Wave {
 
     rnd = Random(DateTime.now().millisecond);
 
-
     this.stepX.randomise(random);
     this.stepY.randomise(random);
     this.frequency.randomise(random);
     this.amplitude.randomise(random);
-
-
 
     // this.paletteList.randomise(random);
   }
@@ -92,8 +154,8 @@ class Wave {
 
     int numberOfColors = this.numberOfColors.value;
 
-    this.palette = randomisedPalette(this.paletteType.value, this.numberOfColors.value, rnd);
-
+    this.palette = randomisedPalette(
+        this.paletteType.value, this.numberOfColors.value, rnd);
   }
 
   void defaultSettings() {
@@ -112,7 +174,18 @@ class Wave {
     this.opacity.value = this.opacity.defaultValue;
     this.paletteList.value = this.paletteList.defaultValue;
 
-    this.palette = [Color(0xFF37A7BC), Color(0xFFB4B165), Color(0xFFA47EA4), Color(0xFF69ABCB), Color(0xFF79B38E), Color(0xFF17B8E0), Color(0xFFD1EFED), Color(0xFF151E2A), Color(0xFF725549), Color(0xFF074E71)];
+    this.palette = [
+      Color(0xFF37A7BC),
+      Color(0xFFB4B165),
+      Color(0xFFA47EA4),
+      Color(0xFF69ABCB),
+      Color(0xFF79B38E),
+      Color(0xFF17B8E0),
+      Color(0xFFD1EFED),
+      Color(0xFF151E2A),
+      Color(0xFF725549),
+      Color(0xFF074E71)
+    ];
 
     this.aspectRatio = pi / 2;
 
@@ -124,22 +197,19 @@ class Wave {
 }
 
 List settingsList = [
-  currentWave.stepX ,
-  currentWave.stepY ,
-  currentWave.frequency ,
-  currentWave.amplitude ,
-
+  currentWave.stepX,
+  currentWave.stepY,
+  currentWave.frequency,
+  currentWave.amplitude,
   currentWave.backgroundColor,
   currentWave.numberOfColors,
   currentWave.randomColors,
   currentWave.paletteType,
-  currentWave.opacity ,
+  currentWave.opacity,
   currentWave.paletteList,
 ];
 
 class OpArtWaveStudio extends StatefulWidget {
-
-
   OpArtWaveStudio();
 
   @override
@@ -158,40 +228,31 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
   // Animation<double> animation2;
   // AnimationController controller2;
 
-
   List<Map<String, dynamic>> cachedWaveList = [];
-  cacheWave(
-       Function SetState) async {
-    WidgetsBinding.instance.addPostFrameCallback(
-            (_) =>  screenshotController
+  cacheWave(Function SetState) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
             .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
             .then((File image) async {
-      currentWave.image = image;
+          currentWave.image = image;
 
-      Map<String, dynamic> currentCache = {
-        'aspectRatio': currentWave.aspectRatio,
-        'stepX': currentWave.stepX.value,
-        'stepY': currentWave.stepY.value,
-        'frequency': currentWave.frequency.value,
-        'amplitude': currentWave.amplitude.value,
-
-        'backgroundColor': currentWave.backgroundColor.value,
-        'randomColors': currentWave.randomColors.value,
-        'numberOfColors': currentWave.numberOfColors.value,
-        'paletteType': currentWave.paletteType.value,
-        'opacity': currentWave.opacity.value,
-        'paletteList': currentWave.paletteList.value,
-        'image': currentWave.image,
-
-      };
-      cachedWaveList.add(currentCache);
-      SetState();
-            })
-    );
-
+          Map<String, dynamic> currentCache = {
+            'aspectRatio': currentWave.aspectRatio,
+            'stepX': currentWave.stepX.value,
+            'stepY': currentWave.stepY.value,
+            'frequency': currentWave.frequency.value,
+            'amplitude': currentWave.amplitude.value,
+            'backgroundColor': currentWave.backgroundColor.value,
+            'randomColors': currentWave.randomColors.value,
+            'numberOfColors': currentWave.numberOfColors.value,
+            'paletteType': currentWave.paletteType.value,
+            'opacity': currentWave.opacity.value,
+            'paletteList': currentWave.paletteList.value,
+            'image': currentWave.image,
+          };
+          cachedWaveList.add(currentCache);
+          SetState();
+        }));
   }
-
-
 
   ScrollController _scrollController = new ScrollController();
   @override
@@ -208,10 +269,10 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                 height: constraints.heightConstraints().maxHeight,
                 child: CustomPaint(
                     painter: OpArtWavePainter(
-                      seed, rnd,
-                      // animation1.value,
-                      // animation2.value
-                    )),
+                  seed, rnd,
+                  // animation1.value,
+                  // animation2.value
+                )),
               ),
             ),
           )
@@ -229,7 +290,6 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
       setState(() {});
     }
 
-
     Widget bodyWidget() {
       return Screenshot(
         controller: screenshotController,
@@ -243,10 +303,10 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                   height: constraints.heightConstraints().maxHeight,
                   child: CustomPaint(
                       painter: OpArtWavePainter(
-                        seed, rnd,
-                        // animation1.value,
-                        // animation2.value
-                      )),
+                    seed, rnd,
+                    // animation1.value,
+                    // animation2.value
+                  )),
                 ),
               ),
             )
@@ -255,141 +315,130 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
       );
     }
 
-
     void _showBottomSheetSettings(context, int index) {
       showDialog(
-        //  backgroundColor: Colors.white.withOpacity(0.8),
+          //  backgroundColor: Colors.white.withOpacity(0.8),
           barrierColor: Colors.white.withOpacity(0.1),
           context: context,
           builder: (BuildContext bc) {
             return StatefulBuilder(
                 builder: (BuildContext context, setLocalState) {
-                  return Center(
-                    child: AlertDialog(backgroundColor: Colors.white.withOpacity(0.7),
-                      title: Text(settingsList[index].label),
-                      content: Column(mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          (settingsList[index].type == 'Double') ?
-
-                          settingsSlider(
-                            settingsList[index].label,
-                            settingsList[index].tooltip,
-                            settingsList[index].value,
-                            settingsList[index].min,
-                            settingsList[index].max,
-                            settingsList[index].locked,
-                            settingsList[index].zoom,
-                                (value) {
-                              setState(() {
-                                settingsList[index].value = value;
-                              });
-                              setLocalState((){});
-                            },
-                                (value) {
-                              setState(() {
-                                settingsList[index].locked = value;
-                              });
-                              setLocalState((){});
-                            },
-                                (){},
-                          )
-                              :
-                          (settingsList[index].type == 'Int') ?
-
-                          settingsIntSlider(
-                            settingsList[index].label,
-                            settingsList[index].tooltip,
-                            settingsList[index].value,
-                            settingsList[index].min,
-                            settingsList[index].max,
-                            settingsList[index].locked,
-                                (value) {
-                              setState(() {
-                                settingsList[index].value = value.toInt();
-                              });
-                              setLocalState((){});
-                            },
-                                (value) {
-                              setState(() {
-                                settingsList[index].locked = value;
-                              });
-                              setLocalState((){});
-                            },
-                                (){},
-                          )
-                              :
-                          (settingsList[index].type == 'List') ?
-
-                          settingsDropdown(
-                            settingsList[index].label,
-                            settingsList[index].tooltip,
-                            settingsList[index].value,
-                            settingsList[index].options,
-                            settingsList[index].locked,
-
-                                (value) {
-                              setState(() {
-                                settingsList[index].value = value;
-                              });
-                              setLocalState((){});
-                            },
-                                (value) {
-                              setState(() {
-                                settingsList[index].locked = !settingsList[index].locked;
-                              });
-                            },
-
-                          )
-                              :
-                          (settingsList[index].type == 'Color') ?
-
-                          settingsColorPicker(
-                            settingsList[index].label,
-                            settingsList[index].tooltip,
-                            settingsList[index].value,
-                            settingsList[index].locked,
-
-                                (value) {
-                              setState(() {
-                                settingsList[index].value = value;
-                              });
-                              setLocalState((){});
-                            },
-                                (value) {
-                              setState(() {
-                                settingsList[index].locked = value;
-                              });
-                              setLocalState((){});
-                            },
-
-                          )
-                              :
-                          settingsRadioButton(
-                            settingsList[index].label,
-                            settingsList[index].tooltip,
-                            settingsList[index].value,
-                            settingsList[index].locked,
-
-                                (value) {
-                              setState(() {
-                                settingsList[index].value = value;
-                              });
-                              setLocalState((){});
-                            },
-                                (value) {
-                              setState(() {
-                                settingsList[index].locked = value;
-                              });
-                              setLocalState((){});
-                            },
-
-
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                });
+              return Center(
+                child: AlertDialog(
+                  backgroundColor: Colors.white.withOpacity(0.7),
+                  title: Text(settingsList[index].label),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      (settingsList[index].type == 'Double')
+                          ? settingsSlider(
+                              settingsList[index].label,
+                              settingsList[index].tooltip,
+                              settingsList[index].value,
+                              settingsList[index].min,
+                              settingsList[index].max,
+                              settingsList[index].locked,
+                              settingsList[index].zoom,
+                              (value) {
+                                setState(() {
+                                  settingsList[index].value = value;
+                                });
+                                setLocalState(() {});
+                              },
+                              (value) {
+                                setState(() {
+                                  settingsList[index].locked = value;
+                                });
+                                setLocalState(() {});
+                              },
+                              () {},
+                            )
+                          : (settingsList[index].type == 'Int')
+                              ? settingsIntSlider(
+                                  settingsList[index].label,
+                                  settingsList[index].tooltip,
+                                  settingsList[index].value,
+                                  settingsList[index].min,
+                                  settingsList[index].max,
+                                  settingsList[index].locked,
+                                  (value) {
+                                    setState(() {
+                                      settingsList[index].value = value.toInt();
+                                    });
+                                    setLocalState(() {});
+                                  },
+                                  (value) {
+                                    setState(() {
+                                      settingsList[index].locked = value;
+                                    });
+                                    setLocalState(() {});
+                                  },
+                                  () {},
+                                )
+                              : (settingsList[index].type == 'List')
+                                  ? settingsDropdown(
+                                      settingsList[index].label,
+                                      settingsList[index].tooltip,
+                                      settingsList[index].value,
+                                      settingsList[index].options,
+                                      settingsList[index].locked,
+                                      (value) {
+                                        setState(() {
+                                          settingsList[index].value = value;
+                                        });
+                                        setLocalState(() {});
+                                      },
+                                      (value) {
+                                        setState(() {
+                                          settingsList[index].locked =
+                                              !settingsList[index].locked;
+                                        });
+                                      },
+                                    )
+                                  : (settingsList[index].type == 'Color')
+                                      ? settingsColorPicker(
+                                          settingsList[index].label,
+                                          settingsList[index].tooltip,
+                                          settingsList[index].value,
+                                          settingsList[index].locked,
+                                          (value) {
+                                            setState(() {
+                                              settingsList[index].value = value;
+                                            });
+                                            setLocalState(() {});
+                                          },
+                                          (value) {
+                                            setState(() {
+                                              settingsList[index].locked =
+                                                  value;
+                                            });
+                                            setLocalState(() {});
+                                          },
+                                        )
+                                      : settingsRadioButton(
+                                          settingsList[index].label,
+                                          settingsList[index].tooltip,
+                                          settingsList[index].value,
+                                          settingsList[index].locked,
+                                          (value) {
+                                            setState(() {
+                                              settingsList[index].value = value;
+                                            });
+                                            setLocalState(() {});
+                                          },
+                                          (value) {
+                                            setState(() {
+                                              settingsList[index].locked =
+                                                  value;
+                                            });
+                                            setLocalState(() {});
+                                          },
+                                        ),
+                    ],
+                  ),
+                ),
+              );
+            });
           });
     }
 
@@ -410,7 +459,9 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                         child: GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
-                            _showBottomSheetSettings(context, index,
+                            _showBottomSheetSettings(
+                              context,
+                              index,
                             );
                           },
                           child: Column(
@@ -439,22 +490,25 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
       bottomNavigationBar: Container(
         height: 50,
         child: BottomAppBar(
-            color: Colors.white,
-            child:CustomBottomAppBar(randomise: (){
-      setState(() {
-        currentWave.randomize();
-        currentWave.randomizePalette();
-        cacheWave(SetState);
-      });},randomisePalette: (){              setState(()  {
-    currentWave.randomizePalette();
-    cacheWave(SetState);
-    });}, showBottomSheet: (){
-    _showBottomSheet(context);
-    } ),
-    ),),
-      body: Stack(
+          color: Colors.white,
+          child: CustomBottomAppBar(randomise: () {
+            setState(() {
+              currentWave.randomize();
+              currentWave.randomizePalette();
+              cacheWave(SetState);
+            });
+          }, randomisePalette: () {
+            setState(() {
+              currentWave.randomizePalette();
+              cacheWave(SetState);
+            });
+          }, showBottomSheet: () {
+            _showBottomSheet(context);
+          }),
+        ),
+      ),
+      body: Column(
         children: [
-          bodyWidget(),
           Container(
               width: MediaQuery.of(context).size.width,
               color: Colors.white,
@@ -462,44 +516,54 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
               child: cachedWaveList.length == 0
                   ? Container()
                   : ListView.builder(
-                scrollDirection: Axis.horizontal,
-                controller: _scrollController,
-                itemCount: cachedWaveList.length,
-                shrinkWrap: true,
-                reverse: false,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          currentWave.stepX.value = cachedWaveList[index]['stepX'];
-                    currentWave.stepY.value = cachedWaveList[index]['stepY'];
+                      scrollDirection: Axis.horizontal,
+                      controller: _scrollController,
+                      itemCount: cachedWaveList.length,
+                      reverse: false,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                currentWave.stepX.value =
+                                    cachedWaveList[index]['stepX'];
+                                currentWave.stepY.value =
+                                    cachedWaveList[index]['stepY'];
 
-                          currentWave.frequency.value = cachedWaveList[index]['frequency'];
-                          currentWave.amplitude.value = cachedWaveList[index]['amplitude'];
-                          currentWave.image = cachedWaveList[index]['image'];
+                                currentWave.frequency.value =
+                                    cachedWaveList[index]['frequency'];
+                                currentWave.amplitude.value =
+                                    cachedWaveList[index]['amplitude'];
+                                currentWave.image =
+                                    cachedWaveList[index]['image'];
 
-                          currentWave.backgroundColor.value = cachedWaveList[index]['backgroundColor'];
-                          currentWave.randomColors.value = cachedWaveList[index]['randomColors'];
-                          currentWave.numberOfColors.value = cachedWaveList[index]['numberOfColors'];
-                          currentWave.paletteType.value = cachedWaveList[index]['paletteType'];
-                          currentWave.paletteList.value = cachedWaveList[index]['paletteList'];
-                          currentWave.opacity.value = cachedWaveList[index]['opacity'];
-
-                        });
+                                currentWave.backgroundColor.value =
+                                    cachedWaveList[index]['backgroundColor'];
+                                currentWave.randomColors.value =
+                                    cachedWaveList[index]['randomColors'];
+                                currentWave.numberOfColors.value =
+                                    cachedWaveList[index]['numberOfColors'];
+                                currentWave.paletteType.value =
+                                    cachedWaveList[index]['paletteType'];
+                                currentWave.paletteList.value =
+                                    cachedWaveList[index]['paletteList'];
+                                currentWave.opacity.value =
+                                    cachedWaveList[index]['opacity'];
+                              });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(shape: BoxShape.circle),
+                              width: 50,
+                              height: 50,
+                              child: Image.file(
+                                  cachedWaveList[index]['image']),
+                            ),
+                          ),
+                        );
                       },
-                      child: Container(
-                        decoration: BoxDecoration(shape: BoxShape.circle),
-                        width: 50,
-                        height: 50,
-                        child: Image.file(
-                            cachedWaveList[index]['image']),
-                      ),
-                    ),
-                  );
-                },
-              )),
+                    )),
+          Expanded(child: ClipRect(child: bodyWidget())),
         ],
       ),
     );
@@ -564,9 +628,9 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
 
     // controller1.forward();
     // controller2.forward();
-    cacheWave( (){setState(() {
-
-    });});
+    cacheWave(() {
+      setState(() {});
+    });
   }
 
 // @override
@@ -585,11 +649,11 @@ class OpArtWavePainter extends CustomPainter {
   // double fill;
 
   OpArtWavePainter(
-      this.seed,
-      this.rnd,
-      // this.angle,
-      // this.fill
-      );
+    this.seed,
+    this.rnd,
+    // this.angle,
+    // this.fill
+  );
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -600,36 +664,35 @@ class OpArtWavePainter extends CustomPainter {
     print('Wave');
     print('----------------------------------------------------------------');
 
-
     // Initialise the palette
     if (currentWave == null) {
       currentWave = new Wave(random: rnd);
       currentWave.defaultSettings();
       currentNamedPalette = currentWave.paletteList.value;
     }
-    if (currentNamedPalette != null && currentWave.paletteList.value != currentNamedPalette) {
+    if (currentNamedPalette != null &&
+        currentWave.paletteList.value != currentNamedPalette) {
       // find the index of the palette in the list
-      List newPalette = palettes.firstWhere((palette) => palette[0]==currentWave.paletteList.value);
+      List newPalette = palettes
+          .firstWhere((palette) => palette[0] == currentWave.paletteList.value);
       // set the palette details
       currentWave.numberOfColors.value = newPalette[1].toInt();
       currentWave.backgroundColor.value = Color(int.parse(newPalette[2]));
       currentWave.palette = [];
-      for (int z = 0; z < currentWave.numberOfColors.value; z++){
+      for (int z = 0; z < currentWave.numberOfColors.value; z++) {
         currentWave.palette.add(Color(int.parse(newPalette[3][z])));
       }
       currentNamedPalette = currentWave.paletteList.value;
-    } else if (currentWave.numberOfColors.value >
-        currentWave.palette.length) {
-        currentWave.randomizePalette();
+    } else if (currentWave.numberOfColors.value > currentWave.palette.length) {
+      currentWave.randomizePalette();
     }
-
 
     if (currentWave == null) {
       currentWave = new Wave(random: rnd);
       currentWave.defaultSettings();
     }
 
-    if (currentWave.numberOfColors.value>currentWave.palette.length){
+    if (currentWave.numberOfColors.value > currentWave.palette.length) {
       currentWave.randomizePalette();
     }
 
@@ -655,7 +718,6 @@ class OpArtWavePainter extends CustomPainter {
       borderX = (canvasWidth - canvasHeight * currentWave.aspectRatio) / 2;
       imageWidth = imageHeight * currentWave.aspectRatio;
     }
-
 
     print('aspectRatio = $currentWave.aspectRatio');
     print('imageWidth = $imageWidth');
@@ -696,28 +758,25 @@ class OpArtWavePainter extends CustomPainter {
   }
 
   generateWave(
-      Canvas canvas,
-      double canvasWidth,
-      double canvasHeight,
-      double imageWidth,
-      double imageHeight,
-      double borderX,
-      double borderY,
-
-      double currentStepX,
-      double currentStepY,
-      double currentFrequency,
-      double currentAmplitude,
-      Color currentBackgroundColor,
-      bool currentRandomColors,
-      int currentNumberOfColors,
-      String currentPaletteType,
-      double currentOpacity,
-      List currentPalette,
-      ) {
-
+    Canvas canvas,
+    double canvasWidth,
+    double canvasHeight,
+    double imageWidth,
+    double imageHeight,
+    double borderX,
+    double borderY,
+    double currentStepX,
+    double currentStepY,
+    double currentFrequency,
+    double currentAmplitude,
+    Color currentBackgroundColor,
+    bool currentRandomColors,
+    int currentNumberOfColors,
+    String currentPaletteType,
+    double currentOpacity,
+    List currentPalette,
+  ) {
     int colourOrder = 0;
-
 
     // colour in the canvas
     //a rectangle
@@ -727,22 +786,17 @@ class OpArtWavePainter extends CustomPainter {
           ..color = currentBackgroundColor
           ..style = PaintingStyle.fill);
 
-
-
     double offset = 1;
     double start = 0 - currentAmplitude;
     double end = imageWidth + currentStepX + currentAmplitude;
 
-    for (double i = start; i < end; i+= currentStepX ) {
-
+    for (double i = start; i < end; i += currentStepX) {
       Color waveColor;
-      if (currentRandomColors){
+      if (currentRandomColors) {
         waveColor = currentPalette[rnd.nextInt(currentNumberOfColors)];
-      }
-      else
-      {
+      } else {
         colourOrder++;
-        waveColor = currentPalette[colourOrder%currentNumberOfColors];
+        waveColor = currentPalette[colourOrder % currentNumberOfColors];
       }
 
       // var paint1 = Paint()
@@ -753,20 +807,25 @@ class OpArtWavePainter extends CustomPainter {
       Path wave = Path();
 
       double j;
-      for (j = 0; j < imageHeight + currentStepY; j+=currentStepY) {
-        var delta = currentAmplitude * sin(pi * 2 * (j / imageHeight * currentFrequency + offset * i / imageWidth));
-        if (j==0){
+      for (j = 0; j < imageHeight + currentStepY; j += currentStepY) {
+        var delta = currentAmplitude *
+            sin(pi *
+                2 *
+                (j / imageHeight * currentFrequency + offset * i / imageWidth));
+        if (j == 0) {
           wave.moveTo(borderX + i + delta, borderY + j);
-        }
-        else{
+        } else {
           wave.lineTo(borderX + i + delta, borderY + j);
         }
       }
-      for (double k = j; k >= -currentStepY; k-=currentStepY) {
-        var delta = currentAmplitude * sin(pi * 2 * (k / imageHeight * currentFrequency + offset * (i+currentStepX) / imageWidth));
+      for (double k = j; k >= -currentStepY; k -= currentStepY) {
+        var delta = currentAmplitude *
+            sin(pi *
+                2 *
+                (k / imageHeight * currentFrequency +
+                    offset * (i + currentStepX) / imageWidth));
         wave.lineTo(borderX + i + currentStepX + delta, borderY + k);
       }
-
 
 //      wave.lineTo(borderX + imageWidth, borderY + imageHeight);
       wave.close();
@@ -776,21 +835,30 @@ class OpArtWavePainter extends CustomPainter {
           Paint()
             ..style = PaintingStyle.fill
             ..color = waveColor);
-
     }
-
-
 
     // colour in the outer canvas
     var paint1 = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.fill;
-    canvas.drawRect(Offset(-canvasWidth, 0) & Size(canvasWidth + borderX, canvasHeight), paint1);
-    canvas.drawRect(Offset(canvasWidth-borderX, 0) & Size(borderX + canvasWidth, canvasHeight), paint1);
+    canvas.drawRect(
+        Offset(-canvasWidth, 0) & Size(canvasWidth + borderX, canvasHeight),
+        paint1);
+    canvas.drawRect(
+        Offset(canvasWidth - borderX, 0) &
+            Size(borderX + canvasWidth, canvasHeight),
+        paint1);
 
-    canvas.drawRect(Offset(-canvasWidth, -canvasHeight) & Size(3*canvasWidth, canvasHeight + borderY ), paint1);
-    canvas.drawRect(Offset(-canvasWidth, borderY+canvasHeight) & Size(3*canvasWidth, borderY+canvasHeight*2), paint1);
-     }
+    canvas.drawRect(
+        Offset(-canvasWidth, -canvasHeight) &
+            Size(3 * canvasWidth, canvasHeight + borderY),
+        paint1);
+    canvas.drawRect(
+        Offset(-canvasWidth, borderY + canvasHeight) &
+            Size(3 * canvasWidth, borderY + canvasHeight * 2),
+        paint1);
+  }
+
   @override
   bool shouldRepaint(OpArtWavePainter oldDelegate) => false;
 }
