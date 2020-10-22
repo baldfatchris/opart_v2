@@ -377,41 +377,43 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
   List<Map<String, dynamic>> cachedFibonacciList = List<Map<String, dynamic>>();
 
   cacheFibonacci(Function SetState) async {
-    await new Future.delayed(const Duration(milliseconds: 200));
-    screenshotController
-        .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
-        .then((File image) async {
-      await new Future.delayed(const Duration(milliseconds: 20));
-      currentFibonacci.image = image;
-      Map<String, dynamic> currentCache = {
-        'angleIncrement': currentFibonacci.angleIncrement.value,
-        'ratio': currentFibonacci.ratio.value,
-        'flowerFill': currentFibonacci.flowerFill.value,
-        'opacity': currentFibonacci.opacity.value,
-        'petalType': currentFibonacci.petalType.value,
-        'petalPointiness': currentFibonacci.petalPointiness.value,
-        'petalRotation': currentFibonacci.petalRotation.value,
-        'petalRotationRatio': currentFibonacci.petalRotationRatio.value,
-        'petalToRadius': currentFibonacci.petalToRadius.value,
-        'radialOscAmplitude': currentFibonacci.radialOscAmplitude.value,
-        'radialOscPeriod': currentFibonacci.radialOscPeriod.value,
-        'randomiseAngle': currentFibonacci.randomiseAngle.value,
-        'maxPetals': currentFibonacci.maxPetals.value,
-        'direction': currentFibonacci.direction.value,
-        'backgroundColor': currentFibonacci.backgroundColor.value,
-        'lineColor': currentFibonacci.lineColor.value,
-        'lineWidth': currentFibonacci.lineWidth.value,
-        'numberOfColors': currentFibonacci.numberOfColors.value,
-        'randomColors': currentFibonacci.randomColors.value,
-        'paletteType': currentFibonacci.paletteType.value,
-        'palette': currentFibonacci.palette,
-        'paletteList': currentFibonacci.paletteList.value,
-        'aspectRatio': currentFibonacci.aspectRatio,
-        'image': image,
-      };
-      cachedFibonacciList.add(currentCache);
-      SetState();
-    });
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) =>  screenshotController
+          .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
+          .then((File image) async {
+        await new Future.delayed(const Duration(milliseconds: 20));
+        currentFibonacci.image = image;
+        Map<String, dynamic> currentCache = {
+          'angleIncrement': currentFibonacci.angleIncrement.value,
+          'ratio': currentFibonacci.ratio.value,
+          'flowerFill': currentFibonacci.flowerFill.value,
+          'opacity': currentFibonacci.opacity.value,
+          'petalType': currentFibonacci.petalType.value,
+          'petalPointiness': currentFibonacci.petalPointiness.value,
+          'petalRotation': currentFibonacci.petalRotation.value,
+          'petalRotationRatio': currentFibonacci.petalRotationRatio.value,
+          'petalToRadius': currentFibonacci.petalToRadius.value,
+          'radialOscAmplitude': currentFibonacci.radialOscAmplitude.value,
+          'radialOscPeriod': currentFibonacci.radialOscPeriod.value,
+          'randomiseAngle': currentFibonacci.randomiseAngle.value,
+          'maxPetals': currentFibonacci.maxPetals.value,
+          'direction': currentFibonacci.direction.value,
+          'backgroundColor': currentFibonacci.backgroundColor.value,
+          'lineColor': currentFibonacci.lineColor.value,
+          'lineWidth': currentFibonacci.lineWidth.value,
+          'numberOfColors': currentFibonacci.numberOfColors.value,
+          'randomColors': currentFibonacci.randomColors.value,
+          'paletteType': currentFibonacci.paletteType.value,
+          'palette': currentFibonacci.palette,
+          'paletteList': currentFibonacci.paletteList.value,
+          'aspectRatio': currentFibonacci.aspectRatio,
+          'image': image,
+        };
+        cachedFibonacciList.add(currentCache);
+        SetState();
+      })
+    );
+
   }
 
   ScrollController _scrollController = new ScrollController();

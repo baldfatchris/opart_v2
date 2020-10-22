@@ -75,8 +75,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                     child: Column(
                       children: [
-                        Image.asset(OpArtTypes[index].icon),
-                        Text(OpArtTypes[index].name)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(OpArtTypes[index].icon),
+                        ),
+                        Text(OpArtTypes[index].name,style: TextStyle(
+                  fontFamily: 'Lobster',
+
+                  fontWeight: FontWeight.bold, fontSize: 20)),
                       ],
                     ),
                   );
