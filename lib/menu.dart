@@ -99,7 +99,7 @@ class _OpArtMenuState extends State<OpArtMenu> {
       // ),
         backgroundColor: Colors.grey[200],
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.grey[200],
           title: Text(OpArtTypes[widget.currentWidget].name,style: TextStyle(color: Colors.black,fontFamily: 'Righteous',
               fontSize: 24,
               fontWeight: FontWeight.bold ),),

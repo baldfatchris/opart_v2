@@ -647,7 +647,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
 
     return Scaffold(
       bottomNavigationBar: Container(
-        height: 50,
+        height: 70,
         child: GestureDetector(
           onVerticalDragUpdate: (value) {
             _showBottomSheet(context);

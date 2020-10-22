@@ -50,8 +50,11 @@ class _settingsDropdownState extends State<settingsDropdown> {
         Container(
           height: 50,
 
+
             child: DropdownButton<String>(
               value: widget.currentValue,
+              isDense: true,
+              isExpanded: true,
 
               onChanged: widget.locked ? null : widget.onChanged,
               items: widget.dropdownItems

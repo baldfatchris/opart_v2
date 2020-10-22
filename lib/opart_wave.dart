@@ -490,7 +490,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
 
     return Scaffold(
       bottomNavigationBar: Container(
-        height: 50,
+        height: 70,
         child: BottomAppBar(
           color: Colors.white,
           child: CustomBottomAppBar(randomise: () {

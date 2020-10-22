@@ -555,7 +555,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
 
     return Scaffold(
       bottomNavigationBar: Container(
-        height: 50,
+        height: 70,
         child: BottomAppBar(
             color: Colors.white,
             child:CustomBottomAppBar(randomise: (){

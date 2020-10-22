@@ -667,7 +667,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
 
     return Scaffold(
       bottomNavigationBar: Container(
-        height: 50,
+        height: 70,
         child: GestureDetector(
           onVerticalDragUpdate: (value) {
             _showBottomSheet(context);
