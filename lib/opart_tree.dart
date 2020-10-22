@@ -623,43 +623,46 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
       showModalBottomSheet(
           context: context,
           builder: (BuildContext bc) {
-            return Container(
-                height: 350,
-                child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4),
-                    itemCount: settingsList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        height: 10,
-                        width: 10,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                            _showBottomSheetSettings(
-                              context,
-                              index,
-                            );
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              settingsList[index].icon,
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Container(
-                                    height: 40,
-                                    child: Text(
-                                      settingsList[index].label,
-                                      textAlign: TextAlign.center,
-                                    )),
-                              )
-                            ],
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Container(
+                  height: 350,
+                  child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4),
+                      itemCount: settingsList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          height: 10,
+                          width: 10,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                              _showBottomSheetSettings(
+                                context,
+                                index,
+                              );
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                settingsList[index].icon,
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Container(
+                                      height: 40,
+                                      child: Text(
+                                        settingsList[index].label,
+                                        textAlign: TextAlign.center,
+                                      )),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    }));
+                        );
+                      })),
+            );
           });
     }
 

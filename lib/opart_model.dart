@@ -2,6 +2,7 @@ import 'dart:core';
 import 'dart:math';
 import 'package:screenshot/screenshot.dart';
 import 'package:flutter/material.dart';
+import 'package:async/async.dart';
 Random rnd = Random();
 int seed = rnd.nextInt(1 << 32);
 ScreenshotController screenshotController = ScreenshotController();
@@ -10,6 +11,7 @@ List<Map<String, dynamic>> cachedTreeList = [];
 List<Map<String, dynamic>> cachedWallpaperList = [];
 List<Map<String, dynamic>> cachedWaveList = [];
 Image file;
+RestartableTimer timer;
 class SettingsModelDouble {
   double value;
   bool locked = false;

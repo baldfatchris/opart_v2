@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:async/async.dart';
 
+RestartableTimer timer;
 Widget CustomBottomAppBar({Function randomise, Function randomisePalette,  Function showBottomSheet}){
   return BottomAppBar(
       color: Colors.white,

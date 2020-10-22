@@ -115,7 +115,7 @@ class _OpArtMenuState extends State<OpArtMenu> {
             actions: [
               IconButton(
                   icon: Icon(
-              //     Platform.isAndroid? Icons.share: Icons.ios_share,
+              //    Platform.isAndroid? Icons.share: Icons.ios_share,
                   Icons.share,
                     color: Colors.white,
                   ),
@@ -126,11 +126,22 @@ class _OpArtMenuState extends State<OpArtMenu> {
                         .then((File image) async {
                       setState(() {
                         imageFile = image;
-                        Share.shareFiles([imageFile.path],
-                           subject: 'Using Chris\'s fabulous OpArt App',
+                        if(Platform.isAndroid){
+                          Share.shareFiles([imageFile.path],
+                            subject: 'Using Chris\'s fabulous OpArt App',
                             text: 'Download the OpArt App NOW!',
 
-                            );
+                          );
+                        }
+                        else{
+                          Share.shareFiles([imageFile.path],
+                            subject: 'Using Chris\'s fabulous OpArt App',
+
+                          );
+                        }
+
+
+
                       });
                     });
                   })
