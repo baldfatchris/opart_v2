@@ -61,6 +61,13 @@ flutter:
       fonts:
       - asset: fonts/Lobster_Two/LobsterTwo-Bold.ttf
       - asset: fonts/Lobster_Two/LobsterTwo-Regular.ttf
+    - family: Monoton
+      fonts:
+        - asset: fonts/Monoton/Monoton-Regular.ttf
+    - family: Righteous
+      fonts:
+        - asset: fonts/Righteous/Righteous-Regular.ttf
+
 
 
 

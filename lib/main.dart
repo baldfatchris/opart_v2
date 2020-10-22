@@ -55,9 +55,9 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Text('Op Art Studio',
+            child: Text('OpArt Studio',
                 style: TextStyle(
-                    fontFamily: 'Lobster',
+                    fontFamily: 'Righteous',
                     fontSize: 40,
                     fontWeight: FontWeight.bold)),
           ),
@@ -80,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Image.asset(OpArtTypes[index].icon),
                         ),
                         Text(OpArtTypes[index].name,style: TextStyle(
-                  fontFamily: 'Lobster',
+                  fontFamily: 'Righteous',
 
                   fontWeight: FontWeight.bold, fontSize: 20)),
                       ],
