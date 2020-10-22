@@ -242,15 +242,13 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
   // AnimationController controller2;
 
 
-  List<Map<String, dynamic>> cachedWallpaperList = [];
+
   cacheWallpaper(
      Function SetState) async {
-    await new Future.delayed(const Duration(milliseconds: 200));
-    screenshotController
+    WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
         .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
         .then((File image) async {
       currentWallpaper.image = image;
-
       Map<String, dynamic> currentCache = {
         'aspectRatio': currentWallpaper.aspectRatio,
         'cellsX': currentWallpaper.cellsX.value,
@@ -289,7 +287,9 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
       };
       cachedWallpaperList.add(currentCache);
       SetState();
-    });
+    })
+    );
+
   }
 
   ScrollController _scrollController = new ScrollController();

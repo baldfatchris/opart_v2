@@ -374,14 +374,13 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
   // Animation<double> animation2;
   // AnimationController controller2;
 
-  List<Map<String, dynamic>> cachedFibonacciList = List<Map<String, dynamic>>();
+
 
   cacheFibonacci(Function SetState) async {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) =>  screenshotController
           .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
           .then((File image) async {
-        await new Future.delayed(const Duration(milliseconds: 20));
         currentFibonacci.image = image;
         Map<String, dynamic> currentCache = {
           'angleIncrement': currentFibonacci.angleIncrement.value,

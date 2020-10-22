@@ -162,11 +162,10 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
   List<Map<String, dynamic>> cachedWaveList = [];
   cacheWave(
        Function SetState) async {
-    print('cache fibonacci');
-    await new Future.delayed(const Duration(milliseconds: 200));
-    screenshotController
-        .capture(delay: Duration(milliseconds: 10), pixelRatio: 0.2)
-        .then((File image) async {
+    WidgetsBinding.instance.addPostFrameCallback(
+            (_) =>  screenshotController
+            .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
+            .then((File image) async {
       currentWave.image = image;
 
       Map<String, dynamic> currentCache = {
@@ -187,8 +186,12 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
       };
       cachedWaveList.add(currentCache);
       SetState();
-    });
+            })
+    );
+
   }
+
+
 
   ScrollController _scrollController = new ScrollController();
   @override

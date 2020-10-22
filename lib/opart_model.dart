@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 Random rnd = Random();
 int seed = rnd.nextInt(1 << 32);
 ScreenshotController screenshotController = ScreenshotController();
+List<Map<String, dynamic>> cachedFibonacciList = List<Map<String, dynamic>>();
+List<Map<String, dynamic>> cachedTreeList = [];
+List<Map<String, dynamic>> cachedWallpaperList = [];
+List<Map<String, dynamic>> cachedWaveList = [];
 Image file;
 class SettingsModelDouble {
   double value;
