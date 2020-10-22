@@ -9,7 +9,6 @@ class settingsDropdown extends StatefulWidget {
   Function onChanged;
   Function toggleLock;
 
-
   settingsDropdown(this.label, this.tooltip, this.currentValue, this.dropdownItems, this.locked, this.onChanged, this.toggleLock);
 
   @override

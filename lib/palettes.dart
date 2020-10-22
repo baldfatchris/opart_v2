@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-List defaultPalleteNames () {
+List <String> defaultPalleteNames () {
   return ['Default', 'Black and White',	'Doge Leonardo',	'The Birth of Venus',	'Bridget Riley - Achæan',	'Bridget Riley - Evoe 3',	'Bridget Riley - Fete',	'Bridget Riley - Nataraja',	'Bridget Riley - Summers Day',	'Da Vinci - The Last Supper',	'Da Vinci - The Mona Lisa',	'Gaugin - Woman of the Mango',	'Gericault - Raft of the Medusa',	'Grant Wood - American Gothic',	'Hockney - Felled Trees on Woldgate',	'Hockney - Pacific Coast Highway',	'Hockney - The Arrival of Spring',	'Hopper - Nighthawks',	'Hokusai - The Great Wave',	'Klimt - The Kiss',	'Matisse - Danse',	'Matisse - Danse I',	'Matisse - Icarus',	'Matisse - Jazz',	'Matisse - La Gerbe',	'Matisse - Les Codomas',	'Matisse - Snow Flowers',	'Matisse - Parakeet and the Mermaid',	'Matisse - The Snail',	'Mondrian',	'Monet - Charing Cross Bridge',	'Munch - The Scream',	'Picasso - Guernica',	'Picasso - The Tragedy',	'Picasso - The Tragedy - reduced',	'Seurat - Sunday Afternoon',	'Van Eyck - The Arnolfini Portrait',	'Van Gogh - Self Portrait',	'Van Gogh - The Starry Night',	'Van Gogh - Wheat Field with Cypresses',	'Vermeer - Girl with a Pearl Earring',	'Whistlers Mother',	'Goat 1',	'Goat 2',	'Goat 3',	'Maits Stairs',	'Lilly',	'Man in blue hat',	'Spider',	'Deck Chairs',	'Bo Kaap',	'Pantone Pop Stripes',	'Purple Artichokes',	'Stained Glass',	'Ferns',	'Rhubarb',	'SriDevi',	'Peacock',	'Coronavirus',];
 }
 

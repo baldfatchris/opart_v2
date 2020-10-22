@@ -22,7 +22,6 @@ Fibonacci currentFibonacci;
 List palettes = defaultPalettes();
 String currentNamedPalette;
 
-
 class Fibonacci {
   // image settings
 
@@ -132,7 +131,7 @@ class Fibonacci {
         "Start from the outside and draw Inward, or start from the centre and draw Outward",
     defaultValue: "inward",
     icon: Icon(Icons.directions),
-    options: ['inward', 'outward'],
+    options: <String>['inward', 'outward'],
   );
 
 // palette settings
@@ -177,7 +176,7 @@ class Fibonacci {
     tooltip: "The nature of the palette",
     defaultValue: "random",
     icon: Icon(Icons.colorize),
-    options: [
+    options: <String>[
       'random',
       'blended random ',
       'linear random',
@@ -185,7 +184,13 @@ class Fibonacci {
     ],
   );
 
-  SettingsModelList paletteList = SettingsModelList(label: "Palette", tooltip: "Choose from a list of palettes", defaultValue: "Default", icon: Icon(Icons.palette), options: defaultPalleteNames(),);
+  SettingsModelList paletteList = SettingsModelList(
+    label: "Palette",
+    tooltip: "Choose from a list of palettes",
+    defaultValue: "Default",
+    icon: Icon(Icons.palette),
+    options: defaultPalleteNames(),
+  );
 
   SettingsModelDouble opacity = SettingsModelDouble(
       label: 'Opactity',
@@ -252,9 +257,6 @@ class Fibonacci {
       this.aspectRatio = pi / 2;
       // }
     }
-
-
-
   }
 
   void randomizePalette() {
@@ -274,8 +276,8 @@ class Fibonacci {
     this.backgroundColor.randomise(random);
     this.lineColor.randomise(random);
 
-    this.palette = randomisedPalette(this.paletteType.value, this.numberOfColors.value, rnd);
-
+    this.palette = randomisedPalette(
+        this.paletteType.value, this.numberOfColors.value, rnd);
   }
 
   void defaultSettings() {
@@ -609,9 +611,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                         crossAxisCount: 4),
                     itemCount: settingsList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        height: 10,
-                        width: 10,
+                      return Container(decoration: BoxDecoration(border: Border.all()),
                         child: GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
@@ -621,6 +621,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                             );
                           },
                           child: Column(
+                            mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -645,20 +646,26 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
     return Scaffold(
       bottomNavigationBar: Container(
         height: 50,
-        child: GestureDetector(onVerticalDragUpdate: (value){
-          _showBottomSheet(context);
-        },
-          child:CustomBottomAppBar(randomise: (){
+        child: GestureDetector(
+          onVerticalDragUpdate: (value) {
+            _showBottomSheet(context);
+          },
+          child: CustomBottomAppBar(randomise: () {
             setState(() {
               currentFibonacci.randomize();
               currentFibonacci.randomizePalette();
               cacheFibonacci(SetState);
-            });},randomisePalette: (){              setState(()  {
-            currentFibonacci.randomizePalette();
-            cacheFibonacci(SetState);
-          });}, showBottomSheet: (){
+            });
+          }, randomisePalette: () {
+            setState(() {
+              currentFibonacci.randomizePalette();
+              cacheFibonacci(SetState);
+            });
+          }, showBottomSheet: () {
             _showBottomSheet(context);
-          } ), ),),
+          }),
+        ),
+      ),
       body: Column(
         children: [
           Container(
@@ -864,8 +871,7 @@ class OpArtFibonacciPainter extends CustomPainter {
       currentNamedPalette = currentFibonacci.paletteList.value;
     }
 
-    if (
-        currentFibonacci.paletteList.value != currentNamedPalette) {
+    if (currentFibonacci.paletteList.value != currentNamedPalette) {
       // find the index of the palette in the list
 
       List newPalette = palettes.firstWhere(

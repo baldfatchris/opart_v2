@@ -84,7 +84,7 @@ class SettingsModelButton {
 
 class SettingsModelList {
   String value;
-  List options;
+  List<String> options;
   bool locked = false;
   final String label;
   final String tooltip;
