@@ -13,7 +13,7 @@ import 'palettes.dart';
 import 'bottom_app_bar_custom.dart';
 
 Random rnd;
-
+final number = new ValueNotifier(0);
 // Settings
 Wave currentWave;
 
@@ -229,7 +229,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
   // AnimationController controller2;
 
 
-  cacheWave(Function SetState) async {
+  cacheWave() async {
     WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
             .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
             .then((File image) async {
@@ -250,7 +250,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
             'image': currentWave.image,
           };
           cachedWaveList.add(currentCache);
-          SetState();
+          number.value++;
         }));
   }
 
@@ -495,12 +495,12 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
             setState(() {
               currentWave.randomize();
               currentWave.randomizePalette();
-              cacheWave(SetState);
+              cacheWave();
             });
           }, randomisePalette: () {
             setState(() {
               currentWave.randomizePalette();
-              cacheWave(SetState);
+              cacheWave();
             });
           }, showBottomSheet: () {
             _showBottomSheet(context);
@@ -513,56 +513,62 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
               width: MediaQuery.of(context).size.width,
               color: Colors.white,
               height: 60,
-              child: cachedWaveList.length == 0
-                  ? Container()
-                  : ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      controller: _scrollController,
-                      itemCount: cachedWaveList.length,
-                      reverse: false,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                currentWave.stepX.value =
-                                    cachedWaveList[index]['stepX'];
-                                currentWave.stepY.value =
-                                    cachedWaveList[index]['stepY'];
+              child: ValueListenableBuilder<int>(
+                  valueListenable: number,
+                  builder: (context, value, child) {
+                    print('***********rebuilding');
+                    return cachedWaveList.length == 0
+                      ? Container()
+                      : ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          controller: _scrollController,
+                          itemCount: cachedWaveList.length,
+                          reverse: false,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    currentWave.stepX.value =
+                                        cachedWaveList[index]['stepX'];
+                                    currentWave.stepY.value =
+                                        cachedWaveList[index]['stepY'];
 
-                                currentWave.frequency.value =
-                                    cachedWaveList[index]['frequency'];
-                                currentWave.amplitude.value =
-                                    cachedWaveList[index]['amplitude'];
-                                currentWave.image =
-                                    cachedWaveList[index]['image'];
+                                    currentWave.frequency.value =
+                                        cachedWaveList[index]['frequency'];
+                                    currentWave.amplitude.value =
+                                        cachedWaveList[index]['amplitude'];
+                                    currentWave.image =
+                                        cachedWaveList[index]['image'];
 
-                                currentWave.backgroundColor.value =
-                                    cachedWaveList[index]['backgroundColor'];
-                                currentWave.randomColors.value =
-                                    cachedWaveList[index]['randomColors'];
-                                currentWave.numberOfColors.value =
-                                    cachedWaveList[index]['numberOfColors'];
-                                currentWave.paletteType.value =
-                                    cachedWaveList[index]['paletteType'];
-                                currentWave.paletteList.value =
-                                    cachedWaveList[index]['paletteList'];
-                                currentWave.opacity.value =
-                                    cachedWaveList[index]['opacity'];
-                              });
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(shape: BoxShape.circle),
-                              width: 50,
-                              height: 50,
-                              child: Image.file(
-                                  cachedWaveList[index]['image']),
-                            ),
-                          ),
+                                    currentWave.backgroundColor.value =
+                                        cachedWaveList[index]['backgroundColor'];
+                                    currentWave.randomColors.value =
+                                        cachedWaveList[index]['randomColors'];
+                                    currentWave.numberOfColors.value =
+                                        cachedWaveList[index]['numberOfColors'];
+                                    currentWave.paletteType.value =
+                                        cachedWaveList[index]['paletteType'];
+                                    currentWave.paletteList.value =
+                                        cachedWaveList[index]['paletteList'];
+                                    currentWave.opacity.value =
+                                        cachedWaveList[index]['opacity'];
+                                  });
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(shape: BoxShape.circle),
+                                  width: 50,
+                                  height: 50,
+                                  child: Image.file(
+                                      cachedWaveList[index]['image']),
+                                ),
+                              ),
+                            );
+                          },
                         );
-                      },
-                    )),
+                }
+              )),
           Expanded(child: ClipRect(child: bodyWidget())),
         ],
       ),
@@ -582,9 +588,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
       setState(() {
         currentWave.randomize();
         currentWave.randomizePalette();
-        cacheWave((){setState(() {
-
-        });});
+        cacheWave();
         //randomiseSettings();
       });
     });
@@ -631,9 +635,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
 
     // controller1.forward();
     // controller2.forward();
-    cacheWave(() {
-      setState(() {});
-    });
+    cacheWave();
   }
 
 // @override

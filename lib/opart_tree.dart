@@ -13,7 +13,7 @@ import 'palettes.dart';
 import 'bottom_app_bar_custom.dart';
 
 Random rnd;
-
+final number = new ValueNotifier(0);
 // Settings
 Tree currentTree;
 
@@ -394,7 +394,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
   // Animation<double> animation2;
   // AnimationController controller2;
 
-  cacheTree(Function SetState) async {
+  cacheTree() async {
     WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
             .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
             .then((File image) async {
@@ -427,7 +427,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
             'image': currentTree.image,
           };
           cachedTreeList.add(currentCache);
-          SetState();
+          number.value++;
         }));
   }
 
@@ -674,12 +674,12 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
             setState(() {
               currentTree.randomize();
               currentTree.randomizePalette();
-              cacheTree(SetState);
+              cacheTree();
             });
           }, randomisePalette: () {
             setState(() {
               currentTree.randomizePalette();
-              cacheTree(SetState);
+              cacheTree();
             });
           }, showBottomSheet: () {
             _showBottomSheet(context);
@@ -692,78 +692,84 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
               width: MediaQuery.of(context).size.width,
               color: Colors.white,
               height: 60,
-              child: cachedTreeList.length == 0
-                  ? Container()
-                  : ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      controller: _scrollController,
-                      itemCount: cachedTreeList.length,
-                      shrinkWrap: true,
-                      reverse: false,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                currentTree.trunkWidth.value =
-                                    cachedTreeList[index]['trunkWidth'];
-                                currentTree.widthDecay.value =
-                                    cachedTreeList[index]['widthDecay'];
-                                currentTree.segmentLength.value =
-                                    cachedTreeList[index]['segmentLength'];
-                                currentTree.segmentDecay.value =
-                                    cachedTreeList[index]['segmentDecay'];
-                                currentTree.branch.value =
-                                    cachedTreeList[index]['branch'];
-                                currentTree.angle.value =
-                                    cachedTreeList[index]['angle'];
-                                currentTree.ratio.value =
-                                    cachedTreeList[index]['ratio'];
-                                currentTree.bulbousness.value =
-                                    cachedTreeList[index]['bulbousness'];
-                                currentTree.image =
-                                    cachedTreeList[index]['image'];
-                                currentTree.maxDepth.value =
-                                    cachedTreeList[index]['maxDepth'];
-                                currentTree.leavesAfter.value =
-                                    cachedTreeList[index]['leavesAfter'];
-                                currentTree.leafAngle.value =
-                                    cachedTreeList[index]['leafAngle'];
-                                currentTree.leafLength.value =
-                                    cachedTreeList[index]['leafLength'];
-                                currentTree.randomLeafLength.value =
-                                    cachedTreeList[index]['randomLeafLength'];
-                                currentTree.leafSquareness.value =
-                                    cachedTreeList[index]['leafSquareness'];
-                                currentTree.leafDecay.value =
-                                    cachedTreeList[index]['leafDecay'];
-                                currentTree.backgroundColor.value =
-                                    cachedTreeList[index]['backgroundColor'];
-                                currentTree.trunkFillColor.value =
-                                    cachedTreeList[index]['trunkFillColor'];
-                                currentTree.trunkOutlineColor.value =
-                                    cachedTreeList[index]['trunkOutlineColor'];
-                                currentTree.randomColors.value =
-                                    cachedTreeList[index]['randomColors'];
-                                currentTree.numberOfColors.value =
-                                    cachedTreeList[index]['numberOfColors'];
-                                currentTree.paletteType.value =
-                                    cachedTreeList[index]['paletteType'];
-                                currentTree.opacity.value =
-                                    cachedTreeList[index]['opacity'];
-                              });
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(shape: BoxShape.circle),
-                              width: 50,
-                              height: 50,
-                              child: Image.file(cachedTreeList[index]['image']),
-                            ),
-                          ),
+              child: ValueListenableBuilder<int>(
+                  valueListenable: number,
+                  builder: (context, value, child) {
+                    print('***********rebuilding');
+                    return cachedTreeList.length == 0
+                      ? Container()
+                      : ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          controller: _scrollController,
+                          itemCount: cachedTreeList.length,
+                          shrinkWrap: true,
+                          reverse: false,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    currentTree.trunkWidth.value =
+                                        cachedTreeList[index]['trunkWidth'];
+                                    currentTree.widthDecay.value =
+                                        cachedTreeList[index]['widthDecay'];
+                                    currentTree.segmentLength.value =
+                                        cachedTreeList[index]['segmentLength'];
+                                    currentTree.segmentDecay.value =
+                                        cachedTreeList[index]['segmentDecay'];
+                                    currentTree.branch.value =
+                                        cachedTreeList[index]['branch'];
+                                    currentTree.angle.value =
+                                        cachedTreeList[index]['angle'];
+                                    currentTree.ratio.value =
+                                        cachedTreeList[index]['ratio'];
+                                    currentTree.bulbousness.value =
+                                        cachedTreeList[index]['bulbousness'];
+                                    currentTree.image =
+                                        cachedTreeList[index]['image'];
+                                    currentTree.maxDepth.value =
+                                        cachedTreeList[index]['maxDepth'];
+                                    currentTree.leavesAfter.value =
+                                        cachedTreeList[index]['leavesAfter'];
+                                    currentTree.leafAngle.value =
+                                        cachedTreeList[index]['leafAngle'];
+                                    currentTree.leafLength.value =
+                                        cachedTreeList[index]['leafLength'];
+                                    currentTree.randomLeafLength.value =
+                                        cachedTreeList[index]['randomLeafLength'];
+                                    currentTree.leafSquareness.value =
+                                        cachedTreeList[index]['leafSquareness'];
+                                    currentTree.leafDecay.value =
+                                        cachedTreeList[index]['leafDecay'];
+                                    currentTree.backgroundColor.value =
+                                        cachedTreeList[index]['backgroundColor'];
+                                    currentTree.trunkFillColor.value =
+                                        cachedTreeList[index]['trunkFillColor'];
+                                    currentTree.trunkOutlineColor.value =
+                                        cachedTreeList[index]['trunkOutlineColor'];
+                                    currentTree.randomColors.value =
+                                        cachedTreeList[index]['randomColors'];
+                                    currentTree.numberOfColors.value =
+                                        cachedTreeList[index]['numberOfColors'];
+                                    currentTree.paletteType.value =
+                                        cachedTreeList[index]['paletteType'];
+                                    currentTree.opacity.value =
+                                        cachedTreeList[index]['opacity'];
+                                  });
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(shape: BoxShape.circle),
+                                  width: 50,
+                                  height: 50,
+                                  child: Image.file(cachedTreeList[index]['image']),
+                                ),
+                              ),
+                            );
+                          },
                         );
-                      },
-                    )),
+                }
+              )),
           Expanded(child: ClipRect(child: bodyWidget())),
         ],
       ),
@@ -783,9 +789,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
       setState(() {
         currentTree.randomize();
         currentTree.randomizePalette();
-        cacheTree((){setState(() {
-
-        });});
+        cacheTree();
         //randomiseSettings();
       });
     });
@@ -833,9 +837,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
     // controller1.forward();
 
     // controller2.forward();
-    cacheTree(() {
-      setState(() {});
-    });
+    cacheTree();
   }
 
 // @override

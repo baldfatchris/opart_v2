@@ -14,7 +14,7 @@ import 'palettes.dart';
 import 'bottom_app_bar_custom.dart';
 
 Random rnd;
-
+final number = new ValueNotifier(0);
 // Settings
 Wallpaper currentWallpaper;
 
@@ -244,7 +244,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
 
 
   cacheWallpaper(
-     Function SetState) async {
+     ) async {
     WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
         .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
         .then((File image) async {
@@ -286,7 +286,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
 
       };
       cachedWallpaperList.add(currentCache);
-      SetState();
+      number.value++;
     })
     );
 
@@ -560,10 +560,10 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
       setState(() {
         currentWallpaper.randomize();
         currentWallpaper.randomizePalette();
-        cacheWallpaper(SetState);
+        cacheWallpaper();
       });},randomisePalette: (){              setState(()  {
     currentWallpaper.randomizePalette();
-    cacheWallpaper(SetState);
+    cacheWallpaper();
     });}, showBottomSheet: (){
     _showBottomSheet(context);
     } ),
@@ -575,65 +575,71 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
               width: MediaQuery.of(context).size.width,
               color: Colors.white,
               height: 60,
-              child: cachedWallpaperList.length == 0
-                  ? Container()
-                  : ListView.builder(
-                scrollDirection: Axis.horizontal,
-                controller: _scrollController,
-                itemCount: cachedWallpaperList.length,
-                shrinkWrap: true,
-                reverse: false,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
+              child: ValueListenableBuilder<int>(
+                  valueListenable: number,
+                  builder: (context, value, child) {
+                    print('***********rebuilding');
+                    return cachedWallpaperList.length == 0
+                      ? Container()
+                      : ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    controller: _scrollController,
+                    itemCount: cachedWallpaperList.length,
+                    shrinkWrap: true,
+                    reverse: false,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
 
-                          currentWallpaper.aspectRatio = cachedWallpaperList[index]['aspectRatio'];
-                          currentWallpaper.cellsX.value = cachedWallpaperList[index]['cellsX'];
-                          currentWallpaper.cellsY.value = cachedWallpaperList[index]['cellsY'];
-                          currentWallpaper.shape.value = cachedWallpaperList[index]['shape'];
-                          currentWallpaper.driftX.value = cachedWallpaperList[index]['driftX'];
-                          currentWallpaper.driftXStep.value = cachedWallpaperList[index]['driftXStep'];
-                          currentWallpaper.driftY.value = cachedWallpaperList[index]['driftY'];
-                          currentWallpaper.driftYStep.value = cachedWallpaperList[index]['driftYStep'];
-                          currentWallpaper.alternateDrift.value = cachedWallpaperList[index]['alternateDrift'];
-                          currentWallpaper.box.value = cachedWallpaperList[index]['box'];
-                          currentWallpaper.step.value = cachedWallpaperList[index]['step'];
-                          currentWallpaper.stepStep.value = cachedWallpaperList[index]['stepStep'];
-                          currentWallpaper.ratio.value = cachedWallpaperList[index]['ratio'];
-                          currentWallpaper.offsetX.value = cachedWallpaperList[index]['offsetX'];
-                          currentWallpaper.offsetY.value = cachedWallpaperList[index]['offsetY'];
-                          currentWallpaper.rotate.value = cachedWallpaperList[index]['rotate'];
-                          currentWallpaper.randomRotation.value = cachedWallpaperList[index]['randomRotation'];
-                          currentWallpaper.rotateStep.value = cachedWallpaperList[index]['rotateStep'];
-                          currentWallpaper.squareness.value = cachedWallpaperList[index]['squareness'];
-                          currentWallpaper.squeezeX.value = cachedWallpaperList[index]['squeezeX'];
-                          currentWallpaper.squeezeY.value = cachedWallpaperList[index]['squeezeY'];
-                          currentWallpaper.numberOfPetals.value = cachedWallpaperList[index]['numberOfPetals'];
-                          currentWallpaper.randomPetals.value = cachedWallpaperList[index]['randomPetals'];
-                          currentWallpaper.backgroundColor.value = cachedWallpaperList[index]['backgroundColor'];
-                          currentWallpaper.lineColor.value = cachedWallpaperList[index]['lineColor'];
-                          currentWallpaper.lineWidth.value = cachedWallpaperList[index]['lineWidth'];
-                          currentWallpaper.randomColors.value = cachedWallpaperList[index]['randomColors'];
-                          currentWallpaper.resetColors.value = cachedWallpaperList[index]['resetColors'];
-                          currentWallpaper.numberOfColors.value = cachedWallpaperList[index]['numberOfColors'];
-                          currentWallpaper.paletteType.value = cachedWallpaperList[index]['paletteType'];
-                          currentWallpaper.paletteList.value = cachedWallpaperList[index]['paletteList'];
-                          currentWallpaper.opacity.value = cachedWallpaperList[index]['opacity'];
-                        });
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(shape: BoxShape.circle),
-                        width: 50,
-                        height: 50,
-                        child: Image.file(
-                            cachedWallpaperList[index]['image']),
-                      ),
-                    ),
+                              currentWallpaper.aspectRatio = cachedWallpaperList[index]['aspectRatio'];
+                              currentWallpaper.cellsX.value = cachedWallpaperList[index]['cellsX'];
+                              currentWallpaper.cellsY.value = cachedWallpaperList[index]['cellsY'];
+                              currentWallpaper.shape.value = cachedWallpaperList[index]['shape'];
+                              currentWallpaper.driftX.value = cachedWallpaperList[index]['driftX'];
+                              currentWallpaper.driftXStep.value = cachedWallpaperList[index]['driftXStep'];
+                              currentWallpaper.driftY.value = cachedWallpaperList[index]['driftY'];
+                              currentWallpaper.driftYStep.value = cachedWallpaperList[index]['driftYStep'];
+                              currentWallpaper.alternateDrift.value = cachedWallpaperList[index]['alternateDrift'];
+                              currentWallpaper.box.value = cachedWallpaperList[index]['box'];
+                              currentWallpaper.step.value = cachedWallpaperList[index]['step'];
+                              currentWallpaper.stepStep.value = cachedWallpaperList[index]['stepStep'];
+                              currentWallpaper.ratio.value = cachedWallpaperList[index]['ratio'];
+                              currentWallpaper.offsetX.value = cachedWallpaperList[index]['offsetX'];
+                              currentWallpaper.offsetY.value = cachedWallpaperList[index]['offsetY'];
+                              currentWallpaper.rotate.value = cachedWallpaperList[index]['rotate'];
+                              currentWallpaper.randomRotation.value = cachedWallpaperList[index]['randomRotation'];
+                              currentWallpaper.rotateStep.value = cachedWallpaperList[index]['rotateStep'];
+                              currentWallpaper.squareness.value = cachedWallpaperList[index]['squareness'];
+                              currentWallpaper.squeezeX.value = cachedWallpaperList[index]['squeezeX'];
+                              currentWallpaper.squeezeY.value = cachedWallpaperList[index]['squeezeY'];
+                              currentWallpaper.numberOfPetals.value = cachedWallpaperList[index]['numberOfPetals'];
+                              currentWallpaper.randomPetals.value = cachedWallpaperList[index]['randomPetals'];
+                              currentWallpaper.backgroundColor.value = cachedWallpaperList[index]['backgroundColor'];
+                              currentWallpaper.lineColor.value = cachedWallpaperList[index]['lineColor'];
+                              currentWallpaper.lineWidth.value = cachedWallpaperList[index]['lineWidth'];
+                              currentWallpaper.randomColors.value = cachedWallpaperList[index]['randomColors'];
+                              currentWallpaper.resetColors.value = cachedWallpaperList[index]['resetColors'];
+                              currentWallpaper.numberOfColors.value = cachedWallpaperList[index]['numberOfColors'];
+                              currentWallpaper.paletteType.value = cachedWallpaperList[index]['paletteType'];
+                              currentWallpaper.paletteList.value = cachedWallpaperList[index]['paletteList'];
+                              currentWallpaper.opacity.value = cachedWallpaperList[index]['opacity'];
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(shape: BoxShape.circle),
+                            width: 50,
+                            height: 50,
+                            child: Image.file(
+                                cachedWallpaperList[index]['image']),
+                          ),
+                        ),
+                      );
+                    },
                   );
-                },
+                }
               )),
           Expanded(child: ClipRect(child: bodyWidget())),
         ],
@@ -654,9 +660,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
       setState(() {
         currentWallpaper.randomize();
         currentWallpaper.randomizePalette();
-        cacheWallpaper((){setState(() {
-
-        });});
+        cacheWallpaper();
         //randomiseSettings();
       });
     });
@@ -703,9 +707,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
 
     // controller1.forward();
     // controller2.forward();
-    cacheWallpaper( (){setState(() {
-
-    });});
+    cacheWallpaper();
   }
 
 // @override
