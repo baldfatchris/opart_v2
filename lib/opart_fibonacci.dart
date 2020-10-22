@@ -46,9 +46,9 @@ class Fibonacci {
       tooltip:
           'The size of the petal as a multiple of its distance from the centre',
       min: 0.01,
-      max: 0.3,
+      max: 0.5,
       zoom: 100,
-      defaultValue: 0.05,
+      defaultValue: 0.3,
       icon: Icon(Icons.swap_horizontal_circle));
   SettingsModelDouble ratio = SettingsModelDouble(
       label: 'Fill Ratio',
@@ -1219,7 +1219,9 @@ class OpArtFibonacciPainter extends CustomPainter {
             currentRadialOscAmplitude;
 
     switch (currentPetalType) {
-      case 'circle': //"circle":
+      case 'circle': //"circle": not quite a circle
+
+
 
         List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
         var petalRadius = radius * currentPetalToRadius;
@@ -1314,76 +1316,23 @@ class OpArtFibonacciPainter extends CustomPainter {
         double petalRadius = radius * currentPetalToRadius;
 
         List PA = [
-          P1[0] +
-              petalRadius *
-                  cos(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 0.0 +
-                      currentPetalPointiness +
-                      pi / 4),
-          P1[1] +
-              petalRadius *
-                  sin(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 0.0 +
-                      currentPetalPointiness +
-                      pi / 4)
-        ];
+          P1[0] + petalRadius * cos(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 0.0 + currentPetalPointiness + pi / 4),
+          P1[1] + petalRadius * sin(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 0.0 + currentPetalPointiness + pi / 4)
+                  ];
+
         List PB = [
-          P1[0] +
-              petalRadius *
-                  cos(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 0.5 -
-                      currentPetalPointiness -
-                      pi / 4),
-          P1[1] +
-              petalRadius *
-                  sin(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 0.5 -
-                      currentPetalPointiness -
-                      pi / 4)
+          P1[0] + petalRadius * cos(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 0.5 - currentPetalPointiness - pi / 4),
+          P1[1] + petalRadius * sin(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 0.5 - currentPetalPointiness - pi / 4)
         ];
+
         List PC = [
-          P1[0] +
-              petalRadius *
-                  cos(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 1.0 +
-                      currentPetalPointiness +
-                      pi / 4),
-          P1[1] +
-              petalRadius *
-                  sin(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 1.0 +
-                      currentPetalPointiness +
-                      pi / 4)
+          P1[0] + petalRadius * cos(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 1.0 + currentPetalPointiness + pi / 4),
+          P1[1] + petalRadius * sin(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 1.0 + currentPetalPointiness + pi / 4)
         ];
+
         List PD = [
-          P1[0] +
-              petalRadius *
-                  cos(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 1.5 -
-                      currentPetalPointiness -
-                      pi / 4),
-          P1[1] +
-              petalRadius *
-                  sin(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 1.5 -
-                      currentPetalPointiness -
-                      pi / 4)
+          P1[0] + petalRadius * cos(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 1.5 - currentPetalPointiness - pi / 4),
+          P1[1] + petalRadius * sin(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 1.5 - currentPetalPointiness - pi / 4)
         ];
 
         Path square = Path();
@@ -1410,118 +1359,46 @@ class OpArtFibonacciPainter extends CustomPainter {
 
       case 'petal': //"petal":
 
+
+
         List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
-        double petalRadius = radius * currentPetalToRadius;
+        var petalRadius = radius * currentPetalToRadius;
 
         List PA = [
-          P1[0] +
-              petalRadius *
-                  cos(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 0.0),
-          P1[1] +
-              petalRadius *
-                  sin(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 0.0)
+          P1[0] + petalRadius * cos(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 0.0),
+          P1[1] + petalRadius * sin(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 0.0)
         ];
+
         List PB = [
-          P1[0] +
-              petalRadius *
-                  cos(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 0.5),
-          P1[1] +
-              petalRadius *
-                  sin(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 0.5)
+          P1[0] + petalRadius * currentPetalPointiness * cos(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 0.5),
+          P1[1] + petalRadius * currentPetalPointiness * sin(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 0.5)
         ];
+
         List PC = [
-          P1[0] +
-              petalRadius *
-                  cos(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 1.0),
-          P1[1] +
-              petalRadius *
-                  sin(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 1.0)
+          P1[0] + petalRadius * cos(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 1.0),
+          P1[1] + petalRadius * sin(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 1.0)
         ];
+
         List PD = [
-          P1[0] +
-              petalRadius *
-                  cos(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 1.5),
-          P1[1] +
-              petalRadius *
-                  sin(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 1.5)
+          P1[0] + petalRadius * currentPetalPointiness * cos(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 1.5),
+          P1[1] + petalRadius * currentPetalPointiness * sin(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 1.5)
         ];
 
-        if (currentLineWidth > 0) {
-          canvas.drawArc(
-              Offset(PB[0] - petalRadius * 2, PB[1] - petalRadius * 2) &
-                  Size(petalRadius * 4, petalRadius * 4),
-              angle +
-                  currentPetalRotation +
-                  angle * currentPetalRotationRatio +
-                  pi * (0.5 + 2 / 3),
-              pi * 2 / 3,
-              false,
-              Paint()
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = currentLineWidth
-                ..color = currentLineColor);
-        }
-        canvas.drawArc(
-            Offset(PB[0] - petalRadius * 2, PB[1] - petalRadius * 2) &
-                Size(petalRadius * 4, petalRadius * 4),
-            angle +
-                currentPetalRotation +
-                angle * currentPetalRotationRatio +
-                pi * (0.5 + 2 / 3),
-            pi * 2 / 3,
-            false,
-            Paint()
-              ..style = PaintingStyle.fill
-              ..color = colour);
+        Path petal = Path();
 
-        if (currentLineWidth > 0) {
-          canvas.drawArc(
-              Offset(PD[0] - petalRadius * 2, PD[1] - petalRadius * 2) &
-                  Size(petalRadius * 4, petalRadius * 4),
-              angle +
-                  currentPetalRotation +
-                  angle * currentPetalRotationRatio +
-                  pi * (1.5 + 2 / 3),
-              pi * 2 / 3,
-              false,
-              Paint()
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = currentLineWidth
-                ..color = currentLineColor);
-        }
-        canvas.drawArc(
-            Offset(PD[0] - petalRadius * 2, PD[1] - petalRadius * 2) &
-                Size(petalRadius * 4, petalRadius * 4),
-            angle +
-                currentPetalRotation +
-                angle * currentPetalRotationRatio +
-                pi * (1.5 + 2 / 3),
-            pi * 2 / 3,
-            false,
+        petal.moveTo(PA[0], PA[1]);
+        petal.quadraticBezierTo(PB[0], PB[1], PC[0], PC[1]);
+        petal.quadraticBezierTo(PD[0], PD[1], PA[0], PA[1]);
+        petal.close();
+
+        canvas.drawPath(
+            petal,
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = currentLineWidth
+              ..color = currentLineColor);
+        canvas.drawPath(
+            petal,
             Paint()
               ..style = PaintingStyle.fill
               ..color = colour);
