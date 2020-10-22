@@ -27,7 +27,7 @@ class Wallpaper {
 
   SettingsModelInt cellsX = SettingsModelInt(label: 'Horizontal Cells', tooltip: 'The number of horizontal cells', min: 1, max: 10, defaultValue: 5, icon: Icon(Icons.swap_horiz));
   SettingsModelInt cellsY = SettingsModelInt(label: 'Vertical Cells', tooltip: 'The number of vertical cells', min: 1, max: 10, defaultValue: 5, icon: Icon(Icons.swap_vert));
-  SettingsModelList shape = SettingsModelList(label: "Shape", tooltip: "The shape in the cell", defaultValue: "circle", icon: Icon(Icons.settings), options: ['circle', 'squaricle', 'star',],);
+  SettingsModelList shape = SettingsModelList(label: "Shape", tooltip: "The shape in the cell", defaultValue: "circle", icon: Icon(Icons.settings), options: ['circle', 'squaricle', 'star'],);
   SettingsModelDouble driftX = SettingsModelDouble(label: 'Horizontal Drift', tooltip: 'The drift in the horizontal axis', min: -20, max: 20, zoom: 100,defaultValue: 0, icon: Icon(Icons.more_horiz));
   SettingsModelDouble driftXStep = SettingsModelDouble(label: 'Horizontal Step', tooltip: 'The acceleration of the drift in the horizontal axis', min: -2, max: 2, zoom: 100, defaultValue: 0, icon: Icon(Icons.screen_lock_landscape));
   SettingsModelDouble driftY = SettingsModelDouble(label: 'Vertical Drift', tooltip: 'The drift in the vertical axis', min: -20, max: 20, zoom: 100, defaultValue: 0, icon: Icon(Icons.more_vert));
@@ -1047,6 +1047,91 @@ class OpArtWallpaperPainter extends CustomPainter {
               }
 
               break;
+
+
+
+
+            case 'daisy': // daisy
+              double centreRatio = 0.3;
+              double centreRadius = stepRadius * centreRatio;
+
+               // Choose the next colour
+              colourOrder++;
+              nextColor = currentWallpaper.palette[colourOrder%currentWallpaper.numberOfColors.value];
+              if (currentWallpaper.randomColors.value) {
+                nextColor = currentWallpaper.palette[rnd.nextInt(currentWallpaper.numberOfColors.value)];
+              }
+
+              canvas.drawCircle(Offset(PO[0], PO[1]), centreRadius, Paint() ..style = PaintingStyle.fill ..color = nextColor.withOpacity(currentWallpaper.opacity.value));
+              canvas.drawCircle(Offset(PO[0], PO[1]), centreRadius, Paint() ..style = PaintingStyle.stroke ..strokeWidth = currentWallpaper.lineWidth.value ..color = currentWallpaper.lineColor.value.withOpacity(currentWallpaper.opacity.value));
+ 
+             for (var petal = 0; petal < localNumberOfPetals; petal++) {
+
+               // Choose the next colour
+               colourOrder++;
+               nextColor = currentWallpaper.palette[colourOrder%currentWallpaper.numberOfColors.value];
+               if (currentWallpaper.randomColors.value) {
+                 nextColor = currentWallpaper.palette[rnd.nextInt(currentWallpaper.numberOfColors.value)];
+               }
+
+
+
+                var petalAngle = localRotate + petal * 2 * pi / localNumberOfPetals;
+
+                var petalCentreRadius = stepRadius * (centreRatio + (1 - centreRatio) / 2);
+                var petalRadius = stepRadius * ((1 - centreRatio) / 2);
+
+                // PC = Petal centre
+                List PC = [
+                  PO[0] + petalCentreRadius * cos(petalAngle),
+                  PO[1] + petalCentreRadius * sin(petalAngle),
+                ];
+
+               List PN = [
+                  PC[0] - petalRadius * cos(petalAngle),
+                  PC[1] - petalRadius * sin(petalAngle)
+                ];
+
+               List PS= [
+                  PC[0] - petalRadius * cos(petalAngle + pi),
+                  PC[1] - petalRadius * sin(petalAngle + pi)
+                ];
+
+               List PE = [
+                  PC[0] - currentWallpaper.squareness.value * petalRadius * cos(petalAngle + pi * 0.5),
+                  PC[1] - currentWallpaper.squareness.value * petalRadius * sin(petalAngle + pi * 0.5)
+                ];
+
+
+               List PW = [
+                  PC[0] - currentWallpaper.squareness.value * petalRadius * cos(petalAngle + pi * 1.5),
+                  PC[1] - currentWallpaper.squareness.value * petalRadius * sin(petalAngle + pi * 1.5)
+                ];
+
+               Path path = Path();
+               path.moveTo(PN[0], PN[1]);
+               path.quadraticBezierTo(PE[0], PE[1], PS[0], PS[1]);
+               path.quadraticBezierTo(PW[0], PW[1], PN[0], PN[1]);
+               path.close();
+
+               canvas.drawPath(
+                   path,
+                   Paint()
+                     ..style = PaintingStyle.stroke
+                     ..strokeWidth = currentWallpaper.lineWidth.value
+                     ..color = currentWallpaper.lineColor.value.withOpacity(currentWallpaper.opacity.value));
+               canvas.drawPath(
+                   path,
+                   Paint()
+                     ..style = PaintingStyle.fill
+                     ..color = nextColor.withOpacity(currentWallpaper.opacity.value));
+
+
+              }
+
+              break;
+
+
 
           }
 

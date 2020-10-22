@@ -1,0 +1,216 @@
+Index: lib/opart_fibonacci.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lib/opart_fibonacci.dart	(revision 8b71b5b0f7b3a97810d55a205ac47b176a6301df)
++++ lib/opart_fibonacci.dart	(date 1603376097265)
+@@ -39,7 +39,7 @@
+       min: 0.3,
+       max: 2,
+       zoom: 100,
+-      defaultValue: 1,
++      defaultValue: 1.8,
+       icon: Icon(Icons.zoom_in));
+   SettingsModelDouble petalToRadius = SettingsModelDouble(
+       label: 'Petal Size',
+@@ -95,7 +95,7 @@
+   SettingsModelList petalType = SettingsModelList(
+     label: "Petal Type",
+     tooltip: "The shape of the petal",
+-    defaultValue: "circle",
++    defaultValue: "petal",
+     icon: Icon(Icons.local_florist),
+     options: ['circle', 'triangle', 'square', 'petal'],
+   );
+@@ -310,17 +310,18 @@
+     this.opacity.value = this.opacity.defaultValue;
+ 
+     this.palette = [
+-      Color(0xFF34a1af),
+-      Color(0xFFa570a8),
+-      Color(0xFFd6aa27),
+-      Color(0xFF5f9d50),
+-      Color(0xFF789dd1),
+-      Color(0xFFc25666),
+-      Color(0xFF2b7b1),
+-      Color(0xFFd63aa),
+-      Color(0xFF1f4ed),
+-      Color(0xFF383c47)
++      Color(0xFF37A7BC),
++      Color(0xFFB4B165),
++      Color(0xFFA47EA4),
++      Color(0xFF69ABCB),
++      Color(0xFF79B38E),
++      Color(0xFF17B8E0),
++      Color(0xFFD1EFED),
++      Color(0xFF151E2A),
++      Color(0xFF725549),
++      Color(0xFF074E71)
+     ];
++
+     this.aspectRatio = pi / 2;
+ 
+     this.image;
+Index: pubspec.lock
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- pubspec.lock	(revision 8b71b5b0f7b3a97810d55a205ac47b176a6301df)
++++ pubspec.lock	(date 1603375444310)
+@@ -7,49 +7,49 @@
+       name: async
+       url: "https://pub.dartlang.org"
+     source: hosted
+-    version: "2.5.0-nullsafety.1"
++    version: "2.4.2"
+   boolean_selector:
+     dependency: transitive
+     description:
+       name: boolean_selector
+       url: "https://pub.dartlang.org"
+     source: hosted
+-    version: "2.1.0-nullsafety.1"
++    version: "2.0.0"
+   characters:
+     dependency: transitive
+     description:
+       name: characters
+       url: "https://pub.dartlang.org"
+     source: hosted
+-    version: "1.1.0-nullsafety.3"
++    version: "1.0.0"
+   charcode:
+     dependency: transitive
+     description:
+       name: charcode
+       url: "https://pub.dartlang.org"
+     source: hosted
+-    version: "1.2.0-nullsafety.1"
++    version: "1.1.3"
+   clock:
+     dependency: transitive
+     description:
+       name: clock
+       url: "https://pub.dartlang.org"
+     source: hosted
+-    version: "1.1.0-nullsafety.1"
++    version: "1.0.1"
+   collection:
+     dependency: transitive
+     description:
+       name: collection
+       url: "https://pub.dartlang.org"
+     source: hosted
+-    version: "1.15.0-nullsafety.3"
++    version: "1.14.13"
+   fake_async:
+     dependency: transitive
+     description:
+       name: fake_async
+       url: "https://pub.dartlang.org"
+     source: hosted
+-    version: "1.2.0-nullsafety.1"
++    version: "1.1.0"
+   ffi:
+     dependency: transitive
+     description:
+@@ -115,14 +115,14 @@
+       name: matcher
+       url: "https://pub.dartlang.org"
+     source: hosted
+-    version: "0.12.10-nullsafety.1"
++    version: "0.12.8"
+   meta:
+     dependency: transitive
+     description:
+       name: meta
+       url: "https://pub.dartlang.org"
+     source: hosted
+-    version: "1.3.0-nullsafety.3"
++    version: "1.1.8"
+   mime:
+     dependency: transitive
+     description:
+@@ -136,7 +136,7 @@
+       name: path
+       url: "https://pub.dartlang.org"
+     source: hosted
+-    version: "1.8.0-nullsafety.1"
++    version: "1.7.0"
+   path_provider:
+     dependency: "direct dev"
+     description:
+@@ -246,56 +246,56 @@
+       name: source_span
+       url: "https://pub.dartlang.org"
+     source: hosted
+-    version: "1.8.0-nullsafety.2"
++    version: "1.7.0"
+   stack_trace:
+     dependency: transitive
+     description:
+       name: stack_trace
+       url: "https://pub.dartlang.org"
+     source: hosted
+-    version: "1.10.0-nullsafety.1"
++    version: "1.9.5"
+   stream_channel:
+     dependency: transitive
+     description:
+       name: stream_channel
+       url: "https://pub.dartlang.org"
+     source: hosted
+-    version: "2.1.0-nullsafety.1"
++    version: "2.0.0"
+   string_scanner:
+     dependency: transitive
+     description:
+       name: string_scanner
+       url: "https://pub.dartlang.org"
+     source: hosted
+-    version: "1.1.0-nullsafety.1"
++    version: "1.0.5"
+   term_glyph:
+     dependency: transitive
+     description:
+       name: term_glyph
+       url: "https://pub.dartlang.org"
+     source: hosted
+-    version: "1.2.0-nullsafety.1"
++    version: "1.1.0"
+   test_api:
+     dependency: transitive
+     description:
+       name: test_api
+       url: "https://pub.dartlang.org"
+     source: hosted
+-    version: "0.2.19-nullsafety.2"
++    version: "0.2.17"
+   typed_data:
+     dependency: transitive
+     description:
+       name: typed_data
+       url: "https://pub.dartlang.org"
+     source: hosted
+-    version: "1.3.0-nullsafety.3"
++    version: "1.2.0"
+   vector_math:
+     dependency: transitive
+     description:
+       name: vector_math
+       url: "https://pub.dartlang.org"
+     source: hosted
+-    version: "2.1.0-nullsafety.3"
++    version: "2.0.8"
+   win32:
+     dependency: transitive
+     description:
+@@ -311,5 +311,5 @@
+     source: hosted
+     version: "0.1.0"
+ sdks:
+-  dart: ">=2.10.0-110 <2.11.0"
++  dart: ">=2.9.0-14.0.dev <3.0.0"
+   flutter: ">=1.12.13+hotfix.5 <2.0.0"
