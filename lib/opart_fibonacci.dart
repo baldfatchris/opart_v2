@@ -598,35 +598,33 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                 height: 350,
                 child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4),
+                        crossAxisCount: 4, childAspectRatio: 1.3),
                     itemCount: settingsList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Container(decoration: BoxDecoration(border: Border.all()),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                            _showBottomSheetSettings(
-                              context,
-                              index,
-                            );
-                          },
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              settingsList[index].icon,
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Container(
-                                    height: 40,
-                                    child: Text(
-                                      settingsList[index].label,
-                                      textAlign: TextAlign.center,
-                                    )),
-                              )
-                            ],
-                          ),
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                          _showBottomSheetSettings(
+                            context,
+                            index,
+                          );
+                        },
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            settingsList[index].icon,
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Container(
+                                  height: 40,
+                                  child: Text(
+                                    settingsList[index].label,
+                                    textAlign: TextAlign.center,
+                                  )),
+                            )
+                          ],
                         ),
                       );
                     }));
