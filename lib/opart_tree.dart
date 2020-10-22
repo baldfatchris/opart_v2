@@ -428,6 +428,10 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
           };
           cachedTreeList.add(currentCache);
           number.value++;
+          await new Future.delayed(const Duration(milliseconds: 20));
+          if (_scrollController.hasClients) {
+            _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+          }
         }));
   }
 
@@ -460,12 +464,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
 
   @override
   Widget build(BuildContext context) {
-    if (_scrollController.hasClients) {
-      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-    }
-    SetState() {
-      setState(() {});
-    }
+
 
     Widget bodyWidget() {
       return Screenshot(

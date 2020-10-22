@@ -287,6 +287,10 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
       };
       cachedWallpaperList.add(currentCache);
       number.value++;
+      await new Future.delayed(const Duration(milliseconds: 20));
+      if (_scrollController.hasClients) {
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      }
     })
     );
 
@@ -321,12 +325,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
 
   @override
   Widget build(BuildContext context) {
-    if (_scrollController.hasClients) {
-      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-    }
-    SetState() {
-      setState(() {});
-    }
+
 
 
     Widget bodyWidget() {

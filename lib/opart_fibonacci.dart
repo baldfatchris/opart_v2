@@ -409,7 +409,14 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
           };
           cachedFibonacciList.add(currentCache);
           number.value++;
+          await new Future.delayed(const Duration(milliseconds: 20));
+          if (_scrollController.hasClients) {
+            _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+          }
         }));
+
+
+
   }
 
   ScrollController _scrollController = new ScrollController();
@@ -437,12 +444,8 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
 
   @override
   Widget build(BuildContext context) {
-    if (_scrollController.hasClients) {
-      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-    }
-    SetState() {
-      setState(() {});
-    }
+
+
 
     Widget bodyWidget() {
       return Screenshot(
@@ -674,7 +677,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
               child: ValueListenableBuilder<int>(
                   valueListenable: number,
                   builder: (context, value, child) {
-                    print('***********rebuilding');
+
                     return cachedFibonacciList.length == 0
                         ? Container()
                         : ListView.builder(
