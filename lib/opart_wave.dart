@@ -582,6 +582,9 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
       setState(() {
         currentWave.randomize();
         currentWave.randomizePalette();
+        cacheWave((){setState(() {
+
+        });});
         //randomiseSettings();
       });
     });

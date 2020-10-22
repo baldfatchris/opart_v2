@@ -781,6 +781,9 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
       setState(() {
         currentFibonacci.randomize();
         currentFibonacci.randomizePalette();
+        cacheFibonacci((){setState(() {
+
+        });});
       });
     });
     // To close: detector.stopListening();

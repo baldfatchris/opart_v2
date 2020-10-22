@@ -783,6 +783,9 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
       setState(() {
         currentTree.randomize();
         currentTree.randomizePalette();
+        cacheTree((){setState(() {
+
+        });});
         //randomiseSettings();
       });
     });

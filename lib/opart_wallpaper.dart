@@ -654,6 +654,9 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
       setState(() {
         currentWallpaper.randomize();
         currentWallpaper.randomizePalette();
+        cacheWallpaper((){setState(() {
+
+        });});
         //randomiseSettings();
       });
     });

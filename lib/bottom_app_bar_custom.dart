@@ -7,25 +7,39 @@ Widget CustomBottomAppBar({Function randomise, Function randomisePalette,  Funct
 
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          IconButton(
-            onPressed: () {
-              randomise();
-
-            },
-            icon: Icon(Icons.refresh),
-            // child: Row(
-            //   children: <Widget>[
-            //     Icon(Icons.refresh),
-            //     Padding(
-            //       padding: const EdgeInsets.all(8.0),
-            //       child: Text(
-            //         'Randomise \nEverything',
-            //         textAlign: TextAlign.center,
-            //       ),
-            //     )
-            //   ],
-            // ),
-          ),
+      GestureDetector(onTap: (){randomise();},
+        child: Row(
+          children: <Widget>[
+            Icon(Icons.refresh),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Randomise',
+                textAlign: TextAlign.center,
+              ),
+            )
+          ],
+        ),
+      ),
+          // IconButton(
+          //   onPressed: () {
+          //     randomise();
+          //
+          //   },
+          //  // icon: Icon(Icons.refresh),
+          //   // child: Row(
+          //   //   children: <Widget>[
+          //   //     Icon(Icons.refresh),
+          //   //     Padding(
+          //   //       padding: const EdgeInsets.all(8.0),
+          //   //       child: Text(
+          //   //         'Randomise \nEverything',
+          //   //         textAlign: TextAlign.center,
+          //   //       ),
+          //   //     )
+          //   //   ],
+          //   // ),
+          // ),
           OutlineButton(
               onPressed: () {
 
@@ -43,12 +57,26 @@ Widget CustomBottomAppBar({Function randomise, Function randomisePalette,  Funct
                   )
                 ],
               )),
-          IconButton(
-            onPressed: () {
-              randomisePalette();
-
-            },
-            icon: Icon(Icons.palette),
+          GestureDetector(onTap: (){randomisePalette();},
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.palette),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'new palette',
+                    textAlign: TextAlign.center,
+                  ),
+                )
+              ],
+            ),
+          ),
+          // IconButton(
+          //   onPressed: () {
+          //     randomisePalette();
+          //
+          //   },
+          //   icon: Icon(Icons.palette),
             // child: Row(
             //   children: <Widget>[
             //     Icon(Icons.palette),
@@ -61,7 +89,7 @@ Widget CustomBottomAppBar({Function randomise, Function randomisePalette,  Funct
             //     )
             //   ],
             // ),
-          )
+          // )
         ],
       ));
 
