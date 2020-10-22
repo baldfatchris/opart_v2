@@ -410,7 +410,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
         'image': image,
       };
       cachedFibonacciList.add(currentCache);
-      SetState();
+    //  SetState();
     });
   }
 
@@ -439,6 +439,11 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) =>cacheFibonacci((){setState(() {
+          
+        });}));
+
     if (_scrollController.hasClients) {
       _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
     }
@@ -504,7 +509,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                                 setLocalState(() {});
                               },
                               () {
-                                cacheFibonacci(SetState);
+                              //  cacheFibonacci(SetState);
                               },
                             )
                           : (settingsList[index].type == 'Int')
@@ -528,7 +533,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                                     setLocalState(() {});
                                   },
                                   () {
-                                    cacheFibonacci(SetState);
+                                  //  cacheFibonacci(SetState);
                                   },
                                 )
                               : (settingsList[index].type == 'List')
@@ -543,7 +548,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                                           settingsList[index].value = value;
                                         });
                                         setLocalState(() {});
-                                        cacheFibonacci(SetState);
+                                     //   cacheFibonacci(SetState);
                                       },
                                       (value) {
                                         setState(() {
@@ -563,7 +568,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                                               settingsList[index].value = value;
                                             });
                                             setLocalState(() {});
-                                            cacheFibonacci(SetState);
+                                       //     cacheFibonacci(SetState);
                                           },
                                           (value) {
                                             setState(() {
@@ -608,7 +613,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                 height: 350,
                 child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4, childAspectRatio: 1.3),
+                        crossAxisCount: 4, childAspectRatio: 1.2),
                     itemCount: settingsList.length,
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
@@ -652,12 +657,12 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
             setState(() {
               currentFibonacci.randomize();
               currentFibonacci.randomizePalette();
-              cacheFibonacci(SetState);
+         //     cacheFibonacci(SetState);
             });
           }, randomisePalette: () {
             setState(() {
               currentFibonacci.randomizePalette();
-              cacheFibonacci(SetState);
+         //     cacheFibonacci(SetState);
             });
           }, showBottomSheet: () {
             _showBottomSheet(context);
@@ -670,98 +675,101 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
               width: MediaQuery.of(context).size.width,
               color: Colors.white,
               height: 60,
-              child: cachedFibonacciList.length == 0
-                  ? Container()
-                  : ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      controller: _scrollController,
-                      itemCount: cachedFibonacciList.length,
-                      reverse: false,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                currentFibonacci.angleIncrement.value =
-                                    cachedFibonacciList[index]
-                                        ['angleIncrement'];
-                                currentFibonacci.ratio.value =
-                                    cachedFibonacciList[index]['ratio'];
+              child: StatefulBuilder(
+    builder: (BuildContext context, StateSetter setState) {
+               return cachedFibonacciList.length == 0
+                    ? Container()
+                    : ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        controller: _scrollController,
+                        itemCount: cachedFibonacciList.length,
+                        reverse: false,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  currentFibonacci.angleIncrement.value =
+                                      cachedFibonacciList[index]
+                                          ['angleIncrement'];
+                                  currentFibonacci.ratio.value =
+                                      cachedFibonacciList[index]['ratio'];
 
-                                currentFibonacci.maxPetals.value =
-                                    cachedFibonacciList[index]['maxPetals'];
-                                currentFibonacci.direction.value =
-                                    cachedFibonacciList[index]['direction'];
-                                currentFibonacci.flowerFill.value =
-                                    cachedFibonacciList[index]['flowerFill'];
+                                  currentFibonacci.maxPetals.value =
+                                      cachedFibonacciList[index]['maxPetals'];
+                                  currentFibonacci.direction.value =
+                                      cachedFibonacciList[index]['direction'];
+                                  currentFibonacci.flowerFill.value =
+                                      cachedFibonacciList[index]['flowerFill'];
 
-                                currentFibonacci.flowerFill.value =
-                                    cachedFibonacciList[index]['flowerFill'];
-                                currentFibonacci.opacity.value =
-                                    cachedFibonacciList[index]['opacity'];
-                                currentFibonacci.petalType.value =
-                                    cachedFibonacciList[index]['petalType'];
-                                currentFibonacci.petalPointiness.value =
-                                    cachedFibonacciList[index]
-                                        ['petalPointiness'];
+                                  currentFibonacci.flowerFill.value =
+                                      cachedFibonacciList[index]['flowerFill'];
+                                  currentFibonacci.opacity.value =
+                                      cachedFibonacciList[index]['opacity'];
+                                  currentFibonacci.petalType.value =
+                                      cachedFibonacciList[index]['petalType'];
+                                  currentFibonacci.petalPointiness.value =
+                                      cachedFibonacciList[index]
+                                          ['petalPointiness'];
 
-                                currentFibonacci.petalRotation.value =
-                                    cachedFibonacciList[index]['petalRotation'];
-                                currentFibonacci.petalRotationRatio.value =
-                                    cachedFibonacciList[index]
-                                        ['petalRotationRatio'];
-                                currentFibonacci.petalToRadius.value =
-                                    cachedFibonacciList[index]['petalToRadius'];
+                                  currentFibonacci.petalRotation.value =
+                                      cachedFibonacciList[index]['petalRotation'];
+                                  currentFibonacci.petalRotationRatio.value =
+                                      cachedFibonacciList[index]
+                                          ['petalRotationRatio'];
+                                  currentFibonacci.petalToRadius.value =
+                                      cachedFibonacciList[index]['petalToRadius'];
 
-                                currentFibonacci.radialOscAmplitude.value =
-                                    cachedFibonacciList[index]
-                                        ['radialOscAmplitude'];
-                                currentFibonacci.radialOscPeriod.value =
-                                    cachedFibonacciList[index]
-                                        ['radialOscPeriod'];
-                                currentFibonacci.randomiseAngle.value =
-                                    cachedFibonacciList[index]
-                                        ['randomiseAngle'];
-                                currentFibonacci.maxPetals.value =
-                                    cachedFibonacciList[index]['maxPetals'];
-                                currentFibonacci.direction.value =
-                                    cachedFibonacciList[index]['direction'];
+                                  currentFibonacci.radialOscAmplitude.value =
+                                      cachedFibonacciList[index]
+                                          ['radialOscAmplitude'];
+                                  currentFibonacci.radialOscPeriod.value =
+                                      cachedFibonacciList[index]
+                                          ['radialOscPeriod'];
+                                  currentFibonacci.randomiseAngle.value =
+                                      cachedFibonacciList[index]
+                                          ['randomiseAngle'];
+                                  currentFibonacci.maxPetals.value =
+                                      cachedFibonacciList[index]['maxPetals'];
+                                  currentFibonacci.direction.value =
+                                      cachedFibonacciList[index]['direction'];
 
-                                currentFibonacci.backgroundColor.value =
-                                    cachedFibonacciList[index]
-                                        ['backgroundColor'];
-                                currentFibonacci.lineColor.value =
-                                    cachedFibonacciList[index]['lineColor'];
+                                  currentFibonacci.backgroundColor.value =
+                                      cachedFibonacciList[index]
+                                          ['backgroundColor'];
+                                  currentFibonacci.lineColor.value =
+                                      cachedFibonacciList[index]['lineColor'];
 
-                                currentFibonacci.lineWidth.value =
-                                    cachedFibonacciList[index]['lineWidth'];
-                                currentFibonacci.numberOfColors.value =
-                                    cachedFibonacciList[index]
-                                        ['numberOfColors'];
-                                currentFibonacci.randomColors.value =
-                                    cachedFibonacciList[index]['randomColors'];
-                                currentFibonacci.paletteType.value =
-                                    cachedFibonacciList[index]['paletteType'];
-                                currentFibonacci.paletteList.value =
-                                    cachedFibonacciList[index]['paletteList'];
-                                currentFibonacci.palette =
-                                    cachedFibonacciList[index]['palette'];
-                                currentFibonacci.aspectRatio =
-                                    cachedFibonacciList[index]['aspectRatio'];
-                              });
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(shape: BoxShape.circle),
-                              width: 50,
-                              height: 50,
-                              child: Image.file(
-                                  cachedFibonacciList[index]['image']),
+                                  currentFibonacci.lineWidth.value =
+                                      cachedFibonacciList[index]['lineWidth'];
+                                  currentFibonacci.numberOfColors.value =
+                                      cachedFibonacciList[index]
+                                          ['numberOfColors'];
+                                  currentFibonacci.randomColors.value =
+                                      cachedFibonacciList[index]['randomColors'];
+                                  currentFibonacci.paletteType.value =
+                                      cachedFibonacciList[index]['paletteType'];
+                                  currentFibonacci.paletteList.value =
+                                      cachedFibonacciList[index]['paletteList'];
+                                  currentFibonacci.palette =
+                                      cachedFibonacciList[index]['palette'];
+                                  currentFibonacci.aspectRatio =
+                                      cachedFibonacciList[index]['aspectRatio'];
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(shape: BoxShape.circle),
+                                width: 50,
+                                height: 50,
+                                child: Image.file(
+                                    cachedFibonacciList[index]['image']),
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    )),
+                          );
+                        },
+                      );}
+              )),
           Expanded(child: ClipRect(child: bodyWidget())),
         ],
       ),
@@ -826,9 +834,9 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
     // controller1.forward();
     // controller2.forward();
 
-    cacheFibonacci(() {
-      setState(() {});
-    });
+    // cacheFibonacci(() {
+    //   setState(() {});
+    // });
   }
 
 // @override
