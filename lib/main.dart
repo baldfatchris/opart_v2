@@ -6,18 +6,81 @@ import 'package:opart_v2/opart_tree.dart';
 import 'package:opart_v2/opart_wallpaper.dart';
 import 'package:opart_v2/opart_wave.dart';
 
-
+import 'menu.dart';
+import 'menu.dart';
 
 void main() {
   runApp(MaterialApp(
     initialRoute: '/',
     routes: {
       '/': (context) => Loading(),
-      '/menu': (context) => OpArtMenu(),
+      '/menu': (context) => MyApp(),
       '/fibonacci': (context) => OpArtFibonacciStudio(),
-      '/tree': (context) => OpArtTreeStudio( ),
+      '/tree': (context) => OpArtTreeStudio(),
       '/wallpaper': (context) => OpArtWallpaperStudio(),
-      '/waves': (context) => OpArtWaveStudio( ),
+      '/waves': (context) => OpArtWaveStudio(),
     },
   ));
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: MyHomePage(title: 'Op Art Studio'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: SafeArea(
+      child: Column(
+        children: [
+          Text('Op Art Studio',
+              style: TextStyle(
+                  fontFamily: 'Lobster',
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold)),
+          Expanded(
+            child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
+                itemCount: OpArtTypes.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => OpArtMenu(index)));
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Image.asset(OpArtTypes[index].icon),
+                        Text(OpArtTypes[index].name)
+                      ],
+                    ),
+                  );
+                }),
+          ),
+        ],
+      ),
+    ));
+  }
 }
