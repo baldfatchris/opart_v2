@@ -23,10 +23,10 @@ String currentNamedPalette;
 class Tree {
   // image settings
 
-  SettingsModelDouble trunkWidth  = SettingsModelDouble(label: 'Trunk Width', tooltip: 'The width of the base of the trunk', min: 0, max: 50, zoom: 100, defaultValue: 10, icon: Icon(Icons.track_changes));
-  SettingsModelDouble widthDecay  = SettingsModelDouble(label: 'Trunk Decay ', tooltip: 'The rate at which the trunk width decays', min: 0.7, max: 1, zoom: 100, defaultValue: 0.92, icon: Icon(Icons.zoom_in));
-  SettingsModelDouble segmentLength = SettingsModelDouble(label: 'Segment Length', tooltip: 'The length of the first segment of the trunk', min: 10, max: 50, zoom: 100, defaultValue: 35,icon: Icon(Icons.swap_horizontal_circle));
-  SettingsModelDouble segmentDecay = SettingsModelDouble(label: 'Segment Decay', tooltip: 'The rate at which the length of each successive segment decays', min: 0.7, max: 1, zoom: 100, defaultValue: 0.92, icon: Icon(Icons.format_color_fill));
+  SettingsModelDouble trunkWidth  = SettingsModelDouble(label: 'Trunk Width', tooltip: 'The width of the base of the trunk', min: 0, max: 50, zoom: 100, defaultValue: 20, icon: Icon(Icons.track_changes));
+  SettingsModelDouble widthDecay  = SettingsModelDouble(label: 'Trunk Decay ', tooltip: 'The rate at which the trunk width decays', min: 0.7, max: 1, zoom: 100, defaultValue: 0.8, icon: Icon(Icons.zoom_in));
+  SettingsModelDouble segmentLength = SettingsModelDouble(label: 'Segment Length', tooltip: 'The length of the first segment of the trunk', min: 10, max: 100, zoom: 100, defaultValue: 50,icon: Icon(Icons.swap_horizontal_circle));
+  SettingsModelDouble segmentDecay = SettingsModelDouble(label: 'Segment Decay', tooltip: 'The rate at which the length of each successive segment decays', min: 0.95, max: 1, zoom: 100, defaultValue: 0.92, icon: Icon(Icons.format_color_fill));
   SettingsModelDouble branch  = SettingsModelDouble(label: 'Branch Ratio', tooltip: 'The proportion of segments that branch', min: 0.4, max: 1, zoom: 100,  defaultValue: 0.7, icon: Icon(Icons.ac_unit));
   SettingsModelDouble angle  = SettingsModelDouble(label: 'Branch Angle', tooltip: 'The angle of the branch', min: 0.1, max: 0.7, zoom: 100, defaultValue: 0.5, icon: Icon(Icons.rotate_right));
   SettingsModelDouble ratio  = SettingsModelDouble(label: 'Angle Ratio', tooltip: 'The ratio of the branch', min: 0.5, max: 1.5, zoom: 100, defaultValue: 0.7, icon: Icon(Icons.rotate_right));
@@ -44,7 +44,7 @@ class Tree {
   SettingsModelList direction = SettingsModelList(label: "Direction", tooltip: "Start from the outside and draw Inward, or start from the centre and draw Outward", defaultValue: "inward", icon: Icon(Icons.directions), options: ['inward', 'outward'], );
 
 // palette settings
-  SettingsModelColor backgroundColor = SettingsModelColor(label: "Background Color", tooltip: "The background colour for the canvas", defaultValue: Colors.white, icon: Icon(Icons.settings_overscan), );
+  SettingsModelColor backgroundColor = SettingsModelColor(label: "Background Color", tooltip: "The background colour for the canvas", defaultValue: Colors.cyan[200], icon: Icon(Icons.settings_overscan), );
   SettingsModelColor trunkFillColor = SettingsModelColor(label: "Trunk Color", tooltip: "The fill colour of the trunk", defaultValue: Colors.grey, icon: Icon(Icons.settings_overscan), );
   SettingsModelColor trunkOutlineColor  = SettingsModelColor(label: "Trunk Outline", tooltip: "The outline colour of the trunk", defaultValue: Colors.black, icon: Icon(Icons.settings_overscan), );
   SettingsModelDouble trunkStrokeWidth  = SettingsModelDouble(label: 'Outline Width', tooltip: 'The width of the trunk outline', min: 0, max: 1, zoom: 100, defaultValue: 0.1, icon: Icon(Icons.line_weight));

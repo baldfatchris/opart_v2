@@ -24,10 +24,10 @@ String currentNamedPalette;
 class Wave {
   // image settings
 
-  SettingsModelDouble stepX = SettingsModelDouble(label: 'stepX',tooltip: 'The horizontal width of each stripe ', min: 0.01, max: 50, zoom: 100, defaultValue: 10, icon: Icon(Icons.ac_unit));
+  SettingsModelDouble stepX = SettingsModelDouble(label: 'stepX',tooltip: 'The horizontal width of each stripe ', min: 0.01, max: 50, zoom: 100, defaultValue: 5, icon: Icon(Icons.ac_unit));
   SettingsModelDouble stepY = SettingsModelDouble(label: 'stepY',tooltip: 'The vertical distance between points on each stripe ',min: 0.01,max: 500, zoom: 100, defaultValue: 0.1, icon: Icon(Icons.bluetooth_audio));
   SettingsModelDouble frequency = SettingsModelDouble(label: 'frequency',tooltip: 'The frequency of the wave ', min: 0, max: 5, zoom: 100, defaultValue: 1, icon: Icon(Icons.smoke_free));
-  SettingsModelDouble amplitude = SettingsModelDouble(label: 'amplitude',tooltip: 'The amplitude of the wave ', min: 0, max: 500, zoom: 100, defaultValue: 100, icon: Icon(Icons.weekend));
+  SettingsModelDouble amplitude = SettingsModelDouble(label: 'amplitude',tooltip: 'The amplitude of the wave ', min: 0, max: 500, zoom: 100, defaultValue: 15, icon: Icon(Icons.weekend));
 
 // palette settings
   SettingsModelColor backgroundColor = SettingsModelColor(label: "Background Color", tooltip: "The background colour for the canvas", defaultValue: Colors.white, icon: Icon(Icons.settings_overscan), );
