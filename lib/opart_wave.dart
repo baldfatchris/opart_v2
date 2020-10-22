@@ -228,7 +228,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
   // Animation<double> animation2;
   // AnimationController controller2;
 
-  List<Map<String, dynamic>> cachedWaveList = [];
+
   cacheWave(Function SetState) async {
     WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
             .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
