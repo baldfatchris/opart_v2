@@ -39,7 +39,7 @@ class Fibonacci {
       min: 0.3,
       max: 2,
       zoom: 100,
-      defaultValue: 1.5,
+      defaultValue: 1.7,
       icon: Icon(Icons.zoom_in));
   SettingsModelDouble petalToRadius = SettingsModelDouble(
       label: 'Petal Size',
