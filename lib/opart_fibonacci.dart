@@ -382,7 +382,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
         .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
         .then((File image) async {
       await new Future.delayed(const Duration(milliseconds: 20));
-      currentFibonacci.image = imacge;
+      currentFibonacci.image = image;
       Map<String, dynamic> currentCache = {
         'angleIncrement': currentFibonacci.angleIncrement.value,
         'ratio': currentFibonacci.ratio.value,
