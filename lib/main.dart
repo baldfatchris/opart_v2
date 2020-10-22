@@ -53,15 +53,19 @@ class _MyHomePageState extends State<MyHomePage> {
         body: SafeArea(
       child: Column(
         children: [
-          Text('Op Art Studio',
-              style: TextStyle(
-                  fontFamily: 'Lobster',
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold)),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Text('Op Art Studio',
+                style: TextStyle(
+                    fontFamily: 'Lobster',
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold)),
+          ),
+
           Expanded(
             child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2),
+                    crossAxisCount: 2, childAspectRatio: 0.8),
                 itemCount: OpArtTypes.length,
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
@@ -70,7 +74,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           MaterialPageRoute(builder: (context) => OpArtMenu(index)));
                     },
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Image.asset(OpArtTypes[index].icon),
                         Text(OpArtTypes[index].name)
