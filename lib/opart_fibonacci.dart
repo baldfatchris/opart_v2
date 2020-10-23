@@ -3,10 +3,15 @@ import 'dart:math';
 import 'dart:io';
 
 import 'package:shake/shake.dart';
+import 'package:opart_v2/setting_button.dart';
+import 'package:opart_v2/setting_slider.dart';
+import 'package:opart_v2/setting_intslider.dart';
+import 'package:opart_v2/setting_dropdown.dart';
+import 'package:opart_v2/setting_colorpicker.dart';
+import 'package:opart_v2/setting_radiobutton.dart';
 import 'bottom_app_bar_custom.dart';
 import 'opart_model.dart';
 import 'palettes.dart';
-import 'toolbox.dart';
 
 import 'package:screenshot/screenshot.dart';
 
@@ -37,9 +42,7 @@ class Fibonacci {
       max: 2,
       zoom: 100,
       defaultValue: 1.8,
-      icon: Icon(Icons.zoom_in),
-      proFeature: true,
-  );
+      icon: Icon(Icons.zoom_in));
   SettingsModelDouble petalToRadius = SettingsModelDouble(
       label: 'Petal Size',
       tooltip:
@@ -48,9 +51,7 @@ class Fibonacci {
       max: 0.5,
       zoom: 100,
       defaultValue: 0.3,
-      icon: Icon(Icons.swap_horizontal_circle),
-      proFeature: false,
-  );
+      icon: Icon(Icons.swap_horizontal_circle));
   SettingsModelDouble ratio = SettingsModelDouble(
       label: 'Fill Ratio',
       tooltip: 'The fill ratio of the flower',
@@ -58,9 +59,7 @@ class Fibonacci {
       max: 0.9999,
       zoom: 100,
       defaultValue: 0.999,
-      icon: Icon(Icons.format_color_fill),
-      proFeature: false,
-  );
+      icon: Icon(Icons.format_color_fill));
   SettingsModelDouble randomiseAngle = SettingsModelDouble(
       label: 'Randomise Angle',
       tooltip:
@@ -69,9 +68,7 @@ class Fibonacci {
       max: 0.2,
       zoom: 100,
       defaultValue: 0,
-      icon: Icon(Icons.ac_unit),
-    proFeature: false,
-  );
+      icon: Icon(Icons.ac_unit));
   SettingsModelDouble petalPointiness = SettingsModelDouble(
       label: 'Petal Pointiness',
       tooltip: 'the pointiness of the petal',
@@ -79,9 +76,7 @@ class Fibonacci {
       max: pi / 2,
       zoom: 200,
       defaultValue: 0.8,
-      icon: Icon(Icons.change_history),
-    proFeature: false,
-  );
+      icon: Icon(Icons.change_history));
   SettingsModelDouble petalRotation = SettingsModelDouble(
       label: 'Petal Rotation',
       tooltip: 'the rotation of the petal',
@@ -89,9 +84,7 @@ class Fibonacci {
       max: pi,
       zoom: 200,
       defaultValue: 0,
-      icon: Icon(Icons.rotate_right),
-    proFeature: false,
-  );
+      icon: Icon(Icons.rotate_right));
   SettingsModelDouble petalRotationRatio = SettingsModelDouble(
       label: 'Rotation Ratio',
       tooltip: 'the rotation of the petal as multiple of the petal angle',
@@ -99,9 +92,7 @@ class Fibonacci {
       max: 4,
       zoom: 100,
       defaultValue: 0,
-      icon: Icon(Icons.autorenew),
-    proFeature: false,
-  );
+      icon: Icon(Icons.autorenew));
 
   SettingsModelList petalType = SettingsModelList(
     label: "Petal Type",
@@ -109,8 +100,6 @@ class Fibonacci {
     defaultValue: "petal",
     icon: Icon(Icons.local_florist),
     options: <String>['circle', 'triangle', 'square', 'petal'],
-    proFeature: false,
-
   );
 
   SettingsModelInt maxPetals = SettingsModelInt(
@@ -119,9 +108,7 @@ class Fibonacci {
       min: 0,
       max: 20000,
       defaultValue: 10000,
-      icon: Icon(Icons.fiber_smart_record),
-    proFeature: false,
-  );
+      icon: Icon(Icons.fiber_smart_record));
 
   SettingsModelDouble radialOscAmplitude = SettingsModelDouble(
       label: 'Radial Oscillation',
@@ -130,9 +117,7 @@ class Fibonacci {
       max: 5,
       zoom: 100,
       defaultValue: 0,
-      icon: Icon(Icons.all_inclusive),
-    proFeature: false,
-  );
+      icon: Icon(Icons.all_inclusive));
   SettingsModelDouble radialOscPeriod = SettingsModelDouble(
       label: 'Oscillation Period',
       tooltip: 'The period of the radial oscillation',
@@ -140,9 +125,7 @@ class Fibonacci {
       max: 2,
       zoom: 100,
       defaultValue: 0,
-      icon: Icon(Icons.bubble_chart),
-    proFeature: false,
-  );
+      icon: Icon(Icons.bubble_chart));
 
   SettingsModelList direction = SettingsModelList(
     label: "Direction",
@@ -151,8 +134,6 @@ class Fibonacci {
     defaultValue: "inward",
     icon: Icon(Icons.directions),
     options: <String>['inward', 'outward'],
-    proFeature: false,
-
   );
 
 // palette settings
@@ -161,16 +142,12 @@ class Fibonacci {
     tooltip: "The background colour for the canvas",
     defaultValue: Colors.white,
     icon: Icon(Icons.settings_overscan),
-    proFeature: false,
-
   );
   SettingsModelColor lineColor = SettingsModelColor(
     label: "Outline Color",
     tooltip: "The outline colour for the petals",
     defaultValue: Colors.white,
     icon: Icon(Icons.zoom_out_map),
-    proFeature: false,
-
   );
 
   SettingsModelDouble lineWidth = SettingsModelDouble(
@@ -180,17 +157,13 @@ class Fibonacci {
       max: 3,
       zoom: 100,
       defaultValue: 0,
-      icon: Icon(Icons.line_weight),
-    proFeature: false,
-  );
+      icon: Icon(Icons.line_weight));
 
   SettingsModelBool randomColors = SettingsModelBool(
       label: 'Random Colors',
       tooltip: 'Randomise the coloursl',
       defaultValue: false,
-      icon: Icon(Icons.gamepad),
-    proFeature: false,
-  );
+      icon: Icon(Icons.gamepad));
 
   SettingsModelInt numberOfColors = SettingsModelInt(
       label: 'Number of Colors',
@@ -198,9 +171,7 @@ class Fibonacci {
       min: 1,
       max: 36,
       defaultValue: 10,
-      icon: Icon(Icons.palette),
-    proFeature: false,
-  );
+      icon: Icon(Icons.palette));
 
   SettingsModelList paletteType = SettingsModelList(
     label: "Palette Type",
@@ -213,8 +184,6 @@ class Fibonacci {
       'linear random',
       'linear complementary'
     ],
-    proFeature: false,
-
   );
 
   SettingsModelList paletteList = SettingsModelList(
@@ -223,8 +192,6 @@ class Fibonacci {
     defaultValue: "Default",
     icon: Icon(Icons.palette),
     options: defaultPalleteNames(),
-    proFeature: false,
-
   );
 
   SettingsModelDouble opacity = SettingsModelDouble(
@@ -234,17 +201,13 @@ class Fibonacci {
       max: 1,
       zoom: 100,
       defaultValue: 1,
-      icon: Icon(Icons.remove_red_eye),
-    proFeature: false,
-  );
+      icon: Icon(Icons.remove_red_eye));
 
   SettingsModelButton resetDefaults = SettingsModelButton(
       label: 'Reset Defaults',
       tooltip: 'Reset all settings to defaults',
       defaultValue: false,
-      icon: Icon(Icons.low_priority),
-    proFeature: false,
-  );
+      icon: Icon(Icons.low_priority));
 
   List palette;
   double aspectRatio;
@@ -423,7 +386,6 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
   // AnimationController controller2;
 
   cacheFibonacci() async {
-    print('*********should rebuild cache');
     WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
             .capture(delay: Duration(milliseconds: 40), pixelRatio: 0.2)
             .then((File image) async {
@@ -462,10 +424,32 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                 .jumpTo(_scrollController.position.maxScrollExtent);
           }
           enableButton = true;
+
         }));
   }
 
   ScrollController _scrollController = new ScrollController();
+  @override
+  Widget bodyWidget() {
+    return Screenshot(
+      controller: screenshotController,
+      child: Visibility(
+        visible: true,
+        child: LayoutBuilder(
+          builder: (_, constraints) => Container(
+            width: constraints.widthConstraints().maxWidth,
+            height: constraints.heightConstraints().maxHeight,
+            child: CustomPaint(
+                painter: OpArtFibonacciPainter(
+              seed, rnd,
+              // animation1.value,
+              // animation2.value
+            )),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -494,13 +478,221 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
           });
     }
 
+    void _showBottomSheetSettings(context, int index) {
+      showDialog(
+          //  backgroundColor: Colors.white.withOpacity(0.8),
+          barrierColor: Colors.white.withOpacity(0.1),
+          context: context,
+          builder: (BuildContext bc) {
+
+            return StatefulBuilder(
+                builder: (BuildContext context, setLocalState) {
+
+              return Center(
+                child: AlertDialog(
+                  backgroundColor: Colors.white.withOpacity(0.7),
+                  title: Text(settingsList[index].label),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      (settingsList[index].type == 'Double')
+                          ? settingsSlider(
+                              settingsList[index].label,
+                              settingsList[index].tooltip,
+                              settingsList[index].value,
+                              settingsList[index].min,
+                              settingsList[index].max,
+                              settingsList[index].locked,
+                              settingsList[index].zoom,
+                              (value) {
+                                setState(() {
+                                  settingsList[index].value = value;
+                                });
+                                setLocalState(() {});
+                              },
+                              (value) {
+                                setState(() {
+                                  settingsList[index].locked = value;
+                                });
+                                setLocalState(() {});
+                              },
+                              () {
+
+                              },
+                            )
+                          : (settingsList[index].type == 'Int')
+                              ? settingsIntSlider(
+                                  settingsList[index].label,
+                                  settingsList[index].tooltip,
+                                  settingsList[index].value,
+                                  settingsList[index].min,
+                                  settingsList[index].max,
+                                  settingsList[index].locked,
+                                  (value) {
+                                    setState(() {
+                                      settingsList[index].value = value.toInt();
+                                    });
+                                    setLocalState(() {});
+                                  },
+                                  (value) {
+                                    setState(() {
+                                      settingsList[index].locked = value;
+                                    });
+                                    setLocalState(() {});
+                                  },
+                                  () {
+                                    cacheFibonacci();
+                                  },
+                                )
+                              : (settingsList[index].type == 'List')
+                                  ? settingsDropdown(
+                                      settingsList[index].label,
+                                      settingsList[index].tooltip,
+                                      settingsList[index].value,
+                                      settingsList[index].options,
+                                      settingsList[index].locked,
+                                      (value) {
+                                        setState(() {
+                                          settingsList[index].value = value;
+                                        });
+                                        setLocalState(() {});
+                                      },
+                                      (value) {
+                                        setState(() {
+                                          settingsList[index].locked =
+                                              !settingsList[index].locked;
+                                        });
+                                      },
+                                    )
+                                  : (settingsList[index].type == 'Color')
+                                      ? settingsColorPicker(
+                                          settingsList[index].label,
+                                          settingsList[index].tooltip,
+                                          settingsList[index].value,
+                                          settingsList[index].locked,
+                                          (value) {
+                                            setState(() {
+                                              settingsList[index].value = value;
+                                            });
+                                            setLocalState(() {});
+                                          },
+                                          (value) {
+                                            setState(() {
+                                              settingsList[index].locked =
+                                                  value;
+                                            });
+                                            setLocalState(() {});
+                                          },
+                                        )
+                                      : (settingsList[index].type == 'Bool')
+                                          ? settingsRadioButton(
+                                              settingsList[index].label,
+                                              settingsList[index].tooltip,
+                                              settingsList[index].value,
+                                              settingsList[index].locked,
+                                              (value) {
+                                                setState(() {
+                                                  settingsList[index].value =
+                                                      value;
+                                                });
+                                                setLocalState(() {});
+                                              },
+                                              (value) {
+                                                setState(() {
+                                                  settingsList[index].locked =
+                                                      value;
+                                                });
+                                                setLocalState(() {});
+                                              },
+                                            )
+                                          : settingsButton(
+                                              settingsList[index].label,
+                                              settingsList[index].tooltip,
+                                              settingsList[index].value,
+                                              () {
+
+                                                  settingsList[index].value =
+                                                      true;
+
+                                                setLocalState(() {});
+                                              },
+                                            ),
+                    ],
+                  ),
+                ),
+              );
+            });
+          }).then((value) {
+        cacheFibonacci();
+            rebuildCanvas.value++;
+
+      });
+    }
+
+    void _showBottomSheet(context) {
+      showModalBottomSheet(
+          context: context,
+          builder: (BuildContext bc) {
+            return Container(
+                height: 350,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4, childAspectRatio: 1.3),
+                      itemCount: settingsList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                            _showBottomSheetSettings(
+                              context,
+                              index,
+                            );
+                          },
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              settingsList[index].icon,
+                              Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Container(
+                                    height: 40,
+                                    child: Text(
+                                      settingsList[index].label,
+                                      textAlign: TextAlign.center,
+                                    )),
+                              )
+                            ],
+                          ),
+                        );
+                      }),
+                ));
+          });
+    }
+
     return Scaffold(
-      bottomNavigationBar: customBottomAppBar(
-        (){ currentFibonacci.randomize();},
-        (){currentFibonacci.randomizePalette();},
-        (){ cacheFibonacci();},
-        context,
-        settingsList,
+      bottomNavigationBar: Container(
+        height: 70,
+        child: GestureDetector(
+          onVerticalDragUpdate: (value) {
+            _showBottomSheet(context);
+          },
+          child: CustomBottomAppBar(randomise: () {
+            currentFibonacci.randomize();
+            currentFibonacci.randomizePalette();
+            rebuildCanvas.value++;
+            cacheFibonacci();
+          }, randomisePalette: () {
+            currentFibonacci.randomizePalette();
+            rebuildCanvas.value++;
+            cacheFibonacci();
+          }, showBottomSheet: () {
+            _showBottomSheet(context);
+          }),
+        ),
       ),
       body: Column(
         children: [
@@ -900,7 +1092,7 @@ class OpArtFibonacciPainter extends CustomPainter {
     double maxRadius = (imageWidth < imageHeight)
         ? currentFlowerFill * imageWidth / 2
         : currentFlowerFill * imageWidth / 2;
-    double minRadius = 5;
+    double minRadius = 2;
     double angle = 0;
 
     // if direction = inward
@@ -915,6 +1107,7 @@ class OpArtFibonacciPainter extends CustomPainter {
         }
         Color petalColor = nextColor.withOpacity(currentOpacity);
 
+  
         drawPetal(
           canvas,
           P0,

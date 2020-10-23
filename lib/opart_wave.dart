@@ -28,7 +28,7 @@ class Wave {
   SettingsModelDouble stepX = SettingsModelDouble(
       label: 'stepX',
       tooltip: 'The horizontal width of each stripe ',
-      min: 0.1,
+      min: 0.01,
       max: 50,
       zoom: 100,
       defaultValue: 5,
@@ -36,10 +36,10 @@ class Wave {
   SettingsModelDouble stepY = SettingsModelDouble(
       label: 'stepY',
       tooltip: 'The vertical distance between points on each stripe ',
-      min: 0.1,
+      min: 0.01,
       max: 500,
       zoom: 100,
-      defaultValue: 0.5,
+      defaultValue: 0.1,
       icon: Icon(Icons.bluetooth_audio));
   SettingsModelDouble frequency = SettingsModelDouble(
       label: 'frequency',
@@ -246,6 +246,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
             'numberOfColors': currentWave.numberOfColors.value,
             'paletteType': currentWave.paletteType.value,
             'opacity': currentWave.opacity.value,
+            'paletteList': currentWave.paletteList.value,
             'image': currentWave.image,
             'palette': currentWave.palette,
 
@@ -258,6 +259,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                 .jumpTo(_scrollController.position.maxScrollExtent);
           }
           enableButton = true;
+
     }));
   }
 
@@ -496,8 +498,28 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
     }
 
     return Scaffold(
-      bottomNavigationBar: customBottomAppBar(currentWave.randomize, currentWave.randomizePalette, cacheWave, context, settingsList),
+      bottomNavigationBar: Container(
+        height: 70,
+        child: BottomAppBar(
+          color: Colors.white,
+          child: CustomBottomAppBar(randomise: () {
 
+              currentWave.randomize();
+              currentWave.randomizePalette();
+              rebuildCanvas.value++;
+              cacheWave();
+
+          }, randomisePalette: () {
+
+              currentWave.randomizePalette();
+              rebuildCanvas.value++;
+              cacheWave();
+
+          }, showBottomSheet: () {
+            _showBottomSheet(context);
+          }),
+        ),
+      ),
       body: Column(
         children: [
           Container(
@@ -541,6 +563,8 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                                         cachedWaveList[index]['numberOfColors'];
                                     currentWave.paletteType.value =
                                         cachedWaveList[index]['paletteType'];
+                                    currentWave.paletteList.value =
+                                        cachedWaveList[index]['paletteList'];
                                     currentWave.opacity.value =
                                     cachedWaveList[index]['opacity'];
                                     currentWave.palette =

@@ -481,8 +481,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
             'numberOfColors': currentWallpaper.numberOfColors.value,
             'paletteType': currentWallpaper.paletteType.value,
             'opacity': currentWallpaper.opacity.value,
-            'palette': currentWallpaper.palette,
-
+            'paletteList': currentWallpaper.paletteList.value,
             'image': currentWallpaper.image,
           };
           cachedWallpaperList.add(currentCache);
@@ -493,7 +492,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
                 .jumpTo(_scrollController.position.maxScrollExtent);
           }
           enableButton = true;
-
+          enableButton = true;
         }));
   }
 
@@ -744,9 +743,29 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
     }
 
     return Scaffold(
-      bottomNavigationBar: customBottomAppBar(currentWallpaper.randomize, currentWallpaper.randomizePalette, cacheWallpaper, context, settingsList),
+      bottomNavigationBar: Container(
+        height: 70,
+        child: BottomAppBar(
+          color: Colors.white,
+          child: CustomBottomAppBar(randomise: () {
 
-    body: Column(
+              currentWallpaper.randomize();
+              currentWallpaper.randomizePalette();
+              rebuildCanvas.value++;
+              cacheWallpaper();
+
+          }, randomisePalette: () {
+
+              currentWallpaper.randomizePalette();
+              rebuildCanvas.value++;
+              cacheWallpaper();
+
+          }, showBottomSheet: () {
+            _showBottomSheet(context);
+          }),
+        ),
+      ),
+      body: Column(
         children: [
           Container(
               width: MediaQuery.of(context).size.width,
@@ -849,9 +868,9 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
                                       currentWallpaper.paletteType.value =
                                           cachedWallpaperList[index]
                                               ['paletteType'];
-                                      currentWallpaper.palette =
+                                      currentWallpaper.paletteList.value =
                                           cachedWallpaperList[index]
-                                              ['palette'];
+                                              ['paletteList'];
                                       currentWallpaper.opacity.value =
                                           cachedWallpaperList[index]['opacity'];
                                     });
@@ -1006,30 +1025,37 @@ class OpArtWallpaperPainter extends CustomPainter {
     double imageWidth = canvasWidth;
     double imageHeight = canvasHeight;
 
-
+    print('currentWallpaper.aspectRatio: ${currentWallpaper.aspectRatio}');
+    print('currentWallpaper.cellsX.value: ${currentWallpaper.cellsX.value}');
+    print('currentWallpaper.cellsY.value: ${currentWallpaper.cellsY.value}');
 
     // Initialise the aspect ratio
     if (currentWallpaper.aspectRatio == pi / 2) {
+      print('');
+      print('Initialise the aspect ratio');
 
       // if portrait add extra Y cells
       if (canvasHeight > canvasWidth) {
+        print('portrait');
         currentWallpaper.cellsY.value =
             (canvasHeight / canvasWidth * currentWallpaper.cellsX.value)
                 .toInt();
+        print(
+            'currentWallpaper.cellsY.value: ${currentWallpaper.cellsY.value}');
       }
-
       // if landscape add extra X cells
       else {
+        print('portrait');
         currentWallpaper.cellsX.value =
             (canvasWidth / canvasHeight * currentWallpaper.cellsY.value)
                 .toInt();
+        print(
+            'currentWallpaper.cellsX.value: ${currentWallpaper.cellsX.value}');
       }
       currentWallpaper.aspectRatio =
           currentWallpaper.cellsX.value / currentWallpaper.cellsY.value;
+      print('currentWallpaper.aspectRatio: ${currentWallpaper.aspectRatio}');
     }
-
-    // work out the aspect ratio
-    currentWallpaper.aspectRatio = (currentWallpaper.cellsX.value * currentWallpaper.squeezeX.value) / (currentWallpaper.cellsY.value * currentWallpaper.squeezeY.value);
 
     if (canvasWidth / canvasHeight < currentWallpaper.aspectRatio) {
       borderY = (canvasHeight - canvasWidth / currentWallpaper.aspectRatio) / 2;
@@ -1038,13 +1064,27 @@ class OpArtWallpaperPainter extends CustomPainter {
       borderX = (canvasWidth - canvasHeight / currentWallpaper.aspectRatio) / 2;
       imageWidth = imageHeight * currentWallpaper.aspectRatio;
     }
+    print('currentWallpaper.aspectRatio: ${currentWallpaper.aspectRatio}');
+
+    print('canvas height: ${canvasHeight}');
+    print('canvas width: ${canvasWidth}');
+    print('canvasWidth / canvasHeight = ${canvasWidth / canvasHeight}');
+    print('aspectRatio = ${currentWallpaper.aspectRatio}');
+    print('borderX = $borderX');
+    print('borderY = $borderY');
+    print('imageWidth = $imageWidth');
+    print('imageHeight = $imageHeight');
+
+    print('cellsX: ${currentWallpaper.cellsX.value}');
+    print('cellsY: ${currentWallpaper.cellsY.value}');
 
     int colourOrder = 0;
 
     // Now make some art
 
     // fill
-    bool fill = true;
+    bool fill = true; // rnd.nextBool();
+    print('fill: $fill');
 
     int extraCellsX = 0;
     int extraCellsY = 0;
@@ -1055,6 +1095,7 @@ class OpArtWallpaperPainter extends CustomPainter {
 
     // work out the radius from the width and the cells
     double radius = imageWidth / (currentWallpaper.cellsX.value * 2);
+    print('radius: $radius');
 
     for (int j = 0 - extraCellsY;
         j < currentWallpaper.cellsY.value + extraCellsY;
@@ -1098,6 +1139,8 @@ class OpArtWallpaperPainter extends CustomPainter {
               (currentWallpaper.offsetY.value * i) +
               (j * 2 + 1) * radius * currentWallpaper.squeezeY.value
         ];
+        // print('i: $i j: $j');
+        // print('PO: $PO');
 
         List PA = [
           PO[0] + stepRadius * sqrt(2) * cos(pi * (5 / 4 + localRotate)),
@@ -1484,13 +1527,19 @@ class OpArtWallpaperPainter extends CustomPainter {
       ..color = Colors.white
       ..style = PaintingStyle.fill;
     canvas.drawRect(Offset(0, 0) & Size(borderX, canvasHeight), paint1);
-    canvas.drawRect(Offset(canvasWidth - borderX, 0) & Size(borderX, canvasHeight), paint1);
+    canvas.drawRect(
+        Offset(canvasWidth - borderX, 0) & Size(borderX, canvasHeight), paint1);
 
     canvas.drawRect(Offset(0, 0) & Size(canvasWidth, borderY), paint1);
     canvas.drawRect(
-        Offset(0, borderY + imageHeight) &Size(canvasWidth, borderY + 1000),
+        Offset(0, borderY + currentWallpaper.cellsY.value * radius * 2) &
+            Size(canvasWidth, borderY + 1000),
         paint1);
 
+    print('borderX: $borderX');
+    print('borderY: $borderY');
+    print('canvasWidth: $canvasWidth');
+    print('canvasHeight: $canvasHeight');
   }
 
   @override

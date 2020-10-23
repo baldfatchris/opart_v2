@@ -15,8 +15,8 @@ List<Map<String, dynamic>> cachedWaveList = List<Map<String, dynamic>>();
 
 final rebuildCache = new ValueNotifier(0);
 final rebuildCanvas = new ValueNotifier(0);
-bool randomiseButtonEnabled = true;
-bool randomisePaletteButtonEnabled = true;
+bool enableButton = true;
+
 bool proVersion=false;
 
 
