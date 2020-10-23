@@ -36,7 +36,7 @@ class Tree {
       label: 'Zoom',
       tooltip: 'Zoom in and out',
       min: 0.1,
-      max: 5,
+      max: 2,
       zoom: 100,
       defaultValue: 1,
       icon: Icon(Icons.zoom_in));
@@ -243,7 +243,7 @@ class Tree {
   bool paletteLOCK = false;
   bool aspectRatioLOCK = false;
 
-  Random random;
+  //Random random;
 
   Tree({
     // palette settings
@@ -252,7 +252,7 @@ class Tree {
     this.image,
     this.paletteLOCK = false,
     this.aspectRatioLOCK = false,
-    this.random,
+    //this.random,
   });
 
   void randomize() {
@@ -262,25 +262,25 @@ class Tree {
 
     rnd = Random(DateTime.now().millisecond);
 
-    this.trunkWidth.randomise(random);
+    this.trunkWidth.randomise(rnd);
     this.zoomTree.value = 1;
-    this.widthDecay.randomise(random);
-    this.segmentLength.randomise(random);
-    this.segmentDecay.randomise(random);
-    this.branch.randomise(random);
-    this.angle.randomise(random);
-    this.ratio.randomise(random);
-    this.bulbousness.randomise(random);
-    this.maxDepth.randomise(random);
-    this.leavesAfter.randomise(random);
-    this.leafAngle.randomise(random);
-    this.leafLength.randomise(random);
-    this.randomLeafLength.randomise(random);
-    this.leafSquareness.randomise(random);
-    this.leafDecay.randomise(random);
-    this.trunkStrokeWidth.randomise(random);
+    this.widthDecay.randomise(rnd);
+    this.segmentLength.randomise(rnd);
+    this.segmentDecay.randomise(rnd);
+    this.branch.randomise(rnd);
+    this.angle.randomise(rnd);
+    this.ratio.randomise(rnd);
+    this.bulbousness.randomise(rnd);
+    this.maxDepth.randomise(rnd);
+    this.leavesAfter.randomise(rnd);
+    this.leafAngle.randomise(rnd);
+    this.leafLength.randomise(rnd);
+    this.randomLeafLength.randomise(rnd);
+    this.leafSquareness.randomise(rnd);
+    this.leafDecay.randomise(rnd);
+    this.trunkStrokeWidth.randomise(rnd);
 
-    //  this.paletteList.randomise(random);
+    //  this.paletteList.randomise(rnd);
   }
 
   void randomizePalette() {
@@ -290,16 +290,15 @@ class Tree {
 
     rnd = Random(DateTime.now().millisecond);
 
-    this.backgroundColor.randomise(random);
-    this.trunkFillColor.randomise(random);
-    this.trunkOutlineColor.randomise(random);
-    this.randomColors.randomise(random);
-    this.numberOfColors.randomise(random);
-    this.paletteType.randomise(random);
-    this.opacity.randomise(random);
+    this.backgroundColor.randomise(rnd);
+    this.trunkFillColor.randomise(rnd);
+    this.trunkOutlineColor.randomise(rnd);
+    this.randomColors.randomise(rnd);
+    this.numberOfColors.randomise(rnd);
+    this.paletteType.randomise(rnd);
+    this.opacity.randomise(rnd);
 
-    this.palette = randomisedPalette(
-        this.paletteType.value, this.numberOfColors.value, rnd);
+    this.palette = randomisedPalette(this.paletteType.value, this.numberOfColors.value, rnd);
   }
 
   void defaultSettings() {
@@ -434,8 +433,8 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
             'randomColors': currentTree.randomColors.value,
             'numberOfColors': currentTree.numberOfColors.value,
             'paletteType': currentTree.paletteType.value,
+            'palette': currentTree.palette,
             'opacity': currentTree.opacity.value,
-            'paletteList': currentTree.paletteList,
             'image': currentTree.image,
           };
           cachedTreeList.add(currentCache);
@@ -723,56 +722,37 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
                               padding: const EdgeInsets.all(2.0),
                               child: GestureDetector(
                                 onTap: () {
+                                  print('---------------------------------------------------------------------');
+                                  print('Selected from history');
+                                  print('index: $index');
+                                  print('---------------------------------------------------------------------');
+                                  print('cachedTreeList[index]: ${cachedTreeList[index]}');
                                   setState(() {
-                                    currentTree.trunkWidth.value =
-                                    cachedTreeList[index]['trunkWidth'];
-                                    currentTree.zoomTree.value =
-                                    cachedTreeList[index]['zoomTree'];
-                                    currentTree.widthDecay.value =
-                                        cachedTreeList[index]['widthDecay'];
-                                    currentTree.segmentLength.value =
-                                        cachedTreeList[index]['segmentLength'];
-                                    currentTree.segmentDecay.value =
-                                        cachedTreeList[index]['segmentDecay'];
-                                    currentTree.branch.value =
-                                        cachedTreeList[index]['branch'];
-                                    currentTree.angle.value =
-                                        cachedTreeList[index]['angle'];
-                                    currentTree.ratio.value =
-                                        cachedTreeList[index]['ratio'];
-                                    currentTree.bulbousness.value =
-                                        cachedTreeList[index]['bulbousness'];
-                                    currentTree.image =
-                                        cachedTreeList[index]['image'];
-                                    currentTree.maxDepth.value =
-                                        cachedTreeList[index]['maxDepth'];
-                                    currentTree.leavesAfter.value =
-                                        cachedTreeList[index]['leavesAfter'];
-                                    currentTree.leafAngle.value =
-                                        cachedTreeList[index]['leafAngle'];
-                                    currentTree.leafLength.value =
-                                        cachedTreeList[index]['leafLength'];
-                                    currentTree.randomLeafLength.value =
-                                        cachedTreeList[index]['randomLeafLength'];
-                                    currentTree.leafSquareness.value =
-                                        cachedTreeList[index]['leafSquareness'];
-                                    currentTree.leafDecay.value =
-                                        cachedTreeList[index]['leafDecay'];
-                                    currentTree.backgroundColor.value =
-                                        cachedTreeList[index]['backgroundColor'];
-                                    currentTree.trunkFillColor.value =
-                                        cachedTreeList[index]['trunkFillColor'];
-                                    currentTree.trunkOutlineColor.value =
-                                        cachedTreeList[index]['trunkOutlineColor'];
-                                    currentTree.randomColors.value =
-                                        cachedTreeList[index]['randomColors'];
-                                    currentTree.numberOfColors.value =
-                                        cachedTreeList[index]['numberOfColors'];
-                                    currentTree.paletteType.value =
-                                        cachedTreeList[index]['paletteType'];
-                                    currentTree.opacity.value =
-                                        cachedTreeList[index]['opacity'];
-                                   currentTree.paletteList = cachedTreeList[index]['paletteList'];
+                                    currentTree.trunkWidth.value = cachedTreeList[index]['trunkWidth'];
+                                    currentTree.zoomTree.value = cachedTreeList[index]['zoomTree'];
+                                    currentTree.widthDecay.value = cachedTreeList[index]['widthDecay'];
+                                    currentTree.segmentLength.value = cachedTreeList[index]['segmentLength'];
+                                    currentTree.segmentDecay.value = cachedTreeList[index]['segmentDecay'];
+                                    currentTree.branch.value = cachedTreeList[index]['branch'];
+                                    currentTree.angle.value = cachedTreeList[index]['angle'];
+                                    currentTree.ratio.value = cachedTreeList[index]['ratio'];
+                                    currentTree.bulbousness.value = cachedTreeList[index]['bulbousness'];
+                                    currentTree.image = cachedTreeList[index]['image'];
+                                    currentTree.maxDepth.value = cachedTreeList[index]['maxDepth'];
+                                    currentTree.leavesAfter.value = cachedTreeList[index]['leavesAfter'];
+                                    currentTree.leafAngle.value = cachedTreeList[index]['leafAngle'];
+                                    currentTree.leafLength.value = cachedTreeList[index]['leafLength'];
+                                    currentTree.randomLeafLength.value = cachedTreeList[index]['randomLeafLength'];
+                                    currentTree.leafSquareness.value = cachedTreeList[index]['leafSquareness'];
+                                    currentTree.leafDecay.value = cachedTreeList[index]['leafDecay'];
+                                    currentTree.backgroundColor.value = cachedTreeList[index]['backgroundColor'];
+                                    currentTree.trunkFillColor.value = cachedTreeList[index]['trunkFillColor'];
+                                    currentTree.trunkOutlineColor.value = cachedTreeList[index]['trunkOutlineColor'];
+                                    currentTree.randomColors.value = cachedTreeList[index]['randomColors'];
+                                    currentTree.numberOfColors.value = cachedTreeList[index]['numberOfColors'];
+                                    currentTree.paletteType.value = cachedTreeList[index]['paletteType'];
+                                    currentTree.palette = cachedTreeList[index]['palette'];
+                                    currentTree.opacity.value = cachedTreeList[index]['opacity'];
                                   });
                                 },
                                 child: Container(
@@ -891,7 +871,8 @@ class OpArtTreePainter extends CustomPainter {
 
     // Initialise the palette
     if (currentTree == null) {
-      currentTree = new Tree(random: rnd);
+      currentTree = new Tree();
+      //currentTree = new Tree(random: rnd);
       currentTree.defaultSettings();
       currentNamedPalette = currentTree.paletteList.value;
     }
@@ -1227,7 +1208,7 @@ class OpArtTreePainter extends CustomPainter {
     double leafAssymetery = 0.75;
 
     // pick a random color
-    print('drawTheLeaf: oopacity: ${currentTree.opacity.value}');
+    print('drawTheLeaf: opacity: ${currentTree.opacity.value}');
     Color leafColor = currentTree
         .palette[rnd.nextInt(currentTree.palette.length)]
         .withOpacity(currentTree.opacity.value);
