@@ -28,19 +28,23 @@ class Wave {
   SettingsModelDouble stepX = SettingsModelDouble(
       label: 'stepX',
       tooltip: 'The horizontal width of each stripe ',
-      min: 0.01,
+      min: 0.1,
       max: 50,
       zoom: 100,
       defaultValue: 5,
-      icon: Icon(Icons.ac_unit));
+      icon: Icon(Icons.ac_unit),
+    proFeature: false,
+  );
   SettingsModelDouble stepY = SettingsModelDouble(
       label: 'stepY',
       tooltip: 'The vertical distance between points on each stripe ',
-      min: 0.01,
+      min: 0.1,
       max: 500,
       zoom: 100,
-      defaultValue: 0.1,
-      icon: Icon(Icons.bluetooth_audio));
+      defaultValue: 0.5,
+      icon: Icon(Icons.bluetooth_audio),
+    proFeature: false,
+  );
   SettingsModelDouble frequency = SettingsModelDouble(
       label: 'frequency',
       tooltip: 'The frequency of the wave ',
@@ -48,7 +52,9 @@ class Wave {
       max: 5,
       zoom: 100,
       defaultValue: 1,
-      icon: Icon(Icons.smoke_free));
+      icon: Icon(Icons.smoke_free),
+    proFeature: false,
+  );
   SettingsModelDouble amplitude = SettingsModelDouble(
       label: 'amplitude',
       tooltip: 'The amplitude of the wave ',
@@ -56,7 +62,9 @@ class Wave {
       max: 500,
       zoom: 100,
       defaultValue: 15,
-      icon: Icon(Icons.weekend));
+      icon: Icon(Icons.weekend),
+    proFeature: false,
+  );
 
 // palette settings
   SettingsModelColor backgroundColor = SettingsModelColor(
@@ -64,19 +72,25 @@ class Wave {
     tooltip: "The background colour for the canvas",
     defaultValue: Colors.white,
     icon: Icon(Icons.settings_overscan),
+    proFeature: false,
+
   );
   SettingsModelBool randomColors = SettingsModelBool(
       label: 'Random Colors',
       tooltip: 'Randomise the coloursl',
       defaultValue: false,
-      icon: Icon(Icons.gamepad));
+      icon: Icon(Icons.gamepad),
+    proFeature: false,
+  );
   SettingsModelInt numberOfColors = SettingsModelInt(
       label: 'Number of Colors',
       tooltip: 'The number of colours in the palette',
       min: 1,
       max: 36,
       defaultValue: 10,
-      icon: Icon(Icons.palette));
+      icon: Icon(Icons.palette),
+    proFeature: false,
+  );
   SettingsModelList paletteType = SettingsModelList(
     label: "Palette Type",
     tooltip: "The nature of the palette",
@@ -88,6 +102,8 @@ class Wave {
       'linear random',
       'linear complementary'
     ],
+    proFeature: false,
+
   );
   SettingsModelDouble opacity = SettingsModelDouble(
       label: 'Opactity',
@@ -96,13 +112,17 @@ class Wave {
       max: 1,
       zoom: 100,
       defaultValue: 1,
-      icon: Icon(Icons.remove_red_eye));
+      icon: Icon(Icons.remove_red_eye),
+    proFeature: false,
+  );
   SettingsModelList paletteList = SettingsModelList(
     label: "Palette",
     tooltip: "Choose from a list of palettes",
     defaultValue: "Default",
     icon: Icon(Icons.palette),
     options: defaultPalleteNames(),
+    proFeature: false,
+
   );
 
   List palette;
@@ -246,7 +266,6 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
             'numberOfColors': currentWave.numberOfColors.value,
             'paletteType': currentWave.paletteType.value,
             'opacity': currentWave.opacity.value,
-            'paletteList': currentWave.paletteList.value,
             'image': currentWave.image,
             'palette': currentWave.palette,
 
@@ -258,8 +277,8 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
             _scrollController
                 .jumpTo(_scrollController.position.maxScrollExtent);
           }
-          enableButton = true;
-
+          randomiseButtonEnabled = true;
+          randomisePaletteButtonEnabled = true;
     }));
   }
 
@@ -563,8 +582,6 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                                         cachedWaveList[index]['numberOfColors'];
                                     currentWave.paletteType.value =
                                         cachedWaveList[index]['paletteType'];
-                                    currentWave.paletteList.value =
-                                        cachedWaveList[index]['paletteList'];
                                     currentWave.opacity.value =
                                     cachedWaveList[index]['opacity'];
                                     currentWave.palette =

@@ -31,7 +31,9 @@ class Tree {
       max: 50,
       zoom: 100,
       defaultValue: 20,
-      icon: Icon(Icons.track_changes));
+      icon: Icon(Icons.track_changes),
+    proFeature: false,
+  );
   SettingsModelDouble zoomTree = SettingsModelDouble(
       label: 'Zoom',
       tooltip: 'Zoom in and out',
@@ -39,7 +41,9 @@ class Tree {
       max: 5,
       zoom: 100,
       defaultValue: 1,
-      icon: Icon(Icons.zoom_in));
+      icon: Icon(Icons.zoom_in),
+    proFeature: false,
+  );
   SettingsModelDouble widthDecay = SettingsModelDouble(
       label: 'Trunk Decay ',
       tooltip: 'The rate at which the trunk width decays',
@@ -47,7 +51,9 @@ class Tree {
       max: 1,
       zoom: 100,
       defaultValue: 0.8,
-      icon: Icon(Icons.zoom_in));
+      icon: Icon(Icons.zoom_in),
+    proFeature: false,
+  );
   SettingsModelDouble segmentLength = SettingsModelDouble(
       label: 'Segment Length',
       tooltip: 'The length of the first segment of the trunk',
@@ -55,7 +61,9 @@ class Tree {
       max: 100,
       zoom: 100,
       defaultValue: 50,
-      icon: Icon(Icons.swap_horizontal_circle));
+      icon: Icon(Icons.swap_horizontal_circle),
+      proFeature: false,
+  );
   SettingsModelDouble segmentDecay = SettingsModelDouble(
       label: 'Segment Decay',
       tooltip: 'The rate at which the length of each successive segment decays',
@@ -63,7 +71,9 @@ class Tree {
       max: 1,
       zoom: 100,
       defaultValue: 0.92,
-      icon: Icon(Icons.format_color_fill));
+      icon: Icon(Icons.format_color_fill),
+    proFeature: false,
+  );
   SettingsModelDouble branch = SettingsModelDouble(
       label: 'Branch Ratio',
       tooltip: 'The proportion of segments that branch',
@@ -71,7 +81,9 @@ class Tree {
       max: 1,
       zoom: 100,
       defaultValue: 0.7,
-      icon: Icon(Icons.ac_unit));
+      icon: Icon(Icons.ac_unit),
+    proFeature: false,
+  );
   SettingsModelDouble angle = SettingsModelDouble(
       label: 'Branch Angle',
       tooltip: 'The angle of the branch',
@@ -79,7 +91,9 @@ class Tree {
       max: 0.7,
       zoom: 100,
       defaultValue: 0.5,
-      icon: Icon(Icons.rotate_right));
+      icon: Icon(Icons.rotate_right),
+    proFeature: false,
+  );
   SettingsModelDouble ratio = SettingsModelDouble(
       label: 'Angle Ratio',
       tooltip: 'The ratio of the branch',
@@ -87,7 +101,9 @@ class Tree {
       max: 1.5,
       zoom: 100,
       defaultValue: 0.7,
-      icon: Icon(Icons.rotate_right));
+      icon: Icon(Icons.rotate_right),
+    proFeature: false,
+  );
   SettingsModelDouble bulbousness = SettingsModelDouble(
       label: 'Bulbousness',
       tooltip: 'The bulbousness of each segment',
@@ -95,21 +111,27 @@ class Tree {
       max: 2,
       zoom: 100,
       defaultValue: 1.5,
-      icon: Icon(Icons.autorenew));
+      icon: Icon(Icons.autorenew),
+    proFeature: false,
+  );
   SettingsModelInt maxDepth = SettingsModelInt(
       label: 'Max Depth',
       tooltip: 'The number of segments',
       min: 10,
       max: 28,
       defaultValue: 20,
-      icon: Icon(Icons.fiber_smart_record));
+      icon: Icon(Icons.fiber_smart_record),
+    proFeature: false,
+  );
   SettingsModelInt leavesAfter = SettingsModelInt(
       label: 'Leaves After',
       tooltip: 'The number of segments before leaves start to sprout',
       min: 0,
       max: 28,
       defaultValue: 5,
-      icon: Icon(Icons.fiber_smart_record));
+      icon: Icon(Icons.fiber_smart_record),
+    proFeature: false,
+  );
   SettingsModelDouble leafAngle = SettingsModelDouble(
       label: 'Branch Angle',
       tooltip: 'The angle of the leaf',
@@ -117,7 +139,9 @@ class Tree {
       max: 0.8,
       zoom: 100,
       defaultValue: 0.5,
-      icon: Icon(Icons.rotate_right));
+      icon: Icon(Icons.rotate_right),
+    proFeature: false,
+  );
   SettingsModelDouble leafLength = SettingsModelDouble(
       label: 'Leaf Length',
       tooltip: 'The fixed length of each leaf',
@@ -125,7 +149,9 @@ class Tree {
       max: 20,
       zoom: 100,
       defaultValue: 8,
-      icon: Icon(Icons.rotate_right));
+      icon: Icon(Icons.rotate_right),
+    proFeature: false,
+  );
   SettingsModelDouble randomLeafLength = SettingsModelDouble(
       label: 'Random Length',
       tooltip: 'The random length of each leaf',
@@ -133,7 +159,9 @@ class Tree {
       max: 20,
       zoom: 100,
       defaultValue: 3,
-      icon: Icon(Icons.rotate_right));
+      icon: Icon(Icons.rotate_right),
+    proFeature: false,
+  );
   SettingsModelDouble leafSquareness = SettingsModelDouble(
       label: 'Squareness',
       tooltip: 'The squareness leaf',
@@ -141,7 +169,9 @@ class Tree {
       max: 3,
       zoom: 100,
       defaultValue: 1,
-      icon: Icon(Icons.rotate_right));
+      icon: Icon(Icons.rotate_right),
+    proFeature: false,
+  );
   SettingsModelDouble leafDecay = SettingsModelDouble(
       label: 'Leaf Decay',
       tooltip: 'The rate at which the leaves decay along the branch',
@@ -149,7 +179,9 @@ class Tree {
       max: 1,
       zoom: 100,
       defaultValue: 0.95,
-      icon: Icon(Icons.rotate_right));
+      icon: Icon(Icons.rotate_right),
+    proFeature: false,
+  );
 
   SettingsModelList petalType = SettingsModelList(
     label: "Petal Type",
@@ -157,6 +189,8 @@ class Tree {
     defaultValue: "circle",
     icon: Icon(Icons.local_florist),
     options: <String>['circle', 'triangle', 'square', 'petal'],
+    proFeature: false,
+
   );
 
   SettingsModelList direction = SettingsModelList(
@@ -166,6 +200,8 @@ class Tree {
     defaultValue: "inward",
     icon: Icon(Icons.directions),
     options: <String>['inward', 'outward'],
+    proFeature: false,
+
   );
 
 // palette settings
@@ -174,18 +210,24 @@ class Tree {
     tooltip: "The background colour for the canvas",
     defaultValue: Colors.cyan[200],
     icon: Icon(Icons.settings_overscan),
+    proFeature: false,
+
   );
   SettingsModelColor trunkFillColor = SettingsModelColor(
     label: "Trunk Color",
     tooltip: "The fill colour of the trunk",
     defaultValue: Colors.grey,
     icon: Icon(Icons.settings_overscan),
+    proFeature: false,
+
   );
   SettingsModelColor trunkOutlineColor = SettingsModelColor(
     label: "Trunk Outline",
     tooltip: "The outline colour of the trunk",
     defaultValue: Colors.black,
     icon: Icon(Icons.settings_overscan),
+    proFeature: false,
+
   );
   SettingsModelDouble trunkStrokeWidth = SettingsModelDouble(
       label: 'Outline Width',
@@ -194,19 +236,25 @@ class Tree {
       max: 1,
       zoom: 100,
       defaultValue: 0.1,
-      icon: Icon(Icons.line_weight));
+      icon: Icon(Icons.line_weight),
+    proFeature: false,
+  );
   SettingsModelBool randomColors = SettingsModelBool(
       label: 'Random Colors',
       tooltip: 'Randomise the coloursl',
       defaultValue: false,
-      icon: Icon(Icons.gamepad));
+      icon: Icon(Icons.gamepad),
+    proFeature: false,
+  );
   SettingsModelInt numberOfColors = SettingsModelInt(
       label: 'Number of Colors',
       tooltip: 'The number of colours in the palette',
       min: 1,
       max: 36,
       defaultValue: 10,
-      icon: Icon(Icons.palette));
+      icon: Icon(Icons.palette),
+    proFeature: false,
+  );
   SettingsModelList paletteType = SettingsModelList(
     label: "Palette Type",
     tooltip: "The nature of the palette",
@@ -218,6 +266,8 @@ class Tree {
       'linear random',
       'linear complementary'
     ],
+    proFeature: false,
+
   );
   SettingsModelDouble opacity = SettingsModelDouble(
       label: 'Opactity',
@@ -226,13 +276,17 @@ class Tree {
       max: 1,
       zoom: 100,
       defaultValue: 1,
-      icon: Icon(Icons.remove_red_eye));
+      icon: Icon(Icons.remove_red_eye),
+    proFeature: false,
+  );
   SettingsModelList paletteList = SettingsModelList(
     label: "Palette",
     tooltip: "Choose from a list of palettes",
     defaultValue: "Default",
     icon: Icon(Icons.palette),
     options: defaultPalleteNames(),
+    proFeature: false,
+
   );
 
   List palette;
