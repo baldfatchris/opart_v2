@@ -14,7 +14,7 @@ import 'palettes.dart';
 import 'bottom_app_bar_custom.dart';
 
 Random rnd;
-final number = new ValueNotifier(0);
+
 // Settings
 Wave currentWave;
 
@@ -250,12 +250,15 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
             'image': currentWave.image,
           };
           cachedWaveList.add(currentCache);
-          number.value++;
+          rebuildCache.value++;
           await new Future.delayed(const Duration(milliseconds: 20));
           if (_scrollController.hasClients) {
-            _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+            _scrollController
+                .jumpTo(_scrollController.position.maxScrollExtent);
           }
-        }));
+          randomiseButtonEnabled = true;
+          randomisePaletteButtonEnabled = true;
+    }));
   }
 
   ScrollController _scrollController = new ScrollController();
@@ -290,28 +293,28 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
 
 
     Widget bodyWidget() {
-      return Screenshot(
-        controller: screenshotController,
-        child: Stack(
-          children: [
-            Visibility(
-              visible: true,
-              child: LayoutBuilder(
-                builder: (_, constraints) => Container(
-                  width: constraints.widthConstraints().maxWidth,
-                  height: constraints.heightConstraints().maxHeight,
-                  child: CustomPaint(
-                      painter: OpArtWavePainter(
-                    seed, rnd,
-                    // animation1.value,
-                    // animation2.value
-                  )),
+      return ValueListenableBuilder<int>(
+          valueListenable: rebuildCanvas,
+          builder: (context, value, child) {
+            return Screenshot(
+              controller: screenshotController,
+              child: Visibility(
+                visible: true,
+                child: LayoutBuilder(
+                  builder: (_, constraints) => Container(
+                    width: constraints.widthConstraints().maxWidth,
+                    height: constraints.heightConstraints().maxHeight,
+                    child: CustomPaint(
+                        painter: OpArtWavePainter(
+                          seed, rnd,
+                          // animation1.value,
+                          // animation2.value
+                        )),
+                  ),
                 ),
               ),
-            )
-          ],
-        ),
-      );
+            );
+          });
     }
 
     void _showBottomSheetSettings(context, int index) {
@@ -494,16 +497,18 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
         child: BottomAppBar(
           color: Colors.white,
           child: CustomBottomAppBar(randomise: () {
-            setState(() {
+
               currentWave.randomize();
               currentWave.randomizePalette();
+              rebuildCanvas.value++;
               cacheWave();
-            });
+
           }, randomisePalette: () {
-            setState(() {
+
               currentWave.randomizePalette();
+              rebuildCanvas.value++;
               cacheWave();
-            });
+
           }, showBottomSheet: () {
             _showBottomSheet(context);
           }),
@@ -516,7 +521,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
               color: Colors.white,
               height: 60,
               child: ValueListenableBuilder<int>(
-                  valueListenable: number,
+                  valueListenable: rebuildCache,
                   builder: (context, value, child) {
                     print('***********rebuilding');
                     return cachedWaveList.length == 0

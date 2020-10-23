@@ -13,7 +13,7 @@ import 'palettes.dart';
 import 'bottom_app_bar_custom.dart';
 
 Random rnd;
-final number = new ValueNotifier(0);
+
 // Settings
 Tree currentTree;
 
@@ -438,12 +438,15 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
             'image': currentTree.image,
           };
           cachedTreeList.add(currentCache);
-          number.value++;
+          rebuildCache.value++;
           await new Future.delayed(const Duration(milliseconds: 20));
           if (_scrollController.hasClients) {
-            _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+            _scrollController
+                .jumpTo(_scrollController.position.maxScrollExtent);
           }
-        }));
+          randomiseButtonEnabled = true;
+          randomisePaletteButtonEnabled = true;
+    }));
   }
 
   ScrollController _scrollController = new ScrollController();
@@ -478,28 +481,28 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
 
 
     Widget bodyWidget() {
-      return Screenshot(
-        controller: screenshotController,
-        child: Stack(
-          children: [
-            Visibility(
-              visible: true,
-              child: LayoutBuilder(
-                builder: (_, constraints) => Container(
-                  width: constraints.widthConstraints().maxWidth,
-                  height: constraints.heightConstraints().maxHeight,
-                  child: CustomPaint(
-                      painter: OpArtTreePainter(
-                    seed, rnd,
-                    // animation1.value,
-                    // animation2.value
-                  )),
+      return ValueListenableBuilder<int>(
+          valueListenable: rebuildCanvas,
+          builder: (context, value, child) {
+            return Screenshot(
+              controller: screenshotController,
+              child: Visibility(
+                visible: true,
+                child: LayoutBuilder(
+                  builder: (_, constraints) => Container(
+                    width: constraints.widthConstraints().maxWidth,
+                    height: constraints.heightConstraints().maxHeight,
+                    child: CustomPaint(
+                        painter: OpArtTreePainter(
+                          seed, rnd,
+                          // animation1.value,
+                          // animation2.value
+                        )),
+                  ),
                 ),
               ),
-            )
-          ],
-        ),
-      );
+            );
+          });
     }
 
     void _showBottomSheetSettings(context, int index) {
@@ -684,16 +687,18 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
             _showBottomSheet(context);
           },
           child: CustomBottomAppBar(randomise: () {
-            setState(() {
+
               currentTree.randomize();
               currentTree.randomizePalette();
+              rebuildCanvas.value++;
               cacheTree();
-            });
+
           }, randomisePalette: () {
-            setState(() {
+
               currentTree.randomizePalette();
+              rebuildCanvas.value++;
               cacheTree();
-            });
+
           }, showBottomSheet: () {
             _showBottomSheet(context);
           }),
@@ -706,7 +711,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
               color: Colors.white,
               height: 60,
               child: ValueListenableBuilder<int>(
-                  valueListenable: number,
+                  valueListenable: rebuildCache,
                   builder: (context, value, child) {
                     return cachedTreeList.length == 0
                       ? Container()

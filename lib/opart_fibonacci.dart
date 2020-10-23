@@ -1107,7 +1107,7 @@ class OpArtFibonacciPainter extends CustomPainter {
         }
         Color petalColor = nextColor.withOpacity(currentOpacity);
 
-        print('P0: $P0');
+
         drawPetal(
           canvas,
           P0,
