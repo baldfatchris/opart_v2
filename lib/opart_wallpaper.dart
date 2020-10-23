@@ -492,8 +492,8 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
             _scrollController
                 .jumpTo(_scrollController.position.maxScrollExtent);
           }
-          randomiseButtonEnabled = true;
-          randomisePaletteButtonEnabled = true;
+          enableButton = true;
+
         }));
   }
 
@@ -744,29 +744,9 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
     }
 
     return Scaffold(
-      bottomNavigationBar: Container(
-        height: 70,
-        child: BottomAppBar(
-          color: Colors.white,
-          child: CustomBottomAppBar(randomise: () {
+      bottomNavigationBar: customBottomAppBar(currentWallpaper.randomize, currentWallpaper.randomizePalette, cacheWallpaper, context, settingsList),
 
-              currentWallpaper.randomize();
-              currentWallpaper.randomizePalette();
-              rebuildCanvas.value++;
-              cacheWallpaper();
-
-          }, randomisePalette: () {
-
-              currentWallpaper.randomizePalette();
-              rebuildCanvas.value++;
-              cacheWallpaper();
-
-          }, showBottomSheet: () {
-            _showBottomSheet(context);
-          }),
-        ),
-      ),
-      body: Column(
+    body: Column(
         children: [
           Container(
               width: MediaQuery.of(context).size.width,

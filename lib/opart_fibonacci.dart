@@ -3,15 +3,10 @@ import 'dart:math';
 import 'dart:io';
 
 import 'package:shake/shake.dart';
-import 'package:opart_v2/setting_button.dart';
-import 'package:opart_v2/setting_slider.dart';
-import 'package:opart_v2/setting_intslider.dart';
-import 'package:opart_v2/setting_dropdown.dart';
-import 'package:opart_v2/setting_colorpicker.dart';
-import 'package:opart_v2/setting_radiobutton.dart';
 import 'bottom_app_bar_custom.dart';
 import 'opart_model.dart';
 import 'palettes.dart';
+import 'toolbox.dart';
 
 import 'package:screenshot/screenshot.dart';
 
@@ -386,6 +381,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
   // AnimationController controller2;
 
   cacheFibonacci() async {
+    print('*********should rebuild cache');
     WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
             .capture(delay: Duration(milliseconds: 40), pixelRatio: 0.2)
             .then((File image) async {
@@ -423,33 +419,11 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
             _scrollController
                 .jumpTo(_scrollController.position.maxScrollExtent);
           }
-           randomiseButtonEnabled = true;
-           randomisePaletteButtonEnabled = true;
+          enableButton = true;
         }));
   }
 
   ScrollController _scrollController = new ScrollController();
-  @override
-  Widget bodyWidget() {
-    return Screenshot(
-      controller: screenshotController,
-      child: Visibility(
-        visible: true,
-        child: LayoutBuilder(
-          builder: (_, constraints) => Container(
-            width: constraints.widthConstraints().maxWidth,
-            height: constraints.heightConstraints().maxHeight,
-            child: CustomPaint(
-                painter: OpArtFibonacciPainter(
-              seed, rnd,
-              // animation1.value,
-              // animation2.value
-            )),
-          ),
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -478,221 +452,13 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
           });
     }
 
-    void _showBottomSheetSettings(context, int index) {
-      showDialog(
-          //  backgroundColor: Colors.white.withOpacity(0.8),
-          barrierColor: Colors.white.withOpacity(0.1),
-          context: context,
-          builder: (BuildContext bc) {
-
-            return StatefulBuilder(
-                builder: (BuildContext context, setLocalState) {
-
-              return Center(
-                child: AlertDialog(
-                  backgroundColor: Colors.white.withOpacity(0.7),
-                  title: Text(settingsList[index].label),
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      (settingsList[index].type == 'Double')
-                          ? settingsSlider(
-                              settingsList[index].label,
-                              settingsList[index].tooltip,
-                              settingsList[index].value,
-                              settingsList[index].min,
-                              settingsList[index].max,
-                              settingsList[index].locked,
-                              settingsList[index].zoom,
-                              (value) {
-                                setState(() {
-                                  settingsList[index].value = value;
-                                });
-                                setLocalState(() {});
-                              },
-                              (value) {
-                                setState(() {
-                                  settingsList[index].locked = value;
-                                });
-                                setLocalState(() {});
-                              },
-                              () {
-
-                              },
-                            )
-                          : (settingsList[index].type == 'Int')
-                              ? settingsIntSlider(
-                                  settingsList[index].label,
-                                  settingsList[index].tooltip,
-                                  settingsList[index].value,
-                                  settingsList[index].min,
-                                  settingsList[index].max,
-                                  settingsList[index].locked,
-                                  (value) {
-                                    setState(() {
-                                      settingsList[index].value = value.toInt();
-                                    });
-                                    setLocalState(() {});
-                                  },
-                                  (value) {
-                                    setState(() {
-                                      settingsList[index].locked = value;
-                                    });
-                                    setLocalState(() {});
-                                  },
-                                  () {
-                                    cacheFibonacci();
-                                  },
-                                )
-                              : (settingsList[index].type == 'List')
-                                  ? settingsDropdown(
-                                      settingsList[index].label,
-                                      settingsList[index].tooltip,
-                                      settingsList[index].value,
-                                      settingsList[index].options,
-                                      settingsList[index].locked,
-                                      (value) {
-                                        setState(() {
-                                          settingsList[index].value = value;
-                                        });
-                                        setLocalState(() {});
-                                      },
-                                      (value) {
-                                        setState(() {
-                                          settingsList[index].locked =
-                                              !settingsList[index].locked;
-                                        });
-                                      },
-                                    )
-                                  : (settingsList[index].type == 'Color')
-                                      ? settingsColorPicker(
-                                          settingsList[index].label,
-                                          settingsList[index].tooltip,
-                                          settingsList[index].value,
-                                          settingsList[index].locked,
-                                          (value) {
-                                            setState(() {
-                                              settingsList[index].value = value;
-                                            });
-                                            setLocalState(() {});
-                                          },
-                                          (value) {
-                                            setState(() {
-                                              settingsList[index].locked =
-                                                  value;
-                                            });
-                                            setLocalState(() {});
-                                          },
-                                        )
-                                      : (settingsList[index].type == 'Bool')
-                                          ? settingsRadioButton(
-                                              settingsList[index].label,
-                                              settingsList[index].tooltip,
-                                              settingsList[index].value,
-                                              settingsList[index].locked,
-                                              (value) {
-                                                setState(() {
-                                                  settingsList[index].value =
-                                                      value;
-                                                });
-                                                setLocalState(() {});
-                                              },
-                                              (value) {
-                                                setState(() {
-                                                  settingsList[index].locked =
-                                                      value;
-                                                });
-                                                setLocalState(() {});
-                                              },
-                                            )
-                                          : settingsButton(
-                                              settingsList[index].label,
-                                              settingsList[index].tooltip,
-                                              settingsList[index].value,
-                                              () {
-
-                                                  settingsList[index].value =
-                                                      true;
-
-                                                setLocalState(() {});
-                                              },
-                                            ),
-                    ],
-                  ),
-                ),
-              );
-            });
-          }).then((value) {
-        cacheFibonacci();
-            rebuildCanvas.value++;
-
-      });
-    }
-
-    void _showBottomSheet(context) {
-      showModalBottomSheet(
-          context: context,
-          builder: (BuildContext bc) {
-            return Container(
-                height: 350,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 4, childAspectRatio: 1.3),
-                      itemCount: settingsList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                            _showBottomSheetSettings(
-                              context,
-                              index,
-                            );
-                          },
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              settingsList[index].icon,
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Container(
-                                    height: 40,
-                                    child: Text(
-                                      settingsList[index].label,
-                                      textAlign: TextAlign.center,
-                                    )),
-                              )
-                            ],
-                          ),
-                        );
-                      }),
-                ));
-          });
-    }
-
     return Scaffold(
-      bottomNavigationBar: Container(
-        height: 70,
-        child: GestureDetector(
-          onVerticalDragUpdate: (value) {
-            _showBottomSheet(context);
-          },
-          child: CustomBottomAppBar(randomise: () {
-            currentFibonacci.randomize();
-            currentFibonacci.randomizePalette();
-            rebuildCanvas.value++;
-            cacheFibonacci();
-          }, randomisePalette: () {
-            currentFibonacci.randomizePalette();
-            rebuildCanvas.value++;
-            cacheFibonacci();
-          }, showBottomSheet: () {
-            _showBottomSheet(context);
-          }),
-        ),
+      bottomNavigationBar: customBottomAppBar(
+        (){ currentFibonacci.randomize();},
+        (){currentFibonacci.randomizePalette();},
+        (){ cacheFibonacci();},
+        context,
+        settingsList,
       ),
       body: Column(
         children: [
@@ -1106,7 +872,6 @@ class OpArtFibonacciPainter extends CustomPainter {
           nextColor = currentPalette[rnd.nextInt(currentNumberOfColors)];
         }
         Color petalColor = nextColor.withOpacity(currentOpacity);
-
 
         drawPetal(
           canvas,

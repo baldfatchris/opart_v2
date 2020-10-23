@@ -7,7 +7,7 @@ import 'package:opart_v2/opart_wallpaper.dart';
 import 'package:opart_v2/opart_wave.dart';
 
 import 'menu.dart';
-import 'menu.dart';
+
 
 void main() {
   runApp(MaterialApp(

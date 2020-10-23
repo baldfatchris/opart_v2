@@ -257,8 +257,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
             _scrollController
                 .jumpTo(_scrollController.position.maxScrollExtent);
           }
-          randomiseButtonEnabled = true;
-          randomisePaletteButtonEnabled = true;
+          enableButton = true;
     }));
   }
 
@@ -497,28 +496,8 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
     }
 
     return Scaffold(
-      bottomNavigationBar: Container(
-        height: 70,
-        child: BottomAppBar(
-          color: Colors.white,
-          child: CustomBottomAppBar(randomise: () {
+      bottomNavigationBar: customBottomAppBar(currentWave.randomize, currentWave.randomizePalette, cacheWave, context, settingsList),
 
-              currentWave.randomize();
-              currentWave.randomizePalette();
-              rebuildCanvas.value++;
-              cacheWave();
-
-          }, randomisePalette: () {
-
-              currentWave.randomizePalette();
-              rebuildCanvas.value++;
-              cacheWave();
-
-          }, showBottomSheet: () {
-            _showBottomSheet(context);
-          }),
-        ),
-      ),
       body: Column(
         children: [
           Container(

@@ -11,6 +11,7 @@ import 'opart_model.dart';
 
 
 
+
 bool showSettings = false;
 
 File imageFile;
@@ -67,7 +68,7 @@ class _OpArtMenuState extends State<OpArtMenu> {
   //  PageController _pageController = PageController(initialPage: 2);
 
     Size size = MediaQuery.of(context).size;
-    print(showSettings);
+
     return Scaffold(
       // drawer: SizedBox(
       //   width: size.width,
@@ -99,12 +100,12 @@ class _OpArtMenuState extends State<OpArtMenu> {
       // ),
         backgroundColor: Colors.grey[200],
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.cyan[200],
           title: Text(OpArtTypes[widget.currentWidget].name,style: TextStyle(color: Colors.black,fontFamily: 'Righteous',
               fontSize: 24,
               fontWeight: FontWeight.bold ),),
           centerTitle: true,
-          elevation: 0,
+          elevation: 1,
           leading: IconButton(
             icon: Icon(Icons.home,color: Colors.black,), onPressed: (){
             Navigator.pop(context);
@@ -117,12 +118,26 @@ class _OpArtMenuState extends State<OpArtMenu> {
                   color: Colors.black,
                 ),
                 onPressed: () {
+                  print('sharing');
                   imageFile = null;
                   screenshotController
                       .capture(delay: Duration(milliseconds: 0), pixelRatio: 2)
                       .then((File image) async {
-                    setState(() {
+                        print(image)
+;                    setState(() {
                       imageFile = image;
+
+
+
+                      // Share.share('Hello World',
+                      //
+                      //         sharePositionOrigin: Rect.fromLTWH(
+                      //         0,0, size.width, size.height/2)
+                      //     );
+
+                        //    subject: 'Using Chris\'s fabulous OpArt App',
+
+
                       if(Platform.isAndroid){
                         Share.shareFiles([imageFile.path],
                           subject: 'Using Chris\'s fabulous OpArt App',
@@ -131,11 +146,14 @@ class _OpArtMenuState extends State<OpArtMenu> {
                         );
                       }
                       else{
-                        Share.shareFiles([imageFile.path],
-                          subject: 'Using Chris\'s fabulous OpArt App',
+                        Share.shareFiles([imageFile.path], sharePositionOrigin: Rect.fromLTWH(
+                          0,0, size.width, size.height/2),
+                         subject: 'Using Chris\'s fabulous OpArt App',
 
                         );
                       }
+
+
 
 
 

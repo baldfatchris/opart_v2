@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'dart:io';
+
 
 class Loading extends StatefulWidget {
   @override
@@ -9,7 +9,7 @@ class Loading extends StatefulWidget {
 
 class _LoadingState extends State<Loading> {
 
-  void WaitSome() async {
+  void waitSome() async {
 
     print('wait 1 second');
     await new Future.delayed(const Duration(seconds : 1));
@@ -24,7 +24,7 @@ class _LoadingState extends State<Loading> {
   @override
   void initState()  {
     super.initState();
-    WaitSome();
+    waitSome();
   }
 
   @override

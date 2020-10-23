@@ -298,7 +298,8 @@ class Tree {
     this.paletteType.randomise(rnd);
     this.opacity.randomise(rnd);
 
-    this.palette = randomisedPalette(this.paletteType.value, this.numberOfColors.value, rnd);
+    this.palette = randomisedPalette(
+        this.paletteType.value, this.numberOfColors.value, rnd);
   }
 
   void defaultSettings() {
@@ -444,9 +445,9 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
             _scrollController
                 .jumpTo(_scrollController.position.maxScrollExtent);
           }
-          randomiseButtonEnabled = true;
-          randomisePaletteButtonEnabled = true;
-    }));
+          enableButton = true;
+
+        }));
   }
 
   ScrollController _scrollController = new ScrollController();
@@ -478,8 +479,6 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
 
   @override
   Widget build(BuildContext context) {
-
-
     Widget bodyWidget() {
       return ValueListenableBuilder<int>(
           valueListenable: rebuildCanvas,
@@ -494,10 +493,10 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
                     height: constraints.heightConstraints().maxHeight,
                     child: CustomPaint(
                         painter: OpArtTreePainter(
-                          seed, rnd,
-                          // animation1.value,
-                          // animation2.value
-                        )),
+                      seed, rnd,
+                      // animation1.value,
+                      // animation2.value
+                    )),
                   ),
                 ),
               ),
@@ -629,86 +628,19 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
                 ),
               );
             });
-          })..then((value) {
-        cacheTree();
-        rebuildCanvas.value++;
-
-      });
+          })
+        ..then((value) {
+          cacheTree();
+          rebuildCanvas.value++;
+        });
     }
 
-    void _showBottomSheet(context) {
-      showModalBottomSheet(
-          context: context,
-          builder: (BuildContext bc) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Container(
-                  height: 350,
-                  child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 4),
-                      itemCount: settingsList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          height: 10,
-                          width: 10,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                              _showBottomSheetSettings(
-                                context,
-                                index,
-                              );
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                settingsList[index].icon,
-                                Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Container(
-                                      height: 40,
-                                      child: Text(
-                                        settingsList[index].label,
-                                        textAlign: TextAlign.center,
-                                      )),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      })),
-            );
-          });
-    }
+
 
     return Scaffold(
-      bottomNavigationBar: Container(
-        height: 70,
-        child: GestureDetector(
-          onVerticalDragUpdate: (value) {
-            _showBottomSheet(context);
-          },
-          child: CustomBottomAppBar(randomise: () {
+      bottomNavigationBar: customBottomAppBar(currentTree.randomize, currentTree.randomizePalette, cacheTree, context, settingsList),
 
-              currentTree.randomize();
-              currentTree.randomizePalette();
-              rebuildCanvas.value++;
-              cacheTree();
-
-          }, randomisePalette: () {
-
-              currentTree.randomizePalette();
-              rebuildCanvas.value++;
-              cacheTree();
-
-          }, showBottomSheet: () {
-            _showBottomSheet(context);
-          }),
-        ),
-      ),
-      body: Column(
+    body: Column(
         children: [
           Container(
               width: MediaQuery.of(context).size.width,
@@ -718,63 +650,99 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
                   valueListenable: rebuildCache,
                   builder: (context, value, child) {
                     return cachedTreeList.length == 0
-                      ? Container()
-                      : ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          controller: _scrollController,
-                          itemCount: cachedTreeList.length,
-                          shrinkWrap: true,
-                          reverse: false,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  print('---------------------------------------------------------------------');
-                                  print('Selected from history');
-                                  print('index: $index');
-                                  print('---------------------------------------------------------------------');
-                                  print('cachedTreeList[index]: ${cachedTreeList[index]}');
-                                  setState(() {
-                                    currentTree.trunkWidth.value = cachedTreeList[index]['trunkWidth'];
-                                    currentTree.zoomTree.value = cachedTreeList[index]['zoomTree'];
-                                    currentTree.widthDecay.value = cachedTreeList[index]['widthDecay'];
-                                    currentTree.segmentLength.value = cachedTreeList[index]['segmentLength'];
-                                    currentTree.segmentDecay.value = cachedTreeList[index]['segmentDecay'];
-                                    currentTree.branch.value = cachedTreeList[index]['branch'];
-                                    currentTree.angle.value = cachedTreeList[index]['angle'];
-                                    currentTree.ratio.value = cachedTreeList[index]['ratio'];
-                                    currentTree.bulbousness.value = cachedTreeList[index]['bulbousness'];
-                                    currentTree.image = cachedTreeList[index]['image'];
-                                    currentTree.maxDepth.value = cachedTreeList[index]['maxDepth'];
-                                    currentTree.leavesAfter.value = cachedTreeList[index]['leavesAfter'];
-                                    currentTree.leafAngle.value = cachedTreeList[index]['leafAngle'];
-                                    currentTree.leafLength.value = cachedTreeList[index]['leafLength'];
-                                    currentTree.randomLeafLength.value = cachedTreeList[index]['randomLeafLength'];
-                                    currentTree.leafSquareness.value = cachedTreeList[index]['leafSquareness'];
-                                    currentTree.leafDecay.value = cachedTreeList[index]['leafDecay'];
-                                    currentTree.backgroundColor.value = cachedTreeList[index]['backgroundColor'];
-                                    currentTree.trunkFillColor.value = cachedTreeList[index]['trunkFillColor'];
-                                    currentTree.trunkOutlineColor.value = cachedTreeList[index]['trunkOutlineColor'];
-                                    currentTree.randomColors.value = cachedTreeList[index]['randomColors'];
-                                    currentTree.numberOfColors.value = cachedTreeList[index]['numberOfColors'];
-                                    currentTree.paletteType.value = cachedTreeList[index]['paletteType'];
-                                    currentTree.palette = cachedTreeList[index]['palette'];
-                                    currentTree.opacity.value = cachedTreeList[index]['opacity'];
-                                  });
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(shape: BoxShape.circle),
-                                  width: 50,
-                                  height: 50,
-                                  child: Image.file(cachedTreeList[index]['image']),
+                        ? Container()
+                        : ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            controller: _scrollController,
+                            itemCount: cachedTreeList.length,
+                            shrinkWrap: true,
+                            reverse: false,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    print(
+                                        '---------------------------------------------------------------------');
+                                    print('Selected from history');
+                                    print('index: $index');
+                                    print(
+                                        '---------------------------------------------------------------------');
+                                    print(
+                                        'cachedTreeList[index]: ${cachedTreeList[index]}');
+                                    setState(() {
+                                      currentTree.trunkWidth.value =
+                                          cachedTreeList[index]['trunkWidth'];
+                                      currentTree.zoomTree.value =
+                                          cachedTreeList[index]['zoomTree'];
+                                      currentTree.widthDecay.value =
+                                          cachedTreeList[index]['widthDecay'];
+                                      currentTree.segmentLength.value =
+                                          cachedTreeList[index]
+                                              ['segmentLength'];
+                                      currentTree.segmentDecay.value =
+                                          cachedTreeList[index]['segmentDecay'];
+                                      currentTree.branch.value =
+                                          cachedTreeList[index]['branch'];
+                                      currentTree.angle.value =
+                                          cachedTreeList[index]['angle'];
+                                      currentTree.ratio.value =
+                                          cachedTreeList[index]['ratio'];
+                                      currentTree.bulbousness.value =
+                                          cachedTreeList[index]['bulbousness'];
+                                      currentTree.image =
+                                          cachedTreeList[index]['image'];
+                                      currentTree.maxDepth.value =
+                                          cachedTreeList[index]['maxDepth'];
+                                      currentTree.leavesAfter.value =
+                                          cachedTreeList[index]['leavesAfter'];
+                                      currentTree.leafAngle.value =
+                                          cachedTreeList[index]['leafAngle'];
+                                      currentTree.leafLength.value =
+                                          cachedTreeList[index]['leafLength'];
+                                      currentTree.randomLeafLength.value =
+                                          cachedTreeList[index]
+                                              ['randomLeafLength'];
+                                      currentTree.leafSquareness.value =
+                                          cachedTreeList[index]
+                                              ['leafSquareness'];
+                                      currentTree.leafDecay.value =
+                                          cachedTreeList[index]['leafDecay'];
+                                      currentTree.backgroundColor.value =
+                                          cachedTreeList[index]
+                                              ['backgroundColor'];
+                                      currentTree.trunkFillColor.value =
+                                          cachedTreeList[index]
+                                              ['trunkFillColor'];
+                                      currentTree.trunkOutlineColor.value =
+                                          cachedTreeList[index]
+                                              ['trunkOutlineColor'];
+                                      currentTree.randomColors.value =
+                                          cachedTreeList[index]['randomColors'];
+                                      currentTree.numberOfColors.value =
+                                          cachedTreeList[index]
+                                              ['numberOfColors'];
+                                      currentTree.paletteType.value =
+                                          cachedTreeList[index]['paletteType'];
+                                      currentTree.palette =
+                                          cachedTreeList[index]['palette'];
+                                      currentTree.opacity.value =
+                                          cachedTreeList[index]['opacity'];
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration:
+                                        BoxDecoration(shape: BoxShape.circle),
+                                    width: 50,
+                                    height: 50,
+                                    child: Image.file(
+                                        cachedTreeList[index]['image']),
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                        );
-                }
-              )),
+                              );
+                            },
+                          );
+                  })),
           Expanded(child: ClipRect(child: bodyWidget())),
         ],
       ),
@@ -876,7 +844,6 @@ class OpArtTreePainter extends CustomPainter {
     print('Tree');
     print('----------------------------------------------------------------');
 
-
     // Initialise the palette
     if (currentTree == null) {
       currentTree = new Tree();
@@ -942,7 +909,6 @@ class OpArtTreePainter extends CustomPainter {
 
     double zoom = currentTree.zoomTree.value;
     print('zoom: $zoom');
-
 
     String leafStyle = 'quadratic';
 
