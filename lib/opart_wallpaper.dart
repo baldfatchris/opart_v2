@@ -779,19 +779,32 @@ class OpArtWallpaperPainter extends CustomPainter {
     double imageHeight = canvasHeight;
 
     print('currentWallpaper.aspectRatio: ${currentWallpaper.aspectRatio}');
+    print('currentWallpaper.cellsX.value: ${currentWallpaper.cellsX.value}');
+    print('currentWallpaper.cellsY.value: ${currentWallpaper.cellsY.value}');
+
     // Initialise the aspect ratio
     if (currentWallpaper.aspectRatio == pi/2){
+      print('');
+      print('Initialise the aspect ratio');
+
+      // if portrait add extra Y cells
       if (canvasHeight>canvasWidth){
+        print('portrait');
         currentWallpaper.cellsY.value  = (canvasHeight/canvasWidth*currentWallpaper.cellsX.value).toInt();
+        print('currentWallpaper.cellsY.value: ${currentWallpaper.cellsY.value}');
       }
+      // if landscape add extra X cells
       else {
+        print('portrait');
         currentWallpaper.cellsX.value  = (canvasWidth/canvasHeight*currentWallpaper.cellsY.value).toInt();
+        print('currentWallpaper.cellsX.value: ${currentWallpaper.cellsX.value}');
       }
       currentWallpaper.aspectRatio = currentWallpaper.cellsX.value / currentWallpaper.cellsY.value;
+      print('currentWallpaper.aspectRatio: ${currentWallpaper.aspectRatio}');
     }
 
     if (canvasWidth / canvasHeight < currentWallpaper.aspectRatio) {
-      borderY = (canvasHeight - canvasWidth * currentWallpaper.aspectRatio) / 2;
+      borderY = (canvasHeight - canvasWidth / currentWallpaper.aspectRatio) / 2;
       imageHeight = imageWidth / currentWallpaper.aspectRatio;
     } else {
       borderX = (canvasWidth - canvasHeight / currentWallpaper.aspectRatio) / 2;
@@ -799,8 +812,8 @@ class OpArtWallpaperPainter extends CustomPainter {
     }
     print('currentWallpaper.aspectRatio: ${currentWallpaper.aspectRatio}');
 
-    print('height: ${canvasHeight}');
-    print('width: ${canvasWidth}');
+    print('canvas height: ${canvasHeight}');
+    print('canvas width: ${canvasWidth}');
     print('canvasWidth / canvasHeight = ${canvasWidth / canvasHeight}');
     print('aspectRatio = ${currentWallpaper.aspectRatio}');
     print('borderX = $borderX');
@@ -811,7 +824,6 @@ class OpArtWallpaperPainter extends CustomPainter {
     print('cellsX: ${currentWallpaper.cellsX.value}');
     print('cellsY: ${currentWallpaper.cellsY.value}');
 
-    borderY = 55;
     int colourOrder = 0;
 
 
@@ -1125,7 +1137,6 @@ class OpArtWallpaperPainter extends CustomPainter {
                    Paint()
                      ..style = PaintingStyle.fill
                      ..color = nextColor.withOpacity(currentWallpaper.opacity.value));
-
 
               }
 
