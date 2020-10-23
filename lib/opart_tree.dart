@@ -3,7 +3,6 @@ import 'dart:math';
 import 'dart:io';
 import 'package:screenshot/screenshot.dart';
 import 'package:shake/shake.dart';
-import 'package:opart_v2/setting_button.dart';
 import 'package:opart_v2/setting_slider.dart';
 import 'package:opart_v2/setting_intslider.dart';
 import 'package:opart_v2/setting_dropdown.dart';
@@ -33,6 +32,14 @@ class Tree {
       zoom: 100,
       defaultValue: 20,
       icon: Icon(Icons.track_changes));
+  SettingsModelDouble zoomTree = SettingsModelDouble(
+      label: 'Zoom',
+      tooltip: 'Zoom in and out',
+      min: 0.1,
+      max: 5,
+      zoom: 100,
+      defaultValue: 1,
+      icon: Icon(Icons.zoom_in));
   SettingsModelDouble widthDecay = SettingsModelDouble(
       label: 'Trunk Decay ',
       tooltip: 'The rate at which the trunk width decays',
@@ -256,6 +263,7 @@ class Tree {
     rnd = Random(DateTime.now().millisecond);
 
     this.trunkWidth.randomise(random);
+    this.zoomTree.value = 1;
     this.widthDecay.randomise(random);
     this.segmentLength.randomise(random);
     this.segmentDecay.randomise(random);
@@ -296,7 +304,7 @@ class Tree {
 
   void defaultSettings() {
     // resets to default settings
-
+    this.zoomTree.value = this.zoomTree.defaultValue;
     this.trunkWidth.value = this.trunkWidth.defaultValue;
     this.widthDecay.value = this.widthDecay.defaultValue;
     this.segmentLength.value = this.segmentLength.defaultValue;
@@ -349,6 +357,7 @@ class Tree {
 }
 
 List settingsList = [
+  currentTree.zoomTree,
   currentTree.trunkWidth,
   currentTree.widthDecay,
   currentTree.segmentLength,
@@ -403,6 +412,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
           Map<String, dynamic> currentCache = {
             'aspectRatio': currentTree.aspectRatio,
             'trunkWidth': currentTree.trunkWidth.value,
+            'zoomTree': currentTree.zoomTree.value,
             'widthDecay': currentTree.widthDecay.value,
             'segmentLength': currentTree.segmentLength.value,
             'segmentDecay': currentTree.segmentDecay.value,
@@ -715,7 +725,9 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
                                 onTap: () {
                                   setState(() {
                                     currentTree.trunkWidth.value =
-                                        cachedTreeList[index]['trunkWidth'];
+                                    cachedTreeList[index]['trunkWidth'];
+                                    currentTree.zoomTree.value =
+                                    cachedTreeList[index]['zoomTree'];
                                     currentTree.widthDecay.value =
                                         cachedTreeList[index]['widthDecay'];
                                     currentTree.segmentLength.value =
@@ -876,6 +888,7 @@ class OpArtTreePainter extends CustomPainter {
     print('Tree');
     print('----------------------------------------------------------------');
 
+
     // Initialise the palette
     if (currentTree == null) {
       currentTree = new Tree(random: rnd);
@@ -938,14 +951,18 @@ class OpArtTreePainter extends CustomPainter {
     double lineWidth = 2;
     // Color trunkFillColor = Colors.grey[800];
 
+    double zoom = currentTree.zoomTree.value;
+    print('zoom: $zoom');
+
+
     String leafStyle = 'quadratic';
 
     List treeBaseA = [
-      (canvasWidth - currentTree.trunkWidth.value) / 2,
+      (canvasWidth - currentTree.trunkWidth.value * zoom) / 2,
       canvasHeight
     ];
     List treeBaseB = [
-      (canvasWidth + currentTree.trunkWidth.value) / 2,
+      (canvasWidth + currentTree.trunkWidth.value * zoom) / 2,
       canvasHeight
     ];
 
@@ -955,12 +972,12 @@ class OpArtTreePainter extends CustomPainter {
         borderY,
         treeBaseA,
         treeBaseB,
-        currentTree.trunkWidth.value,
-        currentTree.segmentLength.value,
+        currentTree.trunkWidth.value * zoom,
+        currentTree.segmentLength.value * zoom,
         direction,
         0,
-        lineWidth,
-        currentTree.leafLength.value,
+        lineWidth * zoom,
+        currentTree.leafLength.value * zoom,
         leafStyle,
         false);
   }
