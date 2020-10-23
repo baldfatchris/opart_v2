@@ -1027,6 +1027,7 @@ class OpArtWallpaperPainter extends CustomPainter {
     double imageHeight = canvasHeight;
 
 
+
     // Initialise the aspect ratio
     if (currentWallpaper.aspectRatio == pi / 2) {
 
@@ -1035,7 +1036,6 @@ class OpArtWallpaperPainter extends CustomPainter {
         currentWallpaper.cellsY.value =
             (canvasHeight / canvasWidth * currentWallpaper.cellsX.value)
                 .toInt();
-            'currentWallpaper.cellsY.value: ${currentWallpaper.cellsY.value}');
       }
 
       // if landscape add extra X cells
