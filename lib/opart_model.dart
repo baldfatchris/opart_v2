@@ -37,6 +37,7 @@ class SettingsModelDouble {
   SettingsModelDouble({this.label, this.tooltip, this.icon, this.min, this.max, this.zoom, this.defaultValue, this.value, this.proFeature});
 
   void randomise(Random rnd){
+
     if (!this.locked && (proVersion || !proVersion && !this.proFeature)) {
       // half the time use the default
       this.value =  (rnd.nextBool() == true) ? rnd.nextDouble() * (this.max - this.min) + this.min : this.defaultValue;

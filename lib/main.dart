@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Text('OpArt Studio',
+            child: Text('OpArt Lab',
                 style: TextStyle(
                     fontFamily: 'Righteous',
                     fontSize: 40,
