@@ -688,7 +688,11 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
                 ),
               );
             });
-          });
+          }).then((value) {
+        cacheWallpaper();
+        rebuildCanvas.value++;
+
+      });
     }
 
     void _showBottomSheet(context) {

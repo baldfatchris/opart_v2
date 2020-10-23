@@ -441,7 +441,11 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                 ),
               );
             });
-          });
+          }).then((value) {
+        cacheWave();
+        rebuildCanvas.value++;
+
+      });
     }
 
     void _showBottomSheet(context) {
@@ -592,12 +596,13 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
       print('SHAKE');
       print(
           '---------------------------------------------------------------------------');
-      setState(() {
+
         currentWave.randomize();
         currentWave.randomizePalette();
+        rebuildCanvas.value++;
         cacheWave();
         //randomiseSettings();
-      });
+
     });
     // To close: detector.stopListening();
     // ShakeDetector.waitForStart() waits for user to call detector.startListening();
