@@ -709,7 +709,6 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
               child: ValueListenableBuilder<int>(
                   valueListenable: number,
                   builder: (context, value, child) {
-                    print('***********rebuilding');
                     return cachedTreeList.length == 0
                       ? Container()
                       : ListView.builder(

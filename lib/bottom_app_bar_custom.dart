@@ -39,7 +39,7 @@ color: Colors.black,
           if (randomiseButtonEnabled) {
             randomise();
             randomiseButtonEnabled = false;
-            await new Future.delayed(const Duration(milliseconds: 800));
+            await new Future.delayed(const Duration(seconds: 1));
             randomiseButtonEnabled = true;
           }
         },
@@ -101,7 +101,7 @@ color: Colors.black,
           if (randomisePaletteButtonEnabled) {
             randomisePalette();
             randomisePaletteButtonEnabled = false;
-            await new Future.delayed(const Duration(milliseconds: 500));
+            await new Future.delayed(const Duration(seconds: 1));
             randomisePaletteButtonEnabled = true;
           }
         },

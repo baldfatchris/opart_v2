@@ -11,7 +11,7 @@ List<Map<String, dynamic>> cachedTreeList = [];
 List<Map<String, dynamic>> cachedWallpaperList = [];
 List<Map<String, dynamic>> cachedWaveList = [];
 Image file;
-RestartableTimer timer;
+
 class SettingsModelDouble {
   double value;
   bool locked = false;
