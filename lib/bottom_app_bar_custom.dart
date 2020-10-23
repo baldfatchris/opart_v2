@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'opart_model.dart';
 
-bool randomiseButtonEnabled = true;
-bool randomisePaletteButtonEnabled = true;
 Widget CustomBottomAppBar(
     {Function randomise, Function randomisePalette, Function showBottomSheet}) {
   return ButtonBar(
@@ -39,8 +38,7 @@ color: Colors.black,
           if (randomiseButtonEnabled) {
             randomise();
             randomiseButtonEnabled = false;
-            await new Future.delayed(const Duration(seconds: 1));
-            randomiseButtonEnabled = true;
+
           }
         },
       ),
@@ -101,8 +99,7 @@ color: Colors.black,
           if (randomisePaletteButtonEnabled) {
             randomisePalette();
             randomisePaletteButtonEnabled = false;
-            await new Future.delayed(const Duration(seconds: 1));
-            randomisePaletteButtonEnabled = true;
+
           }
         },
       ),

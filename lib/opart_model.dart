@@ -7,11 +7,14 @@ Random rnd = Random();
 int seed = rnd.nextInt(1 << 32);
 ScreenshotController screenshotController = ScreenshotController();
 List<Map<String, dynamic>> cachedFibonacciList = List<Map<String, dynamic>>();
-List<Map<String, dynamic>> cachedTreeList = [];
-List<Map<String, dynamic>> cachedWallpaperList = [];
-List<Map<String, dynamic>> cachedWaveList = [];
-Image file;
+List<Map<String, dynamic>> cachedTreeList = List<Map<String, dynamic>>();
+List<Map<String, dynamic>> cachedWallpaperList = List<Map<String, dynamic>>();
+List<Map<String, dynamic>> cachedWaveList = List<Map<String, dynamic>>();
 
+final rebuildCache = new ValueNotifier(0);
+final rebuildCanvas = new ValueNotifier(0);
+bool randomiseButtonEnabled = true;
+bool randomisePaletteButtonEnabled = true;
 class SettingsModelDouble {
   double value;
   bool locked = false;

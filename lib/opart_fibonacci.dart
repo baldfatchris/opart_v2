@@ -16,14 +16,13 @@ import 'palettes.dart';
 import 'package:screenshot/screenshot.dart';
 
 Random rnd;
-final number = new ValueNotifier(0);
+
 // Settings
 Fibonacci currentFibonacci;
 
 // Load the palettes
 List palettes = defaultPalettes();
 String currentNamedPalette;
-
 
 class Fibonacci {
   // image settings
@@ -208,9 +207,7 @@ class Fibonacci {
       label: 'Reset Defaults',
       tooltip: 'Reset all settings to defaults',
       defaultValue: false,
-      icon: Icon(Icons.low_priority)
-  );
-
+      icon: Icon(Icons.low_priority));
 
   List palette;
   double aspectRatio;
@@ -321,7 +318,6 @@ class Fibonacci {
     this.paletteList.value = this.paletteList.defaultValue;
     this.resetDefaults.value = this.resetDefaults.defaultValue;
 
-
     this.palette = [
       Color(0xFF37A7BC),
       Color(0xFFB4B165),
@@ -391,7 +387,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
 
   cacheFibonacci() async {
     WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
-            .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
+            .capture(delay: Duration(milliseconds: 40), pixelRatio: 0.2)
             .then((File image) async {
           currentFibonacci.image = image;
           Map<String, dynamic> currentCache = {
@@ -421,15 +417,15 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
             'image': image,
           };
           cachedFibonacciList.add(currentCache);
-          number.value++;
+          rebuildCache.value++;
           await new Future.delayed(const Duration(milliseconds: 20));
           if (_scrollController.hasClients) {
-            _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+            _scrollController
+                .jumpTo(_scrollController.position.maxScrollExtent);
           }
+           randomiseButtonEnabled = true;
+           randomisePaletteButtonEnabled = true;
         }));
-
-
-
   }
 
   ScrollController _scrollController = new ScrollController();
@@ -457,28 +453,29 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
 
   @override
   Widget build(BuildContext context) {
-
-
-
     Widget bodyWidget() {
-      return Screenshot(
-        controller: screenshotController,
-        child: Visibility(
-          visible: true,
-          child: LayoutBuilder(
-            builder: (_, constraints) => Container(
-              width: constraints.widthConstraints().maxWidth,
-              height: constraints.heightConstraints().maxHeight,
-              child: CustomPaint(
-                  painter: OpArtFibonacciPainter(
-                seed, rnd,
-                // animation1.value,
-                // animation2.value
-              )),
-            ),
-          ),
-        ),
-      );
+      return ValueListenableBuilder<int>(
+          valueListenable: rebuildCanvas,
+          builder: (context, value, child) {
+            return Screenshot(
+              controller: screenshotController,
+              child: Visibility(
+                visible: true,
+                child: LayoutBuilder(
+                  builder: (_, constraints) => Container(
+                    width: constraints.widthConstraints().maxWidth,
+                    height: constraints.heightConstraints().maxHeight,
+                    child: CustomPaint(
+                        painter: OpArtFibonacciPainter(
+                      seed, rnd,
+                      // animation1.value,
+                      // animation2.value
+                    )),
+                  ),
+                ),
+              ),
+            );
+          });
     }
 
     void _showBottomSheetSettings(context, int index) {
@@ -487,153 +484,149 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
           barrierColor: Colors.white.withOpacity(0.1),
           context: context,
           builder: (BuildContext bc) {
+
             return StatefulBuilder(
                 builder: (BuildContext context, setLocalState) {
+
               return Center(
                 child: AlertDialog(
                   backgroundColor: Colors.white.withOpacity(0.7),
                   title: Text(settingsList[index].label),
-                  content: Column(mainAxisSize: MainAxisSize.min,
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      (settingsList[index].type == 'Double') ?
+                      (settingsList[index].type == 'Double')
+                          ? settingsSlider(
+                              settingsList[index].label,
+                              settingsList[index].tooltip,
+                              settingsList[index].value,
+                              settingsList[index].min,
+                              settingsList[index].max,
+                              settingsList[index].locked,
+                              settingsList[index].zoom,
+                              (value) {
+                                setState(() {
+                                  settingsList[index].value = value;
+                                });
+                                setLocalState(() {});
+                              },
+                              (value) {
+                                setState(() {
+                                  settingsList[index].locked = value;
+                                });
+                                setLocalState(() {});
+                              },
+                              () {
 
-                      settingsSlider(
-                        settingsList[index].label,
-                        settingsList[index].tooltip,
-                        settingsList[index].value,
-                        settingsList[index].min,
-                        settingsList[index].max,
-                        settingsList[index].locked,
-                        settingsList[index].zoom,
-                            (value) {
-                          setState(() {
-                            settingsList[index].value = value;
-                          });
-                          setLocalState((){});
-                        },
-                            (value) {
-                          setState(() {
-                            settingsList[index].locked = value;
-                          });
-                          setLocalState((){});
-                        },
-                            (){},
-                      )
-                          :
-                      (settingsList[index].type == 'Int') ?
+                              },
+                            )
+                          : (settingsList[index].type == 'Int')
+                              ? settingsIntSlider(
+                                  settingsList[index].label,
+                                  settingsList[index].tooltip,
+                                  settingsList[index].value,
+                                  settingsList[index].min,
+                                  settingsList[index].max,
+                                  settingsList[index].locked,
+                                  (value) {
+                                    setState(() {
+                                      settingsList[index].value = value.toInt();
+                                    });
+                                    setLocalState(() {});
+                                  },
+                                  (value) {
+                                    setState(() {
+                                      settingsList[index].locked = value;
+                                    });
+                                    setLocalState(() {});
+                                  },
+                                  () {
+                                    cacheFibonacci();
+                                  },
+                                )
+                              : (settingsList[index].type == 'List')
+                                  ? settingsDropdown(
+                                      settingsList[index].label,
+                                      settingsList[index].tooltip,
+                                      settingsList[index].value,
+                                      settingsList[index].options,
+                                      settingsList[index].locked,
+                                      (value) {
+                                        setState(() {
+                                          settingsList[index].value = value;
+                                        });
+                                        setLocalState(() {});
+                                      },
+                                      (value) {
+                                        setState(() {
+                                          settingsList[index].locked =
+                                              !settingsList[index].locked;
+                                        });
+                                      },
+                                    )
+                                  : (settingsList[index].type == 'Color')
+                                      ? settingsColorPicker(
+                                          settingsList[index].label,
+                                          settingsList[index].tooltip,
+                                          settingsList[index].value,
+                                          settingsList[index].locked,
+                                          (value) {
+                                            setState(() {
+                                              settingsList[index].value = value;
+                                            });
+                                            setLocalState(() {});
+                                          },
+                                          (value) {
+                                            setState(() {
+                                              settingsList[index].locked =
+                                                  value;
+                                            });
+                                            setLocalState(() {});
+                                          },
+                                        )
+                                      : (settingsList[index].type == 'Bool')
+                                          ? settingsRadioButton(
+                                              settingsList[index].label,
+                                              settingsList[index].tooltip,
+                                              settingsList[index].value,
+                                              settingsList[index].locked,
+                                              (value) {
+                                                setState(() {
+                                                  settingsList[index].value =
+                                                      value;
+                                                });
+                                                setLocalState(() {});
+                                              },
+                                              (value) {
+                                                setState(() {
+                                                  settingsList[index].locked =
+                                                      value;
+                                                });
+                                                setLocalState(() {});
+                                              },
+                                            )
+                                          : settingsButton(
+                                              settingsList[index].label,
+                                              settingsList[index].tooltip,
+                                              settingsList[index].value,
+                                              () {
 
-                      settingsIntSlider(
-                        settingsList[index].label,
-                        settingsList[index].tooltip,
-                        settingsList[index].value,
-                        settingsList[index].min,
-                        settingsList[index].max,
-                        settingsList[index].locked,
-                            (value) {
-                          setState(() {
-                            settingsList[index].value = value.toInt();
-                          });
-                          setLocalState((){});
-                        },
-                            (value) {
-                          setState(() {
-                            settingsList[index].locked = value;
-                          });
-                          setLocalState((){});
-                        },
-                            (){},
-                      )
-                          :
-                      (settingsList[index].type == 'List') ?
+                                                  settingsList[index].value =
+                                                      true;
 
-                      settingsDropdown(
-                        settingsList[index].label,
-                        settingsList[index].tooltip,
-                        settingsList[index].value,
-                        settingsList[index].options,
-                        settingsList[index].locked,
-
-                            (value) {
-                          setState(() {
-                            settingsList[index].value = value;
-                          });
-                          setLocalState((){});
-                        },
-                            (value) {
-                          setState(() {
-                            settingsList[index].locked = !settingsList[index].locked;
-                          });
-                        },
-
-                      )
-                          :
-                      (settingsList[index].type == 'Color') ?
-
-                      settingsColorPicker(
-                        settingsList[index].label,
-                        settingsList[index].tooltip,
-                        settingsList[index].value,
-                        settingsList[index].locked,
-
-                            (value) {
-                          setState(() {
-                            settingsList[index].value = value;
-                          });
-                          setLocalState((){});
-                        },
-                            (value) {
-                          setState(() {
-                            settingsList[index].locked = value;
-                          });
-                          setLocalState((){});
-                        },
-
-                      )
-                          :
-
-                      (settingsList[index].type == 'Bool') ?
-
-                      settingsRadioButton(
-                        settingsList[index].label,
-                        settingsList[index].tooltip,
-                        settingsList[index].value,
-                        settingsList[index].locked,
-
-                            (value) {
-                          setState(() {
-                            settingsList[index].value = value;
-                          });
-                          setLocalState((){});
-                        },
-                            (value) {
-                          setState(() {
-                            settingsList[index].locked = value;
-                          });
-                          setLocalState((){});
-                        },
-
-
-                      )
-                          :
-                      settingsButton(
-                        settingsList[index].label,
-                        settingsList[index].tooltip,
-                        settingsList[index].value,
-
-                            () {
-                          setState(() {
-                            settingsList[index].value = true;
-                          });
-                          setLocalState((){});
-                        },
-                      ),
-
+                                                setLocalState(() {});
+                                              },
+                                            ),
                     ],
                   ),
                 ),
               );
             });
-          });
+          }).then((value) {
+        cacheFibonacci();
+            rebuildCanvas.value++;
+
+      });
     }
 
     void _showBottomSheet(context) {
@@ -688,16 +681,14 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
             _showBottomSheet(context);
           },
           child: CustomBottomAppBar(randomise: () {
-            setState(() {
-              currentFibonacci.randomize();
-              currentFibonacci.randomizePalette();
-              cacheFibonacci();
-            });
+            currentFibonacci.randomize();
+            currentFibonacci.randomizePalette();
+            rebuildCanvas.value++;
+            cacheFibonacci();
           }, randomisePalette: () {
-            setState(() {
-              currentFibonacci.randomizePalette();
-              cacheFibonacci();
-            });
+            currentFibonacci.randomizePalette();
+            rebuildCanvas.value++;
+            cacheFibonacci();
           }, showBottomSheet: () {
             _showBottomSheet(context);
           }),
@@ -710,9 +701,8 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
               color: Colors.white,
               height: 60,
               child: ValueListenableBuilder<int>(
-                  valueListenable: number,
+                  valueListenable: rebuildCache,
                   builder: (context, value, child) {
-
                     return cachedFibonacciList.length == 0
                         ? Container()
                         : ListView.builder(
@@ -725,44 +715,86 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                                 padding: const EdgeInsets.all(2.0),
                                 child: GestureDetector(
                                   onTap: () {
-                                    setState(() {
-                                      print('---------------------------------------------------------------------');
-                                      print('Selected from history');
-                                      print('index: $index');
-                                      print('---------------------------------------------------------------------');
-                                      print('cachedFibonacciList[index]: ${cachedFibonacciList[index]}');
+                                    print(
+                                        '---------------------------------------------------------------------');
+                                    print('Selected from history');
+                                    print('index: $index');
+                                    print(
+                                        '---------------------------------------------------------------------');
+                                    print(
+                                        'cachedFibonacciList[index]: ${cachedFibonacciList[index]}');
 
-                                      currentFibonacci.angleIncrement.value = cachedFibonacciList[index]['angleIncrement'];
-                                      currentFibonacci.ratio.value = cachedFibonacciList[index]['ratio'];
-                                      currentFibonacci.maxPetals.value = cachedFibonacciList[index]['maxPetals'];
-                                      currentFibonacci.direction.value = cachedFibonacciList[index]['direction'];
-                                      currentFibonacci.flowerFill.value = cachedFibonacciList[index]['flowerFill'];
+                                    currentFibonacci.angleIncrement.value =
+                                        cachedFibonacciList[index]
+                                            ['angleIncrement'];
+                                    currentFibonacci.ratio.value =
+                                        cachedFibonacciList[index]['ratio'];
+                                    currentFibonacci.maxPetals.value =
+                                        cachedFibonacciList[index]['maxPetals'];
+                                    currentFibonacci.direction.value =
+                                        cachedFibonacciList[index]['direction'];
+                                    currentFibonacci.flowerFill.value =
+                                        cachedFibonacciList[index]
+                                            ['flowerFill'];
 
-                                      currentFibonacci.flowerFill.value =cachedFibonacciList[index]['flowerFill'];
-                                      currentFibonacci.opacity.value = cachedFibonacciList[index]['opacity'];
-                                      currentFibonacci.petalType.value = cachedFibonacciList[index]['petalType'];
-                                      currentFibonacci.petalPointiness.value = cachedFibonacciList[index]['petalPointiness'];
+                                    currentFibonacci.flowerFill.value =
+                                        cachedFibonacciList[index]
+                                            ['flowerFill'];
+                                    currentFibonacci.opacity.value =
+                                        cachedFibonacciList[index]['opacity'];
+                                    currentFibonacci.petalType.value =
+                                        cachedFibonacciList[index]['petalType'];
+                                    currentFibonacci.petalPointiness.value =
+                                        cachedFibonacciList[index]
+                                            ['petalPointiness'];
 
-                                      currentFibonacci.petalRotation.value = cachedFibonacciList[index]['petalRotation'];
-                                      currentFibonacci.petalRotationRatio.value = cachedFibonacciList[index]['petalRotationRatio'];
-                                      currentFibonacci.petalToRadius.value = cachedFibonacciList[index]['petalToRadius'];
+                                    currentFibonacci.petalRotation.value =
+                                        cachedFibonacciList[index]
+                                            ['petalRotation'];
+                                    currentFibonacci.petalRotationRatio.value =
+                                        cachedFibonacciList[index]
+                                            ['petalRotationRatio'];
+                                    currentFibonacci.petalToRadius.value =
+                                        cachedFibonacciList[index]
+                                            ['petalToRadius'];
 
-                                      currentFibonacci.radialOscAmplitude.value = cachedFibonacciList[index]['radialOscAmplitude'];
-                                      currentFibonacci.radialOscPeriod.value = cachedFibonacciList[index]['radialOscPeriod'];
-                                      currentFibonacci.randomiseAngle.value = cachedFibonacciList[index]['randomiseAngle'];
-                                      currentFibonacci.maxPetals.value = cachedFibonacciList[index]['maxPetals'];
-                                      currentFibonacci.direction.value = cachedFibonacciList[index]['direction'];
+                                    currentFibonacci.radialOscAmplitude.value =
+                                        cachedFibonacciList[index]
+                                            ['radialOscAmplitude'];
+                                    currentFibonacci.radialOscPeriod.value =
+                                        cachedFibonacciList[index]
+                                            ['radialOscPeriod'];
+                                    currentFibonacci.randomiseAngle.value =
+                                        cachedFibonacciList[index]
+                                            ['randomiseAngle'];
+                                    currentFibonacci.maxPetals.value =
+                                        cachedFibonacciList[index]['maxPetals'];
+                                    currentFibonacci.direction.value =
+                                        cachedFibonacciList[index]['direction'];
 
-                                      currentFibonacci.backgroundColor.value = cachedFibonacciList[index]['backgroundColor'];
-                                      currentFibonacci.lineColor.value = cachedFibonacciList[index]['lineColor'];
+                                    currentFibonacci.backgroundColor.value =
+                                        cachedFibonacciList[index]
+                                            ['backgroundColor'];
+                                    currentFibonacci.lineColor.value =
+                                        cachedFibonacciList[index]['lineColor'];
 
-                                      currentFibonacci.lineWidth.value = cachedFibonacciList[index]['lineWidth'];
-                                      currentFibonacci.numberOfColors.value = cachedFibonacciList[index]['numberOfColors'];
-                                      currentFibonacci.randomColors.value = cachedFibonacciList[index]['randomColors'];
-                                      currentFibonacci.paletteType.value = cachedFibonacciList[index]['paletteType'];
-                                      currentFibonacci.palette = cachedFibonacciList[index]['palette'];
-                                      currentFibonacci.aspectRatio = cachedFibonacciList[index]['aspectRatio'];
-                                    });
+                                    currentFibonacci.lineWidth.value =
+                                        cachedFibonacciList[index]['lineWidth'];
+                                    currentFibonacci.numberOfColors.value =
+                                        cachedFibonacciList[index]
+                                            ['numberOfColors'];
+                                    currentFibonacci.randomColors.value =
+                                        cachedFibonacciList[index]
+                                            ['randomColors'];
+                                    currentFibonacci.paletteType.value =
+                                        cachedFibonacciList[index]
+                                            ['paletteType'];
+                                    currentFibonacci.palette =
+                                        cachedFibonacciList[index]['palette'];
+                                    currentFibonacci.aspectRatio =
+                                        cachedFibonacciList[index]
+                                            ['aspectRatio'];
+                                    rebuildCanvas.value++;
                                   },
                                   child: Container(
                                     decoration:
@@ -904,7 +936,7 @@ class OpArtFibonacciPainter extends CustomPainter {
     }
 
     // reset the defaults
-    if (currentFibonacci.resetDefaults.value == true){
+    if (currentFibonacci.resetDefaults.value == true) {
       currentFibonacci.defaultSettings();
     }
 
@@ -1221,8 +1253,6 @@ class OpArtFibonacciPainter extends CustomPainter {
     switch (currentPetalType) {
       case 'circle': //"circle": not quite a circle
 
-
-
         List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
         var petalRadius = radius * currentPetalToRadius;
 
@@ -1316,23 +1346,79 @@ class OpArtFibonacciPainter extends CustomPainter {
         double petalRadius = radius * currentPetalToRadius;
 
         List PA = [
-          P1[0] + petalRadius * cos(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 0.0 + currentPetalPointiness + pi / 4),
-          P1[1] + petalRadius * sin(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 0.0 + currentPetalPointiness + pi / 4)
-                  ];
+          P1[0] +
+              petalRadius *
+                  cos(angle +
+                      currentPetalRotation +
+                      angle * currentPetalRotationRatio +
+                      pi * 0.0 +
+                      currentPetalPointiness +
+                      pi / 4),
+          P1[1] +
+              petalRadius *
+                  sin(angle +
+                      currentPetalRotation +
+                      angle * currentPetalRotationRatio +
+                      pi * 0.0 +
+                      currentPetalPointiness +
+                      pi / 4)
+        ];
 
         List PB = [
-          P1[0] + petalRadius * cos(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 0.5 - currentPetalPointiness - pi / 4),
-          P1[1] + petalRadius * sin(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 0.5 - currentPetalPointiness - pi / 4)
+          P1[0] +
+              petalRadius *
+                  cos(angle +
+                      currentPetalRotation +
+                      angle * currentPetalRotationRatio +
+                      pi * 0.5 -
+                      currentPetalPointiness -
+                      pi / 4),
+          P1[1] +
+              petalRadius *
+                  sin(angle +
+                      currentPetalRotation +
+                      angle * currentPetalRotationRatio +
+                      pi * 0.5 -
+                      currentPetalPointiness -
+                      pi / 4)
         ];
 
         List PC = [
-          P1[0] + petalRadius * cos(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 1.0 + currentPetalPointiness + pi / 4),
-          P1[1] + petalRadius * sin(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 1.0 + currentPetalPointiness + pi / 4)
+          P1[0] +
+              petalRadius *
+                  cos(angle +
+                      currentPetalRotation +
+                      angle * currentPetalRotationRatio +
+                      pi * 1.0 +
+                      currentPetalPointiness +
+                      pi / 4),
+          P1[1] +
+              petalRadius *
+                  sin(angle +
+                      currentPetalRotation +
+                      angle * currentPetalRotationRatio +
+                      pi * 1.0 +
+                      currentPetalPointiness +
+                      pi / 4)
         ];
 
         List PD = [
-          P1[0] + petalRadius * cos(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 1.5 - currentPetalPointiness - pi / 4),
-          P1[1] + petalRadius * sin(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 1.5 - currentPetalPointiness - pi / 4)
+          P1[0] +
+              petalRadius *
+                  cos(angle +
+                      currentPetalRotation +
+                      angle * currentPetalRotationRatio +
+                      pi * 1.5 -
+                      currentPetalPointiness -
+                      pi / 4),
+          P1[1] +
+              petalRadius *
+                  sin(angle +
+                      currentPetalRotation +
+                      angle * currentPetalRotationRatio +
+                      pi * 1.5 -
+                      currentPetalPointiness -
+                      pi / 4)
         ];
 
         Path square = Path();
@@ -1359,29 +1445,71 @@ class OpArtFibonacciPainter extends CustomPainter {
 
       case 'petal': //"petal":
 
-
-
         List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
         var petalRadius = radius * currentPetalToRadius;
 
         List PA = [
-          P1[0] + petalRadius * cos(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 0.0),
-          P1[1] + petalRadius * sin(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 0.0)
+          P1[0] +
+              petalRadius *
+                  cos(angle +
+                      currentPetalRotation +
+                      angle * currentPetalRotationRatio +
+                      pi * 0.0),
+          P1[1] +
+              petalRadius *
+                  sin(angle +
+                      currentPetalRotation +
+                      angle * currentPetalRotationRatio +
+                      pi * 0.0)
         ];
 
         List PB = [
-          P1[0] + petalRadius * currentPetalPointiness * cos(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 0.5),
-          P1[1] + petalRadius * currentPetalPointiness * sin(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 0.5)
+          P1[0] +
+              petalRadius *
+                  currentPetalPointiness *
+                  cos(angle +
+                      currentPetalRotation +
+                      angle * currentPetalRotationRatio +
+                      pi * 0.5),
+          P1[1] +
+              petalRadius *
+                  currentPetalPointiness *
+                  sin(angle +
+                      currentPetalRotation +
+                      angle * currentPetalRotationRatio +
+                      pi * 0.5)
         ];
 
         List PC = [
-          P1[0] + petalRadius * cos(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 1.0),
-          P1[1] + petalRadius * sin(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 1.0)
+          P1[0] +
+              petalRadius *
+                  cos(angle +
+                      currentPetalRotation +
+                      angle * currentPetalRotationRatio +
+                      pi * 1.0),
+          P1[1] +
+              petalRadius *
+                  sin(angle +
+                      currentPetalRotation +
+                      angle * currentPetalRotationRatio +
+                      pi * 1.0)
         ];
 
         List PD = [
-          P1[0] + petalRadius * currentPetalPointiness * cos(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 1.5),
-          P1[1] + petalRadius * currentPetalPointiness * sin(angle + currentPetalRotation + angle * currentPetalRotationRatio + pi * 1.5)
+          P1[0] +
+              petalRadius *
+                  currentPetalPointiness *
+                  cos(angle +
+                      currentPetalRotation +
+                      angle * currentPetalRotationRatio +
+                      pi * 1.5),
+          P1[1] +
+              petalRadius *
+                  currentPetalPointiness *
+                  sin(angle +
+                      currentPetalRotation +
+                      angle * currentPetalRotationRatio +
+                      pi * 1.5)
         ];
 
         Path petal = Path();
