@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dart:io';
 
-import 'package:screenshot/screenshot.dart';
 import 'package:shake/shake.dart';
+import 'package:opart_v2/setting_button.dart';
 import 'package:opart_v2/setting_slider.dart';
 import 'package:opart_v2/setting_intslider.dart';
 import 'package:opart_v2/setting_dropdown.dart';
@@ -12,6 +12,8 @@ import 'package:opart_v2/setting_radiobutton.dart';
 import 'bottom_app_bar_custom.dart';
 import 'opart_model.dart';
 import 'palettes.dart';
+
+import 'package:screenshot/screenshot.dart';
 
 Random rnd;
 final number = new ValueNotifier(0);
@@ -202,6 +204,14 @@ class Fibonacci {
       defaultValue: 1,
       icon: Icon(Icons.remove_red_eye));
 
+  SettingsModelButton resetDefaults = SettingsModelButton(
+      label: 'Reset Defaults',
+      tooltip: 'Reset all settings to defaults',
+      defaultValue: false,
+      icon: Icon(Icons.low_priority)
+  );
+
+
   List palette;
   double aspectRatio;
   File image;
@@ -306,9 +316,11 @@ class Fibonacci {
     this.randomColors.value = this.randomColors.defaultValue;
     this.numberOfColors.value = this.numberOfColors.defaultValue;
     this.paletteType.value = this.paletteType.defaultValue;
-    this.paletteList.value = this.paletteList.defaultValue;
-
     this.opacity.value = this.opacity.defaultValue;
+
+    this.paletteList.value = this.paletteList.defaultValue;
+    this.resetDefaults.value = this.resetDefaults.defaultValue;
+
 
     this.palette = [
       Color(0xFF37A7BC),
@@ -354,6 +366,7 @@ List settingsList = [
   currentFibonacci.randomColors,
   currentFibonacci.paletteType,
   currentFibonacci.paletteList,
+  currentFibonacci.resetDefaults,
 ];
 
 class OpArtFibonacciStudio extends StatefulWidget {
@@ -480,119 +493,141 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                 child: AlertDialog(
                   backgroundColor: Colors.white.withOpacity(0.7),
                   title: Text(settingsList[index].label),
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
+                  content: Column(mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      (settingsList[index].type == 'Double')
-                          ? settingsSlider(
-                              settingsList[index].label,
-                              settingsList[index].tooltip,
-                              settingsList[index].value,
-                              settingsList[index].min,
-                              settingsList[index].max,
-                              settingsList[index].locked,
-                              settingsList[index].zoom,
-                              (value) {
-                                setState(() {
-                                  settingsList[index].value = value;
-                                });
-                                setLocalState(() {});
-                              },
-                              (value) {
-                                setState(() {
-                                  settingsList[index].locked = value;
-                                });
-                                setLocalState(() {});
-                              },
-                              () {
-                                cacheFibonacci();
-                              },
-                            )
-                          : (settingsList[index].type == 'Int')
-                              ? settingsIntSlider(
-                                  settingsList[index].label,
-                                  settingsList[index].tooltip,
-                                  settingsList[index].value,
-                                  settingsList[index].min,
-                                  settingsList[index].max,
-                                  settingsList[index].locked,
-                                  (value) {
-                                    setState(() {
-                                      settingsList[index].value = value.toInt();
-                                    });
-                                    setLocalState(() {});
-                                  },
-                                  (value) {
-                                    setState(() {
-                                      settingsList[index].locked = value;
-                                    });
-                                    setLocalState(() {});
-                                  },
-                                  () {
-                                    cacheFibonacci();
-                                  },
-                                )
-                              : (settingsList[index].type == 'List')
-                                  ? settingsDropdown(
-                                      settingsList[index].label,
-                                      settingsList[index].tooltip,
-                                      settingsList[index].value,
-                                      settingsList[index].options,
-                                      settingsList[index].locked,
-                                      (value) {
-                                        setState(() {
-                                          settingsList[index].value = value;
-                                        });
-                                        setLocalState(() {});
-                                        cacheFibonacci();
-                                      },
-                                      (value) {
-                                        setState(() {
-                                          settingsList[index].locked =
-                                              !settingsList[index].locked;
-                                        });
-                                      },
-                                    )
-                                  : (settingsList[index].type == 'Color')
-                                      ? settingsColorPicker(
-                                          settingsList[index].label,
-                                          settingsList[index].tooltip,
-                                          settingsList[index].value,
-                                          settingsList[index].locked,
-                                          (value) {
-                                            setState(() {
-                                              settingsList[index].value = value;
-                                            });
-                                            setLocalState(() {});
-                                            cacheFibonacci();
-                                          },
-                                          (value) {
-                                            setState(() {
-                                              settingsList[index].locked =
-                                                  value;
-                                            });
-                                            setLocalState(() {});
-                                          },
-                                        )
-                                      : settingsRadioButton(
-                                          settingsList[index].label,
-                                          settingsList[index].tooltip,
-                                          settingsList[index].value,
-                                          settingsList[index].locked,
-                                          (value) {
-                                            setState(() {
-                                              settingsList[index].value = value;
-                                            });
-                                            setLocalState(() {});
-                                          },
-                                          (value) {
-                                            setState(() {
-                                              settingsList[index].locked =
-                                                  value;
-                                            });
-                                            setLocalState(() {});
-                                          },
-                                        ),
+                      (settingsList[index].type == 'Double') ?
+
+                      settingsSlider(
+                        settingsList[index].label,
+                        settingsList[index].tooltip,
+                        settingsList[index].value,
+                        settingsList[index].min,
+                        settingsList[index].max,
+                        settingsList[index].locked,
+                        settingsList[index].zoom,
+                            (value) {
+                          setState(() {
+                            settingsList[index].value = value;
+                          });
+                          setLocalState((){});
+                        },
+                            (value) {
+                          setState(() {
+                            settingsList[index].locked = value;
+                          });
+                          setLocalState((){});
+                        },
+                            (){},
+                      )
+                          :
+                      (settingsList[index].type == 'Int') ?
+
+                      settingsIntSlider(
+                        settingsList[index].label,
+                        settingsList[index].tooltip,
+                        settingsList[index].value,
+                        settingsList[index].min,
+                        settingsList[index].max,
+                        settingsList[index].locked,
+                            (value) {
+                          setState(() {
+                            settingsList[index].value = value.toInt();
+                          });
+                          setLocalState((){});
+                        },
+                            (value) {
+                          setState(() {
+                            settingsList[index].locked = value;
+                          });
+                          setLocalState((){});
+                        },
+                            (){},
+                      )
+                          :
+                      (settingsList[index].type == 'List') ?
+
+                      settingsDropdown(
+                        settingsList[index].label,
+                        settingsList[index].tooltip,
+                        settingsList[index].value,
+                        settingsList[index].options,
+                        settingsList[index].locked,
+
+                            (value) {
+                          setState(() {
+                            settingsList[index].value = value;
+                          });
+                          setLocalState((){});
+                        },
+                            (value) {
+                          setState(() {
+                            settingsList[index].locked = !settingsList[index].locked;
+                          });
+                        },
+
+                      )
+                          :
+                      (settingsList[index].type == 'Color') ?
+
+                      settingsColorPicker(
+                        settingsList[index].label,
+                        settingsList[index].tooltip,
+                        settingsList[index].value,
+                        settingsList[index].locked,
+
+                            (value) {
+                          setState(() {
+                            settingsList[index].value = value;
+                          });
+                          setLocalState((){});
+                        },
+                            (value) {
+                          setState(() {
+                            settingsList[index].locked = value;
+                          });
+                          setLocalState((){});
+                        },
+
+                      )
+                          :
+
+                      (settingsList[index].type == 'Bool') ?
+
+                      settingsRadioButton(
+                        settingsList[index].label,
+                        settingsList[index].tooltip,
+                        settingsList[index].value,
+                        settingsList[index].locked,
+
+                            (value) {
+                          setState(() {
+                            settingsList[index].value = value;
+                          });
+                          setLocalState((){});
+                        },
+                            (value) {
+                          setState(() {
+                            settingsList[index].locked = value;
+                          });
+                          setLocalState((){});
+                        },
+
+
+                      )
+                          :
+                      settingsButton(
+                        settingsList[index].label,
+                        settingsList[index].tooltip,
+                        settingsList[index].value,
+
+                            () {
+                          setState(() {
+                            settingsList[index].value = true;
+                          });
+                          setLocalState((){});
+                        },
+                      ),
+
                     ],
                   ),
                 ),
@@ -913,6 +948,11 @@ class OpArtFibonacciPainter extends CustomPainter {
     } else if (currentFibonacci.numberOfColors.value >
         currentFibonacci.palette.length) {
       currentFibonacci.randomizePalette();
+    }
+
+    // reset the defaults
+    if (currentFibonacci.resetDefaults.value == true){
+      currentFibonacci.defaultSettings();
     }
 
     double canvasWidth = size.width;
