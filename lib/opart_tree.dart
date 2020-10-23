@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:io';
 import 'package:screenshot/screenshot.dart';
 import 'package:shake/shake.dart';
+import 'package:opart_v2/setting_button.dart';
 import 'package:opart_v2/setting_slider.dart';
 import 'package:opart_v2/setting_intslider.dart';
 import 'package:opart_v2/setting_dropdown.dart';
@@ -51,7 +52,7 @@ class Tree {
   SettingsModelDouble segmentDecay = SettingsModelDouble(
       label: 'Segment Decay',
       tooltip: 'The rate at which the length of each successive segment decays',
-      min: 0.95,
+      min: 0.9,
       max: 1,
       zoom: 100,
       defaultValue: 0.92,
