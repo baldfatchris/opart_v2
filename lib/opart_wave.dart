@@ -248,6 +248,8 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
             'opacity': currentWave.opacity.value,
             'paletteList': currentWave.paletteList.value,
             'image': currentWave.image,
+            'palette': currentWave.palette,
+
           };
           cachedWaveList.add(currentCache);
           rebuildCache.value++;
@@ -560,7 +562,9 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                                     currentWave.paletteList.value =
                                         cachedWaveList[index]['paletteList'];
                                     currentWave.opacity.value =
-                                        cachedWaveList[index]['opacity'];
+                                    cachedWaveList[index]['opacity'];
+                                    currentWave.palette =
+                                    cachedWaveList[index]['palette'];
                                   });
                                 },
                                 child: Container(
