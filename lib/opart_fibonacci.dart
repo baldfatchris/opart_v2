@@ -37,7 +37,9 @@ class Fibonacci {
       max: 2,
       zoom: 100,
       defaultValue: 1.8,
-      icon: Icon(Icons.zoom_in));
+      icon: Icon(Icons.zoom_in),
+      proFeature: true,
+  );
   SettingsModelDouble petalToRadius = SettingsModelDouble(
       label: 'Petal Size',
       tooltip:
@@ -46,7 +48,9 @@ class Fibonacci {
       max: 0.5,
       zoom: 100,
       defaultValue: 0.3,
-      icon: Icon(Icons.swap_horizontal_circle));
+      icon: Icon(Icons.swap_horizontal_circle),
+      proFeature: false,
+  );
   SettingsModelDouble ratio = SettingsModelDouble(
       label: 'Fill Ratio',
       tooltip: 'The fill ratio of the flower',
@@ -54,7 +58,9 @@ class Fibonacci {
       max: 0.9999,
       zoom: 100,
       defaultValue: 0.999,
-      icon: Icon(Icons.format_color_fill));
+      icon: Icon(Icons.format_color_fill),
+      proFeature: false,
+  );
   SettingsModelDouble randomiseAngle = SettingsModelDouble(
       label: 'Randomise Angle',
       tooltip:
@@ -63,7 +69,9 @@ class Fibonacci {
       max: 0.2,
       zoom: 100,
       defaultValue: 0,
-      icon: Icon(Icons.ac_unit));
+      icon: Icon(Icons.ac_unit),
+    proFeature: false,
+  );
   SettingsModelDouble petalPointiness = SettingsModelDouble(
       label: 'Petal Pointiness',
       tooltip: 'the pointiness of the petal',
@@ -71,7 +79,9 @@ class Fibonacci {
       max: pi / 2,
       zoom: 200,
       defaultValue: 0.8,
-      icon: Icon(Icons.change_history));
+      icon: Icon(Icons.change_history),
+    proFeature: false,
+  );
   SettingsModelDouble petalRotation = SettingsModelDouble(
       label: 'Petal Rotation',
       tooltip: 'the rotation of the petal',
@@ -79,7 +89,9 @@ class Fibonacci {
       max: pi,
       zoom: 200,
       defaultValue: 0,
-      icon: Icon(Icons.rotate_right));
+      icon: Icon(Icons.rotate_right),
+    proFeature: false,
+  );
   SettingsModelDouble petalRotationRatio = SettingsModelDouble(
       label: 'Rotation Ratio',
       tooltip: 'the rotation of the petal as multiple of the petal angle',
@@ -87,7 +99,9 @@ class Fibonacci {
       max: 4,
       zoom: 100,
       defaultValue: 0,
-      icon: Icon(Icons.autorenew));
+      icon: Icon(Icons.autorenew),
+    proFeature: false,
+  );
 
   SettingsModelList petalType = SettingsModelList(
     label: "Petal Type",
@@ -95,6 +109,8 @@ class Fibonacci {
     defaultValue: "petal",
     icon: Icon(Icons.local_florist),
     options: <String>['circle', 'triangle', 'square', 'petal'],
+    proFeature: false,
+
   );
 
   SettingsModelInt maxPetals = SettingsModelInt(
@@ -103,7 +119,9 @@ class Fibonacci {
       min: 0,
       max: 20000,
       defaultValue: 10000,
-      icon: Icon(Icons.fiber_smart_record));
+      icon: Icon(Icons.fiber_smart_record),
+    proFeature: false,
+  );
 
   SettingsModelDouble radialOscAmplitude = SettingsModelDouble(
       label: 'Radial Oscillation',
@@ -112,7 +130,9 @@ class Fibonacci {
       max: 5,
       zoom: 100,
       defaultValue: 0,
-      icon: Icon(Icons.all_inclusive));
+      icon: Icon(Icons.all_inclusive),
+    proFeature: false,
+  );
   SettingsModelDouble radialOscPeriod = SettingsModelDouble(
       label: 'Oscillation Period',
       tooltip: 'The period of the radial oscillation',
@@ -120,7 +140,9 @@ class Fibonacci {
       max: 2,
       zoom: 100,
       defaultValue: 0,
-      icon: Icon(Icons.bubble_chart));
+      icon: Icon(Icons.bubble_chart),
+    proFeature: false,
+  );
 
   SettingsModelList direction = SettingsModelList(
     label: "Direction",
@@ -129,6 +151,8 @@ class Fibonacci {
     defaultValue: "inward",
     icon: Icon(Icons.directions),
     options: <String>['inward', 'outward'],
+    proFeature: false,
+
   );
 
 // palette settings
@@ -137,12 +161,16 @@ class Fibonacci {
     tooltip: "The background colour for the canvas",
     defaultValue: Colors.white,
     icon: Icon(Icons.settings_overscan),
+    proFeature: false,
+
   );
   SettingsModelColor lineColor = SettingsModelColor(
     label: "Outline Color",
     tooltip: "The outline colour for the petals",
     defaultValue: Colors.white,
     icon: Icon(Icons.zoom_out_map),
+    proFeature: false,
+
   );
 
   SettingsModelDouble lineWidth = SettingsModelDouble(
@@ -152,13 +180,17 @@ class Fibonacci {
       max: 3,
       zoom: 100,
       defaultValue: 0,
-      icon: Icon(Icons.line_weight));
+      icon: Icon(Icons.line_weight),
+    proFeature: false,
+  );
 
   SettingsModelBool randomColors = SettingsModelBool(
       label: 'Random Colors',
       tooltip: 'Randomise the coloursl',
       defaultValue: false,
-      icon: Icon(Icons.gamepad));
+      icon: Icon(Icons.gamepad),
+    proFeature: false,
+  );
 
   SettingsModelInt numberOfColors = SettingsModelInt(
       label: 'Number of Colors',
@@ -166,7 +198,9 @@ class Fibonacci {
       min: 1,
       max: 36,
       defaultValue: 10,
-      icon: Icon(Icons.palette));
+      icon: Icon(Icons.palette),
+    proFeature: false,
+  );
 
   SettingsModelList paletteType = SettingsModelList(
     label: "Palette Type",
@@ -179,6 +213,8 @@ class Fibonacci {
       'linear random',
       'linear complementary'
     ],
+    proFeature: false,
+
   );
 
   SettingsModelList paletteList = SettingsModelList(
@@ -187,6 +223,8 @@ class Fibonacci {
     defaultValue: "Default",
     icon: Icon(Icons.palette),
     options: defaultPalleteNames(),
+    proFeature: false,
+
   );
 
   SettingsModelDouble opacity = SettingsModelDouble(
@@ -196,13 +234,17 @@ class Fibonacci {
       max: 1,
       zoom: 100,
       defaultValue: 1,
-      icon: Icon(Icons.remove_red_eye));
+      icon: Icon(Icons.remove_red_eye),
+    proFeature: false,
+  );
 
   SettingsModelButton resetDefaults = SettingsModelButton(
       label: 'Reset Defaults',
       tooltip: 'Reset all settings to defaults',
       defaultValue: false,
-      icon: Icon(Icons.low_priority));
+      icon: Icon(Icons.low_priority),
+    proFeature: false,
+  );
 
   List palette;
   double aspectRatio;
@@ -858,7 +900,7 @@ class OpArtFibonacciPainter extends CustomPainter {
     double maxRadius = (imageWidth < imageHeight)
         ? currentFlowerFill * imageWidth / 2
         : currentFlowerFill * imageWidth / 2;
-    double minRadius = 2;
+    double minRadius = 5;
     double angle = 0;
 
     // if direction = inward

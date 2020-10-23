@@ -3,8 +3,10 @@ import 'dart:math';
 import 'package:screenshot/screenshot.dart';
 import 'package:flutter/material.dart';
 import 'package:async/async.dart';
+
 Random rnd = Random();
 int seed = rnd.nextInt(1 << 32);
+
 ScreenshotController screenshotController = ScreenshotController();
 List<Map<String, dynamic>> cachedFibonacciList = List<Map<String, dynamic>>();
 List<Map<String, dynamic>> cachedTreeList = List<Map<String, dynamic>>();
@@ -13,8 +15,12 @@ List<Map<String, dynamic>> cachedWaveList = List<Map<String, dynamic>>();
 
 final rebuildCache = new ValueNotifier(0);
 final rebuildCanvas = new ValueNotifier(0);
+bool randomiseButtonEnabled = true;
+bool randomisePaletteButtonEnabled = true;
+bool proVersion=false;
 
-bool enableButton = true;
+
+
 class SettingsModelDouble {
   double value;
   bool locked = false;
@@ -26,11 +32,12 @@ class SettingsModelDouble {
   final double zoom;
   final double defaultValue;
   final String type = 'Double';
+  final bool proFeature;
 
-  SettingsModelDouble({this.label, this.tooltip, this.icon, this.min, this.max, this.zoom, this.defaultValue, this.value});
+  SettingsModelDouble({this.label, this.tooltip, this.icon, this.min, this.max, this.zoom, this.defaultValue, this.value, this.proFeature});
 
   void randomise(Random rnd){
-    if (this.locked == false) {
+    if (!this.locked && (proVersion || !proVersion && !this.proFeature)) {
       // half the time use the default
       this.value =  (rnd.nextBool() == true) ? rnd.nextDouble() * (this.max - this.min) + this.min : this.defaultValue;
     }
@@ -47,11 +54,12 @@ class SettingsModelInt {
   final int max;
   final int defaultValue;
   final String type = 'Int';
+  final bool proFeature;
 
-  SettingsModelInt({this.label, this.tooltip, this.icon, this.min, this.max, this.defaultValue, this.value});
+  SettingsModelInt({this.label, this.tooltip, this.icon, this.min, this.max, this.defaultValue, this.value, this.proFeature});
 
   void randomise(Random rnd){
-    if (this.locked == false) {
+    if (!this.locked && (proVersion || !proVersion && !this.proFeature)) {
       // half the time use the default
       this.value =  (rnd.nextBool() == true) ? rnd.nextInt(this.max - this.min) + this.min : this.defaultValue;
     }
@@ -68,12 +76,13 @@ class SettingsModelBool {
   final String trueLabel;
   final bool defaultValue;
   final String type = 'Bool';
+  final bool proFeature;
 
 
-  SettingsModelBool({this.label, this.tooltip, this.icon, this.falseLabel, this.trueLabel, this.defaultValue, this.value});
+  SettingsModelBool({this.label, this.tooltip, this.icon, this.falseLabel, this.trueLabel, this.defaultValue, this.value, this.proFeature});
 
   void randomise(Random rnd){
-    if (this.locked == false) {
+    if (!this.locked && (proVersion || !proVersion && !this.proFeature)) {
       this.value =  rnd.nextBool();
     }
   }
@@ -86,8 +95,9 @@ class SettingsModelButton {
   final Icon icon;
   final bool defaultValue;
   final String type = 'Button';
+  final bool proFeature;
 
-  SettingsModelButton({this.label, this.tooltip, this.icon, this.defaultValue, this.value});
+  SettingsModelButton({this.label, this.tooltip, this.icon, this.defaultValue, this.value, this.proFeature});
 
 }
 
@@ -100,12 +110,13 @@ class SettingsModelList {
   final Icon icon;
   final String defaultValue;
   final String type = 'List';
+  final bool proFeature;
 
 
-  SettingsModelList({this.options, this.label, this.tooltip, this.icon, this.defaultValue, this.value});
+  SettingsModelList({this.options, this.label, this.tooltip, this.icon, this.defaultValue, this.value, this.proFeature});
 
   void randomise(Random rnd){
-    if (this.locked == false) {
+    if (!this.locked && (proVersion || !proVersion && !this.proFeature)) {
       // half the time use the default
       this.value =  (rnd.nextBool() == true) ? this.options[rnd.nextInt(this.options.length)] : this.defaultValue;
     }
@@ -120,11 +131,12 @@ class SettingsModelColor {
   final Icon icon;
   final Color defaultValue;
   final String type = 'Color';
+  final bool proFeature;
 
-  SettingsModelColor({this.label, this.tooltip, this.icon, this.defaultValue, this.value});
+  SettingsModelColor({this.label, this.tooltip, this.icon, this.defaultValue, this.value, this.proFeature});
 
   void randomise(Random rnd){
-    if (this.locked == false) {
+    if (!this.locked && (proVersion || !proVersion && !this.proFeature)) {
       this.value =  Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1);
     }
   }
