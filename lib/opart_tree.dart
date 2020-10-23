@@ -148,7 +148,7 @@ class Tree {
     tooltip: "The shape of the petal",
     defaultValue: "circle",
     icon: Icon(Icons.local_florist),
-    options: ['circle', 'triangle', 'square', 'petal'],
+    options: <String>['circle', 'triangle', 'square', 'petal'],
   );
 
   SettingsModelList direction = SettingsModelList(
@@ -157,7 +157,7 @@ class Tree {
         "Start from the outside and draw Inward, or start from the centre and draw Outward",
     defaultValue: "inward",
     icon: Icon(Icons.directions),
-    options: ['inward', 'outward'],
+    options: <String>['inward', 'outward'],
   );
 
 // palette settings
@@ -204,7 +204,7 @@ class Tree {
     tooltip: "The nature of the palette",
     defaultValue: "random",
     icon: Icon(Icons.colorize),
-    options: [
+    options: <String>[
       'random',
       'blended random ',
       'linear random',
@@ -424,6 +424,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
             'numberOfColors': currentTree.numberOfColors.value,
             'paletteType': currentTree.paletteType.value,
             'opacity': currentTree.opacity.value,
+            'paletteList': currentTree.paletteList,
             'image': currentTree.image,
           };
           cachedTreeList.add(currentCache);
@@ -758,6 +759,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
                                         cachedTreeList[index]['paletteType'];
                                     currentTree.opacity.value =
                                         cachedTreeList[index]['opacity'];
+                                   currentTree.paletteList = cachedTreeList[index]['paletteList'];
                                   });
                                 },
                                 child: Container(

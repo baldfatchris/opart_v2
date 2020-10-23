@@ -100,7 +100,7 @@ class Fibonacci {
     tooltip: "The shape of the petal",
     defaultValue: "petal",
     icon: Icon(Icons.local_florist),
-    options: ['circle', 'triangle', 'square', 'petal'],
+    options: <String>['circle', 'triangle', 'square', 'petal'],
   );
 
   SettingsModelInt maxPetals = SettingsModelInt(

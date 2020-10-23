@@ -8,18 +8,19 @@ Widget CustomBottomAppBar(
     alignment: MainAxisAlignment.spaceAround,
     children: <Widget>[
       FlatButton(
-        splashColor: Colors.grey[200],
+        splashColor: Colors.white,
+
         shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(5.0),
         ),
-        color: Color.fromRGBO(58, 90, 128, 1),
+        color: Colors.blue[100],
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           textDirection: TextDirection.ltr,
           children: <Widget>[
             Icon(
               Icons.refresh,
-              color: Colors.white,
+color: Colors.black,
             ),
             SizedBox(width: 3),
             Padding(
@@ -28,7 +29,7 @@ Widget CustomBottomAppBar(
                 'Randomise\nEverything',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
               ),
             ),
@@ -38,7 +39,7 @@ Widget CustomBottomAppBar(
           if (randomiseButtonEnabled) {
             randomise();
             randomiseButtonEnabled = false;
-            await new Future.delayed(const Duration(milliseconds: 500));
+            await new Future.delayed(const Duration(milliseconds: 800));
             randomiseButtonEnabled = true;
           }
         },
@@ -47,20 +48,20 @@ Widget CustomBottomAppBar(
         shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(5.0),
         ),
-        color: Color.fromRGBO(58, 90, 128, 1),
+        color: Colors.blue[100],
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           textDirection: TextDirection.ltr,
           children: <Widget>[
             Icon(
               Icons.blur_circular,
-              color: Colors.white,
+              color: Colors.black,
             ),
             SizedBox(width: 3),
             Text(
               'Tools',
               style: TextStyle(
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
           ],
@@ -73,14 +74,14 @@ Widget CustomBottomAppBar(
         shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(5.0),
         ),
-        color: Color.fromRGBO(58, 90, 128, 1),
+        color: Colors.blue[100],
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           textDirection: TextDirection.ltr,
           children: <Widget>[
             Icon(
               Icons.palette,
-              color: Colors.white,
+              color: Colors.black,
             ),
             SizedBox(width: 3),
             Padding(
@@ -90,7 +91,7 @@ Widget CustomBottomAppBar(
                 '\nPalette',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
               ),
             ),
