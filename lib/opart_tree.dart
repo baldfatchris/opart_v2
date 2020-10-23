@@ -630,10 +630,10 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
               );
             });
           })..then((value) {
-        cacheFibonacci();
+        cacheTree();
         rebuildCanvas.value++;
 
-      }
+      });
     }
 
     void _showBottomSheet(context) {
