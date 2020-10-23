@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:io';
 import 'package:screenshot/screenshot.dart';
 import 'package:shake/shake.dart';
+import 'package:opart_v2/setting_button.dart';
 import 'package:opart_v2/setting_slider.dart';
 import 'package:opart_v2/setting_intslider.dart';
 import 'package:opart_v2/setting_dropdown.dart';
@@ -146,16 +147,15 @@ class Wave {
 
     rnd = Random(DateTime.now().millisecond);
 
-    this.backgroundColor.randomise(random);
-    this.randomColors.randomise(random);
-    this.numberOfColors.randomise(random);
-    this.paletteType.randomise(random);
-    this.opacity.randomise(random);
+    this.backgroundColor.randomise(rnd);
+    this.randomColors.randomise(rnd);
+    this.numberOfColors.randomise(rnd);
+    this.paletteType.randomise(rnd);
+    this.opacity.randomise(rnd);
 
     int numberOfColors = this.numberOfColors.value;
 
-    this.palette = randomisedPalette(
-        this.paletteType.value, this.numberOfColors.value, rnd);
+    this.palette = randomisedPalette(this.paletteType.value, this.numberOfColors.value, rnd);
   }
 
   void defaultSettings() {
