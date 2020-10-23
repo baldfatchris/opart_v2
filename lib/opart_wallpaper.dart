@@ -481,7 +481,8 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
             'numberOfColors': currentWallpaper.numberOfColors.value,
             'paletteType': currentWallpaper.paletteType.value,
             'opacity': currentWallpaper.opacity.value,
-            'paletteList': currentWallpaper.paletteList.value,
+            'palette': currentWallpaper.palette,
+
             'image': currentWallpaper.image,
           };
           cachedWallpaperList.add(currentCache);
@@ -864,9 +865,9 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
                                       currentWallpaper.paletteType.value =
                                           cachedWallpaperList[index]
                                               ['paletteType'];
-                                      currentWallpaper.paletteList.value =
+                                      currentWallpaper.palette =
                                           cachedWallpaperList[index]
-                                              ['paletteList'];
+                                              ['palette'];
                                       currentWallpaper.opacity.value =
                                           cachedWallpaperList[index]['opacity'];
                                     });

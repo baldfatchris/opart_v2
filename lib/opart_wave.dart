@@ -246,7 +246,6 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
             'numberOfColors': currentWave.numberOfColors.value,
             'paletteType': currentWave.paletteType.value,
             'opacity': currentWave.opacity.value,
-            'paletteList': currentWave.paletteList.value,
             'image': currentWave.image,
             'palette': currentWave.palette,
 
@@ -559,8 +558,6 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                                         cachedWaveList[index]['numberOfColors'];
                                     currentWave.paletteType.value =
                                         cachedWaveList[index]['paletteType'];
-                                    currentWave.paletteList.value =
-                                        cachedWaveList[index]['paletteList'];
                                     currentWave.opacity.value =
                                     cachedWaveList[index]['opacity'];
                                     currentWave.palette =
