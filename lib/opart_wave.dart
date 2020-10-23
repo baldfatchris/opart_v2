@@ -28,7 +28,7 @@ class Wave {
   SettingsModelDouble stepX = SettingsModelDouble(
       label: 'stepX',
       tooltip: 'The horizontal width of each stripe ',
-      min: 0.01,
+      min: 0.1,
       max: 50,
       zoom: 100,
       defaultValue: 5,
@@ -36,10 +36,10 @@ class Wave {
   SettingsModelDouble stepY = SettingsModelDouble(
       label: 'stepY',
       tooltip: 'The vertical distance between points on each stripe ',
-      min: 0.01,
+      min: 0.1,
       max: 500,
       zoom: 100,
-      defaultValue: 0.1,
+      defaultValue: 0.5,
       icon: Icon(Icons.bluetooth_audio));
   SettingsModelDouble frequency = SettingsModelDouble(
       label: 'frequency',
