@@ -29,18 +29,24 @@ class SettingsModelDouble {
   final Icon icon;
   final double min;
   final double max;
+  final double randomMin;
+  final double randomMax;
   final double zoom;
   final double defaultValue;
   final String type = 'Double';
   final bool proFeature;
 
-  SettingsModelDouble({this.label, this.tooltip, this.icon, this.min, this.max, this.zoom, this.defaultValue, this.value, this.proFeature});
+  SettingsModelDouble({this.label, this.tooltip, this.icon, this.min, this.max, this.randomMin, this.randomMax, this.zoom, this.defaultValue, this.value, this.proFeature});
 
   void randomise(Random rnd){
 
     if (!this.locked && (proVersion || !proVersion && !this.proFeature)) {
+
+      double min = (this.randomMin != null) ? this.randomMin : this.min;
+      double max = (this.randomMax != null) ? this.randomMax : this.max;
+
       // half the time use the default
-      this.value =  (rnd.nextBool() == true) ? rnd.nextDouble() * (this.max - this.min) + this.min : this.defaultValue;
+      this.value =  (rnd.nextBool() == true) ? rnd.nextDouble() * (max - min) + min : this.defaultValue;
     }
   }
 }
@@ -53,16 +59,22 @@ class SettingsModelInt {
   final Icon icon;
   final int min;
   final int max;
+  final int randomMin;
+  final int randomMax;
   final int defaultValue;
   final String type = 'Int';
   final bool proFeature;
 
-  SettingsModelInt({this.label, this.tooltip, this.icon, this.min, this.max, this.defaultValue, this.value, this.proFeature});
+  SettingsModelInt({this.label, this.tooltip, this.icon, this.min, this.max, this.randomMin, this.randomMax, this.defaultValue, this.value, this.proFeature});
 
   void randomise(Random rnd){
     if (!this.locked && (proVersion || !proVersion && !this.proFeature)) {
+      int min = (this.randomMin != null) ? this.randomMin : this.min;
+      int max = (this.randomMax != null) ? this.randomMax : this.max;
+
+
       // half the time use the default
-      this.value =  (rnd.nextBool() == true) ? rnd.nextInt(this.max - this.min) + this.min : this.defaultValue;
+      this.value =  (rnd.nextBool() == true) ? rnd.nextInt(max - min) + min : this.defaultValue;
     }
   }
 }

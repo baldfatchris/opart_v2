@@ -31,6 +31,8 @@ class Wallpaper {
     tooltip: 'The number of horizontal cells',
     min: 1,
     max: 10,
+    randomMin: 4,
+    randomMax: 8,
     defaultValue: 5,
     icon: Icon(Icons.swap_horiz),
     proFeature: false,
@@ -40,6 +42,8 @@ class Wallpaper {
     tooltip: 'The number of vertical cells',
     min: 1,
     max: 10,
+    randomMin: 4,
+    randomMax: 8,
     defaultValue: 5,
     icon: Icon(Icons.swap_vert),
     proFeature: false,
@@ -55,8 +59,10 @@ class Wallpaper {
   SettingsModelDouble driftX = SettingsModelDouble(
     label: 'Horizontal Drift',
     tooltip: 'The drift in the horizontal axis',
-    min: -20,
-    max: 20,
+    min: -5,
+    max: 5,
+    randomMin: -2,
+    randomMax: 2,
     zoom: 100,
     defaultValue: 0,
     icon: Icon(Icons.more_horiz),
@@ -67,6 +73,8 @@ class Wallpaper {
     tooltip: 'The acceleration of the drift in the horizontal axis',
     min: -2,
     max: 2,
+    randomMin: -0.5,
+    randomMax: -0.5,
     zoom: 100,
     defaultValue: 0,
     icon: Icon(Icons.screen_lock_landscape),
@@ -75,8 +83,10 @@ class Wallpaper {
   SettingsModelDouble driftY = SettingsModelDouble(
     label: 'Vertical Drift',
     tooltip: 'The drift in the vertical axis',
-    min: -20,
-    max: 20,
+    min: -5,
+    max: 5,
+    randomMin: -2,
+    randomMax: 2,
     zoom: 100,
     defaultValue: 0,
     icon: Icon(Icons.more_vert),
@@ -87,6 +97,8 @@ class Wallpaper {
     tooltip: 'The acceleration of the drift in the vertical axis',
     min: -2,
     max: 2,
+    randomMin: -0.5,
+    randomMax: 0.5,
     zoom: 100,
     defaultValue: 0,
     icon: Icon(Icons.screen_lock_portrait),
@@ -189,6 +201,8 @@ class Wallpaper {
     tooltip: 'The squareness of the shape',
     min: -2,
     max: 2,
+    randomMin: -1.5,
+    randomMax: 1.5,
     zoom: 100,
     defaultValue: 1,
     icon: Icon(Icons.center_focus_weak),
@@ -901,8 +915,8 @@ class OpArtWallpaperPainter extends CustomPainter {
     int extraCellsX = 0;
     int extraCellsY = 0;
     if (fill) {
-      extraCellsX = currentWallpaper.cellsX.value * 2;
-      extraCellsY = currentWallpaper.cellsY.value * 2;
+      extraCellsX = (currentWallpaper.cellsX.value * 2 / currentWallpaper.squeezeX.value).toInt();
+      extraCellsY = (currentWallpaper.cellsY.value * 2 / currentWallpaper.squeezeY.value).toInt();
     }
 
     // work out the radius from the width and the cells
