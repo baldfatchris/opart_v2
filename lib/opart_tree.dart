@@ -285,6 +285,15 @@ class Tree {
     proFeature: false,
   );
 
+  SettingsModelButton resetDefaults = SettingsModelButton(
+    label: 'Reset Defaults',
+    tooltip: 'Reset all settings to defaults',
+    defaultValue: false,
+    icon: Icon(Icons.low_priority),
+    proFeature: false,
+  );
+
+
   List palette;
   double aspectRatio;
   File image;
@@ -371,6 +380,7 @@ class Tree {
     this.leafSquareness.value = this.leafSquareness.defaultValue;
     this.leafDecay.value = this.leafDecay.defaultValue;
     this.randomLeafLength.value = this.randomLeafLength.defaultValue;
+    this.resetDefaults.value = this.resetDefaults.defaultValue;
 
     // palette settings
     this.backgroundColor.value = this.backgroundColor.defaultValue;
@@ -432,6 +442,8 @@ List settingsList = [
   currentTree.paletteType,
   currentTree.opacity,
   currentTree.paletteList,
+  currentTree.resetDefaults,
+
 ];
 
 class OpArtTreeStudio extends StatefulWidget {
@@ -771,6 +783,12 @@ class OpArtTreePainter extends CustomPainter {
       currentNamedPalette = currentTree.paletteList.value;
     } else if (currentTree.numberOfColors.value > currentTree.palette.length) {
       currentTree.randomizePalette();
+    }
+
+    // reset the defaults
+    print('reset${currentTree.resetDefaults.value}');
+    if (currentTree.resetDefaults.value == true) {
+      currentTree.defaultSettings();
     }
 
     double canvasWidth = size.width;

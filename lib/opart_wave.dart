@@ -42,6 +42,8 @@ class Wave {
     tooltip: 'The vertical distance between points on each stripe ',
     min: 1,
     max: 500,
+    randomMin: 1,
+    randomMax: 250,
     zoom: 100,
     defaultValue: 1,
     icon: Icon(Icons.more_vert),
@@ -71,6 +73,19 @@ class Wave {
     proFeature: false,
   );
 
+  SettingsModelDouble offset = SettingsModelDouble(
+    label: 'Offset',
+    tooltip: 'The slope of the wave ',
+    min: -5,
+    max: 5,
+    randomMin: -2,
+    randomMax: 2,
+    zoom: 100,
+    defaultValue: 1,
+    icon: Icon(Icons.call_made),
+    proFeature: false,
+  );
+
   SettingsModelDouble fanWidth = SettingsModelDouble(
     label: 'Fan Width',
     tooltip: 'The amout the wave fans out',
@@ -81,6 +96,14 @@ class Wave {
     zoom: 100,
     defaultValue: 15,
     icon: Icon(Icons.weekend),
+    proFeature: false,
+  );
+
+  SettingsModelBool zigZag = SettingsModelBool(
+    label: 'Zig Zag',
+    tooltip: 'Make the baby zig!',
+    defaultValue: false,
+    icon: Icon(Icons.show_chart),
     proFeature: false,
   );
 
@@ -140,6 +163,14 @@ class Wave {
     proFeature: false,
   );
 
+  SettingsModelButton resetDefaults = SettingsModelButton(
+    label: 'Reset Defaults',
+    tooltip: 'Reset all settings to defaults',
+    defaultValue: false,
+    icon: Icon(Icons.low_priority),
+    proFeature: false,
+  );
+
   List palette;
   double aspectRatio;
   File image;
@@ -167,11 +198,13 @@ class Wave {
 
     rnd = Random(DateTime.now().millisecond);
 
-    this.stepX.randomise(random);
-    this.stepY.randomise(random);
-    this.frequency.randomise(random);
-    this.amplitude.randomise(random);
-    this.fanWidth.randomise(random);
+    this.stepX.randomise(rnd);
+    this.stepY.randomise(rnd);
+    this.frequency.randomise(rnd);
+    this.amplitude.randomise(rnd);
+    this.offset.randomise(rnd);
+    this.fanWidth.randomise(rnd);
+    this.zigZag.value = rnd.nextDouble()>0.8 ? true : false;
 
     // this.paletteList.randomise(random);
   }
@@ -191,8 +224,9 @@ class Wave {
 
     int numberOfColors = this.numberOfColors.value;
 
-    this.palette = randomisedPalette(
-        this.paletteType.value, this.numberOfColors.value, rnd);
+    this.palette = randomisedPalette(this.paletteType.value, this.numberOfColors.value, rnd);
+
+
   }
 
   void defaultSettings() {
@@ -202,7 +236,10 @@ class Wave {
     this.stepY.value = this.stepY.defaultValue;
     this.frequency.value = this.frequency.defaultValue;
     this.amplitude.value = this.amplitude.defaultValue;
-    this.fanWidth.value = this.amplitude.defaultValue;
+    this.offset.value = this.offset.defaultValue;
+    this.fanWidth.value = this.fanWidth.defaultValue;
+    this.zigZag.value = this.zigZag.defaultValue;
+    this.resetDefaults.value = this.resetDefaults.defaultValue;
 
     // palette settings
     this.backgroundColor.value = this.backgroundColor.defaultValue;
@@ -211,6 +248,7 @@ class Wave {
     this.paletteType.value = this.paletteType.defaultValue;
     this.opacity.value = this.opacity.defaultValue;
     this.paletteList.value = this.paletteList.defaultValue;
+
 
     this.palette = [
       Color(0xFF37A7BC),
@@ -239,13 +277,17 @@ List settingsList = [
   currentWave.stepY,
   currentWave.frequency,
   currentWave.amplitude,
+  currentWave.offset,
   currentWave.fanWidth,
+  currentWave.zigZag,
   currentWave.backgroundColor,
   currentWave.numberOfColors,
   currentWave.randomColors,
   currentWave.paletteType,
   currentWave.opacity,
   currentWave.paletteList,
+  currentWave.resetDefaults,
+
 ];
 
 class OpArtWaveStudio extends StatefulWidget {
@@ -279,6 +321,8 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
             'stepY': currentWave.stepY.value,
             'frequency': currentWave.frequency.value,
             'amplitude': currentWave.amplitude.value,
+            'offset': currentWave.offset.value,
+            'zigZag': currentWave.zigZag.value,
             'fanWidth': currentWave.fanWidth.value,
             'backgroundColor': currentWave.backgroundColor.value,
             'randomColors': currentWave.randomColors.value,
@@ -397,7 +441,9 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
 
                                       currentWave.frequency.value = cachedWaveList[index]['frequency'];
                                       currentWave.amplitude.value = cachedWaveList[index]['amplitude'];
+                                      currentWave.offset.value = cachedWaveList[index]['offset'];
                                       currentWave.fanWidth.value = cachedWaveList[index]['fanWidth'];
+                                      currentWave.zigZag.value = cachedWaveList[index]['zigZag'];
 
                                       currentWave.image = cachedWaveList[index]['image'];
 
@@ -539,8 +585,7 @@ class OpArtWavePainter extends CustomPainter {
     if (currentNamedPalette != null &&
         currentWave.paletteList.value != currentNamedPalette) {
       // find the index of the palette in the list
-      List newPalette = palettes
-          .firstWhere((palette) => palette[0] == currentWave.paletteList.value);
+      List newPalette = palettes.firstWhere((palette) => palette[0] == currentWave.paletteList.value);
       // set the palette details
       currentWave.numberOfColors.value = newPalette[1].toInt();
       currentWave.backgroundColor.value = Color(int.parse(newPalette[2]));
@@ -561,6 +606,13 @@ class OpArtWavePainter extends CustomPainter {
     if (currentWave.numberOfColors.value > currentWave.palette.length) {
       currentWave.randomizePalette();
     }
+
+    // reset the defaults
+    print('reset${currentWave.resetDefaults.value}');
+    if (currentWave.resetDefaults.value == true) {
+      currentWave.defaultSettings();
+    }
+
 
     double canvasWidth = size.width;
     double canvasHeight = size.height;
@@ -598,8 +650,9 @@ class OpArtWavePainter extends CustomPainter {
 
     int colourOrder = 0;
 
-    // Now make some art
 
+    print('currentWave.offset.value ${currentWave.offset.value}');
+    // Now make some art
     generateWave(
       canvas,
       canvasWidth,
@@ -614,7 +667,9 @@ class OpArtWavePainter extends CustomPainter {
       currentWave.stepY.value,
       currentWave.frequency.value,
       currentWave.amplitude.value,
+      currentWave.offset.value,
       currentWave.fanWidth.value,
+      currentWave.zigZag.value,
       currentWave.backgroundColor.value,
       currentWave.randomColors.value,
       currentWave.numberOfColors.value,
@@ -636,7 +691,9 @@ class OpArtWavePainter extends CustomPainter {
     double currentStepY,
     double currentFrequency,
     double currentAmplitude,
+    double currentOffset,
     double currentFanWidth,
+    bool currentZigZag,
     Color currentBackgroundColor,
     bool currentRandomColors,
     int currentNumberOfColors,
@@ -654,7 +711,6 @@ class OpArtWavePainter extends CustomPainter {
           ..color = currentBackgroundColor
           ..style = PaintingStyle.fill);
 
-    double offset = 1;
     double start = 0 - currentAmplitude;
     double end = imageWidth + currentStepX + currentAmplitude;
 
@@ -671,8 +727,15 @@ class OpArtWavePainter extends CustomPainter {
 
       double j;
       for (j = 0; j < imageHeight + currentStepY; j += currentStepY) {
-        var delta = currentAmplitude * sin(pi * 2 * (j / imageHeight * currentFrequency + offset * i / imageWidth));
-        delta = delta + currentFanWidth * ((i -(imageWidth/2))/ imageWidth) * (j / imageHeight);
+
+        double delta = 0.0;
+
+        if (currentZigZag == false){
+          delta = currentAmplitude * sin(pi * 2 * (j / imageHeight * currentFrequency + currentOffset * i / imageWidth)) + currentFanWidth * ((i -(imageWidth/2))/ imageWidth) * (j / imageHeight);
+        }
+        else {
+          delta = currentAmplitude * asin(sin(pi * 2 * (j / imageHeight * currentFrequency + currentOffset * i / imageWidth))) + currentFanWidth * ((i -(imageWidth/2))/ imageWidth) * (j / imageHeight);
+        }
 
         if (j == 0) {
           wave.moveTo(borderX + i + delta, borderY + j);
@@ -681,8 +744,16 @@ class OpArtWavePainter extends CustomPainter {
         }
       }
       for (double k = j; k >= -currentStepY; k -= currentStepY) {
-        var delta = currentAmplitude * sin(pi * 2 * (k / imageHeight * currentFrequency + offset * (i + currentStepX) / imageWidth));
-        delta = delta + currentFanWidth * (((i + currentStepX) -(imageWidth/2))/ imageWidth) * (k / imageHeight);
+
+        double delta = 0.0;
+
+        if (currentZigZag == false){
+          delta = currentAmplitude * sin(pi * 2 * (k / imageHeight * currentFrequency + currentOffset * (i + currentStepX) / imageWidth)) + currentFanWidth * (((i + currentStepX) -(imageWidth/2))/ imageWidth) * (k / imageHeight);
+        }
+        else
+        {
+          delta = currentAmplitude * asin(sin(pi * 2 * (k / imageHeight * currentFrequency + currentOffset * (i + currentStepX) / imageWidth))) + currentFanWidth * (((i + currentStepX) -(imageWidth/2))/ imageWidth) * (k / imageHeight);
+        }
 
         wave.lineTo(borderX + i + currentStepX + delta, borderY + k);
       }
