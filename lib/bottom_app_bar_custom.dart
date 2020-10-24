@@ -18,7 +18,7 @@ Widget CustomBottomAppBar(
         shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(5.0),
         ),
-        color: Colors.blue[100],
+        color: Colors.cyan[200],
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           textDirection: TextDirection.ltr,
@@ -52,7 +52,7 @@ Widget CustomBottomAppBar(
         shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(5.0),
         ),
-        color: Colors.blue[100],
+        color: Colors.cyan[200],
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           textDirection: TextDirection.ltr,
@@ -78,7 +78,7 @@ Widget CustomBottomAppBar(
         shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(5.0),
         ),
-        color: Colors.blue[100],
+        color: Colors.cyan[200],
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           textDirection: TextDirection.ltr,
