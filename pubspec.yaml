@@ -37,6 +37,7 @@ dev_dependencies:
   shake: ^0.1.0
   flutter_icons: ^1.1.0
   rect_getter: ^0.1.0
+  zoom_widget: ^0.1.3
 
 
 

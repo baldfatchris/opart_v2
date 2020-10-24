@@ -156,7 +156,7 @@ class Fibonacci {
     zoom: 100,
     defaultValue: 0,
     icon: Icon(Icons.bubble_chart),
-    proFeature: true  ,
+    proFeature: true,
   );
 
   SettingsModelList direction = SettingsModelList(
@@ -362,6 +362,7 @@ class Fibonacci {
     this.paletteType.value = this.paletteType.defaultValue;
     this.opacity.value = this.opacity.defaultValue;
 
+    this.paletteList.value = this.paletteList.defaultValue;
     this.resetDefaults.value = this.resetDefaults.defaultValue;
 
     this.palette = [
@@ -474,7 +475,8 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
   }
 
   ScrollController _scrollController = new ScrollController();
-
+double scaleFactor = 2;
+double _baseScaleFactor = 1;
   Widget build(BuildContext context) {
     Widget bodyWidget() {
       return ValueListenableBuilder<int>(
@@ -484,16 +486,26 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
               controller: screenshotController,
               child: Visibility(
                 visible: true,
-                child: LayoutBuilder(
-                  builder: (_, constraints) => Container(
-                    width: constraints.widthConstraints().maxWidth,
-                    height: constraints.heightConstraints().maxHeight,
-                    child: CustomPaint(
-                        painter: OpArtFibonacciPainter(
-                      seed, rnd,
-                      // animation1.value,
-                      // animation2.value
-                    )),
+                child: GestureDetector(
+                  onScaleStart: (details) {
+                    _baseScaleFactor = scaleFactor;
+                  },
+                  onScaleUpdate: (details) {
+                    setState(() {
+                      scaleFactor = _baseScaleFactor * details.scale;
+                    });
+                  },
+                  child: LayoutBuilder(
+                    builder: (_, constraints) => Container(
+                      width: constraints.widthConstraints().maxWidth*scaleFactor,
+                      height: constraints.heightConstraints().maxHeight*scaleFactor,
+                      child: CustomPaint(
+                          painter: OpArtFibonacciPainter(
+                        seed, rnd,
+                        // animation1.value,
+                        // animation2.value
+                      )),
+                    ),
                   ),
                 ),
               ),

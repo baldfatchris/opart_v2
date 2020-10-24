@@ -32,7 +32,8 @@ class _settingsButtonState extends State<settingsButton> {
         Container(
           height: 50,
           child:   RaisedButton(
-            onPressed: widget.onPressed,
+            onPressed: (){widget.onPressed();
+            Navigator.pop(context);},
             child: Text(widget.label),
           ),
 
