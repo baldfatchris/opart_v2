@@ -22,6 +22,8 @@ Tree currentTree;
 List palettes = defaultPalettes();
 String currentNamedPalette;
 
+List<Map<String, dynamic>> cachedTreeList = List<Map<String, dynamic>>();
+
 class Tree {
   // image settings
 

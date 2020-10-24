@@ -25,6 +25,7 @@ Fibonacci currentFibonacci;
 // Load the palettes
 List palettes = defaultPalettes();
 String currentNamedPalette;
+List<Map<String, dynamic>> cachedFibonacciList = List<Map<String, dynamic>>();
 
 class Fibonacci {
   // image settings

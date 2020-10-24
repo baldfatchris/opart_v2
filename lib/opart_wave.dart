@@ -23,6 +23,7 @@ Wave currentWave;
 List palettes = defaultPalettes();
 String currentNamedPalette;
 
+List<Map<String, dynamic>> cachedWaveList = List<Map<String, dynamic>>();
 class Wave {
   // image settings
 

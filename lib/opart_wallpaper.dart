@@ -23,6 +23,8 @@ Wallpaper currentWallpaper;
 List palettes = defaultPalettes();
 String currentNamedPalette;
 
+List<Map<String, dynamic>> cachedWallpaperList = List<Map<String, dynamic>>();
+
 class Wallpaper {
   // image settings
 
