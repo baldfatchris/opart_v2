@@ -37,7 +37,7 @@ class Fibonacci {
     zoom: 2000,
     defaultValue: (sqrt(5) + 1) / 2,
     icon: Icon(Icons.track_changes),
-    proFeature: true,
+    proFeature: false,
   );
   SettingsModelDouble flowerFill = SettingsModelDouble(
     label: 'Zoom',
@@ -49,7 +49,7 @@ class Fibonacci {
     zoom: 100,
     defaultValue: 1.8,
     icon: Icon(Icons.zoom_in),
-    proFeature: true,
+    proFeature: false,
   );
   SettingsModelDouble petalToRadius = SettingsModelDouble(
     label: 'Petal Size',
@@ -143,7 +143,7 @@ class Fibonacci {
     zoom: 100,
     defaultValue: 0,
     icon: Icon(Icons.all_inclusive),
-    proFeature: false,
+    proFeature: true,
   );
   SettingsModelDouble radialOscPeriod = SettingsModelDouble(
     label: 'Oscillation Period',
@@ -155,7 +155,7 @@ class Fibonacci {
     zoom: 100,
     defaultValue: 0,
     icon: Icon(Icons.bubble_chart),
-    proFeature: false,
+    proFeature: true,
   );
 
   SettingsModelList direction = SettingsModelList(
