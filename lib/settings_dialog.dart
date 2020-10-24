@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'opart_model.dart';
+import 'model.dart';
 import 'setting_button.dart';
 import 'setting_colorpicker.dart';
 import 'setting_dropdown.dart';

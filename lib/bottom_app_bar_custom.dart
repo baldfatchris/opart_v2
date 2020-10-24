@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'opart_model.dart';
+import 'model.dart';
 
 Widget CustomBottomAppBar(
     {Function randomise, Function randomisePalette, Function showToolBox}) {
