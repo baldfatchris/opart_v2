@@ -25,7 +25,6 @@ Fibonacci currentFibonacci;
 // Load the palettes
 List palettes = defaultPalettes();
 String currentNamedPalette;
-List<Map<String, dynamic>> cachedFibonacciList = List<Map<String, dynamic>>();
 
 class Fibonacci {
   // image settings
@@ -156,7 +155,7 @@ class Fibonacci {
     zoom: 100,
     defaultValue: 0,
     icon: Icon(Icons.bubble_chart),
-    proFeature: true,
+    proFeature: true  ,
   );
 
   SettingsModelList direction = SettingsModelList(
@@ -362,7 +361,6 @@ class Fibonacci {
     this.paletteType.value = this.paletteType.defaultValue;
     this.opacity.value = this.opacity.defaultValue;
 
-    this.paletteList.value = this.paletteList.defaultValue;
     this.resetDefaults.value = this.resetDefaults.defaultValue;
 
     this.palette = [
@@ -426,8 +424,8 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
 
   int _currentColor = 0;
 
-  // Animation<double> animation1;
-  // AnimationController controller1;
+  Animation<double> animation1;
+  AnimationController controller1;
 
   // Animation<double> animation2;
   // AnimationController controller2;
@@ -475,8 +473,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
   }
 
   ScrollController _scrollController = new ScrollController();
-double scaleFactor = 2;
-double _baseScaleFactor = 1;
+
   Widget build(BuildContext context) {
     Widget bodyWidget() {
       return ValueListenableBuilder<int>(
@@ -486,26 +483,16 @@ double _baseScaleFactor = 1;
               controller: screenshotController,
               child: Visibility(
                 visible: true,
-                child: GestureDetector(
-                  onScaleStart: (details) {
-                    _baseScaleFactor = scaleFactor;
-                  },
-                  onScaleUpdate: (details) {
-                    setState(() {
-                      scaleFactor = _baseScaleFactor * details.scale;
-                    });
-                  },
-                  child: LayoutBuilder(
-                    builder: (_, constraints) => Container(
-                      width: constraints.widthConstraints().maxWidth*scaleFactor,
-                      height: constraints.heightConstraints().maxHeight*scaleFactor,
-                      child: CustomPaint(
-                          painter: OpArtFibonacciPainter(
-                        seed, rnd,
-                        // animation1.value,
-                        // animation2.value
-                      )),
-                    ),
+                child: LayoutBuilder(
+                  builder: (_, constraints) => Container(
+                    width: constraints.widthConstraints().maxWidth,
+                    height: constraints.heightConstraints().maxHeight,
+                    child: CustomPaint(
+                        painter: OpArtFibonacciPainter(
+                      seed, rnd,
+                      animation1.value,
+                      // animation2.value
+                    )),
                   ),
                 ),
               ),
@@ -666,30 +653,30 @@ double _baseScaleFactor = 1;
     // ShakeDetector.waitForStart() waits for user to call detector.startListening();
 
     // Animation Stuff
-    // controller1 = AnimationController(
-    //   vsync: this,
-    //   duration: Duration(seconds: 7200),
-    // );
+    controller1 = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 72000),
+    );
 
     // controller2 = AnimationController(
     //   vsync: this,
     //   duration: Duration(seconds: 60),
     // );
 
-    // Tween<double> _angleTween = Tween(begin: -pi, end: pi);
+    Tween<double> _angleTween = Tween(begin: 0, end: 2 * pi);
     // Tween<double> _fillTween = Tween(begin: 1, end: 1);
 
-    // animation1 = _angleTween.animate(controller1)
-    //   ..addListener(() {
-    //     setState(() {});
-    //   })
-    //   ..addStatusListener((status) {
-    //     if (status == AnimationStatus.completed) {
-    //       controller1.repeat();
-    //     } else if (status == AnimationStatus.dismissed) {
-    //       controller1.forward();
-    //     }
-    //   });
+    animation1 = _angleTween.animate(controller1)
+      ..addListener(() {
+        setState(() {});
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          controller1.repeat();
+        } else if (status == AnimationStatus.dismissed) {
+          controller1.forward();
+        }
+      });
 
     // animation2 = _fillTween.animate(controller2)
     //   ..addListener(() {
@@ -703,7 +690,7 @@ double _baseScaleFactor = 1;
     //     }
     //   });
 
-    // controller1.forward();
+    controller1.forward();
     // controller2.forward();
 
     cacheFibonacci();
@@ -721,13 +708,13 @@ double _baseScaleFactor = 1;
 class OpArtFibonacciPainter extends CustomPainter {
   int seed;
   Random rnd;
-  // double angle;
+  double angle;
   // double fill;
 
   OpArtFibonacciPainter(
     this.seed,
     this.rnd,
-    // this.angle,
+    this.angle,
     // this.fill
   );
 
@@ -815,8 +802,7 @@ class OpArtFibonacciPainter extends CustomPainter {
       flowerCentreX,
       flowerCentreY,
 
-      // angle, //currentFibonacci.angleIncrement,
-      currentFibonacci.angleIncrement.value,
+      angle + currentFibonacci.angleIncrement.value,
       currentFibonacci.flowerFill.value,
       currentFibonacci.petalToRadius.value,
       currentFibonacci.ratio.value,
