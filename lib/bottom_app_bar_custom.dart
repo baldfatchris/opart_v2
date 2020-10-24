@@ -19,7 +19,7 @@ Widget CustomBottomAppBar(
           children: <Widget>[
             Icon(
               Icons.refresh,
-color: Colors.black,
+              color: Colors.black,
             ),
             SizedBox(width: 3),
             Padding(
@@ -86,7 +86,7 @@ color: Colors.black,
               padding: const EdgeInsets.all(4.0),
               child: Text(
                 'Randomise'
-                '\nPalette',
+                    '\nPalette',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.black,
@@ -99,7 +99,7 @@ color: Colors.black,
           if (enableButton) {
             randomisePalette();
             enableButton = false;
-         
+
           }
         },
       ),

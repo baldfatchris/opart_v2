@@ -26,21 +26,21 @@ class Wallpaper {
   // image settings
 
   SettingsModelInt cellsX = SettingsModelInt(
-      label: 'Horizontal Cells',
-      tooltip: 'The number of horizontal cells',
-      min: 1,
-      max: 10,
-      defaultValue: 5,
-      icon: Icon(Icons.swap_horiz),
+    label: 'Horizontal Cells',
+    tooltip: 'The number of horizontal cells',
+    min: 1,
+    max: 10,
+    defaultValue: 5,
+    icon: Icon(Icons.swap_horiz),
     proFeature: false,
   );
   SettingsModelInt cellsY = SettingsModelInt(
-      label: 'Vertical Cells',
-      tooltip: 'The number of vertical cells',
-      min: 1,
-      max: 10,
-      defaultValue: 5,
-      icon: Icon(Icons.swap_vert),
+    label: 'Vertical Cells',
+    tooltip: 'The number of vertical cells',
+    min: 1,
+    max: 10,
+    defaultValue: 5,
+    icon: Icon(Icons.swap_vert),
     proFeature: false,
   );
   SettingsModelList shape = SettingsModelList(
@@ -53,181 +53,181 @@ class Wallpaper {
 
   );
   SettingsModelDouble driftX = SettingsModelDouble(
-      label: 'Horizontal Drift',
-      tooltip: 'The drift in the horizontal axis',
-      min: -20,
-      max: 20,
-      zoom: 100,
-      defaultValue: 0,
-      icon: Icon(Icons.more_horiz),
+    label: 'Horizontal Drift',
+    tooltip: 'The drift in the horizontal axis',
+    min: -20,
+    max: 20,
+    zoom: 100,
+    defaultValue: 0,
+    icon: Icon(Icons.more_horiz),
     proFeature: false,
   );
   SettingsModelDouble driftXStep = SettingsModelDouble(
-      label: 'Horizontal Step',
-      tooltip: 'The acceleration of the drift in the horizontal axis',
-      min: -2,
-      max: 2,
-      zoom: 100,
-      defaultValue: 0,
-      icon: Icon(Icons.screen_lock_landscape),
+    label: 'Horizontal Step',
+    tooltip: 'The acceleration of the drift in the horizontal axis',
+    min: -2,
+    max: 2,
+    zoom: 100,
+    defaultValue: 0,
+    icon: Icon(Icons.screen_lock_landscape),
     proFeature: false,
   );
   SettingsModelDouble driftY = SettingsModelDouble(
-      label: 'Vertical Drift',
-      tooltip: 'The drift in the vertical axis',
-      min: -20,
-      max: 20,
-      zoom: 100,
-      defaultValue: 0,
-      icon: Icon(Icons.more_vert),
+    label: 'Vertical Drift',
+    tooltip: 'The drift in the vertical axis',
+    min: -20,
+    max: 20,
+    zoom: 100,
+    defaultValue: 0,
+    icon: Icon(Icons.more_vert),
     proFeature: false,
   );
   SettingsModelDouble driftYStep = SettingsModelDouble(
-      label: 'Vertical Step',
-      tooltip: 'The acceleration of the drift in the vertical axis',
-      min: -2,
-      max: 2,
-      zoom: 100,
-      defaultValue: 0,
-      icon: Icon(Icons.screen_lock_portrait),
+    label: 'Vertical Step',
+    tooltip: 'The acceleration of the drift in the vertical axis',
+    min: -2,
+    max: 2,
+    zoom: 100,
+    defaultValue: 0,
+    icon: Icon(Icons.screen_lock_portrait),
     proFeature: false,
   );
   SettingsModelBool alternateDrift = SettingsModelBool(
-      label: 'Alternate Drift',
-      tooltip: 'Alternate the drift',
-      defaultValue: true,
-      icon: Icon(Icons.gamepad),
+    label: 'Alternate Drift',
+    tooltip: 'Alternate the drift',
+    defaultValue: true,
+    icon: Icon(Icons.gamepad),
     proFeature: false,
   );
   SettingsModelBool box = SettingsModelBool(
-      label: 'Box',
-      tooltip: 'Fill in the box',
-      defaultValue: true,
-      icon: Icon(Icons.check_box_outline_blank),
+    label: 'Box',
+    tooltip: 'Fill in the box',
+    defaultValue: true,
+    icon: Icon(Icons.check_box_outline_blank),
     proFeature: false,
   );
   SettingsModelDouble step = SettingsModelDouble(
-      label: 'Step',
-      tooltip: 'The decrease ratio of concentric shapes',
-      min: 0.05,
-      max: 1,
-      zoom: 100,
-      defaultValue: 0.3,
-      icon: Icon(Icons.control_point),
+    label: 'Step',
+    tooltip: 'The decrease ratio of concentric shapes',
+    min: 0.05,
+    max: 1,
+    zoom: 100,
+    defaultValue: 0.3,
+    icon: Icon(Icons.control_point),
     proFeature: false,
   );
   SettingsModelDouble stepStep = SettingsModelDouble(
-      label: 'Step Ratio',
-      tooltip: 'The ratio of change of the ratio',
-      min: 0.5,
-      max: 1,
-      zoom: 100,
-      defaultValue: 0.9,
-      icon: Icon(Icons.control_point_duplicate),
+    label: 'Step Ratio',
+    tooltip: 'The ratio of change of the ratio',
+    min: 0.5,
+    max: 1,
+    zoom: 100,
+    defaultValue: 0.9,
+    icon: Icon(Icons.control_point_duplicate),
     proFeature: false,
   );
   SettingsModelDouble ratio = SettingsModelDouble(
-      label: 'Ratio',
-      tooltip: 'The ratio of the shape to the box',
-      min: 0.75,
-      max: 1.75,
-      zoom: 100,
-      defaultValue: 1,
-      icon: Icon(Icons.zoom_out_map),
+    label: 'Ratio',
+    tooltip: 'The ratio of the shape to the box',
+    min: 0.75,
+    max: 1.75,
+    zoom: 100,
+    defaultValue: 1,
+    icon: Icon(Icons.zoom_out_map),
     proFeature: false,
   );
   SettingsModelDouble offsetX = SettingsModelDouble(
-      label: 'Horizontal Offset',
-      tooltip: 'The offset in the horizontal axis',
-      min: -40,
-      max: 40,
-      zoom: 100,
-      defaultValue: 0,
-      icon: Icon(Icons.more_horiz),
+    label: 'Horizontal Offset',
+    tooltip: 'The offset in the horizontal axis',
+    min: -40,
+    max: 40,
+    zoom: 100,
+    defaultValue: 0,
+    icon: Icon(Icons.more_horiz),
     proFeature: false,
   );
   SettingsModelDouble offsetY = SettingsModelDouble(
-      label: 'Vertical Offset',
-      tooltip: 'The offset in the vertical axis',
-      min: -40,
-      max: 40,
-      zoom: 100,
-      defaultValue: 0,
-      icon: Icon(Icons.more_vert),
+    label: 'Vertical Offset',
+    tooltip: 'The offset in the vertical axis',
+    min: -40,
+    max: 40,
+    zoom: 100,
+    defaultValue: 0,
+    icon: Icon(Icons.more_vert),
     proFeature: false,
   );
   SettingsModelDouble rotate = SettingsModelDouble(
-      label: 'Rotate',
-      tooltip: 'The shape rotation',
-      min: 0,
-      max: pi,
-      zoom: 200,
-      defaultValue: 0,
-      icon: Icon(Icons.rotate_right),
+    label: 'Rotate',
+    tooltip: 'The shape rotation',
+    min: 0,
+    max: pi,
+    zoom: 200,
+    defaultValue: 0,
+    icon: Icon(Icons.rotate_right),
     proFeature: false,
   );
   SettingsModelBool randomRotation = SettingsModelBool(
-      label: 'Random Rotate',
-      tooltip: 'The random shape rotation',
-      defaultValue: false,
-      icon: Icon(Icons.crop_rotate),
+    label: 'Random Rotate',
+    tooltip: 'The random shape rotation',
+    defaultValue: false,
+    icon: Icon(Icons.crop_rotate),
     proFeature: false,
   );
   SettingsModelDouble rotateStep = SettingsModelDouble(
-      label: 'Rotate Step',
-      tooltip: 'The rate of increase of the rotation',
-      min: 0,
-      max: 2,
-      zoom: 100,
-      defaultValue: 0,
-      icon: Icon(Icons.screen_rotation),
+    label: 'Rotate Step',
+    tooltip: 'The rate of increase of the rotation',
+    min: 0,
+    max: 2,
+    zoom: 100,
+    defaultValue: 0,
+    icon: Icon(Icons.screen_rotation),
     proFeature: false,
   );
 
   SettingsModelDouble squareness = SettingsModelDouble(
-      label: 'Squareness',
-      tooltip: 'The squareness of the shape',
-      min: -2,
-      max: 2,
-      zoom: 100,
-      defaultValue: 1,
-      icon: Icon(Icons.center_focus_weak),
+    label: 'Squareness',
+    tooltip: 'The squareness of the shape',
+    min: -2,
+    max: 2,
+    zoom: 100,
+    defaultValue: 1,
+    icon: Icon(Icons.center_focus_weak),
     proFeature: false,
   );
   SettingsModelDouble squeezeX = SettingsModelDouble(
-      label: 'Horizontal Squeeze',
-      tooltip: 'The squeeze in the horizontal axis',
-      min: 0.5,
-      max: 1.5,
-      zoom: 100,
-      defaultValue: 1,
-      icon: Icon(Icons.more_horiz),
+    label: 'Horizontal Squeeze',
+    tooltip: 'The squeeze in the horizontal axis',
+    min: 0.5,
+    max: 1.5,
+    zoom: 100,
+    defaultValue: 1,
+    icon: Icon(Icons.more_horiz),
     proFeature: false,
   );
   SettingsModelDouble squeezeY = SettingsModelDouble(
-      label: 'Vertical Squeeze',
-      tooltip: 'The squeeze in the vertical axis',
-      min: 0.5,
-      max: 1.5,
-      zoom: 100,
-      defaultValue: 1,
-      icon: Icon(Icons.more_vert),
+    label: 'Vertical Squeeze',
+    tooltip: 'The squeeze in the vertical axis',
+    min: 0.5,
+    max: 1.5,
+    zoom: 100,
+    defaultValue: 1,
+    icon: Icon(Icons.more_vert),
     proFeature: false,
   );
   SettingsModelInt numberOfPetals = SettingsModelInt(
-      label: 'Number Of Points',
-      tooltip: 'The number of points',
-      min: 1,
-      max: 15,
-      defaultValue: 5,
-      icon: Icon(Icons.star),
+    label: 'Number Of Points',
+    tooltip: 'The number of points',
+    min: 1,
+    max: 15,
+    defaultValue: 5,
+    icon: Icon(Icons.star),
     proFeature: false,
   );
   SettingsModelBool randomPetals = SettingsModelBool(
-      label: 'Random Petals',
-      tooltip: 'Random Petals',
-      defaultValue: true,
-      icon: Icon(Icons.stars),
+    label: 'Random Petals',
+    tooltip: 'Random Petals',
+    defaultValue: true,
+    icon: Icon(Icons.stars),
     proFeature: false,
   );
 
@@ -249,36 +249,36 @@ class Wallpaper {
 
   );
   SettingsModelDouble lineWidth = SettingsModelDouble(
-      label: 'Outline Width',
-      tooltip: 'The width of the outline',
-      min: 0,
-      max: 1,
-      zoom: 100,
-      defaultValue: 0.1,
-      icon: Icon(Icons.line_weight),
+    label: 'Outline Width',
+    tooltip: 'The width of the outline',
+    min: 0,
+    max: 1,
+    zoom: 100,
+    defaultValue: 0.1,
+    icon: Icon(Icons.line_weight),
     proFeature: false,
   );
   SettingsModelBool randomColors = SettingsModelBool(
-      label: 'Random Colors',
-      tooltip: 'Randomise the colours',
-      defaultValue: true,
-      icon: Icon(Icons.gamepad),
+    label: 'Random Colors',
+    tooltip: 'Randomise the colours',
+    defaultValue: true,
+    icon: Icon(Icons.gamepad),
     proFeature: false,
   );
   SettingsModelBool resetColors = SettingsModelBool(
-      label: 'Reset Colors',
-      tooltip: 'Reset the colours for each cell',
-      defaultValue: false,
-      icon: Icon(Icons.gamepad),
+    label: 'Reset Colors',
+    tooltip: 'Reset the colours for each cell',
+    defaultValue: false,
+    icon: Icon(Icons.gamepad),
     proFeature: false,
   );
   SettingsModelInt numberOfColors = SettingsModelInt(
-      label: 'Number of Colors',
-      tooltip: 'The number of colours in the palette',
-      min: 1,
-      max: 36,
-      defaultValue: 10,
-      icon: Icon(Icons.palette),
+    label: 'Number of Colors',
+    tooltip: 'The number of colours in the palette',
+    min: 1,
+    max: 36,
+    defaultValue: 10,
+    icon: Icon(Icons.palette),
     proFeature: false,
   );
   SettingsModelList paletteType = SettingsModelList(
@@ -296,13 +296,13 @@ class Wallpaper {
 
   );
   SettingsModelDouble opacity = SettingsModelDouble(
-      label: 'Opactity',
-      tooltip: 'The opactity of the petal',
-      min: 0.2,
-      max: 1,
-      zoom: 100,
-      defaultValue: 1,
-      icon: Icon(Icons.remove_red_eye),
+    label: 'Opactity',
+    tooltip: 'The opactity of the petal',
+    min: 0.2,
+    max: 1,
+    zoom: 100,
+    defaultValue: 1,
+    icon: Icon(Icons.remove_red_eye),
     proFeature: false,
   );
   SettingsModelList paletteList = SettingsModelList(
@@ -315,10 +315,10 @@ class Wallpaper {
 
   );
   SettingsModelButton resetDefaults = SettingsModelButton(
-      label: 'Reset Defaults',
-      tooltip: 'Reset all settings to defaults',
-      defaultValue: false,
-      icon: Icon(Icons.low_priority),
+    label: 'Reset Defaults',
+    tooltip: 'Reset all settings to defaults',
+    defaultValue: false,
+    icon: Icon(Icons.low_priority),
     proFeature: false,
   );
 
@@ -510,54 +510,55 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
 
   cacheWallpaper() async {
     WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
-            .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
-            .then((File image) async {
-          currentWallpaper.image = image;
-          Map<String, dynamic> currentCache = {
-            'aspectRatio': currentWallpaper.aspectRatio,
-            'cellsX': currentWallpaper.cellsX.value,
-            'cellsY': currentWallpaper.cellsY.value,
-            'shape': currentWallpaper.shape.value,
-            'driftX': currentWallpaper.driftX.value,
-            'driftXStep': currentWallpaper.driftXStep.value,
-            'driftY': currentWallpaper.driftY.value,
-            'driftYStep': currentWallpaper.driftYStep.value,
-            'alternateDrift': currentWallpaper.alternateDrift.value,
-            'box': currentWallpaper.box.value,
-            'step': currentWallpaper.step.value,
-            'stepStep': currentWallpaper.stepStep.value,
-            'ratio': currentWallpaper.ratio.value,
-            'offsetX': currentWallpaper.offsetX.value,
-            'offsetY': currentWallpaper.offsetY.value,
-            'rotate': currentWallpaper.rotate.value,
-            'randomRotation': currentWallpaper.randomRotation.value,
-            'rotateStep': currentWallpaper.rotateStep.value,
-            'squareness': currentWallpaper.squareness.value,
-            'squeezeX': currentWallpaper.squeezeX.value,
-            'squeezeY': currentWallpaper.squeezeY.value,
-            'numberOfPetals': currentWallpaper.numberOfPetals.value,
-            'randomPetals': currentWallpaper.randomPetals.value,
-            'backgroundColor': currentWallpaper.backgroundColor.value,
-            'lineColor': currentWallpaper.lineColor.value,
-            'lineWidth': currentWallpaper.lineWidth.value,
-            'randomColors': currentWallpaper.randomColors.value,
-            'resetColors': currentWallpaper.resetColors.value,
-            'numberOfColors': currentWallpaper.numberOfColors.value,
-            'paletteType': currentWallpaper.paletteType.value,
-            'opacity': currentWallpaper.opacity.value,
-            'paletteList': currentWallpaper.paletteList.value,
-            'image': currentWallpaper.image,
-          };
-          cachedWallpaperList.add(currentCache);
-          rebuildCache.value++;
-          await new Future.delayed(const Duration(milliseconds: 20));
-          if (_scrollController.hasClients) {
-            _scrollController
-                .jumpTo(_scrollController.position.maxScrollExtent);
-          }
-          enableButton = true;
-          enableButton = true;
-        }));
+        .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
+        .then((File image) async {
+      currentWallpaper.image = image;
+      Map<String, dynamic> currentCache = {
+        'aspectRatio': currentWallpaper.aspectRatio,
+        'cellsX': currentWallpaper.cellsX.value,
+        'cellsY': currentWallpaper.cellsY.value,
+        'shape': currentWallpaper.shape.value,
+        'driftX': currentWallpaper.driftX.value,
+        'driftXStep': currentWallpaper.driftXStep.value,
+        'driftY': currentWallpaper.driftY.value,
+        'driftYStep': currentWallpaper.driftYStep.value,
+        'alternateDrift': currentWallpaper.alternateDrift.value,
+        'box': currentWallpaper.box.value,
+        'step': currentWallpaper.step.value,
+        'stepStep': currentWallpaper.stepStep.value,
+        'ratio': currentWallpaper.ratio.value,
+        'offsetX': currentWallpaper.offsetX.value,
+        'offsetY': currentWallpaper.offsetY.value,
+        'rotate': currentWallpaper.rotate.value,
+        'randomRotation': currentWallpaper.randomRotation.value,
+        'rotateStep': currentWallpaper.rotateStep.value,
+        'squareness': currentWallpaper.squareness.value,
+        'squeezeX': currentWallpaper.squeezeX.value,
+        'squeezeY': currentWallpaper.squeezeY.value,
+        'numberOfPetals': currentWallpaper.numberOfPetals.value,
+        'randomPetals': currentWallpaper.randomPetals.value,
+        'backgroundColor': currentWallpaper.backgroundColor.value,
+        'lineColor': currentWallpaper.lineColor.value,
+        'lineWidth': currentWallpaper.lineWidth.value,
+        'randomColors': currentWallpaper.randomColors.value,
+        'resetColors': currentWallpaper.resetColors.value,
+        'numberOfColors': currentWallpaper.numberOfColors.value,
+        'paletteType': currentWallpaper.paletteType.value,
+        'opacity': currentWallpaper.opacity.value,
+        'palette': currentWallpaper.palette,
+
+        'image': currentWallpaper.image,
+      };
+      cachedWallpaperList.add(currentCache);
+      rebuildCache.value++;
+      await new Future.delayed(const Duration(milliseconds: 20));
+      if (_scrollController.hasClients) {
+        _scrollController
+            .jumpTo(_scrollController.position.maxScrollExtent);
+      }
+      enableButton = true;
+
+    }));
   }
 
   ScrollController _scrollController = new ScrollController();
@@ -575,10 +576,10 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
                 height: constraints.heightConstraints().maxHeight,
                 child: CustomPaint(
                     painter: OpArtWallpaperPainter(
-                  seed, rnd,
-                  // animation1.value,
-                  // animation2.value
-                )),
+                      seed, rnd,
+                      // animation1.value,
+                      // animation2.value
+                    )),
               ),
             ),
           )
@@ -616,142 +617,142 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
 
     void _showBottomSheetSettings(context, int index) {
       showDialog(
-          //  backgroundColor: Colors.white.withOpacity(0.8),
+        //  backgroundColor: Colors.white.withOpacity(0.8),
           barrierColor: Colors.white.withOpacity(0.1),
           context: context,
           builder: (BuildContext bc) {
             return StatefulBuilder(
                 builder: (BuildContext context, setLocalState) {
-              return Center(
-                child: AlertDialog(
-                  backgroundColor: Colors.white.withOpacity(0.7),
-                  title: Text(settingsList[index].label),
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      (settingsList[index].type == 'Double')
-                          ? settingsSlider(
-                              settingsList[index].label,
-                              settingsList[index].tooltip,
-                              settingsList[index].value,
-                              settingsList[index].min,
-                              settingsList[index].max,
-                              settingsList[index].locked,
-                              settingsList[index].zoom,
-                              (value) {
-                                setState(() {
-                                  settingsList[index].value = value;
-                                });
-                                setLocalState(() {});
-                              },
-                              (value) {
-                                setState(() {
-                                  settingsList[index].locked = value;
-                                });
-                                setLocalState(() {});
-                              },
-                              () {},
-                            )
-                          : (settingsList[index].type == 'Int')
+                  return Center(
+                    child: AlertDialog(
+                      backgroundColor: Colors.white.withOpacity(0.7),
+                      title: Text(settingsList[index].label),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          (settingsList[index].type == 'Double')
+                              ? settingsSlider(
+                            settingsList[index].label,
+                            settingsList[index].tooltip,
+                            settingsList[index].value,
+                            settingsList[index].min,
+                            settingsList[index].max,
+                            settingsList[index].locked,
+                            settingsList[index].zoom,
+                                (value) {
+                              setState(() {
+                                settingsList[index].value = value;
+                              });
+                              setLocalState(() {});
+                            },
+                                (value) {
+                              setState(() {
+                                settingsList[index].locked = value;
+                              });
+                              setLocalState(() {});
+                            },
+                                () {},
+                          )
+                              : (settingsList[index].type == 'Int')
                               ? settingsIntSlider(
-                                  settingsList[index].label,
-                                  settingsList[index].tooltip,
-                                  settingsList[index].value,
-                                  settingsList[index].min,
-                                  settingsList[index].max,
-                                  settingsList[index].locked,
-                                  (value) {
-                                    setState(() {
-                                      settingsList[index].value = value.toInt();
-                                    });
-                                    setLocalState(() {});
-                                  },
-                                  (value) {
-                                    setState(() {
-                                      settingsList[index].locked = value;
-                                    });
-                                    setLocalState(() {});
-                                  },
-                                  () {},
-                                )
+                            settingsList[index].label,
+                            settingsList[index].tooltip,
+                            settingsList[index].value,
+                            settingsList[index].min,
+                            settingsList[index].max,
+                            settingsList[index].locked,
+                                (value) {
+                              setState(() {
+                                settingsList[index].value = value.toInt();
+                              });
+                              setLocalState(() {});
+                            },
+                                (value) {
+                              setState(() {
+                                settingsList[index].locked = value;
+                              });
+                              setLocalState(() {});
+                            },
+                                () {},
+                          )
                               : (settingsList[index].type == 'List')
-                                  ? settingsDropdown(
-                                      settingsList[index].label,
-                                      settingsList[index].tooltip,
-                                      settingsList[index].value,
-                                      settingsList[index].options,
-                                      settingsList[index].locked,
-                                      (value) {
-                                        setState(() {
-                                          settingsList[index].value = value;
-                                        });
-                                        setLocalState(() {});
-                                      },
-                                      (value) {
-                                        setState(() {
-                                          settingsList[index].locked =
-                                              !settingsList[index].locked;
-                                        });
-                                      },
-                                    )
-                                  : (settingsList[index].type == 'Color')
-                                      ? settingsColorPicker(
-                                          settingsList[index].label,
-                                          settingsList[index].tooltip,
-                                          settingsList[index].value,
-                                          settingsList[index].locked,
-                                          (value) {
-                                            setState(() {
-                                              settingsList[index].value = value;
-                                            });
-                                            setLocalState(() {});
-                                          },
-                                          (value) {
-                                            setState(() {
-                                              settingsList[index].locked =
-                                                  value;
-                                            });
-                                            setLocalState(() {});
-                                          },
-                                        )
-                                      : (settingsList[index].type == 'Bool')
-                                          ? settingsRadioButton(
-                                              settingsList[index].label,
-                                              settingsList[index].tooltip,
-                                              settingsList[index].value,
-                                              settingsList[index].locked,
-                                              (value) {
-                                                setState(() {
-                                                  settingsList[index].value =
-                                                      value;
-                                                });
-                                                setLocalState(() {});
-                                              },
-                                              (value) {
-                                                setState(() {
-                                                  settingsList[index].locked =
-                                                      value;
-                                                });
-                                                setLocalState(() {});
-                                              },
-                                            )
-                                          : settingsButton(
-                                              settingsList[index].label,
-                                              settingsList[index].tooltip,
-                                              settingsList[index].value,
-                                              () {
-                                                setState(() {
-                                                  settingsList[index].value =
-                                                      true;
-                                                });
-                                                setLocalState(() {});
-                                              },
-                                            ),
-                    ],
-                  ),
-                ),
-              );
-            });
+                              ? settingsDropdown(
+                            settingsList[index].label,
+                            settingsList[index].tooltip,
+                            settingsList[index].value,
+                            settingsList[index].options,
+                            settingsList[index].locked,
+                                (value) {
+                              setState(() {
+                                settingsList[index].value = value;
+                              });
+                              setLocalState(() {});
+                            },
+                                (value) {
+                              setState(() {
+                                settingsList[index].locked =
+                                !settingsList[index].locked;
+                              });
+                            },
+                          )
+                              : (settingsList[index].type == 'Color')
+                              ? settingsColorPicker(
+                            settingsList[index].label,
+                            settingsList[index].tooltip,
+                            settingsList[index].value,
+                            settingsList[index].locked,
+                                (value) {
+                              setState(() {
+                                settingsList[index].value = value;
+                              });
+                              setLocalState(() {});
+                            },
+                                (value) {
+                              setState(() {
+                                settingsList[index].locked =
+                                    value;
+                              });
+                              setLocalState(() {});
+                            },
+                          )
+                              : (settingsList[index].type == 'Bool')
+                              ? settingsRadioButton(
+                            settingsList[index].label,
+                            settingsList[index].tooltip,
+                            settingsList[index].value,
+                            settingsList[index].locked,
+                                (value) {
+                              setState(() {
+                                settingsList[index].value =
+                                    value;
+                              });
+                              setLocalState(() {});
+                            },
+                                (value) {
+                              setState(() {
+                                settingsList[index].locked =
+                                    value;
+                              });
+                              setLocalState(() {});
+                            },
+                          )
+                              : settingsButton(
+                            settingsList[index].label,
+                            settingsList[index].tooltip,
+                            settingsList[index].value,
+                                () {
+                              setState(() {
+                                settingsList[index].value =
+                                true;
+                              });
+                              setLocalState(() {});
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                });
           }).then((value) {
         cacheWallpaper();
         rebuildCanvas.value++;
@@ -813,16 +814,16 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
           color: Colors.white,
           child: CustomBottomAppBar(randomise: () {
 
-              currentWallpaper.randomize();
-              currentWallpaper.randomizePalette();
-              rebuildCanvas.value++;
-              cacheWallpaper();
+            currentWallpaper.randomize();
+            currentWallpaper.randomizePalette();
+            rebuildCanvas.value++;
+            cacheWallpaper();
 
           }, randomisePalette: () {
 
-              currentWallpaper.randomizePalette();
-              rebuildCanvas.value++;
-              cacheWallpaper();
+            currentWallpaper.randomizePalette();
+            rebuildCanvas.value++;
+            cacheWallpaper();
 
           }, showBottomSheet: () {
             _showBottomSheet(context);
@@ -842,115 +843,115 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
                     return cachedWallpaperList.length == 0
                         ? Container()
                         : ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            controller: _scrollController,
-                            itemCount: cachedWallpaperList.length,
-                            shrinkWrap: true,
-                            reverse: false,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      currentWallpaper.aspectRatio =
-                                          cachedWallpaperList[index]
-                                              ['aspectRatio'];
-                                      currentWallpaper.cellsX.value =
-                                          cachedWallpaperList[index]['cellsX'];
-                                      currentWallpaper.cellsY.value =
-                                          cachedWallpaperList[index]['cellsY'];
-                                      currentWallpaper.shape.value =
-                                          cachedWallpaperList[index]['shape'];
-                                      currentWallpaper.driftX.value =
-                                          cachedWallpaperList[index]['driftX'];
-                                      currentWallpaper.driftXStep.value =
-                                          cachedWallpaperList[index]
-                                              ['driftXStep'];
-                                      currentWallpaper.driftY.value =
-                                          cachedWallpaperList[index]['driftY'];
-                                      currentWallpaper.driftYStep.value =
-                                          cachedWallpaperList[index]
-                                              ['driftYStep'];
-                                      currentWallpaper.alternateDrift.value =
-                                          cachedWallpaperList[index]
-                                              ['alternateDrift'];
-                                      currentWallpaper.box.value =
-                                          cachedWallpaperList[index]['box'];
-                                      currentWallpaper.step.value =
-                                          cachedWallpaperList[index]['step'];
-                                      currentWallpaper.stepStep.value =
-                                          cachedWallpaperList[index]
-                                              ['stepStep'];
-                                      currentWallpaper.ratio.value =
-                                          cachedWallpaperList[index]['ratio'];
-                                      currentWallpaper.offsetX.value =
-                                          cachedWallpaperList[index]['offsetX'];
-                                      currentWallpaper.offsetY.value =
-                                          cachedWallpaperList[index]['offsetY'];
-                                      currentWallpaper.rotate.value =
-                                          cachedWallpaperList[index]['rotate'];
-                                      currentWallpaper.randomRotation.value =
-                                          cachedWallpaperList[index]
-                                              ['randomRotation'];
-                                      currentWallpaper.rotateStep.value =
-                                          cachedWallpaperList[index]
-                                              ['rotateStep'];
-                                      currentWallpaper.squareness.value =
-                                          cachedWallpaperList[index]
-                                              ['squareness'];
-                                      currentWallpaper.squeezeX.value =
-                                          cachedWallpaperList[index]
-                                              ['squeezeX'];
-                                      currentWallpaper.squeezeY.value =
-                                          cachedWallpaperList[index]
-                                              ['squeezeY'];
-                                      currentWallpaper.numberOfPetals.value =
-                                          cachedWallpaperList[index]
-                                              ['numberOfPetals'];
-                                      currentWallpaper.randomPetals.value =
-                                          cachedWallpaperList[index]
-                                              ['randomPetals'];
-                                      currentWallpaper.backgroundColor.value =
-                                          cachedWallpaperList[index]
-                                              ['backgroundColor'];
-                                      currentWallpaper.lineColor.value =
-                                          cachedWallpaperList[index]
-                                              ['lineColor'];
-                                      currentWallpaper.lineWidth.value =
-                                          cachedWallpaperList[index]
-                                              ['lineWidth'];
-                                      currentWallpaper.randomColors.value =
-                                          cachedWallpaperList[index]
-                                              ['randomColors'];
-                                      currentWallpaper.resetColors.value =
-                                          cachedWallpaperList[index]
-                                              ['resetColors'];
-                                      currentWallpaper.numberOfColors.value =
-                                          cachedWallpaperList[index]
-                                              ['numberOfColors'];
-                                      currentWallpaper.paletteType.value =
-                                          cachedWallpaperList[index]
-                                              ['paletteType'];
-                                      currentWallpaper.paletteList.value =
-                                          cachedWallpaperList[index]
-                                              ['paletteList'];
-                                      currentWallpaper.opacity.value =
-                                          cachedWallpaperList[index]['opacity'];
-                                    });
-                                  },
-                                  child: Container(
-                                    decoration:
-                                        BoxDecoration(shape: BoxShape.circle),
-                                    width: 50,
-                                    height: 50,
-                                    child: Image.file(
-                                        cachedWallpaperList[index]['image']),
-                                  ),
-                                ),
-                              );
+                      scrollDirection: Axis.horizontal,
+                      controller: _scrollController,
+                      itemCount: cachedWallpaperList.length,
+                      shrinkWrap: true,
+                      reverse: false,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                currentWallpaper.aspectRatio =
+                                cachedWallpaperList[index]
+                                ['aspectRatio'];
+                                currentWallpaper.cellsX.value =
+                                cachedWallpaperList[index]['cellsX'];
+                                currentWallpaper.cellsY.value =
+                                cachedWallpaperList[index]['cellsY'];
+                                currentWallpaper.shape.value =
+                                cachedWallpaperList[index]['shape'];
+                                currentWallpaper.driftX.value =
+                                cachedWallpaperList[index]['driftX'];
+                                currentWallpaper.driftXStep.value =
+                                cachedWallpaperList[index]
+                                ['driftXStep'];
+                                currentWallpaper.driftY.value =
+                                cachedWallpaperList[index]['driftY'];
+                                currentWallpaper.driftYStep.value =
+                                cachedWallpaperList[index]
+                                ['driftYStep'];
+                                currentWallpaper.alternateDrift.value =
+                                cachedWallpaperList[index]
+                                ['alternateDrift'];
+                                currentWallpaper.box.value =
+                                cachedWallpaperList[index]['box'];
+                                currentWallpaper.step.value =
+                                cachedWallpaperList[index]['step'];
+                                currentWallpaper.stepStep.value =
+                                cachedWallpaperList[index]
+                                ['stepStep'];
+                                currentWallpaper.ratio.value =
+                                cachedWallpaperList[index]['ratio'];
+                                currentWallpaper.offsetX.value =
+                                cachedWallpaperList[index]['offsetX'];
+                                currentWallpaper.offsetY.value =
+                                cachedWallpaperList[index]['offsetY'];
+                                currentWallpaper.rotate.value =
+                                cachedWallpaperList[index]['rotate'];
+                                currentWallpaper.randomRotation.value =
+                                cachedWallpaperList[index]
+                                ['randomRotation'];
+                                currentWallpaper.rotateStep.value =
+                                cachedWallpaperList[index]
+                                ['rotateStep'];
+                                currentWallpaper.squareness.value =
+                                cachedWallpaperList[index]
+                                ['squareness'];
+                                currentWallpaper.squeezeX.value =
+                                cachedWallpaperList[index]
+                                ['squeezeX'];
+                                currentWallpaper.squeezeY.value =
+                                cachedWallpaperList[index]
+                                ['squeezeY'];
+                                currentWallpaper.numberOfPetals.value =
+                                cachedWallpaperList[index]
+                                ['numberOfPetals'];
+                                currentWallpaper.randomPetals.value =
+                                cachedWallpaperList[index]
+                                ['randomPetals'];
+                                currentWallpaper.backgroundColor.value =
+                                cachedWallpaperList[index]
+                                ['backgroundColor'];
+                                currentWallpaper.lineColor.value =
+                                cachedWallpaperList[index]
+                                ['lineColor'];
+                                currentWallpaper.lineWidth.value =
+                                cachedWallpaperList[index]
+                                ['lineWidth'];
+                                currentWallpaper.randomColors.value =
+                                cachedWallpaperList[index]
+                                ['randomColors'];
+                                currentWallpaper.resetColors.value =
+                                cachedWallpaperList[index]
+                                ['resetColors'];
+                                currentWallpaper.numberOfColors.value =
+                                cachedWallpaperList[index]
+                                ['numberOfColors'];
+                                currentWallpaper.paletteType.value =
+                                cachedWallpaperList[index]
+                                ['paletteType'];
+                                currentWallpaper.palette =
+                                cachedWallpaperList[index]
+                                ['palette'];
+                                currentWallpaper.opacity.value =
+                                cachedWallpaperList[index]['opacity'];
+                              });
                             },
-                          );
+                            child: Container(
+                              decoration:
+                              BoxDecoration(shape: BoxShape.circle),
+                              width: 50,
+                              height: 50,
+                              child: Image.file(
+                                  cachedWallpaperList[index]['image']),
+                            ),
+                          ),
+                        );
+                      },
+                    );
                   })),
           Expanded(child: ClipRect(child: bodyWidget())),
         ],
@@ -1037,11 +1038,11 @@ class OpArtWallpaperPainter extends CustomPainter {
   // double fill;
 
   OpArtWallpaperPainter(
-    this.seed,
-    this.rnd,
-    // this.angle,
-    // this.fill
-  );
+      this.seed,
+      this.rnd,
+      // this.angle,
+      // this.fill
+      );
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -1062,7 +1063,7 @@ class OpArtWallpaperPainter extends CustomPainter {
         currentWallpaper.paletteList.value != currentNamedPalette) {
       // find the index of the palette in the list
       List newPalette = palettes.firstWhere(
-          (palette) => palette[0] == currentWallpaper.paletteList.value);
+              (palette) => palette[0] == currentWallpaper.paletteList.value);
       // set the palette details
       currentWallpaper.numberOfColors.value = newPalette[1].toInt();
       currentWallpaper.backgroundColor.value = Color(int.parse(newPalette[2]));
@@ -1089,37 +1090,30 @@ class OpArtWallpaperPainter extends CustomPainter {
     double imageWidth = canvasWidth;
     double imageHeight = canvasHeight;
 
-    print('currentWallpaper.aspectRatio: ${currentWallpaper.aspectRatio}');
-    print('currentWallpaper.cellsX.value: ${currentWallpaper.cellsX.value}');
-    print('currentWallpaper.cellsY.value: ${currentWallpaper.cellsY.value}');
+
 
     // Initialise the aspect ratio
     if (currentWallpaper.aspectRatio == pi / 2) {
-      print('');
-      print('Initialise the aspect ratio');
 
       // if portrait add extra Y cells
       if (canvasHeight > canvasWidth) {
-        print('portrait');
         currentWallpaper.cellsY.value =
             (canvasHeight / canvasWidth * currentWallpaper.cellsX.value)
                 .toInt();
-        print(
-            'currentWallpaper.cellsY.value: ${currentWallpaper.cellsY.value}');
       }
+
       // if landscape add extra X cells
       else {
-        print('portrait');
         currentWallpaper.cellsX.value =
             (canvasWidth / canvasHeight * currentWallpaper.cellsY.value)
                 .toInt();
-        print(
-            'currentWallpaper.cellsX.value: ${currentWallpaper.cellsX.value}');
       }
       currentWallpaper.aspectRatio =
           currentWallpaper.cellsX.value / currentWallpaper.cellsY.value;
-      print('currentWallpaper.aspectRatio: ${currentWallpaper.aspectRatio}');
     }
+
+    // work out the aspect ratio
+    currentWallpaper.aspectRatio = (currentWallpaper.cellsX.value * currentWallpaper.squeezeX.value) / (currentWallpaper.cellsY.value * currentWallpaper.squeezeY.value);
 
     if (canvasWidth / canvasHeight < currentWallpaper.aspectRatio) {
       borderY = (canvasHeight - canvasWidth / currentWallpaper.aspectRatio) / 2;
@@ -1128,27 +1122,13 @@ class OpArtWallpaperPainter extends CustomPainter {
       borderX = (canvasWidth - canvasHeight / currentWallpaper.aspectRatio) / 2;
       imageWidth = imageHeight * currentWallpaper.aspectRatio;
     }
-    print('currentWallpaper.aspectRatio: ${currentWallpaper.aspectRatio}');
-
-    print('canvas height: ${canvasHeight}');
-    print('canvas width: ${canvasWidth}');
-    print('canvasWidth / canvasHeight = ${canvasWidth / canvasHeight}');
-    print('aspectRatio = ${currentWallpaper.aspectRatio}');
-    print('borderX = $borderX');
-    print('borderY = $borderY');
-    print('imageWidth = $imageWidth');
-    print('imageHeight = $imageHeight');
-
-    print('cellsX: ${currentWallpaper.cellsX.value}');
-    print('cellsY: ${currentWallpaper.cellsY.value}');
 
     int colourOrder = 0;
 
     // Now make some art
 
     // fill
-    bool fill = true; // rnd.nextBool();
-    print('fill: $fill');
+    bool fill = true;
 
     int extraCellsX = 0;
     int extraCellsY = 0;
@@ -1159,14 +1139,13 @@ class OpArtWallpaperPainter extends CustomPainter {
 
     // work out the radius from the width and the cells
     double radius = imageWidth / (currentWallpaper.cellsX.value * 2);
-    print('radius: $radius');
 
     for (int j = 0 - extraCellsY;
-        j < currentWallpaper.cellsY.value + extraCellsY;
-        j++) {
+    j < currentWallpaper.cellsY.value + extraCellsY;
+    j++) {
       for (int i = 0 - extraCellsX;
-          i < currentWallpaper.cellsX.value + extraCellsX;
-          i++) {
+      i < currentWallpaper.cellsX.value + extraCellsX;
+      i++) {
         int k = 0; // count the steps
 
         double dX = 0;
@@ -1203,8 +1182,6 @@ class OpArtWallpaperPainter extends CustomPainter {
               (currentWallpaper.offsetY.value * i) +
               (j * 2 + 1) * radius * currentWallpaper.squeezeY.value
         ];
-        // print('i: $i j: $j');
-        // print('PO: $PO');
 
         List PA = [
           PO[0] + stepRadius * sqrt(2) * cos(pi * (5 / 4 + localRotate)),
@@ -1252,7 +1229,7 @@ class OpArtWallpaperPainter extends CustomPainter {
               Paint()
                 ..style = PaintingStyle.fill
                 ..color =
-                    nextColor.withOpacity(currentWallpaper.opacity.value));
+                nextColor.withOpacity(currentWallpaper.opacity.value));
 
           // if (lineWidth > 0) {
           //   canvas.drawPath(path, Paint() ..style = PaintingStyle.stroke ..strokeWidth = lineWidth ..color = lineColor);
@@ -1267,13 +1244,13 @@ class OpArtWallpaperPainter extends CustomPainter {
           switch (currentWallpaper.shape.value) {
             case 'circle':
 
-              // Choose the next colour
+            // Choose the next colour
               colourOrder++;
               nextColor = currentWallpaper
                   .palette[colourOrder % currentWallpaper.numberOfColors.value];
               if (currentWallpaper.randomColors.value) {
                 nextColor = currentWallpaper.palette[
-                    rnd.nextInt(currentWallpaper.numberOfColors.value)];
+                rnd.nextInt(currentWallpaper.numberOfColors.value)];
               }
 
               canvas.drawCircle(
@@ -1282,7 +1259,7 @@ class OpArtWallpaperPainter extends CustomPainter {
                   Paint()
                     ..style = PaintingStyle.fill
                     ..color =
-                        nextColor.withOpacity(currentWallpaper.opacity.value));
+                    nextColor.withOpacity(currentWallpaper.opacity.value));
               canvas.drawCircle(
                   Offset(PO[0], PO[1]),
                   stepRadius,
@@ -1353,7 +1330,7 @@ class OpArtWallpaperPainter extends CustomPainter {
                   .palette[colourOrder % currentWallpaper.numberOfColors.value];
               if (currentWallpaper.randomColors.value) {
                 nextColor = currentWallpaper.palette[
-                    rnd.nextInt(currentWallpaper.numberOfColors.value)];
+                rnd.nextInt(currentWallpaper.numberOfColors.value)];
               }
 
               canvas.drawPath(
@@ -1368,7 +1345,7 @@ class OpArtWallpaperPainter extends CustomPainter {
                   Paint()
                     ..style = PaintingStyle.fill
                     ..color =
-                        nextColor.withOpacity(currentWallpaper.opacity.value));
+                    nextColor.withOpacity(currentWallpaper.opacity.value));
 
               break;
 
@@ -1423,10 +1400,10 @@ class OpArtWallpaperPainter extends CustomPainter {
                 // Choose the next colour
                 colourOrder++;
                 nextColor = currentWallpaper.palette[
-                    colourOrder % currentWallpaper.numberOfColors.value];
+                colourOrder % currentWallpaper.numberOfColors.value];
                 if (currentWallpaper.randomColors.value) {
                   nextColor = currentWallpaper.palette[
-                      rnd.nextInt(currentWallpaper.numberOfColors.value)];
+                  rnd.nextInt(currentWallpaper.numberOfColors.value)];
                 }
 
                 canvas.drawPath(
@@ -1456,7 +1433,7 @@ class OpArtWallpaperPainter extends CustomPainter {
                   .palette[colourOrder % currentWallpaper.numberOfColors.value];
               if (currentWallpaper.randomColors.value) {
                 nextColor = currentWallpaper.palette[
-                    rnd.nextInt(currentWallpaper.numberOfColors.value)];
+                rnd.nextInt(currentWallpaper.numberOfColors.value)];
               }
 
               canvas.drawCircle(
@@ -1465,7 +1442,7 @@ class OpArtWallpaperPainter extends CustomPainter {
                   Paint()
                     ..style = PaintingStyle.fill
                     ..color =
-                        nextColor.withOpacity(currentWallpaper.opacity.value));
+                    nextColor.withOpacity(currentWallpaper.opacity.value));
               canvas.drawCircle(
                   Offset(PO[0], PO[1]),
                   centreRadius,
@@ -1479,10 +1456,10 @@ class OpArtWallpaperPainter extends CustomPainter {
                 // Choose the next colour
                 colourOrder++;
                 nextColor = currentWallpaper.palette[
-                    colourOrder % currentWallpaper.numberOfColors.value];
+                colourOrder % currentWallpaper.numberOfColors.value];
                 if (currentWallpaper.randomColors.value) {
                   nextColor = currentWallpaper.palette[
-                      rnd.nextInt(currentWallpaper.numberOfColors.value)];
+                  rnd.nextInt(currentWallpaper.numberOfColors.value)];
                 }
 
                 var petalAngle =
@@ -1591,19 +1568,13 @@ class OpArtWallpaperPainter extends CustomPainter {
       ..color = Colors.white
       ..style = PaintingStyle.fill;
     canvas.drawRect(Offset(0, 0) & Size(borderX, canvasHeight), paint1);
-    canvas.drawRect(
-        Offset(canvasWidth - borderX, 0) & Size(borderX, canvasHeight), paint1);
+    canvas.drawRect(Offset(canvasWidth - borderX, 0) & Size(borderX, canvasHeight), paint1);
 
     canvas.drawRect(Offset(0, 0) & Size(canvasWidth, borderY), paint1);
     canvas.drawRect(
-        Offset(0, borderY + currentWallpaper.cellsY.value * radius * 2) &
-            Size(canvasWidth, borderY + 1000),
+        Offset(0, borderY + imageHeight) &Size(canvasWidth, borderY + 1000),
         paint1);
 
-    print('borderX: $borderX');
-    print('borderY: $borderY');
-    print('canvasWidth: $canvasWidth');
-    print('canvasHeight: $canvasHeight');
   }
 
   @override
