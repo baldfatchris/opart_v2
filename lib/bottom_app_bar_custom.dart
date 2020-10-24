@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'opart_model.dart';
 
 Widget CustomBottomAppBar(
-    {Function randomise, Function randomisePalette, Function showBottomSheet}) {
-  return ButtonBar(
+    {Function randomise, Function randomisePalette, Function showToolBox}) {
+  return Container(
+      height: 70,
+      child: GestureDetector(
+      onVerticalDragUpdate: (value) {
+    showToolBox();
+  },child: 
+    ButtonBar(
     alignment: MainAxisAlignment.spaceAround,
     children: <Widget>[
       FlatButton(
@@ -65,7 +71,7 @@ Widget CustomBottomAppBar(
           ],
         ),
         onPressed: () {
-          showBottomSheet();
+          showToolBox();
         },
       ),
       FlatButton(
@@ -188,5 +194,5 @@ Widget CustomBottomAppBar(
       // ),
       // )
     ],
-  );
+    )));
 }

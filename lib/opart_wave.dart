@@ -12,6 +12,7 @@ import 'package:opart_v2/setting_radiobutton.dart';
 import 'opart_model.dart';
 import 'palettes.dart';
 import 'bottom_app_bar_custom.dart';
+import 'toolbox.dart';
 
 Random rnd;
 
@@ -73,7 +74,6 @@ class Wave {
     defaultValue: Colors.white,
     icon: Icon(Icons.settings_overscan),
     proFeature: false,
-
   );
   SettingsModelBool randomColors = SettingsModelBool(
     label: 'Random Colors',
@@ -103,7 +103,6 @@ class Wave {
       'linear complementary'
     ],
     proFeature: false,
-
   );
   SettingsModelDouble opacity = SettingsModelDouble(
     label: 'Opactity',
@@ -122,7 +121,6 @@ class Wave {
     icon: Icon(Icons.palette),
     options: defaultPalleteNames(),
     proFeature: false,
-
   );
 
   List palette;
@@ -175,7 +173,8 @@ class Wave {
 
     int numberOfColors = this.numberOfColors.value;
 
-    this.palette = randomisedPalette(this.paletteType.value, this.numberOfColors.value, rnd);
+    this.palette = randomisedPalette(
+        this.paletteType.value, this.numberOfColors.value, rnd);
   }
 
   void defaultSettings() {
@@ -248,38 +247,35 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
   // Animation<double> animation2;
   // AnimationController controller2;
 
-
   cacheWave() async {
     WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
-        .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
-        .then((File image) async {
-      currentWave.image = image;
+            .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
+            .then((File image) async {
+          currentWave.image = image;
 
-      Map<String, dynamic> currentCache = {
-        'aspectRatio': currentWave.aspectRatio,
-        'stepX': currentWave.stepX.value,
-        'stepY': currentWave.stepY.value,
-        'frequency': currentWave.frequency.value,
-        'amplitude': currentWave.amplitude.value,
-        'backgroundColor': currentWave.backgroundColor.value,
-        'randomColors': currentWave.randomColors.value,
-        'numberOfColors': currentWave.numberOfColors.value,
-        'paletteType': currentWave.paletteType.value,
-        'opacity': currentWave.opacity.value,
-        'image': currentWave.image,
-        'palette': currentWave.palette,
-
-      };
-      cachedWaveList.add(currentCache);
-      rebuildCache.value++;
-      await new Future.delayed(const Duration(milliseconds: 20));
-      if (_scrollController.hasClients) {
-        _scrollController
-            .jumpTo(_scrollController.position.maxScrollExtent);
-      }
-      enableButton = true;
-
-    }));
+          Map<String, dynamic> currentCache = {
+            'aspectRatio': currentWave.aspectRatio,
+            'stepX': currentWave.stepX.value,
+            'stepY': currentWave.stepY.value,
+            'frequency': currentWave.frequency.value,
+            'amplitude': currentWave.amplitude.value,
+            'backgroundColor': currentWave.backgroundColor.value,
+            'randomColors': currentWave.randomColors.value,
+            'numberOfColors': currentWave.numberOfColors.value,
+            'paletteType': currentWave.paletteType.value,
+            'opacity': currentWave.opacity.value,
+            'image': currentWave.image,
+            'palette': currentWave.palette,
+          };
+          cachedWaveList.add(currentCache);
+          rebuildCache.value++;
+          await new Future.delayed(const Duration(milliseconds: 20));
+          if (_scrollController.hasClients) {
+            _scrollController
+                .jumpTo(_scrollController.position.maxScrollExtent);
+          }
+          enableButton = true;
+        }));
   }
 
   ScrollController _scrollController = new ScrollController();
@@ -297,10 +293,10 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                 height: constraints.heightConstraints().maxHeight,
                 child: CustomPaint(
                     painter: OpArtWavePainter(
-                      seed, rnd,
-                      // animation1.value,
-                      // animation2.value
-                    )),
+                  seed, rnd,
+                  // animation1.value,
+                  // animation2.value
+                )),
               ),
             ),
           )
@@ -311,8 +307,6 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
 
   @override
   Widget build(BuildContext context) {
-
-
     Widget bodyWidget() {
       return ValueListenableBuilder<int>(
           valueListenable: rebuildCanvas,
@@ -327,10 +321,10 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                     height: constraints.heightConstraints().maxHeight,
                     child: CustomPaint(
                         painter: OpArtWavePainter(
-                          seed, rnd,
-                          // animation1.value,
-                          // animation2.value
-                        )),
+                      seed, rnd,
+                      // animation1.value,
+                      // animation2.value
+                    )),
                   ),
                 ),
               ),
@@ -338,206 +332,21 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
           });
     }
 
-    void _showBottomSheetSettings(context, int index) {
-      showDialog(
-        //  backgroundColor: Colors.white.withOpacity(0.8),
-          barrierColor: Colors.white.withOpacity(0.1),
-          context: context,
-          builder: (BuildContext bc) {
-            return StatefulBuilder(
-                builder: (BuildContext context, setLocalState) {
-                  return Center(
-                    child: AlertDialog(
-                      backgroundColor: Colors.white.withOpacity(0.7),
-                      title: Text(settingsList[index].label),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          (settingsList[index].type == 'Double')
-                              ? settingsSlider(
-                            settingsList[index].label,
-                            settingsList[index].tooltip,
-                            settingsList[index].value,
-                            settingsList[index].min,
-                            settingsList[index].max,
-                            settingsList[index].locked,
-                            settingsList[index].zoom,
-                                (value) {
-                              setState(() {
-                                settingsList[index].value = value;
-                              });
-                              setLocalState(() {});
-                            },
-                                (value) {
-                              setState(() {
-                                settingsList[index].locked = value;
-                              });
-                              setLocalState(() {});
-                            },
-                                () {},
-                          )
-                              : (settingsList[index].type == 'Int')
-                              ? settingsIntSlider(
-                            settingsList[index].label,
-                            settingsList[index].tooltip,
-                            settingsList[index].value,
-                            settingsList[index].min,
-                            settingsList[index].max,
-                            settingsList[index].locked,
-                                (value) {
-                              setState(() {
-                                settingsList[index].value = value.toInt();
-                              });
-                              setLocalState(() {});
-                            },
-                                (value) {
-                              setState(() {
-                                settingsList[index].locked = value;
-                              });
-                              setLocalState(() {});
-                            },
-                                () {},
-                          )
-                              : (settingsList[index].type == 'List')
-                              ? settingsDropdown(
-                            settingsList[index].label,
-                            settingsList[index].tooltip,
-                            settingsList[index].value,
-                            settingsList[index].options,
-                            settingsList[index].locked,
-                                (value) {
-                              setState(() {
-                                settingsList[index].value = value;
-                              });
-                              setLocalState(() {});
-                            },
-                                (value) {
-                              setState(() {
-                                settingsList[index].locked =
-                                !settingsList[index].locked;
-                              });
-                            },
-                          )
-                              : (settingsList[index].type == 'Color')
-                              ? settingsColorPicker(
-                            settingsList[index].label,
-                            settingsList[index].tooltip,
-                            settingsList[index].value,
-                            settingsList[index].locked,
-                                (value) {
-                              setState(() {
-                                settingsList[index].value = value;
-                              });
-                              setLocalState(() {});
-                            },
-                                (value) {
-                              setState(() {
-                                settingsList[index].locked =
-                                    value;
-                              });
-                              setLocalState(() {});
-                            },
-                          )
-                              : settingsRadioButton(
-                            settingsList[index].label,
-                            settingsList[index].tooltip,
-                            settingsList[index].value,
-                            settingsList[index].locked,
-                                (value) {
-                              setState(() {
-                                settingsList[index].value = value;
-                              });
-                              setLocalState(() {});
-                            },
-                                (value) {
-                              setState(() {
-                                settingsList[index].locked =
-                                    value;
-                              });
-                              setLocalState(() {});
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                });
-          }).then((value) {
-        cacheWave();
-        rebuildCanvas.value++;
-
-      });
-    }
-
-    void _showBottomSheet(context) {
-      showModalBottomSheet(
-          context: context,
-          builder: (BuildContext bc) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Container(
-                  height: 350,
-                  child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 4),
-                      itemCount: settingsList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          height: 10,
-                          width: 10,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                              _showBottomSheetSettings(
-                                context,
-                                index,
-                              );
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                settingsList[index].icon,
-                                Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Container(
-                                      height: 40,
-                                      child: Text(
-                                        settingsList[index].label,
-                                        textAlign: TextAlign.center,
-                                      )),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      })),
-            );
-          });
-    }
-
     return Scaffold(
-      bottomNavigationBar: Container(
-        height: 70,
-        child: BottomAppBar(
-          color: Colors.white,
-          child: CustomBottomAppBar(randomise: () {
-
-            currentWave.randomize();
-            currentWave.randomizePalette();
-            rebuildCanvas.value++;
-            cacheWave();
-
-          }, randomisePalette: () {
-
-            currentWave.randomizePalette();
-            rebuildCanvas.value++;
-            cacheWave();
-
-          }, showBottomSheet: () {
-            _showBottomSheet(context);
-          }),
-        ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.white,
+        child: CustomBottomAppBar(randomise: () {
+          currentWave.randomize();
+          currentWave.randomizePalette();
+          rebuildCanvas.value++;
+          cacheWave();
+        }, randomisePalette: () {
+          currentWave.randomizePalette();
+          rebuildCanvas.value++;
+          cacheWave();
+        }, showToolBox: () {
+          ToolBox(context, settingsList, cacheWave);
+        }),
       ),
       body: Column(
         children: [
@@ -552,55 +361,57 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                     return cachedWaveList.length == 0
                         ? Container()
                         : ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      controller: _scrollController,
-                      itemCount: cachedWaveList.length,
-                      reverse: false,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                currentWave.stepX.value =
-                                cachedWaveList[index]['stepX'];
-                                currentWave.stepY.value =
-                                cachedWaveList[index]['stepY'];
+                            scrollDirection: Axis.horizontal,
+                            controller: _scrollController,
+                            itemCount: cachedWaveList.length,
+                            reverse: false,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      currentWave.stepX.value =
+                                          cachedWaveList[index]['stepX'];
+                                      currentWave.stepY.value =
+                                          cachedWaveList[index]['stepY'];
 
-                                currentWave.frequency.value =
-                                cachedWaveList[index]['frequency'];
-                                currentWave.amplitude.value =
-                                cachedWaveList[index]['amplitude'];
-                                currentWave.image =
-                                cachedWaveList[index]['image'];
+                                      currentWave.frequency.value =
+                                          cachedWaveList[index]['frequency'];
+                                      currentWave.amplitude.value =
+                                          cachedWaveList[index]['amplitude'];
+                                      currentWave.image =
+                                          cachedWaveList[index]['image'];
 
-                                currentWave.backgroundColor.value =
-                                cachedWaveList[index]['backgroundColor'];
-                                currentWave.randomColors.value =
-                                cachedWaveList[index]['randomColors'];
-                                currentWave.numberOfColors.value =
-                                cachedWaveList[index]['numberOfColors'];
-                                currentWave.paletteType.value =
-                                cachedWaveList[index]['paletteType'];
-                                currentWave.opacity.value =
-                                cachedWaveList[index]['opacity'];
-                                currentWave.palette =
-                                cachedWaveList[index]['palette'];
-                              });
+                                      currentWave.backgroundColor.value =
+                                          cachedWaveList[index]
+                                              ['backgroundColor'];
+                                      currentWave.randomColors.value =
+                                          cachedWaveList[index]['randomColors'];
+                                      currentWave.numberOfColors.value =
+                                          cachedWaveList[index]
+                                              ['numberOfColors'];
+                                      currentWave.paletteType.value =
+                                          cachedWaveList[index]['paletteType'];
+                                      currentWave.opacity.value =
+                                          cachedWaveList[index]['opacity'];
+                                      currentWave.palette =
+                                          cachedWaveList[index]['palette'];
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration:
+                                        BoxDecoration(shape: BoxShape.circle),
+                                    width: 50,
+                                    height: 50,
+                                    child: Image.file(
+                                        cachedWaveList[index]['image']),
+                                  ),
+                                ),
+                              );
                             },
-                            child: Container(
-                              decoration: BoxDecoration(shape: BoxShape.circle),
-                              width: 50,
-                              height: 50,
-                              child: Image.file(
-                                  cachedWaveList[index]['image']),
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  }
-              )),
+                          );
+                  })),
           Expanded(child: ClipRect(child: bodyWidget())),
         ],
       ),
@@ -623,7 +434,6 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
       rebuildCanvas.value++;
       cacheWave();
       //randomiseSettings();
-
     });
     // To close: detector.stopListening();
     // ShakeDetector.waitForStart() waits for user to call detector.startListening();
@@ -687,11 +497,11 @@ class OpArtWavePainter extends CustomPainter {
   // double fill;
 
   OpArtWavePainter(
-      this.seed,
-      this.rnd,
-      // this.angle,
-      // this.fill
-      );
+    this.seed,
+    this.rnd,
+    // this.angle,
+    // this.fill
+  );
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -796,24 +606,24 @@ class OpArtWavePainter extends CustomPainter {
   }
 
   generateWave(
-      Canvas canvas,
-      double canvasWidth,
-      double canvasHeight,
-      double imageWidth,
-      double imageHeight,
-      double borderX,
-      double borderY,
-      double currentStepX,
-      double currentStepY,
-      double currentFrequency,
-      double currentAmplitude,
-      Color currentBackgroundColor,
-      bool currentRandomColors,
-      int currentNumberOfColors,
-      String currentPaletteType,
-      double currentOpacity,
-      List currentPalette,
-      ) {
+    Canvas canvas,
+    double canvasWidth,
+    double canvasHeight,
+    double imageWidth,
+    double imageHeight,
+    double borderX,
+    double borderY,
+    double currentStepX,
+    double currentStepY,
+    double currentFrequency,
+    double currentAmplitude,
+    Color currentBackgroundColor,
+    bool currentRandomColors,
+    int currentNumberOfColors,
+    String currentPaletteType,
+    double currentOpacity,
+    List currentPalette,
+  ) {
     int colourOrder = 0;
 
     // colour in the canvas
@@ -884,16 +694,16 @@ class OpArtWavePainter extends CustomPainter {
         paint1);
     canvas.drawRect(
         Offset(canvasWidth - borderX, 0) &
-        Size(borderX + canvasWidth, canvasHeight),
+            Size(borderX + canvasWidth, canvasHeight),
         paint1);
 
     canvas.drawRect(
         Offset(-canvasWidth, -canvasHeight) &
-        Size(3 * canvasWidth, canvasHeight + borderY),
+            Size(3 * canvasWidth, canvasHeight + borderY),
         paint1);
     canvas.drawRect(
         Offset(-canvasWidth, borderY + canvasHeight) &
-        Size(3 * canvasWidth, borderY + canvasHeight * 2),
+            Size(3 * canvasWidth, borderY + canvasHeight * 2),
         paint1);
   }
 

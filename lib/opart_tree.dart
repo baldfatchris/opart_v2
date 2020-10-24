@@ -11,6 +11,7 @@ import 'package:opart_v2/setting_radiobutton.dart';
 import 'opart_model.dart';
 import 'palettes.dart';
 import 'bottom_app_bar_custom.dart';
+import 'toolbox.dart';
 
 Random rnd;
 
@@ -190,18 +191,16 @@ class Tree {
     icon: Icon(Icons.local_florist),
     options: <String>['circle', 'triangle', 'square', 'petal'],
     proFeature: false,
-
   );
 
   SettingsModelList direction = SettingsModelList(
     label: "Direction",
     tooltip:
-    "Start from the outside and draw Inward, or start from the centre and draw Outward",
+        "Start from the outside and draw Inward, or start from the centre and draw Outward",
     defaultValue: "inward",
     icon: Icon(Icons.directions),
     options: <String>['inward', 'outward'],
     proFeature: false,
-
   );
 
 // palette settings
@@ -211,7 +210,6 @@ class Tree {
     defaultValue: Colors.cyan[200],
     icon: Icon(Icons.settings_overscan),
     proFeature: false,
-
   );
   SettingsModelColor trunkFillColor = SettingsModelColor(
     label: "Trunk Color",
@@ -219,7 +217,6 @@ class Tree {
     defaultValue: Colors.grey,
     icon: Icon(Icons.settings_overscan),
     proFeature: false,
-
   );
   SettingsModelColor trunkOutlineColor = SettingsModelColor(
     label: "Trunk Outline",
@@ -227,7 +224,6 @@ class Tree {
     defaultValue: Colors.black,
     icon: Icon(Icons.settings_overscan),
     proFeature: false,
-
   );
   SettingsModelDouble trunkStrokeWidth = SettingsModelDouble(
     label: 'Outline Width',
@@ -267,7 +263,6 @@ class Tree {
       'linear complementary'
     ],
     proFeature: false,
-
   );
   SettingsModelDouble opacity = SettingsModelDouble(
     label: 'Opactity',
@@ -286,7 +281,6 @@ class Tree {
     icon: Icon(Icons.palette),
     options: defaultPalleteNames(),
     proFeature: false,
-
   );
 
   List palette;
@@ -352,7 +346,8 @@ class Tree {
     this.paletteType.randomise(rnd);
     this.opacity.randomise(rnd);
 
-    this.palette = randomisedPalette(this.paletteType.value, this.numberOfColors.value, rnd);
+    this.palette = randomisedPalette(
+        this.paletteType.value, this.numberOfColors.value, rnd);
   }
 
   void defaultSettings() {
@@ -459,81 +454,53 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
 
   cacheTree() async {
     WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
-        .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
-        .then((File image) async {
-      currentTree.image = image;
-      Map<String, dynamic> currentCache = {
-        'aspectRatio': currentTree.aspectRatio,
-        'trunkWidth': currentTree.trunkWidth.value,
-        'zoomTree': currentTree.zoomTree.value,
-        'widthDecay': currentTree.widthDecay.value,
-        'segmentLength': currentTree.segmentLength.value,
-        'segmentDecay': currentTree.segmentDecay.value,
-        'branch': currentTree.branch.value,
-        'angle': currentTree.angle.value,
-        'ratio': currentTree.ratio.value,
-        'bulbousness': currentTree.bulbousness.value,
-        'maxDepth': currentTree.maxDepth.value,
-        'leavesAfter': currentTree.leavesAfter.value,
-        'leafAngle': currentTree.leafAngle.value,
-        'leafLength': currentTree.leafLength.value,
-        'randomLeafLength': currentTree.randomLeafLength.value,
-        'leafSquareness': currentTree.leafSquareness.value,
-        'leafDecay': currentTree.leafDecay.value,
-        'backgroundColor': currentTree.backgroundColor.value,
-        'trunkFillColor': currentTree.trunkFillColor.value,
-        'trunkOutlineColor': currentTree.trunkOutlineColor.value,
-        'trunkStrokeWidth': currentTree.trunkStrokeWidth.value,
-        'randomColors': currentTree.randomColors.value,
-        'numberOfColors': currentTree.numberOfColors.value,
-        'paletteType': currentTree.paletteType.value,
-        'palette': currentTree.palette,
-        'opacity': currentTree.opacity.value,
-        'image': currentTree.image,
-      };
-      cachedTreeList.add(currentCache);
-      rebuildCache.value++;
-      await new Future.delayed(const Duration(milliseconds: 20));
-      if (_scrollController.hasClients) {
-        _scrollController
-            .jumpTo(_scrollController.position.maxScrollExtent);
-      }
-      enableButton = true;
-
-    }));
+            .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
+            .then((File image) async {
+          currentTree.image = image;
+          Map<String, dynamic> currentCache = {
+            'aspectRatio': currentTree.aspectRatio,
+            'trunkWidth': currentTree.trunkWidth.value,
+            'zoomTree': currentTree.zoomTree.value,
+            'widthDecay': currentTree.widthDecay.value,
+            'segmentLength': currentTree.segmentLength.value,
+            'segmentDecay': currentTree.segmentDecay.value,
+            'branch': currentTree.branch.value,
+            'angle': currentTree.angle.value,
+            'ratio': currentTree.ratio.value,
+            'bulbousness': currentTree.bulbousness.value,
+            'maxDepth': currentTree.maxDepth.value,
+            'leavesAfter': currentTree.leavesAfter.value,
+            'leafAngle': currentTree.leafAngle.value,
+            'leafLength': currentTree.leafLength.value,
+            'randomLeafLength': currentTree.randomLeafLength.value,
+            'leafSquareness': currentTree.leafSquareness.value,
+            'leafDecay': currentTree.leafDecay.value,
+            'backgroundColor': currentTree.backgroundColor.value,
+            'trunkFillColor': currentTree.trunkFillColor.value,
+            'trunkOutlineColor': currentTree.trunkOutlineColor.value,
+            'trunkStrokeWidth': currentTree.trunkStrokeWidth.value,
+            'randomColors': currentTree.randomColors.value,
+            'numberOfColors': currentTree.numberOfColors.value,
+            'paletteType': currentTree.paletteType.value,
+            'palette': currentTree.palette,
+            'opacity': currentTree.opacity.value,
+            'image': currentTree.image,
+          };
+          cachedTreeList.add(currentCache);
+          rebuildCache.value++;
+          await new Future.delayed(const Duration(milliseconds: 20));
+          if (_scrollController.hasClients) {
+            _scrollController
+                .jumpTo(_scrollController.position.maxScrollExtent);
+          }
+          enableButton = true;
+        }));
   }
 
   ScrollController _scrollController = new ScrollController();
-  @override
-  Widget bodyWidget() {
-    return Screenshot(
-      controller: screenshotController,
-      child: Stack(
-        children: [
-          Visibility(
-            visible: true,
-            child: LayoutBuilder(
-              builder: (_, constraints) => Container(
-                width: constraints.widthConstraints().maxWidth,
-                height: constraints.heightConstraints().maxHeight,
-                child: CustomPaint(
-                    painter: OpArtTreePainter(
-                      seed, rnd,
-                      // animation1.value,
-                      // animation2.value
-                    )),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
-
-
     Widget bodyWidget() {
       return ValueListenableBuilder<int>(
           valueListenable: rebuildCanvas,
@@ -548,10 +515,10 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
                     height: constraints.heightConstraints().maxHeight,
                     child: CustomPaint(
                         painter: OpArtTreePainter(
-                          seed, rnd,
-                          // animation1.value,
-                          // animation2.value
-                        )),
+                      seed, rnd,
+                      // animation1.value,
+                      // animation2.value
+                    )),
                   ),
                 ),
               ),
@@ -559,209 +526,19 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
           });
     }
 
-    void _showBottomSheetSettings(context, int index) {
-      showDialog(
-        //  backgroundColor: Colors.white.withOpacity(0.8),
-          barrierColor: Colors.white.withOpacity(0.1),
-          context: context,
-          builder: (BuildContext bc) {
-            return StatefulBuilder(
-                builder: (BuildContext context, setLocalState) {
-                  return Center(
-                    child: AlertDialog(
-                      backgroundColor: Colors.white.withOpacity(0.7),
-                      title: Text(settingsList[index].label),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          (settingsList[index].type == 'Double')
-                              ? settingsSlider(
-                            settingsList[index].label,
-                            settingsList[index].tooltip,
-                            settingsList[index].value,
-                            settingsList[index].min,
-                            settingsList[index].max,
-                            settingsList[index].locked,
-                            settingsList[index].zoom,
-                                (value) {
-                              setState(() {
-                                settingsList[index].value = value;
-                              });
-                              setLocalState(() {});
-                            },
-                                (value) {
-                              setState(() {
-                                settingsList[index].locked = value;
-                              });
-                              setLocalState(() {});
-                            },
-                                () {},
-                          )
-                              : (settingsList[index].type == 'Int')
-                              ? settingsIntSlider(
-                            settingsList[index].label,
-                            settingsList[index].tooltip,
-                            settingsList[index].value,
-                            settingsList[index].min,
-                            settingsList[index].max,
-                            settingsList[index].locked,
-                                (value) {
-                              setState(() {
-                                settingsList[index].value = value.toInt();
-                              });
-                              setLocalState(() {});
-                            },
-                                (value) {
-                              setState(() {
-                                settingsList[index].locked = value;
-                              });
-                              setLocalState(() {});
-                            },
-                                () {},
-                          )
-                              : (settingsList[index].type == 'List')
-                              ? settingsDropdown(
-                            settingsList[index].label,
-                            settingsList[index].tooltip,
-                            settingsList[index].value,
-                            settingsList[index].options,
-                            settingsList[index].locked,
-                                (value) {
-                              setState(() {
-                                settingsList[index].value = value;
-                              });
-                              setLocalState(() {});
-                            },
-                                (value) {
-                              setState(() {
-                                settingsList[index].locked =
-                                !settingsList[index].locked;
-                              });
-                            },
-                          )
-                              : (settingsList[index].type == 'Color')
-                              ? settingsColorPicker(
-                            settingsList[index].label,
-                            settingsList[index].tooltip,
-                            settingsList[index].value,
-                            settingsList[index].locked,
-                                (value) {
-                              setState(() {
-                                settingsList[index].value = value;
-                              });
-                              setLocalState(() {});
-                            },
-                                (value) {
-                              setState(() {
-                                settingsList[index].locked =
-                                    value;
-                              });
-                              setLocalState(() {});
-                            },
-                          )
-                              : settingsRadioButton(
-                            settingsList[index].label,
-                            settingsList[index].tooltip,
-                            settingsList[index].value,
-                            settingsList[index].locked,
-                                (value) {
-                              setState(() {
-                                settingsList[index].value = value;
-                              });
-                              setLocalState(() {});
-                            },
-                                (value) {
-                              setState(() {
-                                settingsList[index].locked =
-                                    value;
-                              });
-                              setLocalState(() {});
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                });
-          })..then((value) {
-        cacheTree();
-        rebuildCanvas.value++;
-
-      });
-    }
-
-    void _showBottomSheet(context) {
-      showModalBottomSheet(
-          context: context,
-          builder: (BuildContext bc) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Container(
-                  height: 350,
-                  child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 4),
-                      itemCount: settingsList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          height: 10,
-                          width: 10,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                              _showBottomSheetSettings(
-                                context,
-                                index,
-                              );
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                settingsList[index].icon,
-                                Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Container(
-                                      height: 40,
-                                      child: Text(
-                                        settingsList[index].label,
-                                        textAlign: TextAlign.center,
-                                      )),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      })),
-            );
-          });
-    }
-
     return Scaffold(
-      bottomNavigationBar: Container(
-        height: 70,
-        child: GestureDetector(
-          onVerticalDragUpdate: (value) {
-            _showBottomSheet(context);
-          },
-          child: CustomBottomAppBar(randomise: () {
-
-            currentTree.randomize();
-            currentTree.randomizePalette();
-            rebuildCanvas.value++;
-            cacheTree();
-
-          }, randomisePalette: () {
-
-            currentTree.randomizePalette();
-            rebuildCanvas.value++;
-            cacheTree();
-
-          }, showBottomSheet: () {
-            _showBottomSheet(context);
-          }),
-        ),
-      ),
+      bottomNavigationBar: CustomBottomAppBar(randomise: () {
+        currentTree.randomize();
+        currentTree.randomizePalette();
+        rebuildCanvas.value++;
+        cacheTree();
+      }, randomisePalette: () {
+        currentTree.randomizePalette();
+        rebuildCanvas.value++;
+        cacheTree();
+      }, showToolBox: () {
+        ToolBox(context, settingsList, cacheTree);
+      }),
       body: Column(
         children: [
           Container(
@@ -774,61 +551,97 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
                     return cachedTreeList.length == 0
                         ? Container()
                         : ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      controller: _scrollController,
-                      itemCount: cachedTreeList.length,
-                      shrinkWrap: true,
-                      reverse: false,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              print('---------------------------------------------------------------------');
-                              print('Selected from history');
-                              print('index: $index');
-                              print('---------------------------------------------------------------------');
-                              print('cachedTreeList[index]: ${cachedTreeList[index]}');
-                              setState(() {
-                                currentTree.trunkWidth.value = cachedTreeList[index]['trunkWidth'];
-                                currentTree.zoomTree.value = cachedTreeList[index]['zoomTree'];
-                                currentTree.widthDecay.value = cachedTreeList[index]['widthDecay'];
-                                currentTree.segmentLength.value = cachedTreeList[index]['segmentLength'];
-                                currentTree.segmentDecay.value = cachedTreeList[index]['segmentDecay'];
-                                currentTree.branch.value = cachedTreeList[index]['branch'];
-                                currentTree.angle.value = cachedTreeList[index]['angle'];
-                                currentTree.ratio.value = cachedTreeList[index]['ratio'];
-                                currentTree.bulbousness.value = cachedTreeList[index]['bulbousness'];
-                                currentTree.image = cachedTreeList[index]['image'];
-                                currentTree.maxDepth.value = cachedTreeList[index]['maxDepth'];
-                                currentTree.leavesAfter.value = cachedTreeList[index]['leavesAfter'];
-                                currentTree.leafAngle.value = cachedTreeList[index]['leafAngle'];
-                                currentTree.leafLength.value = cachedTreeList[index]['leafLength'];
-                                currentTree.randomLeafLength.value = cachedTreeList[index]['randomLeafLength'];
-                                currentTree.leafSquareness.value = cachedTreeList[index]['leafSquareness'];
-                                currentTree.leafDecay.value = cachedTreeList[index]['leafDecay'];
-                                currentTree.backgroundColor.value = cachedTreeList[index]['backgroundColor'];
-                                currentTree.trunkFillColor.value = cachedTreeList[index]['trunkFillColor'];
-                                currentTree.trunkOutlineColor.value = cachedTreeList[index]['trunkOutlineColor'];
-                                currentTree.randomColors.value = cachedTreeList[index]['randomColors'];
-                                currentTree.numberOfColors.value = cachedTreeList[index]['numberOfColors'];
-                                currentTree.paletteType.value = cachedTreeList[index]['paletteType'];
-                                currentTree.palette = cachedTreeList[index]['palette'];
-                                currentTree.opacity.value = cachedTreeList[index]['opacity'];
-                              });
+                            scrollDirection: Axis.horizontal,
+                            controller: _scrollController,
+                            itemCount: cachedTreeList.length,
+                            shrinkWrap: true,
+                            reverse: false,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    print(
+                                        '---------------------------------------------------------------------');
+                                    print('Selected from history');
+                                    print('index: $index');
+                                    print(
+                                        '---------------------------------------------------------------------');
+                                    print(
+                                        'cachedTreeList[index]: ${cachedTreeList[index]}');
+                                    setState(() {
+                                      currentTree.trunkWidth.value =
+                                          cachedTreeList[index]['trunkWidth'];
+                                      currentTree.zoomTree.value =
+                                          cachedTreeList[index]['zoomTree'];
+                                      currentTree.widthDecay.value =
+                                          cachedTreeList[index]['widthDecay'];
+                                      currentTree.segmentLength.value =
+                                          cachedTreeList[index]
+                                              ['segmentLength'];
+                                      currentTree.segmentDecay.value =
+                                          cachedTreeList[index]['segmentDecay'];
+                                      currentTree.branch.value =
+                                          cachedTreeList[index]['branch'];
+                                      currentTree.angle.value =
+                                          cachedTreeList[index]['angle'];
+                                      currentTree.ratio.value =
+                                          cachedTreeList[index]['ratio'];
+                                      currentTree.bulbousness.value =
+                                          cachedTreeList[index]['bulbousness'];
+                                      currentTree.image =
+                                          cachedTreeList[index]['image'];
+                                      currentTree.maxDepth.value =
+                                          cachedTreeList[index]['maxDepth'];
+                                      currentTree.leavesAfter.value =
+                                          cachedTreeList[index]['leavesAfter'];
+                                      currentTree.leafAngle.value =
+                                          cachedTreeList[index]['leafAngle'];
+                                      currentTree.leafLength.value =
+                                          cachedTreeList[index]['leafLength'];
+                                      currentTree.randomLeafLength.value =
+                                          cachedTreeList[index]
+                                              ['randomLeafLength'];
+                                      currentTree.leafSquareness.value =
+                                          cachedTreeList[index]
+                                              ['leafSquareness'];
+                                      currentTree.leafDecay.value =
+                                          cachedTreeList[index]['leafDecay'];
+                                      currentTree.backgroundColor.value =
+                                          cachedTreeList[index]
+                                              ['backgroundColor'];
+                                      currentTree.trunkFillColor.value =
+                                          cachedTreeList[index]
+                                              ['trunkFillColor'];
+                                      currentTree.trunkOutlineColor.value =
+                                          cachedTreeList[index]
+                                              ['trunkOutlineColor'];
+                                      currentTree.randomColors.value =
+                                          cachedTreeList[index]['randomColors'];
+                                      currentTree.numberOfColors.value =
+                                          cachedTreeList[index]
+                                              ['numberOfColors'];
+                                      currentTree.paletteType.value =
+                                          cachedTreeList[index]['paletteType'];
+                                      currentTree.palette =
+                                          cachedTreeList[index]['palette'];
+                                      currentTree.opacity.value =
+                                          cachedTreeList[index]['opacity'];
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration:
+                                        BoxDecoration(shape: BoxShape.circle),
+                                    width: 50,
+                                    height: 50,
+                                    child: Image.file(
+                                        cachedTreeList[index]['image']),
+                                  ),
+                                ),
+                              );
                             },
-                            child: Container(
-                              decoration: BoxDecoration(shape: BoxShape.circle),
-                              width: 50,
-                              height: 50,
-                              child: Image.file(cachedTreeList[index]['image']),
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  }
-              )),
+                          );
+                  })),
           Expanded(child: ClipRect(child: bodyWidget())),
         ],
       ),
@@ -915,11 +728,11 @@ class OpArtTreePainter extends CustomPainter {
   // double fill;
 
   OpArtTreePainter(
-      this.seed,
-      this.rnd,
-      // this.angle,
-      // this.fill
-      );
+    this.seed,
+    this.rnd,
+    // this.angle,
+    // this.fill
+  );
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -929,7 +742,6 @@ class OpArtTreePainter extends CustomPainter {
     print('----------------------------------------------------------------');
     print('Tree');
     print('----------------------------------------------------------------');
-
 
     // Initialise the palette
     if (currentTree == null) {
@@ -997,7 +809,6 @@ class OpArtTreePainter extends CustomPainter {
     double zoom = currentTree.zoomTree.value;
     print('zoom: $zoom');
 
-
     String leafStyle = 'quadratic';
 
     List treeBaseA = [
@@ -1026,20 +837,20 @@ class OpArtTreePainter extends CustomPainter {
   }
 
   drawSegment(
-      Canvas canvas,
-      double borderX,
-      double borderY,
-      List rootA,
-      List rootB,
-      double width,
-      double segmentLength,
-      double direction,
-      int currentDepth,
-      double lineWidth,
-      double leafLength,
-      String leafStyle,
-      bool justBranched,
-      ) {
+    Canvas canvas,
+    double borderX,
+    double borderY,
+    List rootA,
+    List rootB,
+    double width,
+    double segmentLength,
+    double direction,
+    int currentDepth,
+    double lineWidth,
+    double leafLength,
+    String leafStyle,
+    bool justBranched,
+  ) {
     List segmentBaseCentre = [
       (rootA[0] + rootB[0]) / 2,
       (rootA[1] + rootB[1]) / 2
@@ -1178,15 +989,15 @@ class OpArtTreePainter extends CustomPainter {
   }
 
   drawTheTrunk(
-      Canvas canvas,
-      double borderX,
-      double borderY,
-      List P1,
-      List P2,
-      List P3,
-      List P4,
-      double bulbousness,
-      ) {
+    Canvas canvas,
+    double borderX,
+    double borderY,
+    List P1,
+    List P2,
+    List P3,
+    List P4,
+    double bulbousness,
+  ) {
     List PC = [
       (P1[0] + P2[0] + P3[0] + P4[0]) / 4,
       (P1[1] + P2[1] + P3[1] + P4[1]) / 4
@@ -1228,13 +1039,13 @@ class OpArtTreePainter extends CustomPainter {
   }
 
   drawTheTriangle(
-      Canvas canvas,
-      double borderX,
-      double borderY,
-      List P1,
-      List P2,
-      List P3,
-      ) {
+    Canvas canvas,
+    double borderX,
+    double borderY,
+    List P1,
+    List P2,
+    List P3,
+  ) {
     Path trunk = Path();
     trunk.moveTo(borderX + P1[0], -borderY + P1[1]);
     trunk.lineTo(borderX + P2[0], -borderY + P2[1]);
@@ -1258,15 +1069,15 @@ class OpArtTreePainter extends CustomPainter {
   }
 
   drawTheLeaf(
-      Canvas canvas,
-      double borderX,
-      double borderY,
-      List leafPosition,
-      double lineWidth,
-      double leafAngle,
-      double leafLength,
-      String leafStyle,
-      ) {
+    Canvas canvas,
+    double borderX,
+    double borderY,
+    List leafPosition,
+    double lineWidth,
+    double leafAngle,
+    double leafLength,
+    String leafStyle,
+  ) {
     double leafAssymetery = 0.75;
 
     // pick a random color
