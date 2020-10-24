@@ -225,7 +225,6 @@ class Wave {
 
     this.palette = randomisedPalette(this.paletteType.value, this.numberOfColors.value, rnd);
 
-    this.resetDefaults.value = this.resetDefaults.defaultValue;
 
   }
 
@@ -239,6 +238,7 @@ class Wave {
     this.offset.value = this.offset.defaultValue;
     this.fanWidth.value = this.fanWidth.defaultValue;
     this.zigZag.value = this.zigZag.defaultValue;
+    this.resetDefaults.value = this.resetDefaults.defaultValue;
 
     // palette settings
     this.backgroundColor.value = this.backgroundColor.defaultValue;
@@ -247,6 +247,7 @@ class Wave {
     this.paletteType.value = this.paletteType.defaultValue;
     this.opacity.value = this.opacity.defaultValue;
     this.paletteList.value = this.paletteList.defaultValue;
+
 
     this.palette = [
       Color(0xFF37A7BC),
