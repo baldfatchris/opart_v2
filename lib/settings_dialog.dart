@@ -88,10 +88,9 @@ void settingsDialog(context, int index, settingsList, Function cache, ) {
                           setLocalState(() {});
                         },
                             (value) {
-
-                            settingsList[index].locked =
-                            !settingsList[index].locked;
-                            rebuildCanvas.value++;
+                              settingsList[index].locked =
+                              !settingsList[index].locked;
+                              rebuildCanvas.value++;
                         },
                       )
                           : (settingsList[index].type == 'Color')
@@ -101,10 +100,9 @@ void settingsDialog(context, int index, settingsList, Function cache, ) {
                         settingsList[index].value,
                         settingsList[index].locked,
                             (value) {
-
                             settingsList[index].value = value;
                             rebuildCanvas.value++;
-                          setLocalState(() {});
+                            setLocalState(() {});
                         },
                             (value) {
 
@@ -121,18 +119,14 @@ void settingsDialog(context, int index, settingsList, Function cache, ) {
                         settingsList[index].value,
                         settingsList[index].locked,
                             (value) {
-
-                            settingsList[index].value =
-                                value;
+                            settingsList[index].value = value;
                             rebuildCanvas.value++;
                           setLocalState(() {});
                         },
                             (value) {
-
-                            settingsList[index].locked =
-                                value;
+                            settingsList[index].locked = value;
                             rebuildCanvas.value++;
-                          setLocalState(() {});
+                            setLocalState(() {});
                         },
                       )
                           : settingsButton(
@@ -140,10 +134,8 @@ void settingsDialog(context, int index, settingsList, Function cache, ) {
                         settingsList[index].tooltip,
                         settingsList[index].value,
                             () {
-
-                          settingsList[index].value =
-                          true;
-
+                          settingsList[index].value = true;
+                          rebuildCanvas.value++;
                           setLocalState(() {});
                         },
                       ),

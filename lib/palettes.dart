@@ -129,7 +129,6 @@ List randomisedPalette(String paletteType, int numberOfColours, Random rnd) {
       break;
   }
 
-
   return palette;
 
 }

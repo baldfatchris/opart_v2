@@ -155,7 +155,7 @@ class Fibonacci {
     zoom: 100,
     defaultValue: 0,
     icon: Icon(Icons.bubble_chart),
-    proFeature: true,
+    proFeature: true  ,
   );
 
   SettingsModelList direction = SettingsModelList(
@@ -361,7 +361,6 @@ class Fibonacci {
     this.paletteType.value = this.paletteType.defaultValue;
     this.opacity.value = this.opacity.defaultValue;
 
-    this.paletteList.value = this.paletteList.defaultValue;
     this.resetDefaults.value = this.resetDefaults.defaultValue;
 
     this.palette = [
