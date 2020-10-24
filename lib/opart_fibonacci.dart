@@ -424,8 +424,8 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
 
   int _currentColor = 0;
 
-  // Animation<double> animation1;
-  // AnimationController controller1;
+  Animation<double> animation1;
+  AnimationController controller1;
 
   // Animation<double> animation2;
   // AnimationController controller2;
@@ -490,7 +490,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                     child: CustomPaint(
                         painter: OpArtFibonacciPainter(
                       seed, rnd,
-                      // animation1.value,
+                      animation1.value,
                       // animation2.value
                     )),
                   ),
@@ -653,30 +653,30 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
     // ShakeDetector.waitForStart() waits for user to call detector.startListening();
 
     // Animation Stuff
-    // controller1 = AnimationController(
-    //   vsync: this,
-    //   duration: Duration(seconds: 7200),
-    // );
+    controller1 = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 72000),
+    );
 
     // controller2 = AnimationController(
     //   vsync: this,
     //   duration: Duration(seconds: 60),
     // );
 
-    // Tween<double> _angleTween = Tween(begin: -pi, end: pi);
+    Tween<double> _angleTween = Tween(begin: 0, end: 2 * pi);
     // Tween<double> _fillTween = Tween(begin: 1, end: 1);
 
-    // animation1 = _angleTween.animate(controller1)
-    //   ..addListener(() {
-    //     setState(() {});
-    //   })
-    //   ..addStatusListener((status) {
-    //     if (status == AnimationStatus.completed) {
-    //       controller1.repeat();
-    //     } else if (status == AnimationStatus.dismissed) {
-    //       controller1.forward();
-    //     }
-    //   });
+    animation1 = _angleTween.animate(controller1)
+      ..addListener(() {
+        setState(() {});
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          controller1.repeat();
+        } else if (status == AnimationStatus.dismissed) {
+          controller1.forward();
+        }
+      });
 
     // animation2 = _fillTween.animate(controller2)
     //   ..addListener(() {
@@ -690,7 +690,7 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
     //     }
     //   });
 
-    // controller1.forward();
+    controller1.forward();
     // controller2.forward();
 
     cacheFibonacci();
@@ -708,13 +708,13 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
 class OpArtFibonacciPainter extends CustomPainter {
   int seed;
   Random rnd;
-  // double angle;
+  double angle;
   // double fill;
 
   OpArtFibonacciPainter(
     this.seed,
     this.rnd,
-    // this.angle,
+    this.angle,
     // this.fill
   );
 
@@ -802,8 +802,7 @@ class OpArtFibonacciPainter extends CustomPainter {
       flowerCentreX,
       flowerCentreY,
 
-      // angle, //currentFibonacci.angleIncrement,
-      currentFibonacci.angleIncrement.value,
+      angle + currentFibonacci.angleIncrement.value,
       currentFibonacci.flowerFill.value,
       currentFibonacci.petalToRadius.value,
       currentFibonacci.ratio.value,
