@@ -29,21 +29,21 @@ class Wave {
   SettingsModelDouble stepX = SettingsModelDouble(
     label: 'stepX',
     tooltip: 'The horizontal width of each stripe ',
-    min: 0.1,
+    min: 1,
     max: 50,
     zoom: 100,
     defaultValue: 5,
-    icon: Icon(Icons.ac_unit),
+    icon: Icon(Icons.more_horiz),
     proFeature: false,
   );
   SettingsModelDouble stepY = SettingsModelDouble(
     label: 'stepY',
     tooltip: 'The vertical distance between points on each stripe ',
-    min: 0.1,
+    min: 1,
     max: 500,
     zoom: 100,
-    defaultValue: 0.5,
-    icon: Icon(Icons.bluetooth_audio),
+    defaultValue: 1,
+    icon: Icon(Icons.more_vert),
     proFeature: false,
   );
   SettingsModelDouble frequency = SettingsModelDouble(
@@ -53,14 +53,30 @@ class Wave {
     max: 5,
     zoom: 100,
     defaultValue: 1,
-    icon: Icon(Icons.smoke_free),
+    icon: Icon(Icons.adjust),
     proFeature: false,
   );
+
   SettingsModelDouble amplitude = SettingsModelDouble(
     label: 'amplitude',
     tooltip: 'The amplitude of the wave ',
     min: 0,
     max: 500,
+    randomMin: 0,
+    randomMax: 200,
+    zoom: 100,
+    defaultValue: 15,
+    icon: Icon(Icons.weekend),
+    proFeature: false,
+  );
+
+  SettingsModelDouble fanWidth = SettingsModelDouble(
+    label: 'Fan Width',
+    tooltip: 'The amout the wave fans out',
+    min: 0,
+    max: 2000,
+    randomMin: 0,
+    randomMax: 200,
     zoom: 100,
     defaultValue: 15,
     icon: Icon(Icons.weekend),
@@ -154,6 +170,7 @@ class Wave {
     this.stepY.randomise(random);
     this.frequency.randomise(random);
     this.amplitude.randomise(random);
+    this.fanWidth.randomise(random);
 
     // this.paletteList.randomise(random);
   }
@@ -184,6 +201,7 @@ class Wave {
     this.stepY.value = this.stepY.defaultValue;
     this.frequency.value = this.frequency.defaultValue;
     this.amplitude.value = this.amplitude.defaultValue;
+    this.fanWidth.value = this.amplitude.defaultValue;
 
     // palette settings
     this.backgroundColor.value = this.backgroundColor.defaultValue;
@@ -220,6 +238,7 @@ List settingsList = [
   currentWave.stepY,
   currentWave.frequency,
   currentWave.amplitude,
+  currentWave.fanWidth,
   currentWave.backgroundColor,
   currentWave.numberOfColors,
   currentWave.randomColors,
@@ -259,6 +278,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
             'stepY': currentWave.stepY.value,
             'frequency': currentWave.frequency.value,
             'amplitude': currentWave.amplitude.value,
+            'fanWidth': currentWave.fanWidth.value,
             'backgroundColor': currentWave.backgroundColor.value,
             'randomColors': currentWave.randomColors.value,
             'numberOfColors': currentWave.numberOfColors.value,
@@ -371,17 +391,14 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      currentWave.stepX.value =
-                                          cachedWaveList[index]['stepX'];
-                                      currentWave.stepY.value =
-                                          cachedWaveList[index]['stepY'];
+                                      currentWave.stepX.value = cachedWaveList[index]['stepX'];
+                                      currentWave.stepY.value = cachedWaveList[index]['stepY'];
 
-                                      currentWave.frequency.value =
-                                          cachedWaveList[index]['frequency'];
-                                      currentWave.amplitude.value =
-                                          cachedWaveList[index]['amplitude'];
-                                      currentWave.image =
-                                          cachedWaveList[index]['image'];
+                                      currentWave.frequency.value = cachedWaveList[index]['frequency'];
+                                      currentWave.amplitude.value = cachedWaveList[index]['amplitude'];
+                                      currentWave.fanWidth.value = cachedWaveList[index]['fanWidth'];
+
+                                      currentWave.image = cachedWaveList[index]['image'];
 
                                       currentWave.backgroundColor.value =
                                           cachedWaveList[index]
@@ -596,6 +613,7 @@ class OpArtWavePainter extends CustomPainter {
       currentWave.stepY.value,
       currentWave.frequency.value,
       currentWave.amplitude.value,
+      currentWave.fanWidth.value,
       currentWave.backgroundColor.value,
       currentWave.randomColors.value,
       currentWave.numberOfColors.value,
@@ -617,6 +635,7 @@ class OpArtWavePainter extends CustomPainter {
     double currentStepY,
     double currentFrequency,
     double currentAmplitude,
+    double currentFanWidth,
     Color currentBackgroundColor,
     bool currentRandomColors,
     int currentNumberOfColors,
@@ -647,19 +666,13 @@ class OpArtWavePainter extends CustomPainter {
         waveColor = currentPalette[colourOrder % currentNumberOfColors];
       }
 
-      // var paint1 = Paint()
-      //   ..color = waveColor
-      //   ..style = PaintingStyle.fill;
-      // canvas.drawRect(Offset(borderX + i, borderY) & Size(stepX, imageHeight), paint1);
-
       Path wave = Path();
 
       double j;
       for (j = 0; j < imageHeight + currentStepY; j += currentStepY) {
-        var delta = currentAmplitude *
-            sin(pi *
-                2 *
-                (j / imageHeight * currentFrequency + offset * i / imageWidth));
+        var delta = currentAmplitude * sin(pi * 2 * (j / imageHeight * currentFrequency + offset * i / imageWidth));
+        delta = delta + currentFanWidth * ((i -(imageWidth/2))/ imageWidth) * (j / imageHeight);
+
         if (j == 0) {
           wave.moveTo(borderX + i + delta, borderY + j);
         } else {
@@ -667,11 +680,9 @@ class OpArtWavePainter extends CustomPainter {
         }
       }
       for (double k = j; k >= -currentStepY; k -= currentStepY) {
-        var delta = currentAmplitude *
-            sin(pi *
-                2 *
-                (k / imageHeight * currentFrequency +
-                    offset * (i + currentStepX) / imageWidth));
+        var delta = currentAmplitude * sin(pi * 2 * (k / imageHeight * currentFrequency + offset * (i + currentStepX) / imageWidth));
+        delta = delta + currentFanWidth * (((i + currentStepX) -(imageWidth/2))/ imageWidth) * (k / imageHeight);
+
         wave.lineTo(borderX + i + currentStepX + delta, borderY + k);
       }
 
