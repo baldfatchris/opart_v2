@@ -98,10 +98,10 @@ class Tree {
   SettingsModelDouble ratio = SettingsModelDouble(
     label: 'Angle Ratio',
     tooltip: 'The ratio of the branch',
-    min: 0.5,
-    max: 1.5,
+    min: 0,
+    max: 1,
     zoom: 100,
-    defaultValue: 0.7,
+    defaultValue: 0.5,
     icon: Icon(Icons.rotate_right),
     proFeature: false,
   );
@@ -458,8 +458,8 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
 
   int _currentColor = 0;
 
-  // Animation<double> animation1;
-  // AnimationController controller1;
+  Animation<double> animation1;
+  AnimationController controller1;
 
   // Animation<double> animation2;
   // AnimationController controller2;
@@ -528,7 +528,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
                     child: CustomPaint(
                         painter: OpArtTreePainter(
                       seed, rnd,
-                      // animation1.value,
+                      animation1.value,
                       // animation2.value
                     )),
                   ),
@@ -681,30 +681,30 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
     // ShakeDetector.waitForStart() waits for user to call detector.startListening();
 
     // Animation Stuff
-    // controller1 = AnimationController(
-    //   vsync: this,
-    //   duration: Duration(seconds: 7200),
-    // );
+    controller1 = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 7200),
+    );
 
     // controller2 = AnimationController(
     //   vsync: this,
     //   duration: Duration(seconds: 60),
     // );
 
-    // Tween<double> _angleTween = Tween(begin: -pi, end: pi);
+    Tween<double> _angleTween = Tween(begin: 0, end: 200);
     // Tween<double> _fillTween = Tween(begin: 1, end: 1);
 
-    // animation1 = _angleTween.animate(controller1)
-    //   ..addListener(() {
-    //     setState(() {});
-    //   })
-    //   ..addStatusListener((status) {
-    //     if (status == AnimationStatus.completed) {
-    //       controller1.repeat();
-    //     } else if (status == AnimationStatus.dismissed) {
-    //       controller1.forward();
-    //     }
-    //   });
+    animation1 = _angleTween.animate(controller1)
+      ..addListener(() {
+        setState(() {});
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          controller1.repeat();
+        } else if (status == AnimationStatus.dismissed) {
+          controller1.forward();
+        }
+      });
 
     // animation2 = _fillTween.animate(controller2)
     //   ..addListener(() {
@@ -718,31 +718,31 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
     //     }
     //   });
 
-    // controller1.forward();
+    controller1.forward();
 
     // controller2.forward();
     cacheTree();
   }
 
-// @override
-// void dispose() {
-//   controller1.dispose();
-//   // controller2.dispose();
-//   super.dispose();
-// }
+@override
+void dispose() {
+  controller1.dispose();
+  // controller2.dispose();
+  super.dispose();
+}
 
 }
 
 class OpArtTreePainter extends CustomPainter {
   int seed;
   Random rnd;
-  // double angle;
+  double animationVariable;
   // double fill;
 
   OpArtTreePainter(
     this.seed,
     this.rnd,
-    // this.angle,
+    this.animationVariable,
     // this.fill
   );
 
@@ -847,11 +847,14 @@ class OpArtTreePainter extends CustomPainter {
         currentTree.trunkWidth.value * zoom,
         currentTree.segmentLength.value * zoom,
         direction,
+        currentTree.ratio.value,
         0,
         lineWidth * zoom,
         currentTree.leafLength.value * zoom,
         leafStyle,
-        false);
+        false,
+        animationVariable,
+    );
   }
 
   drawSegment(
@@ -863,12 +866,15 @@ class OpArtTreePainter extends CustomPainter {
     double width,
     double segmentLength,
     double direction,
+    double ratio,
     int currentDepth,
     double lineWidth,
     double leafLength,
     String leafStyle,
     bool justBranched,
-  ) {
+    double animationVariable,
+
+      ) {
     List segmentBaseCentre = [
       (rootA[0] + rootB[0]) / 2,
       (rootA[1] + rootB[1]) / 2
@@ -888,16 +894,29 @@ class OpArtTreePainter extends CustomPainter {
       double directionA;
       double directionB;
 
+      // the ratio is the skewness of the branch.
+      // if ratio = 0, both branches go off at the same angle
+      // if ratio = 1, one branch goes straight on, the other goes off at the angle
+      // the ratio is partially randomised to make things interesting
+
+      // the angle of the branch is the angle from the previous direction.
+      // if angle = 0 the tree goes straight up
+      // if angle = 1 the tree is basically a ball
+
+      // the animation increases and decreases the ratio
+
+      double branchRatio = ratio * (1-rnd.nextDouble() * cos(10*animationVariable) * 0.10);
+
       if (rnd.nextDouble() > 0.5) {
         directionA =
-            direction + currentTree.ratio.value * currentTree.angle.value;
+            direction + branchRatio * currentTree.angle.value;
         directionB =
-            direction - (1 - currentTree.ratio.value) * currentTree.angle.value;
+            direction - (1 - branchRatio) * currentTree.angle.value;
       } else {
         directionA =
-            direction - currentTree.ratio.value * currentTree.angle.value;
+            direction - branchRatio * currentTree.angle.value;
         directionB =
-            direction + (1 - currentTree.ratio.value) * currentTree.angle.value;
+            direction + (1 - branchRatio) * currentTree.angle.value;
       }
 
       if (rnd.nextDouble() > 0.5) {
@@ -910,11 +929,13 @@ class OpArtTreePainter extends CustomPainter {
             width * currentTree.widthDecay.value,
             segmentLength * currentTree.segmentDecay.value,
             directionA,
+            ratio,
             currentDepth + 1,
             lineWidth,
             leafLength,
             leafStyle,
-            true);
+            true,
+            animationVariable);
         drawSegment(
             canvas,
             borderX,
@@ -924,11 +945,13 @@ class OpArtTreePainter extends CustomPainter {
             width * currentTree.widthDecay.value,
             segmentLength * currentTree.segmentDecay.value,
             directionB,
+            ratio,
             currentDepth + 1,
             lineWidth,
             leafLength,
             leafStyle,
-            true);
+            true,
+            animationVariable);
       } else {
         drawSegment(
             canvas,
@@ -939,11 +962,13 @@ class OpArtTreePainter extends CustomPainter {
             width * currentTree.widthDecay.value,
             segmentLength * currentTree.segmentDecay.value,
             directionB,
+            ratio,
             currentDepth + 1,
             lineWidth,
             leafLength,
             leafStyle,
-            true);
+            true,
+            animationVariable);
         drawSegment(
             canvas,
             borderX,
@@ -953,11 +978,13 @@ class OpArtTreePainter extends CustomPainter {
             width * currentTree.widthDecay.value,
             segmentLength * currentTree.segmentDecay.value,
             directionA,
+            ratio,
             currentDepth + 1,
             lineWidth,
             leafLength,
             leafStyle,
-            true);
+            true,
+            animationVariable);
       }
     } else {
       //grow
@@ -981,9 +1008,11 @@ class OpArtTreePainter extends CustomPainter {
       // Draw the leaves
       if (currentDepth > currentTree.leavesAfter.value) {
         drawTheLeaf(canvas, borderX, borderY, P2, lineWidth,
-            direction - currentTree.leafAngle.value, leafLength, leafStyle);
+            direction - currentTree.leafAngle.value, leafLength, leafStyle,
+            ratio, animationVariable);
         drawTheLeaf(canvas, borderX, borderY, P3, lineWidth,
-            direction + currentTree.leafAngle.value, leafLength, leafStyle);
+            direction + currentTree.leafAngle.value, leafLength, leafStyle,
+            ratio, animationVariable);
       }
 
       // next
@@ -997,11 +1026,13 @@ class OpArtTreePainter extends CustomPainter {
             width * currentTree.widthDecay.value,
             segmentLength * currentTree.segmentDecay.value,
             direction,
+            ratio,
             currentDepth + 1,
             lineWidth,
             leafLength * currentTree.leafDecay.value,
             leafStyle,
-            false);
+            false,
+            animationVariable);
       }
     }
   }
@@ -1095,6 +1126,8 @@ class OpArtTreePainter extends CustomPainter {
     double leafAngle,
     double leafLength,
     String leafStyle,
+    double ratio,
+    double animationVariable,
   ) {
     double leafAssymetery = 0.75;
 
@@ -1107,45 +1140,48 @@ class OpArtTreePainter extends CustomPainter {
     var leafRadius =
         leafLength + rnd.nextDouble() * currentTree.randomLeafLength.value;
 
+    double randomisedLeafAngle = leafAngle + (1-rnd.nextDouble()/2)*cos(10*animationVariable);
+
+
     // find the centre of the leaf
     List PC = [
-      leafPosition[0] + leafRadius * cos(leafAngle),
-      leafPosition[1] - leafRadius * sin(leafAngle)
+      leafPosition[0] + leafRadius * cos(randomisedLeafAngle),
+      leafPosition[1] - leafRadius * sin(randomisedLeafAngle)
     ];
 
 //    List PN = [PC[0] - leafRadius * cos(leafAngle), PC[1] + leafRadius * sin(leafAngle)];
 
     // find the tip of the leaf
     List PS = [
-      PC[0] - leafRadius * cos(leafAngle + pi),
-      PC[1] + leafRadius * sin(leafAngle + pi)
+      PC[0] - leafRadius * cos(randomisedLeafAngle + pi),
+      PC[1] + leafRadius * sin(randomisedLeafAngle + pi)
     ];
 
     // find the offset centre of the leaf
     List POC = [
-      PC[0] + leafAssymetery * leafRadius * cos(leafAngle + pi),
-      PC[1] - leafAssymetery * leafRadius * sin(leafAngle + pi)
+      PC[0] + leafAssymetery * leafRadius * cos(randomisedLeafAngle + pi),
+      PC[1] - leafAssymetery * leafRadius * sin(randomisedLeafAngle + pi)
     ];
 
     List PE = [
       POC[0] -
           currentTree.leafSquareness.value *
               leafRadius *
-              cos(leafAngle + pi * 0.5),
+              cos(randomisedLeafAngle + pi * 0.5),
       POC[1] +
           currentTree.leafSquareness.value *
               leafRadius *
-              sin(leafAngle + pi * 0.5)
+              sin(randomisedLeafAngle + pi * 0.5)
     ];
     List PW = [
       POC[0] -
           currentTree.leafSquareness.value *
               leafRadius *
-              cos(leafAngle + pi * 1.5),
+              cos(randomisedLeafAngle + pi * 1.5),
       POC[1] +
           currentTree.leafSquareness.value *
               leafRadius *
-              sin(leafAngle + pi * 1.5)
+              sin(randomisedLeafAngle + pi * 1.5)
     ];
 
     // List PSE = [PS[0] - leafSquareness * leafRadius * cos(leafAngle + pi * 0.5), PS[1] + leafSquareness * leafRadius * sin(leafAngle + pi * 0.5)];
