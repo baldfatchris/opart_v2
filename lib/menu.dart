@@ -7,7 +7,7 @@ import 'opart_tree.dart';
 import 'opart_wave.dart';
 import 'opart_wallpaper.dart';
 import 'package:share/share.dart';
-import 'opart_model.dart';
+import 'model.dart';
 
 
 
