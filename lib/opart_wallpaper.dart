@@ -51,7 +51,7 @@ class Wallpaper {
   SettingsModelList shape = SettingsModelList(
     label: "Shape",
     tooltip: "The shape in the cell",
-    defaultValue: "circle",
+    defaultValue: "squaricle",
     icon: Icon(Icons.settings),
     options: ['circle', 'squaricle', 'star'],
     proFeature: false,
@@ -204,7 +204,7 @@ class Wallpaper {
     randomMin: -1.5,
     randomMax: 1.5,
     zoom: 100,
-    defaultValue: 1,
+    defaultValue: 0,
     icon: Icon(Icons.center_focus_weak),
     proFeature: false,
   );
@@ -512,8 +512,8 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
 
   int _currentColor = 0;
 
-  // Animation<double> animation1;
-  // AnimationController controller1;
+  Animation<double> animation1;
+  AnimationController controller1;
 
   // Animation<double> animation2;
   // AnimationController controller2;
@@ -588,7 +588,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
                     child: CustomPaint(
                         painter: OpArtWallpaperPainter(
                       seed, rnd,
-                      // animation1.value,
+                      animation1.value,
                       // animation2.value
                     )),
                   ),
@@ -763,30 +763,30 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
     // ShakeDetector.waitForStart() waits for user to call detector.startListening();
 
     // Animation Stuff
-    // controller1 = AnimationController(
-    //   vsync: this,
-    //   duration: Duration(seconds: 7200),
-    // );
+    controller1 = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 72000),
+    );
 
     // controller2 = AnimationController(
     //   vsync: this,
     //   duration: Duration(seconds: 60),
     // );
 
-    // Tween<double> _angleTween = Tween(begin: -pi, end: pi);
+    Tween<double> _angleTween = Tween(begin: 0, end: 50000);
     // Tween<double> _fillTween = Tween(begin: 1, end: 1);
 
-    // animation1 = _angleTween.animate(controller1)
-    //   ..addListener(() {
-    //     setState(() {});
-    //   })
-    //   ..addStatusListener((status) {
-    //     if (status == AnimationStatus.completed) {
-    //       controller1.repeat();
-    //     } else if (status == AnimationStatus.dismissed) {
-    //       controller1.forward();
-    //     }
-    //   });
+    animation1 = _angleTween.animate(controller1)
+      ..addListener(() {
+        setState(() {});
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          controller1.repeat();
+        } else if (status == AnimationStatus.dismissed) {
+          controller1.forward();
+        }
+      });
 
     // animation2 = _fillTween.animate(controller2)
     //   ..addListener(() {
@@ -800,30 +800,30 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
     //     }
     //   });
 
-    // controller1.forward();
+    controller1.forward();
     // controller2.forward();
     cacheWallpaper();
   }
 
-// @override
-// void dispose() {
-//   controller1.dispose();
-//   // controller2.dispose();
-//   super.dispose();
-// }
+  @override
+  void dispose() {
+    controller1.dispose();
+    // controller2.dispose();
+    super.dispose();
+  }
 
 }
 
 class OpArtWallpaperPainter extends CustomPainter {
   int seed;
   Random rnd;
-  // double angle;
+  double animationVariable;
   // double fill;
 
   OpArtWallpaperPainter(
     this.seed,
     this.rnd,
-    // this.angle,
+    this.animationVariable,
     // this.fill
   );
 
@@ -921,6 +921,10 @@ class OpArtWallpaperPainter extends CustomPainter {
 
     // work out the radius from the width and the cells
     double radius = imageWidth / (currentWallpaper.cellsX.value * 2);
+
+    print('animationVariable: $animationVariable');
+    double squareness = currentWallpaper.squareness.value + 0.25 * sin(animationVariable);
+    print('squareness: $squareness');
 
     for (int j = 0 - extraCellsY;
         j < currentWallpaper.cellsY.value + extraCellsY;
@@ -1024,15 +1028,14 @@ class OpArtWallpaperPainter extends CustomPainter {
           PO = [PO[0] + dX, PO[1] + dY];
 
           switch (currentWallpaper.shape.value) {
+
             case 'circle':
 
               // Choose the next colour
               colourOrder++;
-              nextColor = currentWallpaper
-                  .palette[colourOrder % currentWallpaper.numberOfColors.value];
+              nextColor = currentWallpaper.palette[colourOrder % currentWallpaper.numberOfColors.value];
               if (currentWallpaper.randomColors.value) {
-                nextColor = currentWallpaper.palette[
-                    rnd.nextInt(currentWallpaper.numberOfColors.value)];
+                nextColor = currentWallpaper.palette[rnd.nextInt(currentWallpaper.numberOfColors.value)];
               }
 
               canvas.drawCircle(
@@ -1074,24 +1077,24 @@ class OpArtWallpaperPainter extends CustomPainter {
               // 16 points - 2 on each edge and 8 curve centres
 
               List P1 = edgePoint(
-                  PA, PB, 0.5 + currentWallpaper.squareness.value / 2);
+                  PA, PB, 0.5 + squareness / 2);
               List P2 = edgePoint(
-                  PA, PB, 0.5 - currentWallpaper.squareness.value / 2);
+                  PA, PB, 0.5 - squareness / 2);
 
               List P4 = edgePoint(
-                  PB, PC, 0.5 + currentWallpaper.squareness.value / 2);
+                  PB, PC, 0.5 + squareness / 2);
               List P5 = edgePoint(
-                  PB, PC, 0.5 - currentWallpaper.squareness.value / 2);
+                  PB, PC, 0.5 - squareness / 2);
 
               List P7 = edgePoint(
-                  PC, PD, 0.5 + currentWallpaper.squareness.value / 2);
+                  PC, PD, 0.5 + squareness / 2);
               List P8 = edgePoint(
-                  PC, PD, 0.5 - currentWallpaper.squareness.value / 2);
+                  PC, PD, 0.5 - squareness / 2);
 
               List P10 = edgePoint(
-                  PD, PA, 0.5 + currentWallpaper.squareness.value / 2);
+                  PD, PA, 0.5 + squareness / 2);
               List P11 = edgePoint(
-                  PD, PA, 0.5 - currentWallpaper.squareness.value / 2);
+                  PD, PA, 0.5 - squareness / 2);
 
               Path squaricle = Path();
 
@@ -1146,12 +1149,12 @@ class OpArtWallpaperPainter extends CustomPainter {
 
                 List petalMidPointA = [
                   PO[0] +
-                      (currentWallpaper.squareness.value) *
+                      (squareness) *
                           stepRadius *
                           cos(localRotate * pi +
                               (p - 1) * pi * 2 / localNumberOfPetals),
                   PO[1] +
-                      (currentWallpaper.squareness.value) *
+                      (squareness) *
                           stepRadius *
                           sin(localRotate * pi +
                               (p - 1) * pi * 2 / localNumberOfPetals)
@@ -1159,12 +1162,12 @@ class OpArtWallpaperPainter extends CustomPainter {
 
                 List petalMidPointP = [
                   PO[0] +
-                      (currentWallpaper.squareness.value) *
+                      (squareness) *
                           stepRadius *
                           cos(localRotate * pi +
                               (p + 1) * pi * 2 / localNumberOfPetals),
                   PO[1] +
-                      (currentWallpaper.squareness.value) *
+                      (squareness) *
                           stepRadius *
                           sin(localRotate * pi +
                               (p + 1) * pi * 2 / localNumberOfPetals)
@@ -1269,22 +1272,22 @@ class OpArtWallpaperPainter extends CustomPainter {
 
                 List PE = [
                   PC[0] -
-                      currentWallpaper.squareness.value *
+                      squareness *
                           petalRadius *
                           cos(petalAngle + pi * 0.5),
                   PC[1] -
-                      currentWallpaper.squareness.value *
+                      squareness *
                           petalRadius *
                           sin(petalAngle + pi * 0.5)
                 ];
 
                 List PW = [
                   PC[0] -
-                      currentWallpaper.squareness.value *
+                      squareness *
                           petalRadius *
                           cos(petalAngle + pi * 1.5),
                   PC[1] -
-                      currentWallpaper.squareness.value *
+                      squareness *
                           petalRadius *
                           sin(petalAngle + pi * 1.5)
                 ];
