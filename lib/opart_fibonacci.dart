@@ -420,7 +420,7 @@ addToCache() async {
     enableButton = true;
   }));
 }
-List settingsList = [
+List fibonacciSettingsList = [
   currentFibonacci.angleIncrement,
   currentFibonacci.ratio,
   currentFibonacci.flowerFill,

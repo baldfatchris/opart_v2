@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:opart_v2/opart_tree.dart';
 import 'opart_fibonacci.dart';
 // import 'opart_tree.dart';
 // import 'opart_wallpaper.dart';
@@ -13,7 +14,8 @@ import 'dart:math';
 import 'package:share/share.dart';
 import 'package:screenshot/screenshot.dart';
 
-List<Map<String,dynamic>> opArtTypes = [{'name': 'Fibonacci', 'currentType': currentFibonacci }];
+List<Map<String,dynamic>> opArtTypes = [{'name': 'Fibonacci', 'currentType': currentFibonacci },
+  {'name': 'Tree', 'currentType': currentTree }];
 
 
 class OpArtPage extends StatefulWidget {
@@ -28,12 +30,28 @@ File imageFile;
 Random rnd;
 
 class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
-
+  String title;
+  List cachedList;
+  var painter;
+ // List settingList;
   AnimationController controller1;
 
   Animation<double> animation1;
   @override
   void initState() {
+  switch(widget.currentOpArt){
+    case 0 :{
+    title = 'Fibonacci';
+    cachedList = cachedFibonacciList;
+   // settingList = fibonacciSettingsList;
+    }
+    break;
+    case 1:{
+      title = 'Trees';
+      cachedList = cachedTreeList;
+     // settingList = treeSettingsList;
+    }
+  }
 
     super.initState();
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
@@ -74,7 +92,9 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
     Size size = MediaQuery.of(context).size;
 
     Widget bodyWidget() {
-      return ValueListenableBuilder<int>(
+      switch(widget.currentOpArt )
+      {
+        case 0: {return ValueListenableBuilder<int>(
           valueListenable: rebuildCanvas,
           builder: (context, value, child) {
             return Screenshot(
@@ -96,13 +116,42 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
               ),
             );
           });
+        break;
+        }
+        case 1:{
+          return ValueListenableBuilder<int>(
+              valueListenable: rebuildCanvas,
+              builder: (context, value, child) {
+                return Screenshot(
+                  controller: screenshotController,
+                  child: Visibility(
+                    visible: true,
+                    child: LayoutBuilder(
+                      builder: (_, constraints) => Container(
+                        width: constraints.widthConstraints().maxWidth,
+                        height: constraints.heightConstraints().maxHeight,
+                        child: CustomPaint(
+                            painter: OpArtTreePainter(
+                              seed, rnd,
+                              animation1.value,
+                              // animation2.value
+                            )),
+                      ),
+                    ),
+                  ),
+                );
+              });
+          break;
+        }
+      }
+      return null;
     }
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.cyan[200],
         title: Text(
-          'Fibonanacci',
+          title,
           style: TextStyle(
               color: Colors.black,
               fontFamily: 'Righteous',
@@ -166,7 +215,7 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
         rebuildCanvas.value++;
         addToCache();
       }, showToolBox: () {
-        ToolBox(context, settingsList, addToCache);
+        ToolBox(context, fibonacciSettingsList, addToCache);
       }),
       body: Column(
         children: [
@@ -177,12 +226,12 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
               child: ValueListenableBuilder<int>(
                   valueListenable: rebuildCache,
                   builder: (context, value, child) {
-                    return cachedFibonacciList.length == 0
+                    return cachedList.length == 0
                         ? Container()
                         : ListView.builder(
                             scrollDirection: Axis.horizontal,
                             controller: scrollController,
-                            itemCount: cachedFibonacciList.length,
+                            itemCount: cachedList.length,
                             reverse: false,
                             itemBuilder: (context, index) {
                               return Padding(
@@ -197,7 +246,7 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
                                     width: 50,
                                     height: 50,
                                     child: Image.file(
-                                        cachedFibonacciList[index]['image']),
+                                        cachedList[index]['image']),
                                   ),
                                 ),
                               );
