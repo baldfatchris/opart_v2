@@ -22,6 +22,15 @@ void settingsDialog(context, int index, settingsList, Function cache, ) {
                 child: AlertDialog(
                   backgroundColor: Colors.white.withOpacity(0.7),
                   title: Text(settingsList[index].label),
+                  actions: [
+                    RaisedButton(
+                      child: Text('Ok'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    )
+
+                  ],
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[

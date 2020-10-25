@@ -910,7 +910,7 @@ class OpArtFibonacciPainter extends CustomPainter {
     double maxRadius = (imageWidth < imageHeight)
         ? currentFlowerFill * imageWidth / 2
         : currentFlowerFill * imageWidth / 2;
-    double minRadius = 5;
+    double minRadius = 2;
     double angle = 0;
 
     // if direction = inward

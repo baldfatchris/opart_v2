@@ -784,7 +784,6 @@ class OpArtTreePainter extends CustomPainter {
     }
 
     // reset the defaults
-    print('reset${currentTree.resetDefaults.value}');
     if (currentTree.resetDefaults.value == true) {
       currentTree.defaultSettings();
     }
