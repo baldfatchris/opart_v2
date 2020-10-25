@@ -908,17 +908,17 @@ class OpArtTreePainter extends CustomPainter {
 
       double branchRatio = ratio * (1-rnd.nextDouble() * cos(10*animationVariable) * 0.10);
 
-      if (rnd.nextDouble() > 0.5) {
+      // if (rnd.nextDouble() > 0.5) {
         directionA =
             direction + branchRatio * currentTree.angle.value;
         directionB =
             direction - (1 - branchRatio) * currentTree.angle.value;
-      } else {
-        directionA =
-            direction - branchRatio * currentTree.angle.value;
-        directionB =
-            direction + (1 - branchRatio) * currentTree.angle.value;
-      }
+      // } else {
+      //   directionA =
+      //       direction - branchRatio * currentTree.angle.value;
+      //   directionB =
+      //       direction + (1 - branchRatio) * currentTree.angle.value;
+      // }
 
       if (rnd.nextDouble() > 0.5) {
         drawSegment(
