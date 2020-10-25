@@ -179,7 +179,7 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
               })
         ],
       ),
-      bottomNavigationBar: CustomBottomAppBar(randomize: () {
+      bottomNavigationBar: customBottomAppBar(randomize: () {
         currentOpArt[opArtNumber].randomize();
         currentOpArt[opArtNumber].randomizePalette();
         rebuildCanvas.value++;

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:opart_v2/loading.dart';
 import 'package:opart_v2/menu.dart';
-import 'package:opart_v2/opart_fibonacci.dart';
-import 'package:opart_v2/opart_tree.dart';
-import 'package:opart_v2/opart_wallpaper.dart';
-import 'package:opart_v2/opart_wave.dart';
+
 import 'opart_page.dart';
-import 'model.dart';
+
 
 import 'menu.dart';
 
@@ -65,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2, childAspectRatio: 0.8),
-                itemCount: OpArtTypes.length,
+                itemCount: opArtTypes.length,
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                     onTap: () {
@@ -76,9 +73,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(OpArtTypes[index].icon),
+                          child: Image.asset(opArtTypes[index].icon),
                         ),
-                        Text(OpArtTypes[index].name,style: TextStyle(
+                        Text(opArtTypes[index].name,style: TextStyle(
                   fontFamily: 'Righteous',
 
                   fontWeight: FontWeight.bold, fontSize: 20)),

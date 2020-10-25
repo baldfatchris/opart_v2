@@ -1,9 +1,9 @@
 import 'dart:core';
 import 'dart:math';
-import 'package:opart_v2/opart_fibonacci.dart';
+
 import 'package:screenshot/screenshot.dart';
 import 'package:flutter/material.dart';
-import 'package:async/async.dart';
+
 
 Random rnd = Random();
 int seed = rnd.nextInt(1 << 32);

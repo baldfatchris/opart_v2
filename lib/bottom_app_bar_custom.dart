@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'model.dart';
 
-Widget CustomBottomAppBar(
+Widget customBottomAppBar(
     {Function randomize, Function randomizePalette, Function showToolBox}) {
   return Container(
       height: 70,

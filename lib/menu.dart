@@ -16,7 +16,7 @@ class OpArtMenu extends StatefulWidget {
   _OpArtMenuState createState() => _OpArtMenuState();
 }
 
-List<OpArtType> OpArtTypes = [
+List<OpArtType> opArtTypes = [
   OpArtType(
     name: 'Spirals',
     icon: 'lib/assets/fibonacci_200.png',
@@ -85,7 +85,7 @@ class _OpArtMenuState extends State<OpArtMenu> {
         appBar: AppBar(
           backgroundColor: Colors.cyan[200],
           title: Text(
-            OpArtTypes[widget.currentWidget].name,
+            opArtTypes[widget.currentWidget].name,
             style: TextStyle(
                 color: Colors.black,
                 fontFamily: 'Righteous',
@@ -147,7 +147,7 @@ class _OpArtMenuState extends State<OpArtMenu> {
                 })
           ],
         ),
-        body: OpArtTypes[widget.currentWidget].widget);
+        body: opArtTypes[widget.currentWidget].widget);
   }
 }
 

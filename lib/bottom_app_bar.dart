@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'model.dart';
 import 'toolbox.dart';
 
-Widget CustomBottomAppBar(
+Widget customBottomAppBar(
     {BuildContext context, OpArt opArt}) {
   return Container(
       height: 70,
