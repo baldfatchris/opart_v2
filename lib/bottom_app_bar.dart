@@ -8,7 +8,7 @@ Widget CustomBottomAppBar(
       height: 70,
       child: GestureDetector(
       onVerticalDragUpdate: (value) {
-    ToolBox(context, opArt.settingsList, opArt.addToCache);
+    ToolBox(context, 0, opArt.addToCache);
   },child: 
     ButtonBar(
     alignment: MainAxisAlignment.spaceAround,
@@ -74,7 +74,7 @@ Widget CustomBottomAppBar(
           ],
         ),
         onPressed: () {
-          ToolBox(context, opArt.settingsList, opArt.addToCache);
+          ToolBox(context, 0, opArt.addToCache);
         },
       ),
       FlatButton(

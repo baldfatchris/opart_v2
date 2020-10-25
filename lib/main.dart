@@ -15,13 +15,9 @@ void main() {
   runApp(MaterialApp(
     initialRoute: '/',
     routes: {
-    //  '/': (context) => Loading(),
-      '/': (context) => OpArtPage(0),
+      '/': (context) => Loading(),
       '/menu': (context) => MyApp(),
-    //  '/fibonacci': (context) => OpArtFibonacciStudio(),
-      '/tree': (context) => OpArtTreeStudio(),
-      '/wallpaper': (context) => OpArtWallpaperStudio(),
-      '/waves': (context) => OpArtWaveStudio(),
+
     },
   ));
 }
@@ -74,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => OpArtMenu(index)));
+                          MaterialPageRoute(builder: (context) => OpArtPage(index)));
                     },
                     child: Column(
                       children: [

@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'settings_dialog.dart';
 import 'model.dart';
 import 'opart_fibonacci.dart';
+import 'opart_tree.dart';
+import 'opart_wallpaper.dart';
+import 'opart_wave.dart';
 
 void ToolBox(BuildContext context, int opArtNumber, Function cache) {
   print(MediaQuery.of(context).size.width);
   List settingsList;
   switch(opArtNumber){
-    case 0: settingsList = fibonacciSettingsList;
+    case 0: settingsList = fibonacciSettingsList; break;
+    case 1: settingsList = treeSettingsList; break;
+    case 2: settingsList = waveSettingsList; break;
+    case 3: settingsList = wallpaperSettingsList;
   }
 
   showModalBottomSheet(

@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:opart_v2/opart_tree.dart';
+
 import 'opart_fibonacci.dart';
-// import 'opart_tree.dart';
-// import 'opart_wallpaper.dart';
-// import 'opart_wave.dart';
+import 'opart_tree.dart';
+import 'opart_wallpaper.dart';
+import 'opart_wave.dart';
 import 'bottom_app_bar_custom.dart';
 import 'model.dart';
 import 'toolbox.dart';
@@ -15,8 +15,8 @@ import 'package:share/share.dart';
 import 'package:screenshot/screenshot.dart';
 
 class OpArtPage extends StatefulWidget {
-  int currentOpArt;
-  OpArtPage(this.currentOpArt);
+  int opArtNumber;
+  OpArtPage(this.opArtNumber);
   @override
   _OpArtPageState createState() => _OpArtPageState();
 }
@@ -26,38 +26,21 @@ File imageFile;
 Random rnd;
 
 class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
-  String title;
-  List cachedList;
-  var painter;
-  var addToCache;
-  OpArt currentOpArt;
+  int opArtNumber;
+
+  List<OpArt> currentOpArt;
   AnimationController controller1;
 
   Animation<double> animation1;
   @override
   void initState() {
-    switch (widget.currentOpArt) {
-      case 0:
-        {
-          title = 'Fibonacci';
-          cachedList = cachedFibonacciList;
-          addToCache = fibonacciAddToCache;
-        }
-        break;
-      case 1:
-        {
-          title = 'Trees';
-          cachedList = cachedTreeList;
-        }
-    }
-
     super.initState();
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
       setState(() {
-        currentOpArt.randomize();
-        currentOpArt.randomizePalette();
+        currentOpArt[opArtNumber].randomize();
+        currentOpArt[opArtNumber].randomizePalette();
         rebuildCanvas.value++;
-        currentOpArt.addToCache();
+        currentOpArt[opArtNumber].addToCache();
       });
     });
 
@@ -84,29 +67,65 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
     controller1.forward();
 
     WidgetsBinding.instance
-        .addPostFrameCallback((_) => currentOpArt.addToCache());
+        .addPostFrameCallback((_) => currentOpArt[opArtNumber].addToCache());
   }
 
   @override
   Widget build(BuildContext context) {
-    currentOpArt = OpArt(
-      'Fibonacci',
-      currentFibonacci,
-      //   fibonacciSettingsList,
-      cachedFibonacciList,
-      fibonacciRevertToCache,
-      fibonacciAddToCache,
-      fibonacciRandomize,
-      fibonacciRandomizePalette,
-      fibonacciBodyWidget,
-    );
+    opArtNumber = widget.opArtNumber;
+
+    currentOpArt = [
+      OpArt(
+        'Spirals',
+        currentFibonacci,
+        fibonacciCachedList,
+        fibonacciRevertToCache,
+        fibonacciAddToCache,
+        fibonacciRandomize,
+        fibonacciRandomizePalette,
+        fibonacciBodyWidget,
+      ),
+      OpArt(
+        'Trees',
+        currentTree,
+        treeCachedList,
+        treeRevertToCache,
+        treeAddToCache,
+        treeRandomize,
+        treeRandomizePalette,
+        treeBodyWidget,
+      ),
+      OpArt(
+        'Waves',
+        currentWave,
+        waveCachedList,
+        waveRevertToCache,
+        waveAddToCache,
+        waveRandomize,
+        waveRandomizePalette,
+        waveBodyWidget,
+      ),
+      OpArt(
+        'Wallpaper',
+        currentWallpaper,
+        wallpaperCachedList,
+        wallpaperRevertToCache,
+        wallpaperAddToCache,
+        wallpaperRandomize,
+        wallpaperRandomizePalette,
+        wallpaperBodyWidget,
+      ),
+
+
+
+    ];
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.cyan[200],
         title: Text(
-          title,
+          currentOpArt[opArtNumber].name,
           style: TextStyle(
               color: Colors.black,
               fontFamily: 'Righteous',
@@ -160,17 +179,17 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
               })
         ],
       ),
-      bottomNavigationBar: CustomBottomAppBar(randomise: () {
-        currentOpArt.randomize();
-        currentOpArt.randomizePalette();
+      bottomNavigationBar: CustomBottomAppBar(randomize: () {
+        currentOpArt[opArtNumber].randomize();
+        currentOpArt[opArtNumber].randomizePalette();
         rebuildCanvas.value++;
-        currentOpArt.addToCache();
-      }, randomisePalette: () {
-        currentOpArt.randomize();
+        currentOpArt[opArtNumber].addToCache();
+      }, randomizePalette: () {
+        currentOpArt[opArtNumber].randomizePalette();
         rebuildCanvas.value++;
-        currentOpArt.addToCache();
+        currentOpArt[opArtNumber].addToCache();
       }, showToolBox: () {
-        ToolBox(context, 0, currentOpArt.addToCache);
+        ToolBox(context, opArtNumber, currentOpArt[opArtNumber].addToCache);
       }),
       body: Column(
         children: [
@@ -181,34 +200,38 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
               child: ValueListenableBuilder<int>(
                   valueListenable: rebuildCache,
                   builder: (context, value, child) {
-                    return cachedList.length == 0
+                    return currentOpArt[opArtNumber].cacheList.length == 0
                         ? Container()
                         : ListView.builder(
                             scrollDirection: Axis.horizontal,
                             controller: scrollController,
-                            itemCount: cachedList.length,
+                            itemCount:
+                                currentOpArt[opArtNumber].cacheList.length,
                             reverse: false,
                             itemBuilder: (context, index) {
                               return Padding(
                                 padding: const EdgeInsets.all(2.0),
                                 child: GestureDetector(
                                   onTap: () {
-                                    currentOpArt.revertToCache(index);
+                                    currentOpArt[opArtNumber]
+                                        .revertToCache(index);
                                   },
                                   child: Container(
                                     decoration:
                                         BoxDecoration(shape: BoxShape.circle),
                                     width: 50,
                                     height: 50,
-                                    child: Image.file(
-                                        currentOpArt.cacheList[index]['image']),
+                                    child: Image.file(currentOpArt[opArtNumber]
+                                        .cacheList[index]['image']),
                                   ),
                                 ),
                               );
                             },
                           );
                   })),
-          Expanded(child: ClipRect(child: currentOpArt.bodyWidget(animation1))),
+          Expanded(
+              child: ClipRect(
+                  child: currentOpArt[opArtNumber].bodyWidget(animation1))),
         ],
       ),
     );

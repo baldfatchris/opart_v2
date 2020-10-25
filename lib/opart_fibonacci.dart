@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dart:io';
 
-import 'package:shake/shake.dart';
-import 'bottom_app_bar_custom.dart';
 import 'model.dart';
 import 'palettes.dart';
 
 import 'package:screenshot/screenshot.dart';
-
-import 'toolbox.dart';
 
 Random rnd;
 
@@ -66,10 +62,10 @@ class Fibonacci {
     icon: Icon(Icons.format_color_fill),
     proFeature: false,
   );
-  SettingsModelDouble randomiseAngle = SettingsModelDouble(
-    label: 'Randomise Angle',
+  SettingsModelDouble randomizeAngle = SettingsModelDouble(
+    label: 'randomize Angle',
     tooltip:
-        'Randomise the petal position by moving it around the centre by a random angle up to this maximum',
+        'randomize the petal position by moving it around the centre by a random angle up to this maximum',
     min: 0,
     max: 0.2,
     zoom: 100,
@@ -149,7 +145,7 @@ class Fibonacci {
     zoom: 100,
     defaultValue: 0,
     icon: Icon(Icons.bubble_chart),
-    proFeature: true  ,
+    proFeature: true,
   );
 
   SettingsModelList direction = SettingsModelList(
@@ -191,7 +187,7 @@ class Fibonacci {
 
   SettingsModelBool randomColors = SettingsModelBool(
     label: 'Random Colors',
-    tooltip: 'Randomise the coloursl',
+    tooltip: 'randomize the coloursl',
     defaultValue: false,
     icon: Icon(Icons.gamepad),
     proFeature: false,
@@ -269,10 +265,6 @@ class Fibonacci {
     //this.random,
   });
 
-
-
-
-
   void defaultSettings() {
     // resets to default settings
 
@@ -280,7 +272,7 @@ class Fibonacci {
     this.flowerFill.value = this.flowerFill.defaultValue;
     this.petalToRadius.value = this.petalToRadius.defaultValue;
     this.ratio.value = this.ratio.defaultValue;
-    this.randomiseAngle.value = this.randomiseAngle.defaultValue;
+    this.randomizeAngle.value = this.randomizeAngle.defaultValue;
     this.petalPointiness.value = this.petalPointiness.defaultValue;
     this.petalRotation.value = this.petalRotation.defaultValue;
     this.petalRotationRatio.value = this.petalRotationRatio.defaultValue;
@@ -323,6 +315,7 @@ class Fibonacci {
     this.aspectRatioLOCK = false;
   }
 }
+
 void fibonacciRandomize() {
   print('-----------------------------------------------------');
   print('randomize');
@@ -330,28 +323,31 @@ void fibonacciRandomize() {
 
   rnd = Random(DateTime.now().millisecond);
 
-  currentFibonacci.angleIncrement.randomise(rnd);
-  currentFibonacci.flowerFill.randomise(rnd);
-  currentFibonacci.petalToRadius.randomise(rnd);
-  currentFibonacci.ratio.randomise(rnd);
-  currentFibonacci.randomiseAngle.randomise(rnd);
-  if (currentFibonacci.randomiseAngle.locked == false && rnd.nextDouble() > 0.2) {
-    currentFibonacci.randomiseAngle.value = 0;
+  currentFibonacci.angleIncrement.randomize(rnd);
+  currentFibonacci.flowerFill.randomize(rnd);
+  currentFibonacci.petalToRadius.randomize(rnd);
+  currentFibonacci.ratio.randomize(rnd);
+  currentFibonacci.randomizeAngle.randomize(rnd);
+  if (currentFibonacci.randomizeAngle.locked == false &&
+      rnd.nextDouble() > 0.2) {
+    currentFibonacci.randomizeAngle.value = 0;
   }
-  currentFibonacci.petalPointiness.randomise(rnd);
-  currentFibonacci.petalRotation.randomise(rnd);
-  currentFibonacci.petalRotation.randomise(rnd);
-  if (currentFibonacci.petalRotation.locked == false && rnd.nextDouble() > 0.3) {
+  currentFibonacci.petalPointiness.randomize(rnd);
+  currentFibonacci.petalRotation.randomize(rnd);
+  currentFibonacci.petalRotation.randomize(rnd);
+  if (currentFibonacci.petalRotation.locked == false &&
+      rnd.nextDouble() > 0.3) {
     currentFibonacci.petalRotationRatio.value = rnd.nextInt(4).toDouble();
   }
-  currentFibonacci.petalType.randomise(rnd);
-  currentFibonacci.maxPetals.randomise(rnd);
-  currentFibonacci.radialOscAmplitude.randomise(rnd);
-  if (currentFibonacci.radialOscAmplitude.locked == false && rnd.nextDouble() < 0.7) {
+  currentFibonacci.petalType.randomize(rnd);
+  currentFibonacci.maxPetals.randomize(rnd);
+  currentFibonacci.radialOscAmplitude.randomize(rnd);
+  if (currentFibonacci.radialOscAmplitude.locked == false &&
+      rnd.nextDouble() < 0.7) {
     currentFibonacci.radialOscAmplitude.value = 0;
   }
-  currentFibonacci.radialOscPeriod.randomise(rnd);
-  currentFibonacci.direction.randomise(rnd);
+  currentFibonacci.radialOscPeriod.randomize(rnd);
+  currentFibonacci.direction.randomize(rnd);
 
   if (currentFibonacci.aspectRatioLOCK == false) {
     // this.aspectRatio = rnd.nextDouble() + 0.5;
@@ -360,6 +356,7 @@ void fibonacciRandomize() {
     // }
   }
 }
+
 void fibonacciRandomizePalette() {
   print('-----------------------------------------------------');
   print('randomizePalette');
@@ -367,61 +364,64 @@ void fibonacciRandomizePalette() {
 
   rnd = Random(DateTime.now().millisecond);
 
-  currentFibonacci.numberOfColors.randomise(rnd);
-  currentFibonacci.randomColors.randomise(rnd);
-  currentFibonacci.lineWidth.randomise(rnd);
+  currentFibonacci.numberOfColors.randomize(rnd);
+  currentFibonacci.randomColors.randomize(rnd);
+  currentFibonacci.lineWidth.randomize(rnd);
   if (currentFibonacci.lineWidth.locked == false && rnd.nextBool()) {
     currentFibonacci.lineWidth.value = 0;
   }
-  currentFibonacci.opacity.randomise(rnd);
-  currentFibonacci.backgroundColor.randomise(rnd);
-  currentFibonacci.lineColor.randomise(rnd);
+  currentFibonacci.opacity.randomize(rnd);
+  currentFibonacci.backgroundColor.randomize(rnd);
+  currentFibonacci.lineColor.randomize(rnd);
 
-  currentFibonacci.palette = randomisedPalette(
-      currentFibonacci.paletteType.value, currentFibonacci.numberOfColors.value, rnd);
+  currentFibonacci.palette = randomizedPalette(
+      currentFibonacci.paletteType.value,
+      currentFibonacci.numberOfColors.value,
+      rnd);
 }
+
 //AnimationController controller1;
 fibonacciAddToCache() async {
   WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
-      .capture(delay: Duration(milliseconds: 40), pixelRatio: 0.2)
-      .then((File image) async {
-    currentFibonacci.image = image;
-    Map<String, dynamic> currentCache = {
-      'angleIncrement': currentFibonacci.angleIncrement.value,
-      'ratio': currentFibonacci.ratio.value,
-      'flowerFill': currentFibonacci.flowerFill.value,
-      'opacity': currentFibonacci.opacity.value,
-      'petalType': currentFibonacci.petalType.value,
-      'petalPointiness': currentFibonacci.petalPointiness.value,
-      'petalRotation': currentFibonacci.petalRotation.value,
-      'petalRotationRatio': currentFibonacci.petalRotationRatio.value,
-      'petalToRadius': currentFibonacci.petalToRadius.value,
-      'radialOscAmplitude': currentFibonacci.radialOscAmplitude.value,
-      'radialOscPeriod': currentFibonacci.radialOscPeriod.value,
-      'randomiseAngle': currentFibonacci.randomiseAngle.value,
-      'maxPetals': currentFibonacci.maxPetals.value,
-      'direction': currentFibonacci.direction.value,
-      'backgroundColor': currentFibonacci.backgroundColor.value,
-      'lineColor': currentFibonacci.lineColor.value,
-      'lineWidth': currentFibonacci.lineWidth.value,
-      'numberOfColors': currentFibonacci.numberOfColors.value,
-      'randomColors': currentFibonacci.randomColors.value,
-      'paletteType': currentFibonacci.paletteType.value,
-      'palette': currentFibonacci.palette,
-      'paletteList': currentFibonacci.paletteList.value,
-      'aspectRatio': currentFibonacci.aspectRatio,
-      'image': image,
-    };
-    cachedFibonacciList.add(currentCache);
-    rebuildCache.value++;
-    await new Future.delayed(const Duration(milliseconds: 20));
-    if (scrollController.hasClients) {
-      scrollController
-          .jumpTo(scrollController.position.maxScrollExtent);
-    }
-    enableButton = true;
-  }));
+          .capture(delay: Duration(milliseconds: 40), pixelRatio: 0.2)
+          .then((File image) async {
+        currentFibonacci.image = image;
+        Map<String, dynamic> currentCache = {
+          'angleIncrement': currentFibonacci.angleIncrement.value,
+          'ratio': currentFibonacci.ratio.value,
+          'flowerFill': currentFibonacci.flowerFill.value,
+          'opacity': currentFibonacci.opacity.value,
+          'petalType': currentFibonacci.petalType.value,
+          'petalPointiness': currentFibonacci.petalPointiness.value,
+          'petalRotation': currentFibonacci.petalRotation.value,
+          'petalRotationRatio': currentFibonacci.petalRotationRatio.value,
+          'petalToRadius': currentFibonacci.petalToRadius.value,
+          'radialOscAmplitude': currentFibonacci.radialOscAmplitude.value,
+          'radialOscPeriod': currentFibonacci.radialOscPeriod.value,
+          'randomizeAngle': currentFibonacci.randomizeAngle.value,
+          'maxPetals': currentFibonacci.maxPetals.value,
+          'direction': currentFibonacci.direction.value,
+          'backgroundColor': currentFibonacci.backgroundColor.value,
+          'lineColor': currentFibonacci.lineColor.value,
+          'lineWidth': currentFibonacci.lineWidth.value,
+          'numberOfColors': currentFibonacci.numberOfColors.value,
+          'randomColors': currentFibonacci.randomColors.value,
+          'paletteType': currentFibonacci.paletteType.value,
+          'palette': currentFibonacci.palette,
+          'paletteList': currentFibonacci.paletteList.value,
+          'aspectRatio': currentFibonacci.aspectRatio,
+          'image': image,
+        };
+        fibonacciCachedList.add(currentCache);
+        rebuildCache.value++;
+        await new Future.delayed(const Duration(milliseconds: 20));
+        if (scrollController.hasClients) {
+          scrollController.jumpTo(scrollController.position.maxScrollExtent);
+        }
+        enableButton = true;
+      }));
 }
+
 List fibonacciSettingsList = [
   currentFibonacci.angleIncrement,
   currentFibonacci.ratio,
@@ -434,7 +434,7 @@ List fibonacciSettingsList = [
   currentFibonacci.petalToRadius,
   currentFibonacci.radialOscAmplitude,
   currentFibonacci.radialOscPeriod,
-  currentFibonacci.randomiseAngle,
+  currentFibonacci.randomizeAngle,
   currentFibonacci.maxPetals,
   currentFibonacci.direction,
   currentFibonacci.backgroundColor,
@@ -446,112 +446,55 @@ List fibonacciSettingsList = [
   currentFibonacci.paletteList,
   currentFibonacci.resetDefaults,
 ];
-//ScrollController scrollController = new ScrollController();
-// class OpArtFibonacciStudio extends StatefulWidget {
-//   OpArtFibonacciStudio();
-//
-//   @override
-//   _OpArtFibonacciStudioState createState() => _OpArtFibonacciStudioState();
-// }
-// Animation<double> animation1;
 
-// Widget bodyWidget() {
-//   return ValueListenableBuilder<int>(
-//       valueListenable: rebuildCanvas,
-//       builder: (context, value, child) {
-//         return Screenshot(
-//           controller: screenshotController,
-//           child: Visibility(
-//             visible: true,
-//             child: LayoutBuilder(
-//               builder: (_, constraints) => Container(
-//                 width: constraints.widthConstraints().maxWidth,
-//                 height: constraints.heightConstraints().maxHeight,
-//                 child: CustomPaint(
-//                     painter: OpArtFibonacciPainter(
-//                       seed, rnd,
-//                       animation1.value,
-//                       // animation2.value
-//                     )),
-//               ),
-//             ),
-//           ),
-//         );
-//       });
-// }
+void fibonacciRevertToCache(int index) {
+  currentFibonacci.angleIncrement.value =
+      fibonacciCachedList[index]['angleIncrement'];
+  currentFibonacci.ratio.value = fibonacciCachedList[index]['ratio'];
+  currentFibonacci.maxPetals.value = fibonacciCachedList[index]['maxPetals'];
+  currentFibonacci.direction.value = fibonacciCachedList[index]['direction'];
+  currentFibonacci.flowerFill.value = fibonacciCachedList[index]['flowerFill'];
 
-void fibonacciRevertToCache(int index){
-  currentFibonacci.angleIncrement.value =cachedFibonacciList[index]['angleIncrement'];
-  currentFibonacci.ratio.value =cachedFibonacciList[index]['ratio'];
-  currentFibonacci.maxPetals.value =
-  cachedFibonacciList[index]['maxPetals'];
-  currentFibonacci.direction.value =
-  cachedFibonacciList[index]['direction'];
-  currentFibonacci.flowerFill.value =
-  cachedFibonacciList[index]
-  ['flowerFill'];
-
-  currentFibonacci.flowerFill.value =
-  cachedFibonacciList[index]
-  ['flowerFill'];
-  currentFibonacci.opacity.value =
-  cachedFibonacciList[index]['opacity'];
-  currentFibonacci.petalType.value =
-  cachedFibonacciList[index]['petalType'];
+  currentFibonacci.flowerFill.value = fibonacciCachedList[index]['flowerFill'];
+  currentFibonacci.opacity.value = fibonacciCachedList[index]['opacity'];
+  currentFibonacci.petalType.value = fibonacciCachedList[index]['petalType'];
   currentFibonacci.petalPointiness.value =
-  cachedFibonacciList[index]
-  ['petalPointiness'];
+      fibonacciCachedList[index]['petalPointiness'];
 
   currentFibonacci.petalRotation.value =
-  cachedFibonacciList[index]
-  ['petalRotation'];
+      fibonacciCachedList[index]['petalRotation'];
   currentFibonacci.petalRotationRatio.value =
-  cachedFibonacciList[index]
-  ['petalRotationRatio'];
+      fibonacciCachedList[index]['petalRotationRatio'];
   currentFibonacci.petalToRadius.value =
-  cachedFibonacciList[index]
-  ['petalToRadius'];
+      fibonacciCachedList[index]['petalToRadius'];
 
   currentFibonacci.radialOscAmplitude.value =
-  cachedFibonacciList[index]
-  ['radialOscAmplitude'];
+      fibonacciCachedList[index]['radialOscAmplitude'];
   currentFibonacci.radialOscPeriod.value =
-  cachedFibonacciList[index]
-  ['radialOscPeriod'];
-  currentFibonacci.randomiseAngle.value =
-  cachedFibonacciList[index]
-  ['randomiseAngle'];
-  currentFibonacci.maxPetals.value =
-  cachedFibonacciList[index]['maxPetals'];
-  currentFibonacci.direction.value =
-  cachedFibonacciList[index]['direction'];
+      fibonacciCachedList[index]['radialOscPeriod'];
+  currentFibonacci.randomizeAngle.value =
+      fibonacciCachedList[index]['randomizeAngle'];
+  currentFibonacci.maxPetals.value = fibonacciCachedList[index]['maxPetals'];
+  currentFibonacci.direction.value = fibonacciCachedList[index]['direction'];
 
   currentFibonacci.backgroundColor.value =
-  cachedFibonacciList[index]
-  ['backgroundColor'];
-  currentFibonacci.lineColor.value =
-  cachedFibonacciList[index]['lineColor'];
+      fibonacciCachedList[index]['backgroundColor'];
+  currentFibonacci.lineColor.value = fibonacciCachedList[index]['lineColor'];
 
-  currentFibonacci.lineWidth.value =
-  cachedFibonacciList[index]['lineWidth'];
+  currentFibonacci.lineWidth.value = fibonacciCachedList[index]['lineWidth'];
   currentFibonacci.numberOfColors.value =
-  cachedFibonacciList[index]
-  ['numberOfColors'];
+      fibonacciCachedList[index]['numberOfColors'];
   currentFibonacci.randomColors.value =
-  cachedFibonacciList[index]
-  ['randomColors'];
+      fibonacciCachedList[index]['randomColors'];
   currentFibonacci.paletteType.value =
-  cachedFibonacciList[index]
-  ['paletteType'];
-  currentFibonacci.palette =
-  cachedFibonacciList[index]['palette'];
-  currentFibonacci.aspectRatio =
-  cachedFibonacciList[index]
-  ['aspectRatio'];
+      fibonacciCachedList[index]['paletteType'];
+  currentFibonacci.palette = fibonacciCachedList[index]['palette'];
+  currentFibonacci.aspectRatio = fibonacciCachedList[index]['aspectRatio'];
   rebuildCanvas.value++;
 }
-Widget fibonacciBodyWidget(Animation animation1){
-   return ValueListenableBuilder<int>(
+
+Widget fibonacciBodyWidget(Animation animation1) {
+  return ValueListenableBuilder<int>(
       valueListenable: rebuildCanvas,
       builder: (context, value, child) {
         return Screenshot(
@@ -564,166 +507,16 @@ Widget fibonacciBodyWidget(Animation animation1){
                 height: constraints.heightConstraints().maxHeight,
                 child: CustomPaint(
                     painter: OpArtFibonacciPainter(
-                      seed, rnd,
-                      animation1.value,
-                      // animation2.value
-                    )),
+                  seed, rnd,
+                  animation1.value,
+                  // animation2.value
+                )),
               ),
             ),
           ),
         );
       });
 }
-
-// class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
-//     with TickerProviderStateMixin {
-//   int _counter = 0;
-//   File _imageFile;
-//
-//   int _currentColor = 0;
-//
-//
-//
-//
-//   // Animation<double> animation2;
-//   // AnimationController controller2;
-//
-//
-//
-//
-//
-//   Widget build(BuildContext context) {
-//
-//
-//     return Scaffold(
-//       bottomNavigationBar: CustomBottomAppBar(randomise: () {
-//         currentFibonacci.randomize();
-//         currentFibonacci.randomizePalette();
-//         rebuildCanvas.value++;
-//         addToCache();
-//       }, randomisePalette: () {
-//         currentFibonacci.randomizePalette();
-//         rebuildCanvas.value++;
-//         addToCache();
-//       }, showToolBox: () {
-//         ToolBox(context, settingsList, addToCache);
-//       }),
-//       body: Column(
-//         children: [
-//           Container(
-//               width: MediaQuery.of(context).size.width,
-//               color: Colors.white,
-//               height: 60,
-//               child: ValueListenableBuilder<int>(
-//                   valueListenable: rebuildCache,
-//                   builder: (context, value, child) {
-//                     return cachedFibonacciList.length == 0
-//                         ? Container()
-//                         : ListView.builder(
-//                             scrollDirection: Axis.horizontal,
-//                             controller: scrollController,
-//                             itemCount: cachedFibonacciList.length,
-//                             reverse: false,
-//                             itemBuilder: (context, index) {
-//                               return Padding(
-//                                 padding: const EdgeInsets.all(2.0),
-//                                 child: GestureDetector(
-//                                   onTap: () {
-//                                     revertToCache(index);
-//
-//                                   },
-//                                   child: Container(
-//                                     decoration:
-//                                         BoxDecoration(shape: BoxShape.circle),
-//                                     width: 50,
-//                                     height: 50,
-//                                     child: Image.file(
-//                                         cachedFibonacciList[index]['image']),
-//                                   ),
-//                                 ),
-//                               );
-//                             },
-//                           );
-//                   })),
-//           Expanded(child: ClipRect(child: bodyWidget())),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
-//       print(
-//           '---------------------------------------------------------------------------');
-//       print('SHAKE');
-//       print(
-//           '---------------------------------------------------------------------------');
-//       setState(() {
-//         currentFibonacci.randomize();
-//         currentFibonacci.randomizePalette();
-//         addToCache();
-//       });
-//     });
-//     // To close: detector.stopListening();
-//     // ShakeDetector.waitForStart() waits for user to call detector.startListening();
-//
-//     // Animation Stuff
-//
-//
-//     controller1 = AnimationController(
-//       vsync: this,
-//       duration: Duration(seconds: 72000),
-//     );
-//     CurvedAnimation(parent: controller1, curve: Curves.linear);
-//
-//     // controller2 = AnimationController(
-//     //   vsync: this,
-//     //   duration: Duration(seconds: 60),
-//     // );
-//
-//     Tween<double> _angleTween = Tween(begin: 0, end: 2 * pi);
-//     // Tween<double> _fillTween = Tween(begin: 1, end: 1);
-//
-//     animation1 = _angleTween.animate(controller1)
-//       ..addListener(() {
-//         setState(() {});
-//       })
-//       ..addStatusListener((status) {
-//         if (status == AnimationStatus.completed) {
-//           controller1.repeat();
-//         } else if (status == AnimationStatus.dismissed) {
-//           controller1.forward();
-//         }
-//       });
-
-    // animation2 = _fillTween.animate(controller2)
-    //   ..addListener(() {
-    //     setState(() {});
-    //   })
-    //   ..addStatusListener((status) {
-    //     if (status == AnimationStatus.completed) {
-    //       controller2.reverse();
-    //     } else if (status == AnimationStatus.dismissed) {
-    //       controller2.forward();
-    //     }
-    //   });
-
-//     controller1.forward();
-//     // controller2.forward();
-//
-//     addToCache();
-//   }
-//
-//   @override
-//   void dispose() {
-//     controller1.dispose();
-//     // controller2.dispose();
-//     super.dispose();
-//   }
-//
-// }
 
 class OpArtFibonacciPainter extends CustomPainter {
   int seed;
@@ -805,7 +598,7 @@ class OpArtFibonacciPainter extends CustomPainter {
     double flowerCentreX = imageWidth / 2;
     double flowerCentreY = imageHeight / 2;
 
-  //  print('aspectRatio = $currentFibonacci.aspectRatio');
+    //  print('aspectRatio = $currentFibonacci.aspectRatio');
 
     int colourOrder = 0;
 
@@ -821,12 +614,11 @@ class OpArtFibonacciPainter extends CustomPainter {
       borderY,
       flowerCentreX,
       flowerCentreY,
-
       angle + currentFibonacci.angleIncrement.value,
       currentFibonacci.flowerFill.value,
       currentFibonacci.petalToRadius.value,
       currentFibonacci.ratio.value,
-      currentFibonacci.randomiseAngle.value,
+      currentFibonacci.randomizeAngle.value,
       currentFibonacci.petalPointiness.value,
       currentFibonacci.petalRotation.value,
       currentFibonacci.petalRotationRatio.value,
@@ -860,7 +652,7 @@ class OpArtFibonacciPainter extends CustomPainter {
     double currentFlowerFill,
     double currentPetalToRadius,
     double currentRatio,
-    double currentRandomiseAngle,
+    double currentrandomizeAngle,
     double currentPetalPointiness,
     double currentPetalRotation,
     double currentPetalRotationRatio,
@@ -889,7 +681,7 @@ class OpArtFibonacciPainter extends CustomPainter {
     // print('AngleIncrement: $currentAngleIncrement');
     // print('FlowerFill: $currentFlowerFill');
     // print('PetalToRadius: $currentPetalToRadius');
-    // print('RandomiseAngle: $currentRandomiseAngle');
+    // print('randomizeAngle: $currentrandomizeAngle');
     // print('PetalPointiness: $currentPetalPointiness');
     // print('PetalRotation: $currentPetalRotation');
     // print('PetalRotationRatio: $currentPetalRotationRatio');
@@ -955,7 +747,7 @@ class OpArtFibonacciPainter extends CustomPainter {
           currentFlowerFill,
           currentPetalToRadius,
           currentRatio,
-          currentRandomiseAngle,
+          currentrandomizeAngle,
           currentPetalPointiness,
           currentPetalRotation,
           currentPetalRotationRatio,
@@ -1004,7 +796,7 @@ class OpArtFibonacciPainter extends CustomPainter {
           currentFlowerFill,
           currentPetalToRadius,
           currentRatio,
-          currentRandomiseAngle,
+          currentrandomizeAngle,
           currentPetalPointiness,
           currentPetalRotation,
           currentPetalRotationRatio,
@@ -1062,7 +854,7 @@ class OpArtFibonacciPainter extends CustomPainter {
     double currentFlowerFill,
     double currentPetalToRadius,
     double currentRatio,
-    double currentRandomiseAngle,
+    double currentrandomizeAngle,
     double currentPetalPointiness,
     double currentPetalRotation,
     double currentPetalRotationRatio,
@@ -1080,7 +872,7 @@ class OpArtFibonacciPainter extends CustomPainter {
     double currentOpacity,
     List currentPalette,
   ) {
-    angle = angle + (rnd.nextDouble() - 0.5) * currentRandomiseAngle;
+    angle = angle + (rnd.nextDouble() - 0.5) * currentrandomizeAngle;
 
     radius = radius +
         radius *

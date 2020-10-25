@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'model.dart';
 
 Widget CustomBottomAppBar(
-    {Function randomise, Function randomisePalette, Function showToolBox}) {
+    {Function randomize, Function randomizePalette, Function showToolBox}) {
   return Container(
       height: 70,
       child: GestureDetector(
@@ -31,7 +31,7 @@ Widget CustomBottomAppBar(
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: Text(
-                'Randomise\nEverything',
+                'randomize\nEverything',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.black,
@@ -42,7 +42,7 @@ Widget CustomBottomAppBar(
         ),
         onPressed: () async {
           if (enableButton) {
-            randomise();
+            randomize();
             enableButton = false;
 
           }
@@ -91,7 +91,7 @@ Widget CustomBottomAppBar(
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: Text(
-                'Randomise'
+                'randomize'
                     '\nPalette',
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -103,7 +103,7 @@ Widget CustomBottomAppBar(
         ),
         onPressed: () async {
           if (enableButton) {
-            randomisePalette();
+            randomizePalette();
             enableButton = false;
 
           }
@@ -113,18 +113,18 @@ Widget CustomBottomAppBar(
       //   splashColor: Colors.red,
       //   animationDuration: Duration(milliseconds: 10),
       //   onPressed: () {
-      //     randomise();
+      //     randomize();
       //   },
       //   icon: Icon(Icons.refresh),
       //   label: Text(
-      //     'Randomise',
+      //     'randomize',
       //     textAlign: TextAlign.center,
       //   ),
       // ),
 
       // IconButton(
       //   onPressed: () {
-      //     randomise();
+      //     randomize();
       //
       //   },
       //  // icon: Icon(Icons.refresh),
@@ -134,7 +134,7 @@ Widget CustomBottomAppBar(
       //   //     Padding(
       //   //       padding: const EdgeInsets.all(8.0),
       //   //       child: Text(
-      //   //         'Randomise \nEverything',
+      //   //         'randomize \nEverything',
       //   //         textAlign: TextAlign.center,
       //   //       ),
       //   //     )
@@ -159,7 +159,7 @@ Widget CustomBottomAppBar(
       //     )),
       // GestureDetector(
       //   onTap: () {
-      //     randomisePalette();
+      //     randomizePalette();
       //   },
       //   child: Row(
       //     children: <Widget>[
@@ -176,7 +176,7 @@ Widget CustomBottomAppBar(
       // ),
       // IconButton(
       //   onPressed: () {
-      //     randomisePalette();
+      //     randomizePalette();
       //
       //   },
       //   icon: Icon(Icons.palette),
@@ -186,7 +186,7 @@ Widget CustomBottomAppBar(
       //     Padding(
       //       padding: const EdgeInsets.all(8.0),
       //       child: Text(
-      //         'Randomise \nPalette',
+      //         'randomize \nPalette',
       //         textAlign: TextAlign.center,
       //       ),
       //     )

@@ -70,7 +70,7 @@ List defaultPalettes () {
 
 }
 
-List randomisedPalette(String paletteType, int numberOfColours, Random rnd) {
+List randomizedPalette(String paletteType, int numberOfColours, Random rnd) {
 
   List palette = [];
 

@@ -9,7 +9,7 @@ Random rnd = Random();
 int seed = rnd.nextInt(1 << 32);
 
 ScreenshotController screenshotController = ScreenshotController();
-List<Map<String, dynamic>> cachedFibonacciList = List<Map<String, dynamic>>();
+List<Map<String, dynamic>> fibonacciCachedList = List<Map<String, dynamic>>();
 
 final rebuildCache = new ValueNotifier(0);
 final rebuildCanvas = new ValueNotifier(0);
@@ -47,7 +47,7 @@ class SettingsModelDouble {
       this.value,
       this.proFeature});
 
-  void randomise(Random rnd) {
+  void randomize(Random rnd) {
     if (!this.locked && (proVersion || !proVersion && !this.proFeature)) {
       double min = (this.randomMin != null) ? this.randomMin : this.min;
       double max = (this.randomMax != null) ? this.randomMax : this.max;
@@ -86,7 +86,7 @@ class SettingsModelInt {
       this.value,
       this.proFeature});
 
-  void randomise(Random rnd) {
+  void randomize(Random rnd) {
     if (!this.locked && (proVersion || !proVersion && !this.proFeature)) {
       int min = (this.randomMin != null) ? this.randomMin : this.min;
       int max = (this.randomMax != null) ? this.randomMax : this.max;
@@ -121,7 +121,7 @@ class SettingsModelBool {
       this.value,
       this.proFeature});
 
-  void randomise(Random rnd) {
+  void randomize(Random rnd) {
     if (!this.locked && (proVersion || !proVersion && !this.proFeature)) {
       this.value = rnd.nextBool();
     }
@@ -166,7 +166,7 @@ class SettingsModelList {
       this.value,
       this.proFeature});
 
-  void randomise(Random rnd) {
+  void randomize(Random rnd) {
     if (!this.locked && (proVersion || !proVersion && !this.proFeature)) {
       // half the time use the default
       this.value = (rnd.nextBool() == true)
@@ -194,7 +194,7 @@ class SettingsModelColor {
       this.value,
       this.proFeature});
 
-  void randomise(Random rnd) {
+  void randomize(Random rnd) {
     if (!this.locked && (proVersion || !proVersion && !this.proFeature)) {
       this.value = Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1);
     }

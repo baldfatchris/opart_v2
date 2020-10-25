@@ -3,16 +3,10 @@ import 'dart:math';
 import 'dart:io';
 import 'package:screenshot/screenshot.dart';
 import 'package:shake/shake.dart';
-import 'package:opart_v2/setting_button.dart';
-import 'package:opart_v2/setting_slider.dart';
-import 'package:opart_v2/setting_intslider.dart';
-import 'package:opart_v2/setting_dropdown.dart';
-import 'package:opart_v2/setting_colorpicker.dart';
-import 'package:opart_v2/setting_radiobutton.dart';
+
 import 'model.dart';
 import 'palettes.dart';
-import 'bottom_app_bar_custom.dart';
-import 'toolbox.dart';
+
 
 Random rnd;
 
@@ -23,7 +17,7 @@ Wave currentWave;
 List palettes = defaultPalettes();
 String currentNamedPalette;
 
-List<Map<String, dynamic>> cachedWaveList = List<Map<String, dynamic>>();
+List<Map<String, dynamic>> waveCachedList = List<Map<String, dynamic>>();
 class Wave {
   // image settings
 
@@ -117,7 +111,7 @@ class Wave {
   );
   SettingsModelBool randomColors = SettingsModelBool(
     label: 'Random Colors',
-    tooltip: 'Randomise the coloursl',
+    tooltip: 'randomize the coloursl',
     defaultValue: false,
     icon: Icon(Icons.gamepad),
     proFeature: false,
@@ -191,43 +185,9 @@ class Wave {
     this.random,
   });
 
-  void randomize() {
-    print('-----------------------------------------------------');
-    print('randomize');
-    print('-----------------------------------------------------');
-
-    rnd = Random(DateTime.now().millisecond);
-
-    this.stepX.randomise(rnd);
-    this.stepY.randomise(rnd);
-    this.frequency.randomise(rnd);
-    this.amplitude.randomise(rnd);
-    this.offset.randomise(rnd);
-    this.fanWidth.randomise(rnd);
-    this.zigZag.value = rnd.nextDouble()>0.8 ? true : false;
-
-    // this.paletteList.randomise(random);
-  }
-
-  void randomizePalette() {
-    print('-----------------------------------------------------');
-    print('randomizePalette');
-    print('-----------------------------------------------------');
-
-    rnd = Random(DateTime.now().millisecond);
-
-    this.backgroundColor.randomise(rnd);
-    this.randomColors.randomise(rnd);
-    this.numberOfColors.randomise(rnd);
-    this.paletteType.randomise(rnd);
-    this.opacity.randomise(rnd);
-
-    int numberOfColors = this.numberOfColors.value;
-
-    this.palette = randomisedPalette(this.paletteType.value, this.numberOfColors.value, rnd);
 
 
-  }
+
 
   void defaultSettings() {
     // resets to default settings
@@ -272,7 +232,7 @@ class Wave {
   }
 }
 
-List settingsList = [
+List waveSettingsList = [
   currentWave.stepX,
   currentWave.stepY,
   currentWave.frequency,
@@ -289,261 +249,117 @@ List settingsList = [
   currentWave.resetDefaults,
 
 ];
+void waveRandomize() {
+  print('-----------------------------------------------------');
+  print('randomize');
+  print('-----------------------------------------------------');
 
-class OpArtWaveStudio extends StatefulWidget {
-  OpArtWaveStudio();
+  rnd = Random(DateTime.now().millisecond);
 
-  @override
-  _OpArtWaveStudioState createState() => _OpArtWaveStudioState();
+  currentWave.stepX.randomize(rnd);
+  currentWave.stepY.randomize(rnd);
+  currentWave.frequency.randomize(rnd);
+  currentWave.amplitude.randomize(rnd);
+  currentWave.offset.randomize(rnd);
+  currentWave.fanWidth.randomize(rnd);
+  currentWave.zigZag.value = rnd.nextDouble()>0.8 ? true : false;
+
+  // this.paletteList.randomize(random);
 }
+void waveRandomizePalette() {
+  print('-----------------------------------------------------');
+  print('randomizePalette');
+  print('-----------------------------------------------------');
 
-class _OpArtWaveStudioState extends State<OpArtWaveStudio>
-    with TickerProviderStateMixin {
-  int _counter = 0;
-  File _imageFile;
-  int _currentColor = 0;
+  rnd = Random(DateTime.now().millisecond);
 
-  Animation<double> animation1;
-  AnimationController controller1;
+  currentWave.backgroundColor.randomize(rnd);
+  currentWave.randomColors.randomize(rnd);
+  currentWave.numberOfColors.randomize(rnd);
+  currentWave.paletteType.randomize(rnd);
+  currentWave.opacity.randomize(rnd);
 
-  // Animation<double> animation2;
-  // AnimationController controller2;
+  int numberOfColors = currentWave.numberOfColors.value;
 
-  cacheWave() async {
-    WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
-            .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
-            .then((File image) async {
-          currentWave.image = image;
+  currentWave.palette = randomizedPalette(currentWave.paletteType.value, currentWave.numberOfColors.value, rnd);
 
-          Map<String, dynamic> currentCache = {
-            'aspectRatio': currentWave.aspectRatio,
-            'stepX': currentWave.stepX.value,
-            'stepY': currentWave.stepY.value,
-            'frequency': currentWave.frequency.value,
-            'amplitude': currentWave.amplitude.value,
-            'offset': currentWave.offset.value,
-            'zigZag': currentWave.zigZag.value,
-            'fanWidth': currentWave.fanWidth.value,
-            'backgroundColor': currentWave.backgroundColor.value,
-            'randomColors': currentWave.randomColors.value,
-            'numberOfColors': currentWave.numberOfColors.value,
-            'paletteType': currentWave.paletteType.value,
-            'opacity': currentWave.opacity.value,
-            'image': currentWave.image,
-            'palette': currentWave.palette,
-          };
-          cachedWaveList.add(currentCache);
-          rebuildCache.value++;
-          await new Future.delayed(const Duration(milliseconds: 20));
-          if (_scrollController.hasClients) {
-            _scrollController
-                .jumpTo(_scrollController.position.maxScrollExtent);
-          }
-          enableButton = true;
-        }));
-  }
 
-  ScrollController _scrollController = new ScrollController();
-  @override
-  Widget bodyWidget() {
-    return Screenshot(
-      controller: screenshotController,
-      child: Stack(
-        children: [
-          Visibility(
-            visible: true,
-            child: LayoutBuilder(
-              builder: (_, constraints) => Container(
-                width: constraints.widthConstraints().maxWidth,
-                height: constraints.heightConstraints().maxHeight,
-                child: CustomPaint(
-                    painter: OpArtWavePainter(
-                  seed, rnd,
-                  animation1.value,
-                  // animation2.value
-                )),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
+}
+waveAddToCache() async {
+  WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
+      .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
+      .then((File image) async {
+    currentWave.image = image;
 
-  @override
-  Widget build(BuildContext context) {
-    Widget bodyWidget() {
-      return ValueListenableBuilder<int>(
-          valueListenable: rebuildCanvas,
-          builder: (context, value, child) {
-            return Screenshot(
-              controller: screenshotController,
-              child: Visibility(
-                visible: true,
-                child: LayoutBuilder(
-                  builder: (_, constraints) => Container(
-                    width: constraints.widthConstraints().maxWidth,
-                    height: constraints.heightConstraints().maxHeight,
-                    child: CustomPaint(
-                      painter: OpArtWavePainter(
-                      seed, rnd,
-                      animation1.value,
-                        // animation2.value
-                    )),
-                  ),
-                ),
-              ),
-            );
-          });
+    Map<String, dynamic> currentCache = {
+      'aspectRatio': currentWave.aspectRatio,
+      'stepX': currentWave.stepX.value,
+      'stepY': currentWave.stepY.value,
+      'frequency': currentWave.frequency.value,
+      'amplitude': currentWave.amplitude.value,
+      'offset': currentWave.offset.value,
+      'zigZag': currentWave.zigZag.value,
+      'fanWidth': currentWave.fanWidth.value,
+      'backgroundColor': currentWave.backgroundColor.value,
+      'randomColors': currentWave.randomColors.value,
+      'numberOfColors': currentWave.numberOfColors.value,
+      'paletteType': currentWave.paletteType.value,
+      'opacity': currentWave.opacity.value,
+      'image': currentWave.image,
+      'palette': currentWave.palette,
+    };
+    waveCachedList.add(currentCache);
+    rebuildCache.value++;
+    await new Future.delayed(const Duration(milliseconds: 20));
+    if (scrollController.hasClients) {
+      scrollController
+          .jumpTo(scrollController.position.maxScrollExtent);
     }
-
-    return Scaffold(
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        child: CustomBottomAppBar(randomise: () {
-          currentWave.randomize();
-          currentWave.randomizePalette();
-          rebuildCanvas.value++;
-          cacheWave();
-        }, randomisePalette: () {
-          currentWave.randomizePalette();
-          rebuildCanvas.value++;
-          cacheWave();
-        }, showToolBox: () {
-          ToolBox(context, 1, cacheWave);
-        }),
-      ),
-      body: Column(
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            color: Colors.white,
-            height: 60,
-            child: ValueListenableBuilder<int>(
-              valueListenable: rebuildCache,
-              builder: (context, value, child) {
-                print('***********rebuilding');
-                return cachedWaveList.length == 0
-
-                  ? Container()
-                  : ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      controller: _scrollController,
-                      itemCount: cachedWaveList.length,
-                      reverse: false,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                currentWave.stepX.value = cachedWaveList[index]['stepX'];
-                                currentWave.stepY.value = cachedWaveList[index]['stepY'];
-                                currentWave.frequency.value = cachedWaveList[index]['frequency'];
-                                currentWave.amplitude.value = cachedWaveList[index]['amplitude'];
-                                currentWave.offset.value = cachedWaveList[index]['offset'];
-                                currentWave.fanWidth.value = cachedWaveList[index]['fanWidth'];
-                                currentWave.zigZag.value = cachedWaveList[index]['zigZag'];
-                                currentWave.image = cachedWaveList[index]['image'];
-                                currentWave.backgroundColor.value = cachedWaveList[index]['backgroundColor'];
-                                currentWave.randomColors.value = cachedWaveList[index]['randomColors'];
-                                currentWave.numberOfColors.value = cachedWaveList[index]['numberOfColors'];
-                                currentWave.paletteType.value = cachedWaveList[index]['paletteType'];
-                                currentWave.opacity.value = cachedWaveList[index]['opacity'];
-                                currentWave.palette = cachedWaveList[index]['palette'];
-                              });
-                            },
-                            child: Container(
-                              decoration:
-                                  BoxDecoration(shape: BoxShape.circle),
-                              width: 50,
-                              height: 50,
-                              child: Image.file(
-                                  cachedWaveList[index]['image']),
-                            ),
-                          ),
-                        );
-                      },
-                    );
-              })
+    enableButton = true;
+  }));
+}
+Widget waveBodyWidget(Animation animation1) {
+  return Screenshot(
+    controller: screenshotController,
+    child: Stack(
+      children: [
+        Visibility(
+          visible: true,
+          child: LayoutBuilder(
+            builder: (_, constraints) => Container(
+              width: constraints.widthConstraints().maxWidth,
+              height: constraints.heightConstraints().maxHeight,
+              child: CustomPaint(
+                  painter: OpArtWavePainter(
+                    seed, rnd,
+                    animation1.value,
+                    // animation2.value
+                  )),
+            ),
           ),
-          Expanded(child: ClipRect(child: bodyWidget())),
-        ],
-      ),
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
-      print(
-          '---------------------------------------------------------------------------');
-      print('SHAKE');
-      print(
-          '---------------------------------------------------------------------------');
-
-      currentWave.randomize();
-      currentWave.randomizePalette();
-      rebuildCanvas.value++;
-      cacheWave();
-      //randomiseSettings();
-    });
-    // To close: detector.stopListening();
-    // ShakeDetector.waitForStart() waits for user to call detector.startListening();
-
-    // Animation Stuff
-    controller1 = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 7200),
-    );
-
-    // controller2 = AnimationController(
-    //   vsync: this,
-    //   duration: Duration(seconds: 60),
-    // );
-
-    Tween<double> _angleTween = Tween(begin: 0, end: 200);
-    // Tween<double> _fillTween = Tween(begin: 1, end: 1);
-
-    animation1 = _angleTween.animate(controller1)
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          controller1.repeat();
-        } else if (status == AnimationStatus.dismissed) {
-          controller1.forward();
-        }
-      });
-
-    // animation2 = _fillTween.animate(controller2)
-    //   ..addListener(() {
-    //     setState(() {});
-    //   })
-    //   ..addStatusListener((status) {
-    //     if (status == AnimationStatus.completed) {
-    //       controller2.reverse();
-    //     } else if (status == AnimationStatus.dismissed) {
-    //       controller2.forward();
-    //     }
-    //   });
-
-    controller1.forward();
-    // controller2.forward();
-    cacheWave();
-  }
-
-@override
-void dispose() {
-  controller1.dispose();
-  // controller2.dispose();
-  super.dispose();
+        )
+      ],
+    ),
+  );
+}
+waveRevertToCache(index){
+  currentWave.stepX.value = waveCachedList[index]['stepX'];
+  currentWave.stepY.value = waveCachedList[index]['stepY'];
+  currentWave.frequency.value = waveCachedList[index]['frequency'];
+  currentWave.amplitude.value = waveCachedList[index]['amplitude'];
+  currentWave.offset.value = waveCachedList[index]['offset'];
+  currentWave.fanWidth.value = waveCachedList[index]['fanWidth'];
+  currentWave.zigZag.value = waveCachedList[index]['zigZag'];
+  currentWave.image = waveCachedList[index]['image'];
+  currentWave.backgroundColor.value = waveCachedList[index]['backgroundColor'];
+  currentWave.randomColors.value = waveCachedList[index]['randomColors'];
+  currentWave.numberOfColors.value = waveCachedList[index]['numberOfColors'];
+  currentWave.paletteType.value = waveCachedList[index]['paletteType'];
+  currentWave.opacity.value = waveCachedList[index]['opacity'];
+  currentWave.palette = waveCachedList[index]['palette'];
+  rebuildCache.value++;
 }
 
-}
 
 class OpArtWavePainter extends CustomPainter {
   int seed;
@@ -586,7 +402,7 @@ class OpArtWavePainter extends CustomPainter {
       }
       currentNamedPalette = currentWave.paletteList.value;
     } else if (currentWave.numberOfColors.value > currentWave.palette.length) {
-      currentWave.randomizePalette();
+      waveRandomizePalette();
     }
 
     if (currentWave == null) {
@@ -595,7 +411,7 @@ class OpArtWavePainter extends CustomPainter {
     }
 
     if (currentWave.numberOfColors.value > currentWave.palette.length) {
-      currentWave.randomizePalette();
+      waveRandomizePalette();
     }
 
     // reset the defaults

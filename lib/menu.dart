@@ -1,21 +1,13 @@
 import 'dart:io' show File, Platform;
 
 import 'package:flutter/material.dart';
-
-import 'opart_fibonacci.dart';
-import 'opart_tree.dart';
-import 'opart_wave.dart';
-import 'opart_wallpaper.dart';
+import 'opart_page.dart';
 import 'package:share/share.dart';
 import 'model.dart';
-
-
-
 
 bool showSettings = false;
 
 File imageFile;
-
 
 class OpArtMenu extends StatefulWidget {
   int currentWidget;
@@ -23,98 +15,99 @@ class OpArtMenu extends StatefulWidget {
   @override
   _OpArtMenuState createState() => _OpArtMenuState();
 }
+
 List<OpArtType> OpArtTypes = [
-  // OpArtType(
-  //   name: 'Spirals',
-  //   icon: 'lib/assets/fibonacci_200.png',
-  //   widget: OpArtFibonacciStudio(),
-  //
-  // ),
+  OpArtType(
+    name: 'Spirals',
+    icon: 'lib/assets/fibonacci_200.png',
+    widget: OpArtPage(0),
+  ),
   OpArtType(
     name: 'Trees',
     icon: 'lib/assets/tree_200.png',
-    widget: OpArtTreeStudio(),
-
+    widget: OpArtPage(1),
   ),
   OpArtType(
     name: 'Waves',
     icon: 'lib/assets/wave_200.png',
-    widget: OpArtWaveStudio(),
+    widget: OpArtPage(2),
   ),
   OpArtType(
     name: 'Wallpaper',
     icon: 'lib/assets/wallpaper_200.png',
-    widget: OpArtWallpaperStudio(),
+    widget: OpArtPage(3),
   ),
 ];
 
-
 class _OpArtMenuState extends State<OpArtMenu> {
-
-
-
-
   @override
   void initState() {
     super.initState();
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
-  //  PageController pageController = PageController(initialPage:widget.currentWidget);
-  //  PageController _pageController = PageController(initialPage: 2);
+    //  PageController pageController = PageController(initialPage:widget.currentWidget);
+    //  PageController _pageController = PageController(initialPage: 2);
 
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      // drawer: SizedBox(
-      //   width: size.width,
-      //   child: Drawer(
-      //       child: ListView.builder(
-      //
-      //         itemCount: OpArtTypes.length,
-      //         itemBuilder: (context, index) {
-      //           return Padding(
-      //             padding: EdgeInsets.symmetric(vertical: 1, horizontal: 4),
-      //             child: Card(
-      //               child: ListTile(
-      //                 onTap: () {
-      //                   setState(() {
-      //                     pageController.jumpToPage(index);
-      //                     Navigator.pop(context);
-      //
-      //                   });
-      //                 },
-      //                 title: Text(OpArtTypes[index].name),
-      //                 leading: CircleAvatar(
-      //                   backgroundImage: AssetImage('${OpArtTypes[index].icon}'),
-      //                 ),
-      //               ),
-      //             ),
-      //           );
-      //         },
-      //       )),
-      // ),
+        // drawer: SizedBox(
+        //   width: size.width,
+        //   child: Drawer(
+        //       child: ListView.builder(
+        //
+        //         itemCount: OpArtTypes.length,
+        //         itemBuilder: (context, index) {
+        //           return Padding(
+        //             padding: EdgeInsets.symmetric(vertical: 1, horizontal: 4),
+        //             child: Card(
+        //               child: ListTile(
+        //                 onTap: () {
+        //                   setState(() {
+        //                     pageController.jumpToPage(index);
+        //                     Navigator.pop(context);
+        //
+        //                   });
+        //                 },
+        //                 title: Text(OpArtTypes[index].name),
+        //                 leading: CircleAvatar(
+        //                   backgroundImage: AssetImage('${OpArtTypes[index].icon}'),
+        //                 ),
+        //               ),
+        //             ),
+        //           );
+        //         },
+        //       )),
+        // ),
         backgroundColor: Colors.grey[200],
         appBar: AppBar(
           backgroundColor: Colors.cyan[200],
-          title: Text(OpArtTypes[widget.currentWidget].name,style: TextStyle(color: Colors.black,fontFamily: 'Righteous',
-              fontSize: 24,
-              fontWeight: FontWeight.bold ),),
+          title: Text(
+            OpArtTypes[widget.currentWidget].name,
+            style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'Righteous',
+                fontSize: 24,
+                fontWeight: FontWeight.bold),
+          ),
           centerTitle: true,
           elevation: 1,
           leading: IconButton(
-            icon: Icon(Icons.home,color: Colors.black,), onPressed: (){
-            Navigator.pop(context);
-          },),
+            icon: Icon(
+              Icons.home,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           actions: [
             IconButton(
                 icon: Icon(
 //                  Platform.isAndroid? Icons.share: Icons.ios_share,
-                       Icons.share,
+                  Icons.share,
                   color: Colors.black,
                 ),
                 onPressed: () {
@@ -123,11 +116,9 @@ class _OpArtMenuState extends State<OpArtMenu> {
                   screenshotController
                       .capture(delay: Duration(milliseconds: 0), pixelRatio: 2)
                       .then((File image) async {
-                        print(image)
-;                    setState(() {
+                    print(image);
+                    setState(() {
                       imageFile = image;
-
-
 
                       // Share.share('Hello World',
                       //
@@ -135,36 +126,28 @@ class _OpArtMenuState extends State<OpArtMenu> {
                       //         0,0, size.width, size.height/2)
                       //     );
 
-                        //    subject: 'Using Chris\'s fabulous OpArt App',
+                      //    subject: 'Using Chris\'s fabulous OpArt App',
 
-
-                      if(Platform.isAndroid){
-                        Share.shareFiles([imageFile.path],
+                      if (Platform.isAndroid) {
+                        Share.shareFiles(
+                          [imageFile.path],
                           subject: 'Using Chris\'s fabulous OpArt App',
                           text: 'Download the OpArt App NOW!',
-
+                        );
+                      } else {
+                        Share.shareFiles(
+                          [imageFile.path],
+                          sharePositionOrigin:
+                              Rect.fromLTWH(0, 0, size.width, size.height / 2),
+                          subject: 'Using Chris\'s fabulous OpArt App',
                         );
                       }
-                      else{
-                        Share.shareFiles([imageFile.path], sharePositionOrigin: Rect.fromLTWH(
-                          0,0, size.width, size.height/2),
-                         subject: 'Using Chris\'s fabulous OpArt App',
-
-                        );
-                      }
-
-
-
-
-
                     });
                   });
                 })
           ],
         ),
         body: OpArtTypes[widget.currentWidget].widget);
-
-
   }
 }
 
@@ -173,8 +156,5 @@ class OpArtType {
   String icon;
   Widget widget;
 
-  OpArtType(
-      {this.name,
-        this.icon,
-        this.widget});
+  OpArtType({this.name, this.icon, this.widget});
 }
