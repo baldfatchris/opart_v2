@@ -81,9 +81,7 @@ void settingsDialog(context, int index, settingsList, Function cache, ) {
                         settingsList[index].value,
                         settingsList[index].options,
                         settingsList[index].locked,
-                            (value) {
-
-                            settingsList[index].value = value;
+                            (value) {settingsList[index].value = value;
                             rebuildCanvas.value++;
                           setLocalState(() {});
                         },

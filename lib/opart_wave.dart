@@ -384,10 +384,10 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                     width: constraints.widthConstraints().maxWidth,
                     height: constraints.heightConstraints().maxHeight,
                     child: CustomPaint(
-                        painter: OpArtWavePainter(
+                      painter: OpArtWavePainter(
                       seed, rnd,
                       animation1.value,
-                      // animation2.value
+                        // animation2.value
                     )),
                   ),
                 ),
@@ -415,66 +415,57 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
       body: Column(
         children: [
           Container(
-              width: MediaQuery.of(context).size.width,
-              color: Colors.white,
-              height: 60,
-              child: ValueListenableBuilder<int>(
-                  valueListenable: rebuildCache,
-                  builder: (context, value, child) {
-                    print('***********rebuilding');
-                    return cachedWaveList.length == 0
-                        ? Container()
-                        : ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            controller: _scrollController,
-                            itemCount: cachedWaveList.length,
-                            reverse: false,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      currentWave.stepX.value = cachedWaveList[index]['stepX'];
-                                      currentWave.stepY.value = cachedWaveList[index]['stepY'];
+            width: MediaQuery.of(context).size.width,
+            color: Colors.white,
+            height: 60,
+            child: ValueListenableBuilder<int>(
+              valueListenable: rebuildCache,
+              builder: (context, value, child) {
+                print('***********rebuilding');
+                return cachedWaveList.length == 0
 
-                                      currentWave.frequency.value = cachedWaveList[index]['frequency'];
-                                      currentWave.amplitude.value = cachedWaveList[index]['amplitude'];
-                                      currentWave.offset.value = cachedWaveList[index]['offset'];
-                                      currentWave.fanWidth.value = cachedWaveList[index]['fanWidth'];
-                                      currentWave.zigZag.value = cachedWaveList[index]['zigZag'];
-
-                                      currentWave.image = cachedWaveList[index]['image'];
-
-                                      currentWave.backgroundColor.value =
-                                          cachedWaveList[index]
-                                              ['backgroundColor'];
-                                      currentWave.randomColors.value =
-                                          cachedWaveList[index]['randomColors'];
-                                      currentWave.numberOfColors.value =
-                                          cachedWaveList[index]
-                                              ['numberOfColors'];
-                                      currentWave.paletteType.value =
-                                          cachedWaveList[index]['paletteType'];
-                                      currentWave.opacity.value =
-                                          cachedWaveList[index]['opacity'];
-                                      currentWave.palette =
-                                          cachedWaveList[index]['palette'];
-                                    });
-                                  },
-                                  child: Container(
-                                    decoration:
-                                        BoxDecoration(shape: BoxShape.circle),
-                                    width: 50,
-                                    height: 50,
-                                    child: Image.file(
-                                        cachedWaveList[index]['image']),
-                                  ),
-                                ),
-                              );
+                  ? Container()
+                  : ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      controller: _scrollController,
+                      itemCount: cachedWaveList.length,
+                      reverse: false,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                currentWave.stepX.value = cachedWaveList[index]['stepX'];
+                                currentWave.stepY.value = cachedWaveList[index]['stepY'];
+                                currentWave.frequency.value = cachedWaveList[index]['frequency'];
+                                currentWave.amplitude.value = cachedWaveList[index]['amplitude'];
+                                currentWave.offset.value = cachedWaveList[index]['offset'];
+                                currentWave.fanWidth.value = cachedWaveList[index]['fanWidth'];
+                                currentWave.zigZag.value = cachedWaveList[index]['zigZag'];
+                                currentWave.image = cachedWaveList[index]['image'];
+                                currentWave.backgroundColor.value = cachedWaveList[index]['backgroundColor'];
+                                currentWave.randomColors.value = cachedWaveList[index]['randomColors'];
+                                currentWave.numberOfColors.value = cachedWaveList[index]['numberOfColors'];
+                                currentWave.paletteType.value = cachedWaveList[index]['paletteType'];
+                                currentWave.opacity.value = cachedWaveList[index]['opacity'];
+                                currentWave.palette = cachedWaveList[index]['palette'];
+                              });
                             },
-                          );
-                  })),
+                            child: Container(
+                              decoration:
+                                  BoxDecoration(shape: BoxShape.circle),
+                              width: 50,
+                              height: 50,
+                              child: Image.file(
+                                  cachedWaveList[index]['image']),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+              })
+          ),
           Expanded(child: ClipRect(child: bodyWidget())),
         ],
       ),

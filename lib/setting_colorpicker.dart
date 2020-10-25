@@ -37,7 +37,7 @@ class _settingsColorPickerState extends State<settingsColorPicker> {
             child: Row(
               children: [
                 Text(
-                  'Lock',
+                  'Don''t Randomize',
                 ),
                 Checkbox(
                   value: widget.locked,

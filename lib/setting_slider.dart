@@ -64,7 +64,7 @@ class _settingsSliderState extends State<settingsSlider> {
             child: Row(
               children: [
                 Text(
-                  'Lock',
+                  'Don''t Randomize',
                 ),
                 Checkbox(
                   value: widget.locked,
