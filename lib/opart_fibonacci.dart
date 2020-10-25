@@ -269,64 +269,9 @@ class Fibonacci {
     //this.random,
   });
 
-  void randomize() {
-    print('-----------------------------------------------------');
-    print('randomize');
-    print('-----------------------------------------------------');
 
-    rnd = Random(DateTime.now().millisecond);
 
-    this.angleIncrement.randomise(rnd);
-    this.flowerFill.randomise(rnd);
-    this.petalToRadius.randomise(rnd);
-    this.ratio.randomise(rnd);
-    this.randomiseAngle.randomise(rnd);
-    if (this.randomiseAngle.locked == false && rnd.nextDouble() > 0.2) {
-      this.randomiseAngle.value = 0;
-    }
-    this.petalPointiness.randomise(rnd);
-    this.petalRotation.randomise(rnd);
-    this.petalRotation.randomise(rnd);
-    if (this.petalRotation.locked == false && rnd.nextDouble() > 0.3) {
-      this.petalRotationRatio.value = rnd.nextInt(4).toDouble();
-    }
-    this.petalType.randomise(rnd);
-    this.maxPetals.randomise(rnd);
-    this.radialOscAmplitude.randomise(rnd);
-    if (this.radialOscAmplitude.locked == false && rnd.nextDouble() < 0.7) {
-      this.radialOscAmplitude.value = 0;
-    }
-    this.radialOscPeriod.randomise(rnd);
-    this.direction.randomise(rnd);
 
-    if (this.aspectRatioLOCK == false) {
-      // this.aspectRatio = rnd.nextDouble() + 0.5;
-      // if (rnd.nextBool()){
-      this.aspectRatio = pi / 2;
-      // }
-    }
-  }
-
-  void randomizePalette() {
-    print('-----------------------------------------------------');
-    print('randomizePalette');
-    print('-----------------------------------------------------');
-
-    rnd = Random(DateTime.now().millisecond);
-
-    this.numberOfColors.randomise(rnd);
-    this.randomColors.randomise(rnd);
-    this.lineWidth.randomise(rnd);
-    if (this.lineWidth.locked == false && rnd.nextBool()) {
-      this.lineWidth.value = 0;
-    }
-    this.opacity.randomise(rnd);
-    this.backgroundColor.randomise(rnd);
-    this.lineColor.randomise(rnd);
-
-    this.palette = randomisedPalette(
-        this.paletteType.value, this.numberOfColors.value, rnd);
-  }
 
   void defaultSettings() {
     // resets to default settings
@@ -378,6 +323,63 @@ class Fibonacci {
     this.aspectRatioLOCK = false;
   }
 }
+void fibonacciRandomize() {
+  print('-----------------------------------------------------');
+  print('randomize');
+  print('-----------------------------------------------------');
+
+  rnd = Random(DateTime.now().millisecond);
+
+  currentFibonacci.angleIncrement.randomise(rnd);
+  currentFibonacci.flowerFill.randomise(rnd);
+  currentFibonacci.petalToRadius.randomise(rnd);
+  currentFibonacci.ratio.randomise(rnd);
+  currentFibonacci.randomiseAngle.randomise(rnd);
+  if (currentFibonacci.randomiseAngle.locked == false && rnd.nextDouble() > 0.2) {
+    currentFibonacci.randomiseAngle.value = 0;
+  }
+  currentFibonacci.petalPointiness.randomise(rnd);
+  currentFibonacci.petalRotation.randomise(rnd);
+  currentFibonacci.petalRotation.randomise(rnd);
+  if (currentFibonacci.petalRotation.locked == false && rnd.nextDouble() > 0.3) {
+    currentFibonacci.petalRotationRatio.value = rnd.nextInt(4).toDouble();
+  }
+  currentFibonacci.petalType.randomise(rnd);
+  currentFibonacci.maxPetals.randomise(rnd);
+  currentFibonacci.radialOscAmplitude.randomise(rnd);
+  if (currentFibonacci.radialOscAmplitude.locked == false && rnd.nextDouble() < 0.7) {
+    currentFibonacci.radialOscAmplitude.value = 0;
+  }
+  currentFibonacci.radialOscPeriod.randomise(rnd);
+  currentFibonacci.direction.randomise(rnd);
+
+  if (currentFibonacci.aspectRatioLOCK == false) {
+    // this.aspectRatio = rnd.nextDouble() + 0.5;
+    // if (rnd.nextBool()){
+    currentFibonacci.aspectRatio = pi / 2;
+    // }
+  }
+}
+void fibonacciRandomizePalette() {
+  print('-----------------------------------------------------');
+  print('randomizePalette');
+  print('-----------------------------------------------------');
+
+  rnd = Random(DateTime.now().millisecond);
+
+  currentFibonacci.numberOfColors.randomise(rnd);
+  currentFibonacci.randomColors.randomise(rnd);
+  currentFibonacci.lineWidth.randomise(rnd);
+  if (currentFibonacci.lineWidth.locked == false && rnd.nextBool()) {
+    currentFibonacci.lineWidth.value = 0;
+  }
+  currentFibonacci.opacity.randomise(rnd);
+  currentFibonacci.backgroundColor.randomise(rnd);
+  currentFibonacci.lineColor.randomise(rnd);
+
+  currentFibonacci.palette = randomisedPalette(
+      currentFibonacci.paletteType.value, currentFibonacci.numberOfColors.value, rnd);
+}
 //AnimationController controller1;
 fibonacciAddToCache() async {
   WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
@@ -420,7 +422,7 @@ fibonacciAddToCache() async {
     enableButton = true;
   }));
 }
-List fibonacciSettingsList = [
+List<dynamic> fibonacciSettingsList = [
   currentFibonacci.angleIncrement,
   currentFibonacci.ratio,
   currentFibonacci.flowerFill,
@@ -547,6 +549,30 @@ void fibonacciRevertToCache(int index){
   cachedFibonacciList[index]
   ['aspectRatio'];
   rebuildCanvas.value++;
+}
+Widget fibonacciBodyWidget(Animation animation1){
+   return ValueListenableBuilder<int>(
+      valueListenable: rebuildCanvas,
+      builder: (context, value, child) {
+        return Screenshot(
+          controller: screenshotController,
+          child: Visibility(
+            visible: true,
+            child: LayoutBuilder(
+              builder: (_, constraints) => Container(
+                width: constraints.widthConstraints().maxWidth,
+                height: constraints.heightConstraints().maxHeight,
+                child: CustomPaint(
+                    painter: OpArtFibonacciPainter(
+                      seed, rnd,
+                      animation1.value,
+                      // animation2.value
+                    )),
+              ),
+            ),
+          ),
+        );
+      });
 }
 
 // class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
@@ -715,11 +741,11 @@ class OpArtFibonacciPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     rnd = Random(seed);
-    print('seed: $seed');
-
-    print('----------------------------------------------------------------');
-    print('Fibonacci');
-    print('----------------------------------------------------------------');
+    // print('seed: $seed');
+    //
+    // print('----------------------------------------------------------------');
+    // print('Fibonacci');
+    // print('----------------------------------------------------------------');
 
     // Initialise the palette
     if (currentFibonacci == null) {
@@ -745,7 +771,7 @@ class OpArtFibonacciPainter extends CustomPainter {
       currentNamedPalette = currentFibonacci.paletteList.value;
     } else if (currentFibonacci.numberOfColors.value >
         currentFibonacci.palette.length) {
-      currentFibonacci.randomizePalette();
+      fibonacciRandomizePalette();
     }
 
     // reset the defaults

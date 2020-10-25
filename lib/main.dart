@@ -6,6 +6,7 @@ import 'package:opart_v2/opart_tree.dart';
 import 'package:opart_v2/opart_wallpaper.dart';
 import 'package:opart_v2/opart_wave.dart';
 import 'opart_page.dart';
+import 'model.dart';
 
 import 'menu.dart';
 
