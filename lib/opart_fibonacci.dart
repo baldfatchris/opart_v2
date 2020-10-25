@@ -755,9 +755,9 @@ class OpArtFibonacciPainter extends CustomPainter {
 
     double canvasWidth = size.width;
     double canvasHeight = size.height;
-    print('canvasWidth: $canvasWidth');
-    print('canvasHeight: $canvasHeight');
-    print('canvasWidth / canvasHeight = ${canvasWidth / canvasHeight}');
+    // print('canvasWidth: $canvasWidth');
+    // print('canvasHeight: $canvasHeight');
+    // print('canvasWidth / canvasHeight = ${canvasWidth / canvasHeight}');
 
     double borderX = 0;
     double borderY = 0;
@@ -779,7 +779,7 @@ class OpArtFibonacciPainter extends CustomPainter {
     double flowerCentreX = imageWidth / 2;
     double flowerCentreY = imageHeight / 2;
 
-    print('aspectRatio = $currentFibonacci.aspectRatio');
+  //  print('aspectRatio = $currentFibonacci.aspectRatio');
 
     int colourOrder = 0;
 
@@ -852,34 +852,34 @@ class OpArtFibonacciPainter extends CustomPainter {
     double currentOpacity,
     List currentPalette,
   ) {
-    print('canvasWidth: $canvasWidth');
-    print('canvasHeight: $canvasHeight');
-    print('imageWidth: $imageWidth');
-    print('imageHeight: $imageHeight');
-    print('borderX: $borderX');
-    print('borderY: $borderY');
-    print('flowerCentreX: $flowerCentreX');
-    print('flowerCentreY: $flowerCentreY');
-    print('AngleIncrement: $currentAngleIncrement');
-    print('FlowerFill: $currentFlowerFill');
-    print('PetalToRadius: $currentPetalToRadius');
-    print('RandomiseAngle: $currentRandomiseAngle');
-    print('PetalPointiness: $currentPetalPointiness');
-    print('PetalRotation: $currentPetalRotation');
-    print('PetalRotationRatio: $currentPetalRotationRatio');
-    print('PetalType: $currentPetalType');
-    print('MaxPetals: $currentMaxPetals');
-    print('RadialOscAmplitude: $currentRadialOscAmplitude');
-    print('RadialOscPeriod: $currentRadialOscPeriod');
-    print('Direction: $currentDirection');
-    print('BackgroundColor: $currentBackgroundColor');
-    print('LineColor: $currentLineColor');
-    print('LineWidth: $currentLineWidth');
-    print('RandomColors: $currentRandomColors');
-    print('NumberOfColors: $currentNumberOfColors');
-    print('PaletteType: $currentPaletteType');
-    print('Opacity: $currentOpacity');
-    print('palette $currentPalette');
+    // print('canvasWidth: $canvasWidth');
+    // print('canvasHeight: $canvasHeight');
+    // print('imageWidth: $imageWidth');
+    // print('imageHeight: $imageHeight');
+    // print('borderX: $borderX');
+    // print('borderY: $borderY');
+    // print('flowerCentreX: $flowerCentreX');
+    // print('flowerCentreY: $flowerCentreY');
+    // print('AngleIncrement: $currentAngleIncrement');
+    // print('FlowerFill: $currentFlowerFill');
+    // print('PetalToRadius: $currentPetalToRadius');
+    // print('RandomiseAngle: $currentRandomiseAngle');
+    // print('PetalPointiness: $currentPetalPointiness');
+    // print('PetalRotation: $currentPetalRotation');
+    // print('PetalRotationRatio: $currentPetalRotationRatio');
+    // print('PetalType: $currentPetalType');
+    // print('MaxPetals: $currentMaxPetals');
+    // print('RadialOscAmplitude: $currentRadialOscAmplitude');
+    // print('RadialOscPeriod: $currentRadialOscPeriod');
+    // print('Direction: $currentDirection');
+    // print('BackgroundColor: $currentBackgroundColor');
+    // print('LineColor: $currentLineColor');
+    // print('LineWidth: $currentLineWidth');
+    // print('RandomColors: $currentRandomColors');
+    // print('NumberOfColors: $currentNumberOfColors');
+    // print('PaletteType: $currentPaletteType');
+    // print('Opacity: $currentOpacity');
+    // print('palette $currentPalette');
 
     // colour in the canvas
     //a rectangle

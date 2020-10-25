@@ -13,7 +13,12 @@ import 'dart:math';
 import 'package:share/share.dart';
 import 'package:screenshot/screenshot.dart';
 
+List<Map<String,dynamic>> opArtTypes = [{'name': 'Fibonacci', 'currentType': currentFibonacci }];
+
+
 class OpArtPage extends StatefulWidget {
+  int currentOpArt;
+  OpArtPage(this.currentOpArt);
   @override
   _OpArtPageState createState() => _OpArtPageState();
 }
@@ -23,16 +28,18 @@ File imageFile;
 Random rnd;
 
 class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
+
   AnimationController controller1;
 
   Animation<double> animation1;
   @override
   void initState() {
+
     super.initState();
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
       setState(() {
-        currentFibonacci.randomize();
-        currentFibonacci.randomizePalette();
+        opArtTypes[widget.currentOpArt]['currentType'].randomize();
+        opArtTypes[widget.currentOpArt]['currentType'].randomizePalette();
         addToCache();
       });
     });
@@ -150,12 +157,12 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
         ],
       ),
       bottomNavigationBar: CustomBottomAppBar(randomise: () {
-        currentFibonacci.randomize();
-        currentFibonacci.randomizePalette();
+        opArtTypes[widget.currentOpArt]['currentType'].randomize();
+        opArtTypes[widget.currentOpArt]['currentType'].randomizePalette();
         rebuildCanvas.value++;
         addToCache();
       }, randomisePalette: () {
-        currentFibonacci.randomizePalette();
+        opArtTypes[widget.currentOpArt]['currentType'].randomizePalette();
         rebuildCanvas.value++;
         addToCache();
       }, showToolBox: () {
@@ -206,7 +213,6 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
   @override
   void dispose() {
     controller1.dispose();
-
     super.dispose();
   }
 }
