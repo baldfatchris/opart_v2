@@ -15,7 +15,7 @@ void main() {
     initialRoute: '/',
     routes: {
     //  '/': (context) => Loading(),
-      '/': (context) => OpArtPage(0),
+      '/': (context) => OpArtPage(1),
       '/menu': (context) => MyApp(),
     //  '/fibonacci': (context) => OpArtFibonacciStudio(),
       '/tree': (context) => OpArtTreeStudio(),

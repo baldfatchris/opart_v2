@@ -416,7 +416,7 @@ class Tree {
   }
 }
 
-List settingsList = [
+List treeSettingsList = [
   currentTree.zoomTree,
   currentTree.trunkWidth,
   currentTree.widthDecay,
@@ -551,7 +551,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
         rebuildCanvas.value++;
         cacheTree();
       }, showToolBox: () {
-        ToolBox(context, settingsList, cacheTree);
+        ToolBox(context, treeSettingsList, cacheTree);
       }),
       body: Column(
         children: [
