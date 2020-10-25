@@ -379,7 +379,7 @@ class Fibonacci {
   }
 }
 //AnimationController controller1;
-addToCache() async {
+fibonacciAddToCache() async {
   WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
       .capture(delay: Duration(milliseconds: 40), pixelRatio: 0.2)
       .then((File image) async {
@@ -478,7 +478,7 @@ List fibonacciSettingsList = [
 //       });
 // }
 
-void revertToCache(int index){
+void fibonacciRevertToCache(int index){
   currentFibonacci.angleIncrement.value =cachedFibonacciList[index]['angleIncrement'];
   currentFibonacci.ratio.value =cachedFibonacciList[index]['ratio'];
   currentFibonacci.maxPetals.value =
