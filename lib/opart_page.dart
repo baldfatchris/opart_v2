@@ -14,7 +14,8 @@ import 'dart:math';
 import 'package:share/share.dart';
 import 'package:screenshot/screenshot.dart';
 
-List<Map<String,dynamic>> opArtTypes = [{'name': 'Fibonacci', 'currentType': currentFibonacci },
+List<Map<String,dynamic>> opArtTypes = [{'name': 'Fibonacci', 'currentType': currentFibonacci,
+'settingsList': fibonacciSettingsList},
   {'name': 'Tree', 'currentType': currentTree }];
 
 
@@ -33,7 +34,6 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
   String title;
   List cachedList;
   var painter;
- // List settingList;
   AnimationController controller1;
 
   Animation<double> animation1;
@@ -43,7 +43,6 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
     case 0 :{
     title = 'Fibonacci';
     cachedList = cachedFibonacciList;
-   // settingList = fibonacciSettingsList;
     }
     break;
     case 1:{
@@ -215,7 +214,7 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
         rebuildCanvas.value++;
         addToCache();
       }, showToolBox: () {
-        ToolBox(context, fibonacciSettingsList, addToCache);
+        ToolBox(context, opArtTypes[widget.currentOpArt]['settingsList'], addToCache);
       }),
       body: Column(
         children: [
