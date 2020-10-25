@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:opart_v2/opart_tree.dart';
 import 'opart_fibonacci.dart';
-import 'opart_tree.dart';
+// import 'opart_tree.dart';
 // import 'opart_wallpaper.dart';
 // import 'opart_wave.dart';
 import 'bottom_app_bar_custom.dart';
@@ -14,18 +14,10 @@ import 'dart:math';
 import 'package:share/share.dart';
 import 'package:screenshot/screenshot.dart';
 
-List<Map<String, dynamic>> opArtTypes = [
-  {
-    'name': 'Fibonacci',
-    'currentType': currentFibonacci,
-    'settingsList': fibonacciSettingsList
-  },
-  {
-    'name': 'Tree',
-    'currentType': currentTree,
-    'settingsList': treeSettingsList,
-  }
-];
+List<Map<String,dynamic>> opArtTypes = [{'name': 'Fibonacci', 'currentType': currentFibonacci,
+'settingsList': fibonacciSettingsList},
+  {'name': 'Tree', 'currentType': currentTree }];
+
 
 class OpArtPage extends StatefulWidget {
   int currentOpArt;
@@ -42,25 +34,25 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
   String title;
   List cachedList;
   var painter;
+ // List settingsList;
   AnimationController controller1;
 
   Animation<double> animation1;
   @override
   void initState() {
-    switch (widget.currentOpArt) {
-      case 0:
-        {
-          title = 'Fibonacci';
-          cachedList = cachedFibonacciList;
-        }
-        break;
-      case 1:
-        {
-          title = 'Trees';
-          cachedList = cachedTreeList;
-
-        }
+  switch(widget.currentOpArt){
+    case 0 :{
+    title = 'Fibonacci';
+    cachedList = cachedFibonacciList;
+   // settingsList = fibonacciSettingsList;
     }
+    break;
+    case 1:{
+      title = 'Trees';
+      cachedList = cachedTreeList;
+     // settingList = treeSettingsList;
+    }
+  }
 
     super.initState();
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
@@ -101,59 +93,57 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
     Size size = MediaQuery.of(context).size;
 
     Widget bodyWidget() {
-      switch (widget.currentOpArt) {
-        case 0:
-          {
-            return ValueListenableBuilder<int>(
-                valueListenable: rebuildCanvas,
-                builder: (context, value, child) {
-                  return Screenshot(
-                    controller: screenshotController,
-                    child: Visibility(
-                      visible: true,
-                      child: LayoutBuilder(
-                        builder: (_, constraints) => Container(
-                          width: constraints.widthConstraints().maxWidth,
-                          height: constraints.heightConstraints().maxHeight,
-                          child: CustomPaint(
-                              painter: OpArtFibonacciPainter(
-                            seed, rnd,
-                            animation1.value,
-                            // animation2.value
-                          )),
-                        ),
+      switch(widget.currentOpArt )
+      {
+        case 0: {return ValueListenableBuilder<int>(
+          valueListenable: rebuildCanvas,
+          builder: (context, value, child) {
+            return Screenshot(
+              controller: screenshotController,
+              child: Visibility(
+                visible: true,
+                child: LayoutBuilder(
+                  builder: (_, constraints) => Container(
+                    width: constraints.widthConstraints().maxWidth,
+                    height: constraints.heightConstraints().maxHeight,
+                    child: CustomPaint(
+                        painter: OpArtFibonacciPainter(
+                      seed, rnd,
+                      animation1.value,
+                      // animation2.value
+                    )),
+                  ),
+                ),
+              ),
+            );
+          });
+        break;
+        }
+        case 1:{
+          return ValueListenableBuilder<int>(
+              valueListenable: rebuildCanvas,
+              builder: (context, value, child) {
+                return Screenshot(
+                  controller: screenshotController,
+                  child: Visibility(
+                    visible: true,
+                    child: LayoutBuilder(
+                      builder: (_, constraints) => Container(
+                        width: constraints.widthConstraints().maxWidth,
+                        height: constraints.heightConstraints().maxHeight,
+                        child: CustomPaint(
+                            painter: OpArtTreePainter(
+                              seed, rnd,
+                              animation1.value,
+                              // animation2.value
+                            )),
                       ),
                     ),
-                  );
-                });
-            break;
-          }
-        case 1:
-          {
-            return ValueListenableBuilder<int>(
-                valueListenable: rebuildCanvas,
-                builder: (context, value, child) {
-                  return Screenshot(
-                    controller: screenshotController,
-                    child: Visibility(
-                      visible: true,
-                      child: LayoutBuilder(
-                        builder: (_, constraints) => Container(
-                          width: constraints.widthConstraints().maxWidth,
-                          height: constraints.heightConstraints().maxHeight,
-                          child: CustomPaint(
-                              painter: OpArtTreePainter(
-                            seed, rnd,
-                            animation1.value,
-                            // animation2.value
-                          )),
-                        ),
-                      ),
-                    ),
-                  );
-                });
-            break;
-          }
+                  ),
+                );
+              });
+          break;
+        }
       }
       return null;
     }
@@ -226,8 +216,7 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
         rebuildCanvas.value++;
         addToCache();
       }, showToolBox: () {
-        ToolBox(context, opArtTypes[widget.currentOpArt]['settingsList'],
-            addToCache);
+        ToolBox(context, opArtTypes[widget.currentOpArt]['settingsList'], addToCache);
       }),
       body: Column(
         children: [
@@ -257,8 +246,8 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
                                         BoxDecoration(shape: BoxShape.circle),
                                     width: 50,
                                     height: 50,
-                                    child:
-                                        Image.file(cachedList[index]['image']),
+                                    child: Image.file(
+                                        cachedList[index]['image']),
                                   ),
                                 ),
                               );
