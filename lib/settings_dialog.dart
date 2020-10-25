@@ -143,7 +143,7 @@ void settingsDialog(context, int index, settingsList, Function cache, ) {
 
                           settingsList[index].value =
                           true;
-
+                          rebuildCanvas.value++;
                           setLocalState(() {});
                         },
                       ),
