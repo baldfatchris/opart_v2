@@ -170,7 +170,7 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
         rebuildCanvas.value++;
         currentOpArt.addToCache();
       }, showToolBox: () {
-        ToolBox(context, fibonacciSettingsList, currentOpArt.addToCache);
+        ToolBox(context, 0, currentOpArt.addToCache);
       }),
       body: Column(
         children: [

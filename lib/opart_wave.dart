@@ -410,7 +410,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
           rebuildCanvas.value++;
           cacheWave();
         }, showToolBox: () {
-          ToolBox(context, settingsList, cacheWave);
+          ToolBox(context, 1, cacheWave);
         }),
       ),
       body: Column(

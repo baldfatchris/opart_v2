@@ -613,7 +613,7 @@ class _OpArtWallpaperStudioState extends State<OpArtWallpaperStudio>
           rebuildCanvas.value++;
           cacheWallpaper();
         }, showToolBox: () {
-          ToolBox(context, settingsList, cacheWallpaper);
+          ToolBox(context, 1, cacheWallpaper);
         }),
       ),
       body: Column(

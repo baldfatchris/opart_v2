@@ -551,7 +551,7 @@ class _OpArtTreeStudioState extends State<OpArtTreeStudio>
         rebuildCanvas.value++;
         cacheTree();
       }, showToolBox: () {
-        ToolBox(context, treeSettingsList, cacheTree);
+        ToolBox(context, 1, cacheTree);
       }),
       body: Column(
         children: [

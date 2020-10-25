@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'settings_dialog.dart';
 import 'model.dart';
+import 'opart_fibonacci.dart';
 
-void ToolBox(BuildContext context, List settingsList, Function cache) {
+void ToolBox(BuildContext context, int opArtNumber, Function cache) {
   print(MediaQuery.of(context).size.width);
+  List settingsList;
+  switch(opArtNumber){
+    case 0: settingsList = fibonacciSettingsList;
+  }
+
   showModalBottomSheet(
       context: context,
       builder: (BuildContext bc) {
