@@ -38,7 +38,7 @@ class _settingsDropdownState extends State<settingsDropdown> {
             child: Row(
               children: [
                 Text(
-                  'Lock',
+                  'Don''t Randomize',
                 ),
                 Checkbox(
                   value: widget.locked,
@@ -55,15 +55,17 @@ class _settingsDropdownState extends State<settingsDropdown> {
               value: widget.currentValue,
               isDense: true,
               isExpanded: true,
-
-              onChanged: widget.locked ? null : widget.onChanged,
-              items: widget.dropdownItems
-                  .map<DropdownMenuItem<String>>((String value) {
+              items: widget.dropdownItems.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
                 );
               }).toList(),
+
+              onChanged: widget.locked ? null : (String value) {
+                widget.onChanged(value);
+                Navigator.pop(context);
+              },
 
             )
 

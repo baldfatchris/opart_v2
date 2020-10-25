@@ -303,8 +303,8 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
   File _imageFile;
   int _currentColor = 0;
 
-  // Animation<double> animation1;
-  // AnimationController controller1;
+  Animation<double> animation1;
+  AnimationController controller1;
 
   // Animation<double> animation2;
   // AnimationController controller2;
@@ -359,7 +359,7 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                 child: CustomPaint(
                     painter: OpArtWavePainter(
                   seed, rnd,
-                  // animation1.value,
+                  animation1.value,
                   // animation2.value
                 )),
               ),
@@ -385,10 +385,10 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
                     width: constraints.widthConstraints().maxWidth,
                     height: constraints.heightConstraints().maxHeight,
                     child: CustomPaint(
-                        painter: OpArtWavePainter(
+                      painter: OpArtWavePainter(
                       seed, rnd,
-                      // animation1.value,
-                      // animation2.value
+                      animation1.value,
+                        // animation2.value
                     )),
                   ),
                 ),
@@ -416,66 +416,57 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
       body: Column(
         children: [
           Container(
-              width: MediaQuery.of(context).size.width,
-              color: Colors.white,
-              height: 60,
-              child: ValueListenableBuilder<int>(
-                  valueListenable: rebuildCache,
-                  builder: (context, value, child) {
-                    print('***********rebuilding');
-                    return cachedWaveList.length == 0
-                        ? Container()
-                        : ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            controller: _scrollController,
-                            itemCount: cachedWaveList.length,
-                            reverse: false,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      currentWave.stepX.value = cachedWaveList[index]['stepX'];
-                                      currentWave.stepY.value = cachedWaveList[index]['stepY'];
+            width: MediaQuery.of(context).size.width,
+            color: Colors.white,
+            height: 60,
+            child: ValueListenableBuilder<int>(
+              valueListenable: rebuildCache,
+              builder: (context, value, child) {
+                print('***********rebuilding');
+                return cachedWaveList.length == 0
 
-                                      currentWave.frequency.value = cachedWaveList[index]['frequency'];
-                                      currentWave.amplitude.value = cachedWaveList[index]['amplitude'];
-                                      currentWave.offset.value = cachedWaveList[index]['offset'];
-                                      currentWave.fanWidth.value = cachedWaveList[index]['fanWidth'];
-                                      currentWave.zigZag.value = cachedWaveList[index]['zigZag'];
-
-                                      currentWave.image = cachedWaveList[index]['image'];
-
-                                      currentWave.backgroundColor.value =
-                                          cachedWaveList[index]
-                                              ['backgroundColor'];
-                                      currentWave.randomColors.value =
-                                          cachedWaveList[index]['randomColors'];
-                                      currentWave.numberOfColors.value =
-                                          cachedWaveList[index]
-                                              ['numberOfColors'];
-                                      currentWave.paletteType.value =
-                                          cachedWaveList[index]['paletteType'];
-                                      currentWave.opacity.value =
-                                          cachedWaveList[index]['opacity'];
-                                      currentWave.palette =
-                                          cachedWaveList[index]['palette'];
-                                    });
-                                  },
-                                  child: Container(
-                                    decoration:
-                                        BoxDecoration(shape: BoxShape.circle),
-                                    width: 50,
-                                    height: 50,
-                                    child: Image.file(
-                                        cachedWaveList[index]['image']),
-                                  ),
-                                ),
-                              );
+                  ? Container()
+                  : ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      controller: _scrollController,
+                      itemCount: cachedWaveList.length,
+                      reverse: false,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                currentWave.stepX.value = cachedWaveList[index]['stepX'];
+                                currentWave.stepY.value = cachedWaveList[index]['stepY'];
+                                currentWave.frequency.value = cachedWaveList[index]['frequency'];
+                                currentWave.amplitude.value = cachedWaveList[index]['amplitude'];
+                                currentWave.offset.value = cachedWaveList[index]['offset'];
+                                currentWave.fanWidth.value = cachedWaveList[index]['fanWidth'];
+                                currentWave.zigZag.value = cachedWaveList[index]['zigZag'];
+                                currentWave.image = cachedWaveList[index]['image'];
+                                currentWave.backgroundColor.value = cachedWaveList[index]['backgroundColor'];
+                                currentWave.randomColors.value = cachedWaveList[index]['randomColors'];
+                                currentWave.numberOfColors.value = cachedWaveList[index]['numberOfColors'];
+                                currentWave.paletteType.value = cachedWaveList[index]['paletteType'];
+                                currentWave.opacity.value = cachedWaveList[index]['opacity'];
+                                currentWave.palette = cachedWaveList[index]['palette'];
+                              });
                             },
-                          );
-                  })),
+                            child: Container(
+                              decoration:
+                                  BoxDecoration(shape: BoxShape.circle),
+                              width: 50,
+                              height: 50,
+                              child: Image.file(
+                                  cachedWaveList[index]['image']),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+              })
+          ),
           Expanded(child: ClipRect(child: bodyWidget())),
         ],
       ),
@@ -503,30 +494,30 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
     // ShakeDetector.waitForStart() waits for user to call detector.startListening();
 
     // Animation Stuff
-    // controller1 = AnimationController(
-    //   vsync: this,
-    //   duration: Duration(seconds: 7200),
-    // );
+    controller1 = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 7200),
+    );
 
     // controller2 = AnimationController(
     //   vsync: this,
     //   duration: Duration(seconds: 60),
     // );
 
-    // Tween<double> _angleTween = Tween(begin: -pi, end: pi);
+    Tween<double> _angleTween = Tween(begin: 0, end: 200);
     // Tween<double> _fillTween = Tween(begin: 1, end: 1);
 
-    // animation1 = _angleTween.animate(controller1)
-    //   ..addListener(() {
-    //     setState(() {});
-    //   })
-    //   ..addStatusListener((status) {
-    //     if (status == AnimationStatus.completed) {
-    //       controller1.repeat();
-    //     } else if (status == AnimationStatus.dismissed) {
-    //       controller1.forward();
-    //     }
-    //   });
+    animation1 = _angleTween.animate(controller1)
+      ..addListener(() {
+        setState(() {});
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          controller1.repeat();
+        } else if (status == AnimationStatus.dismissed) {
+          controller1.forward();
+        }
+      });
 
     // animation2 = _fillTween.animate(controller2)
     //   ..addListener(() {
@@ -540,30 +531,30 @@ class _OpArtWaveStudioState extends State<OpArtWaveStudio>
     //     }
     //   });
 
-    // controller1.forward();
+    controller1.forward();
     // controller2.forward();
     cacheWave();
   }
 
-// @override
-// void dispose() {
-//   controller1.dispose();
-//   // controller2.dispose();
-//   super.dispose();
-// }
+@override
+void dispose() {
+  controller1.dispose();
+  // controller2.dispose();
+  super.dispose();
+}
 
 }
 
 class OpArtWavePainter extends CustomPainter {
   int seed;
   Random rnd;
-  // double angle;
+  double animationVariable;
   // double fill;
 
   OpArtWavePainter(
     this.seed,
     this.rnd,
-    // this.angle,
+    this.animationVariable,
     // this.fill
   );
 
@@ -676,6 +667,7 @@ class OpArtWavePainter extends CustomPainter {
       currentWave.paletteType.value,
       currentWave.opacity.value,
       currentWave.palette,
+      animationVariable,
     );
   }
 
@@ -700,6 +692,7 @@ class OpArtWavePainter extends CustomPainter {
     String currentPaletteType,
     double currentOpacity,
     List currentPalette,
+    double animationVariable,
   ) {
     int colourOrder = 0;
 
@@ -731,10 +724,10 @@ class OpArtWavePainter extends CustomPainter {
         double delta = 0.0;
 
         if (currentZigZag == false){
-          delta = currentAmplitude * sin(pi * 2 * (j / imageHeight * currentFrequency + currentOffset * i / imageWidth)) + currentFanWidth * ((i -(imageWidth/2))/ imageWidth) * (j / imageHeight);
+          delta = currentAmplitude * sin(pi * 2 * (j / imageHeight * currentFrequency + (currentOffset*animationVariable+animationVariable) * (i+imageWidth/2) / imageWidth)) + currentFanWidth * ((i -(imageWidth/2))/ imageWidth) * (j / imageHeight);
         }
         else {
-          delta = currentAmplitude * asin(sin(pi * 2 * (j / imageHeight * currentFrequency + currentOffset * i / imageWidth))) + currentFanWidth * ((i -(imageWidth/2))/ imageWidth) * (j / imageHeight);
+          delta = currentAmplitude * asin(sin(pi * 2 * (j / imageHeight * currentFrequency + (currentOffset*animationVariable+animationVariable) * (i+imageWidth/2) / imageWidth))) + currentFanWidth * ((i -(imageWidth/2))/ imageWidth) * (j / imageHeight);
         }
 
         if (j == 0) {
@@ -748,11 +741,11 @@ class OpArtWavePainter extends CustomPainter {
         double delta = 0.0;
 
         if (currentZigZag == false){
-          delta = currentAmplitude * sin(pi * 2 * (k / imageHeight * currentFrequency + currentOffset * (i + currentStepX) / imageWidth)) + currentFanWidth * (((i + currentStepX) -(imageWidth/2))/ imageWidth) * (k / imageHeight);
+          delta = currentAmplitude * sin(pi * 2 * (k / imageHeight * currentFrequency + (currentOffset*animationVariable+animationVariable) * ((i+imageWidth/2) + currentStepX) / imageWidth)) + currentFanWidth * (((i + currentStepX) -(imageWidth/2))/ imageWidth) * (k / imageHeight);
         }
         else
         {
-          delta = currentAmplitude * asin(sin(pi * 2 * (k / imageHeight * currentFrequency + currentOffset * (i + currentStepX) / imageWidth))) + currentFanWidth * (((i + currentStepX) -(imageWidth/2))/ imageWidth) * (k / imageHeight);
+          delta = currentAmplitude * asin(sin(pi * 2 * (k / imageHeight * currentFrequency + (currentOffset*animationVariable+animationVariable) * ((i+imageWidth/2) + currentStepX) / imageWidth))) + currentFanWidth * (((i + currentStepX) -(imageWidth/2))/ imageWidth) * (k / imageHeight);
         }
 
         wave.lineTo(borderX + i + currentStepX + delta, borderY + k);

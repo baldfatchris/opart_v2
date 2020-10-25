@@ -25,7 +25,7 @@ class OpArtMenu extends StatefulWidget {
 }
 List<OpArtType> OpArtTypes = [
   OpArtType(
-    name: 'Fibonacci',
+    name: 'Spirals',
     icon: 'lib/assets/fibonacci_200.png',
     widget: OpArtFibonacciStudio(),
 

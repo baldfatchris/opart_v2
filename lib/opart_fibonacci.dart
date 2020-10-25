@@ -543,11 +543,8 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
                                     print(
                                         'cachedFibonacciList[index]: ${cachedFibonacciList[index]}');
 
-                                    currentFibonacci.angleIncrement.value =
-                                        cachedFibonacciList[index]
-                                            ['angleIncrement'];
-                                    currentFibonacci.ratio.value =
-                                        cachedFibonacciList[index]['ratio'];
+                                    currentFibonacci.angleIncrement.value =cachedFibonacciList[index]['angleIncrement'];
+                                    currentFibonacci.ratio.value =cachedFibonacciList[index]['ratio'];
                                     currentFibonacci.maxPetals.value =
                                         cachedFibonacciList[index]['maxPetals'];
                                     currentFibonacci.direction.value =
@@ -653,10 +650,13 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
     // ShakeDetector.waitForStart() waits for user to call detector.startListening();
 
     // Animation Stuff
+
+
     controller1 = AnimationController(
       vsync: this,
       duration: Duration(seconds: 72000),
     );
+    CurvedAnimation(parent: controller1, curve: Curves.linear);
 
     // controller2 = AnimationController(
     //   vsync: this,
@@ -696,12 +696,12 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
     cacheFibonacci();
   }
 
-// @override
-// void dispose() {
-//   controller1.dispose();
-//   // controller2.dispose();
-//   super.dispose();
-// }
+  @override
+  void dispose() {
+    controller1.dispose();
+    // controller2.dispose();
+    super.dispose();
+  }
 
 }
 
@@ -910,7 +910,7 @@ class OpArtFibonacciPainter extends CustomPainter {
     double maxRadius = (imageWidth < imageHeight)
         ? currentFlowerFill * imageWidth / 2
         : currentFlowerFill * imageWidth / 2;
-    double minRadius = 5;
+    double minRadius = 2;
     double angle = 0;
 
     // if direction = inward
