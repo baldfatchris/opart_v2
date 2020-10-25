@@ -422,7 +422,7 @@ fibonacciAddToCache() async {
     enableButton = true;
   }));
 }
-List<dynamic> fibonacciSettingsList = [
+List fibonacciSettingsList = [
   currentFibonacci.angleIncrement,
   currentFibonacci.ratio,
   currentFibonacci.flowerFill,

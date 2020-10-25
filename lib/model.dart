@@ -204,7 +204,7 @@ class SettingsModelColor {
 class OpArt {
   String name;
   var currentSettings;
-  List<dynamic> settingsList;
+  List settingsList;
   List<Map<String, dynamic>> cacheList;
   Function revertToCache;
   Function addToCache;
@@ -214,7 +214,7 @@ class OpArt {
   OpArt(
     this.name,
     this.currentSettings,
-    this.settingsList,
+   //this.settingsList,
     this.cacheList,
     this.revertToCache,
     this.addToCache,

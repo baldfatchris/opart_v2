@@ -14,9 +14,6 @@ import 'dart:math';
 import 'package:share/share.dart';
 import 'package:screenshot/screenshot.dart';
 
-
-
-
 class OpArtPage extends StatefulWidget {
   int currentOpArt;
   OpArtPage(this.currentOpArt);
@@ -28,29 +25,17 @@ bool showFullPage = true;
 File imageFile;
 Random rnd;
 
-OpArt fibonacci = OpArt(
-  'Fibonacci',
-  currentFibonacci,
-  fibonacciSettingsList,
-  cachedFibonacciList,
-  fibonacciRevertToCache,
-  fibonacciAddToCache,
-  fibonacciRandomize,
-  fibonacciRandomizePalette,
-  fibonacciBodyWidget,
-);
 class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
   String title;
   List cachedList;
   var painter;
   var addToCache;
-
+  OpArt currentOpArt;
   AnimationController controller1;
 
   Animation<double> animation1;
   @override
   void initState() {
-
     switch (widget.currentOpArt) {
       case 0:
         {
@@ -69,9 +54,10 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
     super.initState();
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
       setState(() {
-        fibonacci.randomize();
-        fibonacci.randomizePalette();
-        fibonacci.addToCache();
+        currentOpArt.randomize();
+        currentOpArt.randomizePalette();
+        rebuildCanvas.value++;
+        currentOpArt.addToCache();
       });
     });
 
@@ -97,14 +83,24 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
 
     controller1.forward();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => fibonacci.addToCache());
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => currentOpArt.addToCache());
   }
 
   @override
   Widget build(BuildContext context) {
+    currentOpArt = OpArt(
+      'Fibonacci',
+      currentFibonacci,
+      //   fibonacciSettingsList,
+      cachedFibonacciList,
+      fibonacciRevertToCache,
+      fibonacciAddToCache,
+      fibonacciRandomize,
+      fibonacciRandomizePalette,
+      fibonacciBodyWidget,
+    );
     Size size = MediaQuery.of(context).size;
-
-
 
     return Scaffold(
       appBar: AppBar(
@@ -165,17 +161,16 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
         ],
       ),
       bottomNavigationBar: CustomBottomAppBar(randomise: () {
-        fibonacci.randomize();
-        fibonacci.randomizePalette();
+        currentOpArt.randomize();
+        currentOpArt.randomizePalette();
         rebuildCanvas.value++;
-        fibonacci.addToCache();
+        currentOpArt.addToCache();
       }, randomisePalette: () {
-        fibonacci.randomizePalette();
+        currentOpArt.randomize();
         rebuildCanvas.value++;
-        fibonacci.addToCache();
+        currentOpArt.addToCache();
       }, showToolBox: () {
-        ToolBox(context, fibonacci.settingsList,
-            fibonacci.addToCache);
+        ToolBox(context, fibonacciSettingsList, currentOpArt.addToCache);
       }),
       body: Column(
         children: [
@@ -198,24 +193,22 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
                                 padding: const EdgeInsets.all(2.0),
                                 child: GestureDetector(
                                   onTap: () {
-                                    fibonacci.revertToCache(index);
+                                    currentOpArt.revertToCache(index);
                                   },
                                   child: Container(
                                     decoration:
                                         BoxDecoration(shape: BoxShape.circle),
                                     width: 50,
                                     height: 50,
-                                    child:
-                                        Image.file(fibonacci.cacheList[index]['image']
-                                          //  cachedList[index]['image']
-                                        ),
+                                    child: Image.file(
+                                        currentOpArt.cacheList[index]['image']),
                                   ),
                                 ),
                               );
                             },
                           );
                   })),
-          Expanded(child: ClipRect(child: fibonacciBodyWidget(animation1))),
+          Expanded(child: ClipRect(child: currentOpArt.bodyWidget(animation1))),
         ],
       ),
     );
