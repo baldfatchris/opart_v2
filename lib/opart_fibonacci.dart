@@ -3,12 +3,6 @@ import 'dart:math';
 import 'dart:io';
 
 import 'package:shake/shake.dart';
-import 'package:opart_v2/setting_button.dart';
-import 'package:opart_v2/setting_slider.dart';
-import 'package:opart_v2/setting_intslider.dart';
-import 'package:opart_v2/setting_dropdown.dart';
-import 'package:opart_v2/setting_colorpicker.dart';
-import 'package:opart_v2/setting_radiobutton.dart';
 import 'bottom_app_bar_custom.dart';
 import 'model.dart';
 import 'palettes.dart';
@@ -384,7 +378,48 @@ class Fibonacci {
     this.aspectRatioLOCK = false;
   }
 }
-
+//AnimationController controller1;
+addToCache() async {
+  WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
+      .capture(delay: Duration(milliseconds: 40), pixelRatio: 0.2)
+      .then((File image) async {
+    currentFibonacci.image = image;
+    Map<String, dynamic> currentCache = {
+      'angleIncrement': currentFibonacci.angleIncrement.value,
+      'ratio': currentFibonacci.ratio.value,
+      'flowerFill': currentFibonacci.flowerFill.value,
+      'opacity': currentFibonacci.opacity.value,
+      'petalType': currentFibonacci.petalType.value,
+      'petalPointiness': currentFibonacci.petalPointiness.value,
+      'petalRotation': currentFibonacci.petalRotation.value,
+      'petalRotationRatio': currentFibonacci.petalRotationRatio.value,
+      'petalToRadius': currentFibonacci.petalToRadius.value,
+      'radialOscAmplitude': currentFibonacci.radialOscAmplitude.value,
+      'radialOscPeriod': currentFibonacci.radialOscPeriod.value,
+      'randomiseAngle': currentFibonacci.randomiseAngle.value,
+      'maxPetals': currentFibonacci.maxPetals.value,
+      'direction': currentFibonacci.direction.value,
+      'backgroundColor': currentFibonacci.backgroundColor.value,
+      'lineColor': currentFibonacci.lineColor.value,
+      'lineWidth': currentFibonacci.lineWidth.value,
+      'numberOfColors': currentFibonacci.numberOfColors.value,
+      'randomColors': currentFibonacci.randomColors.value,
+      'paletteType': currentFibonacci.paletteType.value,
+      'palette': currentFibonacci.palette,
+      'paletteList': currentFibonacci.paletteList.value,
+      'aspectRatio': currentFibonacci.aspectRatio,
+      'image': image,
+    };
+    cachedFibonacciList.add(currentCache);
+    rebuildCache.value++;
+    await new Future.delayed(const Duration(milliseconds: 20));
+    if (scrollController.hasClients) {
+      scrollController
+          .jumpTo(scrollController.position.maxScrollExtent);
+    }
+    enableButton = true;
+  }));
+}
 List settingsList = [
   currentFibonacci.angleIncrement,
   currentFibonacci.ratio,
@@ -409,274 +444,233 @@ List settingsList = [
   currentFibonacci.paletteList,
   currentFibonacci.resetDefaults,
 ];
+//ScrollController scrollController = new ScrollController();
+// class OpArtFibonacciStudio extends StatefulWidget {
+//   OpArtFibonacciStudio();
+//
+//   @override
+//   _OpArtFibonacciStudioState createState() => _OpArtFibonacciStudioState();
+// }
+// Animation<double> animation1;
 
-class OpArtFibonacciStudio extends StatefulWidget {
-  OpArtFibonacciStudio();
+// Widget bodyWidget() {
+//   return ValueListenableBuilder<int>(
+//       valueListenable: rebuildCanvas,
+//       builder: (context, value, child) {
+//         return Screenshot(
+//           controller: screenshotController,
+//           child: Visibility(
+//             visible: true,
+//             child: LayoutBuilder(
+//               builder: (_, constraints) => Container(
+//                 width: constraints.widthConstraints().maxWidth,
+//                 height: constraints.heightConstraints().maxHeight,
+//                 child: CustomPaint(
+//                     painter: OpArtFibonacciPainter(
+//                       seed, rnd,
+//                       animation1.value,
+//                       // animation2.value
+//                     )),
+//               ),
+//             ),
+//           ),
+//         );
+//       });
+// }
 
-  @override
-  _OpArtFibonacciStudioState createState() => _OpArtFibonacciStudioState();
+void revertToCache(int index){
+  currentFibonacci.angleIncrement.value =cachedFibonacciList[index]['angleIncrement'];
+  currentFibonacci.ratio.value =cachedFibonacciList[index]['ratio'];
+  currentFibonacci.maxPetals.value =
+  cachedFibonacciList[index]['maxPetals'];
+  currentFibonacci.direction.value =
+  cachedFibonacciList[index]['direction'];
+  currentFibonacci.flowerFill.value =
+  cachedFibonacciList[index]
+  ['flowerFill'];
+
+  currentFibonacci.flowerFill.value =
+  cachedFibonacciList[index]
+  ['flowerFill'];
+  currentFibonacci.opacity.value =
+  cachedFibonacciList[index]['opacity'];
+  currentFibonacci.petalType.value =
+  cachedFibonacciList[index]['petalType'];
+  currentFibonacci.petalPointiness.value =
+  cachedFibonacciList[index]
+  ['petalPointiness'];
+
+  currentFibonacci.petalRotation.value =
+  cachedFibonacciList[index]
+  ['petalRotation'];
+  currentFibonacci.petalRotationRatio.value =
+  cachedFibonacciList[index]
+  ['petalRotationRatio'];
+  currentFibonacci.petalToRadius.value =
+  cachedFibonacciList[index]
+  ['petalToRadius'];
+
+  currentFibonacci.radialOscAmplitude.value =
+  cachedFibonacciList[index]
+  ['radialOscAmplitude'];
+  currentFibonacci.radialOscPeriod.value =
+  cachedFibonacciList[index]
+  ['radialOscPeriod'];
+  currentFibonacci.randomiseAngle.value =
+  cachedFibonacciList[index]
+  ['randomiseAngle'];
+  currentFibonacci.maxPetals.value =
+  cachedFibonacciList[index]['maxPetals'];
+  currentFibonacci.direction.value =
+  cachedFibonacciList[index]['direction'];
+
+  currentFibonacci.backgroundColor.value =
+  cachedFibonacciList[index]
+  ['backgroundColor'];
+  currentFibonacci.lineColor.value =
+  cachedFibonacciList[index]['lineColor'];
+
+  currentFibonacci.lineWidth.value =
+  cachedFibonacciList[index]['lineWidth'];
+  currentFibonacci.numberOfColors.value =
+  cachedFibonacciList[index]
+  ['numberOfColors'];
+  currentFibonacci.randomColors.value =
+  cachedFibonacciList[index]
+  ['randomColors'];
+  currentFibonacci.paletteType.value =
+  cachedFibonacciList[index]
+  ['paletteType'];
+  currentFibonacci.palette =
+  cachedFibonacciList[index]['palette'];
+  currentFibonacci.aspectRatio =
+  cachedFibonacciList[index]
+  ['aspectRatio'];
+  rebuildCanvas.value++;
 }
 
-class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
-    with TickerProviderStateMixin {
-  int _counter = 0;
-  File _imageFile;
-
-  int _currentColor = 0;
-
-  Animation<double> animation1;
-  AnimationController controller1;
-
-  // Animation<double> animation2;
-  // AnimationController controller2;
-
-  cacheFibonacci() async {
-    WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
-            .capture(delay: Duration(milliseconds: 40), pixelRatio: 0.2)
-            .then((File image) async {
-          currentFibonacci.image = image;
-          Map<String, dynamic> currentCache = {
-            'angleIncrement': currentFibonacci.angleIncrement.value,
-            'ratio': currentFibonacci.ratio.value,
-            'flowerFill': currentFibonacci.flowerFill.value,
-            'opacity': currentFibonacci.opacity.value,
-            'petalType': currentFibonacci.petalType.value,
-            'petalPointiness': currentFibonacci.petalPointiness.value,
-            'petalRotation': currentFibonacci.petalRotation.value,
-            'petalRotationRatio': currentFibonacci.petalRotationRatio.value,
-            'petalToRadius': currentFibonacci.petalToRadius.value,
-            'radialOscAmplitude': currentFibonacci.radialOscAmplitude.value,
-            'radialOscPeriod': currentFibonacci.radialOscPeriod.value,
-            'randomiseAngle': currentFibonacci.randomiseAngle.value,
-            'maxPetals': currentFibonacci.maxPetals.value,
-            'direction': currentFibonacci.direction.value,
-            'backgroundColor': currentFibonacci.backgroundColor.value,
-            'lineColor': currentFibonacci.lineColor.value,
-            'lineWidth': currentFibonacci.lineWidth.value,
-            'numberOfColors': currentFibonacci.numberOfColors.value,
-            'randomColors': currentFibonacci.randomColors.value,
-            'paletteType': currentFibonacci.paletteType.value,
-            'palette': currentFibonacci.palette,
-            'paletteList': currentFibonacci.paletteList.value,
-            'aspectRatio': currentFibonacci.aspectRatio,
-            'image': image,
-          };
-          cachedFibonacciList.add(currentCache);
-          rebuildCache.value++;
-          await new Future.delayed(const Duration(milliseconds: 20));
-          if (_scrollController.hasClients) {
-            _scrollController
-                .jumpTo(_scrollController.position.maxScrollExtent);
-          }
-          enableButton = true;
-        }));
-  }
-
-  ScrollController _scrollController = new ScrollController();
-
-  Widget build(BuildContext context) {
-    Widget bodyWidget() {
-      return ValueListenableBuilder<int>(
-          valueListenable: rebuildCanvas,
-          builder: (context, value, child) {
-            return Screenshot(
-              controller: screenshotController,
-              child: Visibility(
-                visible: true,
-                child: LayoutBuilder(
-                  builder: (_, constraints) => Container(
-                    width: constraints.widthConstraints().maxWidth,
-                    height: constraints.heightConstraints().maxHeight,
-                    child: CustomPaint(
-                        painter: OpArtFibonacciPainter(
-                      seed, rnd,
-                      animation1.value,
-                      // animation2.value
-                    )),
-                  ),
-                ),
-              ),
-            );
-          });
-    }
-
-    return Scaffold(
-      bottomNavigationBar: CustomBottomAppBar(randomise: () {
-        currentFibonacci.randomize();
-        currentFibonacci.randomizePalette();
-        rebuildCanvas.value++;
-        cacheFibonacci();
-      }, randomisePalette: () {
-        currentFibonacci.randomizePalette();
-        rebuildCanvas.value++;
-        cacheFibonacci();
-      }, showToolBox: () {
-        ToolBox(context, settingsList, cacheFibonacci);
-      }),
-      body: Column(
-        children: [
-          Container(
-              width: MediaQuery.of(context).size.width,
-              color: Colors.white,
-              height: 60,
-              child: ValueListenableBuilder<int>(
-                  valueListenable: rebuildCache,
-                  builder: (context, value, child) {
-                    return cachedFibonacciList.length == 0
-                        ? Container()
-                        : ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            controller: _scrollController,
-                            itemCount: cachedFibonacciList.length,
-                            reverse: false,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    print(
-                                        '---------------------------------------------------------------------');
-                                    print('Selected from history');
-                                    print('index: $index');
-                                    print(
-                                        '---------------------------------------------------------------------');
-                                    print(
-                                        'cachedFibonacciList[index]: ${cachedFibonacciList[index]}');
-
-                                    currentFibonacci.angleIncrement.value =cachedFibonacciList[index]['angleIncrement'];
-                                    currentFibonacci.ratio.value =cachedFibonacciList[index]['ratio'];
-                                    currentFibonacci.maxPetals.value =
-                                        cachedFibonacciList[index]['maxPetals'];
-                                    currentFibonacci.direction.value =
-                                        cachedFibonacciList[index]['direction'];
-                                    currentFibonacci.flowerFill.value =
-                                        cachedFibonacciList[index]
-                                            ['flowerFill'];
-
-                                    currentFibonacci.flowerFill.value =
-                                        cachedFibonacciList[index]
-                                            ['flowerFill'];
-                                    currentFibonacci.opacity.value =
-                                        cachedFibonacciList[index]['opacity'];
-                                    currentFibonacci.petalType.value =
-                                        cachedFibonacciList[index]['petalType'];
-                                    currentFibonacci.petalPointiness.value =
-                                        cachedFibonacciList[index]
-                                            ['petalPointiness'];
-
-                                    currentFibonacci.petalRotation.value =
-                                        cachedFibonacciList[index]
-                                            ['petalRotation'];
-                                    currentFibonacci.petalRotationRatio.value =
-                                        cachedFibonacciList[index]
-                                            ['petalRotationRatio'];
-                                    currentFibonacci.petalToRadius.value =
-                                        cachedFibonacciList[index]
-                                            ['petalToRadius'];
-
-                                    currentFibonacci.radialOscAmplitude.value =
-                                        cachedFibonacciList[index]
-                                            ['radialOscAmplitude'];
-                                    currentFibonacci.radialOscPeriod.value =
-                                        cachedFibonacciList[index]
-                                            ['radialOscPeriod'];
-                                    currentFibonacci.randomiseAngle.value =
-                                        cachedFibonacciList[index]
-                                            ['randomiseAngle'];
-                                    currentFibonacci.maxPetals.value =
-                                        cachedFibonacciList[index]['maxPetals'];
-                                    currentFibonacci.direction.value =
-                                        cachedFibonacciList[index]['direction'];
-
-                                    currentFibonacci.backgroundColor.value =
-                                        cachedFibonacciList[index]
-                                            ['backgroundColor'];
-                                    currentFibonacci.lineColor.value =
-                                        cachedFibonacciList[index]['lineColor'];
-
-                                    currentFibonacci.lineWidth.value =
-                                        cachedFibonacciList[index]['lineWidth'];
-                                    currentFibonacci.numberOfColors.value =
-                                        cachedFibonacciList[index]
-                                            ['numberOfColors'];
-                                    currentFibonacci.randomColors.value =
-                                        cachedFibonacciList[index]
-                                            ['randomColors'];
-                                    currentFibonacci.paletteType.value =
-                                        cachedFibonacciList[index]
-                                            ['paletteType'];
-                                    currentFibonacci.palette =
-                                        cachedFibonacciList[index]['palette'];
-                                    currentFibonacci.aspectRatio =
-                                        cachedFibonacciList[index]
-                                            ['aspectRatio'];
-                                    rebuildCanvas.value++;
-                                  },
-                                  child: Container(
-                                    decoration:
-                                        BoxDecoration(shape: BoxShape.circle),
-                                    width: 50,
-                                    height: 50,
-                                    child: Image.file(
-                                        cachedFibonacciList[index]['image']),
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                  })),
-          Expanded(child: ClipRect(child: bodyWidget())),
-        ],
-      ),
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
-      print(
-          '---------------------------------------------------------------------------');
-      print('SHAKE');
-      print(
-          '---------------------------------------------------------------------------');
-      setState(() {
-        currentFibonacci.randomize();
-        currentFibonacci.randomizePalette();
-        cacheFibonacci();
-      });
-    });
-    // To close: detector.stopListening();
-    // ShakeDetector.waitForStart() waits for user to call detector.startListening();
-
-    // Animation Stuff
-
-
-    controller1 = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 72000),
-    );
-    CurvedAnimation(parent: controller1, curve: Curves.linear);
-
-    // controller2 = AnimationController(
-    //   vsync: this,
-    //   duration: Duration(seconds: 60),
-    // );
-
-    Tween<double> _angleTween = Tween(begin: 0, end: 2 * pi);
-    // Tween<double> _fillTween = Tween(begin: 1, end: 1);
-
-    animation1 = _angleTween.animate(controller1)
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          controller1.repeat();
-        } else if (status == AnimationStatus.dismissed) {
-          controller1.forward();
-        }
-      });
+// class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
+//     with TickerProviderStateMixin {
+//   int _counter = 0;
+//   File _imageFile;
+//
+//   int _currentColor = 0;
+//
+//
+//
+//
+//   // Animation<double> animation2;
+//   // AnimationController controller2;
+//
+//
+//
+//
+//
+//   Widget build(BuildContext context) {
+//
+//
+//     return Scaffold(
+//       bottomNavigationBar: CustomBottomAppBar(randomise: () {
+//         currentFibonacci.randomize();
+//         currentFibonacci.randomizePalette();
+//         rebuildCanvas.value++;
+//         addToCache();
+//       }, randomisePalette: () {
+//         currentFibonacci.randomizePalette();
+//         rebuildCanvas.value++;
+//         addToCache();
+//       }, showToolBox: () {
+//         ToolBox(context, settingsList, addToCache);
+//       }),
+//       body: Column(
+//         children: [
+//           Container(
+//               width: MediaQuery.of(context).size.width,
+//               color: Colors.white,
+//               height: 60,
+//               child: ValueListenableBuilder<int>(
+//                   valueListenable: rebuildCache,
+//                   builder: (context, value, child) {
+//                     return cachedFibonacciList.length == 0
+//                         ? Container()
+//                         : ListView.builder(
+//                             scrollDirection: Axis.horizontal,
+//                             controller: scrollController,
+//                             itemCount: cachedFibonacciList.length,
+//                             reverse: false,
+//                             itemBuilder: (context, index) {
+//                               return Padding(
+//                                 padding: const EdgeInsets.all(2.0),
+//                                 child: GestureDetector(
+//                                   onTap: () {
+//                                     revertToCache(index);
+//
+//                                   },
+//                                   child: Container(
+//                                     decoration:
+//                                         BoxDecoration(shape: BoxShape.circle),
+//                                     width: 50,
+//                                     height: 50,
+//                                     child: Image.file(
+//                                         cachedFibonacciList[index]['image']),
+//                                   ),
+//                                 ),
+//                               );
+//                             },
+//                           );
+//                   })),
+//           Expanded(child: ClipRect(child: bodyWidget())),
+//         ],
+//       ),
+//     );
+//   }
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
+//       print(
+//           '---------------------------------------------------------------------------');
+//       print('SHAKE');
+//       print(
+//           '---------------------------------------------------------------------------');
+//       setState(() {
+//         currentFibonacci.randomize();
+//         currentFibonacci.randomizePalette();
+//         addToCache();
+//       });
+//     });
+//     // To close: detector.stopListening();
+//     // ShakeDetector.waitForStart() waits for user to call detector.startListening();
+//
+//     // Animation Stuff
+//
+//
+//     controller1 = AnimationController(
+//       vsync: this,
+//       duration: Duration(seconds: 72000),
+//     );
+//     CurvedAnimation(parent: controller1, curve: Curves.linear);
+//
+//     // controller2 = AnimationController(
+//     //   vsync: this,
+//     //   duration: Duration(seconds: 60),
+//     // );
+//
+//     Tween<double> _angleTween = Tween(begin: 0, end: 2 * pi);
+//     // Tween<double> _fillTween = Tween(begin: 1, end: 1);
+//
+//     animation1 = _angleTween.animate(controller1)
+//       ..addListener(() {
+//         setState(() {});
+//       })
+//       ..addStatusListener((status) {
+//         if (status == AnimationStatus.completed) {
+//           controller1.repeat();
+//         } else if (status == AnimationStatus.dismissed) {
+//           controller1.forward();
+//         }
+//       });
 
     // animation2 = _fillTween.animate(controller2)
     //   ..addListener(() {
@@ -690,20 +684,20 @@ class _OpArtFibonacciStudioState extends State<OpArtFibonacciStudio>
     //     }
     //   });
 
-    controller1.forward();
-    // controller2.forward();
-
-    cacheFibonacci();
-  }
-
-  @override
-  void dispose() {
-    controller1.dispose();
-    // controller2.dispose();
-    super.dispose();
-  }
-
-}
+//     controller1.forward();
+//     // controller2.forward();
+//
+//     addToCache();
+//   }
+//
+//   @override
+//   void dispose() {
+//     controller1.dispose();
+//     // controller2.dispose();
+//     super.dispose();
+//   }
+//
+// }
 
 class OpArtFibonacciPainter extends CustomPainter {
   int seed;

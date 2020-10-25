@@ -16,7 +16,7 @@ bool enableButton = true;
 
 bool proVersion=false;
 
-
+ScrollController scrollController = new ScrollController();
 
 class SettingsModelDouble {
   double value;

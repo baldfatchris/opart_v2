@@ -24,12 +24,12 @@ class OpArtMenu extends StatefulWidget {
   _OpArtMenuState createState() => _OpArtMenuState();
 }
 List<OpArtType> OpArtTypes = [
-  OpArtType(
-    name: 'Spirals',
-    icon: 'lib/assets/fibonacci_200.png',
-    widget: OpArtFibonacciStudio(),
-
-  ),
+  // OpArtType(
+  //   name: 'Spirals',
+  //   icon: 'lib/assets/fibonacci_200.png',
+  //   widget: OpArtFibonacciStudio(),
+  //
+  // ),
   OpArtType(
     name: 'Trees',
     icon: 'lib/assets/tree_200.png',
