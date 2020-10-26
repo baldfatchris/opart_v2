@@ -306,61 +306,61 @@ class Tree {
     //this.random,
   });
 
-  void defaultSettings() {
-    // resets to default settings
-    this.zoomTree.value = this.zoomTree.defaultValue;
-    this.trunkWidth.value = this.trunkWidth.defaultValue;
-    this.widthDecay.value = this.widthDecay.defaultValue;
-    this.segmentLength.value = this.segmentLength.defaultValue;
-    this.segmentDecay.value = this.segmentDecay.defaultValue;
-    this.branch.value = this.branch.defaultValue;
-    this.angle.value = this.angle.defaultValue;
-    this.ratio.value = this.ratio.defaultValue;
-    this.bulbousness.value = this.bulbousness.defaultValue;
-    this.maxDepth.value = this.maxDepth.defaultValue;
-    this.leavesAfter.value = this.leavesAfter.defaultValue;
-    this.leafAngle.value = this.leafAngle.defaultValue;
-    this.leafLength.value = this.leafLength.defaultValue;
-    this.randomLeafLength.value = this.randomLeafLength.defaultValue;
-    this.leafSquareness.value = this.leafSquareness.defaultValue;
-    this.leafDecay.value = this.leafDecay.defaultValue;
-    this.randomLeafLength.value = this.randomLeafLength.defaultValue;
-    this.resetDefaults.value = this.resetDefaults.defaultValue;
 
-    // palette settings
-    this.backgroundColor.value = this.backgroundColor.defaultValue;
-    this.trunkFillColor.value = this.trunkFillColor.defaultValue;
-    this.trunkOutlineColor.value = this.trunkOutlineColor.defaultValue;
-    this.trunkStrokeWidth.value = this.trunkStrokeWidth.defaultValue;
-
-    this.randomColors.value = this.randomColors.defaultValue;
-    this.numberOfColors.value = this.numberOfColors.defaultValue;
-    this.paletteType.value = this.paletteType.defaultValue;
-    this.paletteList.value = this.paletteList.defaultValue;
-
-    this.opacity.value = this.opacity.defaultValue;
-
-    this.palette = [
-      Color(0xFF37A7BC),
-      Color(0xFFB4B165),
-      Color(0xFFA47EA4),
-      Color(0xFF69ABCB),
-      Color(0xFF79B38E),
-      Color(0xFF17B8E0),
-      Color(0xFFD1EFED),
-      Color(0xFF151E2A),
-      Color(0xFF725549),
-      Color(0xFF074E71)
-    ];
-    this.aspectRatio = pi / 2;
-
-    this.image;
-
-    this.paletteLOCK = false;
-    this.aspectRatioLOCK = false;
-  }
 }
+void treeDefaultSettings() {
+  // resets to default settings
+  currentTree.zoomTree.value = currentTree.zoomTree.defaultValue;
+  currentTree.trunkWidth.value = currentTree.trunkWidth.defaultValue;
+  currentTree.widthDecay.value = currentTree.widthDecay.defaultValue;
+  currentTree.segmentLength.value = currentTree.segmentLength.defaultValue;
+  currentTree.segmentDecay.value = currentTree.segmentDecay.defaultValue;
+  currentTree.branch.value = currentTree.branch.defaultValue;
+  currentTree.angle.value = currentTree.angle.defaultValue;
+  currentTree.ratio.value = currentTree.ratio.defaultValue;
+  currentTree.bulbousness.value = currentTree.bulbousness.defaultValue;
+  currentTree.maxDepth.value = currentTree.maxDepth.defaultValue;
+  currentTree.leavesAfter.value = currentTree.leavesAfter.defaultValue;
+  currentTree.leafAngle.value = currentTree.leafAngle.defaultValue;
+  currentTree.leafLength.value = currentTree.leafLength.defaultValue;
+  currentTree.randomLeafLength.value = currentTree.randomLeafLength.defaultValue;
+  currentTree.leafSquareness.value = currentTree.leafSquareness.defaultValue;
+  currentTree.leafDecay.value = currentTree.leafDecay.defaultValue;
+  currentTree.randomLeafLength.value = currentTree.randomLeafLength.defaultValue;
+  currentTree.resetDefaults.value = currentTree.resetDefaults.defaultValue;
 
+  // palette settings
+  currentTree.backgroundColor.value = currentTree.backgroundColor.defaultValue;
+  currentTree.trunkFillColor.value = currentTree.trunkFillColor.defaultValue;
+  currentTree.trunkOutlineColor.value = currentTree.trunkOutlineColor.defaultValue;
+  currentTree.trunkStrokeWidth.value = currentTree.trunkStrokeWidth.defaultValue;
+
+  currentTree.randomColors.value = currentTree.randomColors.defaultValue;
+  currentTree.numberOfColors.value = currentTree.numberOfColors.defaultValue;
+  currentTree.paletteType.value = currentTree.paletteType.defaultValue;
+  currentTree.paletteList.value = currentTree.paletteList.defaultValue;
+
+  currentTree.opacity.value = currentTree.opacity.defaultValue;
+
+  currentTree.palette = [
+    Color(0xFF37A7BC),
+    Color(0xFFB4B165),
+    Color(0xFFA47EA4),
+    Color(0xFF69ABCB),
+    Color(0xFF79B38E),
+    Color(0xFF17B8E0),
+    Color(0xFFD1EFED),
+    Color(0xFF151E2A),
+    Color(0xFF725549),
+    Color(0xFF074E71)
+  ];
+  currentTree.aspectRatio = pi / 2;
+
+  currentTree.image;
+
+  currentTree.paletteLOCK = false;
+  currentTree.aspectRatioLOCK = false;
+}
 void treeRandomizePalette() {
   print('-----------------------------------------------------');
   print('randomizePalette');
@@ -563,7 +563,7 @@ class OpArtTreePainter extends CustomPainter {
     if (currentTree == null) {
       currentTree = new Tree();
       //currentTree = new Tree(random: rnd);
-      currentTree.defaultSettings();
+     treeDefaultSettings();
       currentNamedPalette = currentTree.paletteList.value;
     }
 
@@ -589,7 +589,7 @@ class OpArtTreePainter extends CustomPainter {
 
     // reset the defaults
     if (currentTree.resetDefaults.value == true) {
-      currentTree.defaultSettings();
+      treeDefaultSettings();
     }
 
     double canvasWidth = size.width;

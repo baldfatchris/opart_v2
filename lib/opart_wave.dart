@@ -189,49 +189,49 @@ class Wave {
 
 
 
-  void defaultSettings() {
-    // resets to default settings
-
-    this.stepX.value = this.stepX.defaultValue;
-    this.stepY.value = this.stepY.defaultValue;
-    this.frequency.value = this.frequency.defaultValue;
-    this.amplitude.value = this.amplitude.defaultValue;
-    this.offset.value = this.offset.defaultValue;
-    this.fanWidth.value = this.fanWidth.defaultValue;
-    this.zigZag.value = this.zigZag.defaultValue;
-    this.resetDefaults.value = this.resetDefaults.defaultValue;
-
-    // palette settings
-    this.backgroundColor.value = this.backgroundColor.defaultValue;
-    this.randomColors.value = this.randomColors.defaultValue;
-    this.numberOfColors.value = this.numberOfColors.defaultValue;
-    this.paletteType.value = this.paletteType.defaultValue;
-    this.opacity.value = this.opacity.defaultValue;
-    this.paletteList.value = this.paletteList.defaultValue;
-
-
-    this.palette = [
-      Color(0xFF37A7BC),
-      Color(0xFFB4B165),
-      Color(0xFFA47EA4),
-      Color(0xFF69ABCB),
-      Color(0xFF79B38E),
-      Color(0xFF17B8E0),
-      Color(0xFFD1EFED),
-      Color(0xFF151E2A),
-      Color(0xFF725549),
-      Color(0xFF074E71)
-    ];
-
-    this.aspectRatio = pi / 2;
-
-    this.image;
-
-    this.paletteLOCK = false;
-    this.aspectRatioLOCK = false;
-  }
+ 
 }
+void waveDefaultSettings() {
+  // resets to default settings
 
+  currentWave.stepX.value = currentWave.stepX.defaultValue;
+  currentWave.stepY.value = currentWave.stepY.defaultValue;
+  currentWave.frequency.value = currentWave.frequency.defaultValue;
+  currentWave.amplitude.value = currentWave.amplitude.defaultValue;
+  currentWave.offset.value = currentWave.offset.defaultValue;
+  currentWave.fanWidth.value = currentWave.fanWidth.defaultValue;
+  currentWave.zigZag.value = currentWave.zigZag.defaultValue;
+  currentWave.resetDefaults.value = currentWave.resetDefaults.defaultValue;
+
+  // palette settings
+  currentWave.backgroundColor.value = currentWave.backgroundColor.defaultValue;
+  currentWave.randomColors.value = currentWave.randomColors.defaultValue;
+  currentWave.numberOfColors.value = currentWave.numberOfColors.defaultValue;
+  currentWave.paletteType.value = currentWave.paletteType.defaultValue;
+  currentWave.opacity.value = currentWave.opacity.defaultValue;
+  currentWave.paletteList.value = currentWave.paletteList.defaultValue;
+
+
+  currentWave.palette = [
+    Color(0xFF37A7BC),
+    Color(0xFFB4B165),
+    Color(0xFFA47EA4),
+    Color(0xFF69ABCB),
+    Color(0xFF79B38E),
+    Color(0xFF17B8E0),
+    Color(0xFFD1EFED),
+    Color(0xFF151E2A),
+    Color(0xFF725549),
+    Color(0xFF074E71)
+  ];
+
+  currentWave.aspectRatio = pi / 2;
+
+  currentWave.image;
+
+  currentWave.paletteLOCK = false;
+  currentWave.aspectRatioLOCK = false;
+}
 List<dynamic> waveSettingsList = [
   currentWave.stepX,
   currentWave.stepY,
@@ -388,7 +388,7 @@ class OpArtWavePainter extends CustomPainter {
     // Initialise the palette
     if (currentWave == null) {
       currentWave = new Wave(random: rnd);
-      currentWave.defaultSettings();
+      waveDefaultSettings();
       currentNamedPalette = currentWave.paletteList.value;
     }
     if (currentNamedPalette != null &&
@@ -409,7 +409,7 @@ class OpArtWavePainter extends CustomPainter {
 
     if (currentWave == null) {
       currentWave = new Wave(random: rnd);
-      currentWave.defaultSettings();
+      waveDefaultSettings();
     }
 
     if (currentWave.numberOfColors.value > currentWave.palette.length) {
@@ -419,7 +419,7 @@ class OpArtWavePainter extends CustomPainter {
     // reset the defaults
     print('reset${currentWave.resetDefaults.value}');
     if (currentWave.resetDefaults.value == true) {
-      currentWave.defaultSettings();
+      waveDefaultSettings();
     }
 
 

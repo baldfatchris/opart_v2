@@ -265,57 +265,57 @@ class Fibonacci {
     //this.random,
   });
 
-  void defaultSettings() {
-    // resets to default settings
 
-    this.angleIncrement.value = this.angleIncrement.defaultValue;
-    this.flowerFill.value = this.flowerFill.defaultValue;
-    this.petalToRadius.value = this.petalToRadius.defaultValue;
-    this.ratio.value = this.ratio.defaultValue;
-    this.randomizeAngle.value = this.randomizeAngle.defaultValue;
-    this.petalPointiness.value = this.petalPointiness.defaultValue;
-    this.petalRotation.value = this.petalRotation.defaultValue;
-    this.petalRotationRatio.value = this.petalRotationRatio.defaultValue;
-    this.petalType.value = this.petalType.defaultValue;
-    this.maxPetals.value = this.maxPetals.defaultValue;
-    this.radialOscAmplitude.value = this.radialOscAmplitude.defaultValue;
-    this.radialOscPeriod.value = this.radialOscPeriod.defaultValue;
-    this.direction.value = this.direction.defaultValue;
-
-    // palette settings
-    this.backgroundColor.value = this.backgroundColor.defaultValue;
-    this.lineColor.value = this.lineColor.defaultValue;
-
-    this.lineWidth.value = this.lineWidth.defaultValue;
-    this.randomColors.value = this.randomColors.defaultValue;
-    this.numberOfColors.value = this.numberOfColors.defaultValue;
-    this.paletteType.value = this.paletteType.defaultValue;
-    this.opacity.value = this.opacity.defaultValue;
-
-    this.resetDefaults.value = this.resetDefaults.defaultValue;
-
-    this.palette = [
-      Color(0xFF37A7BC),
-      Color(0xFFB4B165),
-      Color(0xFFA47EA4),
-      Color(0xFF69ABCB),
-      Color(0xFF79B38E),
-      Color(0xFF17B8E0),
-      Color(0xFFD1EFED),
-      Color(0xFF151E2A),
-      Color(0xFF725549),
-      Color(0xFF074E71)
-    ];
-
-    this.aspectRatio = pi / 2;
-
-    this.image;
-
-    this.paletteLOCK = false;
-    this.aspectRatioLOCK = false;
-  }
 }
+void fibonacciDefaultSettings() {
+  // resets to default settings
 
+  currentFibonacci.angleIncrement.value = currentFibonacci.angleIncrement.defaultValue;
+  currentFibonacci.flowerFill.value = currentFibonacci.flowerFill.defaultValue;
+  currentFibonacci.petalToRadius.value = currentFibonacci.petalToRadius.defaultValue;
+  currentFibonacci.ratio.value = currentFibonacci.ratio.defaultValue;
+  currentFibonacci.randomizeAngle.value = currentFibonacci.randomizeAngle.defaultValue;
+  currentFibonacci.petalPointiness.value = currentFibonacci.petalPointiness.defaultValue;
+  currentFibonacci.petalRotation.value = currentFibonacci.petalRotation.defaultValue;
+  currentFibonacci.petalRotationRatio.value = currentFibonacci.petalRotationRatio.defaultValue;
+  currentFibonacci.petalType.value = currentFibonacci.petalType.defaultValue;
+  currentFibonacci.maxPetals.value = currentFibonacci.maxPetals.defaultValue;
+  currentFibonacci.radialOscAmplitude.value = currentFibonacci.radialOscAmplitude.defaultValue;
+  currentFibonacci.radialOscPeriod.value = currentFibonacci.radialOscPeriod.defaultValue;
+  currentFibonacci.direction.value = currentFibonacci.direction.defaultValue;
+
+  // palette settings
+  currentFibonacci.backgroundColor.value = currentFibonacci.backgroundColor.defaultValue;
+  currentFibonacci.lineColor.value = currentFibonacci.lineColor.defaultValue;
+
+  currentFibonacci.lineWidth.value = currentFibonacci.lineWidth.defaultValue;
+  currentFibonacci.randomColors.value = currentFibonacci.randomColors.defaultValue;
+  currentFibonacci.numberOfColors.value = currentFibonacci.numberOfColors.defaultValue;
+  currentFibonacci.paletteType.value = currentFibonacci.paletteType.defaultValue;
+  currentFibonacci.opacity.value = currentFibonacci.opacity.defaultValue;
+
+  currentFibonacci.resetDefaults.value = currentFibonacci.resetDefaults.defaultValue;
+
+  currentFibonacci.palette = [
+    Color(0xFF37A7BC),
+    Color(0xFFB4B165),
+    Color(0xFFA47EA4),
+    Color(0xFF69ABCB),
+    Color(0xFF79B38E),
+    Color(0xFF17B8E0),
+    Color(0xFFD1EFED),
+    Color(0xFF151E2A),
+    Color(0xFF725549),
+    Color(0xFF074E71)
+  ];
+
+  currentFibonacci.aspectRatio = pi / 2;
+
+  currentFibonacci.image;
+
+  currentFibonacci.paletteLOCK = false;
+  currentFibonacci.aspectRatioLOCK = false;
+}
 
 void fibonacciRandomize() {
   print('-----------------------------------------------------');
@@ -544,7 +544,7 @@ class OpArtFibonacciPainter extends CustomPainter {
     // Initialise the palette
     if (currentFibonacci == null) {
       currentFibonacci = new Fibonacci();
-      currentFibonacci.defaultSettings();
+      fibonacciDefaultSettings();
       currentNamedPalette = currentFibonacci.paletteList.value;
     }
 
@@ -570,7 +570,7 @@ class OpArtFibonacciPainter extends CustomPainter {
 
     // reset the defaults
     if (currentFibonacci.resetDefaults.value == true) {
-      currentFibonacci.defaultSettings();
+      fibonacciDefaultSettings();
     }
 
     double canvasWidth = size.width;

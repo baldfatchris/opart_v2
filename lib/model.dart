@@ -214,6 +214,7 @@ class OpArt {
   Function addToCache;
   Function randomize;
   Function randomizePalette;
+  Function resetDefaults;
   var bodyWidget;
   String icon;
   
@@ -226,6 +227,7 @@ class OpArt {
     this.addToCache,
     this.randomize,
     this.randomizePalette,
+    this.resetDefaults,
     this.bodyWidget,
       this.icon,
 //      this.settingsList,
@@ -241,6 +243,7 @@ class OpArt {
         fibonacciAddToCache,
         fibonacciRandomize,
         fibonacciRandomizePalette,
+        fibonacciDefaultSettings,
         fibonacciBodyWidget,
         'lib/assets/fibonacci_200.png',
    //     fibonacciSettingsList
@@ -253,6 +256,7 @@ class OpArt {
         treeAddToCache,
         treeRandomize,
         treeRandomizePalette,
+        treeDefaultSettings,
         treeBodyWidget,
         'lib/assets/tree_200.png',
    //     treeSettingsList
@@ -265,6 +269,7 @@ class OpArt {
         waveAddToCache,
         waveRandomize,
         waveRandomizePalette,
+        waveDefaultSettings,
         waveBodyWidget,
         'lib/assets/wave_200.png',
      //   waveSettingsList
@@ -277,6 +282,7 @@ class OpArt {
         wallpaperAddToCache,
         wallpaperRandomize,
         wallpaperRandomizePalette,
+        wallpaperDefaultSettings,
         wallpaperBodyWidget,
         'lib/assets/wallpaper_200.png',
     //    wallpaperSettingsList

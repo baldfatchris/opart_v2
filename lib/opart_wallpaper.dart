@@ -353,65 +353,66 @@ class Wallpaper {
 
 
 
-  void defaultSettings() {
-    // resets to default settings
 
-    this.cellsX.value = this.cellsX.defaultValue;
-    this.cellsY.value = this.cellsY.defaultValue;
-    this.shape.value = this.shape.defaultValue;
-    this.driftX.value = this.driftX.defaultValue;
-    this.driftXStep.value = this.driftXStep.defaultValue;
-    this.driftY.value = this.driftY.defaultValue;
-    this.driftYStep.value = this.driftYStep.defaultValue;
-    this.alternateDrift.value = this.alternateDrift.defaultValue;
-    this.box.value = this.box.defaultValue;
-    this.step.value = this.step.defaultValue;
-    this.stepStep.value = this.stepStep.defaultValue;
-    this.ratio.value = this.ratio.defaultValue;
-    this.offsetX.value = this.offsetX.defaultValue;
-    this.offsetY.value = this.offsetY.defaultValue;
-    this.rotate.value = this.rotate.defaultValue;
-    this.randomRotation.value = this.randomRotation.defaultValue;
-    this.rotateStep.value = this.rotateStep.defaultValue;
-    this.squareness.value = this.squareness.defaultValue;
-    this.squeezeX.value = this.squeezeX.defaultValue;
-    this.squeezeY.value = this.squeezeY.defaultValue;
-    this.numberOfPetals.value = this.numberOfPetals.defaultValue;
-    this.randomPetals.value = this.randomPetals.defaultValue;
+}
+void wallpaperDefaultSettings() {
+  // resets to default settings
 
-    // palette settings
-    this.backgroundColor.value = this.backgroundColor.defaultValue;
-    this.lineColor.value = this.lineColor.defaultValue;
-    this.lineWidth.value = this.lineWidth.defaultValue;
-    this.randomColors.value = this.randomColors.defaultValue;
-    this.resetColors.value = this.resetColors.defaultValue;
-    this.numberOfColors.value = this.numberOfColors.defaultValue;
-    this.paletteType.value = this.paletteType.defaultValue;
-    this.opacity.value = this.opacity.defaultValue;
+  currentWallpaper.cellsX.value = currentWallpaper.cellsX.defaultValue;
+  currentWallpaper.cellsY.value = currentWallpaper.cellsY.defaultValue;
+  currentWallpaper.shape.value = currentWallpaper.shape.defaultValue;
+  currentWallpaper.driftX.value = currentWallpaper.driftX.defaultValue;
+  currentWallpaper.driftXStep.value = currentWallpaper.driftXStep.defaultValue;
+  currentWallpaper.driftY.value = currentWallpaper.driftY.defaultValue;
+  currentWallpaper.driftYStep.value = currentWallpaper.driftYStep.defaultValue;
+  currentWallpaper.alternateDrift.value = currentWallpaper.alternateDrift.defaultValue;
+  currentWallpaper.box.value = currentWallpaper.box.defaultValue;
+  currentWallpaper.step.value = currentWallpaper.step.defaultValue;
+  currentWallpaper.stepStep.value = currentWallpaper.stepStep.defaultValue;
+  currentWallpaper.ratio.value = currentWallpaper.ratio.defaultValue;
+  currentWallpaper.offsetX.value = currentWallpaper.offsetX.defaultValue;
+  currentWallpaper.offsetY.value = currentWallpaper.offsetY.defaultValue;
+  currentWallpaper.rotate.value = currentWallpaper.rotate.defaultValue;
+  currentWallpaper.randomRotation.value = currentWallpaper.randomRotation.defaultValue;
+  currentWallpaper.rotateStep.value = currentWallpaper.rotateStep.defaultValue;
+  currentWallpaper.squareness.value = currentWallpaper.squareness.defaultValue;
+  currentWallpaper.squeezeX.value = currentWallpaper.squeezeX.defaultValue;
+  currentWallpaper.squeezeY.value = currentWallpaper.squeezeY.defaultValue;
+  currentWallpaper.numberOfPetals.value = currentWallpaper.numberOfPetals.defaultValue;
+  currentWallpaper.randomPetals.value = currentWallpaper.randomPetals.defaultValue;
 
-    this.paletteList.value = this.paletteList.defaultValue;
-    this.resetDefaults.value = this.resetDefaults.defaultValue;
+  // palette settings
+  currentWallpaper.backgroundColor.value = currentWallpaper.backgroundColor.defaultValue;
+  currentWallpaper.lineColor.value = currentWallpaper.lineColor.defaultValue;
+  currentWallpaper.lineWidth.value = currentWallpaper.lineWidth.defaultValue;
+  currentWallpaper.randomColors.value = currentWallpaper.randomColors.defaultValue;
+  currentWallpaper.resetColors.value = currentWallpaper.resetColors.defaultValue;
+  currentWallpaper.numberOfColors.value = currentWallpaper.numberOfColors.defaultValue;
+  currentWallpaper.paletteType.value = currentWallpaper.paletteType.defaultValue;
+  currentWallpaper.opacity.value = currentWallpaper.opacity.defaultValue;
 
-    this.palette = [
-      Color(0xFF37A7BC),
-      Color(0xFFB4B165),
-      Color(0xFFA47EA4),
-      Color(0xFF69ABCB),
-      Color(0xFF79B38E),
-      Color(0xFF17B8E0),
-      Color(0xFFD1EFED),
-      Color(0xFF151E2A),
-      Color(0xFF725549),
-      Color(0xFF074E71)
-    ];
+  currentWallpaper.paletteList.value = currentWallpaper.paletteList.defaultValue;
+  currentWallpaper.resetDefaults.value = currentWallpaper.resetDefaults.defaultValue;
 
-    this.aspectRatio = pi / 2;
+  currentWallpaper.palette = [
+    Color(0xFF37A7BC),
+    Color(0xFFB4B165),
+    Color(0xFFA47EA4),
+    Color(0xFF69ABCB),
+    Color(0xFF79B38E),
+    Color(0xFF17B8E0),
+    Color(0xFFD1EFED),
+    Color(0xFF151E2A),
+    Color(0xFF725549),
+    Color(0xFF074E71)
+  ];
 
-    this.image;
+  currentWallpaper.aspectRatio = pi / 2;
 
-    this.paletteLOCK = false;
-    this.aspectRatioLOCK = false;
-  }
+  currentWallpaper.image;
+
+  currentWallpaper.paletteLOCK = false;
+  currentWallpaper.aspectRatioLOCK = false;
 }
 void wallpaperRandomizePalette() {
   print('-----------------------------------------------------');
@@ -684,7 +685,7 @@ class OpArtWallpaperPainter extends CustomPainter {
     // Initialise the palette
     if (currentWallpaper == null) {
       currentWallpaper = new Wallpaper();
-      currentWallpaper.defaultSettings();
+      wallpaperDefaultSettings();
       currentNamedPalette = currentWallpaper.paletteList.value;
     }
     if (currentNamedPalette != null &&
@@ -707,7 +708,7 @@ class OpArtWallpaperPainter extends CustomPainter {
 
     // reset the defaults
     if (currentWallpaper.resetDefaults.value == true) {
-      currentWallpaper.defaultSettings();
+      wallpaperDefaultSettings();
     }
 
     // Initialise the canvas

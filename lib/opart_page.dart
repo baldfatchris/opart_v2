@@ -27,6 +27,7 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
   Animation<double> animation1;
   @override
   void initState() {
+    showFullPage = false;
     super.initState();
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
       setState(() {
@@ -67,119 +68,131 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     opArtNumber = widget.opArtNumber;
 
-
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: showFullPage? AppBar(
-        backgroundColor: Colors.cyan[200],
-        title: Text(
-          currentOpArt[opArtNumber].name,
-          style: TextStyle(
-              color: Colors.black,
-              fontFamily: 'Righteous',
-              fontSize: 24,
-              fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        elevation: 1,
-        leading: IconButton(
-          icon: Icon(
-            Icons.home,
-            color: Colors.black,
-          ),
-          onPressed: () {
-
-            currentOpArt[opArtNumber].cacheList = [];
-
-            showFullPage = false;
-            Navigator.pop(context);
-          },
-        ),
-        actions: [
-          IconButton(
-              icon: Icon(
-//                  Platform.isAndroid? Icons.share: Icons.ios_share,
-                Icons.share,
-                color: Colors.black,
+      appBar: showFullPage
+          ? AppBar(
+              backgroundColor: Colors.cyan[200],
+              title: Text(
+                currentOpArt[opArtNumber].name,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Righteous',
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold),
               ),
-              onPressed: () {
-                print('sharing');
-                imageFile = null;
-                screenshotController
-                    .capture(delay: Duration(milliseconds: 0), pixelRatio: 2)
-                    .then((File image) async {
-                  print(image);
-                  setState(() {
-                    imageFile = image;
+              centerTitle: true,
+              elevation: 1,
+              leading: IconButton(
+                icon: Icon(
+                  Icons.home,
+                  color: Colors.black,
+                ),
+                onPressed: ()  {
+                  currentOpArt[opArtNumber].resetDefaults();
+                  currentOpArt[opArtNumber].cacheList.clear();
 
-                    if (Platform.isAndroid) {
-                      Share.shareFiles(
-                        [imageFile.path],
-                        subject: 'Using Chris\'s fabulous OpArt App',
-                        text: 'Download the OpArt App NOW!',
-                      );
-                    } else {
-                      Share.shareFiles(
-                        [imageFile.path],
-                        sharePositionOrigin:
-                            Rect.fromLTWH(0, 0, size.width, size.height / 2),
-                        subject: 'Using Chris\'s fabulous OpArt App',
-                      );
-                    }
-                  });
-                });
-              })
-        ],
-      ): AppBar(toolbarHeight: 0,),
-      bottomNavigationBar: showFullPage? customBottomAppBar(context: context, opArtNumber: opArtNumber): BottomAppBar(),
+
+                  Navigator.pop(context);
+
+
+                },
+              ),
+              actions: [
+                IconButton(
+                    icon: Icon(
+//                  Platform.isAndroid? Icons.share: Icons.ios_share,
+                      Icons.share,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      print('sharing');
+                      imageFile = null;
+                      screenshotController
+                          .capture(
+                              delay: Duration(milliseconds: 0), pixelRatio: 2)
+                          .then((File image) async {
+                        print(image);
+                        setState(() {
+                          imageFile = image;
+
+                          if (Platform.isAndroid) {
+                            Share.shareFiles(
+                              [imageFile.path],
+                              subject: 'Using Chris\'s fabulous OpArt App',
+                              text: 'Download the OpArt App NOW!',
+                            );
+                          } else {
+                            Share.shareFiles(
+                              [imageFile.path],
+                              sharePositionOrigin: Rect.fromLTWH(
+                                  0, 0, size.width, size.height / 2),
+                              subject: 'Using Chris\'s fabulous OpArt App',
+                            );
+                          }
+                        });
+                      });
+                    })
+              ],
+            )
+          : AppBar(
+              toolbarHeight: 0,
+            ),
+      bottomNavigationBar: showFullPage
+          ? customBottomAppBar(context: context, opArtNumber: opArtNumber)
+          : BottomAppBar(),
       body: Column(
         children: [
-          showFullPage? Container(
-              width: MediaQuery.of(context).size.width,
-              color: Colors.white,
-              height: 60,
-              child: ValueListenableBuilder<int>(
-                  valueListenable: rebuildCache,
-                  builder: (context, value, child) {
-                    return currentOpArt[opArtNumber].cacheList.length == 0
-                        ? Container()
-                        : ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            controller: scrollController,
-                            itemCount:
-                                currentOpArt[opArtNumber].cacheList.length,
-                            reverse: false,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    currentOpArt[opArtNumber]
-                                        .revertToCache(index);
-                                  },
-                                  child: Container(
-                                    decoration:
-                                        BoxDecoration(shape: BoxShape.circle),
-                                    width: 50,
-                                    height: 50,
-                                    child: Image.file(currentOpArt[opArtNumber]
-                                        .cacheList[index]['image']),
-                                  ),
-                                ),
+          showFullPage
+              ? Container(
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.white,
+                  height: 60,
+                  child: ValueListenableBuilder<int>(
+                      valueListenable: rebuildCache,
+                      builder: (context, value, child) {
+                        return currentOpArt[opArtNumber].cacheList.length == 0
+                            ? Container()
+                            : ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                controller: scrollController,
+                                itemCount:
+                                    currentOpArt[opArtNumber].cacheList.length,
+                                reverse: false,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        currentOpArt[opArtNumber]
+                                            .revertToCache(index);
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle),
+                                        width: 50,
+                                        height: 50,
+                                        child: Image.file(
+                                            currentOpArt[opArtNumber]
+                                                .cacheList[index]['image']),
+                                      ),
+                                    ),
+                                  );
+                                },
                               );
-                            },
-                          );
-                  })): Container(),
+                      }))
+              : Container(),
           Expanded(
-              child: GestureDetector(onTap:(){
-                setState(() {
-                  showFullPage = !showFullPage;
-                });
-    },
-                child: ClipRect(
-                    child: currentOpArt[opArtNumber].bodyWidget(animation1)),
-              )),
+              child: GestureDetector(
+            onTap: () {
+              setState(() {
+                showFullPage = !showFullPage;
+              });
+            },
+            child: ClipRect(
+                child: currentOpArt[opArtNumber].bodyWidget(animation1)),
+          )),
         ],
       ),
     );
