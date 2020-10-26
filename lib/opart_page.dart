@@ -67,7 +67,7 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    opArt = OpArt.fibonacci(opArtType: OpArtType.Fibonacci);
+    opArt = OpArt(opArtType: OpArtType.Fibonacci);
     opArtNumber = widget.opArtNumber;
 
     Size size = MediaQuery.of(context).size;
