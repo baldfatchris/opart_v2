@@ -461,7 +461,7 @@ void wallpaperRandomize() {
   currentWallpaper.numberOfPetals.randomize(rnd);
   currentWallpaper.randomPetals.randomize(rnd);
 }
-List wallpaperSettingsList = [
+List<dynamic> wallpaperSettingsList = [
   currentWallpaper.cellsX,
   currentWallpaper.cellsY,
   currentWallpaper.shape,

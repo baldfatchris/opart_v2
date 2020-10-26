@@ -15,7 +15,7 @@ class OpArtPage extends StatefulWidget {
   _OpArtPageState createState() => _OpArtPageState();
 }
 
-bool showFullPage = true;
+bool showFullPage = false;
 File imageFile;
 Random rnd;
 
@@ -71,7 +71,7 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: showFullPage? AppBar(
         backgroundColor: Colors.cyan[200],
         title: Text(
           currentOpArt[opArtNumber].name,
@@ -89,6 +89,8 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
             color: Colors.black,
           ),
           onPressed: () {
+
+            showFullPage = false;
             Navigator.pop(context);
           },
         ),
@@ -127,11 +129,11 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
                 });
               })
         ],
-      ),
-      bottomNavigationBar: customBottomAppBar(context: context, opArtNumber: opArtNumber),
+      ): AppBar(toolbarHeight: 0,),
+      bottomNavigationBar: showFullPage? customBottomAppBar(context: context, opArtNumber: opArtNumber): BottomAppBar(),
       body: Column(
         children: [
-          Container(
+          showFullPage? Container(
               width: MediaQuery.of(context).size.width,
               color: Colors.white,
               height: 60,
@@ -166,10 +168,16 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
                               );
                             },
                           );
-                  })),
+                  })): Container(),
           Expanded(
-              child: ClipRect(
-                  child: currentOpArt[opArtNumber].bodyWidget(animation1))),
+              child: GestureDetector(onTap:(){
+                setState(() {
+                  showFullPage = !showFullPage;
+                });
+    },
+                child: ClipRect(
+                    child: currentOpArt[opArtNumber].bodyWidget(animation1)),
+              )),
         ],
       ),
     );

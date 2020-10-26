@@ -208,7 +208,7 @@ class SettingsModelColor {
 class OpArt {
   String name;
   var currentSettings;
-  List settingsList;
+  List<dynamic> settingsList;
   List<Map<String, dynamic>> cacheList;
   Function revertToCache;
   Function addToCache;
@@ -220,14 +220,15 @@ class OpArt {
   OpArt(
     this.name,
     this.currentSettings,
-   //this.settingsList,
+
     this.cacheList,
     this.revertToCache,
     this.addToCache,
     this.randomize,
     this.randomizePalette,
     this.bodyWidget,
-      this.icon
+      this.icon,
+//      this.settingsList,
   );
 
   static void setDefaults(){
@@ -242,6 +243,7 @@ class OpArt {
         fibonacciRandomizePalette,
         fibonacciBodyWidget,
         'lib/assets/fibonacci_200.png',
+   //     fibonacciSettingsList
       ),
       OpArt(
         'Trees',
@@ -253,6 +255,7 @@ class OpArt {
         treeRandomizePalette,
         treeBodyWidget,
         'lib/assets/tree_200.png',
+   //     treeSettingsList
       ),
       OpArt(
         'Waves',
@@ -264,6 +267,7 @@ class OpArt {
         waveRandomizePalette,
         waveBodyWidget,
         'lib/assets/wave_200.png',
+     //   waveSettingsList
       ),
       OpArt(
         'Wallpaper',
@@ -275,6 +279,7 @@ class OpArt {
         wallpaperRandomizePalette,
         wallpaperBodyWidget,
         'lib/assets/wallpaper_200.png',
+    //    wallpaperSettingsList
       ),
     ];
   }

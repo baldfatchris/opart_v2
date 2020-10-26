@@ -408,7 +408,7 @@ void treeRandomize() {
   //  this.paletteList.randomize(rnd);
 }
 
-List treeSettingsList = [
+List<dynamic> treeSettingsList = [
   currentTree.zoomTree,
   currentTree.trunkWidth,
   currentTree.widthDecay,

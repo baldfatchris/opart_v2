@@ -232,7 +232,7 @@ class Wave {
   }
 }
 
-List waveSettingsList = [
+List<dynamic> waveSettingsList = [
   currentWave.stepX,
   currentWave.stepY,
   currentWave.frequency,
