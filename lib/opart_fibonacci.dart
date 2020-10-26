@@ -316,6 +316,7 @@ class Fibonacci {
   }
 }
 
+
 void fibonacciRandomize() {
   print('-----------------------------------------------------');
   print('randomize');

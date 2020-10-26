@@ -90,6 +90,8 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
           ),
           onPressed: () {
 
+            currentOpArt[opArtNumber].cacheList = [];
+
             showFullPage = false;
             Navigator.pop(context);
           },
