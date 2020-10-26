@@ -768,7 +768,7 @@ class OpArtWallpaperPainter extends CustomPainter {
     double radius = imageWidth / (currentWallpaper.cellsX.value * 2);
 
     print('animationVariable: $animationVariable');
-    double squareness = currentWallpaper.squareness.value + 0.25 * sin(animationVariable);
+    double squareness = currentWallpaper.squareness.value + 0.25 * sin(2500 * animationVariable);
     print('squareness: $squareness');
 
     for (int j = 0 - extraCellsY;
