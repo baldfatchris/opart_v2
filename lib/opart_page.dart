@@ -28,7 +28,6 @@ Random rnd;
 class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
   int opArtNumber;
 
-  List<OpArt> currentOpArt;
   AnimationController controller1;
 
   Animation<double> animation1;
@@ -74,51 +73,7 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     opArtNumber = widget.opArtNumber;
 
-    currentOpArt = [
-      OpArt(
-        'Spirals',
-        currentFibonacci,
-        fibonacciCachedList,
-        fibonacciRevertToCache,
-        fibonacciAddToCache,
-        fibonacciRandomize,
-        fibonacciRandomizePalette,
-        fibonacciBodyWidget,
-      ),
-      OpArt(
-        'Trees',
-        currentTree,
-        treeCachedList,
-        treeRevertToCache,
-        treeAddToCache,
-        treeRandomize,
-        treeRandomizePalette,
-        treeBodyWidget,
-      ),
-      OpArt(
-        'Waves',
-        currentWave,
-        waveCachedList,
-        waveRevertToCache,
-        waveAddToCache,
-        waveRandomize,
-        waveRandomizePalette,
-        waveBodyWidget,
-      ),
-      OpArt(
-        'Wallpaper',
-        currentWallpaper,
-        wallpaperCachedList,
-        wallpaperRevertToCache,
-        wallpaperAddToCache,
-        wallpaperRandomize,
-        wallpaperRandomizePalette,
-        wallpaperBodyWidget,
-      ),
 
-
-
-    ];
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(

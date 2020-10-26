@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:opart_v2/loading.dart';
-import 'package:opart_v2/menu.dart';
+
 
 import 'opart_page.dart';
+import 'model.dart';
 
 
-import 'menu.dart';
 
 
 void main() {
@@ -14,7 +14,6 @@ void main() {
     routes: {
       '/': (context) => Loading(),
       '/menu': (context) => MyApp(),
-
     },
   ));
 }
@@ -57,28 +56,30 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontSize: 40,
                     fontWeight: FontWeight.bold)),
           ),
-
           Expanded(
             child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2, childAspectRatio: 0.8),
-                itemCount: opArtTypes.length,
+                itemCount: currentOpArt.length,
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => OpArtPage(index)));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => OpArtPage(index)));
                     },
                     child: Column(
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(opArtTypes[index].icon),
+                          child: Image.asset(currentOpArt[index].icon),
                         ),
-                        Text(opArtTypes[index].name,style: TextStyle(
-                  fontFamily: 'Righteous',
-
-                  fontWeight: FontWeight.bold, fontSize: 20)),
+                        Text(currentOpArt[index].name,
+                            style: TextStyle(
+                                fontFamily: 'Righteous',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20)),
                       ],
                     ),
                   );
@@ -87,5 +88,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     ));
+  }
+
+  @override
+  void initState() {
+    OpArt.setDefaults();
+    super.initState();
+
   }
 }

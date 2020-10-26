@@ -1,9 +1,13 @@
 import 'dart:core';
 import 'dart:math';
+import 'opart_fibonacci.dart';
+import 'opart_wave.dart';
+import 'opart_wallpaper.dart';
+import 'opart_tree.dart';
 
 import 'package:screenshot/screenshot.dart';
 import 'package:flutter/material.dart';
-
+List<OpArt> currentOpArt = List<OpArt>();
 
 Random rnd = Random();
 int seed = rnd.nextInt(1 << 32);
@@ -211,6 +215,8 @@ class OpArt {
   Function randomize;
   Function randomizePalette;
   var bodyWidget;
+  String icon;
+  
   OpArt(
     this.name,
     this.currentSettings,
@@ -221,8 +227,57 @@ class OpArt {
     this.randomize,
     this.randomizePalette,
     this.bodyWidget,
+      this.icon
   );
 
+  static void setDefaults(){
+    currentOpArt = [
+      OpArt(
+        'Spirals',
+        currentFibonacci,
+        fibonacciCachedList,
+        fibonacciRevertToCache,
+        fibonacciAddToCache,
+        fibonacciRandomize,
+        fibonacciRandomizePalette,
+        fibonacciBodyWidget,
+        'lib/assets/fibonacci_200.png',
+      ),
+      OpArt(
+        'Trees',
+        currentTree,
+        treeCachedList,
+        treeRevertToCache,
+        treeAddToCache,
+        treeRandomize,
+        treeRandomizePalette,
+        treeBodyWidget,
+        'lib/assets/tree_200.png',
+      ),
+      OpArt(
+        'Waves',
+        currentWave,
+        waveCachedList,
+        waveRevertToCache,
+        waveAddToCache,
+        waveRandomize,
+        waveRandomizePalette,
+        waveBodyWidget,
+        'lib/assets/wave_200.png',
+      ),
+      OpArt(
+        'Wallpaper',
+        currentWallpaper,
+        wallpaperCachedList,
+        wallpaperRevertToCache,
+        wallpaperAddToCache,
+        wallpaperRandomize,
+        wallpaperRandomizePalette,
+        wallpaperBodyWidget,
+        'lib/assets/wallpaper_200.png',
+      ),
+    ];
+  }
 
  }
 
