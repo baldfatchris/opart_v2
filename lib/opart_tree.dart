@@ -656,7 +656,7 @@ class OpArtTreePainter extends CustomPainter {
       currentTree.leafLength.value * zoom,
       leafStyle,
       false,
-      animationVariable,
+      animationVariable * 2500,
     );
   }
 
@@ -708,7 +708,7 @@ class OpArtTreePainter extends CustomPainter {
       // the animation increases and decreases the ratio
 
       double branchRatio =
-          ratio * (1 - rnd.nextDouble() * cos(10 * animationVariable) * 0.10);
+          ratio * (1 - rnd.nextDouble() * cos(animationVariable) * 0.10);
 
       // if (rnd.nextDouble() > 0.5) {
       directionA = direction + branchRatio * currentTree.angle.value;
@@ -958,7 +958,7 @@ class OpArtTreePainter extends CustomPainter {
         leafLength + rnd.nextDouble() * currentTree.randomLeafLength.value;
 
     double randomizedLeafAngle =
-        leafAngle + (1 - rnd.nextDouble() / 2) * cos(10 * animationVariable);
+        leafAngle + (1 - rnd.nextDouble() / 2) * cos(animationVariable);
 
     // find the centre of the leaf
     List PC = [
