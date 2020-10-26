@@ -18,6 +18,7 @@ class OpArtPage extends StatefulWidget {
 bool showFullPage = false;
 File imageFile;
 Random rnd;
+OpArt opArt;
 
 class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
   int opArtNumber;
@@ -31,10 +32,10 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
     super.initState();
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
       setState(() {
-        currentOpArt[opArtNumber].randomize();
-        currentOpArt[opArtNumber].randomizePalette();
+        opArt.randomize();
+        opArt.palette.randomizePalette();
         rebuildCanvas.value++;
-        currentOpArt[opArtNumber].addToCache();
+        opArt.saveToCache();
       });
     });
 
@@ -61,11 +62,12 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
     controller1.forward();
 
     WidgetsBinding.instance
-        .addPostFrameCallback((_) => currentOpArt[opArtNumber].addToCache());
+        .addPostFrameCallback((_) => opArt.saveToCache());
   }
 
   @override
   Widget build(BuildContext context) {
+    opArt = OpArt.fibonacci(opArtType: OpArtType.Fibonacci);
     opArtNumber = widget.opArtNumber;
 
     Size size = MediaQuery.of(context).size;
@@ -75,7 +77,7 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
           ? AppBar(
               backgroundColor: Colors.cyan[200],
               title: Text(
-                currentOpArt[opArtNumber].name,
+                opArt.name,
                 style: TextStyle(
                     color: Colors.black,
                     fontFamily: 'Righteous',
@@ -90,8 +92,8 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
                   color: Colors.black,
                 ),
                 onPressed: ()  {
-                  currentOpArt[opArtNumber].resetDefaults();
-                  currentOpArt[opArtNumber].cacheList.clear();
+                  opArt.setDefault();
+                  opArt.clearCache();
 
 
                   Navigator.pop(context);
@@ -152,21 +154,20 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
                   child: ValueListenableBuilder<int>(
                       valueListenable: rebuildCache,
                       builder: (context, value, child) {
-                        return currentOpArt[opArtNumber].cacheList.length == 0
+                        return opArt.cacheListLength() == 0
                             ? Container()
                             : ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 controller: scrollController,
                                 itemCount:
-                                    currentOpArt[opArtNumber].cacheList.length,
+                                opArt.cacheListLength(),
                                 reverse: false,
                                 itemBuilder: (context, index) {
                                   return Padding(
                                     padding: const EdgeInsets.all(2.0),
                                     child: GestureDetector(
                                       onTap: () {
-                                        currentOpArt[opArtNumber]
-                                            .revertToCache(index);
+                                        opArt.revertToCache(index);
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
@@ -174,8 +175,7 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
                                         width: 50,
                                         height: 50,
                                         child: Image.file(
-                                            currentOpArt[opArtNumber]
-                                                .cacheList[index]['image']),
+                                            opArt.image),
                                       ),
                                     ),
                                   );
@@ -191,7 +191,7 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
               });
             },
             child: ClipRect(
-                child: currentOpArt[opArtNumber].bodyWidget(animation1)),
+                child: opArt.bodyWidget(animation1)),
           )),
         ],
       ),
