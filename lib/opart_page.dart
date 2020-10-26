@@ -191,16 +191,55 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
               });
             },
             child: ClipRect(
-                child: opArt.bodyWidget(animation1)),
+                child: ValueListenableBuilder<int>(
+                    valueListenable: rebuildCanvas,
+                    builder: (context, value, child) {
+                      return Screenshot(
+                        controller: screenshotController,
+                        child: Visibility(
+                          visible: true,
+                          child: LayoutBuilder(
+                            builder: (_, constraints) => Container(
+                              width: constraints.widthConstraints().maxWidth,
+                              height: constraints.heightConstraints().maxHeight,
+                              child: CustomPaint(
+                                  painter: OpArtPainter(seed, rnd, animation1.value)),
+                            ),
+                          ),
+                        ),
+                      );
+                    })),
           )),
         ],
       ),
     );
   }
 
+
+
   @override
   void dispose() {
     controller1.dispose();
     super.dispose();
   }
+}
+class OpArtPainter extends CustomPainter {
+  int seed;
+  Random rnd;
+  double angle;
+  // double fill;
+
+  OpArtPainter(
+      this.seed,
+      this.rnd,
+      this.angle,
+      // this.fill
+      );
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    opArt.paint(canvas, size, seed, rnd, angle);
+  }
+  @override
+  bool shouldRepaint(OpArtPainter oldDelegate) => false;
 }

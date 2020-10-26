@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:opart_v2/palettes.dart';
 import 'dart:math';
 import 'dart:io';
 import 'settings_model.dart';
 
 import 'model.dart';
-import 'palettes.dart';
+
 
 import 'package:screenshot/screenshot.dart';
 
 
-List<SettingsModel> initializeFibonacci(){
+List<SettingsModel> initializeFibonacciAttributes(){
 return [
    SettingsModel(
 settingType: SettingType.double,
     label: 'Angle Increment',
+    name: 'angleIncrement',
     tooltip: 'The angle in radians between successive petals of the flower',
     min: 0,
     max: 2 * pi,
@@ -23,6 +25,7 @@ settingType: SettingType.double,
     proFeature: false,
 ), SettingsModel(
     settingType: SettingType.double,
+    name: 'flowerFill',
     label: 'Zoom',
     tooltip: 'Zoom in and out',
     min: 0.3,
@@ -35,6 +38,7 @@ settingType: SettingType.double,
     proFeature: false,
   ), SettingsModel(
     settingType: SettingType.double,
+    name: 'petalSize',
     label: 'Petal Size',
     tooltip:
         'The size of the petal as a multiple of its distance from the centre',
@@ -45,6 +49,7 @@ settingType: SettingType.double,
     icon: Icon(Icons.swap_horizontal_circle),
     proFeature: false,
   ),SettingsModel(
+    name: 'ratio',
     settingType: SettingType.double,
     label: 'Fill Ratio',
     tooltip: 'The fill ratio of the flower',
@@ -55,6 +60,7 @@ settingType: SettingType.double,
     icon: Icon(Icons.format_color_fill),
     proFeature: false,
   ),SettingsModel(
+    name: 'randomizeAngle',
     settingType: SettingType.double,
     label: 'randomize Angle',
     tooltip:
@@ -66,6 +72,7 @@ settingType: SettingType.double,
     icon: Icon(Icons.ac_unit),
     proFeature: false,
   ), SettingsModel(
+    name: 'petalPointiness',
     settingType: SettingType.double,
     label: 'Petal Pointiness',
     tooltip: 'the pointiness of the petal',
@@ -76,6 +83,7 @@ settingType: SettingType.double,
     icon: Icon(Icons.change_history),
     proFeature: false,
   ),SettingsModel(
+    name: 'petalRotation',
     settingType: SettingType.double,
     label: 'Petal Rotation',
     tooltip: 'the rotation of the petal',
@@ -86,6 +94,7 @@ settingType: SettingType.double,
     icon: Icon(Icons.rotate_right),
     proFeature: false,
   ),SettingsModel(
+    name: 'petalRotationRatio',
     settingType: SettingType.double,
     label: 'Rotation Ratio',
     tooltip: 'the rotation of the petal as multiple of the petal angle',
@@ -95,7 +104,7 @@ settingType: SettingType.double,
     defaultValue: 0,
     icon: Icon(Icons.autorenew),
     proFeature: false,
-  ),SettingsModel(
+  ),SettingsModel(name: 'petalType',
     settingType: SettingType.list,
     label: "Petal Type",
     tooltip: "The shape of the petal",
@@ -104,6 +113,7 @@ settingType: SettingType.double,
     options: <String>['circle', 'triangle', 'square', 'petal'],
     proFeature: false,
   ),SettingsModel(settingType: SettingType.int,
+    name: 'maxPetals',
     label: 'Max Petals',
     tooltip: 'The maximum number of petals to draw',
     min: 0,
@@ -112,6 +122,7 @@ settingType: SettingType.double,
     icon: Icon(Icons.fiber_smart_record),
     proFeature: false,
   ),SettingsModel(
+    name: 'radialOscAmplitude',
     settingType: SettingType.double,
     label: 'Radial Oscillation',
     tooltip: 'The amplitude of the radial oscillation',
@@ -123,7 +134,7 @@ settingType: SettingType.double,
     defaultValue: 0,
     icon: Icon(Icons.all_inclusive),
     proFeature: true,
-  ),SettingsModel(
+  ),SettingsModel(name: 'radialOscPeriod',
     settingType: SettingType.double,
     label: 'Oscillation Period',
     tooltip: 'The period of the radial oscillation',
@@ -136,6 +147,7 @@ settingType: SettingType.double,
     icon: Icon(Icons.bubble_chart),
     proFeature: true,
   ),SettingsModel(
+    name: 'direction',
     settingType: SettingType.list,
     label: "Direction",
     tooltip:
@@ -145,18 +157,21 @@ settingType: SettingType.double,
     options: <String>['inward', 'outward'],
     proFeature: false,
   ), SettingsModel(settingType: SettingType.color,
+    name: 'backgroundColor',
     label: "Background Color",
     tooltip: "The background colour for the canvas",
     defaultValue: Colors.white,
     icon: Icon(Icons.settings_overscan),
     proFeature: false,
   ),SettingsModel(settingType: SettingType.color,
+    name: 'lineColor',
     label: "Outline Color",
     tooltip: "The outline colour for the petals",
     defaultValue: Colors.white,
     icon: Icon(Icons.zoom_out_map),
     proFeature: false,
   ),SettingsModel(settingType: SettingType.double,
+    name: 'lineWidth',
     label: 'Outline Width',
     tooltip: 'The width of the petal outline',
     min: 0,
@@ -166,6 +181,7 @@ settingType: SettingType.double,
     icon: Icon(Icons.line_weight),
     proFeature: false,
   ), SettingsModel(
+    name: 'randomColors',
     settingType: SettingType.int,
     label: 'Random Colors',
     tooltip: 'randomize the coloursl',
@@ -173,6 +189,7 @@ settingType: SettingType.double,
     icon: Icon(Icons.gamepad),
     proFeature: false,
   ),SettingsModel(settingType: SettingType.int,
+    name: 'numberOfColors',
     label: 'Number of Colors',
     tooltip: 'The number of colours in the palette',
     min: 1,
@@ -181,6 +198,7 @@ settingType: SettingType.double,
     icon: Icon(Icons.palette),
     proFeature: false,
   ), SettingsModel(settingType: SettingType.list,
+    name: 'paletteType',
     label: "Palette Type",
     tooltip: "The nature of the palette",
     defaultValue: "random",
@@ -193,6 +211,7 @@ settingType: SettingType.double,
     ],
     proFeature: false,
   ), SettingsModel(settingType: SettingType.list,
+    name: 'paletteList',
     label: "Palette",
     tooltip: "Choose from a list of palettes",
     defaultValue: "Default",
@@ -201,6 +220,7 @@ settingType: SettingType.double,
     proFeature: false,
   ), SettingsModel(settingType: SettingType.double,
     label: 'Opactity',
+    name: 'opacity',
     tooltip: 'The opactity of the petal',
     min: 0.2,
     max: 1,
@@ -209,6 +229,7 @@ settingType: SettingType.double,
     icon: Icon(Icons.remove_red_eye),
     proFeature: false,
   ), SettingsModel(settingType: SettingType.button,
+    name: 'resetDefaults',
     label: 'Reset Defaults',
     tooltip: 'Reset all settings to defaults',
     defaultValue: false,
@@ -218,153 +239,58 @@ settingType: SettingType.double,
 }
 
 
+//
+// Widget fibonacciBodyWidget(Animation animation1) {
+//   return ValueListenableBuilder<int>(
+//       valueListenable: rebuildCanvas,
+//       builder: (context, value, child) {
+//         return Screenshot(
+//           controller: screenshotController,
+//           child: Visibility(
+//             visible: true,
+//             child: LayoutBuilder(
+//               builder: (_, constraints) => Container(
+//                 width: constraints.widthConstraints().maxWidth,
+//                 height: constraints.heightConstraints().maxHeight,
+//                 child: CustomPaint(
+//                     painter: OpArtFibonacciPainter(
+//                   seed, rnd,
+//                   animation1.value,
+//                   // animation2.value
+//                 )),
+//               ),
+//             ),
+//           ),
+//         );
+//       });
+// }
 
-Widget fibonacciBodyWidget(Animation animation1) {
-  return ValueListenableBuilder<int>(
-      valueListenable: rebuildCanvas,
-      builder: (context, value, child) {
-        return Screenshot(
-          controller: screenshotController,
-          child: Visibility(
-            visible: true,
-            child: LayoutBuilder(
-              builder: (_, constraints) => Container(
-                width: constraints.widthConstraints().maxWidth,
-                height: constraints.heightConstraints().maxHeight,
-                child: CustomPaint(
-                    painter: OpArtFibonacciPainter(
-                  seed, rnd,
-                  animation1.value,
-                  // animation2.value
-                )),
-              ),
-            ),
-          ),
-        );
-      });
-}
-
-class OpArtFibonacciPainter extends CustomPainter {
-  int seed;
-  Random rnd;
-  double angle;
-  // double fill;
-
-  OpArtFibonacciPainter(
-    this.seed,
-    this.rnd,
-    this.angle,
-    // this.fill
+void paintFibonacci(Canvas canvas, Size size, int seed, Random rnd, double angle, List<SettingsModel> attributes, OpArtPalette palette) {
+  generateFlower(canvas, size.width, size.height, size.width, size.height, 0,0,size.width/2, size.height/2,
+  attributes.firstWhere((element) => element.name == 'angleIncrement').value,
+    attributes.firstWhere((element) => element.name == 'flowerFill').value,
+    attributes.firstWhere((element) => element.name == 'petalToRadius').value,
+    attributes.firstWhere((element) => element.name == 'ratio').value,
+    attributes.firstWhere((element) => element.name == 'randomizeAngle').value,
+    attributes.firstWhere((element) => element.name == 'petalPointiness').value,
+    attributes.firstWhere((element) => element.name == 'petalRotation').value,
+    attributes.firstWhere((element) => element.name == 'petalRotationRatio').value,
+    attributes.firstWhere((element) => element.name == 'petalType').value,
+    attributes.firstWhere((element) => element.name == 'maxPetals').value,
+    attributes.firstWhere((element) => element.name == 'radialOscAmplitude').value,
+    attributes.firstWhere((element) => element.name == 'radialOscPeriod').value,
+    attributes.firstWhere((element) => element.name == 'direction').value,
+    attributes.firstWhere((element) => element.name == 'backgroundColor').value,
+    attributes.firstWhere((element) => element.name == 'lineColor').value,
+    attributes.firstWhere((element) => element.name == 'lineWidth').value,
+    attributes.firstWhere((element) => element.name == 'randomColors').value,
+    attributes.firstWhere((element) => element.name == 'numberOfColors').value,
+    attributes.firstWhere((element) => element.name == 'paletteType').value,
+    attributes.firstWhere((element) => element.name == 'opacity').value,
+    palette.colorList
   );
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    rnd = Random(seed);
-    // print('seed: $seed');
-    //
-    // print('----------------------------------------------------------------');
-    // print('Fibonacci');
-    // print('----------------------------------------------------------------');
-
-    // Initialise the palette
-    if (currentFibonacci == null) {
-      currentFibonacci = new Fibonacci();
-      fibonacciDefaultSettings();
-      currentNamedPalette = currentFibonacci.paletteList.value;
-    }
-
-    if (currentFibonacci.paletteList.value != currentNamedPalette) {
-      // find the index of the palette in the list
-
-      List newPalette = palettes.firstWhere(
-          (palette) => palette[0] == currentFibonacci.paletteList.value);
-
-      // set the palette details
-      currentFibonacci.numberOfColors.value = newPalette[1].toInt();
-      currentFibonacci.backgroundColor.value = Color(int.parse(newPalette[2]));
-      currentFibonacci.palette = [];
-      for (int z = 0; z < currentFibonacci.numberOfColors.value; z++) {
-        currentFibonacci.palette.add(Color(int.parse(newPalette[3][z])));
-      }
-
-      currentNamedPalette = currentFibonacci.paletteList.value;
-    } else if (currentFibonacci.numberOfColors.value >
-        currentFibonacci.palette.length) {
-      fibonacciRandomizePalette();
-    }
-
-    // reset the defaults
-    if (currentFibonacci.resetDefaults.value == true) {
-      fibonacciDefaultSettings();
-    }
-
-    double canvasWidth = size.width;
-    double canvasHeight = size.height;
-    // print('canvasWidth: $canvasWidth');
-    // print('canvasHeight: $canvasHeight');
-    // print('canvasWidth / canvasHeight = ${canvasWidth / canvasHeight}');
-
-    double borderX = 0;
-    double borderY = 0;
-    double imageWidth = canvasWidth;
-    double imageHeight = canvasHeight;
-
-    // if (currentFibonacci.aspectRatio == pi/2){
-    currentFibonacci.aspectRatio = canvasWidth / canvasHeight;
-    // }
-
-    if (canvasWidth / canvasHeight < currentFibonacci.aspectRatio) {
-      borderY = (canvasHeight - canvasWidth / currentFibonacci.aspectRatio) / 2;
-      imageHeight = imageWidth / currentFibonacci.aspectRatio;
-    } else {
-      borderX = (canvasWidth - canvasHeight * currentFibonacci.aspectRatio) / 2;
-      imageWidth = imageHeight * currentFibonacci.aspectRatio;
-    }
-
-    double flowerCentreX = imageWidth / 2;
-    double flowerCentreY = imageHeight / 2;
-
-    //  print('aspectRatio = $currentFibonacci.aspectRatio');
-
-    int colourOrder = 0;
-
-    // Now make some art
-
-    generateFlower(
-      canvas,
-      canvasWidth,
-      canvasHeight,
-      imageWidth,
-      imageHeight,
-      borderX,
-      borderY,
-      flowerCentreX,
-      flowerCentreY,
-      angle + currentFibonacci.angleIncrement.value,
-      currentFibonacci.flowerFill.value,
-      currentFibonacci.petalToRadius.value,
-      currentFibonacci.ratio.value,
-      currentFibonacci.randomizeAngle.value,
-      currentFibonacci.petalPointiness.value,
-      currentFibonacci.petalRotation.value,
-      currentFibonacci.petalRotationRatio.value,
-      currentFibonacci.petalType.value,
-      currentFibonacci.maxPetals.value,
-      currentFibonacci.radialOscAmplitude.value,
-      currentFibonacci.radialOscPeriod.value,
-      currentFibonacci.direction.value,
-      currentFibonacci.backgroundColor.value,
-      currentFibonacci.lineColor.value,
-      currentFibonacci.lineWidth.value,
-      currentFibonacci.randomColors.value,
-      currentFibonacci.numberOfColors.value,
-      currentFibonacci.paletteType.value,
-      currentFibonacci.opacity.value,
-      currentFibonacci.palette,
-    );
-  }
-
-  generateFlower(
+}
+generateFlower(
     Canvas canvas,
     double canvasWidth,
     double canvasHeight,
@@ -395,182 +321,182 @@ class OpArtFibonacciPainter extends CustomPainter {
     String currentPaletteType,
     double currentOpacity,
     List currentPalette,
-  ) {
-    // print('canvasWidth: $canvasWidth');
-    // print('canvasHeight: $canvasHeight');
-    // print('imageWidth: $imageWidth');
-    // print('imageHeight: $imageHeight');
-    // print('borderX: $borderX');
-    // print('borderY: $borderY');
-    // print('flowerCentreX: $flowerCentreX');
-    // print('flowerCentreY: $flowerCentreY');
-    // print('AngleIncrement: $currentAngleIncrement');
-    // print('FlowerFill: $currentFlowerFill');
-    // print('PetalToRadius: $currentPetalToRadius');
-    // print('randomizeAngle: $currentrandomizeAngle');
-    // print('PetalPointiness: $currentPetalPointiness');
-    // print('PetalRotation: $currentPetalRotation');
-    // print('PetalRotationRatio: $currentPetalRotationRatio');
-    // print('PetalType: $currentPetalType');
-    // print('MaxPetals: $currentMaxPetals');
-    // print('RadialOscAmplitude: $currentRadialOscAmplitude');
-    // print('RadialOscPeriod: $currentRadialOscPeriod');
-    // print('Direction: $currentDirection');
-    // print('BackgroundColor: $currentBackgroundColor');
-    // print('LineColor: $currentLineColor');
-    // print('LineWidth: $currentLineWidth');
-    // print('RandomColors: $currentRandomColors');
-    // print('NumberOfColors: $currentNumberOfColors');
-    // print('PaletteType: $currentPaletteType');
-    // print('Opacity: $currentOpacity');
-    // print('palette $currentPalette');
+    ) {
+  // print('canvasWidth: $canvasWidth');
+  // print('canvasHeight: $canvasHeight');
+  // print('imageWidth: $imageWidth');
+  // print('imageHeight: $imageHeight');
+  // print('borderX: $borderX');
+  // print('borderY: $borderY');
+  // print('flowerCentreX: $flowerCentreX');
+  // print('flowerCentreY: $flowerCentreY');
+  // print('AngleIncrement: $currentAngleIncrement');
+  // print('FlowerFill: $currentFlowerFill');
+  // print('PetalToRadius: $currentPetalToRadius');
+  // print('randomizeAngle: $currentrandomizeAngle');
+  // print('PetalPointiness: $currentPetalPointiness');
+  // print('PetalRotation: $currentPetalRotation');
+  // print('PetalRotationRatio: $currentPetalRotationRatio');
+  // print('PetalType: $currentPetalType');
+  // print('MaxPetals: $currentMaxPetals');
+  // print('RadialOscAmplitude: $currentRadialOscAmplitude');
+  // print('RadialOscPeriod: $currentRadialOscPeriod');
+  // print('Direction: $currentDirection');
+  // print('BackgroundColor: $currentBackgroundColor');
+  // print('LineColor: $currentLineColor');
+  // print('LineWidth: $currentLineWidth');
+  // print('RandomColors: $currentRandomColors');
+  // print('NumberOfColors: $currentNumberOfColors');
+  // print('PaletteType: $currentPaletteType');
+  // print('Opacity: $currentOpacity');
+  // print('palette $currentPalette');
 
-    // colour in the canvas
-    //a rectangle
-    canvas.drawRect(
-        Offset(borderX, borderY) & Size(imageWidth, imageHeight * 2),
-        Paint()
-          ..color = currentBackgroundColor
-          ..style = PaintingStyle.fill);
+  // colour in the canvas
+  //a rectangle
+  canvas.drawRect(
+      Offset(borderX, borderY) & Size(imageWidth, imageHeight * 2),
+      Paint()
+        ..color = currentBackgroundColor
+        ..style = PaintingStyle.fill);
 
-    int maxPetalCount = currentMaxPetals;
+  int maxPetalCount = currentMaxPetals;
 
-    // start the colour order
-    int colourOrder = 0;
-    Color nextColor;
+  // start the colour order
+  int colourOrder = 0;
+  Color nextColor;
 
-    // clear the canvas
-    //ctx.clearRect(0, 0, canvas.width, canvas.height);
-    //canvas.clearRect(0, 0, canvas.width, canvas.height);
+  // clear the canvas
+  //ctx.clearRect(0, 0, canvas.width, canvas.height);
+  //canvas.clearRect(0, 0, canvas.width, canvas.height);
 
-    List P0 = [flowerCentreX + borderX, flowerCentreY + borderY];
+  List P0 = [flowerCentreX + borderX, flowerCentreY + borderY];
 
-    double maxRadius = (imageWidth < imageHeight)
-        ? currentFlowerFill * imageWidth / 2
-        : currentFlowerFill * imageWidth / 2;
-    double minRadius = 2;
-    double angle = 0;
+  double maxRadius = (imageWidth < imageHeight)
+      ? currentFlowerFill * imageWidth / 2
+      : currentFlowerFill * imageWidth / 2;
+  double minRadius = 2;
+  double angle = 0;
 
-    // if direction = inward
-    if (currentDirection == 'inward') {
-      double radius = maxRadius;
-      do {
-        // Choose the next colour
-        colourOrder++;
-        nextColor = currentPalette[colourOrder % currentNumberOfColors];
-        if (currentRandomColors) {
-          nextColor = currentPalette[rnd.nextInt(currentNumberOfColors)];
-        }
-        Color petalColor = nextColor.withOpacity(currentOpacity);
+  // if direction = inward
+  if (currentDirection == 'inward') {
+    double radius = maxRadius;
+    do {
+      // Choose the next colour
+      colourOrder++;
+      nextColor = currentPalette[colourOrder % currentNumberOfColors];
+      if (currentRandomColors) {
+        nextColor = currentPalette[rnd.nextInt(currentNumberOfColors)];
+      }
+      Color petalColor = nextColor.withOpacity(currentOpacity);
 
-        drawPetal(
-          canvas,
-          P0,
-          angle,
-          radius,
-          petalColor,
-          currentAngleIncrement,
-          currentFlowerFill,
-          currentPetalToRadius,
-          currentRatio,
-          currentrandomizeAngle,
-          currentPetalPointiness,
-          currentPetalRotation,
-          currentPetalRotationRatio,
-          currentPetalType,
-          currentMaxPetals,
-          currentRadialOscAmplitude,
-          currentRadialOscPeriod,
-          currentDirection,
-          currentBackgroundColor,
-          currentLineColor,
-          currentLineWidth,
-          currentRandomColors,
-          currentNumberOfColors,
-          currentPaletteType,
-          currentOpacity,
-          currentPalette,
-        );
+      drawPetal(
+        canvas,
+        P0,
+        angle,
+        radius,
+        petalColor,
+        currentAngleIncrement,
+        currentFlowerFill,
+        currentPetalToRadius,
+        currentRatio,
+        currentrandomizeAngle,
+        currentPetalPointiness,
+        currentPetalRotation,
+        currentPetalRotationRatio,
+        currentPetalType,
+        currentMaxPetals,
+        currentRadialOscAmplitude,
+        currentRadialOscPeriod,
+        currentDirection,
+        currentBackgroundColor,
+        currentLineColor,
+        currentLineWidth,
+        currentRandomColors,
+        currentNumberOfColors,
+        currentPaletteType,
+        currentOpacity,
+        currentPalette,
+      );
 
-        angle = angle + currentAngleIncrement;
-        if (angle > 2 * pi) {
-          angle = angle - 2 * pi;
-        }
+      angle = angle + currentAngleIncrement;
+      if (angle > 2 * pi) {
+        angle = angle - 2 * pi;
+      }
 
-        radius = radius * currentRatio;
+      radius = radius * currentRatio;
 
-        maxPetalCount = maxPetalCount - 1;
-      } while (radius > minRadius && radius < maxRadius && maxPetalCount > 0);
-    } else {
-      double radius = minRadius;
-      do {
-        // Choose the next colour
-        colourOrder++;
-        nextColor = currentPalette[colourOrder % currentNumberOfColors];
-        if (currentRandomColors) {
-          nextColor = currentPalette[rnd.nextInt(currentNumberOfColors)];
-        }
-        Color petalColor = nextColor.withOpacity(currentOpacity);
+      maxPetalCount = maxPetalCount - 1;
+    } while (radius > minRadius && radius < maxRadius && maxPetalCount > 0);
+  } else {
+    double radius = minRadius;
+    do {
+      // Choose the next colour
+      colourOrder++;
+      nextColor = currentPalette[colourOrder % currentNumberOfColors];
+      if (currentRandomColors) {
+        nextColor = currentPalette[rnd.nextInt(currentNumberOfColors)];
+      }
+      Color petalColor = nextColor.withOpacity(currentOpacity);
 
-        drawPetal(
-          canvas,
-          P0,
-          angle,
-          radius,
-          petalColor,
-          currentAngleIncrement,
-          currentFlowerFill,
-          currentPetalToRadius,
-          currentRatio,
-          currentrandomizeAngle,
-          currentPetalPointiness,
-          currentPetalRotation,
-          currentPetalRotationRatio,
-          currentPetalType,
-          currentMaxPetals,
-          currentRadialOscAmplitude,
-          currentRadialOscPeriod,
-          currentDirection,
-          currentBackgroundColor,
-          currentLineColor,
-          currentLineWidth,
-          currentRandomColors,
-          currentNumberOfColors,
-          currentPaletteType,
-          currentOpacity,
-          currentPalette,
-        );
+      drawPetal(
+        canvas,
+        P0,
+        angle,
+        radius,
+        petalColor,
+        currentAngleIncrement,
+        currentFlowerFill,
+        currentPetalToRadius,
+        currentRatio,
+        currentrandomizeAngle,
+        currentPetalPointiness,
+        currentPetalRotation,
+        currentPetalRotationRatio,
+        currentPetalType,
+        currentMaxPetals,
+        currentRadialOscAmplitude,
+        currentRadialOscPeriod,
+        currentDirection,
+        currentBackgroundColor,
+        currentLineColor,
+        currentLineWidth,
+        currentRandomColors,
+        currentNumberOfColors,
+        currentPaletteType,
+        currentOpacity,
+        currentPalette,
+      );
 
-        angle = angle + currentAngleIncrement;
-        if (angle > 2 * pi) {
-          angle = angle - 2 * pi;
-        }
+      angle = angle + currentAngleIncrement;
+      if (angle > 2 * pi) {
+        angle = angle - 2 * pi;
+      }
 
-        radius = radius / currentRatio;
+      radius = radius / currentRatio;
 
-        maxPetalCount = maxPetalCount - 1;
-      } while (radius > minRadius && radius < maxRadius && maxPetalCount > 0);
-    }
-
-    // colour in the outer canvas
-    var paint1 = Paint()
-      ..color = Colors.white
-      ..style = PaintingStyle.fill;
-    canvas.drawRect(Offset(0, 0) & Size(borderX, canvasHeight), paint1);
-    canvas.drawRect(
-        Offset(canvasWidth - borderX, 0) & Size(borderX, canvasHeight), paint1);
-
-    canvas.drawRect(Offset(0, 0) & Size(canvasWidth, borderY), paint1);
-    canvas.drawRect(
-        Offset(
-              0,
-              canvasHeight - borderY,
-            ) &
-            Size(canvasWidth, borderY + canvasHeight * 2),
-        paint1);
+      maxPetalCount = maxPetalCount - 1;
+    } while (radius > minRadius && radius < maxRadius && maxPetalCount > 0);
   }
 
-  drawPetal(
+  // colour in the outer canvas
+  var paint1 = Paint()
+    ..color = Colors.white
+    ..style = PaintingStyle.fill;
+  canvas.drawRect(Offset(0, 0) & Size(borderX, canvasHeight), paint1);
+  canvas.drawRect(
+      Offset(canvasWidth - borderX, 0) & Size(borderX, canvasHeight), paint1);
+
+  canvas.drawRect(Offset(0, 0) & Size(canvasWidth, borderY), paint1);
+  canvas.drawRect(
+      Offset(
+        0,
+        canvasHeight - borderY,
+      ) &
+      Size(canvasWidth, borderY + canvasHeight * 2),
+      paint1);
+}
+
+drawPetal(
     Canvas canvas,
     List P0,
     double angle,
@@ -597,299 +523,299 @@ class OpArtFibonacciPainter extends CustomPainter {
     String currentPaletteType,
     double currentOpacity,
     List currentPalette,
-  ) {
-    angle = angle + (rnd.nextDouble() - 0.5) * currentrandomizeAngle;
+    ) {
+  angle = angle + (rnd.nextDouble() - 0.5) * currentrandomizeAngle;
 
-    radius = radius +
-        radius *
-            (sin(currentRadialOscPeriod * angle) + 1) *
-            currentRadialOscAmplitude;
+  radius = radius +
+      radius *
+          (sin(currentRadialOscPeriod * angle) + 1) *
+          currentRadialOscAmplitude;
 
-    switch (currentPetalType) {
-      case 'circle': //"circle": not quite a circle
+  switch (currentPetalType) {
+    case 'circle': //"circle": not quite a circle
 
-        List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
-        var petalRadius = radius * currentPetalToRadius;
+      List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
+      var petalRadius = radius * currentPetalToRadius;
 
+      canvas.drawCircle(
+          Offset(P1[0], P1[1]),
+          petalRadius,
+          Paint()
+            ..style = PaintingStyle.fill
+            ..color = colour);
+      if (currentLineWidth > 0) {
         canvas.drawCircle(
             Offset(P1[0], P1[1]),
             petalRadius,
             Paint()
-              ..style = PaintingStyle.fill
-              ..color = colour);
-        if (currentLineWidth > 0) {
-          canvas.drawCircle(
-              Offset(P1[0], P1[1]),
-              petalRadius,
-              Paint()
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = currentLineWidth
-                ..color = currentLineColor);
-        }
-        break;
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = currentLineWidth
+              ..color = currentLineColor);
+      }
+      break;
 
-      case 'triangle': //"triangle":
+    case 'triangle': //"triangle":
 
-        List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
-        double petalRadius = radius * currentPetalToRadius;
+      List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
+      double petalRadius = radius * currentPetalToRadius;
 
-        List PA = [
-          P1[0] +
-              petalRadius *
-                  cos(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio),
-          P1[1] +
-              petalRadius *
-                  sin(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio)
-        ];
-        List PB = [
-          P1[0] +
-              petalRadius *
-                  cos(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * currentPetalPointiness),
-          P1[1] +
-              petalRadius *
-                  sin(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * currentPetalPointiness)
-        ];
-        List PC = [
-          P1[0] +
-              petalRadius *
-                  cos(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio -
-                      pi * currentPetalPointiness),
-          P1[1] +
-              petalRadius *
-                  sin(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio -
-                      pi * currentPetalPointiness)
-        ];
+      List PA = [
+        P1[0] +
+            petalRadius *
+                cos(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio),
+        P1[1] +
+            petalRadius *
+                sin(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio)
+      ];
+      List PB = [
+        P1[0] +
+            petalRadius *
+                cos(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio +
+                    pi * currentPetalPointiness),
+        P1[1] +
+            petalRadius *
+                sin(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio +
+                    pi * currentPetalPointiness)
+      ];
+      List PC = [
+        P1[0] +
+            petalRadius *
+                cos(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio -
+                    pi * currentPetalPointiness),
+        P1[1] +
+            petalRadius *
+                sin(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio -
+                    pi * currentPetalPointiness)
+      ];
 
-        Path triangle = Path();
-        triangle.moveTo(PA[0], PA[1]);
-        triangle.lineTo(PB[0], PB[1]);
-        triangle.lineTo(PC[0], PC[1]);
-        triangle.close();
+      Path triangle = Path();
+      triangle.moveTo(PA[0], PA[1]);
+      triangle.lineTo(PB[0], PB[1]);
+      triangle.lineTo(PC[0], PC[1]);
+      triangle.close();
 
+      canvas.drawPath(
+          triangle,
+          Paint()
+            ..style = PaintingStyle.fill
+            ..color = colour);
+      if (currentLineWidth > 0) {
         canvas.drawPath(
             triangle,
-            Paint()
-              ..style = PaintingStyle.fill
-              ..color = colour);
-        if (currentLineWidth > 0) {
-          canvas.drawPath(
-              triangle,
-              Paint()
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = currentLineWidth
-                ..color = currentLineColor);
-        }
-        break;
-
-      case 'square': // "square":
-
-        List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
-        double petalRadius = radius * currentPetalToRadius;
-
-        List PA = [
-          P1[0] +
-              petalRadius *
-                  cos(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 0.0 +
-                      currentPetalPointiness +
-                      pi / 4),
-          P1[1] +
-              petalRadius *
-                  sin(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 0.0 +
-                      currentPetalPointiness +
-                      pi / 4)
-        ];
-
-        List PB = [
-          P1[0] +
-              petalRadius *
-                  cos(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 0.5 -
-                      currentPetalPointiness -
-                      pi / 4),
-          P1[1] +
-              petalRadius *
-                  sin(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 0.5 -
-                      currentPetalPointiness -
-                      pi / 4)
-        ];
-
-        List PC = [
-          P1[0] +
-              petalRadius *
-                  cos(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 1.0 +
-                      currentPetalPointiness +
-                      pi / 4),
-          P1[1] +
-              petalRadius *
-                  sin(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 1.0 +
-                      currentPetalPointiness +
-                      pi / 4)
-        ];
-
-        List PD = [
-          P1[0] +
-              petalRadius *
-                  cos(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 1.5 -
-                      currentPetalPointiness -
-                      pi / 4),
-          P1[1] +
-              petalRadius *
-                  sin(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 1.5 -
-                      currentPetalPointiness -
-                      pi / 4)
-        ];
-
-        Path square = Path();
-        square.moveTo(PA[0], PA[1]);
-        square.lineTo(PB[0], PB[1]);
-        square.lineTo(PC[0], PC[1]);
-        square.lineTo(PD[0], PD[1]);
-        square.close();
-
-        canvas.drawPath(
-            square,
-            Paint()
-              ..style = PaintingStyle.fill
-              ..color = colour);
-        if (currentLineWidth > 0) {
-          canvas.drawPath(
-              square,
-              Paint()
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = currentLineWidth
-                ..color = currentLineColor);
-        }
-        break;
-
-      case 'petal': //"petal":
-
-        List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
-        var petalRadius = radius * currentPetalToRadius;
-
-        List PA = [
-          P1[0] +
-              petalRadius *
-                  cos(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 0.0),
-          P1[1] +
-              petalRadius *
-                  sin(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 0.0)
-        ];
-
-        List PB = [
-          P1[0] +
-              petalRadius *
-                  currentPetalPointiness *
-                  cos(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 0.5),
-          P1[1] +
-              petalRadius *
-                  currentPetalPointiness *
-                  sin(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 0.5)
-        ];
-
-        List PC = [
-          P1[0] +
-              petalRadius *
-                  cos(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 1.0),
-          P1[1] +
-              petalRadius *
-                  sin(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 1.0)
-        ];
-
-        List PD = [
-          P1[0] +
-              petalRadius *
-                  currentPetalPointiness *
-                  cos(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 1.5),
-          P1[1] +
-              petalRadius *
-                  currentPetalPointiness *
-                  sin(angle +
-                      currentPetalRotation +
-                      angle * currentPetalRotationRatio +
-                      pi * 1.5)
-        ];
-
-        Path petal = Path();
-
-        petal.moveTo(PA[0], PA[1]);
-        petal.quadraticBezierTo(PB[0], PB[1], PC[0], PC[1]);
-        petal.quadraticBezierTo(PD[0], PD[1], PA[0], PA[1]);
-        petal.close();
-
-        canvas.drawPath(
-            petal,
             Paint()
               ..style = PaintingStyle.stroke
               ..strokeWidth = currentLineWidth
               ..color = currentLineColor);
+      }
+      break;
+
+    case 'square': // "square":
+
+      List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
+      double petalRadius = radius * currentPetalToRadius;
+
+      List PA = [
+        P1[0] +
+            petalRadius *
+                cos(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio +
+                    pi * 0.0 +
+                    currentPetalPointiness +
+                    pi / 4),
+        P1[1] +
+            petalRadius *
+                sin(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio +
+                    pi * 0.0 +
+                    currentPetalPointiness +
+                    pi / 4)
+      ];
+
+      List PB = [
+        P1[0] +
+            petalRadius *
+                cos(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio +
+                    pi * 0.5 -
+                    currentPetalPointiness -
+                    pi / 4),
+        P1[1] +
+            petalRadius *
+                sin(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio +
+                    pi * 0.5 -
+                    currentPetalPointiness -
+                    pi / 4)
+      ];
+
+      List PC = [
+        P1[0] +
+            petalRadius *
+                cos(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio +
+                    pi * 1.0 +
+                    currentPetalPointiness +
+                    pi / 4),
+        P1[1] +
+            petalRadius *
+                sin(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio +
+                    pi * 1.0 +
+                    currentPetalPointiness +
+                    pi / 4)
+      ];
+
+      List PD = [
+        P1[0] +
+            petalRadius *
+                cos(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio +
+                    pi * 1.5 -
+                    currentPetalPointiness -
+                    pi / 4),
+        P1[1] +
+            petalRadius *
+                sin(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio +
+                    pi * 1.5 -
+                    currentPetalPointiness -
+                    pi / 4)
+      ];
+
+      Path square = Path();
+      square.moveTo(PA[0], PA[1]);
+      square.lineTo(PB[0], PB[1]);
+      square.lineTo(PC[0], PC[1]);
+      square.lineTo(PD[0], PD[1]);
+      square.close();
+
+      canvas.drawPath(
+          square,
+          Paint()
+            ..style = PaintingStyle.fill
+            ..color = colour);
+      if (currentLineWidth > 0) {
         canvas.drawPath(
-            petal,
+            square,
             Paint()
-              ..style = PaintingStyle.fill
-              ..color = colour);
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = currentLineWidth
+              ..color = currentLineColor);
+      }
+      break;
 
-        break;
-    }
+    case 'petal': //"petal":
+
+      List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
+      var petalRadius = radius * currentPetalToRadius;
+
+      List PA = [
+        P1[0] +
+            petalRadius *
+                cos(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio +
+                    pi * 0.0),
+        P1[1] +
+            petalRadius *
+                sin(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio +
+                    pi * 0.0)
+      ];
+
+      List PB = [
+        P1[0] +
+            petalRadius *
+                currentPetalPointiness *
+                cos(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio +
+                    pi * 0.5),
+        P1[1] +
+            petalRadius *
+                currentPetalPointiness *
+                sin(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio +
+                    pi * 0.5)
+      ];
+
+      List PC = [
+        P1[0] +
+            petalRadius *
+                cos(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio +
+                    pi * 1.0),
+        P1[1] +
+            petalRadius *
+                sin(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio +
+                    pi * 1.0)
+      ];
+
+      List PD = [
+        P1[0] +
+            petalRadius *
+                currentPetalPointiness *
+                cos(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio +
+                    pi * 1.5),
+        P1[1] +
+            petalRadius *
+                currentPetalPointiness *
+                sin(angle +
+                    currentPetalRotation +
+                    angle * currentPetalRotationRatio +
+                    pi * 1.5)
+      ];
+
+      Path petal = Path();
+
+      petal.moveTo(PA[0], PA[1]);
+      petal.quadraticBezierTo(PB[0], PB[1], PC[0], PC[1]);
+      petal.quadraticBezierTo(PD[0], PD[1], PA[0], PA[1]);
+      petal.close();
+
+      canvas.drawPath(
+          petal,
+          Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = currentLineWidth
+            ..color = currentLineColor);
+      canvas.drawPath(
+          petal,
+          Paint()
+            ..style = PaintingStyle.fill
+            ..color = colour);
+
+      break;
   }
-
-  @override
-  bool shouldRepaint(OpArtFibonacciPainter oldDelegate) => false;
 }
+
+
+
+
