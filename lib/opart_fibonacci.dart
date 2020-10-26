@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:opart_v2/palettes.dart';
+import 'package:opart_v2/palette.dart';
 import 'dart:math';
 import 'dart:io';
 import 'settings_model.dart';

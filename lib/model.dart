@@ -5,7 +5,7 @@ import 'opart_fibonacci.dart';
 import 'opart_wave.dart';
 import 'opart_wallpaper.dart';
 import 'opart_tree.dart';
-import 'package:opart_v2/palettes.dart';
+import 'package:opart_v2/palette.dart';
 import 'settings_model.dart';
 
 import 'package:screenshot/screenshot.dart';
