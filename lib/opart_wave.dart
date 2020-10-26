@@ -377,11 +377,13 @@ class OpArtWavePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     rnd = Random(seed);
-    print('seed: $seed');
 
     print('----------------------------------------------------------------');
     print('Wave');
     print('----------------------------------------------------------------');
+
+    print('seed: $seed');
+    print('animationVariable: $animationVariable');
 
     // Initialise the palette
     if (currentWave == null) {
@@ -483,7 +485,7 @@ class OpArtWavePainter extends CustomPainter {
       currentWave.paletteType.value,
       currentWave.opacity.value,
       currentWave.palette,
-      animationVariable,
+      animationVariable * 100,
     );
   }
 
@@ -540,10 +542,10 @@ class OpArtWavePainter extends CustomPainter {
         double delta = 0.0;
 
         if (currentZigZag == false){
-          delta = currentAmplitude * sin(pi * 2 * (j / imageHeight * currentFrequency + (currentOffset*animationVariable+animationVariable) * (i+imageWidth/2) / imageWidth)) + currentFanWidth * ((i -(imageWidth/2))/ imageWidth) * (j / imageHeight);
+          delta = currentAmplitude * sin(pi * 2 * (j / imageHeight * currentFrequency + currentOffset * (animationVariable / 0.5) * (2*i-imageWidth) / imageWidth)) + currentFanWidth * ((i -(imageWidth/2))/ imageWidth) * (j / imageHeight);
         }
         else {
-          delta = currentAmplitude * asin(sin(pi * 2 * (j / imageHeight * currentFrequency + (currentOffset*animationVariable+animationVariable) * (i+imageWidth/2) / imageWidth))) + currentFanWidth * ((i -(imageWidth/2))/ imageWidth) * (j / imageHeight);
+          delta = currentAmplitude * asin(sin(pi * 2 * (j / imageHeight * currentFrequency + currentOffset * (animationVariable / 0.5) * (2*i-imageWidth) / imageWidth))) + currentFanWidth * ((i -(imageWidth/2))/ imageWidth) * (j / imageHeight);
         }
 
         if (j == 0) {
@@ -557,11 +559,11 @@ class OpArtWavePainter extends CustomPainter {
         double delta = 0.0;
 
         if (currentZigZag == false){
-          delta = currentAmplitude * sin(pi * 2 * (k / imageHeight * currentFrequency + (currentOffset*animationVariable+animationVariable) * ((i+imageWidth/2) + currentStepX) / imageWidth)) + currentFanWidth * (((i + currentStepX) -(imageWidth/2))/ imageWidth) * (k / imageHeight);
+          delta = currentAmplitude * sin(pi * 2 * (k / imageHeight * currentFrequency + currentOffset * (animationVariable / 0.5) * (2*(i + currentStepX)-imageWidth) / imageWidth)) + currentFanWidth * (((i + currentStepX) -(imageWidth/2))/ imageWidth) * (k / imageHeight);
         }
         else
         {
-          delta = currentAmplitude * asin(sin(pi * 2 * (k / imageHeight * currentFrequency + (currentOffset*animationVariable+animationVariable) * ((i+imageWidth/2) + currentStepX) / imageWidth))) + currentFanWidth * (((i + currentStepX) -(imageWidth/2))/ imageWidth) * (k / imageHeight);
+          delta = currentAmplitude * asin(sin(pi * 2 * (k / imageHeight * currentFrequency + currentOffset * (animationVariable / 0.5) * (2*(i + currentStepX)-imageWidth) / imageWidth))) + currentFanWidth * (((i + currentStepX) -(imageWidth/2))/ imageWidth) * (k / imageHeight);
         }
 
         wave.lineTo(borderX + i + currentStepX + delta, borderY + k);
