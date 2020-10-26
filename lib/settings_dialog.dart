@@ -7,9 +7,20 @@ import 'setting_dropdown.dart';
 import 'setting_intslider.dart';
 import 'setting_radiobutton.dart';
 import 'setting_slider.dart';
+import 'opart_fibonacci.dart';
+import 'opart_wave.dart';
+import 'opart_wallpaper.dart';
+import 'opart_tree.dart';
 
+void settingsDialog(context, int index, int opArtNumber ) {
+  List settingsList;
+  switch(opArtNumber){
+    case 0: settingsList = fibonacciSettingsList; break;
+    case 1: settingsList = treeSettingsList; break;
+    case 2: settingsList = waveSettingsList; break;
+    case 3: settingsList = wallpaperSettingsList;
+  }
 
-void settingsDialog(context, int index, settingsList, Function cache, ) {
   showDialog(
     //  backgroundColor: Colors.white.withOpacity(0.8),
       barrierColor: Colors.white.withOpacity(0.1),
@@ -160,7 +171,7 @@ void settingsDialog(context, int index, settingsList, Function cache, ) {
               );
             });
       }).then((value) {
-    cache();
+   currentOpArt[opArtNumber].addToCache();
     print('should rebuild cache');
     rebuildCache.value++;
 

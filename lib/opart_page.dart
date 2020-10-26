@@ -1,12 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-
-import 'opart_fibonacci.dart';
-import 'opart_tree.dart';
-import 'opart_wallpaper.dart';
-import 'opart_wave.dart';
-import 'bottom_app_bar_custom.dart';
+import 'bottom_app_bar.dart';
 import 'model.dart';
 import 'toolbox.dart';
 import 'package:shake/shake.dart';
@@ -134,18 +128,7 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
               })
         ],
       ),
-      bottomNavigationBar: customBottomAppBar(randomize: () {
-        currentOpArt[opArtNumber].randomize();
-        currentOpArt[opArtNumber].randomizePalette();
-        rebuildCanvas.value++;
-        currentOpArt[opArtNumber].addToCache();
-      }, randomizePalette: () {
-        currentOpArt[opArtNumber].randomizePalette();
-        rebuildCanvas.value++;
-        currentOpArt[opArtNumber].addToCache();
-      }, showToolBox: () {
-        ToolBox(context, opArtNumber, currentOpArt[opArtNumber].addToCache);
-      }),
+      bottomNavigationBar: customBottomAppBar(context: context, opArtNumber: opArtNumber),
       body: Column(
         children: [
           Container(

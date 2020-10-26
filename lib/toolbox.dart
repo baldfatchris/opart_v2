@@ -6,7 +6,7 @@ import 'opart_tree.dart';
 import 'opart_wallpaper.dart';
 import 'opart_wave.dart';
 
-void ToolBox(BuildContext context, int opArtNumber, Function cache) {
+void ToolBox(BuildContext context, int opArtNumber,) {
   print(MediaQuery.of(context).size.width);
   List settingsList;
   switch(opArtNumber){
@@ -15,6 +15,7 @@ void ToolBox(BuildContext context, int opArtNumber, Function cache) {
     case 2: settingsList = waveSettingsList; break;
     case 3: settingsList = wallpaperSettingsList;
   }
+
 
   showModalBottomSheet(
       context: context,
@@ -44,7 +45,7 @@ void ToolBox(BuildContext context, int opArtNumber, Function cache) {
                           child: GestureDetector(
                             onTap: () {
                               Navigator.pop(context);
-                              settingsDialog(context, index, settingsList, cache);
+                              settingsDialog(context, index, opArtNumber);
                             },
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -75,7 +76,7 @@ void ToolBox(BuildContext context, int opArtNumber, Function cache) {
                     :GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
-                        settingsDialog(context, index, settingsList, cache);
+                        settingsDialog(context, index, opArtNumber);
                       },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
