@@ -309,15 +309,18 @@ List<SettingsModel> initializeFibonacciAttributes() {
 // }
 
 
-void paintFibonacci(Canvas canvas, Size size, Random rnd, double angle, List<SettingsModel> attributes, OpArtPalette palette) {
+void paintFibonacci(Canvas canvas, Size size, Random rnd, double animationVariable, List<SettingsModel> attributes, OpArtPalette palette) {
 
   print('---------------------------------------------------------------');
+
+  rnd = Random(seed);
+
   print('seed: $seed (${DateTime.now()})');
   print('numberOfColors: ${attributes.firstWhere((element) => element.name == 'numberOfColors').value}');
   print('colorCount: ${palette.colorList.length}');
 
 
-  // print('angle: ${angle}');
+  // print('animationVariable: ${animationVariable}');
   // print(attributes.firstWhere((element) => element.name == 'angleIncrement').value);
   //  print(attributes.firstWhere((element) => element.name == 'flowerFill').value);
   //  print(attributes.firstWhere((element) => element.name == 'petalSize').value);
@@ -343,7 +346,8 @@ void paintFibonacci(Canvas canvas, Size size, Random rnd, double angle, List<Set
 
 
   generateFlower(canvas, rnd, size.width, size.height, size.width, size.height, 0,0,size.width/2, size.height/2,
-      attributes.firstWhere((element) => element.name == 'angleIncrement').value+angle,
+
+      animationVariable * 2 * pi + attributes.firstWhere((element) => element.name == 'angleIncrement').value,
       attributes.firstWhere((element) => element.name == 'flowerFill').value,
       attributes.firstWhere((element) => element.name == 'petalSize').value,
       attributes.firstWhere((element) => element.name == 'ratio').value,
@@ -363,8 +367,10 @@ void paintFibonacci(Canvas canvas, Size size, Random rnd, double angle, List<Set
       attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt(),
       attributes.firstWhere((element) => element.name == 'paletteType').value,
       attributes.firstWhere((element) => element.name == 'opacity').value,
-      palette.colorList
+      palette.colorList,
   );
+
+
 }
 generateFlower(
     Canvas canvas,

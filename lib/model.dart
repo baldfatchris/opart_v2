@@ -34,31 +34,54 @@ class OpArt {
   OpArtPalette palette;
   String name;
 
-
+  // Initialise
   OpArt({this.opArtType}) {
+
     switch (opArtType) {
       case OpArtType.Fibonacci:
         this.attributes = initializeFibonacciAttributes();
         this.palette = OpArtPalette(rnd);
         this.name = 'Fibonacci';
+
+        break;
+
+      case OpArtType.Trees:
+
+        break;
+
+      case OpArtType.Wallpaper:
+
+        break;
+
+      case OpArtType.Waves:
+
+        break;
     }
+
     this.setDefault();
   }
 
   void saveToCache() {
     print('saving to cache');
-    screenshotController
-        .capture(
-        delay: Duration(milliseconds: 0), pixelRatio: 0.2)
-        .then((File image) async {
+    screenshotController.capture(
+        delay: Duration(milliseconds: 0),
+        pixelRatio: 0.2
+    ).then((File image) async {
+
       Map<String, dynamic> map = Map();
       for (int i = 0; i < attributes.length; i++) {
         map.addAll({attributes[i].label: attributes[i].value});
       }
       map.addAll({'image': image, 'palette': palette});
+
+      print('Cache map: $map');
+      print('palette: ${map['palette']}');
+
+
       this.cache.add(map);
       rebuildCache.value++;
-    });
+    }
+    );
 
   }
 
@@ -76,10 +99,10 @@ class OpArt {
     return cache.length;
   }
 
-  void paint(Canvas canvas, Size size, int seed, Random rnd, double angle) {
+  void paint(Canvas canvas, Size size, int seed, Random rnd, double animationVariable) {
     switch(opArtType){
       case OpArtType.Fibonacci:
-        paintFibonacci( canvas,  size,  rnd,  angle, this.attributes, palette);
+        paintFibonacci( canvas,  size,  rnd,  animationVariable, this.attributes, palette);
     }
   }
 

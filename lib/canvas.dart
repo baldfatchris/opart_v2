@@ -10,32 +10,32 @@ class CanvasWidget extends StatefulWidget {
 }
 
 class _CanvasWidgetState extends State<CanvasWidget> with SingleTickerProviderStateMixin {
-  AnimationController controller;
+  AnimationController animationController;
   Animation<double> animation;
 
   @override
   void initState() {
-    controller = AnimationController(
+    animationController = AnimationController(
       vsync: this,
       duration: Duration(seconds: 72000),
     );
-    CurvedAnimation(parent: controller, curve: Curves.linear);
+    CurvedAnimation(parent: animationController, curve: Curves.linear);
 
-    Tween<double> _angleTween = Tween(begin: 0, end: 2 * pi);
+    Tween<double> animationTween = Tween(begin: 0, end: 1);
 
-    animation = _angleTween.animate(controller)
+    animation = animationTween.animate(animationController)
       ..addListener(() {
         setState(() {});
       })
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          controller.repeat();
+          animationController.repeat();
         } else if (status == AnimationStatus.dismissed) {
-          controller.forward();
+          animationController.forward();
         }
       });
 
-    controller.forward();
+    animationController.forward();
     super.initState();
   }
 
@@ -65,26 +65,26 @@ class _CanvasWidgetState extends State<CanvasWidget> with SingleTickerProviderSt
 
   @override
   void dispose() {
-    controller.dispose();
+    animationController.dispose();
     super.dispose();
   }
 }
 class OpArtPainter extends CustomPainter {
   int seed;
   Random rnd;
-  double angle;
+  double animationVariable;
   // double fill;
 
   OpArtPainter(
       this.seed,
       this.rnd,
-      this.angle,
+      this.animationVariable,
       // this.fill
       );
 
   @override
   void paint(Canvas canvas, Size size) {
-    opArt.paint(canvas, size, seed, rnd, angle);
+    opArt.paint(canvas, size, seed, rnd, animationVariable);
   }
   @override
   bool shouldRepaint(OpArtPainter oldDelegate) => false;
