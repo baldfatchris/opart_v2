@@ -30,6 +30,7 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
   Animation<double> animation1;
   @override
   void initState() {
+    opArt = OpArt(opArtType: OpArtType.Fibonacci);
     showFullPage = false;
     super.initState();
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
@@ -69,7 +70,7 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    opArt = OpArt(opArtType: OpArtType.Fibonacci);
+
 
 
     Size size = MediaQuery.of(context).size;

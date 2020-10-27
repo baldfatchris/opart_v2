@@ -16,8 +16,8 @@ List<SettingsModel> initializeFibonacciAttributes() {
       label: 'Angle Increment',
       name: 'angleIncrement',
       tooltip: 'The angle in radians between successive petals of the flower',
-      min: 0,
-      max: 2 * pi,
+      min: 0.0,
+      max: 2.0 * pi,
       zoom: 2000,
       defaultValue: (sqrt(5) + 1) / 2,
       icon: Icon(Icons.track_changes),
@@ -29,7 +29,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       label: 'Zoom',
       tooltip: 'Zoom in and out',
       min: 0.3,
-      max: 2,
+      max: 2.0,
       randomMin: 0.5,
       randomMax: 1.5,
       zoom: 100,
@@ -141,8 +141,8 @@ List<SettingsModel> initializeFibonacciAttributes() {
       tooltip: 'The amplitude of the radial oscillation',
       min: 0.0,
       max: 5.0,
-      randomMin: 0,
-      randomMax: 0,
+      randomMin: 0.0,
+      randomMax: 0.0,
       zoom: 100,
       defaultValue: 0.0,
       icon: Icon(Icons.all_inclusive),
@@ -153,9 +153,9 @@ List<SettingsModel> initializeFibonacciAttributes() {
       label: 'Oscillation Period',
       tooltip: 'The period of the radial oscillation',
       min: 0.0,
-      max: 2,
-      randomMin: 0,
-      randomMax: 0,
+      max: 2.0,
+      randomMin: 0.0,
+      randomMax: 0.0,
       zoom: 100,
       defaultValue: 0.0,
       icon: Icon(Icons.bubble_chart),
@@ -191,8 +191,8 @@ List<SettingsModel> initializeFibonacciAttributes() {
       name: 'lineWidth',
       label: 'Outline Width',
       tooltip: 'The width of the petal outline',
-      min: 0,
-      max: 3,
+      min: 0.0,
+      max: 3.0,
       zoom: 100,
       defaultValue: 0.0,
       icon: Icon(Icons.line_weight),
@@ -248,7 +248,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       name: 'opacity',
       tooltip: 'The opactity of the petal',
       min: 0.2,
-      max: 1,
+      max: 1.0,
       zoom: 100,
       defaultValue: 1.0,
       icon: Icon(Icons.remove_red_eye),
@@ -290,8 +290,8 @@ List<SettingsModel> initializeFibonacciAttributes() {
 void paintFibonacci(Canvas canvas, Size size, Random rnd, double angle, List<SettingsModel> attributes, OpArtPalette palette) {
 // print('angle: ${angle}');
   // print(attributes.firstWhere((element) => element.name == 'angleIncrement').value);
-  // print(attributes.firstWhere((element) => element.name == 'flowerFill').value);
-  // print(attributes.firstWhere((element) => element.name == 'petalSize').value);
+   print(attributes.firstWhere((element) => element.name == 'flowerFill').value);
+   print(attributes.firstWhere((element) => element.name == 'petalSize').value);
   // print(attributes.firstWhere((element) => element.name == 'ratio').value);
   // print('randomizeAngle: ${attributes.firstWhere((element) => element.name == 'randomizeAngle').value}');
   // print(attributes.firstWhere((element) => element.name == 'petalPointiness').value);

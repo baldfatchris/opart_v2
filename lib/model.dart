@@ -39,7 +39,7 @@ class OpArt {
   void paint(Canvas canvas, Size size, int seed, Random rnd, double angle) {
     switch(opArtType){
       case OpArtType.Fibonacci:
-        paintFibonacci( canvas,  size,  rnd,  angle, attributes, palette);
+        paintFibonacci( canvas,  size,  rnd,  angle, this.attributes, palette);
     }
 
   }
@@ -78,6 +78,7 @@ class OpArt {
 
   void randomize() {
     for (int i = 0; i < attributes.length; i++) {
+      print(attributes[i].name);
       attributes[i].randomize(rnd);
     }
   }
