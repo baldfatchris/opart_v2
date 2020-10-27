@@ -31,7 +31,7 @@ class SettingsModel {
   double zoom;
   var defaultValue;
 
-  bool locked;
+  bool locked = false;
   var value;
 
   SettingsModel(
@@ -109,5 +109,6 @@ print(this.value);
 
   void setDefault() {
     this.value = this.defaultValue;
+    this.locked = false;
   }
 }

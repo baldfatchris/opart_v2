@@ -290,8 +290,8 @@ List<SettingsModel> initializeFibonacciAttributes() {
 void paintFibonacci(Canvas canvas, Size size, Random rnd, double angle, List<SettingsModel> attributes, OpArtPalette palette) {
 // print('angle: ${angle}');
   // print(attributes.firstWhere((element) => element.name == 'angleIncrement').value);
-   print(attributes.firstWhere((element) => element.name == 'flowerFill').value);
-   print(attributes.firstWhere((element) => element.name == 'petalSize').value);
+  //  print(attributes.firstWhere((element) => element.name == 'flowerFill').value);
+  //  print(attributes.firstWhere((element) => element.name == 'petalSize').value);
   // print(attributes.firstWhere((element) => element.name == 'ratio').value);
   // print('randomizeAngle: ${attributes.firstWhere((element) => element.name == 'randomizeAngle').value}');
   // print(attributes.firstWhere((element) => element.name == 'petalPointiness').value);

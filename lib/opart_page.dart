@@ -76,17 +76,6 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        setState(() {
-          print('pressed');
-          print(opArt.palette.colorList);
-
-          opArt.palette.randomizePalette();
-          rebuildCanvas.value++;
-          print(opArt.palette.colorList);
-        });
-
-      },),
 
       appBar: showFullPage
           ? AppBar(
