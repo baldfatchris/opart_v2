@@ -7,8 +7,9 @@ import 'package:shake/shake.dart';
 import 'dart:math';
 import 'package:share/share.dart';
 import 'package:screenshot/screenshot.dart';
+import 'canvas.dart';
 
-Random rnd = Random();
+//Random rnd = Random();
 
 class OpArtPage extends StatefulWidget {
   OpArtType opArtType;
@@ -22,12 +23,7 @@ File imageFile;
 
 OpArt opArt;
 
-class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
-
-
-  AnimationController controller1;
-
-  Animation<double> animation1;
+class _OpArtPageState extends State<OpArtPage> {
   @override
   void initState() {
     opArt = OpArt(opArtType: OpArtType.Fibonacci);
@@ -42,41 +38,14 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
       });
     });
 
-    controller1 = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 72000),
-    );
-    CurvedAnimation(parent: controller1, curve: Curves.linear);
-
-    Tween<double> _angleTween = Tween(begin: 0, end: 2 * pi);
-
-    animation1 = _angleTween.animate(controller1)
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          controller1.repeat();
-        } else if (status == AnimationStatus.dismissed) {
-          controller1.forward();
-        }
-      });
-
-    controller1.forward();
-
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => opArt.saveToCache());
+    WidgetsBinding.instance.addPostFrameCallback((_) => opArt.saveToCache());
   }
 
   @override
   Widget build(BuildContext context) {
-
-
-
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-
       appBar: showFullPage
           ? AppBar(
               backgroundColor: Colors.cyan[200],
@@ -95,14 +64,11 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
                   Icons.home,
                   color: Colors.black,
                 ),
-                onPressed: ()  {
+                onPressed: () {
                   opArt.setDefault();
                   opArt.clearCache();
 
-
                   Navigator.pop(context);
-
-
                 },
               ),
               actions: [
@@ -163,8 +129,7 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
                             : ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 controller: scrollController,
-                                itemCount:
-                                opArt.cacheListLength(),
+                                itemCount: opArt.cacheListLength(),
                                 reverse: false,
                                 itemBuilder: (context, index) {
                                   return Padding(
@@ -179,7 +144,7 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
                                         width: 50,
                                         height: 50,
                                         child: Image.file(
-                                            opArt.image),
+                                            opArt.cache[index]['image']),
                                       ),
                                     ),
                                   );
@@ -189,61 +154,14 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
               : Container(),
           Expanded(
               child: GestureDetector(
-            onTap: () {
-              setState(() {
-                showFullPage = !showFullPage;
-              });
-            },
-            child: ClipRect(
-                child: ValueListenableBuilder<int>(
-                    valueListenable: rebuildCanvas,
-                    builder: (context, value, child) {
-                      return Screenshot(
-                        controller: screenshotController,
-                        child: Visibility(
-                          visible: true,
-                          child: LayoutBuilder(
-                            builder: (_, constraints) => Container(
-                              width: constraints.widthConstraints().maxWidth,
-                              height: constraints.heightConstraints().maxHeight,
-                              child: CustomPaint(
-                                  painter: OpArtPainter(seed, rnd, animation1.value)),
-                            ),
-                          ),
-                        ),
-                      );
-                    })),
-          )),
+                  onTap: () {
+                    setState(() {
+                      showFullPage = !showFullPage;
+                    });
+                  },
+                  child: ClipRect(child: CanvasWidget()))),
         ],
       ),
     );
   }
-
-
-
-  @override
-  void dispose() {
-    controller1.dispose();
-    super.dispose();
-  }
-}
-class OpArtPainter extends CustomPainter {
-  int seed;
-  Random rnd;
-  double angle;
-  // double fill;
-
-  OpArtPainter(
-      this.seed,
-      this.rnd,
-      this.angle,
-      // this.fill
-      );
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    opArt.paint(canvas, size, seed, rnd, angle);
-  }
-  @override
-  bool shouldRepaint(OpArtPainter oldDelegate) => false;
 }
