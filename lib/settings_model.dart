@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:opart_v2/opart_fibonacci.dart';
 
 bool proVersion = false;
 
@@ -14,6 +15,11 @@ enum SettingType {
   randomize,
   list
 }
+enum SettingCategory {
+  palette,
+  tool,
+  other
+}
 
 class SettingsModel {
   SettingType settingType;
@@ -21,6 +27,7 @@ class SettingsModel {
   String label;
   String tooltip;
   Icon icon;
+  SettingCategory settingCategory;
   bool proFeature;
   var options;
 
@@ -40,6 +47,7 @@ class SettingsModel {
       this.label,
       this.tooltip,
       this.icon,
+      this.settingCategory,
       this.proFeature,
       this.min,
       this.max,

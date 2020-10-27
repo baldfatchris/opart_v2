@@ -35,8 +35,8 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
     super.initState();
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
       setState(() {
-        opArt.randomize();
-        opArt.palette.randomizePalette();
+        opArt.randomizeSettings();
+        opArt.randomizePalette();
         rebuildCanvas.value++;
         opArt.saveToCache();
       });

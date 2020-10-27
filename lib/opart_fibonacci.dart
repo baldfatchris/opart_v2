@@ -3,12 +3,13 @@ import 'model.dart';
 import 'palette.dart';
 import 'settings_model.dart';
 import 'dart:math';
+import 'dart:core';
 
 
 List<String> list = List();
 
 List<SettingsModel> initializeFibonacciAttributes() {
-
+  
   return [
 
     SettingsModel(
@@ -21,6 +22,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       zoom: 2000,
       defaultValue: (sqrt(5) + 1) / 2,
       icon: Icon(Icons.track_changes),
+      settingCategory: SettingCategory.tool,
       proFeature: false,
     ),
     SettingsModel(
@@ -35,6 +37,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       zoom: 100,
       defaultValue: 1.8,
       icon: Icon(Icons.zoom_in),
+      settingCategory: SettingCategory.tool,
       proFeature: false,
     ),
     SettingsModel(
@@ -47,6 +50,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       zoom: 100,
       defaultValue: 0.3,
       icon: Icon(Icons.swap_horizontal_circle),
+      settingCategory: SettingCategory.tool,
       proFeature: false,
     ),
     SettingsModel(
@@ -59,6 +63,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       zoom: 100,
       defaultValue: 0.999,
       icon: Icon(Icons.format_color_fill),
+      settingCategory: SettingCategory.tool,
       proFeature: false,
     ),
 
@@ -72,6 +77,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       zoom: 100.0,
       defaultValue: 0.0,
       icon: Icon(Icons.ac_unit),
+      settingCategory: SettingCategory.tool,
       proFeature: false,
     ),
 
@@ -87,6 +93,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       zoom: 200,
       defaultValue: 0.8,
       icon: Icon(Icons.change_history),
+      settingCategory: SettingCategory.tool,
       proFeature: false,
     ),
     SettingsModel(
@@ -99,6 +106,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       zoom: 200,
       defaultValue: 0.0,
       icon: Icon(Icons.rotate_right),
+      settingCategory: SettingCategory.tool,
       proFeature: false,
     ),
     SettingsModel(
@@ -111,6 +119,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       zoom: 100,
       defaultValue: 0.0,
       icon: Icon(Icons.autorenew),
+      settingCategory: SettingCategory.tool,
       proFeature: false,
     ),
     SettingsModel(
@@ -121,6 +130,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       defaultValue: "petal",
       icon: Icon(Icons.local_florist),
       options: <String>['circle', 'triangle', 'square', 'petal'],
+      settingCategory: SettingCategory.tool,
       proFeature: false,
     ),
     SettingsModel(
@@ -130,8 +140,9 @@ List<SettingsModel> initializeFibonacciAttributes() {
       tooltip: 'The maximum number of petals to draw',
       min: 0,
       max: 20000,
-      defaultValue: 10000,
+      defaultValue: 7000,
       icon: Icon(Icons.fiber_smart_record),
+      settingCategory: SettingCategory.tool,
       proFeature: false,
     ),
     SettingsModel(
@@ -146,6 +157,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       zoom: 100,
       defaultValue: 0.0,
       icon: Icon(Icons.all_inclusive),
+      settingCategory: SettingCategory.tool,
       proFeature: true,
     ),
     SettingsModel(name: 'radialOscPeriod',
@@ -159,6 +171,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       zoom: 100,
       defaultValue: 0.0,
       icon: Icon(Icons.bubble_chart),
+      settingCategory: SettingCategory.tool,
       proFeature: true,
     ),
     SettingsModel(
@@ -169,6 +182,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       defaultValue: "inward",
       icon: Icon(Icons.directions),
       options: <String>['inward', 'outward'],
+      settingCategory: SettingCategory.tool,
       proFeature: false,
     ),
     SettingsModel(settingType: SettingType.color,
@@ -177,6 +191,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       tooltip: "The background colour for the canvas",
       defaultValue: Colors.cyan,
       icon: Icon(Icons.settings_overscan),
+      settingCategory: SettingCategory.palette,
       proFeature: false,
     ),
     SettingsModel(settingType: SettingType.color,
@@ -185,6 +200,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       tooltip: "The outline colour for the petals",
       defaultValue: Colors.white,
       icon: Icon(Icons.zoom_out_map),
+      settingCategory: SettingCategory.palette,
       proFeature: false,
     ),
     SettingsModel(settingType: SettingType.double,
@@ -196,6 +212,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       zoom: 100,
       defaultValue: 0.0,
       icon: Icon(Icons.line_weight),
+      settingCategory: SettingCategory.palette,
       proFeature: false,
     ),
     SettingsModel(
@@ -205,6 +222,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       tooltip: 'randomize the colours!',
       defaultValue: false,
       icon: Icon(Icons.gamepad),
+      settingCategory: SettingCategory.palette,
       proFeature: false,
     ),
     SettingsModel(settingType: SettingType.int,
@@ -215,6 +233,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       max: 36,
       defaultValue: 10,
       icon: Icon(Icons.palette),
+      settingCategory: SettingCategory.palette,
       proFeature: false,
     ),
     SettingsModel(
@@ -232,16 +251,17 @@ List<SettingsModel> initializeFibonacciAttributes() {
       ],
       proFeature: false,
     ),
-    // SettingsModel(
-    //   settingType: SettingType.list,
-    //   name: 'paletteList',
-    //   label: "Palette",
-    //   tooltip: "Choose from a list of palettes",
-    //   defaultValue: "Default",
-    //   icon: Icon(Icons.palette),
-    //   options: defaultPalleteNames(),
-    //   proFeature: false,
-    // ),
+    SettingsModel(
+      settingType: SettingType.list,
+      name: 'paletteList',
+      label: "Palette",
+      tooltip: "Choose from a list of palettes",
+      defaultValue: "Default",
+      icon: Icon(Icons.palette),
+      options: defaultPalleteNames(),
+      settingCategory: SettingCategory.palette,
+      proFeature: false,
+    ),
     SettingsModel(
       settingType: SettingType.double,
       label: 'Opactity',
@@ -252,6 +272,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       zoom: 100,
       defaultValue: 1.0,
       icon: Icon(Icons.remove_red_eye),
+      settingCategory: SettingCategory.palette,
       proFeature: false,
     ),
 
@@ -262,6 +283,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
       tooltip: 'Reset all settings to defaults',
       defaultValue: false,
       icon: Icon(Icons.low_priority),
+      settingCategory: SettingCategory.other,
       proFeature: false,
     ),
 
@@ -288,7 +310,14 @@ List<SettingsModel> initializeFibonacciAttributes() {
 
 
 void paintFibonacci(Canvas canvas, Size size, Random rnd, double angle, List<SettingsModel> attributes, OpArtPalette palette) {
-// print('angle: ${angle}');
+
+  print('---------------------------------------------------------------');
+  print('seed: $seed (${DateTime.now()})');
+  print('numberOfColors: ${attributes.firstWhere((element) => element.name == 'numberOfColors').value}');
+  print('colorCount: ${palette.colorList.length}');
+
+
+  // print('angle: ${angle}');
   // print(attributes.firstWhere((element) => element.name == 'angleIncrement').value);
   //  print(attributes.firstWhere((element) => element.name == 'flowerFill').value);
   //  print(attributes.firstWhere((element) => element.name == 'petalSize').value);

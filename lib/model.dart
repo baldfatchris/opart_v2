@@ -11,8 +11,8 @@ import 'settings_model.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:flutter/material.dart';
 
-Random rnd = Random();
 int seed = rnd.nextInt(1 << 32);
+Random rnd = Random();
 
 ScreenshotController screenshotController = ScreenshotController();
 List<Map<String, dynamic>> cachedList = List<Map<String, dynamic>>();
@@ -29,20 +29,12 @@ enum OpArtType { Fibonacci, Trees, Waves, Wallpaper }
 
 class OpArt {
   OpArtType opArtType;
-
   List<SettingsModel> attributes = List<SettingsModel>();
   File image;
   List<Map<String, dynamic>> cache = List();
   Random rnd = Random();
   OpArtPalette palette;
   String name;
-  void paint(Canvas canvas, Size size, int seed, Random rnd, double angle) {
-    switch(opArtType){
-      case OpArtType.Fibonacci:
-        paintFibonacci( canvas,  size,  rnd,  angle, this.attributes, palette);
-    }
-
-  }
 
   OpArt({this.opArtType}) {
     switch (opArtType) {
@@ -55,6 +47,10 @@ class OpArt {
   }
 
   void saveToCache() {
+    print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
+    print('Save to Cache');
+    print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
+
     Map<String, dynamic> map = Map();
     for (int i = 0; i < attributes.length; i++) {
       map.addAll({attributes[i].label: attributes[i].value});
@@ -76,12 +72,41 @@ class OpArt {
     return cache.length;
   }
 
-  void randomize() {
-    for (int i = 0; i < attributes.length; i++) {
-      print(attributes[i].name);
-      attributes[i].randomize(rnd);
+  void paint(Canvas canvas, Size size, int seed, Random rnd, double angle) {
+    switch(opArtType){
+      case OpArtType.Fibonacci:
+        paintFibonacci( canvas,  size,  rnd,  angle, this.attributes, palette);
     }
   }
+
+
+  // randomise the non-palette settings
+  void randomizeSettings() {
+    for (int i = 0; i < attributes.length; i++) {
+      // print(attributes[i].name);
+      if (attributes[i].settingCategory == SettingCategory.tool){
+        attributes[i].randomize(rnd);
+      }
+    }
+  }
+
+  // randomise the palette
+  void randomizePalette() {
+    for (int i = 0; i < attributes.length; i++) {
+      // print(attributes[i].name);
+      if (attributes[i].settingCategory == SettingCategory.palette){
+        attributes[i].randomize(rnd);
+      }
+    }
+
+    palette.randomize(
+      attributes.firstWhere((element) => element.name == 'paletteType').value,
+      attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt(),
+    );
+  }
+
+
+
 
   void setDefault() {
     for (int i = 0; i < attributes.length; i++) {

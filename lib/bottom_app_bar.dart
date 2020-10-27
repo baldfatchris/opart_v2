@@ -43,8 +43,8 @@ Widget customBottomAppBar(
         ),
         onPressed: () async {
           if (enableButton) {
-            opArt.randomize();
-            opArt.palette.randomizePalette();
+            opArt.randomizeSettings();
+            opArt.randomizePalette();
             opArt.saveToCache();
           //  enableButton = false;
 
@@ -107,7 +107,7 @@ Widget customBottomAppBar(
         onPressed: () async {
           if (enableButton) {
 
-            opArt.palette.randomizePalette();
+            opArt.randomizePalette();
             opArt.saveToCache();
        //    enableButton = false;
 
