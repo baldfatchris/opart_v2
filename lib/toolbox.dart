@@ -6,15 +6,10 @@ import 'opart_tree.dart';
 import 'opart_wallpaper.dart';
 import 'opart_wave.dart';
 
-void ToolBox(BuildContext context, int opArtNumber,) {
+void ToolBox(BuildContext context, OpArt opArt,) {
   print(MediaQuery.of(context).size.width);
-  List settingsList;
-  switch(opArtNumber){
-    case 0: settingsList = fibonacciSettingsList; break;
-    case 1: settingsList = treeSettingsList; break;
-    case 2: settingsList = waveSettingsList; break;
-    case 3: settingsList = wallpaperSettingsList;
-  }
+
+
 
 
   showModalBottomSheet(
@@ -36,29 +31,29 @@ void ToolBox(BuildContext context, int opArtNumber,) {
                                       ? 7
                                       : 8,
                       childAspectRatio: 1.3),
-                  itemCount: settingsList.length,
+                  itemCount: opArt.attributes.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return (settingsList[index].proFeature|| proVersion)?
+                    return (opArt.attributes[index].proFeature|| proVersion)?
                     Stack(
                       children: [
                         Center(
                           child: GestureDetector(
                             onTap: () {
                               Navigator.pop(context);
-                              settingsDialog(context, index, opArtNumber);
+                              settingsDialog(context, index, opArt);
                             },
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                settingsList[index].icon,
+                                opArt.attributes[index].icon,
                                 Padding(
                                   padding: const EdgeInsets.all(4.0),
                                   child: Container(
                                       height: 40,
                                       child: Text(
-                                        settingsList[index].label,
+                                        opArt.attributes[index].name,
                                         textAlign: TextAlign.center,
                                       )),
                                 )
@@ -76,20 +71,20 @@ void ToolBox(BuildContext context, int opArtNumber,) {
                     :GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
-                        settingsDialog(context, index, opArtNumber);
+                        settingsDialog(context, index, opArt);
                       },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          settingsList[index].icon,
+                          opArt.attributes[index].icon,
                           Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: Container(
                                 height: 40,
                                 child: Text(
-                                  settingsList[index].label,
+                                  opArt.attributes[index].label,
                                   textAlign: TextAlign.center,
                                 )),
                           )

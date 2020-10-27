@@ -39,7 +39,7 @@ class OpArt {
   void paint(Canvas canvas, Size size, int seed, Random rnd, double angle) {
     switch(opArtType){
       case OpArtType.Fibonacci:
-        paintFibonacci( canvas,  size,  seed,  rnd,  angle, attributes, palette);
+        paintFibonacci( canvas,  size,  rnd,  angle, attributes, palette);
     }
 
   }
@@ -51,6 +51,7 @@ class OpArt {
         this.palette = OpArtPalette(rnd);
         this.name = 'Fibonacci';
     }
+    this.setDefault();
   }
 
   void saveToCache() {

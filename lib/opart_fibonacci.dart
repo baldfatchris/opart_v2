@@ -1,297 +1,345 @@
 import 'package:flutter/material.dart';
-import 'package:opart_v2/palette.dart';
-import 'dart:math';
-import 'dart:io';
-import 'settings_model.dart';
-
 import 'model.dart';
+import 'palette.dart';
+import 'settings_model.dart';
+import 'dart:math';
 
 
-import 'package:screenshot/screenshot.dart';
+List<String> list = List();
+
+List<SettingsModel> initializeFibonacciAttributes() {
+
+  return [
+
+    SettingsModel(
+      settingType: SettingType.double,
+      label: 'Angle Increment',
+      name: 'angleIncrement',
+      tooltip: 'The angle in radians between successive petals of the flower',
+      min: 0,
+      max: 2 * pi,
+      zoom: 2000,
+      defaultValue: (sqrt(5) + 1) / 2,
+      icon: Icon(Icons.track_changes),
+      proFeature: false,
+    ),
+    SettingsModel(
+      settingType: SettingType.double,
+      name: 'flowerFill',
+      label: 'Zoom',
+      tooltip: 'Zoom in and out',
+      min: 0.3,
+      max: 2,
+      randomMin: 0.5,
+      randomMax: 1.5,
+      zoom: 100,
+      defaultValue: 1.8,
+      icon: Icon(Icons.zoom_in),
+      proFeature: false,
+    ),
+    SettingsModel(
+      settingType: SettingType.double,
+      name: 'petalSize',
+      label: 'Petal Size',
+      tooltip: 'The size of the petal as a multiple of its distance from the centre',
+      min: 0.01,
+      max: 0.5,
+      zoom: 100,
+      defaultValue: 0.3,
+      icon: Icon(Icons.swap_horizontal_circle),
+      proFeature: false,
+    ),
+    SettingsModel(
+      name: 'ratio',
+      settingType: SettingType.double,
+      label: 'Fill Ratio',
+      tooltip: 'The fill ratio of the flower',
+      min: 0.995,
+      max: 0.9999,
+      zoom: 100,
+      defaultValue: 0.999,
+      icon: Icon(Icons.format_color_fill),
+      proFeature: false,
+    ),
+
+    SettingsModel(
+      name: 'randomizeAngle',
+      settingType: SettingType.double,
+      label: 'Randomize Angle',
+      tooltip: 'randomize the petal position by moving it around the centre by a random angle up to this maximum',
+      min: 0.0,
+      max: 0.2,
+      zoom: 100.0,
+      defaultValue: 0.0,
+      icon: Icon(Icons.ac_unit),
+      proFeature: false,
+    ),
 
 
-List<SettingsModel> initializeFibonacciAttributes(){
-return [
-   SettingsModel(
-settingType: SettingType.double,
-    label: 'Angle Increment',
-    name: 'angleIncrement',
-    tooltip: 'The angle in radians between successive petals of the flower',
-    min: 0,
-    max: 2 * pi,
-    zoom: 2000,
-    defaultValue: (sqrt(5) + 1) / 2,
-    icon: Icon(Icons.track_changes),
-    proFeature: false,
-), SettingsModel(
-    settingType: SettingType.double,
-    name: 'flowerFill',
-    label: 'Zoom',
-    tooltip: 'Zoom in and out',
-    min: 0.3,
-    max: 2,
-    randomMin: 0.5,
-    randomMax: 1.5,
-    zoom: 100,
-    defaultValue: 1.8,
-    icon: Icon(Icons.zoom_in),
-    proFeature: false,
-  ), SettingsModel(
-    settingType: SettingType.double,
-    name: 'petalSize',
-    label: 'Petal Size',
-    tooltip:
-        'The size of the petal as a multiple of its distance from the centre',
-    min: 0.01,
-    max: 0.5,
-    zoom: 100,
-    defaultValue: 0.3,
-    icon: Icon(Icons.swap_horizontal_circle),
-    proFeature: false,
-  ),SettingsModel(
-    name: 'ratio',
-    settingType: SettingType.double,
-    label: 'Fill Ratio',
-    tooltip: 'The fill ratio of the flower',
-    min: 0.995,
-    max: 0.9999,
-    zoom: 100,
-    defaultValue: 0.999,
-    icon: Icon(Icons.format_color_fill),
-    proFeature: false,
-  ),SettingsModel(
-    name: 'randomizeAngle',
-    settingType: SettingType.double,
-    label: 'randomize Angle',
-    tooltip:
-        'randomize the petal position by moving it around the centre by a random angle up to this maximum',
-    min: 0,
-    max: 0.2,
-    zoom: 100,
-    defaultValue: 0,
-    icon: Icon(Icons.ac_unit),
-    proFeature: false,
-  ), SettingsModel(
-    name: 'petalPointiness',
-    settingType: SettingType.double,
-    label: 'Petal Pointiness',
-    tooltip: 'the pointiness of the petal',
-    min: 0,
-    max: pi / 2,
-    zoom: 200,
-    defaultValue: 0.8,
-    icon: Icon(Icons.change_history),
-    proFeature: false,
-  ),SettingsModel(
-    name: 'petalRotation',
-    settingType: SettingType.double,
-    label: 'Petal Rotation',
-    tooltip: 'the rotation of the petal',
-    min: 0,
-    max: pi,
-    zoom: 200,
-    defaultValue: 0,
-    icon: Icon(Icons.rotate_right),
-    proFeature: false,
-  ),SettingsModel(
-    name: 'petalRotationRatio',
-    settingType: SettingType.double,
-    label: 'Rotation Ratio',
-    tooltip: 'the rotation of the petal as multiple of the petal angle',
-    min: 0,
-    max: 4,
-    zoom: 100,
-    defaultValue: 0,
-    icon: Icon(Icons.autorenew),
-    proFeature: false,
-  ),SettingsModel(name: 'petalType',
-    settingType: SettingType.list,
-    label: "Petal Type",
-    tooltip: "The shape of the petal",
-    defaultValue: "petal",
-    icon: Icon(Icons.local_florist),
-    options: <String>['circle', 'triangle', 'square', 'petal'],
-    proFeature: false,
-  ),SettingsModel(settingType: SettingType.int,
-    name: 'maxPetals',
-    label: 'Max Petals',
-    tooltip: 'The maximum number of petals to draw',
-    min: 0,
-    max: 20000,
-    defaultValue: 10000,
-    icon: Icon(Icons.fiber_smart_record),
-    proFeature: false,
-  ),SettingsModel(
-    name: 'radialOscAmplitude',
-    settingType: SettingType.double,
-    label: 'Radial Oscillation',
-    tooltip: 'The amplitude of the radial oscillation',
-    min: 0,
-    max: 5,
-    randomMin: 0,
-    randomMax: 0,
-    zoom: 100,
-    defaultValue: 0,
-    icon: Icon(Icons.all_inclusive),
-    proFeature: true,
-  ),SettingsModel(name: 'radialOscPeriod',
-    settingType: SettingType.double,
-    label: 'Oscillation Period',
-    tooltip: 'The period of the radial oscillation',
-    min: 0,
-    max: 2,
-    randomMin: 0,
-    randomMax: 0,
-    zoom: 100,
-    defaultValue: 0,
-    icon: Icon(Icons.bubble_chart),
-    proFeature: true,
-  ),SettingsModel(
-    name: 'direction',
-    settingType: SettingType.list,
-    label: "Direction",
-    tooltip:
-        "Start from the outside and draw Inward, or start from the centre and draw Outward",
-    defaultValue: "inward",
-    icon: Icon(Icons.directions),
-    options: <String>['inward', 'outward'],
-    proFeature: false,
-  ), SettingsModel(settingType: SettingType.color,
-    name: 'backgroundColor',
-    label: "Background Color",
-    tooltip: "The background colour for the canvas",
-    defaultValue: Colors.white,
-    icon: Icon(Icons.settings_overscan),
-    proFeature: false,
-  ),SettingsModel(settingType: SettingType.color,
-    name: 'lineColor',
-    label: "Outline Color",
-    tooltip: "The outline colour for the petals",
-    defaultValue: Colors.white,
-    icon: Icon(Icons.zoom_out_map),
-    proFeature: false,
-  ),SettingsModel(settingType: SettingType.double,
-    name: 'lineWidth',
-    label: 'Outline Width',
-    tooltip: 'The width of the petal outline',
-    min: 0,
-    max: 3,
-    zoom: 100,
-    defaultValue: 0,
-    icon: Icon(Icons.line_weight),
-    proFeature: false,
-  ), SettingsModel(
-    name: 'randomColors',
-    settingType: SettingType.int,
-    label: 'Random Colors',
-    tooltip: 'randomize the coloursl',
-    defaultValue: false,
-    icon: Icon(Icons.gamepad),
-    proFeature: false,
-  ),SettingsModel(settingType: SettingType.int,
-    name: 'numberOfColors',
-    label: 'Number of Colors',
-    tooltip: 'The number of colours in the palette',
-    min: 1,
-    max: 36,
-    defaultValue: 10,
-    icon: Icon(Icons.palette),
-    proFeature: false,
-  ), SettingsModel(settingType: SettingType.list,
-    name: 'paletteType',
-    label: "Palette Type",
-    tooltip: "The nature of the palette",
-    defaultValue: "random",
-    icon: Icon(Icons.colorize),
-    options: <String>[
-      'random',
-      'blended random ',
-      'linear random',
-      'linear complementary'
-    ],
-    proFeature: false,
-  ), SettingsModel(settingType: SettingType.list,
-    name: 'paletteList',
-    label: "Palette",
-    tooltip: "Choose from a list of palettes",
-    defaultValue: "Default",
-    icon: Icon(Icons.palette),
-    options: defaultPalleteNames(),
-    proFeature: false,
-  ), SettingsModel(settingType: SettingType.double,
-    label: 'Opactity',
-    name: 'opacity',
-    tooltip: 'The opactity of the petal',
-    min: 0.2,
-    max: 1,
-    zoom: 100,
-    defaultValue: 1,
-    icon: Icon(Icons.remove_red_eye),
-    proFeature: false,
-  ), SettingsModel(settingType: SettingType.button,
-    name: 'resetDefaults',
-    label: 'Reset Defaults',
-    tooltip: 'Reset all settings to defaults',
-    defaultValue: false,
-    icon: Icon(Icons.low_priority),
-    proFeature: false,
-  )];
+
+    SettingsModel(
+      name: 'petalPointiness',
+      settingType: SettingType.double,
+      label: 'Petal Pointiness',
+      tooltip: 'the pointiness of the petal',
+      min: 0.0,
+      max: pi / 2,
+      zoom: 200,
+      defaultValue: 0.8,
+      icon: Icon(Icons.change_history),
+      proFeature: false,
+    ),
+    SettingsModel(
+      name: 'petalRotation',
+      settingType: SettingType.double,
+      label: 'Petal Rotation',
+      tooltip: 'the rotation of the petal',
+      min: 0.0,
+      max: pi,
+      zoom: 200,
+      defaultValue: 0.0,
+      icon: Icon(Icons.rotate_right),
+      proFeature: false,
+    ),
+    SettingsModel(
+      name: 'petalRotationRatio',
+      settingType: SettingType.double,
+      label: 'Rotation Ratio',
+      tooltip: 'the rotation of the petal as multiple of the petal angle',
+      min: 0.0,
+      max: 4.0,
+      zoom: 100,
+      defaultValue: 0.0,
+      icon: Icon(Icons.autorenew),
+      proFeature: false,
+    ),
+    SettingsModel(
+      settingType: SettingType.list,
+      name: 'petalType',
+      label: "Petal Type",
+      tooltip: "The shape of the petal",
+      defaultValue: "petal",
+      icon: Icon(Icons.local_florist),
+      options: <String>['circle', 'triangle', 'square', 'petal'],
+      proFeature: false,
+    ),
+    SettingsModel(
+      settingType: SettingType.int,
+      name: 'maxPetals',
+      label: 'Max Petals',
+      tooltip: 'The maximum number of petals to draw',
+      min: 0,
+      max: 20000,
+      defaultValue: 10000,
+      icon: Icon(Icons.fiber_smart_record),
+      proFeature: false,
+    ),
+    SettingsModel(
+      name: 'radialOscAmplitude',
+      settingType: SettingType.double,
+      label: 'Radial Oscillation',
+      tooltip: 'The amplitude of the radial oscillation',
+      min: 0.0,
+      max: 5.0,
+      randomMin: 0,
+      randomMax: 0,
+      zoom: 100,
+      defaultValue: 0.0,
+      icon: Icon(Icons.all_inclusive),
+      proFeature: true,
+    ),
+    SettingsModel(name: 'radialOscPeriod',
+      settingType: SettingType.double,
+      label: 'Oscillation Period',
+      tooltip: 'The period of the radial oscillation',
+      min: 0.0,
+      max: 2,
+      randomMin: 0,
+      randomMax: 0,
+      zoom: 100,
+      defaultValue: 0.0,
+      icon: Icon(Icons.bubble_chart),
+      proFeature: true,
+    ),
+    SettingsModel(
+      name: 'direction',
+      settingType: SettingType.list,
+      label: "Direction",
+      tooltip: "Start from the outside and draw Inward, or start from the centre and draw Outward",
+      defaultValue: "inward",
+      icon: Icon(Icons.directions),
+      options: <String>['inward', 'outward'],
+      proFeature: false,
+    ),
+    SettingsModel(settingType: SettingType.color,
+      name: 'backgroundColor',
+      label: "Background Color",
+      tooltip: "The background colour for the canvas",
+      defaultValue: Colors.cyan,
+      icon: Icon(Icons.settings_overscan),
+      proFeature: false,
+    ),
+    SettingsModel(settingType: SettingType.color,
+      name: 'lineColor',
+      label: "Outline Color",
+      tooltip: "The outline colour for the petals",
+      defaultValue: Colors.white,
+      icon: Icon(Icons.zoom_out_map),
+      proFeature: false,
+    ),
+    SettingsModel(settingType: SettingType.double,
+      name: 'lineWidth',
+      label: 'Outline Width',
+      tooltip: 'The width of the petal outline',
+      min: 0,
+      max: 3,
+      zoom: 100,
+      defaultValue: 0.0,
+      icon: Icon(Icons.line_weight),
+      proFeature: false,
+    ),
+    SettingsModel(
+      name: 'randomColors',
+      settingType: SettingType.bool ,
+      label: 'Random Colors',
+      tooltip: 'randomize the colours!',
+      defaultValue: false,
+      icon: Icon(Icons.gamepad),
+      proFeature: false,
+    ),
+    SettingsModel(settingType: SettingType.int,
+      name: 'numberOfColors',
+      label: 'Number of Colors',
+      tooltip: 'The number of colours in the palette',
+      min: 1,
+      max: 36,
+      defaultValue: 10,
+      icon: Icon(Icons.palette),
+      proFeature: false,
+    ),
+    SettingsModel(
+      settingType: SettingType.list,
+      name: 'paletteType',
+      label: "Palette Type",
+      tooltip: "The nature of the palette",
+      defaultValue: "random",
+      icon: Icon(Icons.colorize),
+      options: <String>[
+        'random',
+        'blended random ',
+        'linear random',
+        'linear complementary'
+      ],
+      proFeature: false,
+    ),
+    // SettingsModel(
+    //   settingType: SettingType.list,
+    //   name: 'paletteList',
+    //   label: "Palette",
+    //   tooltip: "Choose from a list of palettes",
+    //   defaultValue: "Default",
+    //   icon: Icon(Icons.palette),
+    //   options: defaultPalleteNames(),
+    //   proFeature: false,
+    // ),
+    SettingsModel(
+      settingType: SettingType.double,
+      label: 'Opactity',
+      name: 'opacity',
+      tooltip: 'The opactity of the petal',
+      min: 0.2,
+      max: 1,
+      zoom: 100,
+      defaultValue: 1.0,
+      icon: Icon(Icons.remove_red_eye),
+      proFeature: false,
+    ),
+
+    SettingsModel(
+      settingType: SettingType.button,
+      name: 'resetDefaults',
+      label: 'Reset Defaults',
+      tooltip: 'Reset all settings to defaults',
+      defaultValue: false,
+      icon: Icon(Icons.low_priority),
+      proFeature: false,
+    ),
+
+  ];
+
+
 }
 
-
+//   @override
+//   Map<String,dynamic> toMap() {
+//     Map<String, dynamic> map = super.toMap();
+//     map.addAll(
+//         {'angleIncrement': angleIncrement, 'petalToRadius': petalToRadius});
+//     return map;
+//   }
 //
-// Widget fibonacciBodyWidget(Animation animation1) {
-//   return ValueListenableBuilder<int>(
-//       valueListenable: rebuildCanvas,
-//       builder: (context, value, child) {
-//         return Screenshot(
-//           controller: screenshotController,
-//           child: Visibility(
-//             visible: true,
-//             child: LayoutBuilder(
-//               builder: (_, constraints) => Container(
-//                 width: constraints.widthConstraints().maxWidth,
-//                 height: constraints.heightConstraints().maxHeight,
-//                 child: CustomPaint(
-//                     painter: OpArtFibonacciPainter(
-//                   seed, rnd,
-//                   animation1.value,
-//                   // animation2.value
-//                 )),
-//               ),
-//             ),
-//           ),
-//         );
-//       });
+//   @override
+//   void fromMap(Map<String, dynamic> map) {
+//     this.angleIncrement = map['angleIncrement'];
+//     this.petalToRadius = map['petalToRadius'];
+//     super.fromMap(map);
+//   }
 // }
 
-void paintFibonacci(Canvas canvas, Size size, int seed, Random rnd, double angle, List<SettingsModel> attributes, OpArtPalette palette) {
-  generateFlower(canvas, size.width, size.height, size.width, size.height, 0,0,size.width/2, size.height/2,
-  attributes.firstWhere((element) => element.name == 'angleIncrement').value,
-    attributes.firstWhere((element) => element.name == 'flowerFill').value,
-    attributes.firstWhere((element) => element.name == 'petalToRadius').value,
-    attributes.firstWhere((element) => element.name == 'ratio').value,
-    attributes.firstWhere((element) => element.name == 'randomizeAngle').value,
-    attributes.firstWhere((element) => element.name == 'petalPointiness').value,
-    attributes.firstWhere((element) => element.name == 'petalRotation').value,
-    attributes.firstWhere((element) => element.name == 'petalRotationRatio').value,
-    attributes.firstWhere((element) => element.name == 'petalType').value,
-    attributes.firstWhere((element) => element.name == 'maxPetals').value,
-    attributes.firstWhere((element) => element.name == 'radialOscAmplitude').value,
-    attributes.firstWhere((element) => element.name == 'radialOscPeriod').value,
-    attributes.firstWhere((element) => element.name == 'direction').value,
-    attributes.firstWhere((element) => element.name == 'backgroundColor').value,
-    attributes.firstWhere((element) => element.name == 'lineColor').value,
-    attributes.firstWhere((element) => element.name == 'lineWidth').value,
-    attributes.firstWhere((element) => element.name == 'randomColors').value,
-    attributes.firstWhere((element) => element.name == 'numberOfColors').value,
-    attributes.firstWhere((element) => element.name == 'paletteType').value,
-    attributes.firstWhere((element) => element.name == 'opacity').value,
-    palette.colorList
+
+void paintFibonacci(Canvas canvas, Size size, Random rnd, double angle, List<SettingsModel> attributes, OpArtPalette palette) {
+// print('angle: ${angle}');
+  // print(attributes.firstWhere((element) => element.name == 'angleIncrement').value);
+  // print(attributes.firstWhere((element) => element.name == 'flowerFill').value);
+  // print(attributes.firstWhere((element) => element.name == 'petalSize').value);
+  // print(attributes.firstWhere((element) => element.name == 'ratio').value);
+  // print('randomizeAngle: ${attributes.firstWhere((element) => element.name == 'randomizeAngle').value}');
+  // print(attributes.firstWhere((element) => element.name == 'petalPointiness').value);
+  // print(attributes.firstWhere((element) => element.name == 'petalRotation').value);
+  // print(attributes.firstWhere((element) => element.name == 'petalRotationRatio').value);
+  // print(attributes.firstWhere((element) => element.name == 'petalType').value);
+  // print('maxPetals: ${attributes.firstWhere((element) => element.name == 'maxPetals').value}');
+  // print(attributes.firstWhere((element) => element.name == 'radialOscAmplitude').value);
+  // print(attributes.firstWhere((element) => element.name == 'radialOscPeriod').value);
+  // print(attributes.firstWhere((element) => element.name == 'direction').value);
+  // print(attributes.firstWhere((element) => element.name == 'backgroundColor').value);
+  // print(attributes.firstWhere((element) => element.name == 'lineColor').value);
+  // print(attributes.firstWhere((element) => element.name == 'lineWidth').value);
+  // print(attributes.firstWhere((element) => element.name == 'randomColors').value);
+  // print('numberOfColors: ${attributes.firstWhere((element) => element.name == 'numberOfColors').value}');
+  // print(attributes.firstWhere((element) => element.name == 'paletteType').value);
+  // print(attributes.firstWhere((element) => element.name == 'opacity').value);
+
+
+
+
+  generateFlower(canvas, rnd, size.width, size.height, size.width, size.height, 0,0,size.width/2, size.height/2,
+      attributes.firstWhere((element) => element.name == 'angleIncrement').value+angle,
+      attributes.firstWhere((element) => element.name == 'flowerFill').value,
+      attributes.firstWhere((element) => element.name == 'petalSize').value,
+      attributes.firstWhere((element) => element.name == 'ratio').value,
+      attributes.firstWhere((element) => element.name == 'randomizeAngle').value,
+      attributes.firstWhere((element) => element.name == 'petalPointiness').value,
+      attributes.firstWhere((element) => element.name == 'petalRotation').value,
+      attributes.firstWhere((element) => element.name == 'petalRotationRatio').value,
+      attributes.firstWhere((element) => element.name == 'petalType').value,
+      attributes.firstWhere((element) => element.name == 'maxPetals').value.toInt(),
+      attributes.firstWhere((element) => element.name == 'radialOscAmplitude').value,
+      attributes.firstWhere((element) => element.name == 'radialOscPeriod').value,
+      attributes.firstWhere((element) => element.name == 'direction').value,
+      attributes.firstWhere((element) => element.name == 'backgroundColor').value,
+      attributes.firstWhere((element) => element.name == 'lineColor').value,
+      attributes.firstWhere((element) => element.name == 'lineWidth').value,
+      (attributes.firstWhere((element) => element.name == 'randomColors').value == true),
+      attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt(),
+      attributes.firstWhere((element) => element.name == 'paletteType').value,
+      attributes.firstWhere((element) => element.name == 'opacity').value,
+      palette.colorList
   );
 }
 generateFlower(
     Canvas canvas,
+    Random rnd,
     double canvasWidth,
     double canvasHeight,
     double imageWidth,
@@ -304,7 +352,7 @@ generateFlower(
     double currentFlowerFill,
     double currentPetalToRadius,
     double currentRatio,
-    double currentrandomizeAngle,
+    double currentRandomizeAngle,
     double currentPetalPointiness,
     double currentPetalRotation,
     double currentPetalRotationRatio,
@@ -322,34 +370,34 @@ generateFlower(
     double currentOpacity,
     List currentPalette,
     ) {
-  // print('canvasWidth: $canvasWidth');
-  // print('canvasHeight: $canvasHeight');
-  // print('imageWidth: $imageWidth');
-  // print('imageHeight: $imageHeight');
-  // print('borderX: $borderX');
-  // print('borderY: $borderY');
-  // print('flowerCentreX: $flowerCentreX');
-  // print('flowerCentreY: $flowerCentreY');
-  // print('AngleIncrement: $currentAngleIncrement');
-  // print('FlowerFill: $currentFlowerFill');
-  // print('PetalToRadius: $currentPetalToRadius');
-  // print('randomizeAngle: $currentrandomizeAngle');
-  // print('PetalPointiness: $currentPetalPointiness');
-  // print('PetalRotation: $currentPetalRotation');
-  // print('PetalRotationRatio: $currentPetalRotationRatio');
-  // print('PetalType: $currentPetalType');
-  // print('MaxPetals: $currentMaxPetals');
-  // print('RadialOscAmplitude: $currentRadialOscAmplitude');
-  // print('RadialOscPeriod: $currentRadialOscPeriod');
-  // print('Direction: $currentDirection');
-  // print('BackgroundColor: $currentBackgroundColor');
-  // print('LineColor: $currentLineColor');
-  // print('LineWidth: $currentLineWidth');
-  // print('RandomColors: $currentRandomColors');
-  // print('NumberOfColors: $currentNumberOfColors');
-  // print('PaletteType: $currentPaletteType');
-  // print('Opacity: $currentOpacity');
-  // print('palette $currentPalette');
+  print('canvasWidth: $canvasWidth');
+  print('canvasHeight: $canvasHeight');
+  print('imageWidth: $imageWidth');
+  print('imageHeight: $imageHeight');
+  print('borderX: $borderX');
+  print('borderY: $borderY');
+  print('flowerCentreX: $flowerCentreX');
+  print('flowerCentreY: $flowerCentreY');
+  print('AngleIncrement: $currentAngleIncrement');
+  print('FlowerFill: $currentFlowerFill');
+  print('PetalToRadius: $currentPetalToRadius');
+  print('randomizeAngle: $currentRandomizeAngle');
+  print('PetalPointiness: $currentPetalPointiness');
+  print('PetalRotation: $currentPetalRotation');
+  print('PetalRotationRatio: $currentPetalRotationRatio');
+  print('PetalType: $currentPetalType');
+  print('MaxPetals: $currentMaxPetals');
+  print('RadialOscAmplitude: $currentRadialOscAmplitude');
+  print('RadialOscPeriod: $currentRadialOscPeriod');
+  print('Direction: $currentDirection');
+  print('BackgroundColor: $currentBackgroundColor');
+  print('LineColor: $currentLineColor');
+  print('LineWidth: $currentLineWidth');
+  print('RandomColors: $currentRandomColors');
+  print('NumberOfColors: $currentNumberOfColors');
+  print('PaletteType: $currentPaletteType');
+  print('Opacity: $currentOpacity');
+  print('palette $currentPalette');
 
   // colour in the canvas
   //a rectangle
@@ -365,9 +413,6 @@ generateFlower(
   int colourOrder = 0;
   Color nextColor;
 
-  // clear the canvas
-  //ctx.clearRect(0, 0, canvas.width, canvas.height);
-  //canvas.clearRect(0, 0, canvas.width, canvas.height);
 
   List P0 = [flowerCentreX + borderX, flowerCentreY + borderY];
 
@@ -391,6 +436,7 @@ generateFlower(
 
       drawPetal(
         canvas,
+        rnd,
         P0,
         angle,
         radius,
@@ -399,7 +445,7 @@ generateFlower(
         currentFlowerFill,
         currentPetalToRadius,
         currentRatio,
-        currentrandomizeAngle,
+        currentRandomizeAngle,
         currentPetalPointiness,
         currentPetalRotation,
         currentPetalRotationRatio,
@@ -440,6 +486,7 @@ generateFlower(
 
       drawPetal(
         canvas,
+        rnd,
         P0,
         angle,
         radius,
@@ -448,7 +495,7 @@ generateFlower(
         currentFlowerFill,
         currentPetalToRadius,
         currentRatio,
-        currentrandomizeAngle,
+        currentRandomizeAngle,
         currentPetalPointiness,
         currentPetalRotation,
         currentPetalRotationRatio,
@@ -498,6 +545,7 @@ generateFlower(
 
 drawPetal(
     Canvas canvas,
+    Random rnd,
     List P0,
     double angle,
     double radius,
@@ -506,7 +554,7 @@ drawPetal(
     double currentFlowerFill,
     double currentPetalToRadius,
     double currentRatio,
-    double currentrandomizeAngle,
+    double currentRandomizeAngle,
     double currentPetalPointiness,
     double currentPetalRotation,
     double currentPetalRotationRatio,
@@ -524,7 +572,7 @@ drawPetal(
     double currentOpacity,
     List currentPalette,
     ) {
-  angle = angle + (rnd.nextDouble() - 0.5) * currentrandomizeAngle;
+  angle = angle + (rnd.nextDouble() - 0.5) * currentRandomizeAngle;
 
   radius = radius +
       radius *
@@ -815,7 +863,5 @@ drawPetal(
       break;
   }
 }
-
-
 
 

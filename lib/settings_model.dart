@@ -24,10 +24,10 @@ class SettingsModel {
   bool proFeature;
   var options;
 
-  double min;
-  double max;
-  double randomMin;
-  double randomMax;
+  var min;
+  var max;
+  var randomMin;
+  var randomMax;
   double zoom;
   var defaultValue;
 

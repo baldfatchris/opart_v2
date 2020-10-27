@@ -3,12 +3,12 @@ import 'model.dart';
 import 'toolbox.dart';
 
 Widget customBottomAppBar(
-    {BuildContext context, int opArtNumber}) {
+    {BuildContext context, OpArt opArt}) {
   return Container(
       height: 70,
       child: GestureDetector(
       onVerticalDragUpdate: (value) {
-    ToolBox(context, opArtNumber);
+    ToolBox(context, opArt);
   },child: 
     ButtonBar(
     alignment: MainAxisAlignment.spaceAround,
@@ -43,9 +43,9 @@ Widget customBottomAppBar(
         ),
         onPressed: () async {
           if (enableButton) {
-            currentOpArt[opArtNumber].randomize();
-            currentOpArt[opArtNumber].randomizePalette();
-            currentOpArt[opArtNumber].addToCache();
+            opArt.randomize();
+            opArt.palette.randomizePalette();
+            opArt.saveToCache();
             enableButton = false;
 
           }
@@ -74,7 +74,7 @@ Widget customBottomAppBar(
           ],
         ),
         onPressed: () {
-          ToolBox(context, opArtNumber, );
+          ToolBox(context, opArt, );
         },
       ),
       FlatButton(
@@ -107,8 +107,8 @@ Widget customBottomAppBar(
         onPressed: () async {
           if (enableButton) {
 
-            currentOpArt[opArtNumber].randomizePalette();
-            currentOpArt[opArtNumber].addToCache();
+            opArt.palette.randomizePalette();
+            opArt.saveToCache();
            enableButton = false;
 
           }

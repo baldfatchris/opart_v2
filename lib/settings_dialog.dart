@@ -11,15 +11,11 @@ import 'opart_fibonacci.dart';
 import 'opart_wave.dart';
 import 'opart_wallpaper.dart';
 import 'opart_tree.dart';
+import 'settings_model.dart';
 
-void settingsDialog(context, int index, int opArtNumber ) {
-  List settingsList;
-  switch(opArtNumber){
-    case 0: settingsList = fibonacciSettingsList; break;
-    case 1: settingsList = treeSettingsList; break;
-    case 2: settingsList = waveSettingsList; break;
-    case 3: settingsList = wallpaperSettingsList;
-  }
+void settingsDialog(context, int index, OpArt opArt ) {
+
+
 
   showDialog(
     //  backgroundColor: Colors.white.withOpacity(0.8),
@@ -32,7 +28,7 @@ void settingsDialog(context, int index, int opArtNumber ) {
               return Center(
                 child: AlertDialog(
                   backgroundColor: Colors.white.withOpacity(0.7),
-                  title: Text(settingsList[index].label),
+                  title: Text(opArt.attributes[index].label),
                   actions: [
                     RaisedButton(
                       child: Text('Ok'),
@@ -45,24 +41,24 @@ void settingsDialog(context, int index, int opArtNumber ) {
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      (settingsList[index].type == 'Double')
+                      (opArt.attributes[index].settingType == SettingType.double )
                           ? settingsSlider(
-                        settingsList[index].label,
-                        settingsList[index].tooltip,
-                        settingsList[index].value,
-                        settingsList[index].min,
-                        settingsList[index].max,
-                        settingsList[index].locked,
-                        settingsList[index].zoom,
+                        opArt.attributes[index].label,
+                        opArt.attributes[index].tooltip,
+                        opArt.attributes[index].value,
+                        opArt.attributes[index].min,
+                        opArt.attributes[index].max,
+                        opArt.attributes[index].locked,
+                        opArt.attributes[index].zoom,
                             (value) {
 
-                            settingsList[index].value = value;
+                              opArt.attributes[index].value = value;
                          rebuildCanvas.value++;
                           setLocalState(() {});
                         },
                             (value) {
 
-                            settingsList[index].locked = value;
+                              opArt.attributes[index].locked = value;
                             rebuildCanvas.value++;
                           setLocalState(() {});
                         },
@@ -70,23 +66,23 @@ void settingsDialog(context, int index, int opArtNumber ) {
 
                         },
                       )
-                          : (settingsList[index].type == 'Int')
+                          : (opArt.attributes[index].settingType == SettingType.int)
                           ? settingsIntSlider(
-                        settingsList[index].label,
-                        settingsList[index].tooltip,
-                        settingsList[index].value,
-                        settingsList[index].min,
-                        settingsList[index].max,
-                        settingsList[index].locked,
+                        opArt.attributes[index].label,
+                        opArt.attributes[index].tooltip,
+                        opArt.attributes[index].value,
+                        opArt.attributes[index].min,
+                        opArt.attributes[index].max,
+                        opArt.attributes[index].locked,
                             (value) {
 
-                            settingsList[index].value = value.toInt();
+                              opArt.attributes[index].value = value.toInt();
                             rebuildCanvas.value++;
                           setLocalState(() {});
                         },
                             (value) {
 
-                            settingsList[index].locked = value;
+                              opArt.attributes[index].locked = value;
                             rebuildCanvas.value++;
                           setLocalState(() {});
                         },
@@ -94,72 +90,72 @@ void settingsDialog(context, int index, int opArtNumber ) {
 
                         },
                       )
-                          : (settingsList[index].type == 'List')
+                          : (opArt.attributes[index].settingType == SettingType.list)
                           ? settingsDropdown(
-                        settingsList[index].label,
-                        settingsList[index].tooltip,
-                        settingsList[index].value,
-                        settingsList[index].options,
-                        settingsList[index].locked,
-                            (value) {settingsList[index].value = value;
+                        opArt.attributes[index].label,
+                        opArt.attributes[index].tooltip,
+                        opArt.attributes[index].value,
+                        opArt.attributes[index].options,
+                        opArt.attributes[index].locked,
+                            (value) {opArt.attributes[index].value = value;
                             rebuildCanvas.value++;
                           setLocalState(() {});
                         },
                             (value) {
 
-                            settingsList[index].locked =
-                            !settingsList[index].locked;
+                              opArt.attributes[index].locked =
+                            !opArt.attributes[index].locked;
                             rebuildCanvas.value++;
                         },
                       )
-                          : (settingsList[index].type == 'Color')
+                          : (opArt.attributes[index].settingType == SettingType.color)
                           ? settingsColorPicker(
-                        settingsList[index].label,
-                        settingsList[index].tooltip,
-                        settingsList[index].value,
-                        settingsList[index].locked,
+                        opArt.attributes[index].label,
+                        opArt.attributes[index].tooltip,
+                        opArt.attributes[index].value,
+                        opArt.attributes[index].locked,
                             (value) {
 
-                            settingsList[index].value = value;
+                              opArt.attributes[index].value = value;
                             rebuildCanvas.value++;
                           setLocalState(() {});
                         },
                             (value) {
 
-                            settingsList[index].locked =
+                              opArt.attributes[index].locked =
                                 value;
                             rebuildCanvas.value++;
                           setLocalState(() {});
                         },
                       )
-                          : (settingsList[index].type == 'Bool')
+                          : (opArt.attributes[index].settingType == SettingType.bool)
                           ? settingsRadioButton(
-                        settingsList[index].label,
-                        settingsList[index].tooltip,
-                        settingsList[index].value,
-                        settingsList[index].locked,
+                        opArt.attributes[index].label,
+                        opArt.attributes[index].tooltip,
+                        opArt.attributes[index].value,
+                        opArt.attributes[index].locked,
                             (value) {
 
-                            settingsList[index].value =
+                              opArt.attributes[index].value =
                                 value;
                             rebuildCanvas.value++;
                           setLocalState(() {});
                         },
                             (value) {
 
-                            settingsList[index].locked =
+                              opArt.attributes[index].locked =
                                 value;
                             rebuildCanvas.value++;
                           setLocalState(() {});
                         },
                       )
                           : settingsButton(
-                        settingsList[index].label,
-                        settingsList[index].tooltip,
-                        settingsList[index].value,
+                        opArt.attributes[index].label,
+                        opArt.attributes[index].tooltip,
+                        opArt.attributes[index].value,
                             () {
 
-                          settingsList[index].value =
+                              opArt.attributes[index].value =
                           true;
                           rebuildCanvas.value++;
                           setLocalState(() {});
@@ -171,7 +167,7 @@ void settingsDialog(context, int index, int opArtNumber ) {
               );
             });
       }).then((value) {
-   currentOpArt[opArtNumber].addToCache();
+    opArt.saveToCache();
     print('should rebuild cache');
     rebuildCache.value++;
 

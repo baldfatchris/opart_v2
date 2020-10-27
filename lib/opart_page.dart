@@ -8,20 +8,22 @@ import 'dart:math';
 import 'package:share/share.dart';
 import 'package:screenshot/screenshot.dart';
 
+Random rnd = Random();
+
 class OpArtPage extends StatefulWidget {
-  int opArtNumber;
-  OpArtPage(this.opArtNumber);
+  OpArtType opArtType;
+  OpArtPage(this.opArtType);
   @override
   _OpArtPageState createState() => _OpArtPageState();
 }
 
 bool showFullPage = false;
 File imageFile;
-Random rnd;
+
 OpArt opArt;
 
 class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
-  int opArtNumber;
+
 
   AnimationController controller1;
 
@@ -68,7 +70,7 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     opArt = OpArt(opArtType: OpArtType.Fibonacci);
-    opArtNumber = widget.opArtNumber;
+
 
     Size size = MediaQuery.of(context).size;
 
@@ -142,7 +144,7 @@ class _OpArtPageState extends State<OpArtPage> with TickerProviderStateMixin {
               toolbarHeight: 0,
             ),
       bottomNavigationBar: showFullPage
-          ? customBottomAppBar(context: context, opArtNumber: opArtNumber)
+          ? customBottomAppBar(context: context, opArt: opArt)
           : BottomAppBar(),
       body: Column(
         children: [

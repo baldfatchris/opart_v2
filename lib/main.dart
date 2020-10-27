@@ -12,7 +12,7 @@ void main() {
   runApp(MaterialApp(
     initialRoute: '/',
     routes: {
-      '/': (context) => Loading(),
+      '/': (context) => OpArtPage(OpArtType.Fibonacci),
       '/menu': (context) => MyApp(),
     },
   ));
@@ -56,35 +56,35 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontSize: 40,
                     fontWeight: FontWeight.bold)),
           ),
-          Expanded(
-            child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, childAspectRatio: 0.8),
-                itemCount: currentOpArt.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => OpArtPage(index)));
-                    },
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(currentOpArt[index].icon),
-                        ),
-                        Text(currentOpArt[index].name,
-                            style: TextStyle(
-                                fontFamily: 'Righteous',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20)),
-                      ],
-                    ),
-                  );
-                }),
-          ),
+          // Expanded(
+          //   child: GridView.builder(
+          //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          //           crossAxisCount: 2, childAspectRatio: 0.8),
+          //       itemCount: currentOpArt.length,
+          //       itemBuilder: (BuildContext context, int index) {
+          //         return GestureDetector(
+          //           onTap: () {
+          //             Navigator.push(
+          //                 context,
+          //                 MaterialPageRoute(
+          //                     builder: (context) => OpArtPage(index)));
+          //           },
+          //           child: Column(
+          //             children: [
+          //               Padding(
+          //                 padding: const EdgeInsets.all(8.0),
+          //                 child: Image.asset(currentOpArt[index].icon),
+          //               ),
+          //               Text(currentOpArt[index].name,
+          //                   style: TextStyle(
+          //                       fontFamily: 'Righteous',
+          //                       fontWeight: FontWeight.bold,
+          //                       fontSize: 20)),
+          //             ],
+          //           ),
+          //         );
+          //       }),
+          // ),
         ],
       ),
     ));
