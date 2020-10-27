@@ -6,25 +6,25 @@ import 'dart:math';
 import 'dart:core';
 
 
-List<String> list = List();
+SettingsModel angleIncrement = SettingsModel(
+settingType: SettingType.double,
+label: 'Angle Increment',
+name: 'angleIncrement',
+tooltip: 'The angle in radians between successive petals of the flower',
+min: 0.0,
+max: 2.0 * pi,
+zoom: 2000,
+defaultValue: (sqrt(5) + 1) / 2,
+icon: Icon(Icons.track_changes),
+settingCategory: SettingCategory.tool,
+proFeature: false,
+);
 
 List<SettingsModel> initializeFibonacciAttributes() {
   
   return [
+    angleIncrement,
 
-    SettingsModel(
-      settingType: SettingType.double,
-      label: 'Angle Increment',
-      name: 'angleIncrement',
-      tooltip: 'The angle in radians between successive petals of the flower',
-      min: 0.0,
-      max: 2.0 * pi,
-      zoom: 2000,
-      defaultValue: (sqrt(5) + 1) / 2,
-      icon: Icon(Icons.track_changes),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
     SettingsModel(
       settingType: SettingType.double,
       name: 'flowerFill',
@@ -476,7 +476,7 @@ generateFlower(
         angle,
         radius,
         petalColor,
-        currentAngleIncrement,
+        angleIncrement.value,
         currentFlowerFill,
         currentPetalToRadius,
         currentRatio,
@@ -549,7 +549,7 @@ generateFlower(
         currentPalette,
       );
 
-      angle = angle + currentAngleIncrement;
+      angle = angle + angleIncrement.value;
       if (angle > 2 * pi) {
         angle = angle - 2 * pi;
       }

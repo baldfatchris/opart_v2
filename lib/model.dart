@@ -66,16 +66,16 @@ class OpArt {
       for (int i = 0; i < attributes.length; i++) {
         map.addAll({attributes[i].label: attributes[i].value});
       }
-      map.addAll({'image': image, 'palette': palette});
+      map.addAll({'image': image, });
 
-      print('Cache map: $map');
-      print('palette: ${map['palette']}');
 
       this.cache.add(map);
       rebuildCache.value++;
       scrollController.animateTo(scrollController.position.maxScrollExtent,
           duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+      enableButton = true;
     });
+
   }
 
   void revertToCache(int index) {

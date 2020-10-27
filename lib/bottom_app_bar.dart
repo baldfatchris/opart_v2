@@ -46,7 +46,7 @@ Widget customBottomAppBar(
             opArt.randomizeSettings();
             opArt.randomizePalette();
             opArt.saveToCache();
-          //  enableButton = false;
+            enableButton = false;
 
           }
         },
@@ -109,7 +109,7 @@ Widget customBottomAppBar(
 
             opArt.randomizePalette();
             opArt.saveToCache();
-       //    enableButton = false;
+           enableButton = false;
 
           }
         },
