@@ -993,6 +993,7 @@ class OpArtPalette {
 
 
   void randomizePalette() {
+print('randomizing palette');
     List<Color> palette = [];
 
     switch (paletteType) {
@@ -1089,6 +1090,6 @@ class OpArtPalette {
         break;
     }
 
-    colorList = palette;
+    this.colorList = palette;
   }
 }

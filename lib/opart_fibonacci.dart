@@ -370,34 +370,34 @@ generateFlower(
     double currentOpacity,
     List currentPalette,
     ) {
-  print('canvasWidth: $canvasWidth');
-  print('canvasHeight: $canvasHeight');
-  print('imageWidth: $imageWidth');
-  print('imageHeight: $imageHeight');
-  print('borderX: $borderX');
-  print('borderY: $borderY');
-  print('flowerCentreX: $flowerCentreX');
-  print('flowerCentreY: $flowerCentreY');
-  print('AngleIncrement: $currentAngleIncrement');
-  print('FlowerFill: $currentFlowerFill');
-  print('PetalToRadius: $currentPetalToRadius');
-  print('randomizeAngle: $currentRandomizeAngle');
-  print('PetalPointiness: $currentPetalPointiness');
-  print('PetalRotation: $currentPetalRotation');
-  print('PetalRotationRatio: $currentPetalRotationRatio');
-  print('PetalType: $currentPetalType');
-  print('MaxPetals: $currentMaxPetals');
-  print('RadialOscAmplitude: $currentRadialOscAmplitude');
-  print('RadialOscPeriod: $currentRadialOscPeriod');
-  print('Direction: $currentDirection');
-  print('BackgroundColor: $currentBackgroundColor');
-  print('LineColor: $currentLineColor');
-  print('LineWidth: $currentLineWidth');
-  print('RandomColors: $currentRandomColors');
-  print('NumberOfColors: $currentNumberOfColors');
-  print('PaletteType: $currentPaletteType');
-  print('Opacity: $currentOpacity');
-  print('palette $currentPalette');
+  // print('canvasWidth: $canvasWidth');
+  // print('canvasHeight: $canvasHeight');
+  // print('imageWidth: $imageWidth');
+  // print('imageHeight: $imageHeight');
+  // print('borderX: $borderX');
+  // print('borderY: $borderY');
+  // print('flowerCentreX: $flowerCentreX');
+  // print('flowerCentreY: $flowerCentreY');
+  // print('AngleIncrement: $currentAngleIncrement');
+  // print('FlowerFill: $currentFlowerFill');
+  // print('PetalToRadius: $currentPetalToRadius');
+  // print('randomizeAngle: $currentRandomizeAngle');
+  // print('PetalPointiness: $currentPetalPointiness');
+  // print('PetalRotation: $currentPetalRotation');
+  // print('PetalRotationRatio: $currentPetalRotationRatio');
+  // print('PetalType: $currentPetalType');
+  // print('MaxPetals: $currentMaxPetals');
+  // print('RadialOscAmplitude: $currentRadialOscAmplitude');
+  // print('RadialOscPeriod: $currentRadialOscPeriod');
+  // print('Direction: $currentDirection');
+  // print('BackgroundColor: $currentBackgroundColor');
+  // print('LineColor: $currentLineColor');
+  // print('LineWidth: $currentLineWidth');
+  // print('RandomColors: $currentRandomColors');
+  // print('NumberOfColors: $currentNumberOfColors');
+  // print('PaletteType: $currentPaletteType');
+  // print('Opacity: $currentOpacity');
+  // print('palette $currentPalette');
 
   // colour in the canvas
   //a rectangle
