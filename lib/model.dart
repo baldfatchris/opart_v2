@@ -11,11 +11,10 @@ import 'settings_model.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:flutter/material.dart';
 
-int seed = rnd.nextInt(1 << 32);
 Random rnd = Random();
+int seed = rnd.nextInt(1 << 32);
 
 ScreenshotController screenshotController = ScreenshotController();
-List<Map<String, dynamic>> cachedList = List<Map<String, dynamic>>();
 
 final rebuildCache = new ValueNotifier(0);
 final rebuildCanvas = new ValueNotifier(0);
@@ -30,11 +29,11 @@ enum OpArtType { Fibonacci, Trees, Waves, Wallpaper }
 class OpArt {
   OpArtType opArtType;
   List<SettingsModel> attributes = List<SettingsModel>();
-  File image;
   List<Map<String, dynamic>> cache = List();
   Random rnd = Random();
   OpArtPalette palette;
   String name;
+
 
   OpArt({this.opArtType}) {
     switch (opArtType) {
@@ -47,20 +46,25 @@ class OpArt {
   }
 
   void saveToCache() {
-    print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
-    print('Save to Cache');
-    print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
+    print('saving to cache');
+    screenshotController
+        .capture(
+        delay: Duration(milliseconds: 0), pixelRatio: 0.2)
+        .then((File image) async {
+      Map<String, dynamic> map = Map();
+      for (int i = 0; i < attributes.length; i++) {
+        map.addAll({attributes[i].label: attributes[i].value});
+      }
+      map.addAll({'image': image, 'palette': palette});
+      this.cache.add(map);
+      rebuildCache.value++;
+    });
 
-    Map<String, dynamic> map = Map();
-    for (int i = 0; i < attributes.length; i++) {
-      map.addAll({attributes[i].label: attributes[i].value});
-    }
-    cachedList.add(map);
   }
 
   void revertToCache(int index) {
     for (int i = 0; i < attributes.length; i++) {
-      attributes[i].value = cachedList[index][attributes[i].label];
+      attributes[i].value = this.cache[index][attributes[i].label];
     }
   }
 
