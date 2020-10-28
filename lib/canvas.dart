@@ -32,14 +32,14 @@ class _CanvasWidgetState extends State<CanvasWidget>
     animation = animationTween.animate(animationController)
       ..addListener(() {
         rebuildCanvas.value++;
-      });
-    // ..addStatusListener((status) {
-    //   if (status == AnimationStatus.completed) {
-    //     animationController.repeat();
-    //   } else if (status == AnimationStatus.dismissed) {
-    //     animationController.forward();
-    //   }
-    // });
+      })
+    ..addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        animationController.repeat();
+      } else if (status == AnimationStatus.dismissed) {
+        animationController.forward();
+      }
+    });
 
     animationController.forward();
     playPauseController = AnimationController(
@@ -109,7 +109,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
           Slider(
             value: _timeDilation,
             min: 0.1,
-            max: 3,
+            max: 4,
             onChanged: (value) {
               setState(() {
                 _timeDilation = value;
