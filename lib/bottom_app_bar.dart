@@ -47,7 +47,6 @@ Widget customBottomAppBar(
             opArt.randomizePalette();
             opArt.saveToCache();
             enableButton = false;
-
           }
         },
       ),

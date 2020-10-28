@@ -70,20 +70,14 @@ class OpArt {
   void saveToCache() {
     // print('saving to cache');
     screenshotController.capture(
-        delay: Duration(milliseconds: 0),
+        delay: Duration(milliseconds: 100),
         pixelRatio: 0.2
     ).then((File image) async {
-
       Map<String, dynamic> map = Map();
       for (int i = 0; i < attributes.length; i++) {
         map.addAll({attributes[i].label: attributes[i].value});
       }
-      map.addAll({'image': image, 'palette': palette});
-
-      // print('Cache map: $map');
-      // print('palette: ${map['palette']}');
-
-
+      map.addAll({'image': image,});
       this.cache.add(map);
       rebuildCache.value++;
       enableButton = true;
