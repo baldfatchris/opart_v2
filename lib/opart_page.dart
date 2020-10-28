@@ -26,7 +26,7 @@ OpArt opArt;
 class _OpArtPageState extends State<OpArtPage> {
   @override
   void initState() {
-    opArt = OpArt(opArtType: OpArtType.Wave);
+    opArt = OpArt(opArtType: OpArtType.Tree);
     showFullPage = false;
     super.initState();
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {

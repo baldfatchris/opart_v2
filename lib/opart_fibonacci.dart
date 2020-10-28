@@ -248,6 +248,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
         'linear random',
         'linear complementary'
       ],
+      settingCategory: SettingCategory.palette,
       proFeature: false,
     ),
     SettingsModel(

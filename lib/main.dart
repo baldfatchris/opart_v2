@@ -12,7 +12,7 @@ void main() {
   runApp(MaterialApp(
     initialRoute: '/',
     routes: {
-      '/': (context) => OpArtPage(OpArtType.Wave),
+      '/': (context) => OpArtPage(OpArtType.Tree),
       '/menu': (context) => MyApp(),
     },
   ));
