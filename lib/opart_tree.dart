@@ -7,399 +7,402 @@ import 'dart:core';
 
 List<String> list = List();
 
+
+
+  SettingsModel zoomTree = SettingsModel(
+    name: 'zoomTree',
+    settingType: SettingType.double,
+    label: 'Zoom',
+    tooltip: 'Zoom in and out',
+    min: 0.2,
+    max: 2.0,
+    zoom: 100,
+    defaultValue: 1.0,
+    icon: Icon(Icons.zoom_in),
+    settingCategory: SettingCategory.tool,
+    proFeature: false,
+  );
+
+  SettingsModel baseHeight = SettingsModel(
+    name: 'baseHeight',
+    settingType: SettingType.double,
+    label: 'Base Height',
+    tooltip: 'The offset from the bottom of the sceen',
+    min: 0.0,
+    max: 500.0,
+    randomMax: 20.0,
+    randomMin: 20.0,
+    zoom: 100,
+    defaultValue: 20.0,
+    icon: Icon(Icons.vertical_align_bottom),
+    settingCategory: SettingCategory.tool,
+    proFeature: false,
+  );
+
+  SettingsModel trunkWidth = SettingsModel(
+    name: 'trunkWidth',
+    settingType: SettingType.double,
+    label: 'Trunk Width',
+    tooltip: 'The width of the base of the trunk',
+    min: 0.0,
+    max: 50.0,
+    zoom: 100,
+    defaultValue: 20.0,
+    icon: Icon(Icons.track_changes),
+    settingCategory: SettingCategory.tool,
+    proFeature: false,
+  );
+  SettingsModel widthDecay = SettingsModel(
+    name: 'widthDecay',
+    settingType: SettingType.double,
+    label: 'Trunk Decay',
+    tooltip: 'The rate at which the trunk width decays',
+    min: 0.7,
+    max: 1.0,
+    randomMin: 0.7,
+    randomMax: 0.9,
+    zoom: 100,
+    defaultValue: 0.8,
+    icon: Icon(Icons.swap_horiz),
+    settingCategory: SettingCategory.tool,
+    proFeature: false,
+  );
+  SettingsModel segmentLength = SettingsModel(
+    name: 'segmentLength',
+    settingType: SettingType.double,
+    label: 'Segment Length',
+    tooltip: 'The length of the first segment of the trunk',
+    min: 10.0,
+    max: 100.0,
+    randomMin: 20.0,
+    randomMax: 70.0,
+    zoom: 100,
+    defaultValue: 50.0,
+    icon: Icon(Icons.swap_horizontal_circle),
+    settingCategory: SettingCategory.tool,
+    proFeature: false,
+  );
+
+  SettingsModel segmentDecay = SettingsModel(
+    name: 'segmentDecay',
+    settingType: SettingType.double,
+    label: 'Segment Decay',
+    tooltip: 'The rate at which the length of each successive segment decays',
+    min: 0.1,
+    max: 1.0,
+    randomMin: 0.8,
+    randomMax: 0.95,
+    zoom: 100,
+    defaultValue: 0.92,
+    icon: Icon(Icons.swap_vert),
+    settingCategory: SettingCategory.tool,
+    proFeature: false,
+  );
+
+  SettingsModel branch = SettingsModel(
+    name: 'branch',
+    settingType: SettingType.double,
+    label: 'Branch Ratio',
+    tooltip: 'The proportion of segments that branch',
+    min: 0.0,
+    max: 1.0,
+    randomMin: 0.4,
+    randomMax: 0.8,
+    zoom: 100,
+    defaultValue: 0.7,
+    icon: Icon(Icons.ac_unit),
+    settingCategory: SettingCategory.tool,
+    proFeature: false,
+  );
+SettingsModel angle = SettingsModel(
+    name: 'angle',
+    settingType: SettingType.double,
+    label: 'Branch Angle',
+    tooltip: 'The angle of the branch',
+    min: 0.1,
+    max: 0.7,
+    zoom: 100,
+    defaultValue: 0.5,
+    icon: Icon(Icons.rotate_right),
+    settingCategory: SettingCategory.tool,
+    proFeature: false,
+  );
+SettingsModel ratio = SettingsModel(
+    name: 'ratio',
+    settingType: SettingType.double,
+    label: 'Angle Ratio',
+    tooltip: 'The ratio of the branch',
+    min: 0.0,
+    max: 1.0,
+    zoom: 100,
+    defaultValue: 0.5,
+    icon: Icon(Icons.blur_circular),
+    settingCategory: SettingCategory.tool,
+    proFeature: false,
+  );
+SettingsModel bulbousness = SettingsModel(
+    name: 'bulbousness',
+    settingType: SettingType.double,
+    label: 'Bulbousness',
+    tooltip: 'The bulbousness of each segment',
+    min: 0.0,
+    max: 5.0,
+    randomMin: 0.0,
+    randomMax: 3.0,
+    zoom: 100,
+    defaultValue: 1.5,
+    icon: Icon(Icons.autorenew),
+    settingCategory: SettingCategory.tool,
+    proFeature: false,
+  );
+SettingsModel maxDepth = SettingsModel(
+    name: 'maxDepth',
+    settingType: SettingType.int,
+    label: 'Max Depth',
+    tooltip: 'The number of segments',
+    min: 5,
+    max: 28,
+    randomMin: 10,
+    randomMax: 25,
+    defaultValue: 18,
+    icon: Icon(Icons.fiber_smart_record),
+    settingCategory: SettingCategory.tool,
+    proFeature: false,
+  );
+SettingsModel leavesAfter = SettingsModel(
+    name: 'leavesAfter',
+    settingType: SettingType.int,
+    label: 'Leaves After',
+    tooltip: 'The number of segments before leaves start to sprout',
+    min: 0,
+    max: 28,
+    defaultValue: 5,
+    icon: Icon(Icons.blur_circular),
+    settingCategory: SettingCategory.tool,
+    proFeature: false,
+  );
+SettingsModel leafAngle = SettingsModel(
+    name: 'leafAngle',
+    settingType: SettingType.double,
+    label: 'Leaf Angle',
+    tooltip: 'The angle of the leaf',
+    min: 0.2,
+    max: 0.8,
+    zoom: 100,
+    defaultValue: 0.5,
+    icon: Icon(Icons.rotate_right),
+    settingCategory: SettingCategory.tool,
+    proFeature: false,
+  );
+SettingsModel leafLength = SettingsModel(
+    name: 'leafLength',
+    settingType: SettingType.double,
+    label: 'Leaf Length',
+    tooltip: 'The fixed length of each leaf',
+    min: 0.0,
+    max: 20.0,
+    zoom: 100,
+    defaultValue: 8.0,
+    icon: Icon(Icons.rotate_right),
+    settingCategory: SettingCategory.tool,
+    proFeature: false,
+  );
+SettingsModel randomLeafLength = SettingsModel(
+    name: 'randomLeafLength',
+    settingType: SettingType.double,
+    label: 'Random Length',
+    tooltip: 'The random length of each leaf',
+    min: 0.0,
+    max: 20.0,
+    zoom: 100,
+    defaultValue: 3.0,
+    icon: Icon(Icons.rotate_right),
+    settingCategory: SettingCategory.tool,
+    proFeature: false,
+  );
+SettingsModel leafSquareness = SettingsModel(
+    name: 'leafSquareness',
+    settingType: SettingType.double,
+    label: 'Squareness',
+    tooltip: 'The squareness leaf',
+    min: 0.0,
+    max: 3.0,
+    zoom: 100,
+    defaultValue: 1.0,
+    icon: Icon(Icons.child_care),
+    settingCategory: SettingCategory.tool,
+    proFeature: false,
+  );
+SettingsModel leafAsymmetry = SettingsModel(
+    name: 'leafAsymmetry',
+    settingType: SettingType.double,
+    label: 'Asymmetry',
+    tooltip: 'The assymetry of the leaf',
+    min: -3.0,
+    max: 3.0,
+    zoom: 100,
+    defaultValue: 0.7,
+    icon: Icon(Icons.clear_all),
+    settingCategory: SettingCategory.tool,
+    proFeature: false,
+  );
+SettingsModel leafDecay = SettingsModel(
+    name: 'leafDecay',
+    settingType: SettingType.double,
+    label: 'Leaf Decay',
+    tooltip: 'The rate at which the leaves decay along the branch',
+    min: 0.9,
+    max: 1.0,
+    zoom: 100,
+    defaultValue: 0.95,
+    icon: Icon(Icons.graphic_eq),
+    settingCategory: SettingCategory.tool,
+    proFeature: false,
+  );
+SettingsModel leafShape = SettingsModel(
+    name: 'leafShape',
+    settingType: SettingType.list,
+    label: "Leaf Type",
+    tooltip: "The shape of the leaf",
+    defaultValue: "diamond",
+    icon: Icon(Icons.local_florist),
+    options: <String>['circle', 'triangle', 'square', 'diamond'],
+    settingCategory: SettingCategory.tool,
+    proFeature: false,
+  );
+SettingsModel backgroundColor = SettingsModel(settingType: SettingType.color,
+    name: 'backgroundColor',
+    label: "Background Color",
+    tooltip: "The background colour for the canvas",
+    defaultValue: Colors.cyan,
+    icon: Icon(Icons.settings_overscan),
+    settingCategory: SettingCategory.palette,
+    proFeature: false,
+  );
+SettingsModel trunkFillColor = SettingsModel(settingType: SettingType.color,
+    name: 'trunkFillColor',
+    label: "Trunk Color",
+    tooltip: "The fill colour of the trunk",
+    defaultValue: Colors.grey,
+    icon: Icon(Icons.settings_overscan),
+    settingCategory: SettingCategory.palette,
+    proFeature: false,
+  );
+SettingsModel trunkOutlineColor = SettingsModel(settingType: SettingType.color,
+    name: 'trunkOutlineColor',
+    label: "Trunk Outline Color",
+    tooltip: "The outline colour of the trunk",
+    defaultValue: Colors.black,
+    icon: Icon(Icons.settings_overscan),
+    settingCategory: SettingCategory.palette,
+    proFeature: false,
+  );
+SettingsModel trunkStrokeWidth = SettingsModel(
+    name: 'trunkStrokeWidth',
+    settingType: SettingType.double,
+    label: 'Outline Width',
+    tooltip: 'The width of the trunk outline',
+    min: 0.0,
+    max: 1.0,
+    zoom: 100,
+    defaultValue: 0.1,
+    icon: Icon(Icons.line_weight),
+    settingCategory: SettingCategory.palette,
+    proFeature: false,
+  );
+SettingsModel numberOfColors = SettingsModel(settingType: SettingType.int,
+    name: 'numberOfColors',
+    label: 'Number of Colors',
+    tooltip: 'The number of colours in the palette',
+    min: 1,
+    max: 36,
+    defaultValue: 10,
+    icon: Icon(Icons.palette),
+    settingCategory: SettingCategory.palette,
+    proFeature: false,
+  );
+SettingsModel paletteType = SettingsModel(
+    name: 'paletteType',
+    settingType: SettingType.list,
+    label: "Palette Type",
+    tooltip: "The nature of the palette",
+    defaultValue: "random",
+    icon: Icon(Icons.colorize),
+    options: <String>[
+    'random',
+    'blended random ',
+    'linear random',
+    'linear complementary'
+    ],
+    settingCategory: SettingCategory.palette,
+    proFeature: false,
+  );
+SettingsModel paletteList = SettingsModel(
+    name: 'paletteList',
+    settingType: SettingType.list,
+    label: "Palette",
+    tooltip: "Choose from a list of palettes",
+    defaultValue: "Default",
+    icon: Icon(Icons.palette),
+    options: defaultPalleteNames(),
+    settingCategory: SettingCategory.palette,
+    proFeature: false,
+  );
+SettingsModel opacity = SettingsModel(
+    name: 'opacity',
+    settingType: SettingType.double,
+    label: 'Opactity',
+    tooltip: 'The opactity of the petal',
+    min: 0.2,
+    max: 1.0,
+    zoom: 100,
+    defaultValue: 1.0,
+    icon: Icon(Icons.remove_red_eye),
+    settingCategory: SettingCategory.palette,
+    proFeature: false,
+  );
+SettingsModel resetDefaults = SettingsModel(
+    name: 'resetDefaults',
+    settingType: SettingType.button,
+    label: 'Reset Defaults',
+    tooltip: 'Reset all settings to defaults',
+    defaultValue: false,
+    icon: Icon(Icons.low_priority),
+    settingCategory: SettingCategory.other,
+    proFeature: false,
+  );
+
+
 List<SettingsModel> initializeTreeAttributes() {
-
   return [
-
-    SettingsModel(
-      name: 'zoomTree',
-      settingType: SettingType.double,
-      label: 'Zoom',
-      tooltip: 'Zoom in and out',
-      min: 0.2,
-      max: 2.0,
-      zoom: 100,
-      defaultValue: 1.0,
-      icon: Icon(Icons.zoom_in),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      name: 'baseHeight',
-      settingType: SettingType.double,
-      label: 'Base Height',
-      tooltip: 'The offset from the bottom of the sceen',
-      min: 0.0,
-      max: 500.0,
-      randomMax: 20.0,
-      randomMin: 20.0,
-      zoom: 100,
-      defaultValue: 20.0,
-      icon: Icon(Icons.vertical_align_bottom),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      name: 'trunkWidth',
-      settingType: SettingType.double,
-      label: 'Trunk Width',
-      tooltip: 'The width of the base of the trunk',
-      min: 0.0,
-      max: 50.0,
-      zoom: 100,
-      defaultValue: 20.0,
-      icon: Icon(Icons.track_changes),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      name: 'widthDecay',
-      settingType: SettingType.double,
-      label: 'Trunk Decay',
-      tooltip: 'The rate at which the trunk width decays',
-      min: 0.7,
-      max: 1.0,
-      zoom: 100,
-      defaultValue: 0.8,
-      icon: Icon(Icons.change_history),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      name: 'segmentLength',
-      settingType: SettingType.double,
-      label: 'Segment Length',
-      tooltip: 'The length of the first segment of the trunk',
-      min: 10.0,
-      max: 100.0,
-      randomMin: 20.0,
-      randomMax: 70.0,
-      zoom: 100,
-      defaultValue: 50.0,
-      icon: Icon(Icons.swap_horizontal_circle),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      name: 'segmentDecay',
-      settingType: SettingType.double,
-      label: 'Segment Decay',
-      tooltip: 'The rate at which the length of each successive segment decays',
-      min: 0.9,
-      max: 1.0,
-      zoom: 100,
-      defaultValue: 0.92,
-      icon: Icon(Icons.format_color_fill),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      name: 'branch',
-      settingType: SettingType.double,
-      label: 'Branch Ratio',
-      tooltip: 'The proportion of segments that branch',
-      min: 0.4,
-      max: 1.0,
-      zoom: 100,
-      defaultValue: 0.7,
-      icon: Icon(Icons.ac_unit),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      name: 'angle',
-      settingType: SettingType.double,
-      label: 'Branch Angle',
-      tooltip: 'The angle of the branch',
-      min: 0.1,
-      max: 0.7,
-      zoom: 100,
-      defaultValue: 0.5,
-      icon: Icon(Icons.rotate_right),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      name: 'ratio',
-      settingType: SettingType.double,
-      label: 'Angle Ratio',
-      tooltip: 'The ratio of the branch',
-      min: 0.0,
-      max: 1.0,
-      zoom: 100,
-      defaultValue: 0.5,
-      icon: Icon(Icons.blur_circular),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      name: 'bulbousness',
-      settingType: SettingType.double,
-      label: 'Bulbousness',
-      tooltip: 'The bulbousness of each segment',
-      min: 0.0,
-      max: 2.0,
-      zoom: 100,
-      defaultValue: 1.5,
-      icon: Icon(Icons.autorenew),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      name: 'maxDepth',
-      settingType: SettingType.int,
-      label: 'Max Depth',
-      tooltip: 'The number of segments',
-      min: 5,
-      max: 28,
-      randomMin: 10,
-      randomMax: 25,
-      defaultValue: 18,
-      icon: Icon(Icons.fiber_smart_record),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      name: 'leavesAfter',
-      settingType: SettingType.int,
-      label: 'Leaves After',
-      tooltip: 'The number of segments before leaves start to sprout',
-      min: 0,
-      max: 28,
-      defaultValue: 5,
-      icon: Icon(Icons.fiber_smart_record),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      name: 'leafAngle',
-      settingType: SettingType.double,
-      label: 'Branch Angle',
-      tooltip: 'The angle of the leaf',
-      min: 0.2,
-      max: 0.8,
-      zoom: 100,
-      defaultValue: 0.5,
-      icon: Icon(Icons.rotate_right),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      name: 'leafLength',
-      settingType: SettingType.double,
-      label: 'Leaf Length',
-      tooltip: 'The fixed length of each leaf',
-      min: 0.0,
-      max: 20.0,
-      zoom: 100,
-      defaultValue: 8.0,
-      icon: Icon(Icons.rotate_right),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      name: 'randomLeafLength',
-      settingType: SettingType.double,
-      label: 'Random Length',
-      tooltip: 'The random length of each leaf',
-      min: 0.0,
-      max: 20.0,
-      zoom: 100,
-      defaultValue: 3.0,
-      icon: Icon(Icons.rotate_right),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      name: 'leafSquareness',
-      settingType: SettingType.double,
-      label: 'Squareness',
-      tooltip: 'The squareness leaf',
-      min: 0.0,
-      max: 3.0,
-      zoom: 100,
-      defaultValue: 1.0,
-      icon: Icon(Icons.child_care),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      name: 'leafAsymmetry',
-      settingType: SettingType.double,
-      label: 'Asymmetry',
-      tooltip: 'The assymetry of the leaf',
-      min: -3.0,
-      max: 3.0,
-      zoom: 100,
-      defaultValue: 0.7,
-      icon: Icon(Icons.clear_all),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      name: 'leafDecay',
-      settingType: SettingType.double,
-      label: 'Leaf Decay',
-      tooltip: 'The rate at which the leaves decay along the branch',
-      min: 0.9,
-      max: 1.0,
-      zoom: 100,
-      defaultValue: 0.95,
-      icon: Icon(Icons.graphic_eq),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      name: 'leafShape',
-      settingType: SettingType.list,
-      label: "Leaf Type",
-      tooltip: "The shape of the leaf",
-      defaultValue: "diamond",
-      icon: Icon(Icons.local_florist),
-      options: <String>['circle', 'triangle', 'square', 'diamond'],
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-
-
-
-
-
-    SettingsModel(settingType: SettingType.color,
-      name: 'backgroundColor',
-      label: "Background Color",
-      tooltip: "The background colour for the canvas",
-      defaultValue: Colors.cyan,
-      icon: Icon(Icons.settings_overscan),
-      settingCategory: SettingCategory.palette,
-      proFeature: false,
-    ),
-
-    SettingsModel(settingType: SettingType.color,
-      name: 'trunkFillColor',
-      label: "Trunk Color",
-      tooltip: "The fill colour of the trunk",
-      defaultValue: Colors.grey,
-      icon: Icon(Icons.settings_overscan),
-      settingCategory: SettingCategory.palette,
-      proFeature: false,
-    ),
-
-    SettingsModel(settingType: SettingType.color,
-      name: 'trunkOutlineColor',
-      label: "Trunk Outline Color",
-      tooltip: "The outline colour of the trunk",
-      defaultValue: Colors.black,
-      icon: Icon(Icons.settings_overscan),
-      settingCategory: SettingCategory.palette,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      name: 'trunkStrokeWidth',
-      settingType: SettingType.double,
-      label: 'Outline Width',
-      tooltip: 'The width of the trunk outline',
-      min: 0.0,
-      max: 1.0,
-      zoom: 100,
-      defaultValue: 0.1,
-      icon: Icon(Icons.line_weight),
-      settingCategory: SettingCategory.palette,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      name: 'randomColors',
-      settingType: SettingType.bool ,
-      label: 'Random Colors',
-      tooltip: 'randomize the colours!',
-      defaultValue: false,
-      icon: Icon(Icons.gamepad),
-      settingCategory: SettingCategory.palette,
-      proFeature: false,
-    ),
-    SettingsModel(settingType: SettingType.int,
-      name: 'numberOfColors',
-      label: 'Number of Colors',
-      tooltip: 'The number of colours in the palette',
-      min: 1,
-      max: 36,
-      defaultValue: 10,
-      icon: Icon(Icons.palette),
-      settingCategory: SettingCategory.palette,
-      proFeature: false,
-    ),
-    SettingsModel(
-      settingType: SettingType.list,
-      name: 'paletteType',
-      label: "Palette Type",
-      tooltip: "The nature of the palette",
-      defaultValue: "random",
-      icon: Icon(Icons.colorize),
-      options: <String>[
-        'random',
-        'blended random ',
-        'linear random',
-        'linear complementary'
-      ],
-      settingCategory: SettingCategory.palette,
-      proFeature: false,
-    ),
-    SettingsModel(
-      settingType: SettingType.list,
-      name: 'paletteList',
-      label: "Palette",
-      tooltip: "Choose from a list of palettes",
-      defaultValue: "Default",
-      icon: Icon(Icons.palette),
-      options: defaultPalleteNames(),
-      settingCategory: SettingCategory.palette,
-      proFeature: false,
-    ),
-    SettingsModel(
-      settingType: SettingType.double,
-      label: 'Opactity',
-      name: 'opacity',
-      tooltip: 'The opactity of the petal',
-      min: 0.2,
-      max: 1.0,
-      zoom: 100,
-      defaultValue: 1.0,
-      icon: Icon(Icons.remove_red_eye),
-      settingCategory: SettingCategory.palette,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      settingType: SettingType.button,
-      name: 'resetDefaults',
-      label: 'Reset Defaults',
-      tooltip: 'Reset all settings to defaults',
-      defaultValue: false,
-      icon: Icon(Icons.low_priority),
-      settingCategory: SettingCategory.other,
-      proFeature: false,
-    ),
-
+    zoomTree,
+    baseHeight,
+    trunkWidth,
+    widthDecay,
+    segmentLength,
+    segmentDecay,
+    branch,
+    angle,
+    ratio,
+    bulbousness,
+    maxDepth,
+    leavesAfter,
+    leafAngle,
+    leafLength,
+    randomLeafLength,
+    leafSquareness,
+    leafAsymmetry,
+    leafDecay,
+    leafShape,
+    backgroundColor,
+    trunkFillColor,
+    trunkOutlineColor,
+    trunkStrokeWidth,
+    numberOfColors,
+    paletteType,
+    paletteList,
+    opacity,
+    resetDefaults,
   ];
 }
 
@@ -413,7 +416,6 @@ void paintTree(Canvas canvas, Size size, Random rnd, double animationVariable, L
   // print('animationVariable: ${animationVariable}');
 
   // print(attributes.firstWhere((element) => element.name == 'backgroundColor').value);
-  // print(attributes.firstWhere((element) => element.name == 'randomColors').value);
   // print('numberOfColors: ${attributes.firstWhere((element) => element.name == 'numberOfColors').value}');
   // print(attributes.firstWhere((element) => element.name == 'paletteType').value);
   // print(attributes.firstWhere((element) => element.name == 'opacity').value);
@@ -445,7 +447,6 @@ void paintTree(Canvas canvas, Size size, Random rnd, double animationVariable, L
     attributes.firstWhere((element) => element.name == 'trunkOutlineColor').value,
     attributes.firstWhere((element) => element.name == 'trunkStrokeWidth').value,
 
-    (attributes.firstWhere((element) => element.name == 'randomColors').value == true),
     attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt(),
     attributes.firstWhere((element) => element.name == 'paletteType').value,
     attributes.firstWhere((element) => element.name == 'opacity').value,
@@ -490,7 +491,6 @@ generateTree(
     Color trunkFillColor,
     Color trunkOutlineColor,
     double trunkStrokeWidth,
-    bool randomColors,
     int numberOfColors,
     String paletteType,
     double opacity,
@@ -498,7 +498,6 @@ generateTree(
     double animationVariable,
     ) {
   
-  int colourOrder = 0;
 
   // colour in the canvas
   canvas.drawRect(
@@ -549,6 +548,7 @@ generateTree(
     leafAsymmetry,
     trunkFillColor,
     opacity,
+    numberOfColors,
     trunkStrokeWidth,
     trunkOutlineColor,
     palette,
@@ -586,6 +586,7 @@ drawSegment(
     double leafAsymmetry,
     Color trunkFillColor,
     double opacity,
+    numberOfColors,
     double trunkStrokeWidth,
     Color trunkOutlineColor,
     List palette,
@@ -608,8 +609,6 @@ drawSegment(
       trunkFillColor, opacity,trunkStrokeWidth, trunkOutlineColor,
     );
 
-    double directionA;
-    double directionB;
 
     // the ratio is the skewness of the branch.
     // if ratio = 0, both branches go off at the same angle
@@ -621,163 +620,29 @@ drawSegment(
     // if angle = 1 the tree is basically a ball
 
     // the animation increases and decreases the ratio
+    double branchRatio = (1 - rnd.nextDouble()/5) * ratio * (1 - rnd.nextDouble() * cos(animationVariable) * 0.10);
 
-    double branchRatio =
-        ratio * (1 - rnd.nextDouble() * cos(animationVariable) * 0.10);
+    // maxBranch is the max branching angle
+    double maxBranch = pi/8;
 
-    // if (rnd.nextDouble() > 0.5) {
-    directionA = direction + branchRatio * angle;
-    directionB = direction - (1 - branchRatio) * angle;
-    // } else {
-    //   directionA =
-    //       direction - branchRatio * currentTree.angle.value;
-    //   directionB =
-    //       direction + (1 - branchRatio) * currentTree.angle.value;
-    // }
+    // direction A is off to the left
+    double directionA;
 
-    if (rnd.nextDouble() > 0.5) {
-      drawSegment(
-        canvas,
-        rnd,
-        borderX,
-        borderY,
-        rootA,
-        rootX,
-        width * widthDecay,
-        segmentLength * segmentDecay,
-        directionA,
-        ratio,
-        currentDepth + 1,
-        lineWidth,
-        leafLength,
-        randomLeafLength,
-        leafShape,
-        true,
-        animationVariable,
-        branch,
-        angle,
-        widthDecay,
-        segmentDecay,
-        bulbousness,
-        leavesAfter,
-        maxDepth,
-        leafAngle,
-        leafDecay,
-        leafSquareness,
-        leafAsymmetry,
-        trunkFillColor,
-        opacity,
-        trunkStrokeWidth,
-        trunkOutlineColor,
-        palette,
-      );
-      drawSegment(
-        canvas,
-        rnd,
-        borderX,
-        borderY,
-        rootX,
-        rootB,
-        width * widthDecay,
-        segmentLength * segmentDecay,
-        directionB,
-        ratio,
-        currentDepth + 1,
-        lineWidth,
-        leafLength,
-        randomLeafLength,
-        leafShape,
-        true,
-        animationVariable,
-        branch,
-        angle,
-        widthDecay,
-        segmentDecay,
-        bulbousness,
-        leavesAfter,
-        maxDepth,
-        leafAngle,
-        leafDecay,
-        leafSquareness,
-        leafAsymmetry,
-        trunkFillColor,
-        opacity,
-        trunkStrokeWidth,
-        trunkOutlineColor,
-        palette,
-      );
-    } else {
-      drawSegment(
-        canvas,
-        rnd,
-        borderX,
-        borderY,
-        rootX,
-        rootB,
-        width * widthDecay,
-        segmentLength * segmentDecay,
-        directionB,
-        ratio,
-        currentDepth + 1,
-        lineWidth,
-        leafLength,
-        randomLeafLength,
-        leafShape,
-        true,
-        animationVariable,
-        branch,
-        angle,
-        widthDecay,
-        segmentDecay,
-        bulbousness,
-        leavesAfter,
-        maxDepth,
-        leafAngle,
-        leafDecay,
-        leafSquareness,
-        leafAsymmetry,
-        trunkFillColor,
-        opacity,
-        trunkStrokeWidth,
-        trunkOutlineColor,
-        palette,
-      );
-      drawSegment(
-        canvas,
-        rnd,
-        borderX,
-        borderY,
-        rootA,
-        rootX,
-        width * widthDecay,
-        segmentLength * segmentDecay,
-        directionA,
-        ratio,
-        currentDepth + 1,
-        lineWidth,
-        leafLength,
-        randomLeafLength,
-        leafShape,
-        true,
-        animationVariable,
-        branch,
-        angle,
-        widthDecay,
-        segmentDecay,
-        bulbousness,
-        leavesAfter,
-        maxDepth,
-        leafAngle,
-        leafDecay,
-        leafSquareness,
-        leafAsymmetry,
-        trunkFillColor,
-        opacity,
-        trunkStrokeWidth,
-        trunkOutlineColor,
-        palette,
-      );
+    // direction B is off to the left
+    double directionB;
+    if (rnd.nextBool()){
+      directionA = direction - maxBranch * (angle + 2*angle*branchRatio);
+      directionB = direction + maxBranch * (angle + 2*angle*(1-branchRatio));
     }
+    else {
+      directionA = direction - maxBranch * (angle + 2*angle*(1-branchRatio));
+      directionB = direction + maxBranch * (angle + 2*angle*branchRatio);
+    }
+
+    drawSegment( canvas, rnd, borderX, borderY, rootA, rootX, width * widthDecay, segmentLength * segmentDecay, directionB, ratio, currentDepth + 1, lineWidth, leafLength, randomLeafLength, leafShape, true, animationVariable, branch, angle, widthDecay, segmentDecay, bulbousness, leavesAfter, maxDepth, leafAngle, leafDecay, leafSquareness, leafAsymmetry, trunkFillColor, opacity, numberOfColors, trunkStrokeWidth, trunkOutlineColor, palette, );
+    drawSegment( canvas, rnd, borderX, borderY, rootX, rootB, width * widthDecay, segmentLength * segmentDecay, directionA, ratio, currentDepth + 1, lineWidth, leafLength, randomLeafLength, leafShape, true, animationVariable, branch, angle, widthDecay, segmentDecay, bulbousness, leavesAfter, maxDepth, leafAngle, leafDecay, leafSquareness, leafAsymmetry, trunkFillColor, opacity, numberOfColors, trunkStrokeWidth, trunkOutlineColor, palette, );
+
+
   } else {
     //grow
     List PD = [
@@ -815,6 +680,7 @@ drawSegment(
         leafAsymmetry,
         animationVariable,
         opacity,
+        numberOfColors,
         palette,
       );
       drawTheLeaf(
@@ -833,6 +699,7 @@ drawSegment(
         leafAsymmetry,
         animationVariable,
         opacity,
+        numberOfColors,
         palette,
       );
     }
@@ -870,6 +737,7 @@ drawSegment(
         leafAsymmetry,
         trunkFillColor,
         opacity,
+        numberOfColors,
         trunkStrokeWidth,
         trunkOutlineColor,
         palette,
@@ -985,17 +853,18 @@ drawTheLeaf(
     double leafAsymmetry,
     double animationVariable,
     double opacity,
+    int numberOfColors,
     List palette,
     ) {
 
 
   // pick a random color
-  Color leafColor = palette[rnd.nextInt(palette.length)].withOpacity(opacity);
-  var leafRadius =
-      leafLength + rnd.nextDouble() * randomLeafLength;
+  Color leafColor = palette[rnd.nextInt(numberOfColors)].withOpacity(opacity);
 
-  double randomizedLeafAngle =
-      leafAngle + (1 - rnd.nextDouble() / 2) * cos(animationVariable);
+
+  var leafRadius = leafLength + rnd.nextDouble() * randomLeafLength;
+
+  double randomizedLeafAngle = leafAngle + (1 - rnd.nextDouble() / 2) * cos(animationVariable);
 
   // find the centre of the leaf
   List PC = [
@@ -1041,6 +910,44 @@ drawTheLeaf(
       leaf.moveTo(borderX + PA[0], -borderY + PA[1]);
       leaf.lineTo(borderX + PB1[0], -borderY + PB1[1]);
       leaf.lineTo(borderX + PB2[0], -borderY + PB2[1]);
+      leaf.close();
+
+      canvas.drawPath(
+          leaf,
+          Paint()
+            ..style = PaintingStyle.fill
+            ..color = leafColor.withOpacity(opacity));
+
+      break;
+
+    case "square":
+
+    // find the tips of the leaf
+      List PA = [
+        PC[0] - leafRadius * cos(randomizedLeafAngle + pi * 0),
+        PC[1] + leafRadius * sin(randomizedLeafAngle + pi * 0)
+      ];
+
+      List PB1 = [
+        PC[0] - leafRadius * cos(randomizedLeafAngle + pi * (0.5-leafSquareness)),
+        PC[1] + leafRadius * sin(randomizedLeafAngle + pi * (0.5-leafSquareness))
+      ];
+
+      List PB2 = [
+        PC[0] - leafRadius * cos(randomizedLeafAngle - pi * 1),
+        PC[1] + leafRadius * sin(randomizedLeafAngle - pi * 1)
+      ];
+
+      List PB3 = [
+        PC[0] - leafRadius * cos(randomizedLeafAngle - pi * (0.5-leafSquareness)),
+        PC[1] + leafRadius * sin(randomizedLeafAngle - pi * (0.5-leafSquareness))
+      ];
+
+      Path leaf = Path();
+      leaf.moveTo(borderX + PA[0], -borderY + PA[1]);
+      leaf.lineTo(borderX + PB1[0], -borderY + PB1[1]);
+      leaf.lineTo(borderX + PB2[0], -borderY + PB2[1]);
+      leaf.lineTo(borderX + PB3[0], -borderY + PB3[1]);
       leaf.close();
 
       canvas.drawPath(
