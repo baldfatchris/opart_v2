@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'bottom_app_bar.dart';
 import 'model.dart';
 import 'toolbox.dart';
@@ -26,7 +27,7 @@ OpArt opArt;
 class _OpArtPageState extends State<OpArtPage> {
   @override
   void initState() {
-    opArt = OpArt(opArtType: OpArtType.Tree);
+    opArt = OpArt(opArtType: widget.opArtType);
     showFullPage = false;
     super.initState();
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
@@ -43,12 +44,16 @@ class _OpArtPageState extends State<OpArtPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIOverlays([]);
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+
+
       appBar: showFullPage
           ? AppBar(
-              backgroundColor: Colors.cyan[200],
+              backgroundColor: Colors.cyan[200].withOpacity(0.7),
               title: Text(
                 opArt.name,
                 style: TextStyle(
@@ -111,55 +116,63 @@ class _OpArtPageState extends State<OpArtPage> {
           : AppBar(
               toolbarHeight: 0,
             ),
-      bottomNavigationBar: showFullPage
-          ? customBottomAppBar(context: context, opArt: opArt)
-          : BottomAppBar(),
-      body: Column(
+
+      body: Stack(
         children: [
-          showFullPage
-              ? Container(
-                  width: MediaQuery.of(context).size.width,
-                  color: Colors.white,
-                  height: 60,
-                  child: ValueListenableBuilder<int>(
-                      valueListenable: rebuildCache,
-                      builder: (context, value, child) {
-                        return opArt.cacheListLength() == 0
-                            ? Container()
-                            : ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                controller: scrollController,
-                                itemCount: opArt.cacheListLength(),
-                                reverse: false,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        opArt.revertToCache(index);
+          GestureDetector(
+              onTap: () {
+                setState(() {
+                  showFullPage = !showFullPage;
+                });
+              },
+              child: ClipRect(child: CanvasWidget())),
+          Align(alignment: Alignment.topCenter,
+            child: Material(elevation: 10,
+              child: showFullPage
+                  ? SafeArea(
+                    child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        color: Colors.white.withOpacity(0.7),
+                        height: 60,
+                        child: ValueListenableBuilder<int>(
+                            valueListenable: rebuildCache,
+                            builder: (context, value, child) {
+                              return opArt.cacheListLength() == 0
+                                  ? Container()
+                                  : ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      controller: scrollController,
+                                      itemCount: opArt.cacheListLength(),
+                                      reverse: false,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(2.0),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              opArt.revertToCache(index);
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle),
+                                              width: 50,
+                                              height: 50,
+                                              child: Image.file(
+                                                  opArt.cache[index]['image']),
+                                            ),
+                                          ),
+                                        );
                                       },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle),
-                                        width: 50,
-                                        height: 50,
-                                        child: Image.file(
-                                            opArt.cache[index]['image']),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                      }))
-              : Container(),
-          Expanded(
-              child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      showFullPage = !showFullPage;
-                    });
-                  },
-                  child: ClipRect(child: CanvasWidget()))),
+                                    );
+                            })),
+                  )
+                  : Container(color: Colors.white.withOpacity(0.7),
+                height: 60,),
+            ),
+          ),
+          Align(alignment: Alignment.bottomCenter,child: showFullPage
+              ? customBottomAppBar(context: context, opArt: opArt)
+              : BottomAppBar(),)
+
         ],
       ),
     );
