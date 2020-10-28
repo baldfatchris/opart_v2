@@ -4,7 +4,7 @@ import 'toolbox.dart';
 
 Widget customBottomAppBar(
     {BuildContext context, OpArt opArt}) {
-  return Container(color: Colors.white.withOpacity(0.7),
+  return Container(color: Colors.white.withOpacity(0.1),
     
       height: 70,
       child: GestureDetector(
