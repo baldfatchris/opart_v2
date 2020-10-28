@@ -122,6 +122,7 @@ class OpArt {
 
   // randomise the non-palette settings
   void randomizeSettings() {
+    print('Randomizing Settings');
     for (int i = 0; i < attributes.length; i++) {
       // print(attributes[i].name);
       if (attributes[i].settingCategory == SettingCategory.tool){

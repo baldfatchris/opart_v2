@@ -17,7 +17,7 @@ List<SettingsModel> initializeTreeAttributes() {
       label: 'Zoom',
       tooltip: 'Zoom in and out',
       min: 0.2,
-      max: 2,
+      max: 2.0,
       zoom: 100,
       defaultValue: 1.0,
       icon: Icon(Icons.zoom_in),
@@ -259,18 +259,7 @@ List<SettingsModel> initializeTreeAttributes() {
       proFeature: false,
     ),
 
-    SettingsModel(
-      name: 'direction',
-      settingType: SettingType.list,
-      label: "Direction",
-      tooltip:
-      "Start from the outside and draw Inward, or start from the centre and draw Outward",
-      defaultValue: "inward",
-      icon: Icon(Icons.directions),
-      options: <String>['inward', 'outward'],
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
+
 
 
 
@@ -429,7 +418,6 @@ void paintTree(Canvas canvas, Size size, Random rnd, double animationVariable, L
   attributes.firstWhere((element) => element.name == 'leafSquareness').value,
   attributes.firstWhere((element) => element.name == 'leafDecay').value,
   attributes.firstWhere((element) => element.name == 'leafShape').value,
-  attributes.firstWhere((element) => element.name == 'direction').value,
 
     attributes.firstWhere((element) => element.name == 'backgroundColor').value,
     attributes.firstWhere((element) => element.name == 'trunkFillColor').value,
@@ -475,7 +463,6 @@ generateTree(
     double leafSquareness,
     double leafDecay,
     String leafShape,
-    String direction,
 
     Color backgroundColor,
     Color trunkFillColor,
