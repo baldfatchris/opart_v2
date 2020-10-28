@@ -31,7 +31,9 @@ List<SettingsModel> initializeTreeAttributes() {
       label: 'Base Height',
       tooltip: 'The offset from the bottom of the sceen',
       min: 0.0,
-      max: 100.0,
+      max: 500.0,
+      randomMax: 20.0,
+      randomMin: 20.0,
       zoom: 100,
       defaultValue: 20.0,
       icon: Icon(Icons.vertical_align_bottom),
@@ -158,9 +160,11 @@ List<SettingsModel> initializeTreeAttributes() {
       settingType: SettingType.int,
       label: 'Max Depth',
       tooltip: 'The number of segments',
-      min: 10,
+      min: 5,
       max: 28,
-      defaultValue: 20,
+      randomMax: 10,
+      randomMin: 25,
+      defaultValue: 18,
       icon: Icon(Icons.fiber_smart_record),
       settingCategory: SettingCategory.tool,
       proFeature: false,
@@ -1017,45 +1021,28 @@ drawTheLeaf(
 
       break;
 
-    case "diamond":
-    // find the tip of the leaf
-      List PS = [
-        PC[0] - leafRadius * cos(randomizedLeafAngle + pi),
-        PC[1] + leafRadius * sin(randomizedLeafAngle + pi)
+    case "triangle":
+
+    // find the tips of the leaf
+      List PA = [
+        PC[0] - leafRadius * cos(randomizedLeafAngle + pi * 0),
+        PC[1] + leafRadius * sin(randomizedLeafAngle + pi * 0)
       ];
 
-      // find the offset centre of the leaf
-      List POC = [
-        PC[0] + leafAsymmetry * leafRadius * cos(randomizedLeafAngle + pi),
-        PC[1] - leafAsymmetry * leafRadius * sin(randomizedLeafAngle + pi)
+      List PB1 = [
+        PC[0] - leafRadius * cos(randomizedLeafAngle + pi * (0.5-leafSquareness)),
+        PC[1] + leafRadius * sin(randomizedLeafAngle + pi * (0.5-leafSquareness))
       ];
 
-      List PE = [
-        POC[0] -
-            leafSquareness *
-                leafRadius *
-                cos(randomizedLeafAngle + pi * 0.5),
-        POC[1] +
-            leafSquareness *
-                leafRadius *
-                sin(randomizedLeafAngle + pi * 0.5)
-      ];
-      List PW = [
-        POC[0] -
-            leafSquareness *
-                leafRadius *
-                cos(randomizedLeafAngle + pi * 1.5),
-        POC[1] +
-            leafSquareness *
-                leafRadius *
-                sin(randomizedLeafAngle + pi * 1.5)
+      List PB2 = [
+        PC[0] - leafRadius * cos(randomizedLeafAngle - pi * (0.5-leafSquareness)),
+        PC[1] + leafRadius * sin(randomizedLeafAngle - pi * (0.5-leafSquareness))
       ];
 
       Path leaf = Path();
-      leaf.moveTo(borderX + leafPosition[0], -borderY + leafPosition[1]);
-      leaf.lineTo(borderX + PE[0], -borderY + PE[1]);
-      leaf.lineTo(borderX + PS[0], -borderY + PS[1]);
-      leaf.lineTo(borderX + PW[0], -borderY + PW[1]);
+      leaf.moveTo(borderX + PA[0], -borderY + PA[1]);
+      leaf.lineTo(borderX + PB1[0], -borderY + PB1[1]);
+      leaf.lineTo(borderX + PB2[0], -borderY + PB2[1]);
       leaf.close();
 
       canvas.drawPath(
@@ -1066,7 +1053,56 @@ drawTheLeaf(
 
 
 
-      break;
+      break;   case "diamond":
+  // find the tip of the leaf
+    List PS = [
+      PC[0] - leafRadius * cos(randomizedLeafAngle + pi),
+      PC[1] + leafRadius * sin(randomizedLeafAngle + pi)
+    ];
+
+    // find the offset centre of the leaf
+    List POC = [
+      PC[0] + leafAsymmetry * leafRadius * cos(randomizedLeafAngle + pi),
+      PC[1] - leafAsymmetry * leafRadius * sin(randomizedLeafAngle + pi)
+    ];
+
+    List PE = [
+      POC[0] -
+          leafSquareness *
+              leafRadius *
+              cos(randomizedLeafAngle + pi * 0.5),
+      POC[1] +
+          leafSquareness *
+              leafRadius *
+              sin(randomizedLeafAngle + pi * 0.5)
+    ];
+    List PW = [
+      POC[0] -
+          leafSquareness *
+              leafRadius *
+              cos(randomizedLeafAngle + pi * 1.5),
+      POC[1] +
+          leafSquareness *
+              leafRadius *
+              sin(randomizedLeafAngle + pi * 1.5)
+    ];
+
+    Path leaf = Path();
+    leaf.moveTo(borderX + leafPosition[0], -borderY + leafPosition[1]);
+    leaf.lineTo(borderX + PE[0], -borderY + PE[1]);
+    leaf.lineTo(borderX + PS[0], -borderY + PS[1]);
+    leaf.lineTo(borderX + PW[0], -borderY + PW[1]);
+    leaf.close();
+
+    canvas.drawPath(
+        leaf,
+        Paint()
+          ..style = PaintingStyle.fill
+          ..color = leafColor.withOpacity(opacity));
+
+
+
+    break;
 
     case "quadratic":
 

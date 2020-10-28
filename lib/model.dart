@@ -53,6 +53,9 @@ class OpArt {
         break;
 
       case OpArtType.Wallpaper:
+        // this.attributes = initializeWallpaperAttributes();
+        // this.palette = OpArtPalette(rnd);
+        // this.name = 'Wave';
 
         break;
 
@@ -122,21 +125,23 @@ class OpArt {
 
   // randomise the non-palette settings
   void randomizeSettings() {
-    // print('Randomizing Settings');
+    print('Randomizing Settings');
     for (int i = 0; i < attributes.length; i++) {
-      // print(attributes[i].name);
       if (attributes[i].settingCategory == SettingCategory.tool){
         attributes[i].randomize(rnd);
+        print('${attributes[i].name}: ${attributes[i].value}');
       }
     }
+    randomizePalette();
   }
 
   // randomise the palette
   void randomizePalette() {
+    print('Randomizing Palette');
     for (int i = 0; i < attributes.length; i++) {
-      // print(attributes[i].name);
       if (attributes[i].settingCategory == SettingCategory.palette){
         attributes[i].randomize(rnd);
+        print('${attributes[i].name}: ${attributes[i].value}');
       }
     }
 

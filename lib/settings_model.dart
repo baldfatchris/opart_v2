@@ -60,8 +60,9 @@ class SettingsModel {
   void randomize(Random rnd) {
   // if (!this.locked && (proVersion || !proVersion && !this.proFeature)) {
 
-      switch (this.settingType) {
+    // print('Name: ${this.name}: ${this.settingType}');
 
+      switch (this.settingType) {
 
         case SettingType.double:
           // print(this.settingType);
@@ -70,11 +71,10 @@ class SettingsModel {
           double max = (this.randomMax != null) ? this.randomMax : this.max;
 
           // half the time use the default
-          this.value = rnd.nextDouble() * (max - min) + min;
-          // this.value = (rnd.nextBool() == true)
-          //     ? rnd.nextDouble() * (max - min) + min
-          //     : this.defaultValue;
-// print(this.value);
+          this.value = (rnd.nextBool() == true)
+              ? rnd.nextDouble() * (max - min) + min
+              : this.defaultValue;
+
           break;
 
         case SettingType.int:
@@ -111,8 +111,8 @@ class SettingsModel {
           this.value = (rnd.nextBool() == true)
               ? this.options[rnd.nextInt(this.options.length)]
               : this.defaultValue;
-  //    }
- }
+      }
+//    }
   }
 
   void setDefault() {
