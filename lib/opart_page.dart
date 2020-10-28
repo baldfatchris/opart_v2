@@ -24,7 +24,10 @@ File imageFile;
 
 OpArt opArt;
 
-class _OpArtPageState extends State<OpArtPage> {
+class _OpArtPageState extends State<OpArtPage>
+  {
+
+
   @override
   void initState() {
 
@@ -48,6 +51,7 @@ class _OpArtPageState extends State<OpArtPage> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+
       extendBodyBehindAppBar: true,
       appBar: showOptions
           ? AppBar(
@@ -135,8 +139,7 @@ class _OpArtPageState extends State<OpArtPage> {
             child: showOptions
                 ? SafeArea(
                     child: Container(
-                      color: Colors.white.withOpacity(0.8),
-
+                        color: Colors.white.withOpacity(0.8),
                         width: MediaQuery.of(context).size.width,
                         height: 60,
                         child: ValueListenableBuilder<int>(
@@ -151,16 +154,14 @@ class _OpArtPageState extends State<OpArtPage> {
                                       reverse: false,
                                       itemBuilder: (context, index) {
                                         return Padding(
-                                          padding:
-                                              const EdgeInsets.symmetric(
-                                                  vertical: 2.0,
-                                                  horizontal: 4),
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 2.0, horizontal: 4),
                                           child: GestureDetector(
                                             onTap: () {
                                               opArt.revertToCache(index);
                                             },
-                                            child: Image.file(opArt
-                                                .cache[index]['image']),
+                                            child: Image.file(
+                                                opArt.cache[index]['image']),
                                           ),
                                         );
                                       },

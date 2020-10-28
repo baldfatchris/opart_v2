@@ -9,10 +9,13 @@ class CanvasWidget extends StatefulWidget {
   _CanvasWidgetState createState() => _CanvasWidgetState();
 }
 
-class _CanvasWidgetState extends State<CanvasWidget> with SingleTickerProviderStateMixin {
+bool _playing = true;
+
+class _CanvasWidgetState extends State<CanvasWidget>
+    with TickerProviderStateMixin {
   AnimationController animationController;
   Animation<double> animation;
-
+  AnimationController playPauseController;
   @override
   void initState() {
     animationController = AnimationController(
@@ -25,42 +28,61 @@ class _CanvasWidgetState extends State<CanvasWidget> with SingleTickerProviderSt
 
     animation = animationTween.animate(animationController)
       ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          animationController.repeat();
-        } else if (status == AnimationStatus.dismissed) {
-          animationController.forward();
-        }
+        rebuildCanvas.value++;
       });
+    // ..addStatusListener((status) {
+    //   if (status == AnimationStatus.completed) {
+    //     animationController.repeat();
+    //   } else if (status == AnimationStatus.dismissed) {
+    //     animationController.forward();
+    //   }
+    // });
 
     animationController.forward();
+    playPauseController = AnimationController(
+        duration: const Duration(milliseconds: 500), vsync: this);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<int>(
-        valueListenable: rebuildCanvas,
-        builder: (context, value, child) {
-          return Screenshot(
-            controller: screenshotController,
-            child: Visibility(
-              visible: true,
-              child: LayoutBuilder(
-                builder: (_, constraints) => Container(
-                  width: constraints.widthConstraints().maxWidth,
-                  height: constraints.heightConstraints().maxHeight,
-                  child:
-                  CustomPaint(
-                    painter: OpArtPainter(seed, rnd, animation.value),
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+
+            if (_playing) {
+              playPauseController.forward(from: 0);
+              _playing = false;
+              animationController.stop();
+            } else {
+              playPauseController.reverse();
+              _playing = true;
+              animationController.forward();
+            }
+
+          },
+          child: AnimatedIcon(
+              icon: AnimatedIcons.pause_play, progress: playPauseController)),
+      body: ValueListenableBuilder<int>(
+          valueListenable: rebuildCanvas,
+          builder: (context, value, child) {
+            return Screenshot(
+              controller: screenshotController,
+              child: Visibility(
+                visible: true,
+                child: LayoutBuilder(
+                  builder: (_, constraints) => Container(
+                    width: constraints.widthConstraints().maxWidth,
+                    height: constraints.heightConstraints().maxHeight,
+                    child: CustomPaint(
+                      painter: OpArtPainter(seed, rnd, animation.value),
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        });
+            );
+          }),
+    );
   }
 
   @override
@@ -69,6 +91,7 @@ class _CanvasWidgetState extends State<CanvasWidget> with SingleTickerProviderSt
     super.dispose();
   }
 }
+
 class OpArtPainter extends CustomPainter {
   int seed;
   Random rnd;
@@ -76,16 +99,17 @@ class OpArtPainter extends CustomPainter {
   // double fill;
 
   OpArtPainter(
-      this.seed,
-      this.rnd,
-      this.animationVariable,
-      // this.fill
-      );
+    this.seed,
+    this.rnd,
+    this.animationVariable,
+    // this.fill
+  );
 
   @override
   void paint(Canvas canvas, Size size) {
     opArt.paint(canvas, size, seed, rnd, animationVariable);
   }
+
   @override
   bool shouldRepaint(OpArtPainter oldDelegate) => false;
 }
