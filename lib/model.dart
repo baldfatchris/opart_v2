@@ -26,6 +26,13 @@ ScrollController scrollController = new ScrollController();
 
 enum OpArtType { Fibonacci, Tree, Wave, Wallpaper }
 
+class OpArtTypes {
+  String name;
+  OpArtType opArtType;
+  String image;
+  OpArtTypes(this.name, this.opArtType, this.image);
+}
+
 class OpArt {
   OpArtType opArtType;
   List<SettingsModel> attributes = List<SettingsModel>();
@@ -36,7 +43,6 @@ class OpArt {
 
   // Initialise
   OpArt({this.opArtType}) {
-
     switch (opArtType) {
       case OpArtType.Fibonacci:
         this.attributes = initializeFibonacciAttributes();
@@ -72,25 +78,26 @@ class OpArt {
 
   void saveToCache() {
     // print('saving to cache');
-    screenshotController.capture(
-        delay: Duration(milliseconds: 100),
-        pixelRatio: 0.2
-    ).then((File image) async {
-
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => screenshotController
+        .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
+        .then((File image) async {
       Map<String, dynamic> map = Map();
       for (int i = 0; i < attributes.length; i++) {
         map.addAll({attributes[i].label: attributes[i].value});
       }
-      map.addAll({'image': image, 'paletteName': palette.paletteName, 'colors': palette.colorList});
-
-      // print('Cache map: $map');
-      // print('palette: ${map['palette']}');
+      map.addAll({
+        'image': image,
+        'paletteName': palette.paletteName,
+        'colors': palette.colorList
+      });
 
       this.cache.add(map);
       rebuildCache.value++;
-    }
-    );
-
+     if(scrollController.hasClients) {scrollController.animateTo(scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);}
+      enableButton = true;
+    }));
   }
 
   void revertToCache(int index) {
@@ -109,26 +116,29 @@ class OpArt {
     return cache.length;
   }
 
-  void paint(Canvas canvas, Size size, int seed, Random rnd, double animationVariable) {
-    switch(opArtType){
+  void paint(Canvas canvas, Size size, int seed, Random rnd,
+      double animationVariable) {
+    switch (opArtType) {
       case OpArtType.Fibonacci:
-        paintFibonacci( canvas,  size,  rnd,  animationVariable, this.attributes, palette);
+        paintFibonacci(
+            canvas, size, rnd, animationVariable, this.attributes, palette);
         break;
       case OpArtType.Tree:
-        paintTree( canvas,  size,  rnd,  animationVariable, this.attributes, palette);
+        paintTree(
+            canvas, size, rnd, animationVariable, this.attributes, palette);
         break;
       case OpArtType.Wave:
-        paintWave( canvas,  size,  rnd,  animationVariable, this.attributes, palette);
+        paintWave(
+            canvas, size, rnd, animationVariable, this.attributes, palette);
         break;
     }
   }
-
 
   // randomise the non-palette settings
   void randomizeSettings() {
     print('Randomizing Settings');
     for (int i = 0; i < attributes.length; i++) {
-      if (attributes[i].settingCategory == SettingCategory.tool){
+      if (attributes[i].settingCategory == SettingCategory.tool) {
         attributes[i].randomize(rnd);
         print('${attributes[i].name}: ${attributes[i].value}');
       }
@@ -140,7 +150,7 @@ class OpArt {
   void randomizePalette() {
     print('Randomizing Palette');
     for (int i = 0; i < attributes.length; i++) {
-      if (attributes[i].settingCategory == SettingCategory.palette){
+      if (attributes[i].settingCategory == SettingCategory.palette) {
         attributes[i].randomize(rnd);
         print('${attributes[i].name}: ${attributes[i].value}');
       }
@@ -148,12 +158,12 @@ class OpArt {
 
     palette.randomize(
       attributes.firstWhere((element) => element.name == 'paletteType').value,
-      attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt(),
+      attributes
+          .firstWhere((element) => element.name == 'numberOfColors')
+          .value
+          .toInt(),
     );
   }
-
-
-
 
   void setDefault() {
     for (int i = 0; i < attributes.length; i++) {

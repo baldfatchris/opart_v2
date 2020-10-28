@@ -52,7 +52,7 @@ class _CanvasWidgetState extends State<CanvasWidget> with SingleTickerProviderSt
                 builder: (_, constraints) => Container(
                   width: constraints.widthConstraints().maxWidth,
                   height: constraints.heightConstraints().maxHeight,
-                  child: 
+                  child:
                   CustomPaint(
                     painter: OpArtPainter(seed, rnd, animation.value),
                   ),

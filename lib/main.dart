@@ -12,13 +12,14 @@ void main() {
   runApp(MaterialApp(
     initialRoute: '/',
     routes: {
-      '/': (context) => OpArtPage(OpArtType.Fibonacci),
+      '/': (context) => Loading(),
       '/menu': (context) => MyApp(),
     },
   ));
 }
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,6 +43,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<OpArtTypes> opArtTypes;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,38 +58,47 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontSize: 40,
                     fontWeight: FontWeight.bold)),
           ),
-          // Expanded(
-          //   child: GridView.builder(
-          //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          //           crossAxisCount: 2, childAspectRatio: 0.8),
-          //       itemCount: currentOpArt.length,
-          //       itemBuilder: (BuildContext context, int index) {
-          //         return GestureDetector(
-          //           onTap: () {
-          //             Navigator.push(
-          //                 context,
-          //                 MaterialPageRoute(
-          //                     builder: (context) => OpArtPage(index)));
-          //           },
-          //           child: Column(
-          //             children: [
-          //               Padding(
-          //                 padding: const EdgeInsets.all(8.0),
-          //                 child: Image.asset(currentOpArt[index].icon),
-          //               ),
-          //               Text(currentOpArt[index].name,
-          //                   style: TextStyle(
-          //                       fontFamily: 'Righteous',
-          //                       fontWeight: FontWeight.bold,
-          //                       fontSize: 20)),
-          //             ],
-          //           ),
-          //         );
-          //       }),
-          // ),
+          Expanded(
+            child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, childAspectRatio: 0.8),
+                itemCount: opArtTypes.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => OpArtPage(opArtTypes[index].opArtType)));
+                    },
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(opArtTypes[index].image),
+                        ),
+                        Text(opArtTypes[index].name,
+                            style: TextStyle(
+                                fontFamily: 'Righteous',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20)),
+                      ],
+                    ),
+                  );
+                }),
+          ),
         ],
       ),
     ));
   }
 
+  @override
+  void initState() {
+     opArtTypes = [
+      OpArtTypes('Fibonacci', OpArtType.Fibonacci, 'lib/assets/fibonacci_400.png'),
+      OpArtTypes('Waves', OpArtType.Wave, 'lib/assets/wave_400.png'),
+      OpArtTypes('Trees', OpArtType.Tree, 'lib/assets/tree_400.png'),
+      OpArtTypes('Wallpaper', OpArtType.Wallpaper, 'lib/assets/wallpaper_500.png'),
+    ];
+  }
 }
