@@ -24,7 +24,7 @@ bool proVersion = false;
 
 ScrollController scrollController = new ScrollController();
 
-enum OpArtType { Fibonacci, Trees, Wave, Wallpaper }
+enum OpArtType { Fibonacci, Tree, Wave, Wallpaper }
 
 class OpArt {
   OpArtType opArtType;
@@ -45,7 +45,10 @@ class OpArt {
 
         break;
 
-      case OpArtType.Trees:
+      case OpArtType.Tree:
+        this.attributes = initializeTreeAttributes();
+        this.palette = OpArtPalette(rnd);
+        this.name = 'Tree';
 
         break;
 
@@ -106,6 +109,9 @@ class OpArt {
     switch(opArtType){
       case OpArtType.Fibonacci:
         paintFibonacci( canvas,  size,  rnd,  animationVariable, this.attributes, palette);
+        break;
+      case OpArtType.Tree:
+        paintTree( canvas,  size,  rnd,  animationVariable, this.attributes, palette);
         break;
       case OpArtType.Wave:
         paintWave( canvas,  size,  rnd,  animationVariable, this.attributes, palette);
