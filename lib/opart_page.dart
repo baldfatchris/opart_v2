@@ -165,8 +165,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                     );
                             })),
                   )
-                  : Container(color: Colors.white.withOpacity(0.7),
-                height: 60,),
+                  : Container(height: 0),
             ),
           ),
           Align(alignment: Alignment.bottomCenter,child: showFullPage
