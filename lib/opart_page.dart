@@ -27,6 +27,7 @@ OpArt opArt;
 class _OpArtPageState extends State<OpArtPage> {
   @override
   void initState() {
+    SystemChrome.setEnabledSystemUIOverlays([]);
     opArt = OpArt(opArtType: widget.opArtType);
     showFullPage = false;
     super.initState();
@@ -44,7 +45,8 @@ class _OpArtPageState extends State<OpArtPage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIOverlays([]);
+
+
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -122,7 +124,16 @@ class _OpArtPageState extends State<OpArtPage> {
           GestureDetector(
               onTap: () {
                 setState(() {
-                  showFullPage = !showFullPage;
+                  if(showFullPage){
+                    showFullPage = false;
+                    SystemChrome.setEnabledSystemUIOverlays([]);
+
+                  }
+                  else{
+                    showFullPage= true;
+                    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+                  }
+
                 });
               },
               child: ClipRect(child: CanvasWidget())),
@@ -132,7 +143,7 @@ class _OpArtPageState extends State<OpArtPage> {
                   ? SafeArea(
                     child: Container(
                         width: MediaQuery.of(context).size.width,
-                        color: Colors.white.withOpacity(0.7),
+
                         height: 60,
                         child: ValueListenableBuilder<int>(
                             valueListenable: rebuildCache,
@@ -140,19 +151,22 @@ class _OpArtPageState extends State<OpArtPage> {
                               return opArt.cacheListLength() == 0
                                   ? Container()
                                   : ListView.builder(
+
                                       scrollDirection: Axis.horizontal,
                                       controller: scrollController,
                                       itemCount: opArt.cacheListLength(),
                                       reverse: false,
                                       itemBuilder: (context, index) {
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal:4),
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              opArt.revertToCache(index);
-                                            },
-                                            child: Image.file(
-                                                opArt.cache[index]['image']),
+                                        return Container( color: Colors.white.withOpacity(0.7),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal:4),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                opArt.revertToCache(index);
+                                              },
+                                              child: Image.file(
+                                                  opArt.cache[index]['image']),
+                                            ),
                                           ),
                                         );
                                       },
