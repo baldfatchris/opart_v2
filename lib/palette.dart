@@ -68,7 +68,7 @@ List<String> defaultPalleteNames() {
 List<List> defaultPalettes =
 [
   [
-      'default',
+      'Default',
       10,
       Color(0xFFffffff),
       [
@@ -981,9 +981,9 @@ List<List> defaultPalettes =
 
 
 class OpArtPalette {
-  String paletteName = 'default';
+  String paletteName = "Default";
   List<Color> colorList= [Color(0xFF34a1af), Color(0xFFa570a8), Color(0xFFd6aa27), Color(0xFF5f9d50), Color(0xFF789dd1), Color(0xFFc25666), Color(0xFF2b7b1), Color(0xFFd63aa), Color(0xFF1f4ed), Color(0xFF383c47)];
-  String paletteType = 'random';
+  String paletteType = "random";
 
   void randomize(String paletteType, int numberOfColours) {
 
