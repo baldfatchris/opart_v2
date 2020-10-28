@@ -26,6 +26,14 @@ ScrollController scrollController = new ScrollController();
 
 enum OpArtType { Fibonacci, Tree, Wave, Wallpaper }
 
+class OpArtTypes{
+  String name;
+  OpArtType opArtType;
+  String image;
+  OpArtTypes(this.name, this.opArtType, this.image);
+}
+
+
 class OpArt {
   OpArtType opArtType;
   List<SettingsModel> attributes = List<SettingsModel>();
