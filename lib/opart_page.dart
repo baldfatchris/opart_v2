@@ -19,7 +19,7 @@ class OpArtPage extends StatefulWidget {
   _OpArtPageState createState() => _OpArtPageState();
 }
 
-bool showFullPage = false;
+bool showOptions = false;
 File imageFile;
 
 OpArt opArt;
@@ -27,9 +27,9 @@ OpArt opArt;
 class _OpArtPageState extends State<OpArtPage> {
   @override
   void initState() {
-    SystemChrome.setEnabledSystemUIOverlays([]);
+
     opArt = OpArt(opArtType: widget.opArtType);
-    showFullPage = false;
+    showOptions = true;
     super.initState();
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
       setState(() {
@@ -45,17 +45,13 @@ class _OpArtPageState extends State<OpArtPage> {
 
   @override
   Widget build(BuildContext context) {
-
-
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-
-
-      appBar: showFullPage
+      appBar: showOptions
           ? AppBar(
-              backgroundColor: Colors.cyan[200].withOpacity(0.7),
+              backgroundColor: Colors.cyan[200].withOpacity(0.8),
               title: Text(
                 opArt.name,
                 style: TextStyle(
@@ -118,32 +114,30 @@ class _OpArtPageState extends State<OpArtPage> {
           : AppBar(
               toolbarHeight: 0,
             ),
-
       body: Stack(
         children: [
           GestureDetector(
               onTap: () {
                 setState(() {
-                  if(showFullPage){
-                    showFullPage = false;
+                  if (showOptions) {
+                    showOptions = false;
                     SystemChrome.setEnabledSystemUIOverlays([]);
-
+                  } else {
+                    showOptions = true;
+                    SystemChrome.setEnabledSystemUIOverlays(
+                        SystemUiOverlay.values);
                   }
-                  else{
-                    showFullPage= true;
-                    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-                  }
-
                 });
               },
               child: ClipRect(child: CanvasWidget())),
-          Align(alignment: Alignment.topCenter,
-            child: Material(elevation: 10,
-              child: showFullPage
-                  ? SafeArea(
+          Align(
+            alignment: Alignment.topCenter,
+            child: showOptions
+                ? SafeArea(
                     child: Container(
-                        width: MediaQuery.of(context).size.width,
+                      color: Colors.white.withOpacity(0.8),
 
+                        width: MediaQuery.of(context).size.width,
                         height: 60,
                         child: ValueListenableBuilder<int>(
                             valueListenable: rebuildCache,
@@ -151,35 +145,36 @@ class _OpArtPageState extends State<OpArtPage> {
                               return opArt.cacheListLength() == 0
                                   ? Container()
                                   : ListView.builder(
-
                                       scrollDirection: Axis.horizontal,
                                       controller: scrollController,
                                       itemCount: opArt.cacheListLength(),
                                       reverse: false,
                                       itemBuilder: (context, index) {
-                                        return Container( color: Colors.white.withOpacity(0.7),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal:4),
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                opArt.revertToCache(index);
-                                              },
-                                              child: Image.file(
-                                                  opArt.cache[index]['image']),
-                                            ),
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.symmetric(
+                                                  vertical: 2.0,
+                                                  horizontal: 4),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              opArt.revertToCache(index);
+                                            },
+                                            child: Image.file(opArt
+                                                .cache[index]['image']),
                                           ),
                                         );
                                       },
                                     );
                             })),
                   )
-                  : Container(height: 0),
-            ),
+                : Container(height: 0),
           ),
-          Align(alignment: Alignment.bottomCenter,child: showFullPage
-              ? customBottomAppBar(context: context, opArt: opArt)
-              : BottomAppBar(),)
-
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: showOptions
+                ? customBottomAppBar(context: context, opArt: opArt)
+                : BottomAppBar(),
+          )
         ],
       ),
     );
