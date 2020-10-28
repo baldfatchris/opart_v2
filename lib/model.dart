@@ -86,6 +86,7 @@ class OpArt {
 
       this.cache.add(map);
       rebuildCache.value++;
+      enableButton = true;
     }
     );
 
