@@ -33,7 +33,7 @@ List<String> list = List();
     randomMax: 20.0,
     randomMin: 20.0,
     zoom: 100,
-    defaultValue: 20.0,
+    defaultValue: 120.0,
     icon: Icon(Icons.vertical_align_bottom),
     settingCategory: SettingCategory.tool,
     proFeature: false,
@@ -410,6 +410,22 @@ void paintTree(Canvas canvas, Size size, Random rnd, double animationVariable, L
 
   rnd = Random(seed);
 
+  // sort out the palette
+  if (numberOfColors.value > palette.colorList.length){
+    palette.randomize(paletteType.value, numberOfColors.value);
+  }
+  if (paletteList.value != palette.paletteName){
+
+  }
+
+  List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == paletteList.value);
+  numberOfColors.value = newPalette[1].toInt();
+  backgroundColor.value = Color(int.parse(newPalette[2]));
+  palette.colorList = newPalette[3];
+
+
+
+
   // print('seed: $seed (${DateTime.now()})');
   // print('numberOfColors: ${attributes.firstWhere((element) => element.name == 'numberOfColors').value}');
   // print('colorCount: ${palette.colorList.length}');
@@ -422,34 +438,34 @@ void paintTree(Canvas canvas, Size size, Random rnd, double animationVariable, L
 
   generateTree(canvas, rnd, size.width, size.height, size.width, size.height, 0,0,
 
-    attributes.firstWhere((element) => element.name == 'zoomTree').value,
-    attributes.firstWhere((element) => element.name == 'baseHeight').value,
-    attributes.firstWhere((element) => element.name == 'trunkWidth').value,
-    attributes.firstWhere((element) => element.name == 'widthDecay').value,
-    attributes.firstWhere((element) => element.name == 'segmentLength').value,
-    attributes.firstWhere((element) => element.name == 'segmentDecay').value,
-    attributes.firstWhere((element) => element.name == 'branch').value,
-    attributes.firstWhere((element) => element.name == 'angle').value,
-    attributes.firstWhere((element) => element.name == 'ratio').value,
-    attributes.firstWhere((element) => element.name == 'bulbousness').value,
-    attributes.firstWhere((element) => element.name == 'maxDepth').value,
-    attributes.firstWhere((element) => element.name == 'leavesAfter').value,
-    attributes.firstWhere((element) => element.name == 'leafAngle').value,
-    attributes.firstWhere((element) => element.name == 'leafLength').value,
-    attributes.firstWhere((element) => element.name == 'randomLeafLength').value,
-    attributes.firstWhere((element) => element.name == 'leafSquareness').value,
-    attributes.firstWhere((element) => element.name == 'leafAsymmetry').value,
-    attributes.firstWhere((element) => element.name == 'leafDecay').value,
-    attributes.firstWhere((element) => element.name == 'leafShape').value,
+    zoomTree.value,
+    baseHeight.value,
+    trunkWidth.value,
+    widthDecay.value,
+    segmentLength.value,
+    segmentDecay.value,
+    branch.value,
+    angle.value,
+    ratio.value,
+    bulbousness.value,
+    maxDepth.value,
+    leavesAfter.value,
+    leafAngle.value,
+    leafLength.value,
+    randomLeafLength.value,
+    leafSquareness.value,
+    leafAsymmetry.value,
+    leafDecay.value,
+    leafShape.value,
 
-    attributes.firstWhere((element) => element.name == 'backgroundColor').value,
-    attributes.firstWhere((element) => element.name == 'trunkFillColor').value,
-    attributes.firstWhere((element) => element.name == 'trunkOutlineColor').value,
-    attributes.firstWhere((element) => element.name == 'trunkStrokeWidth').value,
+    backgroundColor.value,
+    trunkFillColor.value,
+    trunkOutlineColor.value,
+    trunkStrokeWidth.value,
 
-    attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt(),
-    attributes.firstWhere((element) => element.name == 'paletteType').value,
-    attributes.firstWhere((element) => element.name == 'opacity').value,
+    numberOfColors.value.toInt(),
+    paletteType.value,
+    opacity.value,
     palette.colorList,
     animationVariable * 10,
   );
