@@ -12,7 +12,7 @@ void main() {
   runApp(MaterialApp(
     initialRoute: '/',
     routes: {
-      '/': (context) => OpArtPage(OpArtType.Tree),
+      '/': (context) => OpArtPage(OpArtType.Fibonacci),
       '/menu': (context) => MyApp(),
     },
   ));
