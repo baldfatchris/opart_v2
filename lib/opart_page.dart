@@ -19,7 +19,7 @@ class OpArtPage extends StatefulWidget {
   _OpArtPageState createState() => _OpArtPageState();
 }
 
-bool showFullPage = false;
+bool showOptions = false;
 File imageFile;
 
 OpArt opArt;
@@ -27,8 +27,9 @@ OpArt opArt;
 class _OpArtPageState extends State<OpArtPage> {
   @override
   void initState() {
+
     opArt = OpArt(opArtType: widget.opArtType);
-    showFullPage = false;
+    showOptions = true;
     super.initState();
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
       setState(() {
@@ -44,16 +45,13 @@ class _OpArtPageState extends State<OpArtPage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIOverlays([]);
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-
-
-      appBar: showFullPage
+      appBar: showOptions
           ? AppBar(
-              backgroundColor: Colors.cyan[200].withOpacity(0.7),
+              backgroundColor: Colors.cyan[200].withOpacity(0.8),
               title: Text(
                 opArt.name,
                 style: TextStyle(
@@ -116,23 +114,30 @@ class _OpArtPageState extends State<OpArtPage> {
           : AppBar(
               toolbarHeight: 0,
             ),
-
       body: Stack(
         children: [
           GestureDetector(
               onTap: () {
                 setState(() {
-                  showFullPage = !showFullPage;
+                  if (showOptions) {
+                    showOptions = false;
+                    SystemChrome.setEnabledSystemUIOverlays([]);
+                  } else {
+                    showOptions = true;
+                    SystemChrome.setEnabledSystemUIOverlays(
+                        SystemUiOverlay.values);
+                  }
                 });
               },
               child: ClipRect(child: CanvasWidget())),
-          Align(alignment: Alignment.topCenter,
-            child: Material(elevation: 10,
-              child: showFullPage
-                  ? SafeArea(
+          Align(
+            alignment: Alignment.topCenter,
+            child: showOptions
+                ? SafeArea(
                     child: Container(
+                      color: Colors.white.withOpacity(0.8),
+
                         width: MediaQuery.of(context).size.width,
-                        color: Colors.white.withOpacity(0.7),
                         height: 60,
                         child: ValueListenableBuilder<int>(
                             valueListenable: rebuildCache,
@@ -146,26 +151,30 @@ class _OpArtPageState extends State<OpArtPage> {
                                       reverse: false,
                                       itemBuilder: (context, index) {
                                         return Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal:4),
+                                          padding:
+                                              const EdgeInsets.symmetric(
+                                                  vertical: 2.0,
+                                                  horizontal: 4),
                                           child: GestureDetector(
                                             onTap: () {
                                               opArt.revertToCache(index);
                                             },
-                                            child: Image.file(
-                                                opArt.cache[index]['image']),
+                                            child: Image.file(opArt
+                                                .cache[index]['image']),
                                           ),
                                         );
                                       },
                                     );
                             })),
                   )
-                  : Container(height: 0),
-            ),
+                : Container(height: 0),
           ),
-          Align(alignment: Alignment.bottomCenter,child: showFullPage
-              ? customBottomAppBar(context: context, opArt: opArt)
-              : BottomAppBar(),)
-
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: showOptions
+                ? customBottomAppBar(context: context, opArt: opArt)
+                : BottomAppBar(),
+          )
         ],
       ),
     );
