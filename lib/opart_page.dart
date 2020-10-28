@@ -88,7 +88,7 @@ class _OpArtPageState extends State<OpArtPage> {
                       imageFile = null;
                       screenshotController
                           .capture(
-                              delay: Duration(milliseconds: 0), pixelRatio: 2)
+                              delay: Duration(milliseconds: 10), pixelRatio: 2)
                           .then((File image) async {
                         print(image);
                         setState(() {

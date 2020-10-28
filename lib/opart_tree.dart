@@ -162,8 +162,8 @@ List<SettingsModel> initializeTreeAttributes() {
       tooltip: 'The number of segments',
       min: 5,
       max: 28,
-      randomMax: 10,
-      randomMin: 25,
+      randomMin: 10,
+      randomMax: 25,
       defaultValue: 18,
       icon: Icon(Icons.fiber_smart_record),
       settingCategory: SettingCategory.tool,
@@ -990,9 +990,7 @@ drawTheLeaf(
 
 
   // pick a random color
-  Color leafColor = palette[rnd.nextInt(palette.length)]
-      .withOpacity(opacity);
-
+  Color leafColor = palette[rnd.nextInt(palette.length)].withOpacity(opacity);
   var leafRadius =
       leafLength + rnd.nextDouble() * randomLeafLength;
 

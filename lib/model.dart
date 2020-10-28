@@ -48,14 +48,14 @@ class OpArt {
     switch (opArtType) {
       case OpArtType.Fibonacci:
         this.attributes = initializeFibonacciAttributes();
-        this.palette = OpArtPalette(rnd);
+        this.palette = OpArtPalette();
         this.name = 'Fibonacci';
 
         break;
 
       case OpArtType.Tree:
         this.attributes = initializeTreeAttributes();
-        this.palette = OpArtPalette(rnd);
+        this.palette = OpArtPalette();
         this.name = 'Tree';
 
         break;
@@ -69,7 +69,7 @@ class OpArt {
 
       case OpArtType.Wave:
         this.attributes = initializeWaveAttributes();
-        this.palette = OpArtPalette(rnd);
+        this.palette = OpArtPalette();
         this.name = 'Wave';
 
         break;
@@ -84,11 +84,16 @@ class OpArt {
         delay: Duration(milliseconds: 100),
         pixelRatio: 0.2
     ).then((File image) async {
+
       Map<String, dynamic> map = Map();
       for (int i = 0; i < attributes.length; i++) {
         map.addAll({attributes[i].label: attributes[i].value});
       }
-      map.addAll({'image': image,});
+      map.addAll({'image': image, 'paletteName': palette.paletteName, 'colors': palette.colorList});
+
+      // print('Cache map: $map');
+      // print('palette: ${map['palette']}');
+
       this.cache.add(map);
       rebuildCache.value++;
       enableButton = true;
@@ -101,6 +106,8 @@ class OpArt {
     for (int i = 0; i < attributes.length; i++) {
       attributes[i].value = this.cache[index][attributes[i].label];
     }
+    palette.paletteName = this.cache[index]['paletteName'];
+    palette.colorList = this.cache[index]['colors'];
   }
 
   void clearCache() {
