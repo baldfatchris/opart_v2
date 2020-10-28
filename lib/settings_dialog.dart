@@ -168,7 +168,7 @@ void settingsDialog(context, int index, OpArt opArt ) {
             });
       }).then((value) {
     opArt.saveToCache();
-    print('should rebuild cache');
+    // print('should rebuild cache');
     rebuildCache.value++;
 
   });

@@ -311,13 +311,13 @@ List<SettingsModel> initializeFibonacciAttributes() {
 
 void paintFibonacci(Canvas canvas, Size size, Random rnd, double animationVariable, List<SettingsModel> attributes, OpArtPalette palette) {
 
-  print('---------------------------------------------------------------');
+  // print('---------------------------------------------------------------');
 
   rnd = Random(seed);
 
-  print('seed: $seed (${DateTime.now()})');
-  print('numberOfColors: ${attributes.firstWhere((element) => element.name == 'numberOfColors').value}');
-  print('colorCount: ${palette.colorList.length}');
+  // print('seed: $seed (${DateTime.now()})');
+  // print('numberOfColors: ${attributes.firstWhere((element) => element.name == 'numberOfColors').value}');
+  // print('colorCount: ${palette.colorList.length}');
 
 
   // print('animationVariable: ${animationVariable}');

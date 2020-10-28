@@ -7,7 +7,7 @@ import 'opart_wallpaper.dart';
 import 'opart_wave.dart';
 
 void ToolBox(BuildContext context, OpArt opArt,) {
-  print(MediaQuery.of(context).size.width);
+  // print(MediaQuery.of(context).size.width);
 
 
 

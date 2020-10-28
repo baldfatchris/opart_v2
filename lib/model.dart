@@ -68,7 +68,7 @@ class OpArt {
   }
 
   void saveToCache() {
-    print('saving to cache');
+    // print('saving to cache');
     screenshotController.capture(
         delay: Duration(milliseconds: 0),
         pixelRatio: 0.2
@@ -80,8 +80,8 @@ class OpArt {
       }
       map.addAll({'image': image, 'palette': palette});
 
-      print('Cache map: $map');
-      print('palette: ${map['palette']}');
+      // print('Cache map: $map');
+      // print('palette: ${map['palette']}');
 
 
       this.cache.add(map);
@@ -123,7 +123,7 @@ class OpArt {
 
   // randomise the non-palette settings
   void randomizeSettings() {
-    print('Randomizing Settings');
+    // print('Randomizing Settings');
     for (int i = 0; i < attributes.length; i++) {
       // print(attributes[i].name);
       if (attributes[i].settingCategory == SettingCategory.tool){

@@ -31,9 +31,9 @@ List<SettingsModel> initializeTreeAttributes() {
       label: 'Base Height',
       tooltip: 'The offset from the bottom of the sceen',
       min: 0.0,
-      max: 200.0,
+      max: 100.0,
       zoom: 100,
-      defaultValue: 100.0,
+      defaultValue: 20.0,
       icon: Icon(Icons.vertical_align_bottom),
       settingCategory: SettingCategory.tool,
       proFeature: false,
@@ -74,6 +74,8 @@ List<SettingsModel> initializeTreeAttributes() {
       tooltip: 'The length of the first segment of the trunk',
       min: 10.0,
       max: 100.0,
+      randomMin: 20.0,
+      randomMax: 70.0,
       zoom: 100,
       defaultValue: 50.0,
       icon: Icon(Icons.swap_horizontal_circle),
@@ -234,6 +236,20 @@ List<SettingsModel> initializeTreeAttributes() {
     ),
 
     SettingsModel(
+      name: 'leafAsymmetry',
+      settingType: SettingType.double,
+      label: 'Asymmetry',
+      tooltip: 'The assymetry of the leaf',
+      min: -3.0,
+      max: 3.0,
+      zoom: 100,
+      defaultValue: 0.7,
+      icon: Icon(Icons.clear_all),
+      settingCategory: SettingCategory.tool,
+      proFeature: false,
+    ),
+
+    SettingsModel(
       name: 'leafDecay',
       settingType: SettingType.double,
       label: 'Leaf Decay',
@@ -252,9 +268,9 @@ List<SettingsModel> initializeTreeAttributes() {
       settingType: SettingType.list,
       label: "Leaf Type",
       tooltip: "The shape of the leaf",
-      defaultValue: "circle",
+      defaultValue: "diamond",
       icon: Icon(Icons.local_florist),
-      options: <String>['circle', 'triangle', 'square', 'petal'],
+      options: <String>['circle', 'triangle', 'square', 'diamond'],
       settingCategory: SettingCategory.tool,
       proFeature: false,
     ),
@@ -414,10 +430,11 @@ void paintTree(Canvas canvas, Size size, Random rnd, double animationVariable, L
     attributes.firstWhere((element) => element.name == 'leavesAfter').value,
     attributes.firstWhere((element) => element.name == 'leafAngle').value,
     attributes.firstWhere((element) => element.name == 'leafLength').value,
-      attributes.firstWhere((element) => element.name == 'randomLeafLength').value,
-  attributes.firstWhere((element) => element.name == 'leafSquareness').value,
-  attributes.firstWhere((element) => element.name == 'leafDecay').value,
-  attributes.firstWhere((element) => element.name == 'leafShape').value,
+    attributes.firstWhere((element) => element.name == 'randomLeafLength').value,
+    attributes.firstWhere((element) => element.name == 'leafSquareness').value,
+    attributes.firstWhere((element) => element.name == 'leafAsymmetry').value,
+    attributes.firstWhere((element) => element.name == 'leafDecay').value,
+    attributes.firstWhere((element) => element.name == 'leafShape').value,
 
     attributes.firstWhere((element) => element.name == 'backgroundColor').value,
     attributes.firstWhere((element) => element.name == 'trunkFillColor').value,
@@ -461,6 +478,7 @@ generateTree(
     double leafLength,
     double randomLeafLength,
     double leafSquareness,
+    double leafAsymmetry,
     double leafDecay,
     String leafShape,
 
@@ -524,6 +542,7 @@ generateTree(
     leafAngle,
     leafDecay,
     leafSquareness,
+    leafAsymmetry,
     trunkFillColor,
     opacity,
     trunkStrokeWidth,
@@ -560,6 +579,7 @@ drawSegment(
     double leafAngle,
     double leafDecay,
     double leafSquareness,
+    double leafAsymmetry,
     Color trunkFillColor,
     double opacity,
     double trunkStrokeWidth,
@@ -640,6 +660,7 @@ drawSegment(
         leafAngle,
         leafDecay,
         leafSquareness,
+        leafAsymmetry,
         trunkFillColor,
         opacity,
         trunkStrokeWidth,
@@ -674,6 +695,7 @@ drawSegment(
         leafAngle,
         leafDecay,
         leafSquareness,
+        leafAsymmetry,
         trunkFillColor,
         opacity,
         trunkStrokeWidth,
@@ -709,6 +731,7 @@ drawSegment(
         leafAngle,
         leafDecay,
         leafSquareness,
+        leafAsymmetry,
         trunkFillColor,
         opacity,
         trunkStrokeWidth,
@@ -743,6 +766,7 @@ drawSegment(
         leafAngle,
         leafDecay,
         leafSquareness,
+        leafAsymmetry,
         trunkFillColor,
         opacity,
         trunkStrokeWidth,
@@ -784,6 +808,7 @@ drawSegment(
         ratio,
         randomLeafLength,
         leafSquareness,
+        leafAsymmetry,
         animationVariable,
         opacity,
         palette,
@@ -801,6 +826,7 @@ drawSegment(
         ratio,
         randomLeafLength,
         leafSquareness,
+        leafAsymmetry,
         animationVariable,
         opacity,
         palette,
@@ -837,6 +863,7 @@ drawSegment(
         leafAngle,
         leafDecay,
         leafSquareness,
+        leafAsymmetry,
         trunkFillColor,
         opacity,
         trunkStrokeWidth,
@@ -951,14 +978,14 @@ drawTheLeaf(
     double ratio,
     double randomLeafLength,
     double leafSquareness,
+    double leafAsymmetry,
     double animationVariable,
     double opacity,
     List palette,
     ) {
-  double leafAssymetery = 0.75;
+
 
   // pick a random color
-  print('drawTheLeaf: opacity: ${opacity}');
   Color leafColor = palette[rnd.nextInt(palette.length)]
       .withOpacity(opacity);
 
@@ -974,12 +1001,6 @@ drawTheLeaf(
     leafPosition[1] - leafRadius * sin(randomizedLeafAngle)
   ];
 
-//    List PN = [PC[0] - leafRadius * cos(leafAngle), PC[1] + leafRadius * sin(leafAngle)];
-
-
-
-  // List PSE = [PS[0] - leafSquareness * leafRadius * cos(leafAngle + pi * 0.5), PS[1] + leafSquareness * leafRadius * sin(leafAngle + pi * 0.5)];
-  // List PSW = [PS[0] - leafSquareness * leafRadius * cos(leafAngle + pi * 1.5), PS[1] + leafSquareness * leafRadius * sin(leafAngle + pi * 1.5)];
 
   switch (leafShape) {
 
@@ -996,8 +1017,7 @@ drawTheLeaf(
 
       break;
 
-    case "quadratic":
-
+    case "diamond":
     // find the tip of the leaf
       List PS = [
         PC[0] - leafRadius * cos(randomizedLeafAngle + pi),
@@ -1006,8 +1026,8 @@ drawTheLeaf(
 
       // find the offset centre of the leaf
       List POC = [
-        PC[0] + leafAssymetery * leafRadius * cos(randomizedLeafAngle + pi),
-        PC[1] - leafAssymetery * leafRadius * sin(randomizedLeafAngle + pi)
+        PC[0] + leafAsymmetry * leafRadius * cos(randomizedLeafAngle + pi),
+        PC[1] - leafAsymmetry * leafRadius * sin(randomizedLeafAngle + pi)
       ];
 
       List PE = [
@@ -1031,8 +1051,57 @@ drawTheLeaf(
                 sin(randomizedLeafAngle + pi * 1.5)
       ];
 
+      Path leaf = Path();
+      leaf.moveTo(borderX + leafPosition[0], -borderY + leafPosition[1]);
+      leaf.lineTo(borderX + PE[0], -borderY + PE[1]);
+      leaf.lineTo(borderX + PS[0], -borderY + PS[1]);
+      leaf.lineTo(borderX + PW[0], -borderY + PW[1]);
+      leaf.close();
+
+      canvas.drawPath(
+          leaf,
+          Paint()
+            ..style = PaintingStyle.fill
+            ..color = leafColor.withOpacity(opacity));
 
 
+
+      break;
+
+    case "quadratic":
+
+    // find the tip of the leaf
+      List PS = [
+        PC[0] - leafRadius * cos(randomizedLeafAngle + pi),
+        PC[1] + leafRadius * sin(randomizedLeafAngle + pi)
+      ];
+
+      // find the offset centre of the leaf
+      List POC = [
+        PC[0] + leafAsymmetry * leafRadius * cos(randomizedLeafAngle + pi),
+        PC[1] - leafAsymmetry * leafRadius * sin(randomizedLeafAngle + pi)
+      ];
+
+      List PE = [
+        POC[0] -
+            leafSquareness *
+                leafRadius *
+                cos(randomizedLeafAngle + pi * 0.5),
+        POC[1] +
+            leafSquareness *
+                leafRadius *
+                sin(randomizedLeafAngle + pi * 0.5)
+      ];
+      List PW = [
+        POC[0] -
+            leafSquareness *
+                leafRadius *
+                cos(randomizedLeafAngle + pi * 1.5),
+        POC[1] +
+            leafSquareness *
+                leafRadius *
+                sin(randomizedLeafAngle + pi * 1.5)
+      ];
 
       Path leaf = Path();
       leaf.moveTo(borderX + leafPosition[0], -borderY + leafPosition[1]);
