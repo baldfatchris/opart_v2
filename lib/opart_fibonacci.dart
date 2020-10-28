@@ -5,7 +5,6 @@ import 'settings_model.dart';
 import 'dart:math';
 import 'dart:core';
 
-
 List<String> list = List();
 
 List<SettingsModel> initializeFibonacciAttributes() {
@@ -127,9 +126,9 @@ List<SettingsModel> initializeFibonacciAttributes() {
       name: 'petalType',
       label: "Petal Type",
       tooltip: "The shape of the petal",
-      defaultValue: "petal",
+      defaultValue: "square",
       icon: Icon(Icons.local_florist),
-      options: <String>['circle', 'triangle', 'square', 'petal'],
+      options: <String>['circle', 'triangle', 'square'],
       settingCategory: SettingCategory.tool,
       proFeature: false,
     ),
@@ -807,95 +806,95 @@ drawPetal(
       }
       break;
 
-    case 'petal': //"petal":
-
-      List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
-      var petalRadius = radius * currentPetalToRadius;
-
-      List PA = [
-        P1[0] +
-            petalRadius *
-                cos(angle +
-                    currentPetalRotation +
-                    angle * currentPetalRotationRatio +
-                    pi * 0.0),
-        P1[1] +
-            petalRadius *
-                sin(angle +
-                    currentPetalRotation +
-                    angle * currentPetalRotationRatio +
-                    pi * 0.0)
-      ];
-
-      List PB = [
-        P1[0] +
-            petalRadius *
-                currentPetalPointiness *
-                cos(angle +
-                    currentPetalRotation +
-                    angle * currentPetalRotationRatio +
-                    pi * 0.5),
-        P1[1] +
-            petalRadius *
-                currentPetalPointiness *
-                sin(angle +
-                    currentPetalRotation +
-                    angle * currentPetalRotationRatio +
-                    pi * 0.5)
-      ];
-
-      List PC = [
-        P1[0] +
-            petalRadius *
-                cos(angle +
-                    currentPetalRotation +
-                    angle * currentPetalRotationRatio +
-                    pi * 1.0),
-        P1[1] +
-            petalRadius *
-                sin(angle +
-                    currentPetalRotation +
-                    angle * currentPetalRotationRatio +
-                    pi * 1.0)
-      ];
-
-      List PD = [
-        P1[0] +
-            petalRadius *
-                currentPetalPointiness *
-                cos(angle +
-                    currentPetalRotation +
-                    angle * currentPetalRotationRatio +
-                    pi * 1.5),
-        P1[1] +
-            petalRadius *
-                currentPetalPointiness *
-                sin(angle +
-                    currentPetalRotation +
-                    angle * currentPetalRotationRatio +
-                    pi * 1.5)
-      ];
-
-      Path petal = Path();
-
-      petal.moveTo(PA[0], PA[1]);
-      petal.quadraticBezierTo(PB[0], PB[1], PC[0], PC[1]);
-      petal.quadraticBezierTo(PD[0], PD[1], PA[0], PA[1]);
-      petal.close();
-
-      canvas.drawPath(
-          petal,
-          Paint()
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = currentLineWidth
-            ..color = currentLineColor);
-      canvas.drawPath(
-          petal,
-          Paint()
-            ..style = PaintingStyle.fill
-            ..color = colour);
-
-      break;
+    // case 'petal': //"petal":
+    //
+    //   List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
+    //   var petalRadius = radius * currentPetalToRadius;
+    //
+    //   List PA = [
+    //     P1[0] +
+    //         petalRadius *
+    //             cos(angle +
+    //                 currentPetalRotation +
+    //                 angle * currentPetalRotationRatio +
+    //                 pi * 0.0),
+    //     P1[1] +
+    //         petalRadius *
+    //             sin(angle +
+    //                 currentPetalRotation +
+    //                 angle * currentPetalRotationRatio +
+    //                 pi * 0.0)
+    //   ];
+    //
+    //   List PB = [
+    //     P1[0] +
+    //         petalRadius *
+    //             currentPetalPointiness *
+    //             cos(angle +
+    //                 currentPetalRotation +
+    //                 angle * currentPetalRotationRatio +
+    //                 pi * 0.5),
+    //     P1[1] +
+    //         petalRadius *
+    //             currentPetalPointiness *
+    //             sin(angle +
+    //                 currentPetalRotation +
+    //                 angle * currentPetalRotationRatio +
+    //                 pi * 0.5)
+    //   ];
+    //
+    //   List PC = [
+    //     P1[0] +
+    //         petalRadius *
+    //             cos(angle +
+    //                 currentPetalRotation +
+    //                 angle * currentPetalRotationRatio +
+    //                 pi * 1.0),
+    //     P1[1] +
+    //         petalRadius *
+    //             sin(angle +
+    //                 currentPetalRotation +
+    //                 angle * currentPetalRotationRatio +
+    //                 pi * 1.0)
+    //   ];
+    //
+    //   List PD = [
+    //     P1[0] +
+    //         petalRadius *
+    //             currentPetalPointiness *
+    //             cos(angle +
+    //                 currentPetalRotation +
+    //                 angle * currentPetalRotationRatio +
+    //                 pi * 1.5),
+    //     P1[1] +
+    //         petalRadius *
+    //             currentPetalPointiness *
+    //             sin(angle +
+    //                 currentPetalRotation +
+    //                 angle * currentPetalRotationRatio +
+    //                 pi * 1.5)
+    //   ];
+    //
+    //   Path petal = Path();
+    //
+    //   petal.moveTo(PA[0], PA[1]);
+    //   petal.quadraticBezierTo(PB[0], PB[1], PC[0], PC[1]);
+    //   petal.quadraticBezierTo(PD[0], PD[1], PA[0], PA[1]);
+    //   petal.close();
+    //
+    //   canvas.drawPath(
+    //       petal,
+    //       Paint()
+    //         ..style = PaintingStyle.stroke
+    //         ..strokeWidth = currentLineWidth
+    //         ..color = currentLineColor);
+    //   canvas.drawPath(
+    //       petal,
+    //       Paint()
+    //         ..style = PaintingStyle.fill
+    //         ..color = colour);
+    //
+    //   break;
   }
 }
 
