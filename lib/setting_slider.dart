@@ -108,7 +108,7 @@ class _settingsSliderState extends State<settingsSlider> {
                 child: Slider(
                   activeColor: Colors.blue[300],
                   onChangeEnd: (double) {
-                    print('*********** should update cache');
+                    // print('*********** should update cache');
                     widget.updateCache();
                   },
                   value: widget.currentValue,

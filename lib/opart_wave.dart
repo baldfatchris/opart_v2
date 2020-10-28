@@ -197,10 +197,10 @@ void paintWave(Canvas canvas, Size size, Random rnd, double animationVariable, L
 
   rnd = Random(seed);
 
-  print('seed: $seed (${DateTime.now()})');
-  print('numberOfColors: ${attributes.firstWhere((element) => element.name == 'numberOfColors').value}');
-  print('colorCount: ${palette.colorList.length}');
-  print('animationVariable: ${animationVariable}');
+  // print('seed: $seed (${DateTime.now()})');
+  // print('numberOfColors: ${attributes.firstWhere((element) => element.name == 'numberOfColors').value}');
+  // print('colorCount: ${palette.colorList.length}');
+  // print('animationVariable: ${animationVariable}');
 
   // print(attributes.firstWhere((element) => element.name == 'backgroundColor').value);
   // print(attributes.firstWhere((element) => element.name == 'randomColors').value);

@@ -994,7 +994,7 @@ class OpArtPalette {
 
   void randomize(String paletteType, int numberOfColours) {
 
-    print('randomizing palette');
+    // print('randomizing palette');
 
     List<Color> palette = [];
 

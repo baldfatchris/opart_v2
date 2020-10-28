@@ -64,8 +64,8 @@ class SettingsModel {
 
 
         case SettingType.double:
-          print(this.settingType);
-          print(this.value);
+          // print(this.settingType);
+          // print(this.value);
           double min = (this.randomMin != null) ? this.randomMin : this.min;
           double max = (this.randomMax != null) ? this.randomMax : this.max;
 
@@ -74,7 +74,7 @@ class SettingsModel {
           // this.value = (rnd.nextBool() == true)
           //     ? rnd.nextDouble() * (max - min) + min
           //     : this.defaultValue;
-print(this.value);
+// print(this.value);
           break;
 
         case SettingType.int:
