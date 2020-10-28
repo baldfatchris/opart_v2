@@ -24,7 +24,7 @@ bool proVersion = false;
 
 ScrollController scrollController = new ScrollController();
 
-enum OpArtType { Fibonacci, Trees, Waves, Wallpaper }
+enum OpArtType { Fibonacci, Trees, Wave, Wallpaper }
 
 class OpArt {
   OpArtType opArtType;
@@ -36,6 +36,7 @@ class OpArt {
 
   // Initialise
   OpArt({this.opArtType}) {
+
     switch (opArtType) {
       case OpArtType.Fibonacci:
         this.attributes = initializeFibonacciAttributes();
@@ -45,12 +46,18 @@ class OpArt {
         break;
 
       case OpArtType.Trees:
+
         break;
 
       case OpArtType.Wallpaper:
+
         break;
 
-      case OpArtType.Waves:
+      case OpArtType.Wave:
+        this.attributes = initializeWaveAttributes();
+        this.palette = OpArtPalette(rnd);
+        this.name = 'Wave';
+
         break;
     }
 
@@ -59,22 +66,25 @@ class OpArt {
 
   void saveToCache() {
     print('saving to cache');
-    screenshotController
-        .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
-        .then((File image) async {
+    screenshotController.capture(
+        delay: Duration(milliseconds: 0),
+        pixelRatio: 0.2
+    ).then((File image) async {
+
       Map<String, dynamic> map = Map();
       for (int i = 0; i < attributes.length; i++) {
         map.addAll({attributes[i].label: attributes[i].value});
       }
-      map.addAll({'image': image, });
+      map.addAll({'image': image, 'palette': palette});
+
+      print('Cache map: $map');
+      print('palette: ${map['palette']}');
 
 
       this.cache.add(map);
       rebuildCache.value++;
-      scrollController.animateTo(scrollController.position.maxScrollExtent,
-          duration: Duration(milliseconds: 300), curve: Curves.easeOut);
-      enableButton = true;
-    });
+    }
+    );
 
   }
 
@@ -92,20 +102,23 @@ class OpArt {
     return cache.length;
   }
 
-  void paint(Canvas canvas, Size size, int seed, Random rnd,
-      double animationVariable) {
-    switch (opArtType) {
+  void paint(Canvas canvas, Size size, int seed, Random rnd, double animationVariable) {
+    switch(opArtType){
       case OpArtType.Fibonacci:
-        paintFibonacci(
-            canvas, size, rnd, animationVariable, this.attributes, palette);
+        paintFibonacci( canvas,  size,  rnd,  animationVariable, this.attributes, palette);
+        break;
+      case OpArtType.Wave:
+        paintWave( canvas,  size,  rnd,  animationVariable, this.attributes, palette);
+        break;
     }
   }
+
 
   // randomise the non-palette settings
   void randomizeSettings() {
     for (int i = 0; i < attributes.length; i++) {
       // print(attributes[i].name);
-      if (attributes[i].settingCategory == SettingCategory.tool) {
+      if (attributes[i].settingCategory == SettingCategory.tool){
         attributes[i].randomize(rnd);
       }
     }
@@ -115,19 +128,19 @@ class OpArt {
   void randomizePalette() {
     for (int i = 0; i < attributes.length; i++) {
       // print(attributes[i].name);
-      if (attributes[i].settingCategory == SettingCategory.palette) {
+      if (attributes[i].settingCategory == SettingCategory.palette){
         attributes[i].randomize(rnd);
       }
     }
 
     palette.randomize(
       attributes.firstWhere((element) => element.name == 'paletteType').value,
-      attributes
-          .firstWhere((element) => element.name == 'numberOfColors')
-          .value
-          .toInt(),
+      attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt(),
     );
   }
+
+
+
 
   void setDefault() {
     for (int i = 0; i < attributes.length; i++) {
