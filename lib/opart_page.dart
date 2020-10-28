@@ -146,19 +146,13 @@ class _OpArtPageState extends State<OpArtPage> {
                                       reverse: false,
                                       itemBuilder: (context, index) {
                                         return Padding(
-                                          padding: const EdgeInsets.all(2.0),
+                                          padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal:4),
                                           child: GestureDetector(
                                             onTap: () {
                                               opArt.revertToCache(index);
                                             },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle),
-                                              width: 50,
-                                              height: 50,
-                                              child: Image.file(
-                                                  opArt.cache[index]['image']),
-                                            ),
+                                            child: Image.file(
+                                                opArt.cache[index]['image']),
                                           ),
                                         );
                                       },

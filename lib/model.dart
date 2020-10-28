@@ -78,7 +78,8 @@ class OpArt {
 
   void saveToCache() {
     // print('saving to cache');
-    screenshotController
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => screenshotController
         .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
         .then((File image) async {
       Map<String, dynamic> map = Map();
@@ -96,7 +97,7 @@ class OpArt {
      if(scrollController.hasClients) {scrollController.animateTo(scrollController.position.maxScrollExtent,
           duration: Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);}
       enableButton = true;
-    });
+    }));
   }
 
   void revertToCache(int index) {
