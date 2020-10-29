@@ -48,6 +48,7 @@ class _OpArtPageState extends State<OpArtPage>
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIOverlays([]);
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -74,7 +75,8 @@ class _OpArtPageState extends State<OpArtPage>
                 onPressed: () {
                   opArt.setDefault();
                   opArt.clearCache();
-
+                  SystemChrome.setEnabledSystemUIOverlays(
+                      SystemUiOverlay.values);
                   Navigator.pop(context);
                 },
               ),
@@ -121,15 +123,14 @@ class _OpArtPageState extends State<OpArtPage>
       body: Stack(
         children: [
           GestureDetector(
-              onDoubleTap: () {
+              onTap: () {
                 setState(() {
                   if (fullScreen) {
                     fullScreen = false;
-                    SystemChrome.setEnabledSystemUIOverlays([]);
+
                   } else {
                     fullScreen = true;
-                    SystemChrome.setEnabledSystemUIOverlays(
-                        SystemUiOverlay.values);
+
                   }
                 });
               },
@@ -180,4 +181,6 @@ class _OpArtPageState extends State<OpArtPage>
       ),
     );
   }
+
+
 }
