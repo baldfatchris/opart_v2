@@ -6,6 +6,8 @@ import 'opart_page.dart';
 import 'package:flutter/scheduler.dart';
 
 class CanvasWidget extends StatefulWidget {
+  bool _fullScreen;
+  CanvasWidget(this._fullScreen);
   @override
   _CanvasWidgetState createState() => _CanvasWidgetState();
 }
@@ -14,6 +16,7 @@ bool _playing = true;
 
 double _timeDilation = 1;
 bool _showTools = false;
+
 class _CanvasWidgetState extends State<CanvasWidget>
     with TickerProviderStateMixin {
   AnimationController animationController;
@@ -33,13 +36,13 @@ class _CanvasWidgetState extends State<CanvasWidget>
       ..addListener(() {
         rebuildCanvas.value++;
       })
-    ..addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        animationController.repeat();
-      } else if (status == AnimationStatus.dismissed) {
-        animationController.forward();
-      }
-    });
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          animationController.repeat();
+        } else if (status == AnimationStatus.dismissed) {
+          animationController.forward();
+        }
+      });
 
     animationController.forward();
     playPauseController = AnimationController(
@@ -52,84 +55,120 @@ class _CanvasWidgetState extends State<CanvasWidget>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButton: Visibility(visible: (!widget._fullScreen && _showTools)? true: false,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 90.0),
+            child: FloatingActionButton(child: Icon(Icons.refresh),onPressed: () {
+              if (enableButton) {
+                opArt.randomizeSettings();
+                opArt.randomizePalette();
+                opArt.saveToCache();
+                enableButton = false;
+              }
+            }),
+          ),
 
-      body: GestureDetector(onTap:(){
-        setState(() {
-          _showTools = !_showTools;
-        });
-
-      },
-        child: Stack(
-          children: [
-            ValueListenableBuilder<int>(
-                valueListenable: rebuildCanvas,
-                builder: (context, value, child) {
-                  return Screenshot(
-                    controller: screenshotController,
-                    child: Visibility(
-                      visible: true,
-                      child: LayoutBuilder(
-                        builder: (_, constraints) => Container(
-                          width: constraints.widthConstraints().maxWidth,
-                          height: constraints.heightConstraints().maxHeight,
-                          child: CustomPaint(
-                            painter: OpArtPainter(seed, rnd, animation.value),
+        ),
+        body: GestureDetector(
+          onTap: () {
+            setState(() {
+              _showTools = !_showTools;
+            });
+          },
+          child: Stack(
+            children: [
+              ValueListenableBuilder<int>(
+                  valueListenable: rebuildCanvas,
+                  builder: (context, value, child) {
+                    return Screenshot(
+                      controller: screenshotController,
+                      child: Visibility(
+                        visible: true,
+                        child: LayoutBuilder(
+                          builder: (_, constraints) => Container(
+                            width: constraints.widthConstraints().maxWidth,
+                            height: constraints.heightConstraints().maxHeight,
+                            child: CustomPaint(
+                              painter: OpArtPainter(seed, rnd, animation.value),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                }),
-            _showTools? Center(
-              child: Container(height: 100,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Slider(
-                        value: _timeDilation,
-                        min: 0.1,
-                        max: 4,
-                        onChanged: (value) {
-                          setState(() {
-                            _timeDilation = value;
-                            timeDilation = 1 / value;
-                          });
-                        },
+                    );
+                  }),
+              _showTools
+                  ? Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            height: 100,
+                            color: Colors.white.withOpacity(0.5),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Slider(
+                                    value: _timeDilation,
+                                    min: 0.1,
+                                    max: 8,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _timeDilation = value;
+                                        timeDilation = 1 / value;
+                                      });
+                                    },
+                                    onChangeEnd: (value) async {
+                                      // await new Future.delayed(
+                                      //     const Duration(seconds: 1));
+                                      // setState(() {
+                                      //   _showTools = false;
+                                      // });
+                                    },
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 4),
+                                  child: FloatingActionButton(
+                                      onPressed: () {
+                                        animationController.reverse();
+                                      },
+                                      child: Icon(Icons.fast_rewind)),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: FloatingActionButton(
+                                      heroTag: hero2,
+                                      onPressed: () {
+                                        if (_playing) {
+                                          playPauseController.forward(from: 0);
+                                          _playing = false;
+                                          animationController.stop();
+                                        } else {
+                                          playPauseController.reverse();
+                                          _playing = true;
+                                          animationController.forward();
+                                        }
+                                      },
+                                      child: AnimatedIcon(
+                                          icon: AnimatedIcons.pause_play,
+                                          progress: playPauseController)),
+                                ),
+                              ],
+                            ),
+                          ),
+                          widget._fullScreen
+                              ? Container(height: 70)
+                              : Container(),
+                        ],
                       ),
-                    ),Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: FloatingActionButton(onPressed: () {
-                        animationController.reverse();
-
-                      }, child: Icon(Icons.fast_rewind)),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FloatingActionButton(
-                          heroTag: hero2,
-                          onPressed: () {
-                            if (_playing) {
-                              playPauseController.forward(from: 0);
-                              _playing = false;
-                              animationController.stop();
-                            } else {
-                              playPauseController.reverse();
-                              _playing = true;
-                              animationController.forward();
-                            }
-                          },
-                          child: AnimatedIcon(
-                              icon: AnimatedIcons.pause_play,
-                              progress: playPauseController)),
-                    ),
-                  ],
-                ),
-              ),
-            ): Container(),
-          ],
-        ),
-      )
-    );
+                    )
+                  : Container(),
+            ],
+          ),
+        ));
   }
 
   @override
