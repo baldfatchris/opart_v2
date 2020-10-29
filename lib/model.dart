@@ -185,12 +185,13 @@ class OpArt {
       attributes[i].setDefault();
     }
 
-    List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == "Drfault");
+    List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == "Default");
     attributes.firstWhere((element) => element.name == 'numberOfColors').value = newPalette[1].toInt();
-    attributes.firstWhere((element) => element.name == 'backgroundColor').value =  Color(int.parse(newPalette[2]));
+
+    attributes.firstWhere((element) => element.name == 'backgroundColor').value = newPalette[2];
     palette.colorList = [];
     for (int z = 0; z < newPalette[3].length; z++) {
-      palette.colorList.add(Color(int.parse(newPalette[3][z])));
+      palette.colorList.add(newPalette[3][z]);
     }
   }
 
