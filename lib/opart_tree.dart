@@ -415,13 +415,11 @@ void paintTree(Canvas canvas, Size size, Random rnd, double animationVariable, L
     palette.randomize(paletteType.value, numberOfColors.value);
   }
   if (paletteList.value != palette.paletteName){
+    palette.select(paletteList.value);
+
     List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == paletteList.value);
     numberOfColors.value = newPalette[1].toInt();
     backgroundColor.value = Color(int.parse(newPalette[2]));
-    palette.colorList = [];
-    for (int z = 0; z < newPalette[3].length; z++) {
-      palette.colorList.add(Color(int.parse(newPalette[3][z])));
-    }
   }
 
 
@@ -439,17 +437,6 @@ void paintTree(Canvas canvas, Size size, Random rnd, double animationVariable, L
     }
   }
 
-
-
-  // print('seed: $seed (${DateTime.now()})');
-  // print('numberOfColors: ${attributes.firstWhere((element) => element.name == 'numberOfColors').value}');
-  // print('colorCount: ${palette.colorList.length}');
-  // print('animationVariable: ${animationVariable}');
-
-  // print(attributes.firstWhere((element) => element.name == 'backgroundColor').value);
-  // print('numberOfColors: ${attributes.firstWhere((element) => element.name == 'numberOfColors').value}');
-  // print(attributes.firstWhere((element) => element.name == 'paletteType').value);
-  // print(attributes.firstWhere((element) => element.name == 'opacity').value);
 
   generateTree(canvas, rnd, size.width, size.height, size.width, size.height, 0,0,
 
