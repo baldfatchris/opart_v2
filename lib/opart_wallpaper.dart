@@ -438,36 +438,20 @@ List<SettingsModel> initializeWallpaperAttributes() {
 }
 
 
-void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariable, List<SettingsModel> attributes, OpArtPalette palette) {
+void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariable, OpArt opArt) {
 
   rnd = Random(seed);
 
   // sort out the palette
-  if (numberOfColors.value > palette.colorList.length){
-    palette.randomize(paletteType.value, numberOfColors.value);
+  if (numberOfColors.value > opArt.palette.colorList.length){
+    opArt.palette.randomize(paletteType.value, numberOfColors.value);
   }
-  if (paletteList.value != palette.paletteName){
-    List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == paletteList.value);
-    numberOfColors.value = newPalette[1].toInt();
-    backgroundColor.value = Color(int.parse(newPalette[2]));
-    palette.colorList = [];
-    for (int z = 0; z < newPalette[3].length; z++) {
-      palette.colorList.add(Color(int.parse(newPalette[3][z])));
-    }
+  if (paletteList.value != opArt.palette.paletteName){
+    opArt.selectPalette(paletteList.value);
   }
-
   // reset the defaults
   if (resetDefaults.value == true) {
-    for (int i = 0; i < attributes.length; i++) {
-      attributes[i].setDefault();
-    }
-    List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == paletteList.value);
-    numberOfColors.value = newPalette[1].toInt();
-    backgroundColor.value = Color(int.parse(newPalette[2]));
-    palette.colorList = [];
-    for (int z = 0; z < newPalette[3].length; z++) {
-      palette.colorList.add(Color(int.parse(newPalette[3][z])));
-    }
+    opArt.setDefault();
   }
 
   // Initialise the canvas
@@ -573,9 +557,9 @@ void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariab
       if (box.value) {
         // Choose the next colour
         colourOrder++;
-        nextColor = palette.colorList[colourOrder % numberOfColors.value];
+        nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
         if (randomColors.value) {
-          nextColor = palette.colorList[rnd.nextInt(numberOfColors.value)];
+          nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
         }
 
         // fill the square
@@ -609,9 +593,9 @@ void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariab
 
           // Choose the next colour
             colourOrder++;
-            nextColor = palette.colorList[colourOrder % numberOfColors.value];
+            nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
             if (randomColors.value) {
-              nextColor = palette.colorList[rnd.nextInt(numberOfColors.value)];
+              nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
             }
 
             canvas.drawCircle(
@@ -687,9 +671,9 @@ void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariab
 
             // Choose the next colour
             colourOrder++;
-            nextColor = palette.colorList[colourOrder % numberOfColors.value];
+            nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
             if (randomColors.value) {
-              nextColor = palette.colorList[
+              nextColor = opArt.palette.colorList[
               rnd.nextInt(numberOfColors.value)];
             }
 
@@ -759,9 +743,9 @@ void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariab
 
               // Choose the next colour
               colourOrder++;
-              nextColor = palette.colorList[colourOrder % numberOfColors.value];
+              nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
               if (randomColors.value) {
-                nextColor = palette.colorList[rnd.nextInt(numberOfColors.value)];
+                nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
               }
 
               canvas.drawPath(
@@ -787,9 +771,9 @@ void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariab
 
             // Choose the next colour
             colourOrder++;
-            nextColor = palette.colorList[colourOrder % numberOfColors.value];
+            nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
             if (randomColors.value) {
-              nextColor = palette.colorList[rnd.nextInt(numberOfColors.value)];
+              nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
             }
 
             canvas.drawCircle(
@@ -811,9 +795,9 @@ void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariab
             for (var petal = 0; petal < localNumberOfPetals; petal++) {
               // Choose the next colour
               colourOrder++;
-              nextColor = palette.colorList[colourOrder % numberOfColors.value];
+              nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
               if (randomColors.value) {
-                nextColor = palette.colorList[rnd.nextInt(numberOfColors.value)];
+                nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
               }
 
               var petalAngle =
