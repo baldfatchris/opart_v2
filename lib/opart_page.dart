@@ -19,7 +19,7 @@ class OpArtPage extends StatefulWidget {
   _OpArtPageState createState() => _OpArtPageState();
 }
 
-bool showOptions = false;
+bool fullScreen = false;
 File imageFile;
 
 OpArt opArt;
@@ -32,7 +32,7 @@ class _OpArtPageState extends State<OpArtPage>
   void initState() {
 
     opArt = OpArt(opArtType: widget.opArtType);
-    showOptions = true;
+    fullScreen = true;
     super.initState();
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
       setState(() {
@@ -53,7 +53,7 @@ class _OpArtPageState extends State<OpArtPage>
     return Scaffold(
 
       extendBodyBehindAppBar: true,
-      appBar: showOptions
+      appBar: fullScreen
           ? AppBar(
               backgroundColor: Colors.cyan[200].withOpacity(0.8),
               title: Text(
@@ -123,20 +123,20 @@ class _OpArtPageState extends State<OpArtPage>
           GestureDetector(
               onDoubleTap: () {
                 setState(() {
-                  if (showOptions) {
-                    showOptions = false;
+                  if (fullScreen) {
+                    fullScreen = false;
                     SystemChrome.setEnabledSystemUIOverlays([]);
                   } else {
-                    showOptions = true;
+                    fullScreen = true;
                     SystemChrome.setEnabledSystemUIOverlays(
                         SystemUiOverlay.values);
                   }
                 });
               },
-              child: ClipRect(child: CanvasWidget())),
+              child: ClipRect(child: CanvasWidget(fullScreen))),
           Align(
             alignment: Alignment.topCenter,
-            child: showOptions
+            child: fullScreen
                 ? SafeArea(
                     child: Container(
                         color: Colors.white.withOpacity(0.8),
@@ -172,7 +172,7 @@ class _OpArtPageState extends State<OpArtPage>
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: showOptions
+            child: fullScreen
                 ? customBottomAppBar(context: context, opArt: opArt)
                 : BottomAppBar(),
           )
