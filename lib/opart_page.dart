@@ -121,7 +121,7 @@ class _OpArtPageState extends State<OpArtPage>
       body: Stack(
         children: [
           GestureDetector(
-              onTap: () {
+              onDoubleTap: () {
                 setState(() {
                   if (showOptions) {
                     showOptions = false;

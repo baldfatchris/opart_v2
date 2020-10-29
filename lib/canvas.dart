@@ -13,7 +13,7 @@ class CanvasWidget extends StatefulWidget {
 bool _playing = true;
 
 double _timeDilation = 1;
-
+bool _showTools = false;
 class _CanvasWidgetState extends State<CanvasWidget>
     with TickerProviderStateMixin {
   AnimationController animationController;
@@ -52,41 +52,16 @@ class _CanvasWidgetState extends State<CanvasWidget>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Row(mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 40),
-            child: FloatingActionButton(onPressed: () {
-              animationController.reverse();
 
-            }, child: Icon(Icons.fast_rewind)),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: FloatingActionButton(
-                heroTag: hero2,
-                onPressed: () {
-                  if (_playing) {
-                    playPauseController.forward(from: 0);
-                    _playing = false;
-                    animationController.stop();
-                  } else {
-                    playPauseController.reverse();
-                    _playing = true;
-                    animationController.forward();
-                  }
-                },
-                child: AnimatedIcon(
-                    icon: AnimatedIcons.pause_play,
-                    progress: playPauseController)),
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ValueListenableBuilder<int>(
+      body: GestureDetector(onTap:(){
+        setState(() {
+          _showTools = !_showTools;
+        });
+
+      },
+        child: Stack(
+          children: [
+            ValueListenableBuilder<int>(
                 valueListenable: rebuildCanvas,
                 builder: (context, value, child) {
                   return Screenshot(
@@ -105,20 +80,55 @@ class _CanvasWidgetState extends State<CanvasWidget>
                     ),
                   );
                 }),
-          ),
-          Slider(
-            value: _timeDilation,
-            min: 0.1,
-            max: 4,
-            onChanged: (value) {
-              setState(() {
-                _timeDilation = value;
-                timeDilation = 1 / value;
-              });
-            },
-          )
-        ],
-      ),
+            _showTools? Center(
+              child: Container(height: 100,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Slider(
+                        value: _timeDilation,
+                        min: 0.1,
+                        max: 4,
+                        onChanged: (value) {
+                          setState(() {
+                            _timeDilation = value;
+                            timeDilation = 1 / value;
+                          });
+                        },
+                      ),
+                    ),Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: FloatingActionButton(onPressed: () {
+                        animationController.reverse();
+
+                      }, child: Icon(Icons.fast_rewind)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FloatingActionButton(
+                          heroTag: hero2,
+                          onPressed: () {
+                            if (_playing) {
+                              playPauseController.forward(from: 0);
+                              _playing = false;
+                              animationController.stop();
+                            } else {
+                              playPauseController.reverse();
+                              _playing = true;
+                              animationController.forward();
+                            }
+                          },
+                          child: AnimatedIcon(
+                              icon: AnimatedIcons.pause_play,
+                              progress: playPauseController)),
+                    ),
+                  ],
+                ),
+              ),
+            ): Container(),
+          ],
+        ),
+      )
     );
   }
 
