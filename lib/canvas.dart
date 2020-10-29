@@ -3,6 +3,7 @@ import 'package:screenshot/screenshot.dart';
 import 'package:flutter/material.dart';
 import 'model.dart';
 import 'opart_page.dart';
+import 'package:flutter/scheduler.dart';
 
 class CanvasWidget extends StatefulWidget {
   @override
@@ -10,6 +11,8 @@ class CanvasWidget extends StatefulWidget {
 }
 
 bool _playing = true;
+
+double _timeDilation = 1;
 
 class _CanvasWidgetState extends State<CanvasWidget>
     with TickerProviderStateMixin {
@@ -29,14 +32,14 @@ class _CanvasWidgetState extends State<CanvasWidget>
     animation = animationTween.animate(animationController)
       ..addListener(() {
         rebuildCanvas.value++;
-      });
-    // ..addStatusListener((status) {
-    //   if (status == AnimationStatus.completed) {
-    //     animationController.repeat();
-    //   } else if (status == AnimationStatus.dismissed) {
-    //     animationController.forward();
-    //   }
-    // });
+      })
+    ..addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        animationController.repeat();
+      } else if (status == AnimationStatus.dismissed) {
+        animationController.forward();
+      }
+    });
 
     animationController.forward();
     playPauseController = AnimationController(
@@ -44,44 +47,78 @@ class _CanvasWidgetState extends State<CanvasWidget>
     super.initState();
   }
 
+  Hero hero1;
+  Hero hero2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Row(mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 40),
+            child: FloatingActionButton(onPressed: () {
+              animationController.reverse();
 
-            if (_playing) {
-              playPauseController.forward(from: 0);
-              _playing = false;
-              animationController.stop();
-            } else {
-              playPauseController.reverse();
-              _playing = true;
-              animationController.forward();
-            }
-
-          },
-          child: AnimatedIcon(
-              icon: AnimatedIcons.pause_play, progress: playPauseController)),
-      body: ValueListenableBuilder<int>(
-          valueListenable: rebuildCanvas,
-          builder: (context, value, child) {
-            return Screenshot(
-              controller: screenshotController,
-              child: Visibility(
-                visible: true,
-                child: LayoutBuilder(
-                  builder: (_, constraints) => Container(
-                    width: constraints.widthConstraints().maxWidth,
-                    height: constraints.heightConstraints().maxHeight,
-                    child: CustomPaint(
-                      painter: OpArtPainter(seed, rnd, animation.value),
+            }, child: Icon(Icons.fast_rewind)),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FloatingActionButton(
+                heroTag: hero2,
+                onPressed: () {
+                  if (_playing) {
+                    playPauseController.forward(from: 0);
+                    _playing = false;
+                    animationController.stop();
+                  } else {
+                    playPauseController.reverse();
+                    _playing = true;
+                    animationController.forward();
+                  }
+                },
+                child: AnimatedIcon(
+                    icon: AnimatedIcons.pause_play,
+                    progress: playPauseController)),
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ValueListenableBuilder<int>(
+                valueListenable: rebuildCanvas,
+                builder: (context, value, child) {
+                  return Screenshot(
+                    controller: screenshotController,
+                    child: Visibility(
+                      visible: true,
+                      child: LayoutBuilder(
+                        builder: (_, constraints) => Container(
+                          width: constraints.widthConstraints().maxWidth,
+                          height: constraints.heightConstraints().maxHeight,
+                          child: CustomPaint(
+                            painter: OpArtPainter(seed, rnd, animation.value),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-            );
-          }),
+                  );
+                }),
+          ),
+          Slider(
+            value: _timeDilation,
+            min: 0.1,
+            max: 4,
+            onChanged: (value) {
+              setState(() {
+                _timeDilation = value;
+                timeDilation = 1 / value;
+              });
+            },
+          )
+        ],
+      ),
     );
   }
 
