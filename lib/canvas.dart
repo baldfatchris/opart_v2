@@ -168,6 +168,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
   @override
   void dispose() {
     animationController.dispose();
+    playPauseController.dispose();
     super.dispose();
   }
 }
