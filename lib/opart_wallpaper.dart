@@ -7,34 +7,22 @@ import 'dart:core';
 
 List<String> list = List();
 
-SettingsModel cellsX = SettingsModel( 
-  name: 'cellsX',
-  settingType: SettingType.int,
-  label: 'Horizontal Cells',
-  tooltip: 'The number of horizontal cells',
-  min: 1,
-  max: 10,
-  randomMin: 4,
-  randomMax: 8,
-  defaultValue: 5,
-  icon: Icon(Icons.swap_horiz),
+
+SettingsModel zoomWallpaper = SettingsModel(
+  name: 'zoomTree',
+  settingType: SettingType.double,
+  label: 'Zoom',
+  tooltip: 'Zoom in and out',
+  min: 20.0,
+  max: 500.0,
+  zoom: 100,
+  defaultValue: 100.0,
+  icon: Icon(Icons.zoom_in),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-SettingsModel cellsY = SettingsModel(
-  name: 'cellsY',
-  settingType: SettingType.int,
-  label: 'Vertical Cells',
-  tooltip: 'The number of vertical cells',
-  min: 1,
-  max: 10,
-  randomMin: 4,
-  randomMax: 8,
-  defaultValue: 5,
-  icon: Icon(Icons.swap_vert),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-);
+
+
 SettingsModel shape = SettingsModel(
   name: 'shape',
   settingType: SettingType.list,
@@ -412,8 +400,7 @@ double aspectRatio = pi/2;
 List<SettingsModel> initializeWallpaperAttributes() {
 
   return [
-    cellsX,
-    cellsY,
+    zoomWallpaper,
     shape,
     driftX,
     driftXStep,
@@ -491,37 +478,12 @@ void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariab
   double imageWidth = canvasWidth;
   double imageHeight = canvasHeight;
 
-  // Initialise the aspect ratio
-  if (aspectRatio == pi / 2) {
-    // if portrait add extra Y cells
-    if (canvasHeight > canvasWidth) {
-      cellsY.value =
-          (canvasHeight / canvasWidth * cellsX.value)
-              .toInt();
-    }
+  // Work out the X and Y
+  int cellsX = (canvasWidth / (zoomWallpaper.value * squeezeX.value)+1.9999999).toInt();
+  borderX = (canvasWidth - zoomWallpaper.value * squeezeX.value * cellsX) / 2;
 
-    // if landscape add extra X cells
-    else {
-      cellsX.value =
-          (canvasWidth / canvasHeight * cellsY.value)
-              .toInt();
-    }
-    aspectRatio =
-        cellsX.value / cellsY.value;
-  }
-
-  // work out the aspect ratio
-  aspectRatio =
-      (cellsX.value * squeezeX.value) /
-          (cellsY.value * squeezeY.value);
-
-  if (canvasWidth / canvasHeight < aspectRatio) {
-    borderY = (canvasHeight - canvasWidth / aspectRatio) / 2;
-    imageHeight = imageWidth / aspectRatio;
-  } else {
-    borderX = (canvasWidth - canvasHeight / aspectRatio) / 2;
-    imageWidth = imageHeight * aspectRatio;
-  }
+  int cellsY = (canvasHeight / (zoomWallpaper.value * squeezeY.value)+1.9999999).toInt();
+  borderY = (canvasHeight - zoomWallpaper.value * squeezeY.value * cellsY) / 2;
 
   int colourOrder = 0;
 
@@ -533,20 +495,20 @@ void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariab
   int extraCellsX = 0;
   int extraCellsY = 0;
   if (fill) {
-    extraCellsX = (cellsX.value * 2 / squeezeX.value).toInt();
-    extraCellsY = (cellsY.value * 2 / squeezeY.value).toInt();
+    extraCellsX = (cellsX * 2 / squeezeX.value).toInt();
+    extraCellsY = (cellsY * 2 / squeezeY.value).toInt();
   }
 
   // work out the radius from the width and the cells
-  double radius = imageWidth / (cellsX.value * 2);
+  double radius = zoomWallpaper.value / 2;
 
   double localSquareness = squareness.value + 0.25 * sin(2500 * animationVariable);
 
   for (int j = 0 - extraCellsY;
-  j < cellsY.value + extraCellsY;
+  j < cellsY + extraCellsY;
   j++) {
     for (int i = 0 - extraCellsX;
-    i < cellsX.value + extraCellsX;
+    i < cellsX + extraCellsX;
     i++) {
       int k = 0; // count the steps
 
@@ -954,19 +916,6 @@ void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariab
       } while (k < 40 && stepRadius > 0 && step.value > 0);
     }
   }
-
-  // colour in the outer canvas
-  var paint1 = Paint()
-    ..color = Colors.white
-    ..style = PaintingStyle.fill;
-  canvas.drawRect(Offset(0, 0) & Size(borderX, canvasHeight), paint1);
-  canvas.drawRect(
-      Offset(canvasWidth - borderX, 0) & Size(borderX, canvasHeight), paint1);
-
-  canvas.drawRect(Offset(0, 0) & Size(canvasWidth, borderY), paint1);
-  canvas.drawRect(
-      Offset(0, borderY + imageHeight) & Size(canvasWidth, borderY + 1000),
-      paint1);
 
 }
 
