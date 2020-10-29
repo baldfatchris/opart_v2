@@ -159,11 +159,11 @@ SettingsModel radialOscAmplitude = SettingsModel(
     defaultValue: 0.0,
     icon: Icon(Icons.all_inclusive),
     settingCategory: SettingCategory.tool,
-    proFeature: true,
+    proFeature: false,
   );
 
 SettingsModel radialOscPeriod = SettingsModel(
-    name: 'radialOscPeriod',
+    name: 'label',
     settingType: SettingType.double,
     label: 'Oscillation Period',
     tooltip: 'The period of the radial oscillation',
@@ -175,11 +175,12 @@ SettingsModel radialOscPeriod = SettingsModel(
     defaultValue: 0.0,
     icon: Icon(Icons.bubble_chart),
     settingCategory: SettingCategory.tool,
-    proFeature: true,
+    proFeature: false,
   );
 
-SettingsModel backgroundColor = SettingsModel(settingType: SettingType.color,
+SettingsModel backgroundColor = SettingsModel(
     name: 'backgroundColor',
+    settingType: SettingType.color,
     label: "Background Color",
     tooltip: "The background colour for the canvas",
     defaultValue: Colors.cyan,
@@ -188,8 +189,9 @@ SettingsModel backgroundColor = SettingsModel(settingType: SettingType.color,
     proFeature: false,
   );
 
-SettingsModel lineColor = SettingsModel(settingType: SettingType.color,
+SettingsModel lineColor = SettingsModel(
     name: 'lineColor',
+    settingType: SettingType.color,
     label: "Outline Color",
     tooltip: "The outline colour for the petals",
     defaultValue: Colors.white,
@@ -198,7 +200,8 @@ SettingsModel lineColor = SettingsModel(settingType: SettingType.color,
     proFeature: false,
   );
 
-SettingsModel lineWidth = SettingsModel(settingType: SettingType.double,
+SettingsModel lineWidth = SettingsModel(
+    settingType: SettingType.double,
     name: 'lineWidth',
     label: 'Outline Width',
     tooltip: 'The width of the petal outline',

@@ -30,7 +30,7 @@ SettingsModel shape = SettingsModel(
   tooltip: "The shape in the cell",
   defaultValue: "squaricle",
   icon: Icon(Icons.settings),
-  options: ['circle', 'squaricle', 'star'],
+  options: ['circle', 'squaricle', 'star', 'daisy'],
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -486,7 +486,7 @@ void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariab
   // work out the radius from the width and the cells
   double radius = zoomWallpaper.value / 2;
 
-  double localSquareness = squareness.value + 0.25 * sin(2500 * animationVariable);
+  double localSquareness = sin(2500 * animationVariable);
 
   for (int j = 0 - extraCellsY;
   j < cellsY + extraCellsY;
