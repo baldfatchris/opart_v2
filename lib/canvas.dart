@@ -15,7 +15,7 @@ class CanvasWidget extends StatefulWidget {
 bool _playing = true;
 
 double _timeDilation = 1;
-bool _showTools = false;
+
 
 class _CanvasWidgetState extends State<CanvasWidget>
     with TickerProviderStateMixin {
@@ -52,30 +52,11 @@ class _CanvasWidgetState extends State<CanvasWidget>
 
   Hero hero1;
   Hero hero2;
+  bool _forward = true;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        floatingActionButton: Visibility(visible: (!widget._fullScreen && _showTools)? true: false,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 90.0),
-            child: FloatingActionButton(child: Icon(Icons.refresh),onPressed: () {
-              if (enableButton) {
-                opArt.randomizeSettings();
-                opArt.randomizePalette();
-                opArt.saveToCache();
-                enableButton = false;
-              }
-            }),
-          ),
+    return  GestureDetector(
 
-        ),
-        body: GestureDetector(
-          onTap: () {
-            setState(() {
-              _showTools = !_showTools;
-            });
-          },
           child: Stack(
             children: [
               ValueListenableBuilder<int>(
@@ -86,7 +67,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
                       child: Visibility(
                         visible: true,
                         child: LayoutBuilder(
-                          builder: (_, constraints) => Container(
+                          builder: (_, constraints) => Container(color: Colors.white,
                             width: constraints.widthConstraints().maxWidth,
                             height: constraints.heightConstraints().maxHeight,
                             child: CustomPaint(
@@ -97,7 +78,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
                       ),
                     );
                   }),
-              _showTools
+                  fullScreen
                   ? Align(
                       alignment: Alignment.bottomCenter,
                       child: Column(
@@ -133,9 +114,22 @@ class _CanvasWidgetState extends State<CanvasWidget>
                                       const EdgeInsets.symmetric(horizontal: 4),
                                   child: FloatingActionButton(
                                       onPressed: () {
-                                        animationController.reverse();
+                                        if(_forward) {
+                                          setState(() {
+                                            animationController.reverse();
+                                            _forward = false;
+                                          });
+
+                                        }
+                                        else{
+                                          setState(() {
+                                            animationController.forward();
+                                            _forward = true;
+                                          });
+
+                                        }
                                       },
-                                      child: Icon(Icons.fast_rewind)),
+                                      child: Icon(_forward? Icons.fast_rewind: Icons.fast_forward)),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -168,7 +162,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
                   : Container(),
             ],
           ),
-        ));
+        );
   }
 
   @override
