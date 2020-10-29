@@ -120,20 +120,16 @@ class OpArt {
       double animationVariable) {
     switch (opArtType) {
       case OpArtType.Fibonacci:
-        paintFibonacci(
-            canvas, size, rnd, animationVariable, this.attributes, palette);
+        paintFibonacci(canvas, size, rnd, animationVariable, this);
         break;
       case OpArtType.Tree:
-        paintTree(
-            canvas, size, rnd, animationVariable, this.attributes, palette);
+        paintTree(canvas, size, rnd, animationVariable, this);
         break;
       case OpArtType.Wallpaper:
-        paintWallpaper(
-            canvas, size, rnd, animationVariable, this.attributes, palette);
+        paintWallpaper(canvas, size, rnd, animationVariable, this);
         break;
       case OpArtType.Wave:
-        paintWave(
-            canvas, size, rnd, animationVariable, this.attributes, palette);
+        paintWave(canvas, size, rnd, animationVariable, this);
         break;
     }
   }
@@ -148,6 +144,20 @@ class OpArt {
       }
     }
     randomizePalette();
+  }
+
+
+  // select a palette from the list
+  void selectPalette(String paletteName){
+
+    List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == paletteName);
+    palette.colorList = [];
+    for (int z = 0; z < newPalette[3].length; z++) {
+      palette.colorList.add(Color(int.parse(newPalette[3][z])));
+    }
+    attributes.firstWhere((element) => element.name == 'numberOfColors').value = newPalette[1].toInt();
+    attributes.firstWhere((element) => element.name == 'backgroundColor').value =  Color(int.parse(newPalette[2]));
+
   }
 
   // randomise the palette
@@ -169,9 +179,18 @@ class OpArt {
     );
   }
 
+  // reset to defaults
   void setDefault() {
     for (int i = 0; i < attributes.length; i++) {
       attributes[i].setDefault();
+    }
+
+    List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == "Drfault");
+    attributes.firstWhere((element) => element.name == 'numberOfColors').value = newPalette[1].toInt();
+    attributes.firstWhere((element) => element.name == 'backgroundColor').value =  Color(int.parse(newPalette[2]));
+    palette.colorList = [];
+    for (int z = 0; z < newPalette[3].length; z++) {
+      palette.colorList.add(Color(int.parse(newPalette[3][z])));
     }
   }
 

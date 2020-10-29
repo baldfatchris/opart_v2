@@ -140,7 +140,7 @@ SettingsModel maxPetals = SettingsModel(
     tooltip: 'The maximum number of petals to draw',
     min: 0,
     max: 20000,
-    defaultValue: 7000,
+    defaultValue: 15000,
     icon: Icon(Icons.fiber_smart_record),
     settingCategory: SettingCategory.tool,
     proFeature: false,
@@ -176,18 +176,6 @@ SettingsModel radialOscPeriod = SettingsModel(
     icon: Icon(Icons.bubble_chart),
     settingCategory: SettingCategory.tool,
     proFeature: true,
-  );
-
-SettingsModel direction = SettingsModel(
-    name: 'direction',
-    settingType: SettingType.list,
-    label: "Direction",
-    tooltip: "Start from the outside and draw Inward, or start from the centre and draw Outward",
-    defaultValue: "inward",
-    icon: Icon(Icons.directions),
-    options: <String>['inward', 'outward'],
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
   );
 
 SettingsModel backgroundColor = SettingsModel(settingType: SettingType.color,
@@ -316,7 +304,6 @@ List<SettingsModel> initializeFibonacciAttributes() {
     maxPetals,
     radialOscAmplitude,
     radialOscPeriod,
-    direction,
     backgroundColor,
     lineColor,
     lineWidth,
@@ -331,36 +318,20 @@ List<SettingsModel> initializeFibonacciAttributes() {
 
 }
 
-void paintFibonacci(Canvas canvas, Size size, Random rnd, double animationVariable, List<SettingsModel> attributes, OpArtPalette palette) {
+void paintFibonacci(Canvas canvas, Size size, Random rnd, double animationVariable, OpArt opArt) {
 
   rnd = Random(seed);
 
   // sort out the palette
-  if (numberOfColors.value > palette.colorList.length){
-    palette.randomize(paletteType.value, numberOfColors.value);
+  if (numberOfColors.value > opArt.palette.colorList.length){
+    opArt.palette.randomize(paletteType.value, numberOfColors.value);
   }
-  if (paletteList.value != palette.paletteName){
-    List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == paletteList.value);
-    numberOfColors.value = newPalette[1].toInt();
-    backgroundColor.value = Color(int.parse(newPalette[2]));
-    palette.colorList = [];
-    for (int z = 0; z < newPalette[3].length; z++) {
-      palette.colorList.add(Color(int.parse(newPalette[3][z])));
-    }
+  if (paletteList.value != opArt.palette.paletteName){
+    opArt.selectPalette(paletteList.value);
   }
-
   // reset the defaults
   if (resetDefaults.value == true) {
-    for (int i = 0; i < attributes.length; i++) {
-      attributes[i].setDefault();
-    }
-    List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == paletteList.value);
-    numberOfColors.value = newPalette[1].toInt();
-    backgroundColor.value = Color(int.parse(newPalette[2]));
-    palette.colorList = [];
-    for (int z = 0; z < newPalette[3].length; z++) {
-      palette.colorList.add(Color(int.parse(newPalette[3][z])));
-    }
+    opArt.setDefault();
   }
 
   generateFlower(canvas, rnd, size.width, size.height, size.width, size.height, 0,0,size.width/2, size.height/2,
@@ -377,7 +348,6 @@ void paintFibonacci(Canvas canvas, Size size, Random rnd, double animationVariab
       maxPetals.value.toInt(),
       radialOscAmplitude.value,
       radialOscPeriod.value,
-      direction.value,
       backgroundColor.value,
       lineColor.value,
       lineWidth.value,
@@ -385,7 +355,7 @@ void paintFibonacci(Canvas canvas, Size size, Random rnd, double animationVariab
       numberOfColors.value.toInt(),
       paletteType.value,
       opacity.value,
-      palette.colorList,
+      opArt.palette.colorList,
   );
 
 
@@ -413,7 +383,6 @@ generateFlower(
     int currentMaxPetals,
     double currentRadialOscAmplitude,
     double currentRadialOscPeriod,
-    String currentDirection,
     Color currentBackgroundColor,
     Color currentLineColor,
     double currentLineWidth,
@@ -423,34 +392,6 @@ generateFlower(
     double currentOpacity,
     List currentPalette,
     ) {
-  // print('canvasWidth: $canvasWidth');
-  // print('canvasHeight: $canvasHeight');
-  // print('imageWidth: $imageWidth');
-  // print('imageHeight: $imageHeight');
-  // print('borderX: $borderX');
-  // print('borderY: $borderY');
-  // print('flowerCentreX: $flowerCentreX');
-  // print('flowerCentreY: $flowerCentreY');
-  // print('AngleIncrement: $currentAngleIncrement');
-  // print('FlowerFill: $currentFlowerFill');
-  // print('PetalToRadius: $currentPetalToRadius');
-  // print('randomizeAngle: $currentRandomizeAngle');
-  // print('PetalPointiness: $currentPetalPointiness');
-  // print('PetalRotation: $currentPetalRotation');
-  // print('PetalRotationRatio: $currentPetalRotationRatio');
-  // print('PetalType: $currentPetalType');
-  // print('MaxPetals: $currentMaxPetals');
-  // print('RadialOscAmplitude: $currentRadialOscAmplitude');
-  // print('RadialOscPeriod: $currentRadialOscPeriod');
-  // print('Direction: $currentDirection');
-  // print('BackgroundColor: $currentBackgroundColor');
-  // print('LineColor: $currentLineColor');
-  // print('LineWidth: $currentLineWidth');
-  // print('RandomColors: $currentRandomColors');
-  // print('NumberOfColors: $currentNumberOfColors');
-  // print('PaletteType: $currentPaletteType');
-  // print('Opacity: $currentOpacity');
-  // print('palette $currentPalette');
 
   // colour in the canvas
   //a rectangle
@@ -475,125 +416,55 @@ generateFlower(
   double minRadius = 2;
   double angle = 0;
 
-  // if direction = inward
-  if (currentDirection == 'inward') {
-    double radius = maxRadius;
-    do {
-      // Choose the next colour
-      colourOrder++;
-      nextColor = currentPalette[colourOrder % currentNumberOfColors];
-      if (currentRandomColors) {
-        nextColor = currentPalette[rnd.nextInt(currentNumberOfColors)];
-      }
-      Color petalColor = nextColor.withOpacity(currentOpacity);
+  double radius = maxRadius;
+  do {
+    // Choose the next colour
+    colourOrder++;
+    nextColor = currentPalette[colourOrder % currentNumberOfColors];
+    if (currentRandomColors) {
+      nextColor = currentPalette[rnd.nextInt(currentNumberOfColors)];
+    }
+    Color petalColor = nextColor.withOpacity(currentOpacity);
 
-      drawPetal(
-        canvas,
-        rnd,
-        P0,
-        angle,
-        radius,
-        petalColor,
-        currentAngleIncrement,
-        currentFlowerFill,
-        currentPetalToRadius,
-        currentRatio,
-        currentRandomizeAngle,
-        currentPetalPointiness,
-        currentPetalRotation,
-        currentPetalRotationRatio,
-        currentPetalType,
-        currentMaxPetals,
-        currentRadialOscAmplitude,
-        currentRadialOscPeriod,
-        currentDirection,
-        currentBackgroundColor,
-        currentLineColor,
-        currentLineWidth,
-        currentRandomColors,
-        currentNumberOfColors,
-        currentPaletteType,
-        currentOpacity,
-        currentPalette,
-      );
+    drawPetal(
+      canvas,
+      rnd,
+      P0,
+      angle,
+      radius,
+      petalColor,
+      currentAngleIncrement,
+      currentFlowerFill,
+      currentPetalToRadius,
+      currentRatio,
+      currentRandomizeAngle,
+      currentPetalPointiness,
+      currentPetalRotation,
+      currentPetalRotationRatio,
+      currentPetalType,
+      currentMaxPetals,
+      currentRadialOscAmplitude,
+      currentRadialOscPeriod,
+      currentBackgroundColor,
+      currentLineColor,
+      currentLineWidth,
+      currentRandomColors,
+      currentNumberOfColors,
+      currentPaletteType,
+      currentOpacity,
+      currentPalette,
+    );
 
-      angle = angle + currentAngleIncrement;
-      if (angle > 2 * pi) {
-        angle = angle - 2 * pi;
-      }
+    angle = angle + currentAngleIncrement;
+    if (angle > 2 * pi) {
+      angle = angle - 2 * pi;
+    }
 
-      radius = radius * currentRatio;
+    radius = radius * currentRatio;
 
-      maxPetalCount = maxPetalCount - 1;
-    } while (radius > minRadius && radius < maxRadius && maxPetalCount > 0);
-  } else {
-    double radius = minRadius;
-    do {
-      // Choose the next colour
-      colourOrder++;
-      nextColor = currentPalette[colourOrder % currentNumberOfColors];
-      if (currentRandomColors) {
-        nextColor = currentPalette[rnd.nextInt(currentNumberOfColors)];
-      }
-      Color petalColor = nextColor.withOpacity(currentOpacity);
+    maxPetalCount = maxPetalCount - 1;
+  } while (radius > minRadius && radius < maxRadius && maxPetalCount > 0);
 
-      drawPetal(
-        canvas,
-        rnd,
-        P0,
-        angle,
-        radius,
-        petalColor,
-        currentAngleIncrement,
-        currentFlowerFill,
-        currentPetalToRadius,
-        currentRatio,
-        currentRandomizeAngle,
-        currentPetalPointiness,
-        currentPetalRotation,
-        currentPetalRotationRatio,
-        currentPetalType,
-        currentMaxPetals,
-        currentRadialOscAmplitude,
-        currentRadialOscPeriod,
-        currentDirection,
-        currentBackgroundColor,
-        currentLineColor,
-        currentLineWidth,
-        currentRandomColors,
-        currentNumberOfColors,
-        currentPaletteType,
-        currentOpacity,
-        currentPalette,
-      );
-
-      angle = angle + currentAngleIncrement;
-      if (angle > 2 * pi) {
-        angle = angle - 2 * pi;
-      }
-
-      radius = radius / currentRatio;
-
-      maxPetalCount = maxPetalCount - 1;
-    } while (radius > minRadius && radius < maxRadius && maxPetalCount > 0);
-  }
-
-  // colour in the outer canvas
-  var paint1 = Paint()
-    ..color = Colors.white
-    ..style = PaintingStyle.fill;
-  canvas.drawRect(Offset(0, 0) & Size(borderX, canvasHeight), paint1);
-  canvas.drawRect(
-      Offset(canvasWidth - borderX, 0) & Size(borderX, canvasHeight), paint1);
-
-  canvas.drawRect(Offset(0, 0) & Size(canvasWidth, borderY), paint1);
-  canvas.drawRect(
-      Offset(
-        0,
-        canvasHeight - borderY,
-      ) &
-      Size(canvasWidth, borderY + canvasHeight * 2),
-      paint1);
 }
 
 drawPetal(
@@ -615,7 +486,6 @@ drawPetal(
     int currentMaxPetals,
     double currentRadialOscAmplitude,
     double currentRadialOscPeriod,
-    String currentDirection,
     Color currentBackgroundColor,
     Color currentLineColor,
     double currentLineWidth,

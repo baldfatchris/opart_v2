@@ -206,37 +206,20 @@ List<SettingsModel> initializeWaveAttributes() {
   ];
 }
 
-void paintWave(Canvas canvas, Size size, Random rnd, double animationVariable, List<SettingsModel> attributes, OpArtPalette palette) {
+void paintWave(Canvas canvas, Size size, Random rnd, double animationVariable, OpArt opArt) {
 
   rnd = Random(seed);
 
-
   // sort out the palette
-  if (numberOfColors.value > palette.colorList.length){
-    palette.randomize(paletteType.value, numberOfColors.value);
+  if (numberOfColors.value > opArt.palette.colorList.length){
+    opArt.palette.randomize(paletteType.value, numberOfColors.value);
   }
-  if (paletteList.value != palette.paletteName){
-    List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == paletteList.value);
-    numberOfColors.value = newPalette[1].toInt();
-    backgroundColor.value = Color(int.parse(newPalette[2]));
-    palette.colorList = [];
-    for (int z = 0; z < newPalette[3].length; z++) {
-      palette.colorList.add(Color(int.parse(newPalette[3][z])));
-    }
+  if (paletteList.value != opArt.palette.paletteName){
+    opArt.selectPalette(paletteList.value);
   }
-
   // reset the defaults
   if (resetDefaults.value == true) {
-    for (int i = 0; i < attributes.length; i++) {
-      attributes[i].setDefault();
-    }
-    List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == paletteList.value);
-    numberOfColors.value = newPalette[1].toInt();
-    backgroundColor.value = Color(int.parse(newPalette[2]));
-    palette.colorList = [];
-    for (int z = 0; z < newPalette[3].length; z++) {
-      palette.colorList.add(Color(int.parse(newPalette[3][z])));
-    }
+    opArt.setDefault();
   }
 
   generateWave(canvas, rnd, size.width, size.height, size.width, size.height, 0,0,
@@ -253,7 +236,7 @@ void paintWave(Canvas canvas, Size size, Random rnd, double animationVariable, L
     numberOfColors.value.toInt(),
     paletteType.value,
     opacity.value,
-    palette.colorList,
+    opArt.palette.colorList,
     animationVariable * 1000,
   );
 
@@ -300,6 +283,7 @@ generateWave(
   double end = imageWidth + currentStepX + currentAmplitude;
 
   for (double i = start; i < end; i += currentStepX) {
+
     Color waveColor;
     if (currentRandomColors) {
       waveColor = currentPalette[rnd.nextInt(currentNumberOfColors)];

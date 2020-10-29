@@ -981,19 +981,12 @@ List<List> defaultPalettes =
 
 
 class OpArtPalette {
+
   String paletteName = "Default";
   List<Color> colorList= [Color(0xFF34a1af), Color(0xFFa570a8), Color(0xFFd6aa27), Color(0xFF5f9d50), Color(0xFF789dd1), Color(0xFFc25666), Color(0xFF2b7b1), Color(0xFFd63aa), Color(0xFF1f4ed), Color(0xFF383c47)];
   String paletteType = "random";
 
-  void select(String paletteName){
 
-    List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == paletteName);
-    colorList = [];
-    for (int z = 0; z < newPalette[3].length; z++) {
-      colorList.add(Color(int.parse(newPalette[3][z])));
-    }
-
-  }
 
   void randomize(String paletteType, int numberOfColours) {
 
