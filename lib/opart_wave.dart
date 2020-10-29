@@ -7,189 +7,202 @@ import 'dart:core';
 
 List<String> list = List();
 
+SettingsModel stepX = SettingsModel(
+  name: 'stepX',
+  settingType: SettingType.double,
+  label: 'stepX',
+  tooltip: 'The horizontal width of each stripe',
+  min: 1.0,
+  max: 50.0,
+  zoom: 100,
+  defaultValue: 5.0,
+  icon: Icon(Icons.more_horiz),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
+SettingsModel stepY = SettingsModel(
+  name: 'stepY',
+  settingType: SettingType.double,
+  label: 'stepY',
+  tooltip: 'The vertical distance between points on each stripe',
+  min: 1.0,
+  max: 500.0,
+  zoom: 100,
+  defaultValue: 1.0,
+  icon: Icon(Icons.more_vert),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
+SettingsModel frequency = SettingsModel(
+  name: 'frequency',
+  settingType: SettingType.double,
+  label: 'frequency',
+  tooltip: 'The frequency of the wave',
+  min: 0.0,
+  max: 5.0,
+  zoom: 100,
+  defaultValue: 1.0,
+  icon: Icon(Icons.adjust),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
+SettingsModel amplitude = SettingsModel(
+  name: 'amplitude',
+  settingType: SettingType.double,
+  label: 'amplitude',
+  tooltip: 'The amplitude of the wave',
+  min: 0.0,
+  max: 500.0,
+  randomMin: 0.0,
+  randomMax: 200.0,
+  zoom: 100,
+  defaultValue: 25.0,
+  icon: Icon(Icons.graphic_eq),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
+SettingsModel offset = SettingsModel(
+  name: 'offset',
+  settingType: SettingType.double,
+  label: 'Offset',
+  tooltip: 'The slope of the wave',
+  min: -5.0,
+  max: 5.0,
+  randomMin: -2.0,
+  randomMax: 2.0,
+  zoom: 100,
+  defaultValue: 1.0,
+  icon: Icon(Icons.call_made),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
+SettingsModel fanWidth = SettingsModel(
+  name: 'fanWidth',
+  settingType: SettingType.double,
+  label: 'Fan Width',
+  tooltip: 'The amout the wave fans out',
+  min: 0.0,
+  max: 2000.0,
+  randomMin: 0.0,
+  randomMax: 200.0,
+  zoom: 100,
+  defaultValue: 15.0,
+  icon: Icon(Icons.change_history),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
+SettingsModel zigZag = SettingsModel(
+  name: 'zigZag',
+  settingType: SettingType.bool,
+  label: 'ZigZag',
+  tooltip: 'Make the baby zig!',
+  defaultValue: false,
+  icon: Icon(Icons.show_chart),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+  );
+
+SettingsModel backgroundColor = SettingsModel(settingType: SettingType.color,
+  name: 'backgroundColor',
+  label: "Background Color",
+  tooltip: "The background colour for the canvas",
+  defaultValue: Colors.cyan,
+  icon: Icon(Icons.settings_overscan),
+  settingCategory: SettingCategory.palette,
+  proFeature: false,
+);
+SettingsModel randomColors = SettingsModel(
+  name: 'randomColors',
+  settingType: SettingType.bool ,
+  label: 'Random Colors',
+  tooltip: 'randomize the colours!',
+  defaultValue: false,
+  icon: Icon(Icons.gamepad),
+  settingCategory: SettingCategory.palette,
+  proFeature: false,
+);
+SettingsModel numberOfColors = SettingsModel(settingType: SettingType.int,
+  name: 'numberOfColors',
+  label: 'Number of Colors',
+  tooltip: 'The number of colours in the palette',
+  min: 1,
+  max: 36,
+  defaultValue: 10,
+  icon: Icon(Icons.palette),
+  settingCategory: SettingCategory.palette,
+  proFeature: false,
+);
+SettingsModel paletteType = SettingsModel(
+  settingType: SettingType.list,
+  name: 'paletteType',
+  label: "Palette Type",
+  tooltip: "The nature of the palette",
+  defaultValue: "random",
+  icon: Icon(Icons.colorize),
+  options: <String>[
+  'random',
+  'blended random ',
+  'linear random',
+  'linear complementary'
+  ],
+  settingCategory: SettingCategory.palette,
+  proFeature: false,
+);
+SettingsModel paletteList = SettingsModel(
+  name: 'paletteList',
+  settingType: SettingType.list,
+  label: "Palette",
+  tooltip: "Choose from a list of palettes",
+  defaultValue: "Default",
+  icon: Icon(Icons.palette),
+  options: defaultPalleteNames(),
+  settingCategory: SettingCategory.other,
+  proFeature: false,
+);
+SettingsModel opacity = SettingsModel(
+  name: 'opacity',
+  settingType: SettingType.double,
+  label: 'Opactity',
+  tooltip: 'The opactity of the petal',
+  min: 0.2,
+  max: 1.0,
+  zoom: 100,
+  defaultValue: 1.0,
+  icon: Icon(Icons.remove_red_eye),
+  settingCategory: SettingCategory.palette,
+  proFeature: false,
+);
+
+SettingsModel resetDefaults = SettingsModel(
+  name: 'resetDefaults',
+  settingType: SettingType.button,
+  label: 'Reset Defaults',
+  tooltip: 'Reset all settings to defaults',
+  defaultValue: false,
+  icon: Icon(Icons.low_priority),
+  settingCategory: SettingCategory.other,
+  proFeature: false,
+);
+
 List<SettingsModel> initializeWaveAttributes() {
 
   return [
+    stepX,
+    stepY,
+    frequency,
+    amplitude,
+    offset,
+    fanWidth,
+    zigZag,
 
-    SettingsModel(
-      settingType: SettingType.double,
-      label: 'stepX',
-      name: 'stepX',
-      tooltip: 'The horizontal width of each stripe',
-      min: 1.0,
-      max: 50.0,
-      zoom: 100,
-      defaultValue: 5.0,
-      icon: Icon(Icons.more_horiz),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-    SettingsModel(
-      settingType: SettingType.double,
-      label: 'stepY',
-      name: 'stepY',
-      tooltip: 'The vertical distance between points on each stripe',
-      min: 1.0,
-      max: 500.0,
-      zoom: 100,
-      defaultValue: 1.0,
-      icon: Icon(Icons.more_vert),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-    SettingsModel(
-      settingType: SettingType.double,
-      label: 'frequency',
-      name: 'frequency',
-      tooltip: 'The frequency of the wave',
-      min: 0.0,
-      max: 5.0,
-      zoom: 100,
-      defaultValue: 1.0,
-      icon: Icon(Icons.adjust),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-    SettingsModel(
-      settingType: SettingType.double,
-      label: 'amplitude',
-      name: 'amplitude',
-      tooltip: 'The amplitude of the wave',
-      min: 0.0,
-      max: 500.0,
-      randomMin: 0.0,
-      randomMax: 200.0,
-      zoom: 100,
-      defaultValue: 25.0,
-      icon: Icon(Icons.graphic_eq),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-    SettingsModel(
-      settingType: SettingType.double,
-      label: 'Offset',
-      name: 'offset',
-      tooltip: 'The slope of the wave',
-      min: -5.0,
-      max: 5.0,
-      randomMin: -2.0,
-      randomMax: 2.0,
-      zoom: 100,
-      defaultValue: 1.0,
-      icon: Icon(Icons.call_made),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-    SettingsModel(
-      settingType: SettingType.double,
-      label: 'Fan Width',
-      name: 'fanWidth',
-      tooltip: 'The amout the wave fans out',
-      min: 0.0,
-      max: 2000.0,
-      randomMin: 0.0,
-      randomMax: 200.0,
-      zoom: 100,
-      defaultValue: 15.0,
-      icon: Icon(Icons.change_history),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-    SettingsModel(
-      settingType: SettingType.bool,
-      label: 'ZigZag',
-      name: 'zigZag',
-      tooltip: 'Make the baby zig!',
-      defaultValue: false,
-      icon: Icon(Icons.show_chart),
-      settingCategory: SettingCategory.tool,
-      proFeature: false,
-    ),
-
-
-
-    SettingsModel(settingType: SettingType.color,
-      name: 'backgroundColor',
-      label: "Background Color",
-      tooltip: "The background colour for the canvas",
-      defaultValue: Colors.cyan,
-      icon: Icon(Icons.settings_overscan),
-      settingCategory: SettingCategory.palette,
-      proFeature: false,
-    ),
-    SettingsModel(
-      name: 'randomColors',
-      settingType: SettingType.bool ,
-      label: 'Random Colors',
-      tooltip: 'randomize the colours!',
-      defaultValue: false,
-      icon: Icon(Icons.gamepad),
-      settingCategory: SettingCategory.palette,
-      proFeature: false,
-    ),
-    SettingsModel(settingType: SettingType.int,
-      name: 'numberOfColors',
-      label: 'Number of Colors',
-      tooltip: 'The number of colours in the palette',
-      min: 1,
-      max: 36,
-      defaultValue: 10,
-      icon: Icon(Icons.palette),
-      settingCategory: SettingCategory.palette,
-      proFeature: false,
-    ),
-    SettingsModel(
-      settingType: SettingType.list,
-      name: 'paletteType',
-      label: "Palette Type",
-      tooltip: "The nature of the palette",
-      defaultValue: "random",
-      icon: Icon(Icons.colorize),
-      options: <String>[
-        'random',
-        'blended random ',
-        'linear random',
-        'linear complementary'
-      ],
-      settingCategory: SettingCategory.palette,
-      proFeature: false,
-    ),
-    SettingsModel(
-      settingType: SettingType.list,
-      name: 'paletteList',
-      label: "Palette",
-      tooltip: "Choose from a list of palettes",
-      defaultValue: "Default",
-      icon: Icon(Icons.palette),
-      options: defaultPalleteNames(),
-      settingCategory: SettingCategory.palette,
-      proFeature: false,
-    ),
-    SettingsModel(
-      settingType: SettingType.double,
-      label: 'Opactity',
-      name: 'opacity',
-      tooltip: 'The opactity of the petal',
-      min: 0.2,
-      max: 1.0,
-      zoom: 100,
-      defaultValue: 1.0,
-      icon: Icon(Icons.remove_red_eye),
-      settingCategory: SettingCategory.palette,
-      proFeature: false,
-    ),
-
-    SettingsModel(
-      settingType: SettingType.button,
-      name: 'resetDefaults',
-      label: 'Reset Defaults',
-      tooltip: 'Reset all settings to defaults',
-      defaultValue: false,
-      icon: Icon(Icons.low_priority),
-      settingCategory: SettingCategory.other,
-      proFeature: false,
-    ),
-
+    backgroundColor,
+    randomColors,
+    numberOfColors,
+    paletteType,
+    paletteList,
+    opacity,
+    resetDefaults,
+   
   ];
 }
 
@@ -197,31 +210,49 @@ void paintWave(Canvas canvas, Size size, Random rnd, double animationVariable, L
 
   rnd = Random(seed);
 
-  // print('seed: $seed (${DateTime.now()})');
-  // print('numberOfColors: ${attributes.firstWhere((element) => element.name == 'numberOfColors').value}');
-  // print('colorCount: ${palette.colorList.length}');
-  // print('animationVariable: ${animationVariable}');
 
-  // print(attributes.firstWhere((element) => element.name == 'backgroundColor').value);
-  // print(attributes.firstWhere((element) => element.name == 'randomColors').value);
-  // print('numberOfColors: ${attributes.firstWhere((element) => element.name == 'numberOfColors').value}');
-  // print(attributes.firstWhere((element) => element.name == 'paletteType').value);
-  // print(attributes.firstWhere((element) => element.name == 'opacity').value);
+  // sort out the palette
+  if (numberOfColors.value > palette.colorList.length){
+    palette.randomize(paletteType.value, numberOfColors.value);
+  }
+  if (paletteList.value != palette.paletteName){
+    List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == paletteList.value);
+    numberOfColors.value = newPalette[1].toInt();
+    backgroundColor.value = Color(int.parse(newPalette[2]));
+    palette.colorList = [];
+    for (int z = 0; z < newPalette[3].length; z++) {
+      palette.colorList.add(Color(int.parse(newPalette[3][z])));
+    }
+  }
+
+  // reset the defaults
+  if (resetDefaults.value == true) {
+    for (int i = 0; i < attributes.length; i++) {
+      attributes[i].setDefault();
+    }
+    List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == paletteList.value);
+    numberOfColors.value = newPalette[1].toInt();
+    backgroundColor.value = Color(int.parse(newPalette[2]));
+    palette.colorList = [];
+    for (int z = 0; z < newPalette[3].length; z++) {
+      palette.colorList.add(Color(int.parse(newPalette[3][z])));
+    }
+  }
 
   generateWave(canvas, rnd, size.width, size.height, size.width, size.height, 0,0,
 
-    attributes.firstWhere((element) => element.name == 'stepX').value,
-    attributes.firstWhere((element) => element.name == 'stepY').value,
-    attributes.firstWhere((element) => element.name == 'frequency').value,
-    attributes.firstWhere((element) => element.name == 'amplitude').value,
-    attributes.firstWhere((element) => element.name == 'offset').value,
-    attributes.firstWhere((element) => element.name == 'fanWidth').value,
-    attributes.firstWhere((element) => element.name == 'zigZag').value,
-    attributes.firstWhere((element) => element.name == 'backgroundColor').value,
-    (attributes.firstWhere((element) => element.name == 'randomColors').value == true),
-    attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt(),
-    attributes.firstWhere((element) => element.name == 'paletteType').value,
-    attributes.firstWhere((element) => element.name == 'opacity').value,
+    stepX.value,
+    stepY.value,
+    frequency.value,
+    amplitude.value,
+    offset.value,
+    fanWidth.value,
+    zigZag.value,
+    backgroundColor.value,
+    (randomColors.value == true),
+    numberOfColors.value.toInt(),
+    paletteType.value,
+    opacity.value,
     palette.colorList,
     animationVariable * 1000,
   );

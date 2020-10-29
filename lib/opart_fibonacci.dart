@@ -331,23 +331,6 @@ List<SettingsModel> initializeFibonacciAttributes() {
 
 }
 
-//   @override
-//   Map<String,dynamic> toMap() {
-//     Map<String, dynamic> map = super.toMap();
-//     map.addAll(
-//         {'angleIncrement': angleIncrement, 'petalToRadius': petalToRadius});
-//     return map;
-//   }
-//
-//   @override
-//   void fromMap(Map<String, dynamic> map) {
-//     this.angleIncrement = map['angleIncrement'];
-//     this.petalToRadius = map['petalToRadius'];
-//     super.fromMap(map);
-//   }
-// }
-
-
 void paintFibonacci(Canvas canvas, Size size, Random rnd, double animationVariable, List<SettingsModel> attributes, OpArtPalette palette) {
 
   rnd = Random(seed);
@@ -366,6 +349,19 @@ void paintFibonacci(Canvas canvas, Size size, Random rnd, double animationVariab
     }
   }
 
+  // reset the defaults
+  if (resetDefaults.value == true) {
+    for (int i = 0; i < attributes.length; i++) {
+      attributes[i].setDefault();
+    }
+    List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == paletteList.value);
+    numberOfColors.value = newPalette[1].toInt();
+    backgroundColor.value = Color(int.parse(newPalette[2]));
+    palette.colorList = [];
+    for (int z = 0; z < newPalette[3].length; z++) {
+      palette.colorList.add(Color(int.parse(newPalette[3][z])));
+    }
+  }
 
   generateFlower(canvas, rnd, size.width, size.height, size.width, size.height, 0,0,size.width/2, size.height/2,
 

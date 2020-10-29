@@ -59,9 +59,9 @@ class OpArt {
         break;
 
       case OpArtType.Wallpaper:
-        // this.attributes = initializeWallpaperAttributes();
-        // this.palette = OpArtPalette(rnd);
-        // this.name = 'Wave';
+        this.attributes = initializeWallpaperAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Wallpaper';
 
         break;
 
@@ -125,6 +125,10 @@ class OpArt {
         break;
       case OpArtType.Tree:
         paintTree(
+            canvas, size, rnd, animationVariable, this.attributes, palette);
+        break;
+      case OpArtType.Wallpaper:
+        paintWallpaper(
             canvas, size, rnd, animationVariable, this.attributes, palette);
         break;
       case OpArtType.Wave:
