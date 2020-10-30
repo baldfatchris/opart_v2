@@ -99,6 +99,8 @@ class _MyHomePageState extends State<MyHomePage> {
       OpArtTypes('Waves', OpArtType.Wave, 'lib/assets/wave_400.png'),
       OpArtTypes('Trees', OpArtType.Tree, 'lib/assets/tree_400.png'),
       OpArtTypes('Wallpaper', OpArtType.Wallpaper, 'lib/assets/wallpaper_500.png'),
+      OpArtTypes('Diagonal', OpArtType.Diagonal, 'lib/assets/diagonal_500.png'),
+      OpArtTypes('Shapes', OpArtType.Shapes, 'lib/assets/shapes_500.png'),
     ];
   }
 }
