@@ -10,8 +10,6 @@ import 'package:share/share.dart';
 import 'package:screenshot/screenshot.dart';
 import 'canvas.dart';
 
-
-
 //Random rnd = Random();
 
 class OpArtPage extends StatefulWidget {
@@ -27,7 +25,6 @@ File imageFile;
 OpArt opArt;
 
 class _OpArtPageState extends State<OpArtPage> {
-  static final String tokenizationKey = 'sandbox_8hxpnkht_kzdtzv2btm4p7s5j';
   @override
   void initState() {
     opArt = OpArt(opArtType: widget.opArtType);
@@ -45,10 +42,60 @@ class _OpArtPageState extends State<OpArtPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) => opArt.saveToCache());
   }
 
-
-
   @override
   Widget build(BuildContext context) {
+
+    Future<void> _paymentDialog() async {
+      if (opArt.animation) {
+        animationController.stop();
+      }
+
+      imageFile = null;
+      screenshotController
+          .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
+          .then((File image) async {
+        print(image);
+        setState(() {
+          imageFile = image;
+        });
+
+        return showDialog<void>(
+          context: context,
+          barrierDismissible: false, // user must tap button!
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Download this image in high resolution.'),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                        'For only 99p you can download this image in a resolution suitable for printing.'),
+                    Container(height: 100, width: 100,child: Image.file(image))
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Pay 99p'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text('No thank you'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      });
+      return null;
+    }
+
     SystemChrome.setEnabledSystemUIOverlays([]);
     Size size = MediaQuery.of(context).size;
 
@@ -84,26 +131,7 @@ class _OpArtPageState extends State<OpArtPage> {
                 IconButton(
                     icon: Icon(Icons.file_download, color: Colors.black),
                     onPressed: () async {
-                      showDialog(
-                          context: context,
-                          builder: (_) => new AlertDialog(
-                            title: new Text("Download a high resolution image."),
-                            content: new Text("Suitable for printing. Only 99p!"),
-                            actions: <Widget>[
-                              FlatButton(
-                                child: Text('No Thanks'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              FlatButton(
-                                child: Text('Pay 99p'),
-                                onPressed: () async {
-
-                                },
-                              )
-                            ],
-                          ));
+                      _paymentDialog();
                     }),
                 IconButton(
                     icon: Icon(
@@ -112,11 +140,10 @@ class _OpArtPageState extends State<OpArtPage> {
                       color: Colors.black,
                     ),
                     onPressed: () {
-                      print('sharing');
                       imageFile = null;
                       screenshotController
                           .capture(
-                              delay: Duration(milliseconds: 100), pixelRatio: 2)
+                              delay: Duration(milliseconds: 100), pixelRatio: 1)
                           .then((File image) async {
                         print(image);
                         setState(() {
@@ -156,7 +183,10 @@ class _OpArtPageState extends State<OpArtPage> {
                   }
                 });
               },
-              child: ClipRect(child: CanvasWidget(fullScreen))),
+              child: ClipRect(
+                  child: CanvasWidget(
+                fullScreen,
+              ))),
           Align(
             alignment: Alignment.topCenter,
             child: fullScreen
