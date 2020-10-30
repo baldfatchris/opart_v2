@@ -24,7 +24,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
   AnimationController playPauseController;
   @override
   void initState() {
-    animationController = AnimationController(
+   if(opArt.animation){ animationController = AnimationController(
       vsync: this,
       duration: Duration(seconds: 72000),
     );
@@ -44,7 +44,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
         }
       });
 
-    animationController.forward();
+    animationController.forward();}
     playPauseController = AnimationController(
         duration: const Duration(milliseconds: 500), vsync: this);
     super.initState();
@@ -71,7 +71,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
                             width: constraints.widthConstraints().maxWidth,
                             height: constraints.heightConstraints().maxHeight,
                             child: CustomPaint(
-                              painter: OpArtPainter(seed, rnd, animation.value),
+                              painter: OpArtPainter(seed, rnd, opArt.animation?animation.value: 1),
                             ),
                           ),
                         ),
@@ -84,7 +84,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Container(
+                          opArt.animation? Container(
                             height: 100,
                             color: Colors.white.withOpacity(0.5),
                             child: Row(
@@ -152,7 +152,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
                                 ),
                               ],
                             ),
-                          ),
+                          ): Container(),
                           widget._fullScreen
                               ? Container(height: 70)
                               : Container(),

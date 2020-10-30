@@ -44,6 +44,7 @@ class OpArt {
   Random rnd = Random();
   OpArtPalette palette;
   String name;
+  bool animation = true;
 
   // Initialise
   OpArt({this.opArtType}) {
@@ -53,12 +54,13 @@ class OpArt {
         this.palette = OpArtPalette();
         this.name = 'Fibonacci';
 
+
         break;
 
       case OpArtType.Tree:
         this.attributes = initializeTreeAttributes();
         this.palette = OpArtPalette();
-        this.name = 'Tree';
+
 
         break;
 
@@ -66,6 +68,7 @@ class OpArt {
         this.attributes = initializeWallpaperAttributes();
         this.palette = OpArtPalette();
         this.name = 'Wallpaper';
+        this.animation = false;
 
         break;
 
@@ -73,6 +76,7 @@ class OpArt {
         this.attributes = initializeWaveAttributes();
         this.palette = OpArtPalette();
         this.name = 'Wave';
+
 
         break;
 
