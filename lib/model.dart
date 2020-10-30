@@ -5,6 +5,10 @@ import 'opart_fibonacci.dart';
 import 'opart_wave.dart';
 import 'opart_wallpaper.dart';
 import 'opart_tree.dart';
+import 'opart_diagonal.dart';
+import 'opart_shapes.dart';
+
+
 import 'package:opart_v2/palette.dart';
 import 'settings_model.dart';
 
@@ -24,7 +28,7 @@ bool proVersion = false;
 
 ScrollController scrollController = new ScrollController();
 
-enum OpArtType { Fibonacci, Tree, Wave, Wallpaper }
+enum OpArtType { Fibonacci, Tree, Wave, Wallpaper, Diagonal, Shapes }
 
 class OpArtTypes {
   String name;
@@ -69,6 +73,20 @@ class OpArt {
         this.attributes = initializeWaveAttributes();
         this.palette = OpArtPalette();
         this.name = 'Wave';
+
+        break;
+
+      case OpArtType.Diagonal:
+        this.attributes = initializeDiagonalAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Diagonal';
+
+        break;
+
+      case OpArtType.Shapes:
+        this.attributes = initializeShapesAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Shapes';
 
         break;
     }
@@ -130,6 +148,12 @@ class OpArt {
         break;
       case OpArtType.Wave:
         paintWave(canvas, size, rnd, animationVariable, this);
+        break;
+      case OpArtType.Diagonal:
+        paintDiagonal(canvas, size, rnd, animationVariable, this);
+        break;
+      case OpArtType.Shapes:
+        paintShapes(canvas, size, rnd, animationVariable, this);
         break;
     }
   }
