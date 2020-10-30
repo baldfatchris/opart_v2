@@ -9,9 +9,8 @@ import 'dart:math';
 import 'package:share/share.dart';
 import 'package:screenshot/screenshot.dart';
 import 'canvas.dart';
-import 'braintree.dart';
 
-import 'package:flutter_braintree/flutter_braintree.dart';
+
 
 //Random rnd = Random();
 
@@ -46,25 +45,7 @@ class _OpArtPageState extends State<OpArtPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) => opArt.saveToCache());
   }
 
-  void showNonce(BraintreePaymentMethodNonce nonce) {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text('Payment method nonce:'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Text('Nonce: ${nonce.nonce}'),
-            SizedBox(height: 16),
-            Text('Type label: ${nonce.typeLabel}'),
-            SizedBox(height: 16),
-            Text('Description: ${nonce.description}'),
-          ],
-        ),
-      ),
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +99,7 @@ class _OpArtPageState extends State<OpArtPage> {
                               FlatButton(
                                 child: Text('Pay 99p'),
                                 onPressed: () async {
-                                  chargeForImage(context);
+
                                 },
                               )
                             ],
