@@ -71,7 +71,7 @@ class _OpArtPageState extends State<OpArtPage> {
                   children: <Widget>[
                     Text(
                         'For only 99p you can download this image in a resolution suitable for printing.'),
-                    Container(height: 100, width: 100,child: Image.file(image))
+                    Container(height: 100, width: 100,child: Image.file(image, fit: BoxFit.fitWidth,))
                   ],
                 ),
               ),
@@ -85,6 +85,7 @@ class _OpArtPageState extends State<OpArtPage> {
                 TextButton(
                   child: Text('No thank you'),
                   onPressed: () {
+
                     Navigator.of(context).pop();
                   },
                 ),
