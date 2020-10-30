@@ -15,8 +15,10 @@ SettingsModel zoomShapes = SettingsModel(
   tooltip: 'Zoom in and out',
   min: 20.0,
   max: 500.0,
+  randomMin: 20.0,
+  randomMax: 200.0,
   zoom: 100,
-  defaultValue: 60.0,
+  defaultValue: 120.0,
   icon: Icon(Icons.zoom_in),
   settingCategory: SettingCategory.tool,
   proFeature: false,
@@ -110,6 +112,39 @@ SettingsModel box = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
+
+SettingsModel recursionDepth = SettingsModel(
+  name: 'recursionDepth',
+  settingType: SettingType.int,
+  label: 'Recursion Depth',
+  tooltip: 'The number of recursion steps',
+  min: 0,
+  max: 5,
+  randomMin: 0,
+  randomMax: 1,
+  defaultValue: 1,
+  icon: Icon(Icons.replay),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
+
+SettingsModel recursionRatio = SettingsModel(
+  name: 'recursionRatio',
+  settingType: SettingType.double,
+  label: 'Recursion Ratio',
+  tooltip: 'The ratio of recursion - 0=never 1=always',
+  min: 0.0,
+  max: 1.0,
+  randomMin: 0.0,
+  randomMax: 0.8,
+  zoom: 100,
+  defaultValue: 0.9,
+  icon: Icon(Icons.zoom_in),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
+
+
 
 
 // palette settings
@@ -233,6 +268,8 @@ List<SettingsModel> initializeShapesAttributes() {
     shapeMiniCircle,
 
     box,
+    recursionDepth,
+    recursionRatio,
 
     backgroundColor,
     lineColor,
@@ -292,295 +329,17 @@ void paintShapes(Canvas canvas, Size size, Random rnd, double animationVariable,
   if (shapeQuarterTriangle.value == true) { shapesArray.add('shapeQuarterTriangle'); }
   if (shapeQuarterSquare.value == true) { shapesArray.add('shapeQuarterSquare'); }
   if (shapeMiniCircle.value == true) { shapesArray.add('shapeMiniCircle'); }
-  var numberOfShapes = shapesArray.length;
 
-
-  // fill
-  bool fill = true;
-
-  int extraCellsX = 0;
-  int extraCellsY = 0;
-  if (fill) {
-    extraCellsX = (cellsX * 2).toInt();
-    extraCellsY = (cellsY * 2).toInt();
-  }
-
-  // work out the radius from the width and the cells
-  double radius = zoomShapes.value / 2;
-
-  print(opacity.value);
-
+  double side = zoomShapes.value;
+  
   // reset the colours
   Color nextColor;
   colourOrder = 0;
 
-
-  for (int j = 0 - extraCellsY; j < cellsY + extraCellsY; j++) {
-    for (int i = 0 - extraCellsX;  i < cellsX + extraCellsX; i++) {
-
-      // Centre of the square
-      List PO = [
-        borderX + (i * 2 + 1) * radius,
-        borderY + (j * 2 + 1) * radius
-      ];
-
-      // corners of the square
-      var PA = [
-        PO[0] - radius,
-        PO[1] - radius
-      ];
-      var PB = [
-        PO[0] + radius,
-        PO[1] - radius
-      ];
-      var PC = [
-        PO[0] + radius,
-        PO[1] + radius
-      ];
-      var PD = [
-        PO[0] - radius,
-        PO[1] + radius
-      ];
-
-
-      if (box.value == true) {
-        // fill the square
-        Path path = Path();
-        path.moveTo(PA[0], PA[1]);
-        path.lineTo(PB[0], PB[1]);
-        path.lineTo(PC[0], PC[1]);
-        path.lineTo(PD[0], PD[1]);
-        path.close();
-
-        // Choose the next colour
-        colourOrder++;
-        nextColor = (randomColors.value)
-            ? opArt.palette.colorList[colourOrder % numberOfColors.value]
-            : opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
-
-        canvas.drawPath(
-            path,
-            Paint()
-              ..style = PaintingStyle.fill
-              ..color = nextColor.withOpacity(opacity.value));
-      }
-
-      // now  draw the shape
-      // Choose the next colour
-      colourOrder++;
-      nextColor = (randomColors.value)
-          ? opArt.palette.colorList[colourOrder % numberOfColors.value]
-          : opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
-      Paint paint = Paint()
-        ..style = PaintingStyle.fill
-        ..color = nextColor.withOpacity(opacity.value);
-
-      Path shape = Path();
-
-      // pick a random shape
-      var randomShape = shapesArray[rnd.nextInt(numberOfShapes)];
-
-
-      switch (randomShape) {
-
-        case 'shapeHalfDiagonalTriangle': // half diagonal triangle
-
-          var shapeOrientation = rnd.nextInt(4);
-          switch (shapeOrientation) {
-            case 0:
-              shape.moveTo(PA[0], PA[1]);
-              shape.lineTo(PA[0] + 2 * radius, PA[1]);
-              shape.lineTo(PA[0], PA[1] + 2 * radius);
-              break;
-
-            case 1:
-              shape.moveTo(PB[0] - 2 * radius, PB[1]);
-              shape.lineTo(PB[0], PB[1]);
-              shape.lineTo(PB[0], PB[1] + 2 * radius);
-              break;
-
-            case 2:
-              shape.moveTo(PC[0], PC[1] - 2 * radius);
-              shape.lineTo(PC[0], PC[1]);
-              shape.lineTo(PC[0] - 2 * radius, PC[1]);
-              break;
-
-            case 3:
-              shape.moveTo(PD[0], PD[1] - 2 * radius);
-              shape.lineTo(PD[0] + 2 * radius, PD[1]);
-              shape.lineTo(PD[0], PD[1]);
-              break;
-
-          }
-
-          canvas.drawPath(shape, paint);
-
-          break;
-
-        case 'shapeCircle': // circle
-
-          canvas.drawCircle(Offset(PO[0], PO[1]), radius, paint);
-
-          break;
-
-        case 'shapeQuarterCircle': // quarter circle
-
-          switch (rnd.nextInt(4)) {
-            case 0: // centre top left
-              canvas.drawArc(Rect.fromCenter(
-                  center: Offset(PO[0]-radius,PO[1]-radius),
-                  height: radius*4,
-                  width: radius*4),
-                  pi * (0.0 ), pi * 0.5, true, paint);
-              break;
-            case 1: // centre top right
-              canvas.drawArc(Rect.fromCenter(
-                  center: Offset(PO[0]+radius,PO[1]-radius),
-                  height: radius*4,
-                  width: radius*4),
-                  pi * (0.5 ), pi * 0.5, true, paint);
-              break;
-            case 2: // centre bottom right
-              canvas.drawArc(Rect.fromCenter(
-                  center: Offset(PO[0]+radius,PO[1]+radius),
-                  height: radius*4,
-                  width: radius*4),
-                  pi * (1.0 ), pi * 0.5, true, paint);
-              break;
-            case 3: // centre bottom left
-              canvas.drawArc(Rect.fromCenter(
-                  center: Offset(PO[0]-radius,PO[1]+radius),
-                  height: radius*4,
-                  width: radius*4),
-                  pi * (1.5 ), pi * 0.5, true, paint);
-              break;
-          }
-          break;
-
-        case 'shapeHalfCircle': // half circle
-
-          switch (rnd.nextInt(4)) {
-            case 0: // centre top
-              canvas.drawArc(Rect.fromCenter(
-                  center: Offset(PO[0], PO[1] - radius),
-                  height: radius,
-                  width: radius),
-                  pi * (0.0 ), pi * 1.0, true, paint);
-              break;
-
-            case 1: // centre right
-              canvas.drawArc(Rect.fromCenter(
-                  center: Offset(PO[0] + radius, PO[1]),
-                  height: radius,
-                  width: radius),
-                  pi * (0.5 ), pi * 1.0, true, paint);
-              break;
-
-            case 2: // centre bottom
-              canvas.drawArc(Rect.fromCenter(
-                  center: Offset(PO[0], PO[1] + radius),
-                  height: radius,
-                  width: radius),
-                  pi * (1.0 ), pi * 1.0, true, paint);
-              break;
-
-            case 3: // centre left
-              canvas.drawArc(Rect.fromCenter(
-                  center: Offset(PO[0] - radius, PO[1]),
-                  height: radius,
-                  width: radius),
-                  pi * (1.5 ), pi * 1.0, true, paint);
-              break;
-          }
-          break;
-
-        case 'shapeQuarterTriangle': // quarter triangle
-
-          switch (rnd.nextInt(4)) {
-            case 0:
-              shape.moveTo(PO[0], PO[1]);
-              shape.lineTo(PB[0], PB[1]);
-              shape.lineTo(PC[0], PC[1]);
-              break;
-
-            case 1:
-              shape.moveTo(PO[0], PO[1]);
-              shape.lineTo(PC[0], PC[1]);
-              shape.lineTo(PD[0], PD[1]);
-              break;
-
-            case 2:
-              shape.moveTo(PO[0], PO[1]);
-              shape.lineTo(PD[0], PD[1]);
-              shape.lineTo(PA[0], PA[1]);
-              break;
-
-            case 3:
-              shape.moveTo(PO[0], PO[1]);
-              shape.lineTo(PA[0], PA[1]);
-              shape.lineTo(PB[0], PB[1]);
-              break;
-
-          }
-
-          canvas.drawPath(shape, paint);
-
-          break;
-
-        case 'shapeQuarterSquare': // quarter square
-
-          switch (rnd.nextInt(4)) {
-            case 0:
-              shape.moveTo(PA[0], PA[1]);
-              shape.lineTo((PA[0] + PB[0]) / 2, (PA[1] + PB[1]) / 2);
-              shape.lineTo(PO[0], PO[1]);
-              shape.lineTo((PA[0] + PD[0]) / 2, (PA[1] + PD[1]) / 2);
-              break;
-
-            case 1:
-              shape.moveTo(PB[0], PB[1]);
-              shape.lineTo((PB[0] + PC[0]) / 2, (PB[1] + PC[1]) / 2);
-              shape.lineTo(PO[0], PO[1]);
-              shape.lineTo((PA[0] + PB[0]) / 2, (PA[1] + PB[1]) / 2);
-              break;
-
-            case 2:
-              shape.moveTo(PC[0], PC[1]);
-              shape.lineTo((PC[0] + PD[0]) / 2, (PC[1] + PD[1]) / 2);
-              shape.lineTo(PO[0], PO[1]);
-              shape.lineTo((PB[0] + PC[0]) / 2, (PB[1] + PC[1]) / 2);
-              break;
-
-            case 3:
-              shape.moveTo(PD[0], PD[1]);
-              shape.lineTo((PD[0] + PA[0]) / 2, (PD[1] + PA[1]) / 2);
-              shape.lineTo(PO[0], PO[1]);
-              shape.lineTo((PC[0] + PD[0]) / 2, (PC[1] + PD[1]) / 2);
-              break;
-          }
-          canvas.drawPath(shape, paint);
-
-          break;
-
-        case 'shapeMiniCircle': // mini circle
-          switch (rnd.nextInt(4)) {
-            case 0:
-              canvas.drawCircle(Offset(PO[0]-radius/2, PO[1]-radius/2), radius/2, paint);
-              break;
-            case 1:
-              canvas.drawCircle(Offset(PO[0]-radius/2, PO[1]+radius/2), radius/2, paint);
-              break;
-            case 2:
-              canvas.drawCircle(Offset(PO[0]+radius/2, PO[1]-radius/2), radius/2, paint);
-              break;
-            case 3:
-              canvas.drawCircle(Offset(PO[0]+radius/2, PO[1]+radius/2), radius/2, paint);
-              break;
-          }
-          break;
-
-      }
-
+  for (int j = 0; j < cellsY; j++) {
+    for (int i = 0;  i < cellsX; i++) {
+  
+      colourOrder = drawSquare(canvas, opArt.palette.colorList, colourOrder, shapesArray, [borderX + i * side, borderY + j * side], side, 0);
 
     }
   }
@@ -588,13 +347,269 @@ void paintShapes(Canvas canvas, Size size, Random rnd, double animationVariable,
 }
 
 
-List edgePoint(List Point1, List Point2, double ratio) {
-  return [
-    Point1[0] * (ratio) + Point2[0] * (1 - ratio),
-    Point1[1] * (ratio) + Point2[1] * (1 - ratio)
-  ];
+
+int drawSquare(
+    Canvas canvas, 
+    List palette,
+    int colourOrder,
+    List shapesArray,
+    List<double> PA,
+    double side,
+    int recursion,
+  ) {
+  
+  Color nextColor;
+
+  if (recursion < recursionDepth.value && rnd.nextDouble()<recursionRatio.value) {
+    colourOrder = drawSquare(canvas, palette, colourOrder, shapesArray, PA, side/2, recursion+1);
+    colourOrder = drawSquare(canvas, palette, colourOrder, shapesArray, [PA[0]+side/2,PA[1]], side/2, recursion+1);
+    colourOrder = drawSquare(canvas, palette, colourOrder, shapesArray, [PA[0]+side/2,PA[1]+side/2], side/2, recursion+1);
+    colourOrder = drawSquare(canvas, palette, colourOrder, shapesArray, [PA[0],PA[1]+side/2], side/2, recursion+1);
+  }
+
+  else {
+    // Centre of the square
+    List<double> PO = [PA[0] + side / 2, PA[1] + side / 2];
+
+    // corners of the square
+    List<double> PB = [PA[0] + side, PA[1]];
+    List<double> PC = [PA[0] + side, PA[1] + side];
+    List<double> PD = [PA[0], PA[1] + side];
+
+    if (box.value == true) {
+      // Choose the next colour
+      colourOrder++;
+      nextColor = (randomColors.value)
+          ? palette[colourOrder % numberOfColors.value]
+          : palette[rnd.nextInt(numberOfColors.value)];
+
+      // fill the square
+      canvas.drawRect(Offset(PA[0], PA[1]) & Size(side, side),
+          Paint()
+            ..style = PaintingStyle.fill
+            ..color = nextColor.withOpacity(opacity.value));
+    }
+
+
+    // now  draw the shape
+    // Choose the next colour
+    colourOrder++;
+    nextColor = (randomColors.value)
+        ? palette[colourOrder % numberOfColors.value]
+        : palette[rnd.nextInt(numberOfColors.value)];
+    Paint paint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = nextColor.withOpacity(opacity.value);
+
+    Path shape = Path();
+
+    // pick a random shape
+    switch (shapesArray[rnd.nextInt(shapesArray.length)]) {
+      case 'shapeHalfDiagonalTriangle': // half diagonal triangle
+
+        var shapeOrientation = rnd.nextInt(4);
+        switch (shapeOrientation) {
+          case 0:
+            shape.moveTo(PA[0], PA[1]);
+            shape.lineTo(PA[0] + 2 * side / 2, PA[1]);
+            shape.lineTo(PA[0], PA[1] + 2 * side / 2);
+            break;
+
+          case 1:
+            shape.moveTo(PB[0] - 2 * side / 2, PB[1]);
+            shape.lineTo(PB[0], PB[1]);
+            shape.lineTo(PB[0], PB[1] + 2 * side / 2);
+            break;
+
+          case 2:
+            shape.moveTo(PC[0], PC[1] - 2 * side / 2);
+            shape.lineTo(PC[0], PC[1]);
+            shape.lineTo(PC[0] - 2 * side / 2, PC[1]);
+            break;
+
+          case 3:
+            shape.moveTo(PD[0], PD[1] - 2 * side / 2);
+            shape.lineTo(PD[0] + 2 * side / 2, PD[1]);
+            shape.lineTo(PD[0], PD[1]);
+            break;
+        }
+
+        canvas.drawPath(shape, paint);
+
+        break;
+
+      case 'shapeCircle': // circle
+
+        canvas.drawCircle(Offset(PO[0], PO[1]), side / 2, paint);
+
+        break;
+
+      case 'shapeQuarterCircle': // quarter circle
+
+        switch (rnd.nextInt(4)) {
+          case 0: // centre top left
+            canvas.drawArc(Rect.fromCenter(
+                center: Offset(PO[0] - side / 2, PO[1] - side / 2),
+                height: side / 2 * 4,
+                width: side / 2 * 4),
+                pi * (0.0), pi * 0.5, true, paint);
+            break;
+          case 1: // centre top right
+            canvas.drawArc(Rect.fromCenter(
+                center: Offset(PO[0] + side / 2, PO[1] - side / 2),
+                height: side / 2 * 4,
+                width: side / 2 * 4),
+                pi * (0.5), pi * 0.5, true, paint);
+            break;
+          case 2: // centre bottom right
+            canvas.drawArc(Rect.fromCenter(
+                center: Offset(PO[0] + side / 2, PO[1] + side / 2),
+                height: side / 2 * 4,
+                width: side / 2 * 4),
+                pi * (1.0), pi * 0.5, true, paint);
+            break;
+          case 3: // centre bottom left
+            canvas.drawArc(Rect.fromCenter(
+                center: Offset(PO[0] - side / 2, PO[1] + side / 2),
+                height: side / 2 * 4,
+                width: side / 2 * 4),
+                pi * (1.5), pi * 0.5, true, paint);
+            break;
+        }
+        break;
+
+      case 'shapeHalfCircle': // half circle
+
+        switch (rnd.nextInt(4)) {
+          case 0: // centre top
+            canvas.drawArc(Rect.fromCenter(
+                center: Offset(PO[0], PO[1] - side / 2),
+                height: side / 2 * 2,
+                width: side / 2 * 2),
+                pi * (0.0), pi * 1.0, true, paint);
+            break;
+
+          case 1: // centre right
+            canvas.drawArc(Rect.fromCenter(
+                center: Offset(PO[0] + side / 2, PO[1]),
+                height: side / 2 * 2,
+                width: side / 2 * 2),
+                pi * (0.5), pi * 1.0, true, paint);
+            break;
+
+          case 2: // centre bottom
+            canvas.drawArc(Rect.fromCenter(
+                center: Offset(PO[0], PO[1] + side / 2),
+                height: side / 2 * 2,
+                width: side / 2 * 2),
+                pi * (1.0), pi * 1.0, true, paint);
+            break;
+
+          case 3: // centre left
+            canvas.drawArc(Rect.fromCenter(
+                center: Offset(PO[0] - side / 2, PO[1]),
+                height: side / 2 * 2,
+                width: side / 2 * 2),
+                pi * (1.5), pi * 1.0, true, paint);
+            break;
+        }
+        break;
+
+      case 'shapeQuarterTriangle': // quarter triangle
+
+        switch (rnd.nextInt(4)) {
+          case 0:
+            shape.moveTo(PO[0], PO[1]);
+            shape.lineTo(PB[0], PB[1]);
+            shape.lineTo(PC[0], PC[1]);
+            break;
+
+          case 1:
+            shape.moveTo(PO[0], PO[1]);
+            shape.lineTo(PC[0], PC[1]);
+            shape.lineTo(PD[0], PD[1]);
+            break;
+
+          case 2:
+            shape.moveTo(PO[0], PO[1]);
+            shape.lineTo(PD[0], PD[1]);
+            shape.lineTo(PA[0], PA[1]);
+            break;
+
+          case 3:
+            shape.moveTo(PO[0], PO[1]);
+            shape.lineTo(PA[0], PA[1]);
+            shape.lineTo(PB[0], PB[1]);
+            break;
+        }
+
+        canvas.drawPath(shape, paint);
+
+        break;
+
+      case 'shapeQuarterSquare': // quarter square
+
+        switch (rnd.nextInt(4)) {
+          case 0:
+            shape.moveTo(PA[0], PA[1]);
+            shape.lineTo((PA[0] + PB[0]) / 2, (PA[1] + PB[1]) / 2);
+            shape.lineTo(PO[0], PO[1]);
+            shape.lineTo((PA[0] + PD[0]) / 2, (PA[1] + PD[1]) / 2);
+            break;
+
+          case 1:
+            shape.moveTo(PB[0], PB[1]);
+            shape.lineTo((PB[0] + PC[0]) / 2, (PB[1] + PC[1]) / 2);
+            shape.lineTo(PO[0], PO[1]);
+            shape.lineTo((PA[0] + PB[0]) / 2, (PA[1] + PB[1]) / 2);
+            break;
+
+          case 2:
+            shape.moveTo(PC[0], PC[1]);
+            shape.lineTo((PC[0] + PD[0]) / 2, (PC[1] + PD[1]) / 2);
+            shape.lineTo(PO[0], PO[1]);
+            shape.lineTo((PB[0] + PC[0]) / 2, (PB[1] + PC[1]) / 2);
+            break;
+
+          case 3:
+            shape.moveTo(PD[0], PD[1]);
+            shape.lineTo((PD[0] + PA[0]) / 2, (PD[1] + PA[1]) / 2);
+            shape.lineTo(PO[0], PO[1]);
+            shape.lineTo((PC[0] + PD[0]) / 2, (PC[1] + PD[1]) / 2);
+            break;
+        }
+        canvas.drawPath(shape, paint);
+
+        break;
+
+      case 'shapeMiniCircle': // mini circle
+        switch (rnd.nextInt(4)) {
+          case 0:
+            canvas.drawCircle(
+                Offset(PO[0] - side / 2 / 2, PO[1] - side / 2 / 2), side / 2 / 2,
+                paint);
+            break;
+          case 1:
+            canvas.drawCircle(
+                Offset(PO[0] - side / 2 / 2, PO[1] + side / 2 / 2), side / 2 / 2,
+                paint);
+            break;
+          case 2:
+            canvas.drawCircle(
+                Offset(PO[0] + side / 2 / 2, PO[1] - side / 2 / 2), side / 2 / 2,
+                paint);
+            break;
+          case 3:
+            canvas.drawCircle(
+                Offset(PO[0] + side / 2 / 2, PO[1] + side / 2 / 2), side / 2 / 2,
+                paint);
+            break;
+        }
+        break;
+    }
+  }
+
+  return colourOrder;
+
 }
-
-
-
 

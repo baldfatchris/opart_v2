@@ -54,13 +54,12 @@ class OpArt {
         this.palette = OpArtPalette();
         this.name = 'Fibonacci';
 
-
         break;
 
       case OpArtType.Tree:
         this.attributes = initializeTreeAttributes();
         this.palette = OpArtPalette();
-
+        this.name = 'Tree';
 
         break;
 
@@ -68,7 +67,7 @@ class OpArt {
         this.attributes = initializeWallpaperAttributes();
         this.palette = OpArtPalette();
         this.name = 'Wallpaper';
-        this.animation = false;
+        this.animation = true;
 
         break;
 

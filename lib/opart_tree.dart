@@ -30,8 +30,8 @@ List<String> list = List();
     tooltip: 'The offset from the bottom of the sceen',
     min: 0.0,
     max: 500.0,
-    randomMax: 20.0,
-    randomMin: 20.0,
+    randomMax: 120.0,
+    randomMin: 120.0,
     zoom: 100,
     defaultValue: 120.0,
     icon: Icon(Icons.vertical_align_bottom),
@@ -504,7 +504,7 @@ generateTree(
 
   // colour in the canvas
   canvas.drawRect(
-      Offset(borderX, borderY) & Size(imageWidth, imageHeight * 2),
+      Offset(borderX, borderY) & Size(imageWidth, imageHeight),
       Paint()
         ..color = backgroundColor
         ..style = PaintingStyle.fill);
