@@ -84,6 +84,7 @@ class OpArt {
         this.attributes = initializeDiagonalAttributes();
         this.palette = OpArtPalette();
         this.name = 'Diagonal';
+        this.animation = false;
 
         break;
 
@@ -91,6 +92,7 @@ class OpArt {
         this.attributes = initializeShapesAttributes();
         this.palette = OpArtPalette();
         this.name = 'Shapes';
+        this.animation = false;
 
         break;
     }

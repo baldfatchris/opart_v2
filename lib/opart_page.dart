@@ -82,7 +82,7 @@ class _OpArtPageState extends State<OpArtPage> {
               ),
               actions: [
                 IconButton(
-                    icon: Icon(Icons.download_rounded, color: Colors.black),
+                    icon: Icon(Icons.file_download, color: Colors.black),
                     onPressed: () async {
                       showDialog(
                           context: context,
