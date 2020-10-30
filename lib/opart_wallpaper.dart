@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:opart_v2/opart_fibonacci.dart';
 import 'model.dart';
 import 'palette.dart';
 import 'settings_model.dart';
@@ -453,7 +454,8 @@ void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariab
   if (resetDefaults.value == true) {
     opArt.setDefault();
   }
-
+print('***************');
+  print(angleIncrement.value);
   // Initialise the canvas
   double canvasWidth = size.width;
   double canvasHeight = size.height;

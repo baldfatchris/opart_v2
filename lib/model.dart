@@ -172,6 +172,7 @@ class OpArt {
       }
     }
     randomizePalette();
+
   }
 
 
@@ -205,7 +206,9 @@ class OpArt {
           .value
           .toInt(),
     );
+    rebuildCanvas.value++;
   }
+
 
   // reset to defaults
   void setDefault() {
