@@ -308,7 +308,6 @@ void paintShapes(Canvas canvas, Size size, Random rnd, double animationVariable,
   // work out the radius from the width and the cells
   double radius = zoomShapes.value / 2;
 
-  double ratio = cos(animationVariable*10000)*0.4 + 0.6;
   print(opacity.value);
 
   // reset the colours
@@ -390,25 +389,25 @@ void paintShapes(Canvas canvas, Size size, Random rnd, double animationVariable,
           switch (shapeOrientation) {
             case 0:
               shape.moveTo(PA[0], PA[1]);
-              shape.lineTo(PA[0] + 2 * radius * ratio, PA[1]);
-              shape.lineTo(PA[0], PA[1] + 2 * radius * ratio);
+              shape.lineTo(PA[0] + 2 * radius, PA[1]);
+              shape.lineTo(PA[0], PA[1] + 2 * radius);
               break;
 
             case 1:
-              shape.moveTo(PB[0] - 2 * radius * ratio, PB[1]);
+              shape.moveTo(PB[0] - 2 * radius, PB[1]);
               shape.lineTo(PB[0], PB[1]);
-              shape.lineTo(PB[0], PB[1] + 2 * radius * ratio);
+              shape.lineTo(PB[0], PB[1] + 2 * radius);
               break;
 
             case 2:
-              shape.moveTo(PC[0], PC[1] - 2 * radius * ratio);
+              shape.moveTo(PC[0], PC[1] - 2 * radius);
               shape.lineTo(PC[0], PC[1]);
-              shape.lineTo(PC[0] - 2 * radius * ratio, PC[1]);
+              shape.lineTo(PC[0] - 2 * radius, PC[1]);
               break;
 
             case 3:
-              shape.moveTo(PD[0], PD[1] - 2 * radius * ratio);
-              shape.lineTo(PD[0] + 2 * radius * ratio, PD[1]);
+              shape.moveTo(PD[0], PD[1] - 2 * radius);
+              shape.lineTo(PD[0] + 2 * radius, PD[1]);
               shape.lineTo(PD[0], PD[1]);
               break;
 
@@ -420,7 +419,7 @@ void paintShapes(Canvas canvas, Size size, Random rnd, double animationVariable,
 
         case 'shapeCircle': // circle
 
-          canvas.drawCircle(Offset(PO[0], PO[1]), radius * ratio, paint);
+          canvas.drawCircle(Offset(PO[0], PO[1]), radius, paint);
 
           break;
 
@@ -464,32 +463,32 @@ void paintShapes(Canvas canvas, Size size, Random rnd, double animationVariable,
             case 0: // centre top
               canvas.drawArc(Rect.fromCenter(
                   center: Offset(PO[0], PO[1] - radius),
-                  height: radius * 2*ratio,
-                  width: radius * 2*ratio),
+                  height: radius,
+                  width: radius),
                   pi * (0.0 ), pi * 1.0, true, paint);
               break;
 
             case 1: // centre right
               canvas.drawArc(Rect.fromCenter(
                   center: Offset(PO[0] + radius, PO[1]),
-                  height: radius * 2*ratio,
-                  width: radius * 2*ratio),
+                  height: radius,
+                  width: radius),
                   pi * (0.5 ), pi * 1.0, true, paint);
               break;
 
             case 2: // centre bottom
               canvas.drawArc(Rect.fromCenter(
                   center: Offset(PO[0], PO[1] + radius),
-                  height: radius * 2*ratio,
-                  width: radius * 2*ratio),
+                  height: radius,
+                  width: radius),
                   pi * (1.0 ), pi * 1.0, true, paint);
               break;
 
             case 3: // centre left
               canvas.drawArc(Rect.fromCenter(
                   center: Offset(PO[0] - radius, PO[1]),
-                  height: radius * 2*ratio,
-                  width: radius * 2*ratio),
+                  height: radius,
+                  width: radius),
                   pi * (1.5 ), pi * 1.0, true, paint);
               break;
           }
@@ -566,16 +565,16 @@ void paintShapes(Canvas canvas, Size size, Random rnd, double animationVariable,
         case 'shapeMiniCircle': // mini circle
           switch (rnd.nextInt(4)) {
             case 0:
-              canvas.drawCircle(Offset(PO[0]-radius/2, PO[1]-radius/2), radius*ratio/2, paint);
+              canvas.drawCircle(Offset(PO[0]-radius/2, PO[1]-radius/2), radius/2, paint);
               break;
             case 1:
-              canvas.drawCircle(Offset(PO[0]-radius/2, PO[1]+radius/2), radius*ratio/2, paint);
+              canvas.drawCircle(Offset(PO[0]-radius/2, PO[1]+radius/2), radius/2, paint);
               break;
             case 2:
-              canvas.drawCircle(Offset(PO[0]+radius/2, PO[1]-radius/2), radius*ratio/2, paint);
+              canvas.drawCircle(Offset(PO[0]+radius/2, PO[1]-radius/2), radius/2, paint);
               break;
             case 3:
-              canvas.drawCircle(Offset(PO[0]+radius/2, PO[1]+radius/2), radius*ratio/2, paint);
+              canvas.drawCircle(Offset(PO[0]+radius/2, PO[1]+radius/2), radius/2, paint);
               break;
           }
           break;
