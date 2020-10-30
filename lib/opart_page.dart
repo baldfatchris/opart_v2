@@ -9,6 +9,9 @@ import 'dart:math';
 import 'package:share/share.dart';
 import 'package:screenshot/screenshot.dart';
 import 'canvas.dart';
+import 'braintree.dart';
+
+import 'package:flutter_braintree/flutter_braintree.dart';
 
 //Random rnd = Random();
 
@@ -24,13 +27,10 @@ File imageFile;
 
 OpArt opArt;
 
-class _OpArtPageState extends State<OpArtPage>
-  {
-
-
+class _OpArtPageState extends State<OpArtPage> {
+  static final String tokenizationKey = 'sandbox_8hxpnkht_kzdtzv2btm4p7s5j';
   @override
   void initState() {
-
     opArt = OpArt(opArtType: widget.opArtType);
     fullScreen = true;
     super.initState();
@@ -46,13 +46,32 @@ class _OpArtPageState extends State<OpArtPage>
     WidgetsBinding.instance.addPostFrameCallback((_) => opArt.saveToCache());
   }
 
+  void showNonce(BraintreePaymentMethodNonce nonce) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Payment method nonce:'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Text('Nonce: ${nonce.nonce}'),
+            SizedBox(height: 16),
+            Text('Type label: ${nonce.typeLabel}'),
+            SizedBox(height: 16),
+            Text('Description: ${nonce.description}'),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-
       extendBodyBehindAppBar: true,
       appBar: fullScreen
           ? AppBar(
@@ -81,6 +100,30 @@ class _OpArtPageState extends State<OpArtPage>
                 },
               ),
               actions: [
+                IconButton(
+                    icon: Icon(Icons.download_rounded, color: Colors.black),
+                    onPressed: () async {
+                      showDialog(
+                          context: context,
+                          builder: (_) => new AlertDialog(
+                            title: new Text("Download a high resolution image."),
+                            content: new Text("Suitable for printing. Only 99p!"),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text('No Thanks'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              FlatButton(
+                                child: Text('Pay 99p'),
+                                onPressed: () async {
+                                  chargeForImage(context);
+                                },
+                              )
+                            ],
+                          ));
+                    }),
                 IconButton(
                     icon: Icon(
 //                  Platform.isAndroid? Icons.share: Icons.ios_share,
@@ -127,10 +170,8 @@ class _OpArtPageState extends State<OpArtPage>
                 setState(() {
                   if (fullScreen) {
                     fullScreen = false;
-
                   } else {
                     fullScreen = true;
-
                   }
                 });
               },
@@ -181,6 +222,4 @@ class _OpArtPageState extends State<OpArtPage>
       ),
     );
   }
-
-
 }
