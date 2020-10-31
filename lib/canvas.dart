@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:screenshot/screenshot.dart';
 import 'package:flutter/material.dart';
-import 'model.dart';
+import 'model_opart.dart';
 import 'opart_page.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -195,7 +195,7 @@ class OpArtPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    opArt.paint(canvas, size, seed, rnd, animationVariable);
+    opArt.paint(canvas, size, seed, animationVariable);
   }
 
   @override
