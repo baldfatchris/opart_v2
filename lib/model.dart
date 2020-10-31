@@ -130,6 +130,7 @@ class OpArt {
     }
     palette.paletteName = this.cache[index]['paletteName'];
     palette.colorList = this.cache[index]['colors'];
+    rebuildCanvas.value++;
   }
 
   void clearCache() {
