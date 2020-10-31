@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:screenshot/screenshot.dart';
 import 'package:flutter/material.dart';
-import 'model.dart';
+import 'model_opart.dart';
 import 'opart_page.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -70,8 +70,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
                           builder: (_, constraints) => Container(color: Colors.white,
                             width: constraints.widthConstraints().maxWidth,
                             height: constraints.heightConstraints().maxHeight,
-                            child: CustomPaint(
-                              painter: OpArtPainter(seed, rnd, opArt.animation?currentAnimation.value: 1),
+                            child: CustomPaint(painter: OpArtPainter(seed, opArt.animation?currentAnimation.value: 1),
                             ),
                           ),
                         ),
@@ -181,14 +180,14 @@ class OpArtPainter extends CustomPainter {
 
   OpArtPainter(
     this.seed,
-    this.rnd,
+    // this.rnd,
     this.animationVariable,
     // this.fill
   );
 
   @override
   void paint(Canvas canvas, Size size) {
-    opArt.paint(canvas, size, seed, rnd, animationVariable);
+    opArt.paint(canvas, size, seed, animationVariable);
   }
 
   @override

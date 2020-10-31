@@ -1,12 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:opart_v2/opart_fibonacci.dart';
-import 'model.dart';
-import 'palette.dart';
-import 'settings_model.dart';
+import 'model_opart.dart';
+import 'model_palette.dart';
+import 'model_settings.dart';
 import 'dart:math';
 import 'dart:core';
 
 List<String> list = List();
+
+SettingsModel reDraw = SettingsModel(
+  name: 'reDraw',
+  settingType: SettingType.button,
+  label: 'Redraw',
+  tooltip: 'Re-draw the picture with a different random seed',
+  defaultValue: false,
+  icon: Icon(Icons.refresh),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+  onChange: (){seed = DateTime.now().millisecond;},
+  silent: true,
+);
 
 
 SettingsModel zoomWallpaper = SettingsModel(
@@ -29,7 +42,7 @@ SettingsModel shape = SettingsModel(
   settingType: SettingType.list,
   label: "Shape",
   tooltip: "The shape in the cell",
-  defaultValue: "squaricle",
+  defaultValue: "circle",
   icon: Icon(Icons.settings),
   options: ['circle', 'squaricle', 'star', 'daisy'],
   settingCategory: SettingCategory.tool,
@@ -343,6 +356,7 @@ SettingsModel numberOfColors = SettingsModel(
   icon: Icon(Icons.palette),
   settingCategory: SettingCategory.palette,
   proFeature: false,
+  onChange: (){checkNumberOfColors();},
 );
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
@@ -394,6 +408,8 @@ SettingsModel resetDefaults = SettingsModel(
   icon: Icon(Icons.low_priority),
   settingCategory: SettingCategory.tool,
   proFeature: false,
+  onChange: (){resetAllDefaults();},
+  silent: true,
 );
 
 double aspectRatio = pi/2;
@@ -401,6 +417,7 @@ double aspectRatio = pi/2;
 List<SettingsModel> initializeWallpaperAttributes() {
 
   return [
+    reDraw,
     zoomWallpaper,
     shape,
     driftX,
@@ -450,10 +467,8 @@ void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariab
   if (paletteList.value != opArt.palette.paletteName){
     opArt.selectPalette(paletteList.value);
   }
-  // reset the defaults
-  if (resetDefaults.value == true) {
-    opArt.setDefault();
-  }
+
+
 print('***************');
   print(angleIncrement.value);
   // Initialise the canvas

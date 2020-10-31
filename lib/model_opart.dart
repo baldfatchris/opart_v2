@@ -9,8 +9,8 @@ import 'opart_diagonal.dart';
 import 'opart_shapes.dart';
 
 
-import 'package:opart_v2/palette.dart';
-import 'settings_model.dart';
+import 'package:opart_v2/model_palette.dart';
+import 'model_settings.dart';
 
 import 'package:screenshot/screenshot.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +41,7 @@ class OpArt {
   OpArtType opArtType;
   List<SettingsModel> attributes = List<SettingsModel>();
   List<Map<String, dynamic>> cache = List();
-  Random rnd = Random();
+  // Random rnd = Random();
   OpArtPalette palette;
   String name;
   bool animation = true;
@@ -111,6 +111,7 @@ class OpArt {
         map.addAll({attributes[i].label: attributes[i].value});
       }
       map.addAll({
+        'seed':seed,
         'image': image,
         'paletteName': palette.paletteName,
         'colors': palette.colorList
@@ -124,7 +125,10 @@ class OpArt {
     }));
   }
 
+
+
   void revertToCache(int index) {
+    seed = this.cache[index]['seed'];
     for (int i = 0; i < attributes.length; i++) {
       attributes[i].value = this.cache[index][attributes[i].label];
     }
@@ -141,7 +145,7 @@ class OpArt {
     return cache.length;
   }
 
-  void paint(Canvas canvas, Size size, int seed, Random rnd, double animationVariable) {
+  void paint(Canvas canvas, Size size, int seed, double animationVariable) {
     switch (opArtType) {
       case OpArtType.Fibonacci:
         paintFibonacci(canvas, size, rnd, animationVariable, this);

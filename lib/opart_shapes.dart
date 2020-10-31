@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'model.dart';
-import 'palette.dart';
-import 'settings_model.dart';
+import 'model_opart.dart';
+import 'model_palette.dart';
+import 'model_settings.dart';
 import 'dart:math';
 import 'dart:core';
 
@@ -16,7 +16,8 @@ SettingsModel reDraw = SettingsModel(
   icon: Icon(Icons.refresh),
   settingCategory: SettingCategory.tool,
   proFeature: false,
-  onChange: (){print('I just did something');},
+  onChange: (){seed = DateTime.now().millisecond;},
+  silent: true,
 );
 
 SettingsModel zoomShapes = SettingsModel(
@@ -211,6 +212,7 @@ SettingsModel numberOfColors = SettingsModel(
   icon: Icon(Icons.palette),
   settingCategory: SettingCategory.palette,
   proFeature: false,
+  onChange: (){checkNumberOfColors();},
 );
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
@@ -262,6 +264,8 @@ SettingsModel resetDefaults = SettingsModel(
   icon: Icon(Icons.low_priority),
   settingCategory: SettingCategory.tool,
   proFeature: false,
+  onChange: (){resetAllDefaults();},
+  silent: true,
 );
 
 double aspectRatio = pi/2;
@@ -300,24 +304,14 @@ List<SettingsModel> initializeShapesAttributes() {
 
 void paintShapes(Canvas canvas, Size size, Random rnd, double animationVariable, OpArt opArt) {
 
-  // reset the defaults
-  if (reDraw.value == true) {
-    seed = rnd.nextInt(1<<32);
-  }
-
   rnd = Random(seed);
+print('seed: $seed');
 
-  // sort out the palette
-  if (numberOfColors.value > opArt.palette.colorList.length){
-    opArt.palette.randomize(paletteType.value, numberOfColors.value);
-  }
+
   if (paletteList.value != opArt.palette.paletteName){
     opArt.selectPalette(paletteList.value);
   }
-  // reset the defaults
-  if (resetDefaults.value == true) {
-    opArt.setDefault();
-  }
+
 
 
 
@@ -358,7 +352,7 @@ void paintShapes(Canvas canvas, Size size, Random rnd, double animationVariable,
   for (int j = 0; j < cellsY; j++) {
     for (int i = 0;  i < cellsX; i++) {
   
-      colourOrder = drawSquare(canvas, opArt.palette.colorList, colourOrder, shapesArray, [borderX + i * side, borderY + j * side], side, 0);
+      colourOrder = drawSquare(canvas, rnd, opArt.palette.colorList, colourOrder, shapesArray, [borderX + i * side, borderY + j * side], side, 0);
 
     }
   }
@@ -368,7 +362,8 @@ void paintShapes(Canvas canvas, Size size, Random rnd, double animationVariable,
 
 
 int drawSquare(
-    Canvas canvas, 
+    Canvas canvas,
+    Random rnd,
     List palette,
     int colourOrder,
     List shapesArray,
@@ -380,10 +375,10 @@ int drawSquare(
   Color nextColor;
 
   if (recursion < recursionDepth.value && rnd.nextDouble()<recursionRatio.value) {
-    colourOrder = drawSquare(canvas, palette, colourOrder, shapesArray, PA, side/2, recursion+1);
-    colourOrder = drawSquare(canvas, palette, colourOrder, shapesArray, [PA[0]+side/2,PA[1]], side/2, recursion+1);
-    colourOrder = drawSquare(canvas, palette, colourOrder, shapesArray, [PA[0]+side/2,PA[1]+side/2], side/2, recursion+1);
-    colourOrder = drawSquare(canvas, palette, colourOrder, shapesArray, [PA[0],PA[1]+side/2], side/2, recursion+1);
+    colourOrder = drawSquare(canvas, rnd, palette, colourOrder, shapesArray, PA, side/2, recursion+1);
+    colourOrder = drawSquare(canvas, rnd, palette, colourOrder, shapesArray, [PA[0]+side/2,PA[1]], side/2, recursion+1);
+    colourOrder = drawSquare(canvas, rnd, palette, colourOrder, shapesArray, [PA[0]+side/2,PA[1]+side/2], side/2, recursion+1);
+    colourOrder = drawSquare(canvas, rnd, palette, colourOrder, shapesArray, [PA[0],PA[1]+side/2], side/2, recursion+1);
   }
 
   else {

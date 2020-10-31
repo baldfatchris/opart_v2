@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'model.dart';
+import 'model_opart.dart';
 import 'setting_button.dart';
 import 'setting_colorpicker.dart';
 import 'setting_dropdown.dart';
@@ -11,7 +11,7 @@ import 'opart_fibonacci.dart';
 import 'opart_wave.dart';
 import 'opart_wallpaper.dart';
 import 'opart_tree.dart';
-import 'settings_model.dart';
+import 'model_settings.dart';
 
 void settingsDialog(context, int index, OpArt opArt ) {
 
@@ -77,7 +77,9 @@ void settingsDialog(context, int index, OpArt opArt ) {
                             (value) {
 
                               opArt.attributes[index].value = value.toInt();
-                            rebuildCanvas.value++;
+                              opArt.attributes[index].onChange();
+
+                              rebuildCanvas.value++;
                           setLocalState(() {});
                         },
                             (value) {

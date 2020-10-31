@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'settings_dialog.dart';
-import 'model.dart';
+import 'model_opart.dart';
 import 'opart_fibonacci.dart';
 import 'opart_tree.dart';
 import 'opart_wallpaper.dart';
@@ -71,7 +71,15 @@ void ToolBox(BuildContext context, OpArt opArt,) {
                       :GestureDetector(
                         onTap: () {
                           Navigator.pop(context);
-                          settingsDialog(context, index, opArt);
+                          if (opArt.attributes[index].silent != null && opArt.attributes[index].silent){
+                            print('silent');
+                            opArt.attributes[index].onChange();
+                            opArt.saveToCache();
+                            rebuildCanvas.value++;
+                          }
+                          else {
+                            settingsDialog(context, index, opArt);
+                          }
                         },
                         child: Column(
                           mainAxisSize: MainAxisSize.min,

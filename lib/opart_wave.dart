@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
-import 'model.dart';
-import 'palette.dart';
-import 'settings_model.dart';
+import 'model_opart.dart';
+import 'model_palette.dart';
+import 'model_settings.dart';
 import 'dart:math';
 import 'dart:core';
 
 List<String> list = List();
+
+SettingsModel reDraw = SettingsModel(
+  name: 'reDraw',
+  settingType: SettingType.button,
+  label: 'Redraw',
+  tooltip: 'Re-draw the picture with a different random seed',
+  defaultValue: false,
+  icon: Icon(Icons.refresh),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+  onChange: (){seed = DateTime.now().millisecond;},
+  silent: true,
+);
 
 SettingsModel stepX = SettingsModel(
   name: 'stepX',
@@ -121,8 +134,9 @@ SettingsModel randomColors = SettingsModel(
   settingCategory: SettingCategory.palette,
   proFeature: false,
 );
-SettingsModel numberOfColors = SettingsModel(settingType: SettingType.int,
+SettingsModel numberOfColors = SettingsModel(
   name: 'numberOfColors',
+  settingType: SettingType.int,
   label: 'Number of Colors',
   tooltip: 'The number of colours in the palette',
   min: 1,
@@ -131,6 +145,7 @@ SettingsModel numberOfColors = SettingsModel(settingType: SettingType.int,
   icon: Icon(Icons.palette),
   settingCategory: SettingCategory.palette,
   proFeature: false,
+  onChange: (){checkNumberOfColors();},
 );
 SettingsModel paletteType = SettingsModel(
   settingType: SettingType.list,
@@ -180,13 +195,16 @@ SettingsModel resetDefaults = SettingsModel(
   tooltip: 'Reset all settings to defaults',
   defaultValue: false,
   icon: Icon(Icons.low_priority),
-  settingCategory: SettingCategory.other,
+  settingCategory: SettingCategory.tool,
   proFeature: false,
+  onChange: (){resetAllDefaults();},
+  silent: true,
 );
 
 List<SettingsModel> initializeWaveAttributes() {
 
   return [
+    reDraw,
     stepX,
     stepY,
     frequency,
@@ -217,10 +235,7 @@ void paintWave(Canvas canvas, Size size, Random rnd, double animationVariable, O
   if (paletteList.value != opArt.palette.paletteName){
     opArt.selectPalette(paletteList.value);
   }
-  // reset the defaults
-  if (resetDefaults.value == true) {
-    opArt.setDefault();
-  }
+
 
   generateWave(canvas, rnd, size.width, size.height, size.width, size.height, 0,0,
 

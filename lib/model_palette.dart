@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'model_opart.dart';
 import 'dart:math';
 
 List<String> defaultPalleteNames() {
@@ -142,7 +143,7 @@ class OpArtPalette {
 
   void randomize(String paletteType, int numberOfColours) {
 
-    Random rnd = Random(DateTime.now().millisecond);
+    Random rnd = Random(seed);
 
     // print('randomizing palette');
 

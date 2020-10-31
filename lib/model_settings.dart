@@ -2,6 +2,7 @@ import 'dart:core';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:opart_v2/opart_fibonacci.dart';
+import 'package:opart_v2/opart_page.dart';
 
 bool proVersion = true;
 
@@ -11,8 +12,6 @@ enum SettingType {
   bool,
   button,
   color,
-  setDefault,
-  randomize,
   list
 }
 enum SettingCategory {
@@ -31,6 +30,7 @@ class SettingsModel {
   bool proFeature;
   var options;
   Function onChange;
+  bool silent;
 
   var min;
   var max;
@@ -57,7 +57,10 @@ class SettingsModel {
     this.defaultValue,
     this.options,
     this.onChange,
+    this.silent,
   });
+
+
 
   void randomize(Random rnd) {
     if (!this.locked && (proVersion || !proVersion && !this.proFeature)) {
@@ -119,5 +122,19 @@ class SettingsModel {
   void setDefault() {
     this.value = this.defaultValue;
     this.locked = false;
+  }
+}
+
+
+void resetAllDefaults(){
+  opArt.setDefault();
+}
+
+void checkNumberOfColors(){
+  int numberOfColours = opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt();
+  int paletteLength = opArt.palette.colorList.length;
+  if ( numberOfColours > paletteLength) {
+    String paletteType = opArt.attributes.firstWhere((element) => element.name == 'paletteType').value.toString();
+    opArt.palette.randomize(paletteType, numberOfColours);
   }
 }

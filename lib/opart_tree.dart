@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
-import 'model.dart';
-import 'palette.dart';
-import 'settings_model.dart';
+import 'model_opart.dart';
+import 'model_palette.dart';
+import 'model_settings.dart';
 import 'dart:math';
 import 'dart:core';
 
 List<String> list = List();
 
+SettingsModel reDraw = SettingsModel(
+  name: 'reDraw',
+  settingType: SettingType.button,
+  label: 'Redraw',
+  tooltip: 'Re-draw the picture with a different random seed',
+  defaultValue: false,
+  icon: Icon(Icons.refresh),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+  onChange: (){seed = DateTime.now().millisecond;},
+  silent: true,
+);
 
-
-  SettingsModel zoomTree = SettingsModel(
+SettingsModel zoomTree = SettingsModel(
     name: 'zoomTree',
     settingType: SettingType.double,
     label: 'Zoom',
@@ -310,17 +321,19 @@ SettingsModel trunkStrokeWidth = SettingsModel(
     settingCategory: SettingCategory.palette,
     proFeature: false,
   );
-SettingsModel numberOfColors = SettingsModel(settingType: SettingType.int,
-    name: 'numberOfColors',
-    label: 'Number of Colors',
-    tooltip: 'The number of colours in the palette',
-    min: 1,
-    max: 36,
-    defaultValue: 10,
-    icon: Icon(Icons.palette),
-    settingCategory: SettingCategory.palette,
-    proFeature: false,
-  );
+SettingsModel numberOfColors = SettingsModel(
+  name: 'numberOfColors',
+  settingType: SettingType.int,
+  label: 'Number of Colors',
+  tooltip: 'The number of colours in the palette',
+  min: 1,
+  max: 36,
+  defaultValue: 10,
+  icon: Icon(Icons.palette),
+  settingCategory: SettingCategory.palette,
+  proFeature: false,
+  onChange: (){checkNumberOfColors();},
+);
 SettingsModel paletteType = SettingsModel(
     name: 'paletteType',
     settingType: SettingType.list,
@@ -362,19 +375,22 @@ SettingsModel opacity = SettingsModel(
     proFeature: false,
   );
 SettingsModel resetDefaults = SettingsModel(
-    name: 'resetDefaults',
-    settingType: SettingType.button,
-    label: 'Reset Defaults',
-    tooltip: 'Reset all settings to defaults',
-    defaultValue: false,
-    icon: Icon(Icons.low_priority),
-    settingCategory: SettingCategory.other,
-    proFeature: false,
-  );
+  name: 'resetDefaults',
+  settingType: SettingType.button,
+  label: 'Reset Defaults',
+  tooltip: 'Reset all settings to defaults',
+  defaultValue: false,
+  icon: Icon(Icons.low_priority),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+  onChange: (){resetAllDefaults();},
+  silent: true,
+);
 
 
 List<SettingsModel> initializeTreeAttributes() {
   return [
+    reDraw,
     zoomTree,
     baseHeight,
     trunkWidth,
@@ -417,10 +433,7 @@ void paintTree(Canvas canvas, Size size, Random rnd, double animationVariable, O
   if (paletteList.value != opArt.palette.paletteName){
     opArt.selectPalette(paletteList.value);
   }
-  // reset the defaults
-  if (resetDefaults.value == true) {
-    opArt.setDefault();
-  }
+
 
 
   generateTree(canvas, rnd, size.width, size.height, size.width, size.height, 0,0,

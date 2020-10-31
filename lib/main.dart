@@ -3,7 +3,7 @@ import 'package:opart_v2/loading.dart';
 
 
 import 'opart_page.dart';
-import 'model.dart';
+import 'model_opart.dart';
 
 
 
