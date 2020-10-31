@@ -600,22 +600,22 @@ int drawSquare(
         switch (rnd.nextInt(4)) {
           case 0:
             canvas.drawCircle(
-                Offset(PO[0] - side / 2 / 2, PO[1] - side / 2 / 2), side / 2 / 2,
+                Offset(PO[0] - side / 4, PO[1] - side / 4), side / 4,
                 paint);
             break;
           case 1:
             canvas.drawCircle(
-                Offset(PO[0] - side / 2 / 2, PO[1] + side / 2 / 2), side / 2 / 2,
+                Offset(PO[0] - side / 4, PO[1] + side / 4), side / 4,
                 paint);
             break;
           case 2:
             canvas.drawCircle(
-                Offset(PO[0] + side / 2 / 2, PO[1] - side / 2 / 2), side / 2 / 2,
+                Offset(PO[0] + side / 4, PO[1] - side / 4), side / 4,
                 paint);
             break;
           case 3:
             canvas.drawCircle(
-                Offset(PO[0] + side / 2 / 2, PO[1] + side / 2 / 2), side / 2 / 2,
+                Offset(PO[0] + side / 4, PO[1] + side / 4), side / 4,
                 paint);
             break;
         }
