@@ -24,7 +24,7 @@ final rebuildCache = new ValueNotifier(0);
 final rebuildCanvas = new ValueNotifier(0);
 bool enableButton = true;
 
-bool proVersion = false;
+bool proVersion = true;
 
 ScrollController scrollController = new ScrollController();
 
@@ -97,6 +97,7 @@ class OpArt {
     }
 
     this.setDefault();
+
   }
 
   void saveToCache() {
@@ -139,8 +140,7 @@ class OpArt {
     return cache.length;
   }
 
-  void paint(Canvas canvas, Size size, int seed, Random rnd,
-      double animationVariable) {
+  void paint(Canvas canvas, Size size, int seed, Random rnd, double animationVariable) {
     switch (opArtType) {
       case OpArtType.Fibonacci:
         paintFibonacci(canvas, size, rnd, animationVariable, this);
@@ -202,11 +202,9 @@ class OpArt {
 
     palette.randomize(
       attributes.firstWhere((element) => element.name == 'paletteType').value,
-      attributes
-          .firstWhere((element) => element.name == 'numberOfColors')
-          .value
-          .toInt(),
+      attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt(),
     );
+
     rebuildCanvas.value++;
   }
 

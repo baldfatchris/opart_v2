@@ -33,8 +33,8 @@ void ToolBox(BuildContext context, OpArt opArt,) {
                       childAspectRatio: 1.3),
                   itemCount: opArt.attributes.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return (opArt.attributes[index].proFeature|| proVersion)?
-                    Stack(
+                    return (opArt.attributes[index].proFeature && !proVersion)
+                      ?Stack(
                       children: [
                         Center(
                           child: GestureDetector(
@@ -68,29 +68,29 @@ void ToolBox(BuildContext context, OpArt opArt,) {
                       ],
                     )
 
-                    :GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                        settingsDialog(context, index, opArt);
-                      },
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          opArt.attributes[index].icon,
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Container(
-                                height: 40,
-                                child: Text(
-                                  opArt.attributes[index].label,
-                                  textAlign: TextAlign.center,
-                                )),
-                          )
-                        ],
-                      ),
-                    );
+                      :GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                          settingsDialog(context, index, opArt);
+                        },
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            opArt.attributes[index].icon,
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Container(
+                                  height: 40,
+                                  child: Text(
+                                    opArt.attributes[index].label,
+                                    textAlign: TextAlign.center,
+                                  )),
+                            )
+                          ],
+                        ),
+                      );
                   }),
             ));
       });

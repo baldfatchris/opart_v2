@@ -222,7 +222,7 @@ void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariabl
       waveColor = colorList[colourOrder % numberOfColors];
     }
 
-    int numberOfArcs = (i / group).floor() * 2 + 1;
+    int numberOfArcs = (i / group).floor() * 2 + 3;
     var radiusA = i % group;
     var radiusB = group - radiusA;
 

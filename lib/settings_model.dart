@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:opart_v2/opart_fibonacci.dart';
 
-bool proVersion = false;
+bool proVersion = true;
 
 enum SettingType {
   double,
@@ -41,32 +41,29 @@ class SettingsModel {
   bool locked = false;
   var value;
 
-  SettingsModel(
-      {this.settingType,
-      this.name,
-      this.label,
-      this.tooltip,
-      this.icon,
-      this.settingCategory,
-      this.proFeature,
-      this.min,
-      this.max,
-      this.randomMin,
-      this.randomMax,
-      this.zoom,
-      this.defaultValue,
-      this.options});
+  SettingsModel({this.settingType,
+    this.name,
+    this.label,
+    this.tooltip,
+    this.icon,
+    this.settingCategory,
+    this.proFeature,
+    this.min,
+    this.max,
+    this.randomMin,
+    this.randomMax,
+    this.zoom,
+    this.defaultValue,
+    this.options});
 
   void randomize(Random rnd) {
-  // if (!this.locked && (proVersion || !proVersion && !this.proFeature)) {
-
-    // print('Name: ${this.name}: ${this.settingType}');
+    if (!this.locked && (proVersion || !proVersion && !this.proFeature)) {
+      // print('Name: ${this.name}: ${this.settingType}');
 
       switch (this.settingType) {
-
         case SettingType.double:
-          // print(this.settingType);
-          // print(this.value);
+        // print(this.settingType);
+        // print(this.value);
           double min = (this.randomMin != null) ? this.randomMin : this.min;
           double max = (this.randomMax != null) ? this.randomMax : this.max;
 
@@ -112,8 +109,9 @@ class SettingsModel {
               ? this.options[rnd.nextInt(this.options.length)]
               : this.defaultValue;
       }
-//    }
+    }
   }
+
 
   void setDefault() {
     this.value = this.defaultValue;

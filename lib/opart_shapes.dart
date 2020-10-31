@@ -7,6 +7,16 @@ import 'dart:core';
 
 List<String> list = List();
 
+SettingsModel reDraw = SettingsModel(
+  name: 'reDraw',
+  settingType: SettingType.button,
+  label: 'Redraw',
+  tooltip: 'Re-draw the picture with a different random seed',
+  defaultValue: false,
+  icon: Icon(Icons.refresh),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 
 SettingsModel zoomShapes = SettingsModel(
   name: 'zoomTree',
@@ -110,7 +120,7 @@ SettingsModel box = SettingsModel(
   defaultValue: true,
   icon: Icon(Icons.check_box_outline_blank),
   settingCategory: SettingCategory.tool,
-  proFeature: false,
+  proFeature: true,
 );
 
 SettingsModel recursionDepth = SettingsModel(
@@ -258,6 +268,7 @@ double aspectRatio = pi/2;
 List<SettingsModel> initializeShapesAttributes() {
 
   return [
+    reDraw,
     zoomShapes,
     shapeHalfDiagonalTriangle,
     shapeCircle,
@@ -288,6 +299,11 @@ List<SettingsModel> initializeShapesAttributes() {
 
 void paintShapes(Canvas canvas, Size size, Random rnd, double animationVariable, OpArt opArt) {
 
+  // reset the defaults
+  if (reDraw.value == true) {
+    seed = rnd.nextInt(1<<32);
+  }
+
   rnd = Random(seed);
 
   // sort out the palette
@@ -301,6 +317,8 @@ void paintShapes(Canvas canvas, Size size, Random rnd, double animationVariable,
   if (resetDefaults.value == true) {
     opArt.setDefault();
   }
+
+
 
   // Initialise the canvas
   double canvasWidth = size.width;
