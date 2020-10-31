@@ -154,9 +154,8 @@ void settingsDialog(context, int index, OpArt opArt ) {
                         opArt.attributes[index].tooltip,
                         opArt.attributes[index].value,
                             () {
-
-                              opArt.attributes[index].value =
-                          true;
+                              opArt.attributes[index].onChange();
+                              opArt.attributes[index].value = true;
                           rebuildCanvas.value++;
                           setLocalState(() {});
                         },
