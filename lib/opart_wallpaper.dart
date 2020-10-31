@@ -454,8 +454,7 @@ void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariab
   if (resetDefaults.value == true) {
     opArt.setDefault();
   }
-print('***************');
-  print(angleIncrement.value);
+
   // Initialise the canvas
   double canvasWidth = size.width;
   double canvasHeight = size.height;

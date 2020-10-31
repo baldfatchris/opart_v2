@@ -46,12 +46,7 @@ class _OpArtPageState extends State<OpArtPage> {
   Widget build(BuildContext context) {
 
     Future<void> _paymentDialog() async {
-      if (opArt.animation) {
-        playPauseController.forward(from: 0);
-        playing = false;
-        animationController.stop();
-
-      }
+  stopIfPlaying();
 
       imageFile = null;
       screenshotController
