@@ -15,12 +15,12 @@ class CanvasWidget extends StatefulWidget {
 bool _playing = true;
 
 double _timeDilation = 1;
-
+AnimationController animationController;
 
 class _CanvasWidgetState extends State<CanvasWidget>
     with TickerProviderStateMixin {
-  AnimationController animationController;
-  Animation<double> animation;
+  Animation<double> currentAnimation;
+ 
   AnimationController playPauseController;
   @override
   void initState() {
@@ -32,7 +32,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
 
     Tween<double> animationTween = Tween(begin: 0, end: 1);
 
-    animation = animationTween.animate(animationController)
+    currentAnimation = animationTween.animate(animationController)
       ..addListener(() {
         rebuildCanvas.value++;
       })
@@ -71,7 +71,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
                             width: constraints.widthConstraints().maxWidth,
                             height: constraints.heightConstraints().maxHeight,
                             child: CustomPaint(
-                              painter: OpArtPainter(seed, rnd, opArt.animation?animation.value: 1),
+                              painter: OpArtPainter(seed, rnd, opArt.animation?currentAnimation.value: 1),
                             ),
                           ),
                         ),
