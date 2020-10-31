@@ -1,43 +1,5 @@
 PODS:
-  - Braintree/Apple-Pay (4.34.0):
-    - Braintree/Core
-  - Braintree/Card (4.34.0):
-    - Braintree/Core
-  - Braintree/Core (4.34.0)
-  - Braintree/PaymentFlow (4.34.0):
-    - Braintree/Card
-    - Braintree/Core
-    - Braintree/PayPalOneTouch
-  - Braintree/PayPal (4.34.0):
-    - Braintree/Core
-    - Braintree/PayPalOneTouch
-  - Braintree/PayPalDataCollector (4.34.0):
-    - Braintree/Core
-    - Braintree/PayPalUtils
-  - Braintree/PayPalOneTouch (4.34.0):
-    - Braintree/Core
-    - Braintree/PayPalDataCollector
-    - Braintree/PayPalUtils
-  - Braintree/PayPalUtils (4.34.0)
-  - Braintree/UnionPay (4.34.0):
-    - Braintree/Card
-    - Braintree/Core
-  - BraintreeDropIn (8.1.0):
-    - BraintreeDropIn/DropIn (= 8.1.0)
-  - BraintreeDropIn/DropIn (8.1.0):
-    - Braintree/Card (~> 4.32)
-    - Braintree/Core (~> 4.32)
-    - Braintree/PaymentFlow (~> 4.32)
-    - Braintree/PayPal (~> 4.32)
-    - Braintree/UnionPay (~> 4.32)
-    - BraintreeDropIn/UIKit
-  - BraintreeDropIn/UIKit (8.1.0)
   - Flutter (1.0.0)
-  - flutter_braintree (1.0.0):
-    - Braintree/Apple-Pay (~> 4.34.0)
-    - Braintree/PayPal (~> 4.34.0)
-    - BraintreeDropIn (= 8.1.0)
-    - Flutter
   - image_gallery_saver (1.5.0):
     - Flutter
   - path_provider (0.0.1):
@@ -51,23 +13,15 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - flutter_braintree (from `.symlinks/plugins/flutter_braintree/ios`)
   - image_gallery_saver (from `.symlinks/plugins/image_gallery_saver/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - sensors (from `.symlinks/plugins/sensors/ios`)
   - share (from `.symlinks/plugins/share/ios`)
 
-SPEC REPOS:
-  trunk:
-    - Braintree
-    - BraintreeDropIn
-
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  flutter_braintree:
-    :path: ".symlinks/plugins/flutter_braintree/ios"
   image_gallery_saver:
     :path: ".symlinks/plugins/image_gallery_saver/ios"
   path_provider:
@@ -80,16 +34,13 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/share/ios"
 
 SPEC CHECKSUMS:
-  Braintree: 48154e70306eb3e6c81eaa87bbc5c5988c0d2784
-  BraintreeDropIn: fc3e96a8a2b5416e5e3a3beba119f0089713bc1e
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  flutter_braintree: 993827357efe3a1a05f229f2e62fd5026b3a7f4b
   image_gallery_saver: 259eab68fb271cfd57d599904f7acdc7832e7ef2
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   permission_handler: eac8e15b4a1a3fba55b761d19f3f4e6b005d15b6
   sensors: 84eb7a30e47a649e4172b71d6e81be614c280336
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
 
-PODFILE CHECKSUM: fe0e1ee7f3d1f7d00b11b474b62dd62134535aea
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 
 COCOAPODS: 1.9.3

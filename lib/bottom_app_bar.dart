@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'model.dart';
 import 'toolbox.dart';
+import 'canvas.dart';
 
 Widget customBottomAppBar(
     {BuildContext context, OpArt opArt}) {
@@ -74,6 +75,8 @@ Widget customBottomAppBar(
           ],
         ),
         onPressed: () {
+          animationController.stop();
+          playing = false;
           ToolBox(context, opArt, );
         },
       ),

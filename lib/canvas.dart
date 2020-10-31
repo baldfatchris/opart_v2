@@ -12,7 +12,7 @@ class CanvasWidget extends StatefulWidget {
   _CanvasWidgetState createState() => _CanvasWidgetState();
 }
 
-bool _playing = true;
+bool playing = true;
 
 double _timeDilation = 1;
 AnimationController animationController;
@@ -136,13 +136,13 @@ class _CanvasWidgetState extends State<CanvasWidget>
                                   child: FloatingActionButton(
                                       heroTag: hero2,
                                       onPressed: () {
-                                        if (_playing) {
+                                        if (playing) {
                                           playPauseController.forward(from: 0);
-                                          _playing = false;
+                                          playing = false;
                                           animationController.stop();
                                         } else {
                                           playPauseController.reverse();
-                                          _playing = true;
+                                          playing = true;
                                           animationController.forward();
                                         }
                                       },
