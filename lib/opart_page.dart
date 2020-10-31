@@ -76,13 +76,13 @@ class _OpArtPageState extends State<OpArtPage> {
                 ),
               ),
               actions: <Widget>[
-                TextButton(
+                RaisedButton(
                   child: Text('Pay 99p'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
-                TextButton(
+                RaisedButton(
                   child: Text('No thank you'),
                   onPressed: () {
 
