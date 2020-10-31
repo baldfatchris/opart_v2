@@ -30,6 +30,7 @@ class SettingsModel {
   SettingCategory settingCategory;
   bool proFeature;
   var options;
+  Function onChange;
 
   var min;
   var max;
@@ -54,7 +55,9 @@ class SettingsModel {
     this.randomMax,
     this.zoom,
     this.defaultValue,
-    this.options});
+    this.options,
+    this.onChange,
+  });
 
   void randomize(Random rnd) {
     if (!this.locked && (proVersion || !proVersion && !this.proFeature)) {

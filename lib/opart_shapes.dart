@@ -16,6 +16,7 @@ SettingsModel reDraw = SettingsModel(
   icon: Icon(Icons.refresh),
   settingCategory: SettingCategory.tool,
   proFeature: false,
+  onChange: (){print('I just did something');},
 );
 
 SettingsModel zoomShapes = SettingsModel(
