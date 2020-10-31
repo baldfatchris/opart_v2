@@ -51,7 +51,7 @@ SettingsModel shape = SettingsModel(
   settingType: SettingType.list,
   label: "Wave Shape",
   tooltip: "The shape of the wave",
-  defaultValue: "circle",
+  defaultValue: "triangle",
   icon: Icon(Icons.local_florist),
   options: <String>['circle', 'triangle', 'square'],
   settingCategory: SettingCategory.tool,

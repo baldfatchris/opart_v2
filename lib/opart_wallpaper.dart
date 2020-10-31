@@ -356,7 +356,6 @@ SettingsModel numberOfColors = SettingsModel(
   icon: Icon(Icons.palette),
   settingCategory: SettingCategory.palette,
   proFeature: false,
-  onChange: (){checkNumberOfColors();},
 );
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
