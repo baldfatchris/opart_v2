@@ -75,7 +75,7 @@ Widget customBottomAppBar(
           ],
         ),
         onPressed: () {
-       stopIfPlaying();
+          stopIfPlaying();
           ToolBox(context, opArt, );
         },
       ),
