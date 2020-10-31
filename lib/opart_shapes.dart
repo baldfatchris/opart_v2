@@ -162,6 +162,7 @@ SettingsModel recursionRatio = SettingsModel(
 // palette settings
 SettingsModel backgroundColor = SettingsModel(
   name: 'backgroundColor',
+  settingType: SettingType.color,
   label: "Background Color",
   tooltip: "The background colour for the canvas",
   defaultValue: Colors.white,
@@ -171,6 +172,7 @@ SettingsModel backgroundColor = SettingsModel(
 );
 SettingsModel lineColor = SettingsModel(
   name: 'lineColor',
+  settingType: SettingType.color,
   label: "Outline Color",
   tooltip: "The outline colour",
   defaultValue: Colors.black,
@@ -322,6 +324,14 @@ print('seed: $seed');
   double borderY = 0;
   double imageWidth = canvasWidth;
   double imageHeight = canvasHeight;
+
+  // colour in the canvas
+  //a rectangle
+  canvas.drawRect(
+      Offset(borderX, borderY) & Size(imageWidth, imageHeight * 2),
+      Paint()
+        ..color = backgroundColor.value
+        ..style = PaintingStyle.fill);
 
   // Work out the X and Y
   int cellsX = (canvasWidth / (zoomShapes.value)+0.9999999).toInt();

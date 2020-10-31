@@ -25,7 +25,7 @@ SettingsModel step = SettingsModel(
   settingType: SettingType.double,
   label: 'step',
   tooltip: 'The width of each stripe',
-  min: 1.0,
+  min: 5.0,
   max: 50.0,
   zoom: 100,
   defaultValue: 10.0,
@@ -72,8 +72,9 @@ SettingsModel pointiness = SettingsModel(
   proFeature: false,
 );
 
-SettingsModel backgroundColor = SettingsModel(settingType: SettingType.color,
+SettingsModel backgroundColor = SettingsModel(
   name: 'backgroundColor',
+  settingType: SettingType.color,
   label: "Background Color",
   tooltip: "The background colour for the canvas",
   defaultValue: Colors.cyan,
@@ -225,7 +226,7 @@ void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariabl
   var colourOrder = 0;
 
   // Start with the Horizontal
-  for (double i = 0; i < 2 * imageWidth; i += step) {
+  for (double i = -group; i < imageWidth * 1.5 + group; i += step) {
 
     Color waveColor;
     if (randomColors == true) {
@@ -342,12 +343,11 @@ void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariabl
       }
 
     }
-
+    wave.lineTo(borderX, borderY + imageWidth);
 
     if (i < imageWidth) {
-        wave.lineTo(borderX, borderY + imageWidth);
-    }
 
+    }
     wave.close();
 
     canvas.drawPath(

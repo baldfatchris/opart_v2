@@ -115,8 +115,9 @@ SettingsModel zigZag = SettingsModel(
   proFeature: false,
   );
 
-SettingsModel backgroundColor = SettingsModel(settingType: SettingType.color,
+SettingsModel backgroundColor = SettingsModel(
   name: 'backgroundColor',
+  settingType: SettingType.color,
   label: "Background Color",
   tooltip: "The background colour for the canvas",
   defaultValue: Colors.cyan,

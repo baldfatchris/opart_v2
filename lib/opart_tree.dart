@@ -281,7 +281,8 @@ SettingsModel leafShape = SettingsModel(
     settingCategory: SettingCategory.tool,
     proFeature: false,
   );
-SettingsModel backgroundColor = SettingsModel(settingType: SettingType.color,
+SettingsModel backgroundColor = SettingsModel(
+    settingType: SettingType.color,
     name: 'backgroundColor',
     label: "Background Color",
     tooltip: "The background colour for the canvas",

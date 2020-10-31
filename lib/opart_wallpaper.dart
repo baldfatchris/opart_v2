@@ -282,6 +282,7 @@ SettingsModel randomPetals = SettingsModel(
 
 // palette settings
 SettingsModel backgroundColor = SettingsModel(
+  settingType: SettingType.color,
   name: 'backgroundColor',
   label: "Background Color",
   tooltip: "The background colour for the canvas",
@@ -291,6 +292,7 @@ SettingsModel backgroundColor = SettingsModel(
   proFeature: false,
 );
 SettingsModel lineColor = SettingsModel(
+  settingType: SettingType.color,
   name: 'lineColor',
   label: "Outline Color",
   tooltip: "The outline colour",
