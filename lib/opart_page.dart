@@ -47,7 +47,10 @@ class _OpArtPageState extends State<OpArtPage> {
 
     Future<void> _paymentDialog() async {
       if (opArt.animation) {
+        playPauseController.forward(from: 0);
+        playing = false;
         animationController.stop();
+
       }
 
       imageFile = null;

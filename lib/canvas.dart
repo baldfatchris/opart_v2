@@ -16,12 +16,12 @@ bool playing = true;
 
 double _timeDilation = 1;
 AnimationController animationController;
-
+AnimationController playPauseController;
 class _CanvasWidgetState extends State<CanvasWidget>
     with TickerProviderStateMixin {
   Animation<double> currentAnimation;
  
-  AnimationController playPauseController;
+
   @override
   void initState() {
    if(opArt.animation){ animationController = AnimationController(
