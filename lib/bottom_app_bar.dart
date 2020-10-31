@@ -75,7 +75,9 @@ Widget customBottomAppBar(
           ],
         ),
         onPressed: () {
-       stopIfPlaying();
+          playPauseController.forward(from: 0);
+          playing = false;
+          animationController.stop();
           ToolBox(context, opArt, );
         },
       ),
