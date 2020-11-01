@@ -266,9 +266,7 @@ void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariabl
           borderY + group * (j / 2)
         ];
 
-        print('j % 2 == 0 $PCentre');
-
-        if (PCentre[0] > 0 - group && PCentre[0] < borderX + imageWidth + group && PCentre[1] < borderY + imageWidth + group)  {
+        if (PCentre[0] > 0 - 2 * group && PCentre[0] < borderX + imageWidth + group && PCentre[1] < borderY + imageWidth + group)  {
 
           switch (shape) {
             case "circle":
@@ -338,9 +336,7 @@ void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariabl
           borderY + group * (j + 1) / 2
         ];
 
-        print('j % 2 != 0 $PCentre');
-
-        if (PCentre[0] > 0 - group && PCentre[0] < borderX + imageWidth + group && PCentre[1] < borderY + imageWidth + group)  {
+        if (PCentre[0] > 0 - 2 * group && PCentre[0] < borderX + imageWidth + group && PCentre[1] < borderY + imageWidth + group)  {
 
           switch (shape) {
             case "circle":
