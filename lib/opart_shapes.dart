@@ -225,11 +225,12 @@ SettingsModel paletteType = SettingsModel(
   icon: Icon(Icons.colorize),
   options: [
     'random',
-    'blended random ',
+    'blended random',
     'linear random',
     'linear complementary'
   ],
   settingCategory: SettingCategory.palette,
+  onChange: (){generatePalette();},
   proFeature: false,
 );
 SettingsModel paletteList = SettingsModel(

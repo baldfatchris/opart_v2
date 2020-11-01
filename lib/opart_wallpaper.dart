@@ -344,6 +344,7 @@ SettingsModel numberOfColors = SettingsModel(
   defaultValue: 10,
   icon: Icon(Icons.palette),
   settingCategory: SettingCategory.palette,
+  onChange: (){checkNumberOfColors();},
   proFeature: false,
 );
 SettingsModel paletteType = SettingsModel(
@@ -355,11 +356,12 @@ SettingsModel paletteType = SettingsModel(
   icon: Icon(Icons.colorize),
   options: [
     'random',
-    'blended random ',
+    'blended random',
     'linear random',
     'linear complementary'
   ],
   settingCategory: SettingCategory.palette,
+  onChange: (){generatePalette();},
   proFeature: false,
 );
 SettingsModel paletteList = SettingsModel(
@@ -395,6 +397,7 @@ SettingsModel resetDefaults = SettingsModel(
   defaultValue: false,
   icon: Icon(Icons.low_priority),
   settingCategory: SettingCategory.tool,
+  onChange: (){resetAllDefaults();},
   proFeature: false,
 );
 
@@ -445,19 +448,11 @@ void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariab
 
   rnd = Random(seed);
 
-  // sort out the palette
-  if (numberOfColors.value > opArt.palette.colorList.length){
-    opArt.palette.randomize(paletteType.value, numberOfColors.value);
-  }
   if (paletteList.value != opArt.palette.paletteName){
     opArt.selectPalette(paletteList.value);
   }
-  // reset the defaults
-  if (resetDefaults.value == true) {
-    opArt.setDefault();
-  }
-print('***************');
-  print(angleIncrement.value);
+
+
   // Initialise the canvas
   double canvasWidth = size.width;
   double canvasHeight = size.height;

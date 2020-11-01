@@ -130,6 +130,13 @@ void resetAllDefaults(){
   opArt.setDefault();
 }
 
+void generatePalette(){
+  int numberOfColours = opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt();
+  String paletteType = opArt.attributes.firstWhere((element) => element.name == 'paletteType').value.toString();
+  opArt.palette.randomize(paletteType, numberOfColours);
+
+}
+
 void checkNumberOfColors(){
   int numberOfColours = opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt();
   int paletteLength = opArt.palette.colorList.length;

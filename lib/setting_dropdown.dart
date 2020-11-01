@@ -11,6 +11,8 @@ class settingsDropdown extends StatefulWidget {
 
   settingsDropdown(this.label, this.tooltip, this.currentValue, this.dropdownItems, this.locked, this.onChanged, this.toggleLock);
 
+
+  
   @override
   _settingsDropdownState createState() => _settingsDropdownState();
 }
@@ -18,10 +20,18 @@ class settingsDropdown extends StatefulWidget {
 
 
 
-class _settingsDropdownState extends State<settingsDropdown> {
 
+
+class _settingsDropdownState extends State<settingsDropdown> {
+  
   @override
   Widget build(BuildContext context) {
+
+    if (!widget.dropdownItems.contains(widget.currentValue.toString())){
+      widget.dropdownItems.insert(0, widget.currentValue.toString());
+    }
+
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
