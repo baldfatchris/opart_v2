@@ -266,7 +266,9 @@ void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariabl
           borderY + group * (j / 2)
         ];
 
-        if (PCentre[0] < borderX + imageWidth + group && PCentre[1] < borderY + imageWidth + group)  {
+        print('j % 2 == 0 $PCentre');
+
+        if (PCentre[0] > 0 - group && PCentre[0] < borderX + imageWidth + group && PCentre[1] < borderY + imageWidth + group)  {
 
           switch (shape) {
             case "circle":
@@ -336,7 +338,10 @@ void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariabl
           borderY + group * (j + 1) / 2
         ];
 
-        if (PCentre[0] < borderX + imageWidth + group && PCentre[1] < borderY + imageWidth + group)  {
+        print('j % 2 != 0 $PCentre');
+
+        if (PCentre[0] > 0 - group && PCentre[0] < borderX + imageWidth + group && PCentre[1] < borderY + imageWidth + group)  {
+
           switch (shape) {
             case "circle":
               wave.arcTo(
@@ -406,12 +411,13 @@ void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariabl
         wave.lineTo(borderX, borderY + imageWidth);
     }
 
-    wave.close();
+    // wave.close();
 
     canvas.drawPath(
         wave,
         Paint()
-          ..style = PaintingStyle.fill
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = step
           ..color = waveColor);
 
 

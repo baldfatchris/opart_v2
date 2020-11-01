@@ -259,12 +259,12 @@ SettingsModel paletteType = SettingsModel(
     tooltip: "The nature of the palette",
     defaultValue: "random",
     icon: Icon(Icons.colorize),
-    options: <String>[
+  options: <String>[
     'random',
     'blended random',
     'linear random',
     'linear complementary'
-    ],
+  ],
     settingCategory: SettingCategory.palette,
     onChange: (){generatePalette();},
     proFeature: false,
