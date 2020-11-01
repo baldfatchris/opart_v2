@@ -49,8 +49,9 @@ class _OpArtPageState extends State<OpArtPage> {
       if (opArt.animation) {
         playPauseController.forward(from: 0);
         playing = false;
-        animationController.stop();
-
+        if (animationController!=null) {
+          animationController.stop();
+        }
       }
 
       imageFile = null;

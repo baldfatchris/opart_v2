@@ -162,6 +162,7 @@ SettingsModel recursionRatio = SettingsModel(
 // palette settings
 SettingsModel backgroundColor = SettingsModel(
   name: 'backgroundColor',
+  settingType: SettingType.color,
   label: "Background Color",
   tooltip: "The background colour for the canvas",
   defaultValue: Colors.white,
@@ -171,6 +172,7 @@ SettingsModel backgroundColor = SettingsModel(
 );
 SettingsModel lineColor = SettingsModel(
   name: 'lineColor',
+  settingType: SettingType.color,
   label: "Outline Color",
   tooltip: "The outline colour",
   defaultValue: Colors.black,
@@ -223,11 +225,12 @@ SettingsModel paletteType = SettingsModel(
   icon: Icon(Icons.colorize),
   options: [
     'random',
-    'blended random ',
+    'blended random',
     'linear random',
     'linear complementary'
   ],
   settingCategory: SettingCategory.palette,
+  onChange: (){generatePalette();},
   proFeature: false,
 );
 SettingsModel paletteList = SettingsModel(
@@ -322,6 +325,14 @@ print('seed: $seed');
   double borderY = 0;
   double imageWidth = canvasWidth;
   double imageHeight = canvasHeight;
+
+  // colour in the canvas
+  //a rectangle
+  canvas.drawRect(
+      Offset(borderX, borderY) & Size(imageWidth, imageHeight * 2),
+      Paint()
+        ..color = backgroundColor.value
+        ..style = PaintingStyle.fill);
 
   // Work out the X and Y
   int cellsX = (canvasWidth / (zoomShapes.value)+0.9999999).toInt();
@@ -600,22 +611,22 @@ int drawSquare(
         switch (rnd.nextInt(4)) {
           case 0:
             canvas.drawCircle(
-                Offset(PO[0] - side / 2 / 2, PO[1] - side / 2 / 2), side / 2 / 2,
+                Offset(PO[0] - side / 4, PO[1] - side / 4), side / 4,
                 paint);
             break;
           case 1:
             canvas.drawCircle(
-                Offset(PO[0] - side / 2 / 2, PO[1] + side / 2 / 2), side / 2 / 2,
+                Offset(PO[0] - side / 4, PO[1] + side / 4), side / 4,
                 paint);
             break;
           case 2:
             canvas.drawCircle(
-                Offset(PO[0] + side / 2 / 2, PO[1] - side / 2 / 2), side / 2 / 2,
+                Offset(PO[0] + side / 4, PO[1] - side / 4), side / 4,
                 paint);
             break;
           case 3:
             canvas.drawCircle(
-                Offset(PO[0] + side / 2 / 2, PO[1] + side / 2 / 2), side / 2 / 2,
+                Offset(PO[0] + side / 4, PO[1] + side / 4), side / 4,
                 paint);
             break;
         }

@@ -210,6 +210,8 @@ class OpArt {
       attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt(),
     );
 
+    attributes.firstWhere((element) => element.name == 'paletteList').value = 'Default';
+
     rebuildCanvas.value++;
   }
 

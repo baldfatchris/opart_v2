@@ -77,8 +77,9 @@ void settingsDialog(context, int index, OpArt opArt ) {
                             (value) {
 
                               opArt.attributes[index].value = value.toInt();
-                              opArt.attributes[index].onChange();
-
+                              if (opArt.attributes[index].onChange != null) {
+                                opArt.attributes[index].onChange();
+                              }
                               rebuildCanvas.value++;
                           setLocalState(() {});
                         },
@@ -100,6 +101,9 @@ void settingsDialog(context, int index, OpArt opArt ) {
                         opArt.attributes[index].options,
                         opArt.attributes[index].locked,
                             (value) {opArt.attributes[index].value = value;
+                            if (opArt.attributes[index].onChange != null) {
+                              opArt.attributes[index].onChange();
+                            }
                             rebuildCanvas.value++;
                           setLocalState(() {});
                         },

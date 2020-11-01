@@ -28,7 +28,7 @@ SettingsModel step = SettingsModel(
   min: 1.0,
   max: 50.0,
   zoom: 100,
-  defaultValue: 10.0,
+  defaultValue: 5.0,
   icon: Icon(Icons.more_horiz),
   settingCategory: SettingCategory.tool,
   proFeature: false,
@@ -72,8 +72,9 @@ SettingsModel pointiness = SettingsModel(
   proFeature: false,
 );
 
-SettingsModel backgroundColor = SettingsModel(settingType: SettingType.color,
+SettingsModel backgroundColor = SettingsModel(
   name: 'backgroundColor',
+  settingType: SettingType.color,
   label: "Background Color",
   tooltip: "The background colour for the canvas",
   defaultValue: Colors.cyan,
@@ -113,11 +114,12 @@ SettingsModel paletteType = SettingsModel(
   icon: Icon(Icons.colorize),
   options: <String>[
   'random',
-  'blended random ',
+  'blended random',
   'linear random',
   'linear complementary'
   ],
   settingCategory: SettingCategory.palette,
+  onChange: (){generatePalette();},
   proFeature: false,
 );
 SettingsModel paletteList = SettingsModel(
@@ -264,40 +266,68 @@ void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariabl
           borderY + group * (j / 2)
         ];
 
-        if (shape == "circle") {
-            wave.arcTo(
-              Rect.fromCenter(
-                  center: Offset(PCentre[0],PCentre[1]),
-                  height: radiusA*2,
-                  width: radiusA*2
-              ),
-              0,
-              pi/2,
-              false,
-            );
-        }
-        if (shape == "triangle") {
-          List P1 = [PCentre[0] + radiusA * cos(0), PCentre[1] + radiusA * sin(0)];
-          List P2 = [PCentre[0] + pointiness * radiusA * cos(pi / 4), PCentre[1] + pointiness * radiusA * sin(pi / 4)];
-          List P3 = [PCentre[0] + radiusA * cos(pi / 2), PCentre[1] + radiusA * sin(pi / 2)];
+        if (PCentre[0] < borderX + imageWidth + group && PCentre[1] < borderY + imageWidth + group)  {
 
-          wave.lineTo(P1[0], P1[1]);
-          wave.lineTo(P2[0], P2[1]);
-          wave.lineTo(P3[0], P3[1]);
-        }
-        if (shape == "square") {
-          List P1 = [PCentre[0] + radiusA * cos(0), PCentre[1] + radiusA * sin(0)];
-          List P2 = [PCentre[0] + radiusA * cos(pi * 1 / 6), PCentre[1] + radiusA * sin(pi * 1 / 6)];
-          List P3 = [PCentre[0] + radiusA * cos(pi * 2 / 6), PCentre[1] + radiusA * sin(pi * 2 / 6)];
-          List P4 = [PCentre[0] + radiusA * cos(pi * 3 / 6), PCentre[1] + radiusA * sin(pi * 3 / 6)];
+          switch (shape) {
+            case "circle":
+              wave.arcTo(
+                Rect.fromCenter(
+                    center: Offset(PCentre[0], PCentre[1]),
+                    height: radiusA * 2,
+                    width: radiusA * 2
+                ),
+                0,
+                pi / 2,
+                false,
+              );
+              break;
 
-          wave.lineTo(P1[0], P1[1]);
-          wave.lineTo(P2[0], P2[1]);
-          wave.lineTo(P3[0], P3[1]);
-          wave.lineTo(P4[0], P4[1]);
-        }
- 
+            case "triangle":
+              List P1 = [
+                PCentre[0] + radiusA * cos(0),
+                PCentre[1] + radiusA * sin(0)
+              ];
+              List P2 = [
+                PCentre[0] + pointiness * radiusA * cos(pi / 4),
+                PCentre[1] + pointiness * radiusA * sin(pi / 4)
+              ];
+              List P3 = [
+                PCentre[0] + radiusA * cos(pi / 2),
+                PCentre[1] + radiusA * sin(pi / 2)
+              ];
 
+              wave.lineTo(P1[0], P1[1]);
+              wave.lineTo(P2[0], P2[1]);
+              wave.lineTo(P3[0], P3[1]);
+
+              break;
+
+            case "square":
+              List P1 = [
+                PCentre[0] + radiusA * cos(0),
+                PCentre[1] + radiusA * sin(0)
+              ];
+              List P2 = [
+                PCentre[0] + radiusA * cos(pi * 1 / 6),
+                PCentre[1] + radiusA * sin(pi * 1 / 6)
+              ];
+              List P3 = [
+                PCentre[0] + radiusA * cos(pi * 2 / 6),
+                PCentre[1] + radiusA * sin(pi * 2 / 6)
+              ];
+              List P4 = [
+                PCentre[0] + radiusA * cos(pi * 3 / 6),
+                PCentre[1] + radiusA * sin(pi * 3 / 6)
+              ];
+
+              wave.lineTo(P1[0], P1[1]);
+              wave.lineTo(P2[0], P2[1]);
+              wave.lineTo(P3[0], P3[1]);
+              wave.lineTo(P4[0], P4[1]);
+
+              break;
+          }
+        }
       }
       else {
 
@@ -306,41 +336,69 @@ void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariabl
           borderY + group * (j + 1) / 2
         ];
 
-        if (shape == "circle") {
-            wave.arcTo(
-              Rect.fromCenter(
-                  center: Offset(PCentre[0],PCentre[1]),
-                  height: radiusB*2,
-                  width: radiusB*2
-              ),
-              pi * 3/2,
-              -pi/2,
-              false,
-            );
-        }
-        if (shape == "triangle") {
-          List P3 = [PCentre[0] + radiusB * cos(pi),         PCentre[1] + radiusB * sin(pi)];
-          List P2 = [PCentre[0] + pointiness * radiusB * cos(pi * 5 / 4), PCentre[1] + pointiness * radiusB * sin(pi * 5 / 4)];
-          List P1 = [PCentre[0] + radiusB * cos(pi * 6 / 4), PCentre[1] + radiusB * sin(pi * 6 / 4)];
+        if (PCentre[0] < borderX + imageWidth + group && PCentre[1] < borderY + imageWidth + group)  {
+          switch (shape) {
+            case "circle":
+              wave.arcTo(
+                Rect.fromCenter(
+                    center: Offset(PCentre[0], PCentre[1]),
+                    height: radiusB * 2,
+                    width: radiusB * 2
+                ),
+                pi * 3 / 2,
+                -pi / 2,
+                false,
+              );
 
-            wave.lineTo(P1[0], P1[1]);
-            wave.lineTo(P2[0], P2[1]);
-            wave.lineTo(P3[0], P3[1]);
-        }
-        if (shape == "square") {
-          List P1 = [PCentre[0] + radiusB * cos(pi * 9 / 6), PCentre[1] + radiusB * sin(pi * 9 / 6)];
-          List P2 = [PCentre[0] + radiusB * cos(pi * 8 / 6), PCentre[1] + radiusB * sin(pi * 8 / 6)];
-          List P3 = [PCentre[0] + radiusB * cos(pi * 7 / 6), PCentre[1] + radiusB * sin(pi * 7 / 6)];
-          List P4 = [PCentre[0] + radiusB * cos(pi * 6 / 6), PCentre[1] + radiusB * sin(pi * 6 / 6)];
+              break;
 
-            wave.lineTo(P1[0], P1[1]);
-            wave.lineTo(P2[0], P2[1]);
-            wave.lineTo(P3[0], P3[1]);
-            wave.lineTo(P4[0], P4[1]);
-        }
+            case "triangle":
+              List P3 = [
+                PCentre[0] + radiusB * cos(pi),
+                PCentre[1] + radiusB * sin(pi)
+              ];
+              List P2 = [
+                PCentre[0] + pointiness * radiusB * cos(pi * 5 / 4),
+                PCentre[1] + pointiness * radiusB * sin(pi * 5 / 4)
+              ];
+              List P1 = [
+                PCentre[0] + radiusB * cos(pi * 6 / 4),
+                PCentre[1] + radiusB * sin(pi * 6 / 4)
+              ];
 
+              wave.lineTo(P1[0], P1[1]);
+              wave.lineTo(P2[0], P2[1]);
+              wave.lineTo(P3[0], P3[1]);
+
+              break;
+
+            case "square":
+              List P1 = [
+                PCentre[0] + radiusB * cos(pi * 9 / 6),
+                PCentre[1] + radiusB * sin(pi * 9 / 6)
+              ];
+              List P2 = [
+                PCentre[0] + radiusB * cos(pi * 8 / 6),
+                PCentre[1] + radiusB * sin(pi * 8 / 6)
+              ];
+              List P3 = [
+                PCentre[0] + radiusB * cos(pi * 7 / 6),
+                PCentre[1] + radiusB * sin(pi * 7 / 6)
+              ];
+              List P4 = [
+                PCentre[0] + radiusB * cos(pi * 6 / 6),
+                PCentre[1] + radiusB * sin(pi * 6 / 6)
+              ];
+
+              wave.lineTo(P1[0], P1[1]);
+              wave.lineTo(P2[0], P2[1]);
+              wave.lineTo(P3[0], P3[1]);
+              wave.lineTo(P4[0], P4[1]);
+
+              break;
+          }
+        }
       }
-
     }
 
 

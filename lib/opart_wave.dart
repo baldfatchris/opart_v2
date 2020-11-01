@@ -115,8 +115,9 @@ SettingsModel zigZag = SettingsModel(
   proFeature: false,
   );
 
-SettingsModel backgroundColor = SettingsModel(settingType: SettingType.color,
+SettingsModel backgroundColor = SettingsModel(
   name: 'backgroundColor',
+  settingType: SettingType.color,
   label: "Background Color",
   tooltip: "The background colour for the canvas",
   defaultValue: Colors.cyan,
@@ -156,11 +157,12 @@ SettingsModel paletteType = SettingsModel(
   icon: Icon(Icons.colorize),
   options: <String>[
   'random',
-  'blended random ',
+  'blended random',
   'linear random',
   'linear complementary'
   ],
   settingCategory: SettingCategory.palette,
+  onChange: (){generatePalette();},
   proFeature: false,
 );
 SettingsModel paletteList = SettingsModel(
@@ -228,10 +230,7 @@ void paintWave(Canvas canvas, Size size, Random rnd, double animationVariable, O
 
   rnd = Random(seed);
 
-  // sort out the palette
-  if (numberOfColors.value > opArt.palette.colorList.length){
-    opArt.palette.randomize(paletteType.value, numberOfColors.value);
-  }
+
   if (paletteList.value != opArt.palette.paletteName){
     opArt.selectPalette(paletteList.value);
   }

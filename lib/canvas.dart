@@ -15,7 +15,9 @@ class CanvasWidget extends StatefulWidget {
 bool playing = true;
 void stopIfPlaying() {
   if (playing) {
-    animationController.stop();
+    if (animationController != null){
+      animationController.stop();
+    }
     playing = false;
     playPauseController.forward();
   }
