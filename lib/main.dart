@@ -46,10 +46,6 @@ class _MyHomePageState extends State<MyHomePage> {
   List<OpArtTypes> opArtTypes;
   @override
   Widget build(BuildContext context) {
-    print('width');
-    print(MediaQuery.of(context).size.width);
-    print('height');
-    print(MediaQuery.of(context).size.height);
     return Scaffold(
         body: SafeArea(
       child: Column(

@@ -8,6 +8,7 @@ import 'package:flutter/rendering.dart';
 void main() {
   runApp(
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.indigo,
         accentColor: Colors.pinkAccent,
