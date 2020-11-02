@@ -191,6 +191,7 @@ void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariabl
 
 
   double imageWidth = (size.width > size.height) ? size.width : size.height;
+
   double borderX = (size.width - imageWidth) / 2;
   double borderY = (size.height - imageWidth) / 2;
 
@@ -227,7 +228,7 @@ void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariabl
   var colourOrder = 0;
 
   // Start with the Horizontal
-  for (double i = 0; i < 2 * imageWidth; i += step) {
+  for (double i = -group; i < 2 * imageWidth; i += step) {
 
     Color waveColor;
     if (randomColors == true) {
@@ -242,12 +243,6 @@ void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariabl
     var radiusB = group - radiusA;
 
     Path wave = Path();
-  
-    wave.moveTo(borderX + imageWidth, borderY + imageWidth);
-
-    if (i < imageWidth) {
-        wave.lineTo(borderX + imageWidth, borderY);
-    }
 
     var jStart = 0;
     var jStop = numberOfArcs;
