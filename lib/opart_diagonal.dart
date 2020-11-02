@@ -25,10 +25,10 @@ SettingsModel step = SettingsModel(
   settingType: SettingType.double,
   label: 'step',
   tooltip: 'The width of each stripe',
-  min: 20.0,
+  min: 3.0,
   max: 50.0,
   zoom: 100,
-  defaultValue: 20.0,
+  defaultValue: 5.0,
   icon: Icon(Icons.more_horiz),
   settingCategory: SettingCategory.tool,
   proFeature: false,
@@ -113,10 +113,10 @@ SettingsModel paletteType = SettingsModel(
   defaultValue: "random",
   icon: Icon(Icons.colorize),
   options: <String>[
-  'random',
-  'blended random',
-  'linear random',
-  'linear complementary'
+    'random',
+    'blended random',
+    'linear random',
+    'linear complementary'
   ],
   settingCategory: SettingCategory.palette,
   onChange: (){generatePalette();},
@@ -176,7 +176,7 @@ List<SettingsModel> initializeDiagonalAttributes() {
     paletteList,
     opacity,
     resetDefaults,
-   
+
   ];
 }
 
@@ -191,43 +191,62 @@ void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariabl
 
 
   double imageWidth = (size.width > size.height) ? size.width : size.height;
+
   double borderX = (size.width - imageWidth) / 2;
   double borderY = (size.height - imageWidth) / 2;
 
+// FIX TO PREVENT CRASHES IN IPADS
+// Set the min  step to be no more than imageWidth / 1000
+  if (step.min < imageWidth / 50){
+    step.min = imageWidth / 50;
+    if (step.min > step.max) {
+      step.max = step.min;
+    }
+    if (step.value < step.min)
+    {
+      step.value = step.min;
+    }
+  }
+
+  print('step.min ${step.min}');
+  print('step.max ${step.max}');
+  print('step.value ${step.value}');
+
+
   drawWaves(
-      canvas,
-      imageWidth,
-      borderX,
-      borderY,
-      step.value,
-      group.value,
-      shape.value,
-      pointiness.value,
-      opArt.palette.colorList,
-      numberOfColors.value.toInt(),
-      (randomColors == true),
+    canvas,
+    imageWidth,
+    borderX,
+    borderY,
+    step.value,
+    group.value,
+    shape.value,
+    pointiness.value,
+    opArt.palette.colorList,
+    numberOfColors.value.toInt(),
+    (randomColors == true),
   );
 
 }
-  drawWaves(
-      Canvas canvas,
-      double imageWidth,
-      double borderX,
-      double borderY,
-      double step,
-      double group,
-      String shape,
-      double pointiness,
-      List<Color> colorList,
-      int numberOfColors,
-      bool randomColors,
-      ){
+drawWaves(
+    Canvas canvas,
+    double imageWidth,
+    double borderX,
+    double borderY,
+    double step,
+    double group,
+    String shape,
+    double pointiness,
+    List<Color> colorList,
+    int numberOfColors,
+    bool randomColors,
+    ){
 
   // Now make some art
   var colourOrder = 0;
 
   // Start with the Horizontal
-  for (double i = 0; i < 2 * imageWidth; i += step) {
+  for (double i = -group; i < 2 * imageWidth; i += step) {
 
     Color waveColor;
     if (randomColors == true) {
@@ -242,12 +261,7 @@ void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariabl
     var radiusB = group - radiusA;
 
     Path wave = Path();
-  
-    wave.moveTo(borderX + imageWidth, borderY + imageWidth);
-
-    if (i < imageWidth) {
-        wave.lineTo(borderX + imageWidth, borderY);
-    }
+    wave.moveTo(borderX+2*imageWidth, borderY);
 
     var jStart = 0;
     var jStop = numberOfArcs;
@@ -404,7 +418,7 @@ void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariabl
 
 
     if (i < imageWidth) {
-        wave.lineTo(borderX, borderY + imageWidth);
+      wave.lineTo(borderX, borderY + imageWidth);
     }
 
     // wave.close();
@@ -421,5 +435,3 @@ void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariabl
   }
 
 }
-
-
