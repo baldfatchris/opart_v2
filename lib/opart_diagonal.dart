@@ -46,17 +46,17 @@ SettingsModel group = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-SettingsModel shape = SettingsModel(
-  name: 'shape',
-  settingType: SettingType.list,
-  label: "Wave Shape",
-  tooltip: "The shape of the wave",
-  defaultValue: "circle",
-  icon: Icon(Icons.local_florist),
-  options: <String>['circle', 'triangle', 'square'],
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-);
+// SettingsModel shape = SettingsModel(
+//   name: 'shape',
+//   settingType: SettingType.list,
+//   label: "Wave Shape",
+//   tooltip: "The shape of the wave",
+//   defaultValue: "circle",
+//   icon: Icon(Icons.local_florist),
+//   options: <String>['circle', 'triangle', 'square'],
+//   settingCategory: SettingCategory.tool,
+//   proFeature: false,
+// );
 
 SettingsModel pointiness = SettingsModel(
   name: 'pointiness',
@@ -166,7 +166,7 @@ List<SettingsModel> initializeDiagonalAttributes() {
     reDraw,
     step,
     group,
-    shape,
+    // shape,
     pointiness,
 
     backgroundColor,
@@ -195,18 +195,18 @@ void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariabl
   double borderX = (size.width - imageWidth) / 2;
   double borderY = (size.height - imageWidth) / 2;
 
-// FIX TO PREVENT CRASHES IN IPADS
-// Set the min  step to be no more than imageWidth / 1000
-  if (step.min < imageWidth / 50){
-    step.min = imageWidth / 50;
-    if (step.min > step.max) {
-      step.max = step.min;
-    }
-    if (step.value < step.min)
-    {
-      step.value = step.min;
-    }
-  }
+// // FIX TO PREVENT CRASHES IN IPADS
+// // Set the min  step to be no more than imageWidth / 1000
+//   if (step.min < imageWidth / 50){
+//     step.min = imageWidth / 50;
+//     if (step.min > step.max) {
+//       step.max = step.min;
+//     }
+//     if (step.value < step.min)
+//     {
+//       step.value = step.min;
+//     }
+//   }
 
   print('step.min ${step.min}');
   print('step.max ${step.max}');
@@ -220,7 +220,7 @@ void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariabl
     borderY,
     step.value,
     group.value,
-    shape.value,
+    // shape.value,
     pointiness.value,
     opArt.palette.colorList,
     numberOfColors.value.toInt(),
@@ -235,7 +235,7 @@ drawWaves(
     double borderY,
     double step,
     double group,
-    String shape,
+    // String shape,
     double pointiness,
     List<Color> colorList,
     int numberOfColors,
@@ -243,7 +243,9 @@ drawWaves(
     ){
 
   // Now make some art
-  var colourOrder = 0;
+  int colourOrder = 0;
+  int drawCount = 0;
+  String shape = "circle";
 
   // Start with the Horizontal
   for (double i = -group; i < 2 * imageWidth; i += step) {
@@ -261,7 +263,16 @@ drawWaves(
     var radiusB = group - radiusA;
 
     Path wave = Path();
-    wave.moveTo(borderX+2*imageWidth, borderY);
+
+    if (shape == "triangle" || shape == "square"){
+      wave.moveTo(borderX+2*imageWidth, borderY);
+    }
+
+    Paint paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeJoin = StrokeJoin.round
+      ..strokeWidth = step * 1.02 // add 2% to stop bleeding
+      ..color = waveColor;
 
     var jStart = 0;
     var jStop = numberOfArcs;
@@ -282,17 +293,20 @@ drawWaves(
 
         if (PCentre[0] > 0 - 2 * group && PCentre[0] < borderX + imageWidth + group && PCentre[1] < borderY + imageWidth + group)  {
 
+          drawCount++;
+
           switch (shape) {
             case "circle":
-              wave.arcTo(
+              canvas.drawArc(
                 Rect.fromCenter(
                     center: Offset(PCentre[0], PCentre[1]),
                     height: radiusA * 2,
                     width: radiusA * 2
                 ),
-                0,
-                pi / 2,
+                -0.01, // overlap slightly to cover the join
+                pi / 2 + 0.02,
                 false,
+                paint,
               );
               break;
 
@@ -352,17 +366,21 @@ drawWaves(
 
         if (PCentre[0] > 0 - 2 * group && PCentre[0] < borderX + imageWidth + group && PCentre[1] < borderY + imageWidth + group)  {
 
+          drawCount++;
+
           switch (shape) {
+
             case "circle":
-              wave.arcTo(
+              canvas.drawArc(
                 Rect.fromCenter(
                     center: Offset(PCentre[0], PCentre[1]),
                     height: radiusB * 2,
                     width: radiusB * 2
                 ),
-                pi * 3 / 2,
-                -pi / 2,
+                pi * 3 / 2 + 0.01,
+                -pi / 2 - 0.02,
                 false,
+                paint,
               );
 
               break;
@@ -380,6 +398,7 @@ drawWaves(
                 PCentre[0] + radiusB * cos(pi * 6 / 4),
                 PCentre[1] + radiusB * sin(pi * 6 / 4)
               ];
+
 
               wave.lineTo(P1[0], P1[1]);
               wave.lineTo(P2[0], P2[1]);
@@ -421,17 +440,21 @@ drawWaves(
       wave.lineTo(borderX, borderY + imageWidth);
     }
 
+
     // wave.close();
 
-    canvas.drawPath(
-        wave,
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = step
-          ..color = waveColor);
+    if (shape == "triangle" || shape == "square"){
+      canvas.drawPath(
+          wave,
+          paint);
+    }
+
 
 
     colourOrder++;
+
+    print('colourOrder: $colourOrder');
+    print('drawCount: $drawCount');
   }
 
 }
