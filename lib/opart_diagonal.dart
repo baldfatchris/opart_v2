@@ -243,7 +243,9 @@ drawWaves(
     ){
 
   // Now make some art
-  var colourOrder = 0;
+  int colourOrder = 0;
+  int drawCount = 0;
+
 
   // Start with the Horizontal
   for (double i = -group; i < 2 * imageWidth; i += step) {
@@ -261,7 +263,15 @@ drawWaves(
     var radiusB = group - radiusA;
 
     Path wave = Path();
-    wave.moveTo(borderX+2*imageWidth, borderY);
+
+    if (shape == "triangle" || shape == "square"){
+      wave.moveTo(borderX+2*imageWidth, borderY);
+    }
+
+    Paint paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = step
+      ..color = waveColor;
 
     var jStart = 0;
     var jStop = numberOfArcs;
@@ -282,9 +292,11 @@ drawWaves(
 
         if (PCentre[0] > 0 - 2 * group && PCentre[0] < borderX + imageWidth + group && PCentre[1] < borderY + imageWidth + group)  {
 
+          drawCount++;
+
           switch (shape) {
             case "circle":
-              wave.arcTo(
+              canvas.drawArc(
                 Rect.fromCenter(
                     center: Offset(PCentre[0], PCentre[1]),
                     height: radiusA * 2,
@@ -293,6 +305,7 @@ drawWaves(
                 0,
                 pi / 2,
                 false,
+                paint,
               );
               break;
 
@@ -352,18 +365,21 @@ drawWaves(
 
         if (PCentre[0] > 0 - 2 * group && PCentre[0] < borderX + imageWidth + group && PCentre[1] < borderY + imageWidth + group)  {
 
+          drawCount++;
+          canvas.drawArc(
+                Rect.fromCenter(
+                center: Offset(PCentre[0], PCentre[1]),
+                height: radiusB * 2,
+                width: radiusB * 2
+            ),
+            pi * 3 / 2,
+            -pi / 2,
+            false,
+            paint,
+          );
+
           switch (shape) {
             case "circle":
-              wave.arcTo(
-                Rect.fromCenter(
-                    center: Offset(PCentre[0], PCentre[1]),
-                    height: radiusB * 2,
-                    width: radiusB * 2
-                ),
-                pi * 3 / 2,
-                -pi / 2,
-                false,
-              );
 
               break;
 
@@ -421,17 +437,21 @@ drawWaves(
       wave.lineTo(borderX, borderY + imageWidth);
     }
 
+
     // wave.close();
 
-    canvas.drawPath(
-        wave,
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = step
-          ..color = waveColor);
+    if (shape == "triangle" || shape == "square"){
+      canvas.drawPath(
+          wave,
+          paint);
+    }
+
 
 
     colourOrder++;
+
+    print('colourOrder: $colourOrder');
+    print('drawCount: $drawCount');
   }
 
 }
