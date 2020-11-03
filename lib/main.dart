@@ -95,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
      opArtTypes = [
-      OpArtTypes('Fibonacci', OpArtType.Fibonacci, 'lib/assets/fibonacci_400.png'),
+      OpArtTypes('Spirals', OpArtType.Fibonacci, 'lib/assets/fibonacci_400.png'),
       OpArtTypes('Waves', OpArtType.Wave, 'lib/assets/wave_400.png'),
       OpArtTypes('Trees', OpArtType.Tree, 'lib/assets/tree_400.png'),
       OpArtTypes('Wallpaper', OpArtType.Wallpaper, 'lib/assets/wallpaper_500.png'),

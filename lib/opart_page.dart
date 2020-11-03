@@ -158,7 +158,7 @@ class _OpArtPageState extends State<OpArtPage> {
                             Share.shareFiles(
                               [imageFile.path],
                               subject: 'Using Chris\'s fabulous OpArt App',
-                              text: 'Download the OpArt App NOW!',
+                              text: 'Created using OpArt Lab - check it out at opartlab.com',
                             );
                           } else {
                             Share.shareFiles(

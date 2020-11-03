@@ -52,7 +52,7 @@ class OpArt {
       case OpArtType.Fibonacci:
         this.attributes = initializeFibonacciAttributes();
         this.palette = OpArtPalette();
-        this.name = 'Fibonacci';
+        this.name = 'Spirals';
 
         break;
 
