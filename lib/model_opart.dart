@@ -170,11 +170,11 @@ class OpArt {
 
   // randomise the non-palette settings
   void randomizeSettings() {
-    print('Randomizing Settings');
+    // print('Randomizing Settings');
     for (int i = 0; i < attributes.length; i++) {
       if (attributes[i].settingCategory == SettingCategory.tool) {
         attributes[i].randomize(rnd);
-        print('${attributes[i].name}: ${attributes[i].value}');
+        // print('${attributes[i].name}: ${attributes[i].value}');
       }
     }
     randomizePalette();
@@ -197,11 +197,11 @@ class OpArt {
 
   // randomise the palette
   void randomizePalette() {
-    print('Randomizing Palette');
+    // print('Randomizing Palette');
     for (int i = 0; i < attributes.length; i++) {
       if (attributes[i].settingCategory == SettingCategory.palette) {
         attributes[i].randomize(rnd);
-        print('${attributes[i].name}: ${attributes[i].value}');
+        // print('${attributes[i].name}: ${attributes[i].value}');
       }
     }
 
