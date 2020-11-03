@@ -197,8 +197,8 @@ void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariabl
 
 // FIX TO PREVENT CRASHES IN IPADS
 // Set the min  step to be no more than imageWidth / 1000
-  if (step.min < imageWidth / 200){
-    step.min = imageWidth / 200;
+  if (step.min < imageWidth / 50){
+    step.min = imageWidth / 50;
     if (step.min > step.max) {
       step.max = step.min;
     }

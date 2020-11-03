@@ -57,7 +57,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
       animationController.forward();
     }
     playPauseController = AnimationController(
-        duration: const Duration(milliseconds: 500), vsync: this);
+        duration: const Duration(milliseconds: 300), vsync: this);
     super.initState();
   }
 

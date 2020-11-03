@@ -173,9 +173,8 @@ class _OpArtPageState extends State<OpArtPage> {
                     })
               ],
             )
-          : AppBar(
-              toolbarHeight: 0,
-            ),
+          : null,
+
       body: Stack(
         children: [
           GestureDetector(
