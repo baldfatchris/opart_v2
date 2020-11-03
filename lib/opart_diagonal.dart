@@ -244,7 +244,6 @@ drawWaves(
 
   // Now make some art
   int colourOrder = 0;
-  int drawCount = 0;
   String shape = "circle";
 
   // Start with the Horizontal
@@ -292,8 +291,6 @@ drawWaves(
         ];
 
         if (PCentre[0] > 0 - 2 * group && PCentre[0] < borderX + imageWidth + group && PCentre[1] < borderY + imageWidth + group)  {
-
-          drawCount++;
 
           switch (shape) {
             case "circle":
@@ -365,8 +362,6 @@ drawWaves(
         ];
 
         if (PCentre[0] > 0 - 2 * group && PCentre[0] < borderX + imageWidth + group && PCentre[1] < borderY + imageWidth + group)  {
-
-          drawCount++;
 
           switch (shape) {
 
@@ -449,12 +444,8 @@ drawWaves(
           paint);
     }
 
-
-
     colourOrder++;
 
-    print('colourOrder: $colourOrder');
-    print('drawCount: $drawCount');
   }
 
 }
