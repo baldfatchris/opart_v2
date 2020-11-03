@@ -46,14 +46,18 @@ class _settingsRadioButtonState extends State<settingsRadioButton> {
             )
         ),
 
-        Container(
-          height: 50,
+        Row(mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text('No'),
+            Container(
+              height: 50,
 
-          child:   Switch(
-              value: widget.currentValue,
-              onChanged: widget.locked ? null : widget.onChanged
-          ),
+              child:   Switch(
+                  value: widget.currentValue,
+                  onChanged: widget.locked ? null : widget.onChanged
+              ),
 
+            ),Text('Yes')
+          ],
         ),
       ],
     );

@@ -23,16 +23,21 @@ void stopIfPlaying() {
   }
 }
 
-double _timeDilation = 1;
+
 AnimationController animationController;
 AnimationController playPauseController;
 
 class _CanvasWidgetState extends State<CanvasWidget>
     with TickerProviderStateMixin {
   Animation<double> currentAnimation;
+  double _timeDilation = 1;
+
 
   @override
   void initState() {
+    timeDilation = 1;
+    print('calling initstate');
+
     if (opArt.animation) {
       animationController = AnimationController(
         vsync: this,

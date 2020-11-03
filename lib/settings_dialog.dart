@@ -113,6 +113,7 @@ void settingsDialog(context, int index, OpArt opArt ) {
                             !opArt.attributes[index].locked;
                             rebuildCanvas.value++;
                         },
+                        opArt.attributes[index],
                       )
                           : (opArt.attributes[index].settingType == SettingType.color)
                           ? settingsColorPicker(

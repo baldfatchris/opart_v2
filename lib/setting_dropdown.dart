@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:opart_v2/model_opart.dart';
+import 'package:opart_v2/model_settings.dart';
 
 class settingsDropdown extends StatefulWidget {
   String label;
@@ -8,17 +10,21 @@ class settingsDropdown extends StatefulWidget {
   bool locked;
   Function onChanged;
   Function toggleLock;
+  SettingsModel settingsModel;
 
   settingsDropdown(this.label, this.tooltip, this.currentValue,
-      this.dropdownItems, this.locked, this.onChanged, this.toggleLock);
+      this.dropdownItems, this.locked, this.onChanged, this.toggleLock, this.settingsModel);
 
   @override
   _settingsDropdownState createState() => _settingsDropdownState();
 }
 int currentValue = 0;
 class _settingsDropdownState extends State<settingsDropdown> {
+
   @override
   Widget build(BuildContext context) {
+    SettingsModel settingsModel = widget.settingsModel;
+
     if (!widget.dropdownItems.contains(widget.currentValue.toString())) {
       widget.dropdownItems.insert(0, widget.currentValue.toString());
     }
@@ -68,16 +74,16 @@ class _settingsDropdownState extends State<settingsDropdown> {
                           },
                   )
                 : ListView.builder(
-                    itemCount: widget.dropdownItems.length,
+                    itemCount: settingsModel.options.length,
                     itemBuilder: (context, index) {
                       return RadioListTile<String>(
-                        title: Text(widget.dropdownItems[index]),
-                        value: widget.dropdownItems[index],
-                        groupValue: widget.dropdownItems[currentValue],
+                        title: Text(settingsModel.options[index]),
+                        value: settingsModel.options[index],
+                        groupValue: settingsModel.value,
                         onChanged: (String value) {
                           setState(() {
-                            currentValue = index;
-                            widget.onChanged(value);
+                            settingsModel.value = value;
+                            rebuildCanvas.value++;
                           });
                         },
                       );
