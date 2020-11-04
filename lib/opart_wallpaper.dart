@@ -10,7 +10,7 @@ List<String> list = List();
 
 
 SettingsModel zoomWallpaper = SettingsModel(
-  name: 'zoomTree',
+  name: 'zoomWallpaper',
   settingType: SettingType.double,
   label: 'Zoom',
   tooltip: 'Zoom in and out',

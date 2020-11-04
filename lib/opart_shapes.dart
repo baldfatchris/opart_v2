@@ -21,7 +21,7 @@ SettingsModel reDraw = SettingsModel(
 );
 
 SettingsModel zoomShapes = SettingsModel(
-  name: 'zoomTree',
+  name: 'zoomShapes',
   settingType: SettingType.double,
   label: 'Zoom',
   tooltip: 'Zoom in and out',
