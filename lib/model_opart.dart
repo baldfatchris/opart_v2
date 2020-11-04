@@ -2,6 +2,7 @@ import 'dart:core';
 import 'dart:io';
 import 'dart:math';
 import 'package:opart_v2/opart_hexagons.dart';
+import 'package:opart_v2/opart_quads.dart';
 
 import 'opart_fibonacci.dart';
 import 'opart_wave.dart';
@@ -31,7 +32,7 @@ bool proVersion = true;
 
 ScrollController scrollController = new ScrollController();
 
-enum OpArtType { Fibonacci, Tree, Wave, Wallpaper, Diagonal, Shapes, Squares, Hexagons }
+enum OpArtType { Fibonacci, Tree, Wave, Wallpaper, Diagonal, Shapes, Squares, Hexagons, Quads }
 
 class OpArtTypes {
   String name;
@@ -86,6 +87,14 @@ class OpArt {
         this.attributes = initializeHexagonsAttributes();
         this.palette = OpArtPalette();
         this.name = 'Hexagons';
+        this.animation = false;
+
+        break;
+
+      case OpArtType.Quads:
+        this.attributes = initializeQuadsAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Quads';
         this.animation = false;
 
         break;
@@ -180,6 +189,9 @@ class OpArt {
         break;
       case OpArtType.Hexagons:
         paintHexagons(canvas, size, rnd, animationVariable, this);
+        break;
+      case OpArtType.Quads:
+        paintQuads(canvas, size, rnd, animationVariable, this);
         break;
       case OpArtType.Wave:
         paintWave(canvas, size, rnd, animationVariable, this);

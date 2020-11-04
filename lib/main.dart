@@ -103,6 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
       OpArtTypes('Shapes', OpArtType.Shapes, 'lib/assets/shapes_500.png'),
        OpArtTypes('Squares', OpArtType.Squares, 'lib/assets/squares_500.png'),
        OpArtTypes('Hexagons', OpArtType.Hexagons, 'lib/assets/hexagons_500.png'),
+       OpArtTypes('Quads', OpArtType.Quads, 'lib/assets/quads_500.png'),
 
     ];
   }
