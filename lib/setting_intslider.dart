@@ -39,7 +39,7 @@ class _settingsIntSliderState extends State<settingsIntSlider> {
             child: Row(
               children: [
                 Text(
-                  'Don''t Randomize',
+                  'Don\'t Randomize',
                 ),
                 Checkbox(
                   value: widget.locked,

@@ -104,6 +104,7 @@ void settingsDialog(context, int index, OpArt opArt ) {
                             (value) {opArt.attributes[index].value = value;
                             if (opArt.attributes[index].onChange != null) {
                               opArt.attributes[index].onChange();
+                              print('onchange');
                             }
                             rebuildCanvas.value++;
                           setLocalState(() {});

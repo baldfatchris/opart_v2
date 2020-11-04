@@ -9,7 +9,7 @@ List<String> defaultPalleteNames() {
     'Doge Leonardo',
     'The Birth of Venus',
     'Bridget Riley - Achæan',
-      'Bridget Riley - Evoe 3',
+    'Bridget Riley - Evoe 3',
     'Bridget Riley - Fete',
     'Bridget Riley - Nataraja',
     'Bridget Riley - Summers Day',

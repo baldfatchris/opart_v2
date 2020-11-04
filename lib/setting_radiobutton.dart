@@ -36,7 +36,7 @@ class _settingsRadioButtonState extends State<settingsRadioButton> {
             child: Row(
               children: [
                 Text(
-                  'Don''t Randomize',
+                  'Don\'t Randomize',
                 ),
                 Checkbox(
                   value: widget.locked,
