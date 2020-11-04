@@ -80,12 +80,13 @@ class _settingsDropdownState extends State<settingsDropdown> {
                         title: Text(settingsModel.options[index]),
                         value: settingsModel.options[index],
                         groupValue: settingsModel.value,
-                        onChanged: (String value) {
-                          setState(() {
-                            settingsModel.value = value;
-                            rebuildCanvas.value++;
-                          });
-                        },
+                          onChanged: widget.locked
+                              ? null
+                              : (String value) {
+                            widget.onChanged(value);
+                            Navigator.pop(context);
+                          },
+
                       );
                     },
                   )),
