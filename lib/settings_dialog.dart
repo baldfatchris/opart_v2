@@ -10,6 +10,7 @@ import 'setting_slider.dart';
 import 'opart_fibonacci.dart';
 import 'opart_wave.dart';
 import 'opart_wallpaper.dart';
+import 'opart_squares.dart';
 import 'opart_tree.dart';
 import 'model_settings.dart';
 

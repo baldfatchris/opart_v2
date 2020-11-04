@@ -101,6 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
       OpArtTypes('Wallpaper', OpArtType.Wallpaper, 'lib/assets/wallpaper_500.png'),
       OpArtTypes('Diagonal', OpArtType.Diagonal, 'lib/assets/diagonal_500.png'),
       OpArtTypes('Shapes', OpArtType.Shapes, 'lib/assets/shapes_500.png'),
+      OpArtTypes('Squares', OpArtType.Squares, 'lib/assets/wallpaper_500.png'),
     ];
   }
 }

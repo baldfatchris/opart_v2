@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'settings_dialog.dart';
 import 'model_opart.dart';
-import 'opart_fibonacci.dart';
-import 'opart_tree.dart';
-import 'opart_wallpaper.dart';
-import 'opart_wave.dart';
 
 void ToolBox(BuildContext context, OpArt opArt,) {
   // print(MediaQuery.of(context).size.width);
