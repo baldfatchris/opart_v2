@@ -234,6 +234,7 @@ void paintSquares(Canvas canvas, Size size, Random rnd, double animationVariable
       if (randomColors.value) {
         nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
       }
+      nextColor = nextColor.withOpacity(opacity.value);
       //save the colour
       squaresJ.add(nextColor);
 
@@ -277,7 +278,7 @@ void paintSquares(Canvas canvas, Size size, Random rnd, double animationVariable
     bool bulgeDown;
 
 
-    //          bulgeDirection:  1 = right, 2 = down, 3 = left, 4 = Up
+    // bulgeDirection:  1 = right, 2 = down, 3 = left, 4 = Up
     for (int i = 0; i < cellsX; ++i) {
       for (int j = 0; j < cellsY; ++j) {
 
@@ -308,7 +309,7 @@ void paintSquares(Canvas canvas, Size size, Random rnd, double animationVariable
         }
 
         //if circle
-        if (bulge == "circle") {
+        if (bulge.value == "circle") {
 
           // if the square to the top keft bulged right  Don't bulge top
           if (i > 0 && j > 0 && bulgeDirectionArray[i - 1][j - 1] == 1) {
@@ -353,28 +354,22 @@ void paintSquares(Canvas canvas, Size size, Random rnd, double animationVariable
           bulgeRight = false;
         }
 
-        var countPossibleDirections = 0;
-        if (bulgeRight) { ++countPossibleDirections; }
-        if (bulgeDown) { ++countPossibleDirections; }
-        if (bulgeLeft) { ++countPossibleDirections; }
-        if (bulgeUp) { ++countPossibleDirections; }
+        List<int> possibleBulgeDirections = List();
+        if (bulgeRight) { possibleBulgeDirections.add(1); }
+        if (bulgeDown) { possibleBulgeDirections.add(2); }
+        if (bulgeLeft) { possibleBulgeDirections.add(3); }
+        if (bulgeUp) { possibleBulgeDirections.add(4); }
 
+        int countPossibleDirections = possibleBulgeDirections.length;
 
+        bulgeDirection = 0;
         if (countPossibleDirections > 1) {
-          bulgeDirection = rnd.nextInt(countPossibleDirections) + 1;
+          bulgeDirection = possibleBulgeDirections[rnd.nextInt(countPossibleDirections)];
         }
         else if (countPossibleDirections == 1) {
-
           // if there's only one place to go, give a 50% chance of not bulging - i.e. =0
-          bulgeDirection = rnd.nextInt(2);
+          if (rnd.nextBool()) {bulgeDirection = possibleBulgeDirections[0];}
         }
-
-
-        //          bulgeDirection:  1 = right, 2 = bottom, 3 = left, 4 = top
-        if (bulgeDirection == 1 && !bulgeRight) { ++bulgeDirection; }
-        if (bulgeDirection == 2 && !bulgeDown) { ++bulgeDirection; }
-        if (bulgeDirection == 3 && !bulgeLeft) { ++bulgeDirection; }
-        if (bulgeDirection == 4 && !bulgeUp) { bulgeDirection = 0; }
 
         if (bulgeOneDirection.value == true) {
           bulgeDirection = 0;
