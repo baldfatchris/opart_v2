@@ -9,7 +9,7 @@ import 'dart:math';
 import 'package:share/share.dart';
 import 'package:screenshot/screenshot.dart';
 import 'canvas.dart';
-
+import 'download_high_resolution.dart';
 //Random rnd = Random();
 
 class OpArtPage extends StatefulWidget {
@@ -84,6 +84,10 @@ class _OpArtPageState extends State<OpArtPage> {
                   child: Text('Pay 99p'),
                   onPressed: () {
                     Navigator.of(context).pop();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => DownloadHighRes()),
+                    );
                   },
                 ),
                 RaisedButton(
