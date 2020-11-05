@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:opart_v2/opart_hexagons.dart';
 import 'package:opart_v2/opart_quads.dart';
+import 'package:opart_v2/opart_riley.dart';
 
 import 'opart_fibonacci.dart';
 import 'opart_wave.dart';
@@ -32,7 +33,7 @@ bool proVersion = true;
 
 ScrollController scrollController = new ScrollController();
 
-enum OpArtType { Fibonacci, Tree, Wave, Wallpaper, Diagonal, Shapes, Squares, Hexagons, Quads }
+enum OpArtType { Fibonacci, Tree, Wave, Wallpaper, Diagonal, Shapes, Squares, Hexagons, Quads, Riley }
 
 class OpArtTypes {
   String name;
@@ -122,6 +123,14 @@ class OpArt {
         this.animation = false;
 
         break;
+
+      case OpArtType.Riley:
+        this.attributes = initializeRileyAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Riley';
+        this.animation = false;
+
+        break;
     }
 
     this.setDefault();
@@ -201,6 +210,9 @@ class OpArt {
         break;
       case OpArtType.Shapes:
         paintShapes(canvas, size, rnd, animationVariable, this);
+        break;
+      case OpArtType.Riley:
+        paintRiley(canvas, size, rnd, animationVariable, this);
         break;
     }
   }
