@@ -223,7 +223,7 @@ void paintHexagons(Canvas canvas, Size size, Random rnd, double animationVariabl
     opArt.selectPalette(paletteList.value);
   }
 
-print('debug');
+
   // Initialise the canvas
   double canvasWidth = size.width;
   double canvasHeight = size.height;
@@ -250,8 +250,6 @@ print('debug');
   double hexRadius = cos(hexagonAngle) * sideLength;
   double hexRectangleHeight = sideLength + 2 * hexHeight;
   double hexRectangleWidth = 2 * hexRadius;
-
-  print('sin(hexagonAngle): ${sin(hexagonAngle)}');
 
   int colourOrder = 0;
   Color nextColor;

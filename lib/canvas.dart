@@ -36,7 +36,6 @@ class _CanvasWidgetState extends State<CanvasWidget>
   @override
   void initState() {
     timeDilation = 1;
-    print('calling initstate');
 
     if (opArt.animation) {
       animationController = AnimationController(
