@@ -72,7 +72,7 @@ class OpArt {
         this.attributes = initializeWallpaperAttributes();
         this.palette = OpArtPalette();
         this.name = 'Wallpaper';
-        this.animation = true;
+        this.animation = false;
 
         break;
 

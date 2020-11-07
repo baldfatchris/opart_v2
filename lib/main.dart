@@ -119,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
        OpArtTypes('Squares', OpArtType.Squares, 'lib/assets/squares_500.png'),
        OpArtTypes('Hexagons', OpArtType.Hexagons, 'lib/assets/hexagons_500.png'),
        OpArtTypes('Quads', OpArtType.Quads, 'lib/assets/quads_500.png'),
-       OpArtTypes('Riley', OpArtType.Riley, 'lib/assets/quads_500.png'),
+       OpArtTypes('Riley', OpArtType.Riley, 'lib/assets/riley_500.png'),
 
     ];
      super.initState();

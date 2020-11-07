@@ -31,10 +31,52 @@ SettingsModel shape = SettingsModel(
   tooltip: "The shape in the cell",
   defaultValue: "squaricle",
   icon: Icon(Icons.settings),
-  options: ['circle', 'squaricle', 'star', 'daisy'],
+  options: ['circle', 'square', 'squaricle',],
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
+
+SettingsModel step = SettingsModel(
+  name: 'step',
+  settingType: SettingType.double,
+  label: 'Step',
+  tooltip: 'The decrease ratio of concentric shapes',
+  min: 0.05,
+  max: 1.0,
+  zoom: 100,
+  defaultValue: 0.3,
+  icon: Icon(Icons.control_point),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
+SettingsModel stepStep = SettingsModel(
+  name: 'stepStep',
+  settingType: SettingType.double,
+  label: 'Step Ratio',
+  tooltip: 'The ratio of change of the ratio',
+  min: 0.5,
+  max: 1.0,
+  zoom: 100,
+  defaultValue: 0.9,
+  icon: Icon(Icons.control_point_duplicate),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
+SettingsModel ratio = SettingsModel(
+  name: 'ratio',
+  settingType: SettingType.double,
+  label: 'Ratio',
+  tooltip: 'The ratio of the shape to the box',
+  min: 0.75,
+  max: 1.75,
+  zoom: 100,
+  defaultValue: 1.0,
+  icon: Icon(Icons.zoom_out_map),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
+
+
 SettingsModel driftX = SettingsModel( 
   name: 'driftX',
   settingType: SettingType.double,
@@ -114,45 +156,7 @@ SettingsModel box = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-SettingsModel step = SettingsModel(
-  name: 'step',
-  settingType: SettingType.double,
-  label: 'Step',
-  tooltip: 'The decrease ratio of concentric shapes',
-  min: 0.05,
-  max: 1.0,
-  zoom: 100,
-  defaultValue: 0.3,
-  icon: Icon(Icons.control_point),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-);
-SettingsModel stepStep = SettingsModel(
-  name: 'stepStep',
-  settingType: SettingType.double,
-  label: 'Step Ratio',
-  tooltip: 'The ratio of change of the ratio',
-  min: 0.5,
-  max: 1.0,
-  zoom: 100,
-  defaultValue: 0.9,
-  icon: Icon(Icons.control_point_duplicate),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-);
-SettingsModel ratio = SettingsModel(
-  name: 'ratio',
-  settingType: SettingType.double,
-  label: 'Ratio',
-  tooltip: 'The ratio of the shape to the box',
-  min: 0.75,
-  max: 1.75,
-  zoom: 100,
-  defaultValue: 1.0,
-  icon: Icon(Icons.zoom_out_map),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-);
+
 SettingsModel offsetX = SettingsModel(
   name: 'offsetX',
   settingType: SettingType.double,
@@ -221,12 +225,12 @@ SettingsModel squareness = SettingsModel(
   settingType: SettingType.double,
   label: 'Squareness',
   tooltip: 'The squareness of the shape',
-  min: -2.0,
-  max: 2.0,
+  min: -3.0,
+  max: 1.0,
   randomMin: -1.5,
-  randomMax: 1.5,
+  randomMax: 1.0,
   zoom: 100,
-  defaultValue: 0.0,
+  defaultValue: 0.5,
   icon: Icon(Icons.center_focus_weak),
   settingCategory: SettingCategory.tool,
   proFeature: false,
@@ -399,6 +403,7 @@ SettingsModel resetDefaults = SettingsModel(
   settingCategory: SettingCategory.tool,
   onChange: (){resetAllDefaults();},
   proFeature: false,
+  silent: true,
 );
 
 double aspectRatio = pi/2;
@@ -408,15 +413,17 @@ List<SettingsModel> initializeWallpaperAttributes() {
   return [
     zoomWallpaper,
     shape,
+
+    step,
+    stepStep,
+    ratio,
+
     driftX,
     driftXStep,
     driftY,
     driftYStep,
     alternateDrift,
     box,
-    step,
-    stepStep,
-    ratio,
     offsetX,
     offsetY,
     rotate,
@@ -485,7 +492,8 @@ void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariab
   // work out the radius from the width and the cells
   double radius = zoomWallpaper.value / 2;
 
-  double localSquareness = sin(2500 * animationVariable);
+  // double localSquareness = sin(2500 * animationVariable);
+  double localSquareness = squareness.value;
 
   for (int j = 0 - extraCellsY;
   j < cellsY + extraCellsY;
@@ -615,57 +623,111 @@ void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariab
 
             break;
 
+          case 'square':
+
+            Path square = Path();
+
+            square.moveTo(
+                PO[0] + stepRadius * sqrt(2) * cos(pi * (1 / 4 + localRotate)),
+                PO[1] + stepRadius * sqrt(2) * sin(pi * (1 / 4 + localRotate))
+            );
+
+            square.lineTo(
+                PO[0] + stepRadius * sqrt(2) * cos(pi * (3 / 4 + localRotate)),
+                PO[1] + stepRadius * sqrt(2) * sin(pi * (3 / 4 + localRotate))
+            );
+
+            square.lineTo(
+                PO[0] + stepRadius * sqrt(2) * cos(pi * (5 / 4 + localRotate)),
+                PO[1] + stepRadius * sqrt(2) * sin(pi * (5 / 4 + localRotate))
+            );
+
+            square.lineTo(
+                PO[0] + stepRadius * sqrt(2) * cos(pi * (7 / 4 + localRotate)),
+                PO[1] + stepRadius * sqrt(2) * sin(pi * (7 / 4 + localRotate))
+            );
+
+            // Choose the next colour
+            colourOrder++;
+            nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
+            if (randomColors.value) {
+              nextColor = opArt.palette.colorList[
+              rnd.nextInt(numberOfColors.value)];
+            }
+
+            canvas.drawPath(
+                square,
+                Paint()
+                  ..style = PaintingStyle.stroke
+                  ..strokeWidth = lineWidth.value
+                  ..color = lineColor.value
+                      .withOpacity(opacity.value));
+            canvas.drawPath(
+                square,
+                Paint()
+                  ..style = PaintingStyle.fill
+                  ..color =
+                  nextColor.withOpacity(opacity.value));
+
+            square.reset();
+
+            break;
+
           case 'squaricle':
-            List PA = [
-              PO[0] + stepRadius * sqrt(2) * cos(pi * (1 / 4 + localRotate)),
-              PO[1] + stepRadius * sqrt(2) * sin(pi * (1 / 4 + localRotate))
-            ];
-            List PB = [
-              PO[0] + stepRadius * sqrt(2) * cos(pi * (3 / 4 + localRotate)),
-              PO[1] + stepRadius * sqrt(2) * sin(pi * (3 / 4 + localRotate))
-            ];
-            List PC = [
-              PO[0] + stepRadius * sqrt(2) * cos(pi * (5 / 4 + localRotate)),
-              PO[1] + stepRadius * sqrt(2) * sin(pi * (5 / 4 + localRotate))
-            ];
-            List PD = [
-              PO[0] + stepRadius * sqrt(2) * cos(pi * (7 / 4 + localRotate)),
-              PO[1] + stepRadius * sqrt(2) * sin(pi * (7 / 4 + localRotate))
-            ];
 
-            // 16 points - 2 on each edge and 8 curve centres
-
-            List P1 = edgePoint(
-                PA, PB, 0.5 + localSquareness / 2);
-            List P2 = edgePoint(
-                PA, PB, 0.5 - localSquareness / 2);
-
-            List P4 = edgePoint(
-                PB, PC, 0.5 + localSquareness / 2);
-            List P5 = edgePoint(
-                PB, PC, 0.5 - localSquareness / 2);
-
-            List P7 = edgePoint(
-                PC, PD, 0.5 + localSquareness / 2);
-            List P8 = edgePoint(
-                PC, PD, 0.5 - localSquareness / 2);
-
-            List P10 = edgePoint(
-                PD, PA, 0.5 + localSquareness / 2);
-            List P11 = edgePoint(
-                PD, PA, 0.5 - localSquareness / 2);
+            double curveCentreRadius = stepRadius * sqrt(2) * squareness.value;
+            double curveRadius = stepRadius * sqrt(2) * (1 - squareness.value);
 
             Path squaricle = Path();
 
-            squaricle.moveTo(P1[0], P1[1]);
-            squaricle.lineTo(P2[0], P2[1]);
-            squaricle.quadraticBezierTo(PB[0], PB[1], P4[0], P4[1]);
-            squaricle.lineTo(P5[0], P5[1]);
-            squaricle.quadraticBezierTo(PC[0], PC[1], P7[0], P7[1]);
-            squaricle.lineTo(P8[0], P8[1]);
-            squaricle.quadraticBezierTo(PD[0], PD[1], P10[0], P10[1]);
-            squaricle.lineTo(P11[0], P11[1]);
-            squaricle.quadraticBezierTo(PA[0], PA[1], P1[0], P1[1]);
+            squaricle.arcTo(Rect.fromCenter(
+                center: Offset(
+                    PO[0] + curveCentreRadius * cos(pi * (1 / 4 + localRotate)),
+                    PO[1] + curveCentreRadius * sin(pi * (1 / 4 + localRotate))
+                ),
+                height: curveRadius,
+                width: curveRadius),
+                pi * (0 / 2 + localRotate),
+                pi/2,
+                false
+            );
+
+            squaricle.arcTo(Rect.fromCenter(
+                center: Offset(
+                    PO[0] + curveCentreRadius * cos(pi * (3 / 4 + localRotate)),
+                    PO[1] + curveCentreRadius * sin(pi * (3 / 4 + localRotate))
+                ),
+                height: curveRadius,
+                width: curveRadius),
+                pi * (1 / 2 + localRotate),
+                pi/2,
+                false
+            );
+
+            squaricle.arcTo(Rect.fromCenter(
+                center: Offset(
+                    PO[0] + curveCentreRadius * cos(pi * (5 / 4 + localRotate)),
+                    PO[1] + curveCentreRadius * sin(pi * (5 / 4 + localRotate))
+                ),
+                height: curveRadius,
+                width: curveRadius),
+                pi * (2 / 2 + localRotate),
+                pi/2,
+                false
+            );
+
+            squaricle.arcTo(Rect.fromCenter(
+                center: Offset(
+                    PO[0] + curveCentreRadius * cos(pi * (7 / 4 + localRotate)),
+                    PO[1] + curveCentreRadius * sin(pi * (7 / 4 + localRotate))
+                ),
+                height: curveRadius,
+                width: curveRadius),
+                pi * (3 / 2 + localRotate),
+                pi/2,
+                false
+            );
+
             squaricle.close();
 
             // Choose the next colour
@@ -689,6 +751,8 @@ void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariab
                   ..style = PaintingStyle.fill
                   ..color =
                   nextColor.withOpacity(opacity.value));
+
+            squaricle.reset();
 
             break;
 

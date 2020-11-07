@@ -26,8 +26,10 @@ SettingsModel zoomHexagons = SettingsModel(
   settingType: SettingType.double,
   label: 'Zoom',
   tooltip: 'Zoom in and out',
-  min: 20.0,
+  min: 10.0,
   max: 500.0,
+  randomMin: 20.0,
+  randomMax: 200.0,
   zoom: 100,
   defaultValue: 50.0,
   icon: Icon(Icons.zoom_in),
@@ -40,7 +42,7 @@ SettingsModel split = SettingsModel(
   settingType: SettingType.list,
   label: "Split",
   tooltip: "Split the hegaxom into",
-  defaultValue: "none",
+  defaultValue: "three",
   icon: Icon(Icons.call_split),
   options: ['none', 'three', 'six'],
   settingCategory: SettingCategory.tool,
@@ -221,7 +223,7 @@ void paintHexagons(Canvas canvas, Size size, Random rnd, double animationVariabl
     opArt.selectPalette(paletteList.value);
   }
 
-print('debug');
+
   // Initialise the canvas
   double canvasWidth = size.width;
   double canvasHeight = size.height;
@@ -248,8 +250,6 @@ print('debug');
   double hexRadius = cos(hexagonAngle) * sideLength;
   double hexRectangleHeight = sideLength + 2 * hexHeight;
   double hexRectangleWidth = 2 * hexRadius;
-
-  print('sin(hexagonAngle): ${sin(hexagonAngle)}');
 
   int colourOrder = 0;
   Color nextColor;
