@@ -7,22 +7,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'consumable_store.dart';
-
-void main() {
-  // For play billing library 2.0 on Android, it is mandatory to call
-  // [enablePendingPurchases](https://developer.android.com/reference/com/android/billingclient/api/BillingClient.Builder.html#enablependingpurchases)
-  // as part of initializing the app.
-  InAppPurchaseConnection.enablePendingPurchases();
-  runApp(DownloadHighRes());
-}
+import 'main.dart';
 
 const bool _kAutoConsume = true;
 
-const String _kConsumableId = 'p0001';
+const String _kConsumableId = 'consumable';
 const List<String> _kProductIds = <String>[
   _kConsumableId,
-  'upgrade',
-  'subscription'
 ];
 
 class DownloadHighRes extends StatefulWidget {
@@ -168,7 +159,7 @@ class _DownloadHighResState extends State<DownloadHighRes> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('IAP Example'),
+          title: const Text('Purchase your High Definition Download'),
         ),
         body: Stack(
           children: stack,

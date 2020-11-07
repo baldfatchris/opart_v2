@@ -1,14 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:opart_v2/loading.dart';
 
 
 import 'opart_page.dart';
 import 'model_opart.dart';
-
+import 'package:in_app_purchase/in_app_purchase.dart';
 
 
 void main() {
-
+  InAppPurchaseConnection.enablePendingPurchases();
 
   runApp(MaterialApp(
     initialRoute: '/',
@@ -42,8 +44,9 @@ class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
-
+StreamSubscription<List<PurchaseDetails>> subscription;
 class _MyHomePageState extends State<MyHomePage> {
+ 
   List<OpArtTypes> opArtTypes;
   @override
   Widget build(BuildContext context) {
@@ -94,7 +97,18 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
+  void dispose() {
+    subscription.cancel();
+    super.dispose();
+  }
+
+  @override
   void initState() {
+    final Stream purchaseUpdates =
+        InAppPurchaseConnection.instance.purchaseUpdatedStream;
+    subscription = purchaseUpdates.listen((purchases) {
+   //   _handlePurchaseUpdates(purchases);
+    });
      opArtTypes = [
       OpArtTypes('Spirals', OpArtType.Fibonacci, 'lib/assets/fibonacci_400.png'),
       OpArtTypes('Waves', OpArtType.Wave, 'lib/assets/wave_400.png'),
@@ -108,5 +122,6 @@ class _MyHomePageState extends State<MyHomePage> {
        OpArtTypes('Riley', OpArtType.Riley, 'lib/assets/quads_500.png'),
 
     ];
+     super.initState();
   }
 }
