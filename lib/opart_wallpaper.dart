@@ -31,7 +31,7 @@ SettingsModel shape = SettingsModel(
   tooltip: "The shape in the cell",
   defaultValue: "squaricle",
   icon: Icon(Icons.settings),
-  options: ['circle', 'square', 'squaricle',],
+  options: ['circle', 'square', 'squaricle', 'polygon'],
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -162,8 +162,8 @@ SettingsModel offsetX = SettingsModel(
   settingType: SettingType.double,
   label: 'Horizontal Offset',
   tooltip: 'The offset in the horizontal axis',
-  min: -40.0,
-  max: 40.0,
+  min: -2.0,
+  max: 2.0,
   zoom: 100,
   defaultValue: 0.0,
   icon: Icon(Icons.more_horiz),
@@ -175,8 +175,8 @@ SettingsModel offsetY = SettingsModel(
   settingType: SettingType.double,
   label: 'Vertical Offset',
   tooltip: 'The offset in the vertical axis',
-  min: -40.0,
-  max: 40.0,
+  min: -2.0,
+  max: 2.0,
   zoom: 100,
   defaultValue: 0.0,
   icon: Icon(Icons.more_vert),
@@ -261,14 +261,14 @@ SettingsModel squeezeY = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-SettingsModel numberOfPetals = SettingsModel(
-  name: 'numberOfPetals',
+SettingsModel numberOfSides = SettingsModel(
+  name: 'numberOfSides',
   settingType: SettingType.int,
-  label: 'Number Of Points',
-  tooltip: 'The number of points',
+  label: 'Number Of Sides',
+  tooltip: 'The number of sides of the polygon',
   min: 1,
   max: 15,
-  defaultValue: 5,
+  defaultValue: 6,
   icon: Icon(Icons.star),
   settingCategory: SettingCategory.tool,
   proFeature: false,
@@ -383,7 +383,7 @@ SettingsModel opacity = SettingsModel(
   name: 'opacity',
   settingType: SettingType.double,
   label: 'Opactity',
-  tooltip: 'The opactity of the petal',
+  tooltip: 'The opactity of the shape',
   min: 0.2,
   max: 1.0,
   zoom: 100,
@@ -418,21 +418,22 @@ List<SettingsModel> initializeWallpaperAttributes() {
     stepStep,
     ratio,
 
+    offsetX,
+    offsetY,
+
     driftX,
     driftXStep,
     driftY,
     driftYStep,
     alternateDrift,
     box,
-    offsetX,
-    offsetY,
     rotate,
     randomRotation,
     rotateStep,
     squareness,
     squeezeX,
     squeezeY,
-    numberOfPetals,
+    numberOfSides,
     randomPetals,
 
     backgroundColor,
@@ -518,10 +519,10 @@ void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariab
       }
 
       // Number of petals
-      var localNumberOfPetals = numberOfPetals.value;
+      var localNumberOfPetals = numberOfSides.value;
       if (randomPetals.value) {
         localNumberOfPetals =
-            rnd.nextInt(numberOfPetals.value) + 3;
+            rnd.nextInt(numberOfSides.value) + 3;
       }
 
       // Centre of the square
@@ -529,12 +530,12 @@ void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariab
         borderX +
             radius * (1 - squeezeX.value) +
             dX +
-            (offsetX.value * j) +
+            (radius * offsetX.value * j) +
             (i * 2 + 1) * radius * squeezeX.value,
         borderY +
             radius * (1 - squeezeY.value) +
             dY +
-            (offsetY.value * i) +
+            (radius * offsetY.value * i) +
             (j * 2 + 1) * radius * squeezeY.value
       ];
 
@@ -753,6 +754,120 @@ void paintWallpaper(Canvas canvas, Size size, Random rnd, double animationVariab
                   nextColor.withOpacity(opacity.value));
 
             squaricle.reset();
+
+            break;
+
+          case 'star':
+            for (var p = 0; p < localNumberOfPetals; p++) {
+              List petalPoint = [
+                PO[0] +
+                    stepRadius *
+                        cos(localRotate * pi +
+                            p * pi * 2 / localNumberOfPetals),
+                PO[1] +
+                    stepRadius *
+                        sin(localRotate * pi +
+                            p * pi * 2 / localNumberOfPetals)
+              ];
+
+              List petalMidPointA = [
+                PO[0] +
+                    (localSquareness) *
+                        stepRadius *
+                        cos(localRotate * pi +
+                            (p - 1) * pi * 2 / localNumberOfPetals),
+                PO[1] +
+                    (localSquareness) *
+                        stepRadius *
+                        sin(localRotate * pi +
+                            (p - 1) * pi * 2 / localNumberOfPetals)
+              ];
+
+              List petalMidPointP = [
+                PO[0] +
+                    (localSquareness) *
+                        stepRadius *
+                        cos(localRotate * pi +
+                            (p + 1) * pi * 2 / localNumberOfPetals),
+                PO[1] +
+                    (localSquareness) *
+                        stepRadius *
+                        sin(localRotate * pi +
+                            (p + 1) * pi * 2 / localNumberOfPetals)
+              ];
+
+              Path star = Path();
+
+              star.moveTo(PO[0], PO[1]);
+              star.quadraticBezierTo(petalMidPointA[0], petalMidPointA[1],
+                  petalPoint[0], petalPoint[1]);
+              star.quadraticBezierTo(
+                  petalMidPointP[0], petalMidPointP[1], PO[0], PO[1]);
+              star.close();
+
+              // Choose the next colour
+              colourOrder++;
+              nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
+              if (randomColors.value) {
+                nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+              }
+
+              canvas.drawPath(
+                  star,
+                  Paint()
+                    ..style = PaintingStyle.stroke
+                    ..strokeWidth = lineWidth.value
+                    ..color = lineColor.value
+                        .withOpacity(opacity.value));
+              canvas.drawPath(
+                  star,
+                  Paint()
+                    ..style = PaintingStyle.fill
+                    ..color = nextColor
+                        .withOpacity(opacity.value));
+            }
+
+            break;
+
+          case 'polygon':
+
+            Path polygon = Path();
+
+            polygon.moveTo(
+                PO[0]+ stepRadius * cos(localRotate),
+                PO[1]+ stepRadius * sin(localRotate));
+
+            for (int s = 1; s<numberOfSides.value;s++){
+              polygon.lineTo(
+                  PO[0]+ stepRadius * cos(pi*2*s/numberOfSides.value + localRotate),
+                  PO[1]+ stepRadius * sin(pi*2*s/numberOfSides.value + localRotate));
+            }
+
+            // Choose the next colour
+            colourOrder++;
+            nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
+            if (randomColors.value) {
+              nextColor = opArt.palette.colorList[
+              rnd.nextInt(numberOfColors.value)];
+            }
+
+            canvas.drawPath(
+                polygon,
+                Paint()
+                  ..style = PaintingStyle.stroke
+                  ..strokeWidth = lineWidth.value
+                  ..color = lineColor.value
+                      .withOpacity(opacity.value));
+            canvas.drawPath(
+                polygon,
+                Paint()
+                  ..style = PaintingStyle.fill
+                  ..color =
+                  nextColor.withOpacity(opacity.value));
+
+
+            polygon.reset();
+
 
             break;
 
