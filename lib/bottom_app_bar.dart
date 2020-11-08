@@ -7,8 +7,11 @@ import 'package:opart_v2/palette_toolbox.dart';
 import 'opart_page.dart';
 Widget customBottomAppBar(
     {BuildContext context, OpArt opArt}) {
+
+  double width = MediaQuery.of(context).size.width;
+
   return Container(color: Colors.white.withOpacity(0.8),
-    
+
     height: 70,
     child: GestureDetector(
         onVerticalDragUpdate: (value) {
@@ -29,19 +32,19 @@ Widget customBottomAppBar(
               textDirection: TextDirection.ltr,
               children: <Widget>[
                 Icon(
-                  Icons.blur_circular,
+                  Icons.track_changes,
                   color: Colors.black,
                 ),
-                SizedBox(width: 3),
-                Padding(
+                (width > 600 ) ? SizedBox(width: 3) : Container(),
+            (width > 600) ? Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Text(
                     'Tool\nBox',
                     style: TextStyle(
                       color: Colors.black,
                     ),
-                  ),
-                ),
+                  ) ,
+                ): Container(),
               ],
             ),
             onPressed: () {
@@ -105,7 +108,7 @@ Widget customBottomAppBar(
                   color: Colors.black,
                 ),
                 SizedBox(width: 3),
-                Padding(
+                (width > 600 ) ? Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Text(
                     'Change'
@@ -115,7 +118,7 @@ Widget customBottomAppBar(
                       color: Colors.black,
                     ),
                   ),
-                ),
+                ) : Container(),
               ],
             ),
             onPressed: () async { fullScreen = false;
