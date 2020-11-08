@@ -123,7 +123,7 @@ Widget customBottomAppBar(
             ),
             onPressed: () async { fullScreen = false;
             rebuildOpArtPage.value++;
-              paletteToolBox(context, opArt);
+           //   paletteToolBox(context, opArt);
 
               if (enableButton) {
 

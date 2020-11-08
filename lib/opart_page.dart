@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'bottom_app_bar.dart';
 import 'model_opart.dart';
+import 'palette_toolbox.dart';
 import 'toolbox.dart';
 import 'package:shake/shake.dart';
 import 'dart:math';
@@ -193,10 +194,12 @@ class _OpArtPageState extends State<OpArtPage> {
                   }
                 });
               },
-              child: ClipRect(
-                  child: CanvasWidget(
-                fullScreen,
-              ))),
+              child: InteractiveViewer(
+                child: ClipRect(
+                    child: CanvasWidget(
+                  fullScreen,
+                )),
+              )),
           Align(
             alignment: Alignment.topCenter,
             child: fullScreen
@@ -238,7 +241,7 @@ class _OpArtPageState extends State<OpArtPage> {
             child: fullScreen
                 ? customBottomAppBar(context: context, opArt: opArt)
                 : BottomAppBar(),
-          )
+          ), PaletteToolBox(MediaQuery.of(context).size.width),
         ],
       ),
     );});
