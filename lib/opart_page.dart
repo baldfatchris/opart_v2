@@ -108,7 +108,9 @@ class _OpArtPageState extends State<OpArtPage> {
     SystemChrome.setEnabledSystemUIOverlays([]);
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
+    return ValueListenableBuilder<int>(
+        valueListenable: rebuildOpArtPage,
+        builder: (context, value, child) {return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: fullScreen
           ? AppBar(
@@ -239,6 +241,6 @@ class _OpArtPageState extends State<OpArtPage> {
           )
         ],
       ),
-    );
+    );});
   }
 }

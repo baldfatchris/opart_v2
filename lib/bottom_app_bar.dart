@@ -3,7 +3,8 @@ import 'model_opart.dart';
 import 'toolbox.dart';
 import 'canvas.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
+import 'package:opart_v2/palette_toolbox.dart';
+import 'opart_page.dart';
 Widget customBottomAppBar(
     {BuildContext context, OpArt opArt}) {
   return Container(color: Colors.white.withOpacity(0.8),
@@ -117,12 +118,15 @@ Widget customBottomAppBar(
                 ),
               ],
             ),
-            onPressed: () async {
+            onPressed: () async { fullScreen = false;
+            rebuildOpArtPage.value++;
+              paletteToolBox(context, opArt);
+
               if (enableButton) {
 
-                opArt.randomizePalette();
-                opArt.saveToCache();
-               enableButton = false;
+               //  opArt.randomizePalette();
+               //  opArt.saveToCache();
+               // enableButton = false;
 
               }
             },
