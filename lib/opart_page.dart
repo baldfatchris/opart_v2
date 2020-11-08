@@ -11,6 +11,7 @@ import 'package:screenshot/screenshot.dart';
 import 'canvas.dart';
 import 'download_high_resolution.dart';
 //Random rnd = Random();
+import 'model_palette.dart';
 
 class OpArtPage extends StatefulWidget {
   OpArtType opArtType;
@@ -44,7 +45,6 @@ class _OpArtPageState extends State<OpArtPage> {
 
   @override
   Widget build(BuildContext context) {
-
     Future<void> _paymentDialog() async {
       if (opArt.animation) {
         playPauseController.forward(from: 0);

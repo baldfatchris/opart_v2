@@ -2,6 +2,93 @@ import 'package:flutter/material.dart';
 import 'model_opart.dart';
 import 'dart:math';
 
+import 'model_settings.dart';
+
+SettingsModel numberOfColors = SettingsModel(
+  name: 'numberOfColors',
+  settingType: SettingType.int,
+  label: 'Number of Colors',
+  tooltip: 'The number of colours in the palette',
+  min: 1,
+  max: 36,
+  defaultValue: 10,
+  icon: Icon(Icons.palette),
+  settingCategory: SettingCategory.palette,
+  proFeature: false,
+  onChange: (){checkNumberOfColors();},
+);
+SettingsModel lineColor = SettingsModel(
+  name: 'lineColor',
+  settingType: SettingType.color,
+  label: "Outline Color",
+  tooltip: "The outline colour for the petals",
+  defaultValue: Colors.white,
+  icon: Icon(Icons.zoom_out_map),
+  settingCategory: SettingCategory.palette,
+  proFeature: false,
+);
+SettingsModel opacity = SettingsModel(
+  name: 'opacity',
+  settingType: SettingType.double,
+  label: 'Opactity',
+  tooltip: 'The opactity of the petal',
+  min: 0.2,
+  max: 1.0,
+  zoom: 100,
+  defaultValue: 1.0,
+  icon: Icon(Icons.remove_red_eye),
+  settingCategory: SettingCategory.palette,
+  proFeature: false,
+);
+SettingsModel backgroundColor = SettingsModel(
+  name: 'backgroundColor',
+  settingType: SettingType.color,
+  label: "Background Color",
+  tooltip: "The background colour for the canvas",
+  defaultValue: Colors.cyan,
+  icon: Icon(Icons.settings_overscan),
+  settingCategory: SettingCategory.palette,
+  proFeature: false,
+);
+SettingsModel randomColors = SettingsModel(
+  name: 'randomColors',
+  settingType: SettingType.bool ,
+  label: 'Random Colors',
+  tooltip: 'randomize the colours!',
+  defaultValue: false,
+  icon: Icon(Icons.gamepad),
+  settingCategory: SettingCategory.palette,
+  proFeature: false,
+);
+
+SettingsModel paletteType = SettingsModel(
+  settingType: SettingType.list,
+  name: 'paletteType',
+  label: "Palette Type",
+  tooltip: "The nature of the palette",
+  defaultValue: "random",
+  icon: Icon(Icons.colorize),
+  options: <String>[
+    'random',
+    'blended random',
+    'linear random',
+    'linear complementary'
+  ],
+  settingCategory: SettingCategory.palette,
+  onChange: (){generatePalette();},
+  proFeature: false,
+);
+SettingsModel paletteList = SettingsModel(
+  name: 'paletteList',
+  settingType: SettingType.list,
+  label: "Palette",
+  tooltip: "Choose from a list of palettes",
+  defaultValue: "Default",
+  icon: Icon(Icons.palette),
+  options: defaultPalleteNames(),
+  settingCategory: SettingCategory.other,
+  proFeature: false,
+);
 List<String> defaultPalleteNames() {
   return [
     'Default',
@@ -95,7 +182,7 @@ List<List> defaultPalettes =
   ['Matisse - Jazz',5,'0xFFffffff',['0xFFE9E8D0','0xFF07090A','0xFFD92D2A','0xFF1766F3','0xFFE5F146']],
   ['Matisse - La Gerbe',6,'0xFFffffff',['0xFFEFEAD9','0xFF266EA8','0xFF255B37','0xFF8DAA8A','0xFFD7AA3F','0xFFB9454E']],
   ['Matisse - Les Codomas',8,'0xFFffffff',['0xFFCF881C','0xFFE6DF2D','0xFF1D1D14','0xFFD7DCD6','0xFF5A9C8A','0xFF97263F','0xFF264AC6','0xFFE2EBE9']],
-  ['Matisse - Snow Flowers',9,'0xFFffffff',['DA803A','0xFFDC9E84','0xFFE2D7C5','0xFFD16886','0xFFE9E5DC','0xFF1E433E','0xFFCCCABF','0xFFA51612','0xFF527799']],
+  ['Matisse - Snow Flowers',9,'0xFFffffff',['0xFFDC9E84','0xFFE2D7C5','0xFFD16886','0xFFE9E5DC','0xFF1E433E','0xFFCCCABF','0xFFA51612','0xFF527799']],
   ['Matisse - Parakeet and the Mermaid',10,'0xFFffffff',['0xFFF4FAFC','0xFFD18707','0xFFA710AA','0xFF3A3408','0xFF0B8AB3','0xFF1DB314','0xFF1F152C','0xFF8D5A09','0xFF6A0F69','0xFF0C526D']],
   ['Matisse - The Snail',8,'0xFFffffff',['0xFFFB7C1C','0xFF4AE95F','0xFFEADECB','0xFFC864E2','0xFF407CF5','0xFFE4A060','0xFFE2162A','0xFF131716']],
   ['Mondrian',6,'0xFFffffff',['0xFFF50F0F','0xFFF8E213','0xFF0C7EBD','0xFFF2F2F2','0xFF000000','0xFF363636']],
@@ -106,7 +193,7 @@ List<List> defaultPalettes =
   ['Picasso - The Tragedy - reduced',5,'0xFFffffff',['0xFF5AA5C3','0xFF3D81A0','0xFF7DC8E5','0xFF26536D','0xFF173140']],
   ['Seurat - Sunday Afternoon',10,'0xFFffffff',['0xFF343C33','0xFF495B42','0xFF64665F','0xFF4A4956','0xFFB4AE79','0xFF7E7E7D','0xFF9F9A69','0xFF817E56','0xFFA0A6A9','0xFFC8C6BA']],
   ['Van Eyck - The Arnolfini Portrait',10,'0xFFffffff',['0xFF292225','0xFF141517','0xFF393231','0xFF542527','0xFF20350B','0xFF634B3C','0xFF304E0A','0xFF726859','0xFF9C907A','0xFFC4BCAB']],
-  ['Van Gogh - Self Portrait',10,'0xFFffffff',['89A696','0xFF7E9989','0xFF93B2A4','0xFF70897B','0xFFA4C3B3','0xFF999C6D','0xFF7B7442','0xFF556D65','0xFFBFC092','0xFF4F4F2D']],
+  ['Van Gogh - Self Portrait',10,'0xFFffffff',['0xFF7E9989','0xFF93B2A4','0xFF70897B','0xFFA4C3B3','0xFF999C6D','0xFF7B7442','0xFF556D65','0xFFBFC092','0xFF4F4F2D']],
   ['Van Gogh - The Starry Night',10,'0xFFffffff',['0xFF44608A','0xFF191F1E','0xFF5A799D','0xFF283441','0xFF2C4175','0xFF8098A4','0xFF6E837F','0xFFA8B391','0xFF47585C','0xFFA79F39']],
   ['Van Gogh - Wheat Field with Cypresses',10,'0xFFffffff',['0xFF94A3A7','0xFFABB6B4','0xFF7E9196','0xFF8B791A','0xFF495936','0xFFC7CDC2','0xFF213421','0xFFAC9934','0xFF6C7B51','0xFF637982']],
   ['Vermeer - Girl with a Pearl Earring',10,'0xFFffffff',['0xFF181308','0xFF28261C','0xFF716046','0xFF9A8059','0xFF4A3E2C','0xFF2A3844','0xFFC0A687','0xFFDBC7B5','0xFF93A2AF','0xFF617586']],

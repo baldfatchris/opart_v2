@@ -13,7 +13,8 @@ void paletteToolBox(
 ) {
   int currentColor = 0;
 
-  OpArtPalette palette = opArt.palette;
+  int paletteLength = opArt.palette.colorList.length;
+
   Widget _numberOfColors() {
     return Row(children: [
       IconButton(
@@ -21,14 +22,10 @@ void paletteToolBox(
           Icons.remove,
         ),
         onPressed: () {
-          int numberOfColours = opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt();
-          int paletteLength = opArt.palette.colorList.length;
-          numberOfColours--;
-          opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value = numberOfColours;
-          if ( numberOfColours > paletteLength) {
-            String paletteType = opArt.attributes.firstWhere((element) => element.name == 'paletteType').value.toString();
-            opArt.palette.randomize(paletteType, numberOfColours);
-
+          numberOfColors.value--;
+          if (numberOfColors.value > paletteLength) {
+            opArt.palette
+                .randomize(paletteType.value.toString(), numberOfColors.value);
           }
           rebuildPalette.value++;
           rebuildCanvas.value++;
@@ -40,14 +37,16 @@ void paletteToolBox(
           Icons.add,
         ),
         onPressed: () {
-          int numberOfColours = opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt();
-          int paletteLength = opArt.palette.colorList.length;
-          numberOfColours++;
-          opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value = numberOfColours;
-          if ( numberOfColours > paletteLength) {
-            String paletteType = opArt.attributes.firstWhere((element) => element.name == 'paletteType').value.toString();
-            opArt.palette.randomize(paletteType, numberOfColours);
-
+          numberOfColors.value++;
+          opArt.attributes
+              .firstWhere((element) => element.name == 'numberOfColors')
+              .value = numberOfColors.value;
+          if (numberOfColors.value > paletteLength) {
+            String paletteType = opArt.attributes
+                .firstWhere((element) => element.name == 'paletteType')
+                .value
+                .toString();
+            opArt.palette.randomize(paletteType, numberOfColors.value);
           }
           rebuildPalette.value++;
           rebuildCanvas.value++;
@@ -67,7 +66,7 @@ void paletteToolBox(
                   child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                   //Container(height: 100, child: ChoosePalette()),
+                // Container(height: 150, child: ChoosePalette()),
                   Row(
                     children: [
                       Expanded(
@@ -75,9 +74,9 @@ void paletteToolBox(
                           displayThumbColor: true,
                           pickerAreaHeightPercent: 0.2,
                           //pickerAreaBorderRadius: BorderRadius.circular(10.0),
-                          pickerColor: palette.colorList[currentColor],
+                          pickerColor: opArt.palette.colorList[currentColor],
                           onColorChanged: (color) {
-                            palette.colorList[currentColor] = color;
+                            opArt.palette.colorList[currentColor] = color;
                             rebuildCanvas.value++;
                             rebuildPalette.value++;
                           },
@@ -99,10 +98,12 @@ void paletteToolBox(
                     ],
                   ),
                   Container(
-                    height: 50,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt(),
+                    height: 80,
+                    child: GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 12,),
+
+                        scrollDirection: Axis.vertical,
+                        itemCount: numberOfColors.value,
                         reverse: false,
                         itemBuilder: (context, index) {
                           return GestureDetector(
@@ -111,12 +112,36 @@ void paletteToolBox(
                               rebuildPalette.value++;
                             },
                             child: Container(
-                                height: 50,
-                                width: 50,
-                                color: palette.colorList[index]),
+                                height: 30,
+                                width: 30,
+                                color: opArt.palette.colorList[index]),
                           );
                         }),
                   ),
+                 opacity.value!=null? Container(decoration: new BoxDecoration(
+                   borderRadius: new BorderRadius.all(
+                     Radius.circular(5),
+                   ),
+                   gradient: new LinearGradient(
+                       colors: [
+                         const Color(0xFFffffff).withOpacity(0.2),
+                         const Color(0xFF303030),
+                       ],
+                       begin: const FractionalOffset(0.0, 0.0),
+                       end: const FractionalOffset(1.0, 1.00),
+                       stops: [0.0, 1.0],
+                       tileMode: TileMode.clamp),
+                 ),
+                   child: Slider(
+                      value: opacity.value,
+                      min: 0.2,
+                      max: 1.0,
+                      onChanged: (value) {
+                        opacity.value = value;
+                        rebuildPalette.value++;
+                      },
+                    ),
+                 ): Container(),
                   _numberOfColors(),
                 ],
               ));

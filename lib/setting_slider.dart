@@ -46,8 +46,10 @@ double zoomMax (double min, double max, double value, double zoom) {
 
 
 class _settingsSliderState extends State<settingsSlider> {
+
   @override
   Widget build(BuildContext context) {
+
     return Column(mainAxisSize: MainAxisSize.min,
      // padding: const EdgeInsets.all(8),
       children: <Widget>[
