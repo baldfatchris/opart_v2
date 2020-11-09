@@ -149,7 +149,7 @@ List<SettingsModel> initializeRileyAttributes() {
     gradientTypeY0,
     gradientTypeY1,
 
-    backgroundColor,
+
     randomColors,
     numberOfColors,
     paletteType,

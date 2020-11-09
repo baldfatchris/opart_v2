@@ -5,6 +5,8 @@ import 'model_settings.dart';
 import 'dart:math';
 import 'dart:core';
 
+import 'opart_page.dart';
+
 List<String> list = List();
 
 SettingsModel reDraw = SettingsModel(
@@ -281,16 +283,16 @@ SettingsModel leafShape = SettingsModel(
     settingCategory: SettingCategory.tool,
     proFeature: false,
   );
-SettingsModel backgroundColor = SettingsModel(
-    settingType: SettingType.color,
-    name: 'backgroundColor',
-    label: "Background Color",
-    tooltip: "The background colour for the canvas",
-    defaultValue: Colors.cyan,
-    icon: Icon(Icons.settings_overscan),
-    settingCategory: SettingCategory.palette,
-    proFeature: false,
-  );
+// SettingsModel backgroundColor = SettingsModel(
+//     settingType: SettingType.color,
+//     name: 'backgroundColor',
+//     label: "Background Color",
+//     tooltip: "The background colour for the canvas",
+//     defaultValue: Colors.cyan,
+//     icon: Icon(Icons.settings_overscan),
+//     settingCategory: SettingCategory.palette,
+//     proFeature: false,
+//   );
 SettingsModel trunkFillColor = SettingsModel(settingType: SettingType.color,
     name: 'trunkFillColor',
     label: "Trunk Color",
@@ -412,7 +414,7 @@ List<SettingsModel> initializeTreeAttributes() {
     leafAsymmetry,
     leafDecay,
     leafShape,
-    backgroundColor,
+
     trunkFillColor,
     trunkOutlineColor,
     trunkStrokeWidth,
@@ -456,7 +458,7 @@ void paintTree(Canvas canvas, Size size, Random rnd, double animationVariable, O
     leafDecay.value,
     leafShape.value,
 
-    backgroundColor.value,
+
     trunkFillColor.value,
     trunkOutlineColor.value,
     trunkStrokeWidth.value,
@@ -501,7 +503,7 @@ generateTree(
     double leafDecay,
     String leafShape,
 
-    Color backgroundColor,
+
     Color trunkFillColor,
     Color trunkOutlineColor,
     double trunkStrokeWidth,
@@ -517,7 +519,7 @@ generateTree(
   canvas.drawRect(
       Offset(borderX, borderY) & Size(imageWidth, imageHeight),
       Paint()
-        ..color = backgroundColor
+        ..color = opArt.palette.backgroundColor
         ..style = PaintingStyle.fill);
 
   // Starting point of the tree

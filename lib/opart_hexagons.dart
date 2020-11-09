@@ -125,7 +125,7 @@ List<SettingsModel> initializeHexagonsAttributes() {
     splat,
     threeD,
 
-    backgroundColor,
+
     lineColor,
     lineWidth,
     randomColors,
