@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:opart_v2/opart_fibonacci.dart';
+
 import 'model_opart.dart';
 import 'model_palette.dart';
 import 'model_settings.dart';
@@ -83,17 +83,7 @@ SettingsModel gradientTypeY1 = SettingsModel(
 
 
 
-// palette settings
-SettingsModel backgroundColor = SettingsModel(
-  settingType: SettingType.color,
-  name: 'backgroundColor',
-  label: "Background Color",
-  tooltip: "The background colour for the canvas",
-  defaultValue: Colors.white,
-  icon: Icon(Icons.settings_overscan),
-  settingCategory: SettingCategory.palette,
-  proFeature: false,
-);
+
 SettingsModel randomColors = SettingsModel(
   name: 'randomColors',
   settingType: SettingType.bool,
@@ -104,19 +94,7 @@ SettingsModel randomColors = SettingsModel(
   settingCategory: SettingCategory.palette,
   proFeature: false,
 );
-SettingsModel numberOfColors = SettingsModel(
-  name: 'numberOfColors',
-  settingType: SettingType.int,
-  label: 'Number of Colors',
-  tooltip: 'The number of colours in the palette',
-  min: 1,
-  max: 36,
-  defaultValue: 2,
-  icon: Icon(Icons.palette),
-  settingCategory: SettingCategory.palette,
-  onChange: (){checkNumberOfColors();},
-  proFeature: false,
-);
+
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
@@ -145,19 +123,7 @@ SettingsModel paletteList = SettingsModel(
   settingCategory: SettingCategory.other,
   proFeature: false,
 );
-SettingsModel opacity = SettingsModel(
-  name: 'opacity',
-  settingType: SettingType.double,
-  label: 'Opactity',
-  tooltip: 'The opactity of the petal',
-  min: 0.2,
-  max: 1.0,
-  zoom: 100,
-  defaultValue: 1.0,
-  icon: Icon(Icons.remove_red_eye),
-  settingCategory: SettingCategory.palette,
-  proFeature: false,
-);
+
 
 SettingsModel resetDefaults = SettingsModel(
   name: 'resetDefaults',

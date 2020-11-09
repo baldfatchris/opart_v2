@@ -159,27 +159,6 @@ SettingsModel recursionRatio = SettingsModel(
 
 
 
-// palette settings
-SettingsModel backgroundColor = SettingsModel(
-  name: 'backgroundColor',
-  settingType: SettingType.color,
-  label: "Background Color",
-  tooltip: "The background colour for the canvas",
-  defaultValue: Colors.white,
-  icon: Icon(Icons.settings_overscan),
-  settingCategory: SettingCategory.palette,
-  proFeature: false,
-);
-SettingsModel lineColor = SettingsModel(
-  name: 'lineColor',
-  settingType: SettingType.color,
-  label: "Outline Color",
-  tooltip: "The outline colour",
-  defaultValue: Colors.black,
-  icon: Icon(Icons.settings_overscan),
-  settingCategory: SettingCategory.palette,
-  proFeature: false,
-);
 SettingsModel lineWidth = SettingsModel(
   name: 'lineWidth',
   settingType: SettingType.double,
@@ -203,19 +182,7 @@ SettingsModel randomColors = SettingsModel(
   settingCategory: SettingCategory.palette,
   proFeature: false,
 );
-SettingsModel numberOfColors = SettingsModel(
-  name: 'numberOfColors',
-  settingType: SettingType.int,
-  label: 'Number of Colors',
-  tooltip: 'The number of colours in the palette',
-  min: 1,
-  max: 36,
-  defaultValue: 10,
-  icon: Icon(Icons.palette),
-  settingCategory: SettingCategory.palette,
-  proFeature: false,
-  onChange: (){checkNumberOfColors();},
-);
+
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
@@ -244,19 +211,7 @@ SettingsModel paletteList = SettingsModel(
   settingCategory: SettingCategory.other,
   proFeature: false,
 );
-SettingsModel opacity = SettingsModel(
-  name: 'opacity',
-  settingType: SettingType.double,
-  label: 'Opactity',
-  tooltip: 'The opactity of the petal',
-  min: 0.2,
-  max: 1.0,
-  zoom: 100,
-  defaultValue: 1.0,
-  icon: Icon(Icons.remove_red_eye),
-  settingCategory: SettingCategory.palette,
-  proFeature: false,
-);
+
 
 SettingsModel resetDefaults = SettingsModel(
   name: 'resetDefaults',

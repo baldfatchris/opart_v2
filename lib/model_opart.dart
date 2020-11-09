@@ -29,6 +29,7 @@ final rebuildCache = new ValueNotifier(0);
 final rebuildCanvas = new ValueNotifier(0);
 final rebuildOpArtPage = ValueNotifier(0);
 final rebuildPalette = new ValueNotifier(0);
+final rebuildColorPicker = new ValueNotifier(0);
 bool enableButton = true;
 
 bool proVersion = true;

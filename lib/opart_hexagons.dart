@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:opart_v2/opart_fibonacci.dart';
+
 import 'model_opart.dart';
 import 'model_palette.dart';
 import 'model_settings.dart';
@@ -74,18 +74,6 @@ proFeature: false,
 );
 
 
-// palette settings
-SettingsModel backgroundColor = SettingsModel(
-  settingType: SettingType.color,
-  name: 'backgroundColor',
-  label: "Background Color",
-  tooltip: "The background colour for the canvas",
-  defaultValue: Colors.white,
-  icon: Icon(Icons.settings_overscan),
-  settingCategory: SettingCategory.palette,
-  proFeature: false,
-);
-
 SettingsModel lineColor = SettingsModel(
   name: 'lineColor',
   settingType: SettingType.color,
@@ -112,70 +100,7 @@ SettingsModel lineWidth = SettingsModel(
 );
 
 
-SettingsModel randomColors = SettingsModel(
-  name: 'randomColors',
-  settingType: SettingType.bool,
-  label: 'Random Colors',
-  tooltip: 'randomize the colours',
-  defaultValue: true,
-  icon: Icon(Icons.gamepad),
-  settingCategory: SettingCategory.palette,
-  proFeature: false,
-);
-SettingsModel numberOfColors = SettingsModel(
-  name: 'numberOfColors',
-  settingType: SettingType.int,
-  label: 'Number of Colors',
-  tooltip: 'The number of colours in the palette',
-  min: 1,
-  max: 36,
-  defaultValue: 10,
-  icon: Icon(Icons.palette),
-  settingCategory: SettingCategory.palette,
-  onChange: (){checkNumberOfColors();},
-  proFeature: false,
-);
-SettingsModel paletteType = SettingsModel(
-  name: 'paletteType',
-  settingType: SettingType.list,
-  label: "Palette Type",
-  tooltip: "The nature of the palette",
-  defaultValue: "random",
-  icon: Icon(Icons.colorize),
-  options: [
-    'random',
-    'blended random',
-    'linear random',
-    'linear complementary'
-  ],
-  settingCategory: SettingCategory.palette,
-  onChange: (){generatePalette();},
-  proFeature: false,
-);
-SettingsModel paletteList = SettingsModel(
-  name: 'paletteList',
-  settingType: SettingType.list,
-  label: "Palette",
-  tooltip: "Choose from a list of palettes",
-  defaultValue: "Default",
-  icon: Icon(Icons.palette),
-  options: defaultPalleteNames(),
-  settingCategory: SettingCategory.other,
-  proFeature: false,
-);
-SettingsModel opacity = SettingsModel(
-  name: 'opacity',
-  settingType: SettingType.double,
-  label: 'Opactity',
-  tooltip: 'The opactity of the petal',
-  min: 0.2,
-  max: 1.0,
-  zoom: 100,
-  defaultValue: 1.0,
-  icon: Icon(Icons.remove_red_eye),
-  settingCategory: SettingCategory.palette,
-  proFeature: false,
-);
+
 
 SettingsModel resetDefaults = SettingsModel(
   name: 'resetDefaults',
