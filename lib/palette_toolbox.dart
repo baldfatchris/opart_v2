@@ -15,12 +15,16 @@ void paletteToolBox(
 
   OpArtPalette palette = opArt.palette;
   Widget _numberOfColors() {
+
+    int numberOfColours = opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt();
+
+
     return Row(children: [
       IconButton(
         icon: Icon(
           Icons.remove,
         ),
-        onPressed: () {
+        onPressed: (numberOfColours==1) ? null : () {
           int numberOfColours = opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt();
           int paletteLength = opArt.palette.colorList.length;
           numberOfColours--;
@@ -34,12 +38,12 @@ void paletteToolBox(
           rebuildCanvas.value++;
         },
       ),
-      Text('Number of colors'),
+      Text('Number of colors ($numberOfColours)'),
       IconButton(
         icon: Icon(
           Icons.add,
         ),
-        onPressed: () {
+        onPressed: (numberOfColours==36) ? null : () {
           int numberOfColours = opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt();
           int paletteLength = opArt.palette.colorList.length;
           numberOfColours++;
