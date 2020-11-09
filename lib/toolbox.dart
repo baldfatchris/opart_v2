@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'settings_dialog.dart';
 import 'model_opart.dart';
+import 'model_settings.dart';
 
 void ToolBox(BuildContext context, OpArt opArt,) {
   // print(MediaQuery.of(context).size.width);
@@ -11,6 +12,9 @@ void ToolBox(BuildContext context, OpArt opArt,) {
   showModalBottomSheet(
       context: context,
       builder: (BuildContext bc) {
+
+        List<SettingsModel> tools = opArt.attributes.where((element) => element.settingCategory==SettingCategory.tool).toList();
+
         return Container(
             height: 350,
             child: Padding(
@@ -27,29 +31,29 @@ void ToolBox(BuildContext context, OpArt opArt,) {
                                       ? 7
                                       : 8,
                       childAspectRatio: 1.3),
-                  itemCount: opArt.attributes.length,
+                  itemCount: tools.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return (opArt.attributes[index].proFeature && !proVersion)
+                    return (tools[index].proFeature && !proVersion)
                       ?Stack(
                       children: [
                         Center(
                           child: GestureDetector(
                             onTap: () {
                               Navigator.pop(context);
-                              settingsDialog(context, index, opArt);
+                              settingsDialog(context, tools[index], opArt);
                             },
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                opArt.attributes[index].icon,
+                                tools[index].icon,
                                 Padding(
                                   padding: const EdgeInsets.all(4.0),
                                   child: Container(
                                       height: 40,
                                       child: Text(
-                                        opArt.attributes[index].name,
+                                        tools[index].name,
                                         textAlign: TextAlign.center,
                                       )),
                                 )
@@ -67,14 +71,14 @@ void ToolBox(BuildContext context, OpArt opArt,) {
                       :GestureDetector(
                         onTap: () {
                           Navigator.pop(context);
-                          if (opArt.attributes[index].silent != null && opArt.attributes[index].silent){
+                          if (tools[index].silent != null && tools[index].silent){
                             print('silent');
-                            opArt.attributes[index].onChange();
+                            tools[index].onChange();
                             opArt.saveToCache();
                             rebuildCanvas.value++;
                           }
                           else {
-                            settingsDialog(context, index, opArt);
+                            settingsDialog(context, tools[index], opArt);
                           }
                         },
                         child: Column(
@@ -82,13 +86,13 @@ void ToolBox(BuildContext context, OpArt opArt,) {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            opArt.attributes[index].icon,
+                            tools[index].icon,
                             Padding(
-                              padding: const EdgeInsets.all(4.0),
+                              padding: const EdgeInsets.all(1.0),
                               child: Container(
                                   height: 40,
                                   child: Text(
-                                    opArt.attributes[index].label,
+                                    tools[index].label,
                                     textAlign: TextAlign.center,
                                   )),
                             )

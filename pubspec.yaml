@@ -74,6 +74,9 @@ flutter:
     - family: Righteous
       fonts:
         - asset: fonts/Righteous/Righteous-Regular.ttf
+    - family: OpArt
+      fonts:
+        - asset: fonts/OpArtLab-Regular.ttf
 
 
 
