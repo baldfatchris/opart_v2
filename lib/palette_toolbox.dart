@@ -27,7 +27,7 @@ class _PaletteToolBoxState extends State<PaletteToolBox>
   void initState() {
     paletteAnimationController = AnimationController(
         duration: const Duration(milliseconds: 500), vsync: this);
-    _animation = Tween<double>(begin: widget.width - 35, end: 0)
+    _animation = Tween<double>(begin: -60, end: 0)
         .animate(paletteAnimationController)
           ..addListener(() {
             rebuildPalette.value++;
@@ -136,44 +136,106 @@ class _PaletteToolBoxState extends State<PaletteToolBox>
     return ValueListenableBuilder<int>(
         valueListenable: rebuildPalette,
         builder: (context, value, child) {
+          print(_animation.value);
           return Positioned(
               top: 0,
               bottom: 0,
-              // right: _animation.value,
+            //  right: _animation.value,
               right: 0,
-              left: 0,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  GestureDetector(onTap: (){
-                    showCustomColorPicker = false;
-                    rebuildOpArtPage.value++;
-                  },
+              left: _animation.value,
+              child: GestureDetector(
+                onVerticalDragStart: (value){
+                  print('drag');paletteAnimationController.reverse();},
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GestureDetector(onTap: (){
+                      showCustomColorPicker = false;
+                      rebuildOpArtPage.value++;
+                    },
 
-                    child: Container(
-                        height: MediaQuery.of(context).size.height,
-                        color: Colors.white.withOpacity(0.8),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                IconButton(
-                                    icon: Icon(Icons.remove),
-                                    onPressed: () {
-                                      if (numberOfColors.value > 2) {
-                                        numberOfColors.value--;
-                                        if (numberOfColors.value >
-                                            paletteLength) {
+                      child: Container(
+                          height: MediaQuery.of(context).size.height,
+                          color: Colors.white.withOpacity(0.8),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  IconButton(
+                                      icon: Icon(Icons.remove),
+                                      onPressed: () {
+                                        if (numberOfColors.value > 2) {
+                                          numberOfColors.value--;
+                                          if (numberOfColors.value >
+                                              paletteLength) {
+                                            opArt.palette.randomize(
+                                                paletteType.value.toString(),
+                                                numberOfColors.value);
+                                          }
+                                          height =
+                                              (numberOfColors.value.toDouble() +
+                                                      2) *
+                                                  30;
+                                          if (height >
+                                              MediaQuery.of(context).size.height *
+                                                  0.7) {
+                                            height =
+                                                MediaQuery.of(context).size.height *
+                                                    0.7;
+                                          }
+                                          rebuildPalette.value++;
+                                          rebuildCanvas.value++;
+                                        }
+                                      }),
+                                  Container(
+                                    height:
+                                        MediaQuery.of(context).size.height - 3 * 55-150,
+                                    width: 30,
+                                    child: ListView.builder(
+                                        scrollDirection: Axis.vertical,
+                                        itemCount: numberOfColors.value,
+                                        reverse: false,
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              currentColor = index;
+                                              showCustomColorPicker = true;
+                                              rebuildColorPicker.value++;
+                                              rebuildOpArtPage.value++;
+
+                                            },
+                                            child: Container(
+                                                height: 30,
+                                                width: 30,
+                                                color:
+                                                    opArt.palette.colorList[index]),
+                                          );
+                                        }),
+                                  ),
+
+
+                                  IconButton(
+                                      icon: Icon(Icons.add),
+                                      onPressed: () {
+                                        numberOfColors.value++;
+                                        opArt.attributes
+                                            .firstWhere((element) =>
+                                                element.name == 'numberOfColors')
+                                            .value = numberOfColors.value;
+                                        if (numberOfColors.value > paletteLength) {
+                                          String paletteType = opArt.attributes
+                                              .firstWhere((element) =>
+                                                  element.name == 'paletteType')
+                                              .value
+                                              .toString();
                                           opArt.palette.randomize(
-                                              paletteType.value.toString(),
-                                              numberOfColors.value);
+                                              paletteType, numberOfColors.value);
                                         }
                                         height =
-                                            (numberOfColors.value.toDouble() +
-                                                    2) *
+                                            (numberOfColors.value.toDouble() + 2) *
                                                 30;
                                         if (height >
                                             MediaQuery.of(context).size.height *
@@ -184,100 +246,43 @@ class _PaletteToolBoxState extends State<PaletteToolBox>
                                         }
                                         rebuildPalette.value++;
                                         rebuildCanvas.value++;
-                                      }
-                                    }),
-                                Container(
-                                  height:
-                                      MediaQuery.of(context).size.height - 3 * 55-150,
-                                  width: 30,
-                                  child: ListView.builder(
-                                      scrollDirection: Axis.vertical,
-                                      itemCount: numberOfColors.value,
-                                      reverse: false,
-                                      itemBuilder: (context, index) {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            currentColor = index;
-                                            showCustomColorPicker = true;
-                                            rebuildColorPicker.value++;
-                                            rebuildOpArtPage.value++;
-
-                                          },
-                                          child: Container(
-                                              height: 30,
-                                              width: 30,
-                                              color:
-                                                  opArt.palette.colorList[index]),
-                                        );
                                       }),
-                                ),
-
-
-                                IconButton(
-                                    icon: Icon(Icons.add),
-                                    onPressed: () {
-                                      numberOfColors.value++;
-                                      opArt.attributes
-                                          .firstWhere((element) =>
-                                              element.name == 'numberOfColors')
-                                          .value = numberOfColors.value;
-                                      if (numberOfColors.value > paletteLength) {
-                                        String paletteType = opArt.attributes
-                                            .firstWhere((element) =>
-                                                element.name == 'paletteType')
-                                            .value
-                                            .toString();
-                                        opArt.palette.randomize(
-                                            paletteType, numberOfColors.value);
-                                      }
-                                      height =
-                                          (numberOfColors.value.toDouble() + 2) *
-                                              30;
-                                      if (height >
-                                          MediaQuery.of(context).size.height *
-                                              0.7) {
-                                        height =
-                                            MediaQuery.of(context).size.height *
-                                                0.7;
-                                      }
-                                      rebuildPalette.value++;
-                                      rebuildCanvas.value++;
-                                    }),
-                                _opacityWidget(),
-                                _randomizeButton(),
-                              ],
-                            ),
-                            // opacity.value != null
-                            //     ? _opacityWidget()
-                            //     : Container(),
-                            // _numberOfColors(),
-                          ],
-                        )),
-                  ),
-                  Align(
-                    alignment: Alignment(0, -0.6),
-                    child: GestureDetector(
-                      onTap: () {
-                        if (isOpen) {
-                          paletteAnimationController.forward();
-                          isOpen = false;
-                        } else {
-                          paletteAnimationController.reverse();
-                          isOpen = true;
-                        }
-                      },
-                      child: ClipPath(
-                        clipper: CustomMenuClipper(),
-                        child: Container(
-                            color: Colors.white.withOpacity(0.8),
-                            height: 100,
-                            width: 35,
-                            child: Icon(Icons.palette,
-                                color: Colors.blue, size: 35)),
+                                  _opacityWidget(),
+                                  _randomizeButton(),
+                                ],
+                              ),
+                              // opacity.value != null
+                              //     ? _opacityWidget()
+                              //     : Container(),
+                              // _numberOfColors(),
+                            ],
+                          )),
+                    ),
+                    Align(
+                      alignment: Alignment(0, -0.6),
+                      child: GestureDetector(
+                        onTap: () {
+                          if (isOpen) {
+                            paletteAnimationController.forward();
+                            isOpen = false;
+                          } else {
+                            paletteAnimationController.reverse();
+                            isOpen = true;
+                          }
+                        },
+                        child: ClipPath(
+                          clipper: CustomMenuClipper(),
+                          child: Container(
+                              color: Colors.white.withOpacity(0.8),
+                              height: 100,
+                              width: 35,
+                              child: Icon(Icons.palette,
+                                  color: Colors.blue, size: 35)),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ));
         });
 

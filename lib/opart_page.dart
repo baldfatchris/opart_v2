@@ -14,6 +14,7 @@ import 'download_high_resolution.dart';
 //Random rnd = Random();
 import 'model_palette.dart';
 import 'color_picker_widget.dart';
+import 'choose_palette_tab.dart';
 
 class OpArtPage extends StatefulWidget {
   OpArtType opArtType;
@@ -31,7 +32,7 @@ class _OpArtPageState extends State<OpArtPage> {
   @override
   void initState() {
     opArt = OpArt(opArtType: widget.opArtType);
-    fullScreen = false;
+    fullScreen = true;
     super.initState();
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
       setState(() {
@@ -198,11 +199,20 @@ class _OpArtPageState extends State<OpArtPage> {
                 GestureDetector(
                     onTap: () {
                       setState(() {
-                        // if (fullScreen) {
-                        //   fullScreen = false;
-                        // } else {
-                        //   fullScreen = true;
-                        // }
+                        if(showCustomColorPicker){
+                          paletteAnimationController.reverse();
+                          showCustomColorPicker = false;
+
+                        }
+                        else{
+                          paletteAnimationController.forward();
+                          showCustomColorPicker = true;
+                        }
+                        if (fullScreen) {
+                          fullScreen = false;
+                        } else {
+                          fullScreen = true;
+                        }
                       });
                     },
                     child: InteractiveViewer(
@@ -256,6 +266,7 @@ class _OpArtPageState extends State<OpArtPage> {
                       : BottomAppBar(),
                 ),
                 PaletteToolBox(MediaQuery.of(context).size.width),
+               ChoosePaletteTab(),
                showCustomColorPicker? Align(alignment: Alignment.bottomCenter,child: ColorPickerWidget()): Container(),
               ],
             ),

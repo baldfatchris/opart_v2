@@ -26,7 +26,7 @@ class _ChoosePaletteState extends State<ChoosePalette> {
             itemBuilder: (context, index) {
 
                 return Padding(
-                  padding: const EdgeInsets.all(2.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4.0),
                   child: GestureDetector(
                     onTap: (){
                       List newPalette = defaultPalettes[index][3];
@@ -44,15 +44,16 @@ class _ChoosePaletteState extends State<ChoosePalette> {
                     Container(
                         width: 100, child: Text(defaultPalettes[index][0])),
                     Container(height: 30,
-                      width: 300,
-                      child: ListView.builder(
+                      width: 100,
+                      child: GridView.builder( gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,),
+
                           scrollDirection: Axis.horizontal,
                           itemCount: defaultPalettes[index][3].length,
                           itemBuilder: (context, _index) {
-                            return Container(
-                              height: 20,
-                              width: 20,
-                              color: Color(int.parse(defaultPalettes[index][3][_index])),
+                            return Container(decoration: BoxDecoration(shape: BoxShape.circle,  color: Color(int.parse(defaultPalettes[index][3][_index])),),
+                              height: 10,
+                              width: 10,
+
                             );
                           }),
                     )
