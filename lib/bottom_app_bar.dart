@@ -3,8 +3,9 @@ import 'model_opart.dart';
 import 'toolbox.dart';
 import 'canvas.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:opart_v2/palette_tab.dart';
+import 'package:opart_v2/tab_palette.dart';
 import 'opart_page.dart';
+import 'toolbox_palette.dart';
 Widget customBottomAppBar(
     {BuildContext context, OpArt opArt}) {
 
@@ -124,13 +125,15 @@ Widget customBottomAppBar(
             ),
             onPressed: () async { showSettings = false;
             rebuildOpArtPage.value++;
-           //   paletteToolBox(context, opArt);
+             // paletteToolBox(context, opArt);
 
               if (enableButton) {
 
-               //  opArt.randomizePalette();
-               //  opArt.saveToCache();
-               // enableButton = false;
+                stopIfPlaying();
+                PaletteToolBox(context, opArt, );
+                // opArt.randomizePalette();
+                // opArt.saveToCache();
+               enableButton = false;
 
               }
             },

@@ -3,17 +3,16 @@ import 'settings_dialog.dart';
 import 'model_opart.dart';
 import 'model_settings.dart';
 
-void ToolBox(
+void PaletteToolBox(
   BuildContext context,
   OpArt opArt,
 ) {
-  // print(MediaQuery.of(context).size.width);
 
   showModalBottomSheet(
       context: context,
       builder: (BuildContext bc) {
         List<SettingsModel> tools = opArt.attributes
-            .where((element) => element.settingCategory == SettingCategory.tool)
+            .where((element) => element.settingCategory == SettingCategory.palette)
             .toList();
 
         return Container(

@@ -102,7 +102,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
                     children: [
                       opArt.animation
                           ? Container(
-                              height: 100,
+                              height: 70,
                               color: Colors.white.withOpacity(0.5),
                               child: Row(
                                 children: [

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'bottom_app_bar.dart';
 import 'model_opart.dart';
-import 'palette_tab.dart';
+import 'tab_palette.dart';
 import 'toolbox.dart';
 import 'package:shake/shake.dart';
 import 'dart:math';
@@ -14,7 +14,8 @@ import 'download_high_resolution.dart';
 //Random rnd = Random();
 import 'model_palette.dart';
 import 'color_picker_widget.dart';
-import 'choose_palette_tab.dart';
+import 'tab_choose_palette.dart';
+import 'tab_tools.dart';
 
 class OpArtPage extends StatefulWidget {
   OpArtType opArtType;
@@ -263,9 +264,10 @@ class _OpArtPageState extends State<OpArtPage> {
                       ? customBottomAppBar(context: context, opArt: opArt)
                       : BottomAppBar(),
                 ),
-                showPaletteTab? PaletteTab(MediaQuery.of(context).size.width): Container(),
-               showChoosePaletteTab? ChoosePaletteTab(): Container(),
-               showCustomColorPicker? Align(alignment: Alignment.bottomCenter,child: ColorPickerWidget()): Container(),
+               //  showPaletteTab? PaletteTab(MediaQuery.of(context).size.width): Container(),
+               // showChoosePaletteTab? ChoosePaletteTab(): Container(),
+               // showCustomColorPicker? Align(alignment: Alignment.bottomCenter,child: ColorPickerWidget()): Container(),
+               //  ToolsTab(MediaQuery.of(context).size.width)
               ],
             ),
           );

@@ -89,6 +89,7 @@ SettingsModel paletteList = SettingsModel(
   settingCategory: SettingCategory.other,
   proFeature: false,
 );
+
 List<String> defaultPalleteNames() {
   return [
     'Default',
