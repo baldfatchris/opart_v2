@@ -94,7 +94,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
                   ),
                 );
               }),
-          fullScreen
+          showSettings
               ? Align(
                   alignment: Alignment.bottomCenter,
                   child: Column(

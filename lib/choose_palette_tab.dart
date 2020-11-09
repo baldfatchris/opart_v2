@@ -11,7 +11,21 @@ import 'choose_palette.dart';
 int currentColor = 0;
 bool isOpen = false;
 AnimationController choosePaletteAnimationController;
+void openChoosePaletteTab() {
+  showSettings = false;
+  showChoosePaletteTab = true;
+  showPaletteTab = false;
+  choosePaletteAnimationController.forward();
+  rebuildOpArtPage.value++;
+}
 
+void closeChoosePaletteTab() {
+  showSettings = false;
+  showChoosePaletteTab = false;
+  showPaletteTab = false;
+  choosePaletteAnimationController.reverse();
+  rebuildOpArtPage.value++;
+}
 class ChoosePaletteTab extends StatefulWidget {
 
   ChoosePaletteTab();
@@ -22,7 +36,7 @@ class ChoosePaletteTab extends StatefulWidget {
 class _ChoosePaletteTabState extends State<ChoosePaletteTab>
     with SingleTickerProviderStateMixin {
   Animation<double> _animation;
-  double height = (numberOfColors.value.toDouble() + 2) * 30;
+
   @override
   void initState() {
     choosePaletteAnimationController = AnimationController(
@@ -37,6 +51,7 @@ class _ChoosePaletteTabState extends State<ChoosePaletteTab>
   @override
   void dispose() {
     choosePaletteAnimationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -46,7 +61,6 @@ class _ChoosePaletteTabState extends State<ChoosePaletteTab>
     return ValueListenableBuilder<int>(
         valueListenable: rebuildPalette,
         builder: (context, value, child) {
-          print(_animation.value);
           return Positioned(
               top: 0,
               bottom: 0,
@@ -65,18 +79,18 @@ class _ChoosePaletteTabState extends State<ChoosePaletteTab>
                     },
 
                       child: Container(color: Colors.white.withOpacity(0.8),
-                          width: 204, height: 600,child: ChoosePalette())
+                          width: 204, height: MediaQuery.of(context).size.height,child: ChoosePalette())
                     ),
                     Align(
-                      alignment: Alignment(0, -0.2),
+                      alignment: Alignment(0, -0.3),
                       child: GestureDetector(
                         onTap: () {
-                          if (isOpen) {
-                            choosePaletteAnimationController.forward();
-                            isOpen = false;
-                          } else {
-                            choosePaletteAnimationController.reverse();
+                          if (!isOpen) {
+                            openChoosePaletteTab();
                             isOpen = true;
+                          } else {
+                            closeChoosePaletteTab();
+                            isOpen = false;
                           }
                         },
                         child: ClipPath(
@@ -84,8 +98,8 @@ class _ChoosePaletteTabState extends State<ChoosePaletteTab>
                           child: Container(
                               color: Colors.white.withOpacity(0.8),
                               height: 100,
-                              width: 35,
-                              child: Icon(Icons.palette_sharp,
+                              width: 45,
+                              child: Icon(Icons.photo,
                                   color: Colors.blue, size: 35)),
                         ),
                       ),

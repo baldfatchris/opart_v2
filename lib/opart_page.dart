@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'bottom_app_bar.dart';
 import 'model_opart.dart';
-import 'palette_toolbox.dart';
+import 'palette_tab.dart';
 import 'toolbox.dart';
 import 'package:shake/shake.dart';
 import 'dart:math';
@@ -22,8 +22,9 @@ class OpArtPage extends StatefulWidget {
   @override
   _OpArtPageState createState() => _OpArtPageState();
 }
-
-bool fullScreen = false;
+bool showPaletteTab = true;
+bool showChoosePaletteTab = true;
+bool showSettings = false;
 File imageFile;
 bool showCustomColorPicker = false;
 OpArt opArt;
@@ -32,7 +33,7 @@ class _OpArtPageState extends State<OpArtPage> {
   @override
   void initState() {
     opArt = OpArt(opArtType: widget.opArtType);
-    fullScreen = true;
+    showSettings = true;
     super.initState();
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
       setState(() {
@@ -122,7 +123,7 @@ class _OpArtPageState extends State<OpArtPage> {
         builder: (context, value, child) {
           return Scaffold(
             extendBodyBehindAppBar: true,
-            appBar: fullScreen
+            appBar: showSettings
                 ? AppBar(
                     backgroundColor: Colors.cyan[200].withOpacity(0.8),
                     title: Text(
@@ -199,31 +200,28 @@ class _OpArtPageState extends State<OpArtPage> {
                 GestureDetector(
                     onTap: () {
                       setState(() {
-                        if(showCustomColorPicker){
-                          paletteAnimationController.reverse();
+                        if (showSettings||showPaletteTab||showChoosePaletteTab) {
+                          showSettings = false;
+                          showPaletteTab = false;
+                          showChoosePaletteTab = false;
                           showCustomColorPicker = false;
-
-                        }
-                        else{
-                          paletteAnimationController.forward();
-                          showCustomColorPicker = true;
-                        }
-                        if (fullScreen) {
-                          fullScreen = false;
                         } else {
-                          fullScreen = true;
+                          showSettings = true;
+                          showPaletteTab = true;
+                          showChoosePaletteTab = true;
+                          showCustomColorPicker = false;
                         }
                       });
                     },
                     child: InteractiveViewer(
                       child: ClipRect(
                           child: CanvasWidget(
-                        fullScreen,
+                        showSettings,
                       )),
                     )),
                 Align(
                   alignment: Alignment.topCenter,
-                  child: fullScreen
+                  child: showSettings
                       ? SafeArea(
                           child: Container(
                               color: Colors.white.withOpacity(0.8),
@@ -261,12 +259,12 @@ class _OpArtPageState extends State<OpArtPage> {
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: fullScreen
+                  child: showSettings
                       ? customBottomAppBar(context: context, opArt: opArt)
                       : BottomAppBar(),
                 ),
-                PaletteToolBox(MediaQuery.of(context).size.width),
-               ChoosePaletteTab(),
+                showPaletteTab? PaletteTab(MediaQuery.of(context).size.width): Container(),
+               showChoosePaletteTab? ChoosePaletteTab(): Container(),
                showCustomColorPicker? Align(alignment: Alignment.bottomCenter,child: ColorPickerWidget()): Container(),
               ],
             ),

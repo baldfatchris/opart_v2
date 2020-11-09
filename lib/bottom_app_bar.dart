@@ -3,7 +3,7 @@ import 'model_opart.dart';
 import 'toolbox.dart';
 import 'canvas.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:opart_v2/palette_toolbox.dart';
+import 'package:opart_v2/palette_tab.dart';
 import 'opart_page.dart';
 Widget customBottomAppBar(
     {BuildContext context, OpArt opArt}) {
@@ -122,7 +122,7 @@ Widget customBottomAppBar(
                 ) : Container(),
               ],
             ),
-            onPressed: () async { fullScreen = false;
+            onPressed: () async { showSettings = false;
             rebuildOpArtPage.value++;
            //   paletteToolBox(context, opArt);
 
