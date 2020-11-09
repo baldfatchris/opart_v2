@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:opart_v2/opart_fibonacci.dart';
 import 'model_opart.dart';
 import 'model_palette.dart';
 import 'model_settings.dart';
@@ -149,7 +148,7 @@ SettingsModel numberOfColors = SettingsModel(
   max: 36,
   defaultValue: 10,
   icon: Icon(Icons.palette),
-  settingCategory: SettingCategory.palette,
+  settingCategory: SettingCategory.other,
   onChange: (){checkNumberOfColors();},
   proFeature: false,
 );
@@ -207,6 +206,18 @@ SettingsModel resetDefaults = SettingsModel(
   proFeature: false,
 );
 
+SettingsModel randomizePalette = SettingsModel(
+  name: 'randomizePalette',
+  settingType: SettingType.button,
+  label: 'Randomize Palette',
+  tooltip: 'Randomize all palette settings',
+  defaultValue: false,
+  icon: Icon(Icons.low_priority),
+  settingCategory: SettingCategory.tool,
+  onChange: (){resetAllDefaults();},
+  proFeature: false,
+);
+
 double aspectRatio = pi/2;
 
 List<SettingsModel> initializeQuadsAttributes() {
@@ -246,10 +257,10 @@ void paintQuads(Canvas canvas, Size size, Random rnd, double animationVariable, 
   // Initialise the canvas
   double canvasWidth = size.width;
   double canvasHeight = size.height;
-  double borderX = 0.0;
-  double borderY = 0.0;
-  double imageWidth = canvasWidth;
-  double imageHeight = canvasHeight;
+  // double borderX = 0.0;
+  // double borderY = 0.0;
+  // double imageWidth = canvasWidth;
+  // double imageHeight = canvasHeight;
 
   double imageSize = (canvasHeight>canvasWidth) ? canvasHeight : canvasWidth;
 

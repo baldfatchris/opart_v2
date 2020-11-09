@@ -212,7 +212,7 @@ SettingsModel numberOfColors = SettingsModel(
   max: 36,
   defaultValue: 10,
   icon: Icon(Icons.palette),
-  settingCategory: SettingCategory.palette,
+  settingCategory: SettingCategory.other,
   proFeature: false,
   onChange: (){checkNumberOfColors();},
 );
@@ -357,7 +357,7 @@ print('seed: $seed');
   double side = zoomShapes.value;
   
   // reset the colours
-  Color nextColor;
+  // Color nextColor;
   colourOrder = 0;
 
   for (int j = 0; j < cellsY; j++) {

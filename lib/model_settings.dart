@@ -1,10 +1,10 @@
 import 'dart:core';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:opart_v2/opart_fibonacci.dart';
 import 'package:opart_v2/opart_page.dart';
+import 'model_opart.dart';
 
-bool proVersion = true;
+// bool proVersion = true;
 
 enum SettingType {
   double,

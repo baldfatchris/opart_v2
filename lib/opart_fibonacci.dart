@@ -247,7 +247,7 @@ SettingsModel numberOfColors = SettingsModel(
   max: 36,
   defaultValue: 10,
   icon: Icon(Icons.palette),
-  settingCategory: SettingCategory.palette,
+  settingCategory: SettingCategory.other,
   proFeature: false,
   onChange: (){checkNumberOfColors();},
 );

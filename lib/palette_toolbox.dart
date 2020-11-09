@@ -17,47 +17,134 @@ void paletteToolBox(
   Widget _numberOfColors() {
 
     int numberOfColours = opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt();
+    List<SettingsModel> tools = opArt.attributes.where((element) => element.settingCategory==SettingCategory.palette).toList();
 
+    return Column(
+      children: [
+        GridView.builder(
+          shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: MediaQuery.of(context).size.width < 500
+                    ? 4
+                    : MediaQuery.of(context).size.width < 600
+                    ? 5
+                    : MediaQuery.of(context).size.width < 700
+                    ? 6
+                    : MediaQuery.of(context).size.width < 800
+                    ? 7
+                    : 8,
+                childAspectRatio: 1.3),
+            itemCount: tools.length,
+            itemBuilder: (BuildContext context, int index) {
+              return (tools[index].proFeature && !proVersion)
+                  ?Stack(
+                children: [
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        settingsDialog(context, opArt.attributes[index], opArt);
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          tools[index].icon,
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Container(
+                                height: 40,
+                                child: Text(
+                                  tools[index].name,
+                                  textAlign: TextAlign.center,
+                                )),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),Container(color: Colors.white.withOpacity(0.5)),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Align(alignment: Alignment.topRight,child:(Icon(Icons.lock, color: Colors.cyan[200].withOpacity(0.8)))),
+                  )
+                ],
+              )
 
-    return Row(children: [
-      IconButton(
-        icon: Icon(
-          Icons.remove,
-        ),
-        onPressed: (numberOfColours==1) ? null : () {
-          int numberOfColours = opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt();
-          int paletteLength = opArt.palette.colorList.length;
-          numberOfColours--;
-          opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value = numberOfColours;
-          if ( numberOfColours > paletteLength) {
-            String paletteType = opArt.attributes.firstWhere((element) => element.name == 'paletteType').value.toString();
-            opArt.palette.randomize(paletteType, numberOfColours);
+                  :GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                  if (tools[index].silent != null && tools[index].silent){
+                    print('silent');
+                    tools[index].onChange();
+                    opArt.saveToCache();
+                    rebuildCanvas.value++;
+                  }
+                  else {
+                    settingsDialog(context, tools[index], opArt);
+                  }
+                },
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    tools[index].icon,
+                    Padding(
+                      padding: const EdgeInsets.all(1.0),
+                      child: Container(
+                          height: 40,
+                          child: Text(
+                            tools[index].label,
+                            textAlign: TextAlign.center,
+                          )),
+                    )
+                  ],
+                ),
+              );
+            }),
 
-          }
-          rebuildPalette.value++;
-          rebuildCanvas.value++;
-        },
-      ),
-      Text('Number of colors ($numberOfColours)'),
-      IconButton(
-        icon: Icon(
-          Icons.add,
-        ),
-        onPressed: (numberOfColours==36) ? null : () {
-          int numberOfColours = opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt();
-          int paletteLength = opArt.palette.colorList.length;
-          numberOfColours++;
-          opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value = numberOfColours;
-          if ( numberOfColours > paletteLength) {
-            String paletteType = opArt.attributes.firstWhere((element) => element.name == 'paletteType').value.toString();
-            opArt.palette.randomize(paletteType, numberOfColours);
+        Row(children: [
+          IconButton(
+            icon: Icon(
+              Icons.remove,
+            ),
+            onPressed: (numberOfColours==1) ? null : () {
+              int numberOfColours = opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt();
+              int paletteLength = opArt.palette.colorList.length;
+              numberOfColours--;
+              opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value = numberOfColours;
+              if ( numberOfColours > paletteLength) {
+                String paletteType = opArt.attributes.firstWhere((element) => element.name == 'paletteType').value.toString();
+                opArt.palette.randomize(paletteType, numberOfColours);
 
-          }
-          rebuildPalette.value++;
-          rebuildCanvas.value++;
-        },
-      ),
-    ]);
+              }
+              rebuildPalette.value++;
+              rebuildCanvas.value++;
+            },
+          ),
+          Text('Number of colors ($numberOfColours)'),
+          IconButton(
+            icon: Icon(
+              Icons.add,
+            ),
+            onPressed: (numberOfColours==36) ? null : () {
+              int numberOfColours = opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt();
+              int paletteLength = opArt.palette.colorList.length;
+              numberOfColours++;
+              opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value = numberOfColours;
+              if ( numberOfColours > paletteLength) {
+                String paletteType = opArt.attributes.firstWhere((element) => element.name == 'paletteType').value.toString();
+                opArt.palette.randomize(paletteType, numberOfColours);
+
+              }
+              rebuildPalette.value++;
+              rebuildCanvas.value++;
+            },
+          ),
+        ]),
+      ],
+    );
   }
 
   showModalBottomSheet(
@@ -77,6 +164,7 @@ void paletteToolBox(
                       Expanded(
                         child: ColorPicker(
                           displayThumbColor: true,
+                          enableAlpha: false,
                           pickerAreaHeightPercent: 0.2,
                           //pickerAreaBorderRadius: BorderRadius.circular(10.0),
                           pickerColor: palette.colorList[currentColor],

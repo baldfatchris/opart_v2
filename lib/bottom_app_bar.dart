@@ -9,6 +9,7 @@ Widget customBottomAppBar(
     {BuildContext context, OpArt opArt}) {
 
   double width = MediaQuery.of(context).size.width;
+  print('width: $width');
 
   return Container(color: Colors.white.withOpacity(0.8),
 
@@ -32,11 +33,11 @@ Widget customBottomAppBar(
               textDirection: TextDirection.ltr,
               children: <Widget>[
                 Icon(
-                  Icons.track_changes,
+                  MdiIcons.tools,
                   color: Colors.black,
                 ),
-                (width > 600 ) ? SizedBox(width: 3) : Container(),
-            (width > 600) ? Padding(
+                (width > 400 ) ? SizedBox(width: 3) : Container(),
+                (width > 400) ? Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Text(
                     'Tool\nBox',
@@ -107,8 +108,8 @@ Widget customBottomAppBar(
                   Icons.palette,
                   color: Colors.black,
                 ),
-                SizedBox(width: 3),
-                (width > 600 ) ? Padding(
+                (width > 400 ) ? SizedBox(width: 3) : Container(),
+                (width > 400 ) ? Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Text(
                     'Change'
