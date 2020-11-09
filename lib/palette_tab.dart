@@ -283,7 +283,7 @@ class _PaletteTabState extends State<PaletteTab>
                           ],
                         )),
                     Align(
-                      alignment: Alignment(0, -0.6),
+                      alignment: Alignment(0, 0),
                       child: GestureDetector(
                         onTap: () {
 
