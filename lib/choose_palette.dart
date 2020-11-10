@@ -21,16 +21,15 @@ class _ChoosePaletteState extends State<ChoosePalette> {
   @override
   Widget build(BuildContext context) {
     return Container(height: 700,
-        child: ListView.builder(
+        child: GridView.builder(gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 0.3,),
+
             itemCount: defaultPalettes.length,
             itemBuilder: (context, index) {
-
-                return Padding(
+          return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 8.0),
                   child: GestureDetector(
                     onTap: (){
                       List newPalette = defaultPalettes[index][3];
-                      print(newPalette[0]);
                       opArt.palette.colorList.clear();
                       for (int i = 0; i < newPalette.length; i++) {
                         opArt.palette.colorList.add(Color(int.parse(newPalette[i])));
@@ -63,9 +62,5 @@ class _ChoosePaletteState extends State<ChoosePalette> {
                 );
 
             }));
-  }
-
-  void _changePalette() {
-
   }
 }
