@@ -28,7 +28,7 @@ void PaletteToolBox(
   randomColors.value = false;
   List<Map<String, dynamic>> toolboxObjects = [
     {
-      'name': 'Randomize Colors',
+      'name': 'Random',
       'icon': MdiIcons.shuffleVariant,
       'onTapped': () {
         opArt.randomizePalette();
@@ -36,35 +36,38 @@ void PaletteToolBox(
       },
     },
     {
-      'name': 'Linear Random',
+      'name': 'Linear',
       'icon': MdiIcons.shuffleVariant,
       'onTapped': () {
-        for (int i = 0; i < opArt.attributes.length; i++) {
-          if (opArt.attributes[i].settingCategory == SettingCategory.palette) {
-            opArt.attributes[i].randomize(rnd);
+        if(enableButton) {
+          enableButton = false;
+          for (int i = 0; i < opArt.attributes.length; i++) {
+            if (opArt.attributes[i].settingCategory ==
+                SettingCategory.palette) {
+              opArt.attributes[i].randomize(rnd);
+            }
           }
-        }
 
-        opArt.palette.randomize(
-          'linear random',
-          opArt.attributes
-              .firstWhere((element) => element.name == 'numberOfColors')
-              .value
-              .toInt(),
-        );
+          opArt.palette.randomize(
+            'linear random',
+            opArt.attributes
+                .firstWhere((element) => element.name == 'numberOfColors')
+                .value
+                .toInt(),
+          );
 
-        rebuildCanvas.value++;
-        opArt.saveToCache();
-      }
+          rebuildCanvas.value++;
+
+          opArt.saveToCache();
+        }}
     },
     {
-      'name': 'Linear Complementary',
+      'name': 'Complementary',
       'icon': MdiIcons.shuffleVariant,
       'onTapped': () {
         for (int i = 0; i < opArt.attributes.length; i++) {
           if (opArt.attributes[i].settingCategory == SettingCategory.palette) {
             opArt.attributes[i].randomize(rnd);
-            // opArt.saveToCache();
           }
         }
 
@@ -76,12 +79,12 @@ void PaletteToolBox(
               .toInt(),
         );
 
-        rebuildCanvas.value++;
-        opArt.saveToCache();
+
+
       }
     },
     {
-      'name': 'Blended Random',
+      'name': 'Blended',
       'icon': MdiIcons.shuffleVariant,
       'onTapped': () {
         for (int i = 0; i < opArt.attributes.length; i++) {
@@ -103,61 +106,16 @@ void PaletteToolBox(
       }
     },
     {
-      'name': 'Put colours in random Order',
+      'name': 'Order',
       'icon': Icons.shuffle,
       'onTapped': () {
-      //  Navigator.pop(context);
-        //   showDialog(
-        //     //  backgroundColor: Colors.white.withOpacity(0.8),
-        //       barrierColor: Colors.white.withOpacity(0.1),
-        //       context: context,
-        //       builder: (BuildContext bc) {
-        //         return StatefulBuilder(
-        //             builder: (BuildContext context, setLocalState) {
-        //               return Center(
-        //                 child: AlertDialog(
-        //                   backgroundColor: Colors.white.withOpacity(0.7),
-        //                   title: Text('Random Colors'),
-        //                   actions: [
-        //                     RaisedButton(
-        //                       child: Text('Ok'),
-        //                       onPressed: () {
-        //                         Navigator.pop(context);
-        //                       },
-        //                     )
-        //                   ],
-        //                   content: Column(
-        //                     mainAxisSize: MainAxisSize.min,
-        //                     children: <Widget>[
-        //
-        //                   Row(mainAxisAlignment: MainAxisAlignment.center,
-        //                     children: [Text('No'),
-        //                       Container(
-        //                         height: 50,
-        //
-        //                         child:   Switch(
-        //                             value: randomColors.value,
-        //                             onChanged: (value){randomColors.value !=randomColors.value;
-        //                             rebuildPalette}
-        //                         ),
-        //
-        //                       ),Text('Yes')
-        //                     ],
-        //                   ),
-        //                 ]
-        //               )));
-        //             });
-        //       }).then((value) {
-        //     opArt.saveToCache();
-        //     // print('should rebuild cache');
-        //     rebuildCache.value++;
-        //
-        //   });
-        // }
+        randomColors.value !=randomColors.value;
+                                 rebuildPalette.value++;
+                                 rebuildCanvas.value++;
       },
     },
     {
-      'name': 'Fine Tune Palette',
+      'name': 'Fine Tune ',
       'icon': Icons.tune,
       'onTapped': () {
         Navigator.pop(context);
@@ -165,7 +123,7 @@ void PaletteToolBox(
       }
     },
     {
-      'name': 'Choose Palette',
+      'name': 'Choose',
       'icon': Icons.portrait_outlined,
       'onTapped': () {
         Navigator.pop(context);
@@ -177,34 +135,43 @@ void PaletteToolBox(
       barrierColor: Colors.white.withOpacity(0),
       context: context,
       builder: (BuildContext bc) {
-        return Container(
-            height: 200,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 1.0),
-              child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4,
-                      childAspectRatio: 1),
-                  itemCount: toolboxObjects.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    Color color =
-                        Color(int.parse(defaultPalettes[0][3][index]));
+        return Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Container(
+              height: 200,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 1.0),
+                child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                        childAspectRatio: 1),
+                    itemCount: toolboxObjects.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      Color color =
+                          Color(int.parse(defaultPalettes[0][3][index]));
 
-                    return Center(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color:
-                                Color(int.parse(defaultPalettes[0][3][index])),
-                            shape: BoxShape.circle),
-                        child: IconButton(
-                            color: Colors.black,
-                            onPressed: () {
-                              toolboxObjects[index]['onTapped']();
-                            },
-                            icon: Icon(toolboxObjects[index]['icon'])),
-                      ),
-                    );
-                  }),
-            ));
+                      return Column(
+                        children: [
+                          Center(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color:
+                                      Color(int.parse(defaultPalettes[0][3][index])),
+                                  shape: BoxShape.circle),
+                              child: IconButton(
+                                  color: Colors.black,
+                                  onPressed: () {
+                                    toolboxObjects[index]['onTapped']();
+                                  },
+                                  icon: Icon(toolboxObjects[index]['icon'])),
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(toolboxObjects[index]['name'])
+                        ],
+                      );
+                    }),
+              )),
+        );
       });
 }
