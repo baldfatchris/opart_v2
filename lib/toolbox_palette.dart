@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:opart_v2/setting_radiobutton.dart';
+import 'model_palette.dart';
 import 'settings_dialog.dart';
 import 'model_opart.dart';
 import 'model_settings.dart';
+import 'bottom_sheet_palette.dart';
 import 'bottom_sheet_choose_palette.dart';
 
 void PaletteToolBox(
   BuildContext context,
   OpArt opArt,
 ) {
+  randomColors.value = false;
   List<Map<String, dynamic>> toolboxObjects = [
     {
       'name': 'Randomize Colors',
       'icon': Icons.shuffle,
+
       'onTapped': () {
         opArt.randomizePalette();
         opArt.saveToCache();
@@ -45,7 +50,7 @@ void PaletteToolBox(
       'onTapped': () {        for (int i = 0; i < opArt.attributes.length; i++) {
         if (opArt.attributes[i].settingCategory == SettingCategory.palette) {
           opArt.attributes[i].randomize(rnd);
-          opArt.saveToCache();
+         // opArt.saveToCache();
         }
       }
 
@@ -83,9 +88,58 @@ void PaletteToolBox(
     {
       'name': 'Put colours in random Order',
       'icon': Icons.shuffle,
-      'onTapped': () {}
-    },
-    {'name': 'Fine Tune Palette', 'icon': Icons.tune, 'onTapped': () {}},
+      'onTapped': () {
+        Navigator.pop(context);
+      //   showDialog(
+      //     //  backgroundColor: Colors.white.withOpacity(0.8),
+      //       barrierColor: Colors.white.withOpacity(0.1),
+      //       context: context,
+      //       builder: (BuildContext bc) {
+      //         return StatefulBuilder(
+      //             builder: (BuildContext context, setLocalState) {
+      //               return Center(
+      //                 child: AlertDialog(
+      //                   backgroundColor: Colors.white.withOpacity(0.7),
+      //                   title: Text('Random Colors'),
+      //                   actions: [
+      //                     RaisedButton(
+      //                       child: Text('Ok'),
+      //                       onPressed: () {
+      //                         Navigator.pop(context);
+      //                       },
+      //                     )
+      //                   ],
+      //                   content: Column(
+      //                     mainAxisSize: MainAxisSize.min,
+      //                     children: <Widget>[
+      //
+      //                   Row(mainAxisAlignment: MainAxisAlignment.center,
+      //                     children: [Text('No'),
+      //                       Container(
+      //                         height: 50,
+      //
+      //                         child:   Switch(
+      //                             value: randomColors.value,
+      //                             onChanged: (value){randomColors.value !=randomColors.value;
+      //                             rebuildPalette}
+      //                         ),
+      //
+      //                       ),Text('Yes')
+      //                     ],
+      //                   ),
+      //                 ]
+      //               )));
+      //             });
+      //       }).then((value) {
+      //     opArt.saveToCache();
+      //     // print('should rebuild cache');
+      //     rebuildCache.value++;
+      //
+      //   });
+      // }
+    },},
+    {'name': 'Fine Tune Palette', 'icon': Icons.tune, 'onTapped': () {Navigator.pop(context);
+    BottomSheetPalette(context);}},
     {
       'name': 'Choose Palette',
       'icon': Icons.portrait_outlined,
@@ -95,7 +149,7 @@ void PaletteToolBox(
       }
     },
   ];
-  showModalBottomSheet(
+  showModalBottomSheet(barrierColor: Colors.white.withOpacity(0),
       context: context,
       builder: (BuildContext bc) {
         return Container(

@@ -59,6 +59,7 @@ SettingsModel randomColors = SettingsModel(
   icon: Icon(Icons.gamepad),
   settingCategory: SettingCategory.palette,
   proFeature: false,
+  onChange:(){randomColors.value = !randomColors.value;}
 );
 
 SettingsModel paletteType = SettingsModel(

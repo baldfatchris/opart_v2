@@ -9,17 +9,19 @@ import 'model_settings.dart';
 void BottomSheetChoosePalette(
   BuildContext context,
 ) {
-  showModalBottomSheet(
+  showSettings = false;
+  rebuildOpArtPage.value++;
+  showModalBottomSheet(barrierColor: Colors.white.withOpacity(0),
       backgroundColor: Colors.white.withOpacity(0.8),
       context: context,
       builder: (BuildContext bc) {
         return Container(
-            height: 200,
+            height: 250,
             child: Container(
                 child: GridView.builder(
                     gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 4,
-                      childAspectRatio: 0.8,
+                      childAspectRatio: 0.65,
                     ),
                     itemCount: defaultPalettes.length,
                     itemBuilder: (context, index) {
@@ -76,5 +78,9 @@ void BottomSheetChoosePalette(
                         ),
                       );
                     })));
-      });
+      }).then((value){
+    showSettings = true;
+    rebuildOpArtPage.value++;
+    opArt.saveToCache();
+  });
 }
