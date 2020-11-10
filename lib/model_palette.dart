@@ -40,16 +40,16 @@ SettingsModel opacity = SettingsModel(
   settingCategory: SettingCategory.palette,
   proFeature: false,
 );
-// SettingsModel backgroundColor = SettingsModel(
-//   name: 'backgroundColor',
-//   settingType: SettingType.color,
-//   label: "Background Color",
-//   tooltip: "The background colour for the canvas",
-//   defaultValue: Colors.cyan,
-//   icon: Icon(Icons.settings_overscan),
-//   settingCategory: SettingCategory.palette,
-//   proFeature: false,
-// );
+SettingsModel backgroundColor = SettingsModel(
+  name: 'backgroundColor',
+  settingType: SettingType.color,
+  label: "Background Color",
+  tooltip: "The background colour for the canvas",
+  defaultValue: Colors.cyan,
+  icon: Icon(Icons.settings_overscan),
+  settingCategory: SettingCategory.palette,
+  proFeature: false,
+);
 SettingsModel randomColors = SettingsModel(
   name: 'randomColors',
   settingType: SettingType.bool ,
@@ -225,7 +225,7 @@ class OpArtPalette {
   String paletteName = "Default";
   List<Color> colorList= [Color(0xFF34a1af), Color(0xFFa570a8), Color(0xFFd6aa27), Color(0xFF5f9d50), Color(0xFF789dd1), Color(0xFFc25666), Color(0xFF2b7b1), Color(0xFFd63aa), Color(0xFF1f4ed), Color(0xFF383c47)];
   String paletteType = "random";
-  Color backgroundColor = Colors.cyan;
+
 
 
   void randomize(String paletteType, int numberOfColours) {

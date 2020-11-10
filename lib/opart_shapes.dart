@@ -244,6 +244,8 @@ List<SettingsModel> initializeShapesAttributes() {
     box,
     recursionDepth,
     recursionRatio,
+
+    backgroundColor,
     lineColor,
     lineWidth,
     randomColors,
@@ -284,7 +286,7 @@ print('seed: $seed');
   canvas.drawRect(
       Offset(borderX, borderY) & Size(imageWidth, imageHeight * 2),
       Paint()
-        ..color = opArt.palette.backgroundColor
+        ..color = backgroundColor.value
         ..style = PaintingStyle.fill);
 
   // Work out the X and Y

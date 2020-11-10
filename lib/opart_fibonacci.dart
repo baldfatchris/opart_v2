@@ -5,8 +5,6 @@ import 'model_settings.dart';
 import 'dart:math';
 import 'dart:core';
 
-import 'opart_page.dart';
-
 List<String> list = List();
 
 SettingsModel reDraw = SettingsModel(
@@ -193,16 +191,16 @@ SettingsModel radialOscPeriod = SettingsModel(
     proFeature: false,
   );
 
-// SettingsModel backgroundColor = SettingsModel(
-//     name: 'backgroundColor',
-//     settingType: SettingType.color,
-//     label: "Background Color",
-//     tooltip: "The background colour for the canvas",
-//     defaultValue: Colors.cyan,
-//     icon: Icon(Icons.settings_overscan),
-//     settingCategory: SettingCategory.palette,
-//     proFeature: false,
-//   );
+SettingsModel backgroundColor = SettingsModel(
+    name: 'backgroundColor',
+    settingType: SettingType.color,
+    label: "Background Color",
+    tooltip: "The background colour for the canvas",
+    defaultValue: Colors.cyan,
+    icon: Icon(Icons.settings_overscan),
+    settingCategory: SettingCategory.palette,
+    proFeature: false,
+  );
 
 
 
@@ -307,6 +305,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
     maxPetals,
     radialOscAmplitude,
     radialOscPeriod,
+    backgroundColor,
     lineColor,
     lineWidth,
     randomColors,
@@ -343,7 +342,7 @@ void paintFibonacci(Canvas canvas, Size size, Random rnd, double animationVariab
       maxPetals.value.toInt(),
       radialOscAmplitude.value,
       radialOscPeriod.value,
-
+      backgroundColor.value,
       lineColor.value,
       lineWidth.value,
       (randomColors.value == true),
@@ -378,7 +377,7 @@ generateFlower(
     int currentMaxPetals,
     double currentRadialOscAmplitude,
     double currentRadialOscPeriod,
-
+    Color currentBackgroundColor,
     Color currentLineColor,
     double currentLineWidth,
     bool currentRandomColors,
@@ -393,7 +392,7 @@ generateFlower(
   canvas.drawRect(
       Offset(borderX, borderY) & Size(imageWidth, imageHeight * 2),
       Paint()
-        ..color = opArt.palette.backgroundColor
+        ..color = currentBackgroundColor
         ..style = PaintingStyle.fill);
 
   int maxPetalCount = currentMaxPetals;
@@ -440,6 +439,7 @@ generateFlower(
       currentMaxPetals,
       currentRadialOscAmplitude,
       currentRadialOscPeriod,
+      currentBackgroundColor,
       currentLineColor,
       currentLineWidth,
       currentRandomColors,
@@ -480,6 +480,7 @@ drawPetal(
     int currentMaxPetals,
     double currentRadialOscAmplitude,
     double currentRadialOscPeriod,
+    Color currentBackgroundColor,
     Color currentLineColor,
     double currentLineWidth,
     bool currentRandomColors,

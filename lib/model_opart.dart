@@ -243,7 +243,7 @@ class OpArt {
       palette.colorList.add(Color(int.parse(newPalette[3][z])));
     }
     attributes.firstWhere((element) => element.name == 'numberOfColors').value = newPalette[1].toInt();
-    palette.backgroundColor =  Color(int.parse(newPalette[2]));
+    attributes.firstWhere((element) => element.name == 'backgroundColor').value =  Color(int.parse(newPalette[2]));
 
   }
 
@@ -277,7 +277,7 @@ class OpArt {
     List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == "Default");
     attributes.firstWhere((element) => element.name == 'numberOfColors').value = newPalette[1].toInt();
 
-    palette.backgroundColor = Color(int.parse(newPalette[2]));
+    attributes.firstWhere((element) => element.name == 'backgroundColor').value = Color(int.parse(newPalette[2]));
     palette.colorList = [];
     for (int z = 0; z < newPalette[3].length; z++) {
       palette.colorList.add(Color(int.parse(newPalette[3][z])));

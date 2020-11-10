@@ -5,8 +5,6 @@ import 'model_settings.dart';
 import 'dart:math';
 import 'dart:core';
 
-import 'opart_page.dart';
-
 List<String> list = List();
 
 SettingsModel reDraw = SettingsModel(
@@ -143,7 +141,7 @@ List<SettingsModel> initializeWaveAttributes() {
     fanWidth,
     zigZag,
 
-
+    backgroundColor,
     randomColors,
     numberOfColors,
     paletteType,
@@ -173,7 +171,7 @@ void paintWave(Canvas canvas, Size size, Random rnd, double animationVariable, O
     offset.value,
     fanWidth.value,
     zigZag.value,
-
+    backgroundColor.value,
     (randomColors.value == true),
     numberOfColors.value.toInt(),
     paletteType.value,
@@ -202,6 +200,7 @@ generateWave(
     double currentOffset,
     double currentFanWidth,
     bool currentZigZag,
+    Color currentBackgroundColor,
     bool currentRandomColors,
     int currentNumberOfColors,
     String currentPaletteType,
@@ -217,7 +216,7 @@ generateWave(
   canvas.drawRect(
       Offset(borderX, borderY) & Size(imageWidth, imageHeight * 2),
       Paint()
-        ..color = opArt.palette.backgroundColor
+        ..color = currentBackgroundColor
         ..style = PaintingStyle.fill);
 
   double start = 0 - currentAmplitude;
