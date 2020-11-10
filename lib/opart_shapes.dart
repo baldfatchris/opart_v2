@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:opart_v2/opart_icons.dart';
 import 'model_opart.dart';
 import 'model_palette.dart';
 import 'model_settings.dart';
@@ -42,7 +43,7 @@ SettingsModel shapeHalfDiagonalTriangle = SettingsModel(
   label: 'Half Triangles',
   tooltip: 'Add half triangles to the shapes',
   defaultValue: true,
-  icon: Icon(Icons.network_cell),
+  icon: Icon(OpArtLab.half_triangle),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -53,7 +54,7 @@ SettingsModel shapeCircle = SettingsModel(
   label: 'Circles',
   tooltip: 'Add circles to the shapes',
   defaultValue: true,
-  icon: Icon(Icons.brightness_1),
+  icon: Icon(OpArtLab.circle),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -64,7 +65,7 @@ SettingsModel shapeQuarterCircle = SettingsModel(
   label: 'Quarter Circles',
   tooltip: 'Add quarter circles to the shapes',
   defaultValue: true,
-  icon: Icon(Icons.brightness_1),
+  icon: Icon(OpArtLab.quarter_circle),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -75,7 +76,7 @@ SettingsModel shapeHalfCircle = SettingsModel(
   label: 'Half Circles',
   tooltip: 'Add half circles to the shapes',
   defaultValue: true,
-  icon: Icon(Icons.donut_large),
+  icon: Icon(OpArtLab.half_circle),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -86,7 +87,7 @@ SettingsModel shapeQuarterTriangle = SettingsModel(
   label: 'Quarter Triangles',
   tooltip: 'Add quarter triangles to the shapes',
   defaultValue: true,
-  icon: Icon(Icons.network_cell),
+  icon: Icon(OpArtLab.quarter_triangle),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -97,7 +98,7 @@ SettingsModel shapeQuarterSquare = SettingsModel(
   label: 'Quarter Squares',
   tooltip: 'Add quarter squares to the shapes',
   defaultValue: true,
-  icon: Icon(Icons.branding_watermark),
+  icon: Icon(OpArtLab.quarter_square),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -109,7 +110,7 @@ SettingsModel shapeMiniCircle = SettingsModel(
   label: 'Mini Circles',
   tooltip: 'Add mini circles to the shapes',
   defaultValue: true,
-  icon: Icon(Icons.filter_tilt_shift),
+  icon: Icon(OpArtLab.mini_circle),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -135,7 +136,7 @@ SettingsModel recursionDepth = SettingsModel(
   randomMin: 0,
   randomMax: 1,
   defaultValue: 1,
-  icon: Icon(Icons.replay),
+  icon: Icon(OpArtLab.recursion_depth),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -151,7 +152,7 @@ SettingsModel recursionRatio = SettingsModel(
   randomMax: 0.8,
   zoom: 100,
   defaultValue: 0.9,
-  icon: Icon(Icons.zoom_in),
+  icon: Icon(OpArtLab.recursion_ratio),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );

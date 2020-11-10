@@ -367,7 +367,7 @@ SettingsModel opacity = SettingsModel(
     name: 'opacity',
     settingType: SettingType.double,
     label: 'Opactity',
-    tooltip: 'The opactity of the petal',
+    tooltip: 'The opacity of the petal',
     min: 0.2,
     max: 1.0,
     zoom: 100,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:opart_v2/opart_icons.dart';
 import 'model_opart.dart';
 import 'model_palette.dart';
 import 'model_settings.dart';
@@ -101,7 +102,7 @@ SettingsModel petalPointiness = SettingsModel(
     max: pi / 2,
     zoom: 200,
     defaultValue: 0.8,
-    icon: Icon(Icons.change_history),
+    icon: Icon(OpArtLab.pointiness),
     settingCategory: SettingCategory.tool,
     proFeature: false,
   );
@@ -140,7 +141,7 @@ SettingsModel petalType = SettingsModel(
     label: "Petal Type",
     tooltip: "The shape of the petal",
     defaultValue: "square",
-    icon: Icon(Icons.local_florist),
+    icon: Icon(OpArtLab.shapes),
     options: <String>['circle', 'triangle', 'square'],
     settingCategory: SettingCategory.tool,
     proFeature: false,
@@ -265,7 +266,7 @@ SettingsModel paletteList = SettingsModel(
 //     name: 'opacity',
 //     settingType: SettingType.double,
 //     label: 'Opactity',
-//     tooltip: 'The opactity of the petal',
+//     tooltip: 'The opacity of the petal',
 //     min: 0.2,
 //     max: 1.0,
 //     zoom: 100,
