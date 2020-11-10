@@ -383,7 +383,7 @@ SettingsModel opacity = SettingsModel(
   name: 'opacity',
   settingType: SettingType.double,
   label: 'Opactity',
-  tooltip: 'The opactity of the shape',
+  tooltip: 'The opacity of the shape',
   min: 0.2,
   max: 1.0,
   zoom: 100,

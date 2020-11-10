@@ -168,8 +168,9 @@ SettingsModel resetDefaults = SettingsModel(
   tooltip: 'Reset all settings to defaults',
   defaultValue: false,
   icon: Icon(Icons.low_priority),
-  settingCategory: SettingCategory.tool,
-  onChange: (){resetAllDefaults();},
+  settingCategory: SettingCategory.palette,
+  onChange: (){},
+  silent: true,
   proFeature: false,
 );
 

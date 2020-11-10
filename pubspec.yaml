@@ -74,11 +74,10 @@ flutter:
     - family: Righteous
       fonts:
         - asset: fonts/Righteous/Righteous-Regular.ttf
-    - family: OpArt
+
+    - family:  OpArtLab
       fonts:
-        - asset: fonts/OpArtLab-Regular.ttf
-
-
+        - asset: fonts/OpArtLab.ttf
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
