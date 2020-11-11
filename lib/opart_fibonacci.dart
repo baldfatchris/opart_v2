@@ -82,7 +82,7 @@ SettingsModel ratio = SettingsModel(
 SettingsModel randomizeAngle = SettingsModel(
     name: 'randomizeAngle',
     settingType: SettingType.double,
-    label: 'Randomize Angle',
+    label: 'Random Angle',
     tooltip: 'randomize the petal position by moving it around the centre by a random angle up to this maximum',
     min: 0.0,
     max: 0.2,
