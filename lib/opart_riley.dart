@@ -135,6 +135,7 @@ SettingsModel resetDefaults = SettingsModel(
   settingCategory: SettingCategory.tool,
   onChange: (){resetAllDefaults();},
   proFeature: false,
+  silent: true,
 );
 
 double aspectRatio = pi/2;

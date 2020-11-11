@@ -151,8 +151,9 @@ class _CanvasWidgetState extends State<CanvasWidget>
                                         child: FloatingActionButton(backgroundColor: Colors.cyan,
                                             heroTag: null,
                                             onPressed: () {
-                                           animationController?.stop();
-                                            },
+    if (animationController != null) {
+      animationController.stop();
+    }                                            },
                                             child: Icon(Icons.pause)),
                                       ),
                                       Padding(
