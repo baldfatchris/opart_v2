@@ -4,6 +4,7 @@ import 'model_opart.dart';
 import 'toolbox.dart';
 import 'canvas.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:opart_v2/tab_palette.dart';
 import 'opart_page.dart';
 import 'toolbox_palette.dart';
 
@@ -46,7 +47,9 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
               ],
             ),
             onPressed: () {
-
+              if (animationController != null){
+                animationController.stop();
+              }
               ToolBox(
                 context,
                 opArt,
@@ -123,7 +126,9 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
             ),
             onPressed: () {
              // BottomSheetPalette(context);
-
+             if (animationController != null) {
+               animationController.stop();
+             }
               PaletteToolBox(
                 context,
                 opArt,
