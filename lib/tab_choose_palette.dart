@@ -8,6 +8,7 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'model_settings.dart';
 import 'dart:math';
 import 'choose_palette.dart';
+
 int currentColor = 0;
 bool isOpen = false;
 AnimationController choosePaletteAnimationController;
@@ -26,6 +27,7 @@ void closeChoosePaletteTab() {
   choosePaletteAnimationController.reverse();
   rebuildOpArtPage.value++;
 }
+
 class ChoosePaletteTab extends StatefulWidget {
 
   ChoosePaletteTab();
@@ -35,17 +37,18 @@ class ChoosePaletteTab extends StatefulWidget {
 
 class _ChoosePaletteTabState extends State<ChoosePaletteTab>
     with SingleTickerProviderStateMixin {
+  final double width = 120;
   Animation<double> _animation;
 
   @override
   void initState() {
     choosePaletteAnimationController = AnimationController(
         duration: const Duration(milliseconds: 500), vsync: this);
-    _animation = Tween<double>(begin: -204, end: 0)
+    _animation = Tween<double>(begin: -width, end: 0)
         .animate(choosePaletteAnimationController)
-      ..addListener(() {
-        rebuildPalette.value++;
-      });
+          ..addListener(() {
+            rebuildPalette.value++;
+          });
   }
 
   @override
@@ -56,8 +59,6 @@ class _ChoosePaletteTabState extends State<ChoosePaletteTab>
 
   @override
   Widget build(BuildContext context) {
-
-
     return ValueListenableBuilder<int>(
         valueListenable: rebuildPalette,
         builder: (context, value, child) {
@@ -68,19 +69,23 @@ class _ChoosePaletteTabState extends State<ChoosePaletteTab>
               right: 0,
               left: _animation.value,
               child: GestureDetector(
-                onVerticalDragStart: (value){
-                  print('drag');choosePaletteAnimationController.reverse();},
+                onVerticalDragStart: (value) {
+                  print('drag');
+                  choosePaletteAnimationController.reverse();
+                },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    GestureDetector(onTap: (){
-                      showCustomColorPicker = false;
-                      rebuildOpArtPage.value++;
-                    },
-
-                      child: Container(color: Colors.white.withOpacity(0.8),
-                          width: 204, height: MediaQuery.of(context).size.height,child: ChoosePalette())
-                    ),
+                    GestureDetector(
+                        onTap: () {
+                          showCustomColorPicker = false;
+                          rebuildOpArtPage.value++;
+                        },
+                        child: Container(
+                            color: Colors.white.withOpacity(0.8),
+                            width: width,
+                            height: MediaQuery.of(context).size.height,
+                            child: ChoosePalette())),
                     Align(
                       alignment: Alignment(0, -0.3),
                       child: GestureDetector(

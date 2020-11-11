@@ -258,10 +258,10 @@ class _OpArtPageState extends State<OpArtPage> {
                       ? customBottomAppBar(context: context, opArt: opArt)
                       : BottomAppBar(),
                 ),
-               //  showPaletteTab? PaletteTab(MediaQuery.of(context).size.width): Container(),
-               // showChoosePaletteTab? ChoosePaletteTab(): Container(),
-               // showCustomColorPicker? Align(alignment: Alignment.bottomCenter,child: ColorPickerWidget()): Container(),
-               //  ToolsTab(MediaQuery.of(context).size.width)
+                showPaletteTab? PaletteTab(MediaQuery.of(context).size.width): Container(),
+               showChoosePaletteTab? ChoosePaletteTab(): Container(),
+               showCustomColorPicker? Align(alignment: Alignment.bottomCenter,child: ColorPickerWidget()): Container(),
+                ToolsTab(MediaQuery.of(context).size.width)
               ],
             ),
           );
