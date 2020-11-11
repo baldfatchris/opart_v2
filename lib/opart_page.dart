@@ -1,21 +1,21 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:opart_v2/tabs/tab_choose_palette.dart';
 import 'bottom_app_bar.dart';
 import 'model_opart.dart';
-import 'tab_palette.dart';
-import 'toolbox.dart';
+import 'tabs/tab_palette.dart';
+
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shake/shake.dart';
-import 'dart:math';
+
 import 'package:share/share.dart';
-import 'package:screenshot/screenshot.dart';
+
 import 'canvas.dart';
 import 'download_high_resolution.dart';
-//Random rnd = Random();
-import 'model_palette.dart';
-import 'color_picker_widget.dart';
-import 'tab_choose_palette.dart';
-import 'tab_tools.dart';
+import 'tabs/tab_tools.dart';
+
+import 'tab_widget.dart';
 
 class OpArtPage extends StatefulWidget {
   OpArtType opArtType;
@@ -23,9 +23,11 @@ class OpArtPage extends StatefulWidget {
   @override
   _OpArtPageState createState() => _OpArtPageState();
 }
-bool showPaletteTab = true;
-bool showChoosePaletteTab = true;
+
+int currentTab = 10;
+
 bool showSettings = false;
+bool tabOut = false;
 File imageFile;
 bool showCustomColorPicker = false;
 OpArt opArt;
@@ -48,10 +50,11 @@ class _OpArtPageState extends State<OpArtPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) => opArt.saveToCache());
   }
 
+  AnimationController animationController;
   @override
   Widget build(BuildContext context) {
     Future<void> _paymentDialog() async {
-  animationController?.stop();
+      animationController?.stop();
 
       imageFile = null;
       screenshotController
@@ -194,16 +197,16 @@ class _OpArtPageState extends State<OpArtPage> {
               children: [
                 GestureDetector(
                     onTap: () {
+                      print(tabOut);
                       setState(() {
-                        if (showSettings||showPaletteTab||showChoosePaletteTab) {
+                        if (showSettings || tabOut) {
                           showSettings = false;
-                          showPaletteTab = false;
-                          showChoosePaletteTab = false;
+                          currentTab = 10;
+                          tabOut = false;
                           showCustomColorPicker = false;
                         } else {
                           showSettings = true;
-                          showPaletteTab = true;
-                          showChoosePaletteTab = true;
+
                           showCustomColorPicker = false;
                         }
                       });
@@ -258,10 +261,18 @@ class _OpArtPageState extends State<OpArtPage> {
                       ? customBottomAppBar(context: context, opArt: opArt)
                       : BottomAppBar(),
                 ),
-                showPaletteTab? PaletteTab(MediaQuery.of(context).size.width): Container(),
-               showChoosePaletteTab? ChoosePaletteTab(): Container(),
-               showCustomColorPicker? Align(alignment: Alignment.bottomCenter,child: ColorPickerWidget()): Container(),
-                ToolsTab(MediaQuery.of(context).size.width)
+                showSettings || currentTab == 0
+                    ? TabWidget(80, animationController, ChoosePaletteTab(),
+                        -0.5, Icons.portrait, 0)
+                    : Container(),
+                showSettings || currentTab == 2
+                    ? TabWidget(50, animationController, PaletteTab(context), 0,
+                        Icons.palette, 2)
+                    : Container(),
+                showSettings || currentTab == 2
+                    ? TabWidget(80, animationController, ToolBoxTab(), 0.5,
+                        MdiIcons.tools, 2)
+                    : Container(),
               ],
             ),
           );

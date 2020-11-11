@@ -1,14 +1,9 @@
 import 'model_palette.dart';
 import 'model_opart.dart';
 import 'package:flutter/material.dart';
-import 'model_settings.dart';
+
 import 'opart_page.dart';
-import 'package:flutter/material.dart';
-import 'settings_dialog.dart';
-import 'model_opart.dart';
-import 'model_palette.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'model_settings.dart';
+
 import 'dart:math';
 
 import 'choose_palette.dart';

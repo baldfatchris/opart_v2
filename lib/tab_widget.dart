@@ -11,41 +11,48 @@ import 'choose_palette.dart';
 
 int currentColor = 0;
 bool isOpen = false;
-AnimationController choosePaletteAnimationController;
-void openChoosePaletteTab() {
-  showSettings = false;
-  showChoosePaletteTab = true;
-  showPaletteTab = false;
-  choosePaletteAnimationController.forward();
-  rebuildOpArtPage.value++;
-}
 
-void closeChoosePaletteTab() {
-  showSettings = false;
-  showChoosePaletteTab = false;
-  showPaletteTab = false;
-  choosePaletteAnimationController.reverse();
-  rebuildOpArtPage.value++;
-}
-
-class ChoosePaletteTab extends StatefulWidget {
-
-  ChoosePaletteTab();
+class TabWidget extends StatefulWidget {
+  int id;
+  double width;
+  AnimationController animationController;
+  Widget content;
+  double tabHeight;
+  IconData icon;
+  TabWidget(this.width, this.animationController, this.content, this.tabHeight,
+      this.icon, this.id);
   @override
-  _ChoosePaletteTabState createState() => _ChoosePaletteTabState();
+  _TabWidgetState createState() => _TabWidgetState();
 }
 
-class _ChoosePaletteTabState extends State<ChoosePaletteTab>
+class _TabWidgetState extends State<TabWidget>
     with SingleTickerProviderStateMixin {
-  final double width = 110;
-  Animation<double> _animation;
+  AnimationController animationController;
+  void openTab() {
+    currentTab = widget.id;
+    showSettings = false;
+    tabOut = true;
+    animationController.forward();
+    rebuildOpArtPage.value++;
+  }
 
+  void closeTab() {
+    currentTab = 10;
+    tabOut = false;
+
+    animationController.reverse();
+    showSettings = true;
+    rebuildOpArtPage.value++;
+  }
+
+  Animation<double> _animation;
   @override
   void initState() {
-    choosePaletteAnimationController = AnimationController(
+    animationController = widget.animationController;
+    animationController = AnimationController(
         duration: const Duration(milliseconds: 500), vsync: this);
-    _animation = Tween<double>(begin: -width, end: 0)
-        .animate(choosePaletteAnimationController)
+    _animation =
+        Tween<double>(begin: -widget.width, end: 0).animate(animationController)
           ..addListener(() {
             rebuildPalette.value++;
           });
@@ -53,7 +60,7 @@ class _ChoosePaletteTabState extends State<ChoosePaletteTab>
 
   @override
   void dispose() {
-    choosePaletteAnimationController.dispose();
+    animationController.dispose();
     super.dispose();
   }
 
@@ -65,36 +72,29 @@ class _ChoosePaletteTabState extends State<ChoosePaletteTab>
           return Positioned(
               top: 0,
               bottom: 0,
-              //  right: _animation.value,
               right: 0,
               left: _animation.value,
               child: GestureDetector(
                 onVerticalDragStart: (value) {
-                  print('drag');
-                  choosePaletteAnimationController.reverse();
+                  animationController.reverse();
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    GestureDetector(
-                        onTap: () {
-                          showCustomColorPicker = false;
-                          rebuildOpArtPage.value++;
-                        },
-                        child: Container(
-                            color: Colors.white.withOpacity(0.8),
-                            width: width,
-                            height: MediaQuery.of(context).size.height,
-                            child: ChoosePalette())),
+                    Container(
+                        color: Colors.white.withOpacity(0.8),
+                        height: MediaQuery.of(context).size.height,
+                        width: widget.width,
+                        child: widget.content),
                     Align(
-                      alignment: Alignment(0, -0.3),
+                      alignment: Alignment(0, widget.tabHeight),
                       child: GestureDetector(
                         onTap: () {
                           if (!isOpen) {
-                            openChoosePaletteTab();
+                            openTab();
                             isOpen = true;
                           } else {
-                            closeChoosePaletteTab();
+                            closeTab();
                             isOpen = false;
                           }
                         },
@@ -104,7 +104,7 @@ class _ChoosePaletteTabState extends State<ChoosePaletteTab>
                               color: Colors.white.withOpacity(0.8),
                               height: 100,
                               width: 45,
-                              child: Icon(Icons.photo,
+                              child: Icon(widget.icon,
                                   color: Colors.blue, size: 35)),
                         ),
                       ),
@@ -113,20 +113,6 @@ class _ChoosePaletteTabState extends State<ChoosePaletteTab>
                 ),
               ));
         });
-
-    // showModalBottomSheet(
-    //     backgroundColor: Colors.white.withOpacity(0.8),
-    //     context: context,
-    //     builder: (BuildContext bc) {
-    //       return ValueListenableBuilder<int>(
-    //           valueListenable: rebuildPalette,
-    //           builder: (context, value, child) {
-    //             return Container(
-    //                 child: );
-    //           });
-    //     }).then((value) {
-    //   opArt.saveToCache();
-    // });
   }
 }
 
