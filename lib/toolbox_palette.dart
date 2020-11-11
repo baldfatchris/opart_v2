@@ -57,7 +57,6 @@ void PaletteToolBox(
           );
 
           rebuildCanvas.value++;
-
           opArt.saveToCache();
         }}
     },
@@ -78,8 +77,6 @@ void PaletteToolBox(
               .value
               .toInt(),
         );
-
-
 
       }
     },
@@ -144,7 +141,7 @@ void PaletteToolBox(
                 child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
-                        childAspectRatio: 1),
+                        childAspectRatio: 1.3),
                     itemCount: toolboxObjects.length,
                     itemBuilder: (BuildContext context, int index) {
                       Color color =
@@ -155,8 +152,7 @@ void PaletteToolBox(
                           Center(
                             child: Container(
                               decoration: BoxDecoration(
-                                  color:
-                                      Color(int.parse(defaultPalettes[0][3][index])),
+                                  color: Color(int.parse(defaultPalettes[0][3][index])),
                                   shape: BoxShape.circle),
                               child: IconButton(
                                   color: Colors.black,

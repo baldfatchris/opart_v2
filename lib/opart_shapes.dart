@@ -45,6 +45,7 @@ SettingsModel shapeHalfDiagonalTriangle = SettingsModel(
   defaultValue: true,
   icon: Icon(OpArtLab.half_triangle),
   settingCategory: SettingCategory.tool,
+  silent: true,
   proFeature: false,
 );
 
@@ -56,6 +57,7 @@ SettingsModel shapeCircle = SettingsModel(
   defaultValue: true,
   icon: Icon(OpArtLab.circle),
   settingCategory: SettingCategory.tool,
+  silent: true,
   proFeature: false,
 );
 
@@ -67,6 +69,7 @@ SettingsModel shapeQuarterCircle = SettingsModel(
   defaultValue: true,
   icon: Icon(OpArtLab.quarter_circle),
   settingCategory: SettingCategory.tool,
+  silent: true,
   proFeature: false,
 );
 
@@ -78,6 +81,7 @@ SettingsModel shapeHalfCircle = SettingsModel(
   defaultValue: true,
   icon: Icon(OpArtLab.half_circle),
   settingCategory: SettingCategory.tool,
+  silent: true,
   proFeature: false,
 );
 
@@ -89,6 +93,7 @@ SettingsModel shapeQuarterTriangle = SettingsModel(
   defaultValue: true,
   icon: Icon(OpArtLab.quarter_triangle),
   settingCategory: SettingCategory.tool,
+  silent: true,
   proFeature: false,
 );
 
@@ -100,6 +105,7 @@ SettingsModel shapeQuarterSquare = SettingsModel(
   defaultValue: true,
   icon: Icon(OpArtLab.quarter_square),
   settingCategory: SettingCategory.tool,
+  silent: true,
   proFeature: false,
 );
 
@@ -112,6 +118,7 @@ SettingsModel shapeMiniCircle = SettingsModel(
   defaultValue: true,
   icon: Icon(OpArtLab.mini_circle),
   settingCategory: SettingCategory.tool,
+  silent: true,
   proFeature: false,
 );
 
@@ -123,6 +130,7 @@ SettingsModel box = SettingsModel(
   defaultValue: true,
   icon: Icon(Icons.check_box_outline_blank),
   settingCategory: SettingCategory.tool,
+  silent: true,
   proFeature: true,
 );
 
