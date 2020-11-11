@@ -47,7 +47,7 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
               ],
             ),
             onPressed: () {
-              animationController.stop();
+
               ToolBox(
                 context,
                 opArt,
@@ -124,7 +124,7 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
             ),
             onPressed: () {
              // BottomSheetPalette(context);
-              animationController.stop();
+
               PaletteToolBox(
                 context,
                 opArt,

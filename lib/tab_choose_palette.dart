@@ -37,7 +37,7 @@ class ChoosePaletteTab extends StatefulWidget {
 
 class _ChoosePaletteTabState extends State<ChoosePaletteTab>
     with SingleTickerProviderStateMixin {
-  final double width = 120;
+  final double width = 110;
   Animation<double> _animation;
 
   @override

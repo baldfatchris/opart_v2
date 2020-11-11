@@ -16,73 +16,75 @@ void ToolBox(
             .where((element) => element.settingCategory == SettingCategory.tool)
             .toList();
 
-        return Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Container(
-              height: 200,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 1.0),
-                child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: MediaQuery.of(context).size.width < 500
-                            ? 4
-                            : MediaQuery.of(context).size.width < 600
-                                ? 5
-                                : MediaQuery.of(context).size.width < 700
-                                    ? 6
-                                    : MediaQuery.of(context).size.width < 800
-                                        ? 7
-                                        : 8,
-                        childAspectRatio: 1.1),
-                    itemCount: tools.length,
-                    itemBuilder: (BuildContext context, int index) {
+        return StatefulBuilder(builder: (context, setState) {
+          return Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Container(
+                height: 200,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 1.0),
+                  child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: MediaQuery.of(context).size.width <
+                                  500
+                              ? 4
+                              : MediaQuery.of(context).size.width < 600
+                                  ? 5
+                                  : MediaQuery.of(context).size.width < 700
+                                      ? 6
+                                      : MediaQuery.of(context).size.width < 800
+                                          ? 7
+                                          : 8,
+                          childAspectRatio: 1.1),
+                      itemCount: tools.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
+                          children: [
+                            Center(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: (tools[index].settingType !=
+                                            SettingType.bool)
+                                        ? Colors.grey[100] // if it's not a bool
+                                        : (tools[index].value == true)
+                                            ? Colors.grey[
+                                                400] // if it is bool and == true
+                                            : Colors.white,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: Colors.black)),
+                                child: IconButton(
+                                    icon: tools[index].icon,
+                                    onPressed: () {
+          setState(() {
+                                      if (tools[index].silent != null &&
+                                          tools[index].silent) {
+                                        print('silent');
 
+                                        if (tools[index].settingType ==
+                                            SettingType.bool) {
+                                          tools[index].value =
+                                              !tools[index].value;
+                                        }
 
-                      return Column(
-                        children: [
-                          Center(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color:
-                                    (tools[index].settingType != SettingType.bool ) ? Colors.grey[100] // if it's not a bool
-                                      : (tools[index].value == true) ?  Colors.grey[400] // if it is bool and == true
-                                      : Colors.white,
-                                shape: BoxShape.circle,
-                                  border: Border.all(color: Colors.black)
+                                        if (tools[index].onChange != null) {
+                                          tools[index].onChange();
+                                        }
+
+                                        opArt.saveToCache();
+                                        rebuildCanvas.value++;
+                                      } else {
+                                        Navigator.pop(context);
+                                        settingsDialog(
+                                            context, tools[index], opArt);
+                                      }});
+                                    }),
                               ),
-
-                              child: IconButton(
-                                  icon: tools[index].icon,
-                                  onPressed: () {
-                                          Navigator.pop(context);
-                                          if (tools[index].silent != null && tools[index].silent) {
-
-                                            print('silent');
-
-                                            if (tools[index].settingType == SettingType.bool){
-                                              tools[index].value = !tools[index].value;
-                                            }
-
-                                            if (tools[index].onChange != null){
-                                              tools[index].onChange();
-                                            }
-
-                                            opArt.saveToCache();
-                                            rebuildCanvas.value++;
-
-                                          } else {
-                                            settingsDialog(context, tools[index], opArt);
-                                          }
-                              }),
                             ),
-                          ),
-
-                          SizedBox(height: 4),
-                          Text(tools[index].label, textAlign: TextAlign.center)
-
-                        ],
-                      );
-
+                            SizedBox(height: 4),
+                            Text(tools[index].label,
+                                textAlign: TextAlign.center)
+                          ],
+                        );
 
                         // (tools[index].proFeature && !proVersion)
                         //   ? Stack(
@@ -159,16 +161,9 @@ void ToolBox(
                         //       ),
                         //     );
                         //
-
-
-
-
-
-
-
-
-                    }),
-              )),
-        );
+                      }),
+                )),
+          );
+        });
       });
 }
