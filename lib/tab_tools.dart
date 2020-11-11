@@ -223,7 +223,7 @@ class _ToolsTabState extends State<ToolsTab>
                         //  Navigator.pop(context);
 
                           if (tools[index].silent != null && tools[index].silent){
-                            print('silent');
+                            // print('silent');
                             tools[index].onChange();
                             opArt.saveToCache();
                             rebuildCanvas.value++;

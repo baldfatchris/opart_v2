@@ -54,10 +54,9 @@ void ToolBox(
                               child: IconButton(
                                   icon: tools[index].icon,
                                   onPressed: () {
-                                          Navigator.pop(context);
                                           if (tools[index].silent != null && tools[index].silent) {
 
-                                            print('silent');
+                                            // print('silent');
 
                                             if (tools[index].settingType == SettingType.bool){
                                               tools[index].value = !tools[index].value;
@@ -71,6 +70,7 @@ void ToolBox(
                                             rebuildCanvas.value++;
 
                                           } else {
+                                            Navigator.pop(context);
                                             settingsDialog(context, tools[index], opArt);
                                           }
                               }),
