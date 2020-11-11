@@ -230,6 +230,7 @@ class OpArtPalette {
 
 
   void randomize(String paletteType, int numberOfColours) {
+// print('paletteType: $paletteType');
 
     Random rnd = Random(seed);
 
