@@ -47,7 +47,9 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
               ],
             ),
             onPressed: () {
-              animationController.stop();
+              if (animationController != null){
+                animationController.stop();
+              }
               ToolBox(
                 context,
                 opArt,
