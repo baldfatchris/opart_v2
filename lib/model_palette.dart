@@ -255,10 +255,11 @@ seed = DateTime.now().millisecond;
       // blended random
       case 'blended random':
         {
-          double blendColour = rnd.nextDouble() * 0xFFFFFF;
-          palette.add(Color(blendColour.toInt()).withOpacity((1)));
+          Color blendColour = Color(rnd.nextInt(0xFFFFFF)).withOpacity(1);
+          palette.add(blendColour);
           for (int colourIndex = 1; colourIndex < numberOfColours; colourIndex++) {
-            palette.add(Color(((blendColour*1 + rnd.nextDouble() * 0xFFFFFF) / 3).toInt()).withOpacity(1));
+            Color randomColor = Color(rnd.nextInt(0xFFFFFF));
+            palette.add(Color.fromARGB(((blendColour.alpha*2+randomColor.alpha)/3).toInt(), ((blendColour.red*2+randomColor.red)/3).toInt(), ((blendColour.green*2+randomColor.green)/3).toInt(), ((blendColour.blue*2+randomColor.blue)/3).toInt()));
           }
         }
         break;
