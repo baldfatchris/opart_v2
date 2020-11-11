@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'model_opart.dart';
+import '../model_opart.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'bottom_sheet_palette.dart';
-import 'opart_page.dart';
+import '../opart_page.dart';
 class ColorPickerWidget extends StatefulWidget {
   @override
   _ColorPickerWidgetState createState() => _ColorPickerWidgetState();

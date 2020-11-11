@@ -15,7 +15,7 @@ import 'canvas.dart';
 import 'download_high_resolution.dart';
 import 'tabs/tab_tools.dart';
 
-import 'tab_widget.dart';
+import 'tabs/tab_widget.dart';
 
 class OpArtPage extends StatefulWidget {
   OpArtType opArtType;
@@ -265,9 +265,9 @@ class _OpArtPageState extends State<OpArtPage> {
                     ? TabWidget(80, animationController, ChoosePaletteTab(),
                         -0.5, Icons.portrait, 0)
                     : Container(),
-                showSettings || currentTab == 2
+                showSettings || currentTab == 1
                     ? TabWidget(50, animationController, PaletteTab(context), 0,
-                        Icons.palette, 2)
+                        Icons.palette, 1)
                     : Container(),
                 showSettings || currentTab == 2
                     ? TabWidget(80, animationController, ToolBoxTab(), 0.5,

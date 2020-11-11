@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'choose_palette.dart';
-import 'model_palette.dart';
-import 'opart_page.dart';
-import 'settings_dialog.dart';
-import 'model_opart.dart';
-import 'model_settings.dart';
+import '../choose_palette.dart';
+import '../model_palette.dart';
+import '../opart_page.dart';
+import '../settings_dialog.dart';
+import '../model_opart.dart';
+import '../model_settings.dart';
 
 void BottomSheetChoosePalette(
   BuildContext context,

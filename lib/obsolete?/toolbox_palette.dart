@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:opart_v2/setting_radiobutton.dart';
-import 'model_palette.dart';
-import 'settings_dialog.dart';
-import 'model_opart.dart';
-import 'model_settings.dart';
+import '../model_palette.dart';
+import '../settings_dialog.dart';
+import '../model_opart.dart';
+import '../model_settings.dart';
 import 'bottom_sheet_palette.dart';
 import 'bottom_sheet_choose_palette.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';

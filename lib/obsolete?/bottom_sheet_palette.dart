@@ -2,13 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:opart_v2/color_picker_widget.dart';
 import 'package:opart_v2/opart_page.dart';
-import 'settings_dialog.dart';
-import 'model_opart.dart';
-import 'model_palette.dart';
+import '../settings_dialog.dart';
+import '../model_opart.dart';
+import '../model_palette.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'model_settings.dart';
+import '../model_settings.dart';
 import 'dart:math';
-import 'choose_palette.dart';
+import '../choose_palette.dart';
 
 int currentColor = 0;
 
