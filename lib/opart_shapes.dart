@@ -272,15 +272,10 @@ List<SettingsModel> initializeShapesAttributes() {
 void paintShapes(Canvas canvas, Size size, Random rnd, double animationVariable, OpArt opArt) {
 
   rnd = Random(seed);
-print('seed: $seed');
-
 
   if (paletteList.value != opArt.palette.paletteName){
     opArt.selectPalette(paletteList.value);
   }
-
-
-
 
   // Initialise the canvas
   double canvasWidth = size.width;

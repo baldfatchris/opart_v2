@@ -230,22 +230,35 @@ class OpArtPalette {
 
 
   void randomize(String paletteType, int numberOfColours) {
-// print('paletteType: $paletteType');
+print('paletteType: $paletteType');
+print('numberOfColours: $numberOfColours');
+seed = DateTime.now().millisecond;
 
     Random rnd = Random(seed);
 
     // print('randomizing palette');
 
-    List<Color> palette = [];
+    List<Color> palette = List();
 
     switch (paletteType) {
+    // random
+      case 'random':
+        {
+          for (int colorIndex = 0; colorIndex < numberOfColours; colorIndex++) {
+            palette.add(
+                Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1));
+          }
+        }
+        break;
+
+
       // blended random
       case 'blended random':
         {
           double blendColour = rnd.nextDouble() * 0xFFFFFF;
-          for (int colourIndex = 0; colourIndex < numberOfColours; colourIndex++) {
-            palette.add(Color((blendColour + rnd.nextDouble() * 0xFFFFFF / 2).toInt())
-                    .withOpacity(1));
+          palette.add(Color(blendColour.toInt()).withOpacity((1)));
+          for (int colourIndex = 1; colourIndex < numberOfColours; colourIndex++) {
+            palette.add(Color(((blendColour*1 + rnd.nextDouble() * 0xFFFFFF) / 3).toInt()).withOpacity(1));
           }
         }
         break;
@@ -318,15 +331,6 @@ class OpArtPalette {
         }
         break;
 
-      // random
-      default:
-        {
-          for (int colorIndex = 0; colorIndex < numberOfColours; colorIndex++) {
-            palette.add(
-                Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1));
-          }
-        }
-        break;
     }
 
     this.colorList = palette;

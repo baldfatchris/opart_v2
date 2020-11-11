@@ -56,8 +56,6 @@ void ToolBox(
                                   onPressed: () {
                                           if (tools[index].silent != null && tools[index].silent) {
 
-                                            // print('silent');
-
                                             if (tools[index].settingType == SettingType.bool){
                                               tools[index].value = !tools[index].value;
                                             }

@@ -31,9 +31,28 @@ void PaletteToolBox(
       'name': 'Random',
       'icon': MdiIcons.shuffleVariant,
       'onTapped': () {
-        opArt.randomizePalette();
+        opArt.palette.randomize(
+          'random',
+          opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt(),
+        );
+        rebuildCanvas.value++;
         opArt.saveToCache();
       },
+    },
+    {
+      'name': 'Blended',
+      'icon': MdiIcons.shuffleVariant,
+      'onTapped': () {
+        if(enableButton) {
+          enableButton = false;
+          opArt.palette.randomize(
+            'blended random',
+            opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt(),
+          );
+          rebuildCanvas.value++;
+          opArt.saveToCache();
+        }
+      }
     },
     {
       'name': 'Linear',
@@ -41,65 +60,28 @@ void PaletteToolBox(
       'onTapped': () {
         if(enableButton) {
           enableButton = false;
-          for (int i = 0; i < opArt.attributes.length; i++) {
-            if (opArt.attributes[i].settingCategory ==
-                SettingCategory.palette) {
-              opArt.attributes[i].randomize(rnd);
-            }
-          }
-
           opArt.palette.randomize(
             'linear random',
-            opArt.attributes
-                .firstWhere((element) => element.name == 'numberOfColors')
-                .value
-                .toInt(),
+            opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt(),
           );
-
           rebuildCanvas.value++;
           opArt.saveToCache();
-        }}
+        }
+      }
     },
     {
       'name': 'Complementary',
       'icon': MdiIcons.shuffleVariant,
       'onTapped': () {
-        for (int i = 0; i < opArt.attributes.length; i++) {
-          if (opArt.attributes[i].settingCategory == SettingCategory.palette) {
-            opArt.attributes[i].randomize(rnd);
-          }
+        if(enableButton) {
+          enableButton = false;
+          opArt.palette.randomize(
+            'linear complementary',
+            opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt(),
+          );
+          rebuildCanvas.value++;
+          opArt.saveToCache();
         }
-
-        opArt.palette.randomize(
-          'linear complementary',
-          opArt.attributes
-              .firstWhere((element) => element.name == 'numberOfColors')
-              .value
-              .toInt(),
-        );
-
-      }
-    },
-    {
-      'name': 'Blended',
-      'icon': MdiIcons.shuffleVariant,
-      'onTapped': () {
-        for (int i = 0; i < opArt.attributes.length; i++) {
-          if (opArt.attributes[i].settingCategory == SettingCategory.palette) {
-            opArt.attributes[i].randomize(rnd);
-          }
-        }
-
-        opArt.palette.randomize(
-          'blended random',
-          opArt.attributes
-              .firstWhere((element) => element.name == 'numberOfColors')
-              .value
-              .toInt(),
-        );
-
-        rebuildCanvas.value++;
-        opArt.saveToCache();
       }
     },
     {
