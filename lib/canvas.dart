@@ -123,7 +123,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 2),
-                                        child: FloatingActionButton(
+                                        child: FloatingActionButton(backgroundColor: Colors.cyan,
                                             heroTag: null,
                                             onPressed: () {
                                               if (timeDilation < 8) {
@@ -135,7 +135,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 2),
-                                        child: FloatingActionButton(
+                                        child: FloatingActionButton(backgroundColor: Colors.cyan,
                                           heroTag: null,
                                           onPressed: () {
                                             animationController.reverse();
@@ -148,7 +148,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 2.0),
-                                        child: FloatingActionButton(
+                                        child: FloatingActionButton(backgroundColor: Colors.cyan,
                                             heroTag: null,
                                             onPressed: () {
                                            animationController.stop();
@@ -158,7 +158,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 2.0),
-                                        child: FloatingActionButton(
+                                        child: FloatingActionButton(backgroundColor: Colors.cyan,
                                             heroTag: null,
                                             onPressed: () {
                                               animationController.forward();
@@ -168,7 +168,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 2),
-                                        child: FloatingActionButton(
+                                        child: FloatingActionButton(backgroundColor: Colors.cyan,
                                             heroTag: null,
                                             onPressed: () {
                                               if (timeDilation > 0.2) {
