@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'model_opart.dart';
 import 'opart_page.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CanvasWidget extends StatefulWidget {
   bool _fullScreen;
@@ -13,25 +14,15 @@ class CanvasWidget extends StatefulWidget {
 }
 
 bool playing = true;
-void stopIfPlaying() {
-  if (playing) {
-    if (animationController != null){
-      animationController.stop();
-    }
-    playing = false;
-    playPauseController.forward();
-  }
-}
 
 
 AnimationController animationController;
-AnimationController playPauseController;
+
 
 class _CanvasWidgetState extends State<CanvasWidget>
     with TickerProviderStateMixin {
   Animation<double> currentAnimation;
   double _timeDilation = 1;
-
 
   @override
   void initState() {
@@ -60,9 +51,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
 
       animationController.forward();
     }
-    playPauseController = AnimationController(
-        duration: const Duration(milliseconds: 300), vsync: this);
-    super.initState();
+
   }
 
   Hero hero1;
@@ -101,70 +90,96 @@ class _CanvasWidgetState extends State<CanvasWidget>
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       opArt.animation
-                          ? Container(
-                              height: 70,
-                              color: Colors.white.withOpacity(0.5),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Slider(
-                                      value: _timeDilation,
-                                      min: 0.1,
-                                      max: 8,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _timeDilation = value;
-                                          timeDilation = 1 / value;
-                                        });
-                                      },
-                                      onChangeEnd: (value) async {
-                                        // await new Future.delayed(
-                                        //     const Duration(seconds: 1));
-                                        // setState(() {
-                                        //   _showTools = false;
-                                        // });
-                                      },
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 4),
-                                    child: FloatingActionButton(
-                                        onPressed: () {
-                                          if (_forward) {
-                                            setState(() {
-                                              animationController.reverse();
-                                              _forward = false;
-                                            });
-                                          } else {
-                                            setState(() {
+                          ? Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Container(
+                                height: 50,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      // Expanded(
+                                      //   child: Slider(
+                                      //     value: _timeDilation,
+                                      //     min: 0.1,
+                                      //     max: 8,
+                                      //     onChanged: (value) {
+                                      //       setState(() {
+                                      //         _timeDilation = value;
+                                      //         timeDilation = 1 / value;
+                                      //       });
+                                      //     },
+                                      //     onChangeEnd: (value) async {
+                                      //       // await new Future.delayed(
+                                      //       //     const Duration(seconds: 1));
+                                      //       // setState(() {
+                                      //       //   _showTools = false;
+                                      //       // });
+                                      //     },
+                                      //   ),
+                                      // ),
+
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 2),
+                                        child: FloatingActionButton(
+                                            heroTag: null,
+                                            onPressed: () {
+                                              if (timeDilation < 8) {
+                                                timeDilation = timeDilation * 2;
+                                              }
+                                            },
+                                            child: Transform.rotate(angle: pi, child: Icon(Icons.fast_forward))),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 2),
+                                        child: FloatingActionButton(
+                                          heroTag: null,
+                                          onPressed: () {
+                                            animationController.reverse();
+                                          },
+                                          child: Transform.rotate(
+                                              angle: pi,
+                                              child: Icon(Icons.play_arrow)),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 2.0),
+                                        child: FloatingActionButton(
+                                            heroTag: null,
+                                            onPressed: () {
+                                           animationController.stop();
+                                            },
+                                            child: Icon(Icons.pause)),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 2.0),
+                                        child: FloatingActionButton(
+                                            heroTag: null,
+                                            onPressed: () {
                                               animationController.forward();
-                                              _forward = true;
-                                            });
-                                          }
-                                        },
-                                        child: Icon(_forward
-                                            ? Icons.fast_rewind
-                                            : Icons.fast_forward)),
+                                            },
+                                            child: Icon(Icons.play_arrow)),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 2),
+                                        child: FloatingActionButton(
+                                            heroTag: null,
+                                            onPressed: () {
+                                              if (timeDilation > 0.2) {
+                                                timeDilation = timeDilation / 2;
+                                              }
+                                            },
+                                            child: Icon(Icons.fast_forward)),
+                                      ),
+                                    ],
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: FloatingActionButton(
-                                        heroTag: hero2,
-                                        onPressed: () {
-                                          if (playing) {
-                                            stopIfPlaying();
-                                          } else {
-                                            playPauseController.reverse();
-                                            playing = true;
-                                            animationController.forward();
-                                          }
-                                        },
-                                        child: AnimatedIcon(
-                                            icon: AnimatedIcons.pause_play,
-                                            progress: playPauseController)),
-                                  ),
-                                ],
+                                ),
                               ),
                             )
                           : Container(),
@@ -181,7 +196,6 @@ class _CanvasWidgetState extends State<CanvasWidget>
   @override
   void dispose() {
     opArt.animation ? animationController.dispose() : null;
-    playPauseController.dispose();
     super.dispose();
   }
 }
