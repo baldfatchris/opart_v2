@@ -84,7 +84,7 @@ class _settingsDropdownState extends State<settingsDropdown> {
                               ? null
                               : (String value) {
                             widget.onChanged(value);
-                            Navigator.pop(context);
+
                           },
 
                       );

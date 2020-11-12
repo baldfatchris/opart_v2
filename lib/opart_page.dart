@@ -272,7 +272,7 @@ class _OpArtPageState extends State<OpArtPage> {
                         Icons.palette, true)
                     : Container(),
                 showSettings || tabOut
-                    ? TabWidget(80,  0,
+                    ? TabWidget(90,  0,
                         MdiIcons.tools, false)
                     : Container(),
                 showCustomColorPicker

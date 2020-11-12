@@ -26,6 +26,7 @@ Widget ToolBoxTab() {
       ..addListener(() {
         rebuildTab.value++;
       });
+    slider = 100;
     toolsAnimationController.forward(from: 0);
   }
 
@@ -97,15 +98,19 @@ Widget ToolBoxTab() {
                                           : Colors.white,
                                   shape: BoxShape.circle,
                                   border:
-                                      Border.all(color: Colors.cyan, width: 4)),
+                                      Border.all(color: index==slider? Colors.black:Colors.cyan, width: 4)),
                               child: IconButton(
                                   icon: tools[index].icon,
-                                  color: Colors.cyan,
+                                  color: index==slider? Colors.black:Colors.cyan,
                                   onPressed: () {
                                     setState(() {
+                                      if(tools[index].settingType !=
+                                          SettingType.double &&
+                                          tools[index].settingType !=
+                                              SettingType.int){animateToHideSlider();}
                                       if (tools[index].silent != null &&
                                           tools[index].silent) {
-                                        animateToHideSlider();
+
 
                                         print('silent');
 
@@ -126,7 +131,6 @@ Widget ToolBoxTab() {
                                           tools[index].settingType ==
                                               SettingType.int) {
                                         animateToShowSlider();
-
                                         slider = index;
                                       } else {
                                         settingsDialog(
