@@ -145,6 +145,7 @@ SettingsModel alternateDrift = SettingsModel(
   defaultValue: true,
   icon: Icon(Icons.gamepad),
   proFeature: false,
+  silent: true,
 );
 SettingsModel box = SettingsModel(
   name: 'box',
@@ -155,6 +156,7 @@ SettingsModel box = SettingsModel(
   icon: Icon(Icons.check_box_outline_blank),
   settingCategory: SettingCategory.tool,
   proFeature: false,
+  silent: true,
 );
 
 SettingsModel offsetX = SettingsModel(
@@ -205,6 +207,7 @@ SettingsModel randomRotation = SettingsModel(
   icon: Icon(Icons.crop_rotate),
   settingCategory: SettingCategory.tool,
   proFeature: false,
+  silent: true,
 );
 SettingsModel rotateStep = SettingsModel(
   name: 'rotateStep',
@@ -282,6 +285,7 @@ SettingsModel randomPetals = SettingsModel(
   icon: Icon(Icons.stars),
   settingCategory: SettingCategory.tool,
   proFeature: false,
+  silent: true,
 );
 
 // palette settings
@@ -327,6 +331,7 @@ SettingsModel randomColors = SettingsModel(
   icon: Icon(Icons.gamepad),
   settingCategory: SettingCategory.palette,
   proFeature: false,
+  silent: true,
 );
 SettingsModel resetColors = SettingsModel(
   name: 'resetColors',
@@ -337,6 +342,7 @@ SettingsModel resetColors = SettingsModel(
   icon: Icon(Icons.gamepad),
   settingCategory: SettingCategory.palette,
   proFeature: false,
+  silent: true,
 );
 SettingsModel numberOfColors = SettingsModel(
   name: 'numberOfColors',

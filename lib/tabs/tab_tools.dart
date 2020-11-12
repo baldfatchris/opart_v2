@@ -93,13 +93,11 @@ Widget ToolBoxTab() {
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: (tools[index].settingType !=
-                                          SettingType.bool)
+                                  color: (tools[index].settingType != SettingType.bool)
                                       ? Colors.grey[100] // if it's not a bool
                                       : (tools[index].value == true)
-                                          ? Colors.grey[
-                                              400] // if it is bool and == true
-                                          : Colors.white,
+                                          ? Colors.grey[100] // if it is bool and == true
+                                          : Colors.grey[400],
                                   shape: BoxShape.circle,
                                   border: Border.all(
                                       color: index == slider
