@@ -20,9 +20,7 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
         children: <Widget>[
           Container(width: (width > 400) ?110: 50,
             child: FlatButton(
-              shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(10.0),
-              ),
+              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
               padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
               color: Colors.white.withOpacity(0.8),
               child: Row(
@@ -38,10 +36,8 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
                       ? Padding(
                           padding: const EdgeInsets.all(4.0),
                           child: Text(
-                            'Change\nshape',
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
+                            'Random\nShape',
+                            style: TextStyle(color: Colors.black),
                           ),
                         )
                       : Container(),
@@ -78,9 +74,7 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
                   child: Text(
                     'Randomize\nEverything',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
+                    style: TextStyle(color: Colors.black),
                   ),
                 ),
               ],
@@ -94,52 +88,48 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
               }
             },
           ),
-          FlatButton(
-            shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(10.0),
-            ),
-            color: Colors.white.withOpacity(0.8),
-            padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              textDirection: TextDirection.ltr,
-              children: <Widget>[
-                Icon(
-                  Icons.palette,
-                  color: Colors.cyan,
-                ),
-                (width > 400) ? SizedBox(width: 3) : Container(),
-                (width > 400)
-                    ? Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Text(
-                          'Change'
-                          '\nColors',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black,
+          Container(width: (width > 400) ?110: 50,
+            child: FlatButton(
+              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+              color: Colors.white.withOpacity(0.8),
+              padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                textDirection: TextDirection.ltr,
+                children: <Widget>[
+                  Icon(
+                    Icons.palette,
+                    color: Colors.cyan,
+                  ),
+                  (width > 400) ? SizedBox(width: 3) : Container(),
+                  (width > 400)
+                      ? Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(
+                            'Random\nColors',
+                            style: TextStyle(color: Colors.black),
                           ),
-                        ),
-                      )
-                    : Container(),
-              ],
-            ),
-            onPressed: () {
-              if (enableButton) {
-                opArt.randomizePalette();
-                opArt.saveToCache();
-                enableButton = false;
-              }
-             // BottomSheetPalette(context);
-             // if (animationController != null) {
-             //   animationController.stop();
-             // }
-              // PaletteToolBox(
-              //   context,
-              //   opArt,
-              // );
+                        )
+                      : Container(),
+                ],
+              ),
+              onPressed: () {
+                if (enableButton) {
+                  opArt.randomizePalette();
+                  opArt.saveToCache();
+                  enableButton = false;
+                }
+               // BottomSheetPalette(context);
+               // if (animationController != null) {
+               //   animationController.stop();
+               // }
+                // PaletteToolBox(
+                //   context,
+                //   opArt,
+                // );
 
-            },
+              },
+            ),
           ),
           // RaisedButton.icon(
           //   splashColor: Colors.red,
