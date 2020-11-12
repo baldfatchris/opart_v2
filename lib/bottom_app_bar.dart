@@ -13,53 +13,53 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
   print('width: $width');
 
   return Container(
-      color: Colors.white.withOpacity(0.8),
+    //  color: Colors.white.withOpacity(0.8),
       height: 70,
       child: ButtonBar(
         alignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          FlatButton(
-            shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(5.0),
-            ),
-            padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-            color: Colors.cyan[200],
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              textDirection: TextDirection.ltr,
-              children: <Widget>[
-                Icon(
-                  MdiIcons.tools,
-                  color: Colors.black,
-                ),
-                (width > 400) ? SizedBox(width: 3) : Container(),
-                (width > 400)
-                    ? Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Text(
-                          'Tool\nBox',
-                          style: TextStyle(
-                            color: Colors.black,
+          Container(width: 110,
+            child: FlatButton(
+              shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(10.0),
+              ),
+              padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+              color: Colors.cyan[200],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                textDirection: TextDirection.ltr,
+                children: <Widget>[
+                  Icon(
+                    MdiIcons.shape,
+                    color: Colors.black,
+                  ),
+                  (width > 400) ? SizedBox(width: 3) : Container(),
+                  (width > 400)
+                      ? Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(
+                            'Change\nshape',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                      )
-                    : Container(),
-              ],
+                        )
+                      : Container(),
+                ],
+              ),
+              onPressed: () {
+                if (enableButton) {
+                  opArt.randomizeSettings();
+                  opArt.saveToCache();
+                  enableButton = false;
+                }
+              },
             ),
-            onPressed: () {
-              if (animationController != null){
-                animationController.stop();
-              }
-              ToolBox(
-                context,
-                opArt,
-              );
-            },
           ),
           FlatButton(
             splashColor: Colors.white,
             shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(5.0),
+              borderRadius: new BorderRadius.circular(10.0),
             ),
             color: Colors.cyan[50],
             padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
@@ -96,7 +96,7 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
           ),
           FlatButton(
             shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(5.0),
+              borderRadius: new BorderRadius.circular(10.0),
             ),
             color: Colors.cyan[200],
             padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
@@ -125,6 +125,11 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
               ],
             ),
             onPressed: () {
+              if (enableButton) {
+                opArt.randomizePalette();
+                opArt.saveToCache();
+                enableButton = false;
+              }
              // BottomSheetPalette(context);
              // if (animationController != null) {
              //   animationController.stop();
@@ -133,6 +138,7 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
               //   context,
               //   opArt,
               // );
+
             },
           ),
           // RaisedButton.icon(

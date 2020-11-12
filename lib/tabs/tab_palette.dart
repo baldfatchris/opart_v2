@@ -36,6 +36,9 @@ Widget PaletteTab(context) {
             rebuildTab.value++;
             rebuildCanvas.value++;
           },
+          onChangeEnd: (value){
+            opArt.saveToCache();
+          },
         ),
       ),
     );
