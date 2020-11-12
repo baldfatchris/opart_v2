@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'model_opart.dart';
-import 'model_palette.dart';
-import 'model_settings.dart';
+import '../model_opart.dart';
+import '../model_palette.dart';
+import '../model_settings.dart';
 import 'dart:math';
 import 'dart:core';
 

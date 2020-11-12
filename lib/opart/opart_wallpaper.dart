@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:opart_v2/opart_fibonacci.dart';
-import 'model_opart.dart';
-import 'model_palette.dart';
-import 'model_settings.dart';
+import 'package:opart_v2/opart/opart_fibonacci.dart';
+import '../model_opart.dart';
+import '../model_palette.dart';
+import '../model_settings.dart';
 import 'dart:math';
 import 'dart:core';
 

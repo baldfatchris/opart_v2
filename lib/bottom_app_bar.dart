@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'model_opart.dart';
-import 'toolbox.dart';
+
 import 'canvas.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -228,3 +228,4 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
         ],
       ));
 }
+

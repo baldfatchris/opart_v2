@@ -1,17 +1,17 @@
 import 'dart:core';
 import 'dart:io';
 import 'dart:math';
-import 'package:opart_v2/opart_hexagons.dart';
-import 'package:opart_v2/opart_quads.dart';
-import 'package:opart_v2/opart_riley.dart';
+import 'package:opart_v2/opart/opart_hexagons.dart';
+import 'package:opart_v2/opart/opart_quads.dart';
+import 'package:opart_v2/opart/opart_riley.dart';
 
-import 'opart_fibonacci.dart';
-import 'opart_wave.dart';
-import 'opart_wallpaper.dart';
-import 'opart_squares.dart';
-import 'opart_tree.dart';
-import 'opart_diagonal.dart';
-import 'opart_shapes.dart';
+import 'opart/opart_fibonacci.dart';
+import 'opart/opart_wave.dart';
+import 'opart/opart_wallpaper.dart';
+import 'opart/opart_squares.dart';
+import 'opart/opart_tree.dart';
+import 'opart/opart_diagonal.dart';
+import 'opart/opart_shapes.dart';
 
 
 import 'package:opart_v2/model_palette.dart';

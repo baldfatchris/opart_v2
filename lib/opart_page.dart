@@ -62,7 +62,7 @@ class _OpArtPageState extends State<OpArtPage> {
       screenshotController
           .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
           .then((File image) async {
-        print(image);
+
         setState(() {
           imageFile = image;
         });
@@ -268,11 +268,11 @@ class _OpArtPageState extends State<OpArtPage> {
                 //         -0.5, Icons.portrait, 0)
                 //     : Container(),
                 showSettings || tabOut
-                    ? TabWidget(50, animationController, PaletteTab(context), 0,
+                    ? TabWidget(50, 0,
                         Icons.palette, true)
                     : Container(),
                 showSettings || tabOut
-                    ? TabWidget(80, animationController, ToolBoxTab(), 0,
+                    ? TabWidget(80,  0,
                         MdiIcons.tools, false)
                     : Container(),
                 showCustomColorPicker

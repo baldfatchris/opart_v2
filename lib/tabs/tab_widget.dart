@@ -1,72 +1,89 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:opart_v2/opart_page.dart';
-import '../settings_dialog.dart';
+import 'package:opart_v2/tabs/tab_tools.dart';
+
 import '../model_opart.dart';
-import '../model_palette.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import '../model_settings.dart';
-import 'dart:math';
-import '../choose_palette.dart';
+
+import 'tab_palette.dart';
 
 int currentColor = 0;
 bool isOpen = false;
+AnimationController paletteAnimationController;
+Animation paletteAnimation;
+
+AnimationController toolsAnimationController;
+Animation toolsAnimation;
 
 class TabWidget extends StatefulWidget {
-
   double width;
-  AnimationController animationController;
-  Widget content;
+
   double tabHeight;
   IconData icon;
-  bool left;
-  TabWidget(this.width, this.animationController, this.content, this.tabHeight,
-      this.icon, this.left );
+  bool palette;
+  TabWidget(this.width, this.tabHeight, this.icon, this.palette);
   @override
   _TabWidgetState createState() => _TabWidgetState();
 }
 
 class _TabWidgetState extends State<TabWidget>
     with SingleTickerProviderStateMixin {
-  AnimationController animationController;
-  void openTab() {tabOut = true;
-  //  showSettings = false;
-
-    animationController.forward();
+  void openTab() {
+    tabOut = true;
+    widget.palette
+        ? paletteAnimationController.forward()
+        : toolsAnimationController.forward();
     rebuildOpArtPage.value++;
   }
 
   void closeTab() {
     currentTab = 10;
-  //  tabOut = false;
-    widget.left?showCustomColorPicker = false:null;
-    animationController.reverse();
+    toolsAnimation = Tween<double>(begin: 0, end: -widget.width)
+        .animate(toolsAnimationController)
+          ..addListener(() {
+            rebuildTab.value++;
+          });
+    //  tabOut = false;
+    widget.palette ? showCustomColorPicker = false : null;
+    widget.palette
+        ? paletteAnimationController.reverse()
+        : toolsAnimationController.reverse();
+
     showSettings = true;
     rebuildOpArtPage.value++;
   }
 
-  Animation<double> _animation;
   @override
   void initState() {
-    animationController = widget.animationController;
-    animationController = AnimationController(
-        duration: const Duration(milliseconds: 300), vsync: this);
-    _animation =
-        Tween<double>(begin: widget.left? -widget.width:0, end: widget.left? 0:-widget.width ).animate(animationController)
-          ..addListener(() {
-            rebuildTab.value++;
-          });
+    if (widget.palette) {
+      paletteAnimationController = AnimationController(
+          duration: const Duration(milliseconds: 300), vsync: this);
+      paletteAnimation = Tween<double>(begin: -widget.width, end: 0)
+          .animate(paletteAnimationController)
+            ..addListener(() {
+              rebuildTab.value++;
+            });
+    } else {
+      toolsAnimationController = AnimationController(
+          duration: const Duration(milliseconds: 300), vsync: this);
+      toolsAnimation = Tween<double>(begin: 0, end: -widget.width)
+          .animate(toolsAnimationController)
+            ..addListener(() {
+              rebuildTab.value++;
+            });
+    }
   }
 
   @override
   void dispose() {
-    animationController.dispose();
+    widget.palette
+        ? paletteAnimationController.dispose()
+        : toolsAnimationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return ValueListenableBuilder<int>(
         valueListenable: rebuildTab,
         builder: (context, value, child) {
@@ -74,30 +91,37 @@ class _TabWidgetState extends State<TabWidget>
               top: 115,
               bottom: 0,
               //right: widget.left? null:MediaQuery.of(context).size.width,
-              left: widget.left?_animation.value: MediaQuery.of(context).size.width-45+_animation.value,
+              left: widget.palette
+                  ? paletteAnimation.value
+                  : MediaQuery.of(context).size.width -
+                      45 +
+                      toolsAnimation.value,
               child: WillPopScope(
                 onWillPop: () async {
                   return false;
                 },
                 child: GestureDetector(
-                 onPanUpdate: (details) {
+                  onPanUpdate: (details) {
                     if (details.delta.dx > 0) {
                       // swiping in right direction
-                      widget.left? openTab(): closeTab();
+                      widget.palette ? openTab() : closeTab();
                     }
-                    if(details.delta.dx<0){
-                      widget.left?  closeTab():openTab();
+                    if (details.delta.dx < 0) {
+                      widget.palette ? closeTab() : openTab();
                     }
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      widget.left?
-                      Container(
-                          color: Colors.white.withOpacity(0.8),
-                          height: MediaQuery.of(context).size.height,
-                          width: widget.width,
-                          child: widget.content):Container(),
+                      widget.palette
+                          ? Container(
+                              color: Colors.white.withOpacity(0.8),
+                              height: MediaQuery.of(context).size.height,
+                              width: widget.width,
+                              child: widget.palette
+                                  ? PaletteTab(context)
+                                  : ToolBoxTab())
+                          : Container(),
                       Align(
                         alignment: Alignment(0, widget.tabHeight),
                         child: GestureDetector(
@@ -110,14 +134,16 @@ class _TabWidgetState extends State<TabWidget>
                               isOpen = false;
                             }
                           },
-                          child: RotatedBox(quarterTurns: widget.left?0: 2,
+                          child: RotatedBox(
+                            quarterTurns: widget.palette ? 0 : 2,
                             child: ClipPath(
                               clipper: CustomMenuClipper(),
                               child: Container(
                                   color: Colors.white.withOpacity(0.8),
                                   height: 100,
                                   width: 45,
-                                  child: RotatedBox(quarterTurns:widget.left?0: 2,
+                                  child: RotatedBox(
+                                    quarterTurns: widget.palette ? 0 : 2,
                                     child: Icon(widget.icon,
                                         color: Colors.cyan, size: 35),
                                   )),
@@ -125,15 +151,20 @@ class _TabWidgetState extends State<TabWidget>
                           ),
                         ),
                       ),
-                      !widget.left?
-                      Container(
-                          color: Colors.white.withOpacity(0.8),
-                          height: MediaQuery.of(context).size.height,
-                          width: widget.width,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 70.0),
-                            child: widget.content,
-                          )):Container(),
+                      !widget.palette
+                          ? Container(
+                              color: Colors.white.withOpacity(0.8),
+                              height: MediaQuery.of(context).size.height,
+                              width: slider == 100
+                                  ? widget.width
+                                  : widget.width + 40,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 70.0),
+                                child: widget.palette
+                                    ? PaletteTab(context)
+                                    : ToolBoxTab(),
+                              ))
+                          : Container(),
                     ],
                   ),
                 ),

@@ -4,7 +4,7 @@ import 'model_opart.dart';
 import 'setting_button.dart';
 import 'setting_colorpicker.dart';
 import 'setting_dropdown.dart';
-import 'setting_intslider.dart';
+import 'tabs/setting_intslider.dart';
 import 'setting_radiobutton.dart';
 import 'setting_slider.dart';
 import 'model_settings.dart';

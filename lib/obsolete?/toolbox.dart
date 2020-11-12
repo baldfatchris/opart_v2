@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'settings_dialog.dart';
-import 'model_opart.dart';
-import 'model_settings.dart';
+import '../settings_dialog.dart';
+import '../model_opart.dart';
+import '../model_settings.dart';
 
 void ToolBox(
   BuildContext context,
