@@ -142,6 +142,7 @@ class _OpArtPageState extends State<OpArtPage> {
                         color: Colors.black,
                       ),
                       onPressed: () {
+                        showCustomColorPicker  = false;
                         opArt.setDefault();
                         opArt.clearCache();
                         SystemChrome.setEnabledSystemUIOverlays(
