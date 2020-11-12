@@ -142,6 +142,7 @@ class _OpArtPageState extends State<OpArtPage> {
                         color: Colors.black,
                       ),
                       onPressed: () {
+                        showControls = false;
                         showCustomColorPicker = false;
                         opArt.setDefault();
                         opArt.clearCache();
@@ -205,6 +206,7 @@ class _OpArtPageState extends State<OpArtPage> {
                           if (showCustomColorPicker) {
                             opArt.saveToCache();
                           }
+                          showControls = false;
                           showSettings = false;
                           currentTab = 10;
                           tabOut = false;

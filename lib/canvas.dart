@@ -14,10 +14,8 @@ class CanvasWidget extends StatefulWidget {
 }
 
 bool playing = true;
-
-
+bool showControls = false;
 AnimationController animationController;
-
 
 class _CanvasWidgetState extends State<CanvasWidget>
     with TickerProviderStateMixin {
@@ -51,7 +49,6 @@ class _CanvasWidgetState extends State<CanvasWidget>
 
       animationController.forward();
     }
-
   }
 
   Hero hero1;
@@ -99,85 +96,51 @@ class _CanvasWidgetState extends State<CanvasWidget>
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      // Expanded(
-                                      //   child: Slider(
-                                      //     value: _timeDilation,
-                                      //     min: 0.1,
-                                      //     max: 8,
-                                      //     onChanged: (value) {
-                                      //       setState(() {
-                                      //         _timeDilation = value;
-                                      //         timeDilation = 1 / value;
-                                      //       });
-                                      //     },
-                                      //     onChangeEnd: (value) async {
-                                      //       // await new Future.delayed(
-                                      //       //     const Duration(seconds: 1));
-                                      //       // setState(() {
-                                      //       //   _showTools = false;
-                                      //       // });
-                                      //     },
-                                      //   ),
-                                      // ),
 
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 2),
-                                        child: FloatingActionButton(backgroundColor: Colors.cyan,
-                                            heroTag: null,
-                                            onPressed: () {
-                                              if (timeDilation < 8) {
-                                                timeDilation = timeDilation * 2;
-                                              }
-                                            },
-                                            child: Transform.rotate(angle: pi, child: Icon(Icons.fast_forward))),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 2),
-                                        child: FloatingActionButton(backgroundColor: Colors.cyan,
-                                          heroTag: null,
-                                          onPressed: () {
+                                      showControls
+                                          ?RotatedBox(
+                                          quarterTurns: 2,
+                                          child: _controlButton(
+                                              Icons.fast_forward, () {
+                                            if (timeDilation < 8) {
+                                              timeDilation = timeDilation * 2;
+                                            }
+                                          })): Container(),
+                                      showControls
+                                          ?RotatedBox(
+                                          quarterTurns: 2,
+                                          child: _controlButton(
+                                              Icons.play_arrow, () {
                                             animationController.reverse();
-                                          },
-                                          child: Transform.rotate(
-                                              angle: pi,
-                                              child: Icon(Icons.play_arrow)),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 2.0),
-                                        child: FloatingActionButton(backgroundColor: Colors.cyan,
-                                            heroTag: null,
-                                            onPressed: () {
-    if (animationController != null) {
-      animationController.stop();
-    }                                            },
-                                            child: Icon(Icons.pause)),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 2.0),
-                                        child: FloatingActionButton(backgroundColor: Colors.cyan,
-                                            heroTag: null,
-                                            onPressed: () {
-                                              animationController.forward();
-                                            },
-                                            child: Icon(Icons.play_arrow)),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 2),
-                                        child: FloatingActionButton(backgroundColor: Colors.cyan,
-                                            heroTag: null,
-                                            onPressed: () {
-                                              if (timeDilation > 0.2) {
-                                                timeDilation = timeDilation / 2;
-                                              }
-                                            },
-                                            child: Icon(Icons.fast_forward)),
-                                      ),
+                                          })): Container(),
+                                      showControls
+                                          ?_controlButton(Icons.pause, () {
+                                        if (animationController != null) {
+                                          animationController.stop();
+                                        }
+                                      }): Container(),
+                                      showControls
+                                          ?_controlButton(Icons.play_arrow, () {
+                                        animationController.forward();
+                                      }): Container(),
+                                      showControls
+                                          ?_controlButton(
+                                        Icons.fast_forward,
+                                        () {
+                                          if (timeDilation > 0.2) {
+                                            timeDilation = timeDilation / 2;
+                                          }
+                                        },
+                                      ): Container(), _controlButton(
+                                          showControls
+                                              ? Icons.close
+                                              : MdiIcons.playPause, () {
+                                        setState(() {
+                                          showControls = !showControls;
+                                        });
+
+
+                                      }),
                                     ],
                                   ),
                                 ),
@@ -190,6 +153,25 @@ class _CanvasWidgetState extends State<CanvasWidget>
                 )
               : Container(),
         ],
+      ),
+    );
+  }
+
+  Widget _controlButton(IconData icon, Function onPressed) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 0),
+      child: Container(
+        decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+        child: Padding(
+          padding: const EdgeInsets.all(3.0),
+          child: FloatingActionButton(
+              backgroundColor: Colors.cyan,
+              heroTag: null,
+              onPressed: () {
+                onPressed();
+              },
+              child: Icon(icon)),
+        ),
       ),
     );
   }
