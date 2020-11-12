@@ -65,8 +65,7 @@ class _TabWidgetState extends State<TabWidget>
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size.width);
-    print(_animation.value);
+
     return ValueListenableBuilder<int>(
         valueListenable: rebuildTab,
         builder: (context, value, child) {
@@ -75,53 +74,64 @@ class _TabWidgetState extends State<TabWidget>
               bottom: 70,
               //right: widget.left? null:MediaQuery.of(context).size.width,
               left: widget.left?_animation.value: MediaQuery.of(context).size.width-45+_animation.value,
-              child: GestureDetector(
-                onVerticalDragStart: (value) {
-                  animationController.reverse();
+              child: WillPopScope(
+                onWillPop: () async {
+                  return false;
                 },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    widget.left?
-                    Container(
-                        color: Colors.white.withOpacity(0.8),
-                        height: MediaQuery.of(context).size.height,
-                        width: widget.width,
-                        child: widget.content):Container(),
-                    Align(
-                      alignment: Alignment(0, widget.tabHeight),
-                      child: GestureDetector(
-                        onTap: () {
-                          if (!isOpen) {
-                            openTab();
-                            isOpen = true;
-                          } else {
-                            closeTab();
-                            isOpen = false;
-                          }
-                        },
-                        child: RotatedBox(quarterTurns: widget.left?0: 2,
-                          child: ClipPath(
-                            clipper: CustomMenuClipper(),
-                            child: Container(
-                                color: Colors.white.withOpacity(0.8),
-                                height: 100,
-                                width: 45,
-                                child: RotatedBox(quarterTurns:widget.left?0: 2,
-                                  child: Icon(widget.icon,
-                                      color: Colors.blue, size: 35),
-                                )),
+                child: GestureDetector(
+                 onPanUpdate: (details) {
+                    if (details.delta.dx > 0) {
+                      // swiping in right direction
+                      widget.left? openTab(): closeTab();
+                    }
+                    if(details.delta.dx<0){
+                      widget.left?  closeTab():openTab();
+                    }
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      widget.left?
+                      Container(
+                          color: Colors.white.withOpacity(0.8),
+                          height: MediaQuery.of(context).size.height,
+                          width: widget.width,
+                          child: widget.content):Container(),
+                      Align(
+                        alignment: Alignment(0, widget.tabHeight),
+                        child: GestureDetector(
+                          onTap: () {
+                            if (!isOpen) {
+                              openTab();
+                              isOpen = true;
+                            } else {
+                              closeTab();
+                              isOpen = false;
+                            }
+                          },
+                          child: RotatedBox(quarterTurns: widget.left?0: 2,
+                            child: ClipPath(
+                              clipper: CustomMenuClipper(),
+                              child: Container(
+                                  color: Colors.white.withOpacity(0.8),
+                                  height: 100,
+                                  width: 45,
+                                  child: RotatedBox(quarterTurns:widget.left?0: 2,
+                                    child: Icon(widget.icon,
+                                        color: Colors.blue, size: 35),
+                                  )),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    !widget.left?
-                    Container(
-                        color: Colors.white.withOpacity(0.8),
-                        height: MediaQuery.of(context).size.height,
-                        width: widget.width,
-                        child: widget.content):Container(),
-                  ],
+                      !widget.left?
+                      Container(
+                          color: Colors.white.withOpacity(0.8),
+                          height: MediaQuery.of(context).size.height,
+                          width: widget.width,
+                          child: widget.content):Container(),
+                    ],
+                  ),
                 ),
               ));
         });
