@@ -14,18 +14,20 @@ Widget ToolBoxTab() {
       .toList();
 
   void animateToShowSlider() {
-    toolsAnimation = Tween<double>(begin: 0, end: -120).animate(toolsAnimationController)
-      ..addListener(() {
-        rebuildTab.value++;
-      });
+    toolsAnimation =
+        Tween<double>(begin: 0, end: -120).animate(toolsAnimationController)
+          ..addListener(() {
+            rebuildTab.value++;
+          });
     toolsAnimationController.forward(from: 80);
   }
 
   void animateToHideSlider() {
-    toolsAnimation = Tween<double>(begin: -120, end: -80).animate(toolsAnimationController)
-      ..addListener(() {
-        rebuildTab.value++;
-      });
+    toolsAnimation =
+        Tween<double>(begin: -120, end: -80).animate(toolsAnimationController)
+          ..addListener(() {
+            rebuildTab.value++;
+          });
     slider = 100;
     toolsAnimationController.forward(from: 0);
   }
@@ -97,21 +99,28 @@ Widget ToolBoxTab() {
                                               400] // if it is bool and == true
                                           : Colors.white,
                                   shape: BoxShape.circle,
-                                  border:
-                                      Border.all(color: index==slider? Colors.black:Colors.cyan, width: 4)),
+                                  border: Border.all(
+                                      color: index == slider
+                                          ? Colors.black
+                                          : Colors.cyan,
+                                      width: 4)),
                               child: IconButton(
                                   icon: tools[index].icon,
-                                  color: index==slider? Colors.black:Colors.cyan,
+                                  color: index == slider
+                                      ? Colors.black
+                                      : Colors.cyan,
                                   onPressed: () {
                                     setState(() {
-                                      if(tools[index].settingType !=
-                                          SettingType.double &&
+                                      if (tools[index].settingType !=
+                                              SettingType.double &&
                                           tools[index].settingType !=
-                                              SettingType.int){animateToHideSlider();}
+                                              SettingType.int) {
+                                        if (slider != 100) {
+                                          animateToHideSlider();
+                                        }
+                                      }
                                       if (tools[index].silent != null &&
                                           tools[index].silent) {
-
-
                                         print('silent');
 
                                         if (tools[index].settingType ==
@@ -133,8 +142,36 @@ Widget ToolBoxTab() {
                                         animateToShowSlider();
                                         slider = index;
                                       } else {
-                                        settingsDialog(
-                                            context, tools[index], opArt);
+                                        if (tools[index].settingType ==
+                                            SettingType.list) {
+                                          int currentValue = tools[index]
+                                              .options
+                                              .indexWhere((value) =>
+                                                  value == tools[index].value);
+                                          print(currentValue);
+                                          print(tools[index].options.length);
+
+                                          tools[index].value = tools[index]
+                                              .options[currentValue ==
+                                                  tools[index].options.length -
+                                                      1
+                                              ? 0
+                                              : currentValue + 1];
+                                          rebuildCanvas.value++;
+                                          Scaffold.of(context).showSnackBar(
+                                              SnackBar(
+                                                  backgroundColor: Colors.white.withOpacity(0.8),
+                                                duration: Duration(seconds:2),
+                                                  content: Container(
+                                                    child: Container(height: 70,
+                                                      child: Text(
+                                                          tools[index].value, style: TextStyle(color: Colors.black),textAlign: TextAlign.center,),
+                                                    ),
+                                                  )));
+                                        } else {
+                                          settingsDialog(
+                                              context, tools[index], opArt);
+                                        }
                                       }
                                     });
                                   }),
