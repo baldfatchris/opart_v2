@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:opart_v2/opart_page.dart';
 import 'package:opart_v2/tabs/tab_tools.dart';
 
+import '../canvas.dart';
 import '../model_opart.dart';
 
 import 'tab_palette.dart';
@@ -28,7 +29,9 @@ class TabWidget extends StatefulWidget {
 
 class _TabWidgetState extends State<TabWidget>
     with SingleTickerProviderStateMixin {
+
   void openTab() {
+    showControls = false;
     tabOut = true;
     widget.palette
         ? paletteAnimationController.forward()

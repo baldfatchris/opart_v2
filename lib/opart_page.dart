@@ -200,6 +200,14 @@ class _OpArtPageState extends State<OpArtPage> {
             body: Stack(
               children: [
                 GestureDetector(
+                  onDoubleTap: (){
+                    if (enableButton) {
+                      opArt.randomizeSettings();
+                      opArt.randomizePalette();
+                      opArt.saveToCache();
+                      enableButton = false;
+                    }
+                  },
                     onTap: () {
                       setState(() {
                         if (showSettings || tabOut) {
@@ -213,7 +221,6 @@ class _OpArtPageState extends State<OpArtPage> {
                           showCustomColorPicker = false;
                         } else {
                           showSettings = true;
-
                           showCustomColorPicker = false;
                         }
                       });
