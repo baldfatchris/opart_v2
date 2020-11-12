@@ -16,7 +16,7 @@ import 'canvas.dart';
 import 'download_high_resolution.dart';
 import 'tabs/tab_tools.dart';
 
-import 'tab_widget.dart';
+import 'tabs/tab_widget.dart';
 
 class OpArtPage extends StatefulWidget {
   OpArtType opArtType;
@@ -142,7 +142,7 @@ class _OpArtPageState extends State<OpArtPage> {
                         color: Colors.black,
                       ),
                       onPressed: () {
-                        showCustomColorPicker  = false;
+                        showCustomColorPicker = false;
                         opArt.setDefault();
                         opArt.clearCache();
                         SystemChrome.setEnabledSystemUIOverlays(
@@ -202,7 +202,7 @@ class _OpArtPageState extends State<OpArtPage> {
                     onTap: () {
                       setState(() {
                         if (showSettings || tabOut) {
-                          if(showCustomColorPicker){
+                          if (showCustomColorPicker) {
                             opArt.saveToCache();
                           }
                           showSettings = false;
@@ -260,23 +260,30 @@ class _OpArtPageState extends State<OpArtPage> {
                         )
                       : Container(height: 0),
                 ),
+
+                // showSettings || currentTab == 0
+                //     ? TabWidget(80, animationController, ChoosePaletteTab(),
+                //         -0.5, Icons.portrait, 0)
+                //     : Container(),
+                showSettings || tabOut
+                    ? TabWidget(50, animationController, PaletteTab(context), 0,
+                        Icons.palette, true)
+                    : Container(),
+                showSettings || tabOut
+                    ? TabWidget(80, animationController, ToolBoxTab(), 0,
+                        MdiIcons.tools, false)
+                    : Container(),
+                showCustomColorPicker
+                    ? Align(
+                        alignment: Alignment.bottomCenter,
+                        child: ColorPickerWidget())
+                    : Container(),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: showSettings
                       ? customBottomAppBar(context: context, opArt: opArt)
                       : BottomAppBar(),
                 ),
-                // showSettings || currentTab == 0
-                //     ? TabWidget(80, animationController, ChoosePaletteTab(),
-                //         -0.5, Icons.portrait, 0)
-                //     : Container(),
-                showSettings||tabOut? TabWidget(50, animationController, PaletteTab(context), 0,
-                        Icons.palette,  true)
-                    : Container(),
-                showSettings||tabOut? TabWidget(80, animationController, ToolBoxTab(), 0,
-                        MdiIcons.tools,  false)
-                    : Container(),
-                showCustomColorPicker?Align(alignment: Alignment.bottomCenter, child: ColorPickerWidget()): Container()
               ],
             ),
           );

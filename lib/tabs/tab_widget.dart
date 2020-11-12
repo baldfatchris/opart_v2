@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:opart_v2/opart_page.dart';
-import 'settings_dialog.dart';
-import 'model_opart.dart';
-import 'model_palette.dart';
+import '../settings_dialog.dart';
+import '../model_opart.dart';
+import '../model_palette.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'model_settings.dart';
+import '../model_settings.dart';
 import 'dart:math';
-import 'choose_palette.dart';
+import '../choose_palette.dart';
 
 int currentColor = 0;
 bool isOpen = false;
@@ -39,6 +39,7 @@ class _TabWidgetState extends State<TabWidget>
   void closeTab() {
     currentTab = 10;
   //  tabOut = false;
+    widget.left?showCustomColorPicker = false:null;
     animationController.reverse();
     showSettings = true;
     rebuildOpArtPage.value++;
@@ -71,7 +72,7 @@ class _TabWidgetState extends State<TabWidget>
         builder: (context, value, child) {
           return Positioned(
               top: 115,
-              bottom: 70,
+              bottom: 0,
               //right: widget.left? null:MediaQuery.of(context).size.width,
               left: widget.left?_animation.value: MediaQuery.of(context).size.width-45+_animation.value,
               child: WillPopScope(
@@ -118,7 +119,7 @@ class _TabWidgetState extends State<TabWidget>
                                   width: 45,
                                   child: RotatedBox(quarterTurns:widget.left?0: 2,
                                     child: Icon(widget.icon,
-                                        color: Colors.blue, size: 35),
+                                        color: Colors.cyan, size: 35),
                                   )),
                             ),
                           ),
@@ -129,7 +130,10 @@ class _TabWidgetState extends State<TabWidget>
                           color: Colors.white.withOpacity(0.8),
                           height: MediaQuery.of(context).size.height,
                           width: widget.width,
-                          child: widget.content):Container(),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 70.0),
+                            child: widget.content,
+                          )):Container(),
                     ],
                   ),
                 ),
