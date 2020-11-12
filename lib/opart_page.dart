@@ -202,6 +202,9 @@ class _OpArtPageState extends State<OpArtPage> {
                     onTap: () {
                       setState(() {
                         if (showSettings || tabOut) {
+                          if(showCustomColorPicker){
+                            opArt.saveToCache();
+                          }
                           showSettings = false;
                           currentTab = 10;
                           tabOut = false;

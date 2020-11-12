@@ -46,46 +46,6 @@ Widget PaletteTab(context) {
 
   int paletteLength = opArt.palette.colorList.length;
 
-  Widget _numberOfColors() {
-    return Row(children: [
-      IconButton(
-        icon: Icon(
-          Icons.remove,
-        ),
-        onPressed: () {
-          numberOfColors.value--;
-          if (numberOfColors.value > paletteLength) {
-            opArt.palette
-                .randomize(paletteType.value.toString(), numberOfColors.value);
-          }
-          rebuildTab.value++;
-          rebuildCanvas.value++;
-        },
-      ),
-      Text('Number of colors'),
-      IconButton(
-        icon: Icon(
-          Icons.add,
-        ),
-        onPressed: () {
-          numberOfColors.value++;
-          opArt.attributes
-              .firstWhere((element) => element.name == 'numberOfColors')
-              .value = numberOfColors.value;
-          if (numberOfColors.value > paletteLength) {
-            String paletteType = opArt.attributes
-                .firstWhere((element) => element.name == 'paletteType')
-                .value
-                .toString();
-            opArt.palette.randomize(paletteType, numberOfColors.value);
-          }
-
-          rebuildTab.value++;
-          rebuildCanvas.value++;
-        },
-      ),
-    ]);
-  }
 
   return ValueListenableBuilder<int>(
       valueListenable: rebuildTab,
@@ -101,7 +61,9 @@ Widget PaletteTab(context) {
                     Container(height: 30,
                       child: IconButton(
                           icon: Icon(Icons.remove),
-                          onPressed: () {
+                          onPressed: () {if(enableButton){
+                            enableButton = false;
+
                             if (numberOfColors.value > 2) {
                               numberOfColors.value--;
                               if (numberOfColors.value > paletteLength) {
@@ -114,9 +76,10 @@ Widget PaletteTab(context) {
                                   MediaQuery.of(context).size.height * 0.7) {
                                 height = MediaQuery.of(context).size.height * 0.7;
                               }
+                              opArt.saveToCache();
                               rebuildTab.value++;
                               rebuildCanvas.value++;
-                            }
+                            }}
                           }),
                     ),
                     Container(height: MediaQuery.of(context).size.height - 115 - 70 - 30-30-150,
@@ -153,6 +116,9 @@ Widget PaletteTab(context) {
                       child: IconButton(
                           icon: Icon(Icons.add),
                           onPressed: () {
+                            if(enableButton){
+                              enableButton = false;
+
                             numberOfColors.value++;
                             opArt.attributes
                                 .firstWhere(
@@ -172,9 +138,10 @@ Widget PaletteTab(context) {
                                 MediaQuery.of(context).size.height * 0.7) {
                               height = MediaQuery.of(context).size.height * 0.7;
                             }
+                            opArt.saveToCache();
                             rebuildTab.value++;
                             rebuildCanvas.value++;
-                          }),
+                          }}),
                     ),
                     Container(height: 150,child: _opacityWidget()),
                   ],

@@ -44,9 +44,7 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
                                   rebuildTab.value++;
                                   rebuildCanvas.value++;
                                   rebuildColorPicker.value++;
-
                                 },
-
                               ),
                             ),
                           ],
@@ -54,8 +52,14 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
                       ),
                       Align(
                         alignment: Alignment.topRight,
-                        child: IconButton(icon: Icon(Icons.close), onPressed: (){showCustomColorPicker = false;
-                        rebuildOpArtPage.value++;},),
+                        child: IconButton(
+                          icon: Icon(Icons.close),
+                          onPressed: () {
+                            showCustomColorPicker = false;
+                            opArt.saveToCache();
+                            rebuildOpArtPage.value++;
+                          },
+                        ),
                       )
                     ],
                   ),
