@@ -88,11 +88,11 @@ class _CanvasWidgetState extends State<CanvasWidget>
                     children: [
                       opArt.animation
                           ? Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
+                              padding: const EdgeInsets.only(bottom: 4.0),
                               child: Container(
-                                height: 50,
+                                height: 40,
                                 child: Padding(
-                                  padding: const EdgeInsets.all(2.0),
+                                  padding: const EdgeInsets.all(0.0),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
@@ -158,20 +158,17 @@ class _CanvasWidgetState extends State<CanvasWidget>
   }
 
   Widget _controlButton(IconData icon, Function onPressed) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0),
-      child: Container(
-        decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-        child: Padding(
-          padding: const EdgeInsets.all(3.0),
-          child: FloatingActionButton(
-              backgroundColor: Colors.cyan,
-              heroTag: null,
-              onPressed: () {
-                onPressed();
-              },
-              child: Icon(icon)),
-        ),
+    return Container(
+      decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+      child: Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: FloatingActionButton(
+            backgroundColor: Colors.cyan,
+            heroTag: null,
+            onPressed: () {
+              onPressed();
+            },
+            child: Icon(icon)),
       ),
     );
   }

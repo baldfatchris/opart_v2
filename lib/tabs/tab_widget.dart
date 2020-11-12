@@ -37,6 +37,7 @@ class _TabWidgetState extends State<TabWidget>
   }
 
   void closeTab() {
+
     currentTab = 10;
     toolsAnimation = Tween<double>(begin: 0, end: -widget.width)
         .animate(toolsAnimationController)
@@ -48,7 +49,7 @@ class _TabWidgetState extends State<TabWidget>
     widget.palette
         ? paletteAnimationController.reverse()
         : toolsAnimationController.reverse();
-
+    slider = 100;
     showSettings = true;
     rebuildOpArtPage.value++;
   }
