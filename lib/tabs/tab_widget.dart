@@ -61,7 +61,7 @@ class _TabWidgetState extends State<TabWidget>
   void initState() {
     if (widget.palette) {
       paletteAnimationController = AnimationController(
-          duration: const Duration(milliseconds: 300), vsync: this);
+          duration: const Duration(milliseconds: 500), vsync: this);
       paletteAnimation = Tween<double>(begin: -widget.width, end: 0)
           .animate(paletteAnimationController)
             ..addListener(() {

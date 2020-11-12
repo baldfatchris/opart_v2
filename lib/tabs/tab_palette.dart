@@ -82,6 +82,37 @@ Widget PaletteTab(context) {
                             }}
                           }),
                     ),
+                    Container(height: 30,
+                      child: IconButton(
+                          icon: Icon(Icons.add),
+                          onPressed: () {
+                            if(enableButton){
+                              enableButton = false;
+
+                              numberOfColors.value++;
+                              opArt.attributes
+                                  .firstWhere(
+                                      (element) => element.name == 'numberOfColors')
+                                  .value = numberOfColors.value;
+                              if (numberOfColors.value > paletteLength) {
+                                String paletteType = opArt.attributes
+                                    .firstWhere(
+                                        (element) => element.name == 'paletteType')
+                                    .value
+                                    .toString();
+                                opArt.palette
+                                    .randomize(paletteType, numberOfColors.value);
+                              }
+                              height = (numberOfColors.value.toDouble() + 2) * 30;
+                              if (height >
+                                  MediaQuery.of(context).size.height * 0.7) {
+                                height = MediaQuery.of(context).size.height * 0.7;
+                              }
+                              opArt.saveToCache();
+                              rebuildTab.value++;
+                              rebuildCanvas.value++;
+                            }}),
+                    ),
                     Container(height: MediaQuery.of(context).size.height - 115 - 70 - 30-30-150,
                       width: 30,
                       child: ListView.builder(
@@ -112,37 +143,7 @@ Widget PaletteTab(context) {
                             );
                           }),
                     ),
-                    Container(height: 30,
-                      child: IconButton(
-                          icon: Icon(Icons.add),
-                          onPressed: () {
-                            if(enableButton){
-                              enableButton = false;
 
-                            numberOfColors.value++;
-                            opArt.attributes
-                                .firstWhere(
-                                    (element) => element.name == 'numberOfColors')
-                                .value = numberOfColors.value;
-                            if (numberOfColors.value > paletteLength) {
-                              String paletteType = opArt.attributes
-                                  .firstWhere(
-                                      (element) => element.name == 'paletteType')
-                                  .value
-                                  .toString();
-                              opArt.palette
-                                  .randomize(paletteType, numberOfColors.value);
-                            }
-                            height = (numberOfColors.value.toDouble() + 2) * 30;
-                            if (height >
-                                MediaQuery.of(context).size.height * 0.7) {
-                              height = MediaQuery.of(context).size.height * 0.7;
-                            }
-                            opArt.saveToCache();
-                            rebuildTab.value++;
-                            rebuildCanvas.value++;
-                          }}),
-                    ),
                     Container(height: 150,child: _opacityWidget()),
                   ],
                 ),
