@@ -24,14 +24,14 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
                 borderRadius: new BorderRadius.circular(10.0),
               ),
               padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-              color: Colors.cyan[200],
+              color: Colors.white.withOpacity(0.8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 textDirection: TextDirection.ltr,
                 children: <Widget>[
                   Icon(
                     MdiIcons.shape,
-                    color: Colors.black,
+                    color: Colors.cyan,
                   ),
                   (width > 400) ? SizedBox(width: 3) : Container(),
                   (width > 400)
@@ -61,7 +61,7 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
             shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(10.0),
             ),
-            color: Colors.cyan[50],
+            color: Colors.white.withOpacity(0.8),
             padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,7 +69,7 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
               children: <Widget>[
                 Icon(
                   MdiIcons.autoFix,
-                  color: Colors.black,
+                  color: Colors.cyan,
                   size: 30,
                 ),
                 SizedBox(width: 3),
@@ -98,7 +98,7 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
             shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(10.0),
             ),
-            color: Colors.cyan[200],
+            color: Colors.white.withOpacity(0.8),
             padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,7 +106,7 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
               children: <Widget>[
                 Icon(
                   Icons.palette,
-                  color: Colors.black,
+                  color: Colors.cyan,
                 ),
                 (width > 400) ? SizedBox(width: 3) : Container(),
                 (width > 400)
