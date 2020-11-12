@@ -18,7 +18,7 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
       child: ButtonBar(
         alignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          Container(width: 110,
+          Container(width: (width > 400) ?110: 0,
             child: FlatButton(
               shape: new RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(10.0),
