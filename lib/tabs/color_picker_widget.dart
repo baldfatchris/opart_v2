@@ -13,7 +13,7 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 80.0, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 80.0, vertical: 80),
       child: Container(
           decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.8),
@@ -44,7 +44,9 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
                                   rebuildTab.value++;
                                   rebuildCanvas.value++;
                                   rebuildColorPicker.value++;
+
                                 },
+
                               ),
                             ),
                           ],

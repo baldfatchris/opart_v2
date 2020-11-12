@@ -59,7 +59,7 @@ Widget ToolBoxTab(
                                             opArt.saveToCache();
                                             rebuildCanvas.value++;
                                           } else {
-                                            Navigator.pop(context);
+
                                             settingsDialog(
                                                 context, tools[index], opArt);
                                           }});
