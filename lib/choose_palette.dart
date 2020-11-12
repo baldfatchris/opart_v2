@@ -96,7 +96,7 @@ class _ChoosePaletteState extends State<ChoosePalette> {
                         .add(Color(int.parse(newPalette[i])));
                   }
                   numberOfColors.value = newPalette.length;
-                  rebuildPalette.value++;
+                  rebuildTab.value++;
                   rebuildCanvas.value++;
                 },
                 child: Column(

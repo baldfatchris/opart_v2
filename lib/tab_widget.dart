@@ -1,26 +1,27 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:opart_v2/opart_page.dart';
-import '../settings_dialog.dart';
-import '../model_opart.dart';
-import '../model_palette.dart';
+import 'settings_dialog.dart';
+import 'model_opart.dart';
+import 'model_palette.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import '../model_settings.dart';
+import 'model_settings.dart';
 import 'dart:math';
-import '../choose_palette.dart';
+import 'choose_palette.dart';
 
 int currentColor = 0;
 bool isOpen = false;
 
 class TabWidget extends StatefulWidget {
-  int id;
+
   double width;
   AnimationController animationController;
   Widget content;
   double tabHeight;
   IconData icon;
+  bool left;
   TabWidget(this.width, this.animationController, this.content, this.tabHeight,
-      this.icon, this.id);
+      this.icon, this.left );
   @override
   _TabWidgetState createState() => _TabWidgetState();
 }
@@ -28,17 +29,16 @@ class TabWidget extends StatefulWidget {
 class _TabWidgetState extends State<TabWidget>
     with SingleTickerProviderStateMixin {
   AnimationController animationController;
-  void openTab() {
-    currentTab = widget.id;
+  void openTab() {tabOut = true;
     showSettings = false;
-    tabOut = true;
+
     animationController.forward();
     rebuildOpArtPage.value++;
   }
 
   void closeTab() {
     currentTab = 10;
-    tabOut = false;
+  //  tabOut = false;
     animationController.reverse();
     showSettings = true;
     rebuildOpArtPage.value++;
@@ -51,9 +51,9 @@ class _TabWidgetState extends State<TabWidget>
     animationController = AnimationController(
         duration: const Duration(milliseconds: 500), vsync: this);
     _animation =
-        Tween<double>(begin: -widget.width, end: 0).animate(animationController)
+        Tween<double>(begin: widget.left? -widget.width:0, end: widget.left? 0:-widget.width ).animate(animationController)
           ..addListener(() {
-            rebuildPalette.value++;
+            rebuildTab.value++;
           });
   }
 
@@ -65,15 +65,16 @@ class _TabWidgetState extends State<TabWidget>
 
   @override
   Widget build(BuildContext context) {
+    print(MediaQuery.of(context).size.width);
     print(_animation.value);
     return ValueListenableBuilder<int>(
-        valueListenable: rebuildPalette,
+        valueListenable: rebuildTab,
         builder: (context, value, child) {
           return Positioned(
               top: 0,
               bottom: 0,
-              right: 0,
-              left: _animation.value,
+              //right: widget.left? null:MediaQuery.of(context).size.width,
+              left: widget.left?_animation.value: MediaQuery.of(context).size.width-45+_animation.value,
               child: GestureDetector(
                 onVerticalDragStart: (value) {
                   animationController.reverse();
@@ -81,11 +82,12 @@ class _TabWidgetState extends State<TabWidget>
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    widget.left?
                     Container(
                         color: Colors.white.withOpacity(0.8),
                         height: MediaQuery.of(context).size.height,
                         width: widget.width,
-                        child: widget.content),
+                        child: widget.content):Container(),
                     Align(
                       alignment: Alignment(0, widget.tabHeight),
                       child: GestureDetector(
@@ -98,17 +100,27 @@ class _TabWidgetState extends State<TabWidget>
                             isOpen = false;
                           }
                         },
-                        child: ClipPath(
-                          clipper: CustomMenuClipper(),
-                          child: Container(
-                              color: Colors.white.withOpacity(0.8),
-                              height: 100,
-                              width: 45,
-                              child: Icon(widget.icon,
-                                  color: Colors.blue, size: 35)),
+                        child: RotatedBox(quarterTurns: widget.left?0: 2,
+                          child: ClipPath(
+                            clipper: CustomMenuClipper(),
+                            child: Container(
+                                color: Colors.white.withOpacity(0.8),
+                                height: 100,
+                                width: 45,
+                                child: RotatedBox(quarterTurns:widget.left?0: 2,
+                                  child: Icon(widget.icon,
+                                      color: Colors.blue, size: 35),
+                                )),
+                          ),
                         ),
                       ),
                     ),
+                    !widget.left?
+                    Container(
+                        color: Colors.white.withOpacity(0.8),
+                        height: MediaQuery.of(context).size.height,
+                        width: widget.width,
+                        child: widget.content):Container(),
                   ],
                 ),
               ));

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:opart_v2/tabs/color_picker_widget.dart';
 import 'package:opart_v2/tabs/tab_choose_palette.dart';
 import 'bottom_app_bar.dart';
 import 'model_opart.dart';
@@ -15,7 +16,7 @@ import 'canvas.dart';
 import 'download_high_resolution.dart';
 import 'tabs/tab_tools.dart';
 
-import 'tabs/tab_widget.dart';
+import 'tab_widget.dart';
 
 class OpArtPage extends StatefulWidget {
   OpArtType opArtType;
@@ -261,18 +262,17 @@ class _OpArtPageState extends State<OpArtPage> {
                       ? customBottomAppBar(context: context, opArt: opArt)
                       : BottomAppBar(),
                 ),
-                showSettings || currentTab == 0
-                    ? TabWidget(80, animationController, ChoosePaletteTab(),
-                        -0.5, Icons.portrait, 0)
+                // showSettings || currentTab == 0
+                //     ? TabWidget(80, animationController, ChoosePaletteTab(),
+                //         -0.5, Icons.portrait, 0)
+                //     : Container(),
+                showSettings||tabOut? TabWidget(50, animationController, PaletteTab(context), 0,
+                        Icons.palette,  true)
                     : Container(),
-                showSettings || currentTab == 1
-                    ? TabWidget(50, animationController, PaletteTab(context), 0,
-                        Icons.palette, 1)
+                showSettings||tabOut? TabWidget(80, animationController, ToolBoxTab(), 0,
+                        MdiIcons.tools,  false)
                     : Container(),
-                showSettings || currentTab == 2
-                    ? TabWidget(80, animationController, ToolBoxTab(), 0.5,
-                        MdiIcons.tools, 2)
-                    : Container(),
+                showCustomColorPicker?Align(alignment: Alignment.bottomCenter, child: ColorPickerWidget()): Container()
               ],
             ),
           );

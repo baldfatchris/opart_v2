@@ -34,7 +34,8 @@ Widget PaletteTab(context){
             max: 1.0,
             onChanged: (value) {
               opacity.value = value;
-              rebuildPalette.value++;
+              rebuildTab.value++;
+              rebuildCanvas.value++;
             },
           ),
         ),
@@ -51,7 +52,7 @@ Widget PaletteTab(context){
               icon: Icon(Icons.refresh),
               onPressed: () {
                 opArt.randomizePalette();
-                rebuildPalette.value++;
+                rebuildTab.value++;
                 rebuildCanvas.value++;
                 opArt.saveToCache();
               }),
@@ -74,7 +75,7 @@ Widget PaletteTab(context){
                   .randomize(
                   paletteType.value.toString(), numberOfColors.value);
             }
-            rebuildPalette.value++;
+            rebuildTab.value++;
             rebuildCanvas.value++;
           },
         ),
@@ -96,14 +97,16 @@ Widget PaletteTab(context){
               opArt.palette.randomize(paletteType, numberOfColors.value);
             }
 
-            rebuildPalette.value++;
+            rebuildTab.value++;
             rebuildCanvas.value++;
           },
         ),
       ]);
     }
 
-    return Container(
+    return ValueListenableBuilder<int>(
+        valueListenable: rebuildTab,
+        builder: (context, value, child) {return Container(
         height: MediaQuery
             .of(context)
             .size
@@ -136,7 +139,7 @@ Widget PaletteTab(context){
                               .size
                               .height * 0.7;
                         }
-                        rebuildPalette.value++;
+                        rebuildTab.value++;
                         rebuildCanvas.value++;
                       }
                     }),
@@ -144,7 +147,7 @@ Widget PaletteTab(context){
                   height: MediaQuery
                       .of(context)
                       .size
-                      .height - 3 * 55 - 150,
+                      .height - 2 * 55 - 150,
                   width: 30,
                   child: ListView.builder(
                       padding: EdgeInsets.all(2),
@@ -161,6 +164,7 @@ Widget PaletteTab(context){
                           },
                           child: Container(
                             decoration: BoxDecoration(
+                              border: Border.all(width: index ==currentColor&&showCustomColorPicker? 2: 0),
                                 color: opArt.palette.colorList[index],
                                 shape: BoxShape.circle),
                             height: 30,
@@ -196,14 +200,14 @@ Widget PaletteTab(context){
                             .size
                             .height * 0.7;
                       }
-                      rebuildPalette.value++;
+                      rebuildTab.value++;
                       rebuildCanvas.value++;
                     }),
                 _opacityWidget(),
               ],
             ),
           ],
-        ));
+        ));});
   }
 
 

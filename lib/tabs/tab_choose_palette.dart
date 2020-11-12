@@ -89,7 +89,7 @@ Widget ChoosePaletteTab(){
                     .add(Color(int.parse(newPalette[i])));
               }
               numberOfColors.value = newPalette.length;
-              rebuildPalette.value++;
+              rebuildTab.value++;
               rebuildCanvas.value++;
             },
             child: Column(
