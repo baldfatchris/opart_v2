@@ -30,7 +30,7 @@ class _TabWidgetState extends State<TabWidget>
     with SingleTickerProviderStateMixin {
   AnimationController animationController;
   void openTab() {tabOut = true;
-    showSettings = false;
+  //  showSettings = false;
 
     animationController.forward();
     rebuildOpArtPage.value++;
@@ -71,8 +71,8 @@ class _TabWidgetState extends State<TabWidget>
         valueListenable: rebuildTab,
         builder: (context, value, child) {
           return Positioned(
-              top: 0,
-              bottom: 0,
+              top: 115,
+              bottom: 70,
               //right: widget.left? null:MediaQuery.of(context).size.width,
               left: widget.left?_animation.value: MediaQuery.of(context).size.width-45+_animation.value,
               child: GestureDetector(
