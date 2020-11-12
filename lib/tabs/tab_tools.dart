@@ -59,7 +59,9 @@ Widget ToolBoxTab() {
                       opArt.saveToCache();
                     },
                   )
-                : Slider(
+                : Slider(onChanged: (value){
+                  attribute.value = value;
+            },
                     activeColor: Colors.cyan,
                     onChangeEnd: (value) {
                       opArt.saveToCache();

@@ -13,17 +13,20 @@ class CanvasWidget extends StatefulWidget {
   _CanvasWidgetState createState() => _CanvasWidgetState();
 }
 
-bool playing = true;
+
 bool showControls = false;
 AnimationController animationController;
 
 class _CanvasWidgetState extends State<CanvasWidget>
     with TickerProviderStateMixin {
+  bool playing = true;
   Animation<double> currentAnimation;
   double _timeDilation = 1;
 
   @override
   void initState() {
+    bool playing = true;
+    _forward = true;
     timeDilation = 1;
 
     if (opArt.animation) {
@@ -88,13 +91,13 @@ class _CanvasWidgetState extends State<CanvasWidget>
                     children: [
                       opArt.animation
                           ? Padding(
-                              padding: const EdgeInsets.only(bottom: 4.0),
+                              padding: const EdgeInsets.only(bottom: 10.0),
                               child: Container(
-                                height: 40,
+                                height: 50,
                                 child: Padding(
                                   padding: const EdgeInsets.all(0.0),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
 
                                       showControls
@@ -105,24 +108,43 @@ class _CanvasWidgetState extends State<CanvasWidget>
                                             if (timeDilation < 8) {
                                               timeDilation = timeDilation * 2;
                                             }
-                                          })): Container(),
+                                          }, playing? true:false,)): Container(),
+
                                       showControls
                                           ?RotatedBox(
                                           quarterTurns: 2,
                                           child: _controlButton(
                                               Icons.play_arrow, () {
-                                            animationController.reverse();
-                                          })): Container(),
+                                                setState(() {
+                                                  animationController.reverse();
+                                                  playing = true;
+                                                  _forward = false;
+                                                });
+
+                                          }, _forward? true: false)): Container(),
+
                                       showControls
                                           ?_controlButton(Icons.pause, () {
                                         if (animationController != null) {
-                                          animationController.stop();
+
+                                          setState(() {
+                                            animationController.stop();
+                                            playing = false;
+                                          });
+
                                         }
-                                      }): Container(),
+                                      }, playing? true: false): Container(),
+
                                       showControls
                                           ?_controlButton(Icons.play_arrow, () {
-                                        animationController.forward();
-                                      }): Container(),
+                                            setState(() {
+                                              animationController.forward();
+                                              playing = true;
+                                              _forward = true;
+                                            });
+
+                                      }, !_forward||!playing? true: false,): Container(),
+
                                       showControls
                                           ?_controlButton(
                                         Icons.fast_forward,
@@ -130,7 +152,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
                                           if (timeDilation > 0.2) {
                                             timeDilation = timeDilation / 2;
                                           }
-                                        },
+                                        },playing? true: false,
                                       ): Container(), _controlButton(
                                           showControls
                                               ? Icons.close
@@ -140,7 +162,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
                                         });
 
 
-                                      }),
+                                      }, true),
                                     ],
                                   ),
                                 ),
@@ -157,13 +179,13 @@ class _CanvasWidgetState extends State<CanvasWidget>
     );
   }
 
-  Widget _controlButton(IconData icon, Function onPressed) {
+  Widget _controlButton(IconData icon, Function onPressed, bool active) {
     return Container(
-      decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+      decoration: BoxDecoration( shape: BoxShape.circle, border: Border.all(width: 3, color: Colors.white)),
       child: Padding(
-        padding: const EdgeInsets.all(2.0),
+        padding: const EdgeInsets.all(0.0),
         child: FloatingActionButton(
-            backgroundColor: Colors.cyan,
+            backgroundColor: active? Colors.cyan: Colors.grey,
             heroTag: null,
             onPressed: () {
               onPressed();
