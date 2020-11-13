@@ -201,7 +201,7 @@ class _OpArtPageState extends State<OpArtPage> {
               children: [
                 GestureDetector(
                   onDoubleTap: (){
-                    if (enableButton) {
+                    if (enableButton&&!showSettings) {
                       opArt.randomizeSettings();
                       opArt.randomizePalette();
                       opArt.saveToCache();
@@ -275,11 +275,11 @@ class _OpArtPageState extends State<OpArtPage> {
                 //         -0.5, Icons.portrait, 0)
                 //     : Container(),
                 showSettings || tabOut
-                    ? TabWidget(50, 0,
+                    ? TabWidget(50, 0.3,
                         Icons.palette, true)
                     : Container(),
                 showSettings || tabOut
-                    ? TabWidget(90,  0,
+                    ? TabWidget(90,  -0.5,
                         MdiIcons.tools, false)
                     : Container(),
                 showCustomColorPicker
