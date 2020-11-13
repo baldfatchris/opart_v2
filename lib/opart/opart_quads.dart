@@ -89,6 +89,8 @@ SettingsModel randomiseRatio = SettingsModel(
   icon: Icon(Icons.track_changes),
   settingCategory: SettingCategory.tool,
   proFeature: false,
+  silent: true,
+
 );
 
 // palette settings
@@ -138,6 +140,8 @@ SettingsModel randomColors = SettingsModel(
   icon: Icon(Icons.gamepad),
   settingCategory: SettingCategory.palette,
   proFeature: false,
+  silent: true,
+
 );
 
 

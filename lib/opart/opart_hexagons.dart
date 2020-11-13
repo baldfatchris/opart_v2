@@ -63,14 +63,16 @@ SettingsModel splat = SettingsModel(
 
 
 SettingsModel threeD = SettingsModel(
-name: 'threeD',
-settingType: SettingType.bool,
-label: '3D',
-tooltip: 'Shade the colors to 3D',
-defaultValue: true,
-icon: Icon(Icons.center_focus_strong),
-settingCategory: SettingCategory.palette,
-proFeature: false,
+  name: 'threeD',
+  settingType: SettingType.bool,
+  label: '3D',
+  tooltip: 'Shade the colors to 3D',
+  defaultValue: true,
+  icon: Icon(Icons.center_focus_strong),
+  settingCategory: SettingCategory.palette,
+  proFeature: false,
+  silent: true,
+
 );
 
 

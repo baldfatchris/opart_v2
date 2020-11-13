@@ -113,6 +113,7 @@ SettingsModel zigZag = SettingsModel(
   icon: Icon(Icons.show_chart),
   settingCategory: SettingCategory.tool,
   proFeature: false,
+  silent: true,
   );
 
 
