@@ -90,7 +90,7 @@ Widget ToolBoxTab() {
                       children: [
                         Center(
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(2.0),
                             child: Container(
                               decoration: BoxDecoration(
                                   color: (tools[index].settingType != SettingType.bool)
@@ -178,8 +178,9 @@ Widget ToolBoxTab() {
                             ),
                           ),
                         ),
-                        SizedBox(height: 4),
-                        Text(tools[index].label, textAlign: TextAlign.center)
+
+                        Text(tools[index].label, textAlign: TextAlign.center),
+                        SizedBox(height: 10),
                       ],
                     );
                   }),

@@ -229,7 +229,7 @@ class OpArt {
         // print('${attributes[i].name}: ${attributes[i].value}');
       }
     }
-    randomizePalette();
+
 
   }
 
