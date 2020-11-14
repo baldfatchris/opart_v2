@@ -9,6 +9,7 @@ import 'tab_widget.dart';
 int slider = 100;
 
 Widget ToolBoxTab() {
+
   List<SettingsModel> tools = opArt.attributes
       .where((element) => element.settingCategory == SettingCategory.tool)
       .toList();
@@ -48,6 +49,7 @@ Widget ToolBoxTab() {
                     value: attribute.value,
                     min: attribute.min,
                     max: attribute.max,
+
                     onChanged: (value) {
                       setState(() {
                         attribute.value = value;
@@ -55,20 +57,28 @@ Widget ToolBoxTab() {
                         rebuildCanvas.value++;
                       });
                     },
+
                     onChangeEnd: (value) {
                       opArt.saveToCache();
                     },
+
                   )
-                : Slider(onChanged: (value){
-                  attribute.value = value;
-            },
+                : Slider(
                     activeColor: Colors.cyan,
-                    onChangeEnd: (value) {
-                      opArt.saveToCache();
-                    },
                     value: attribute.value.toDouble(),
                     min: attribute.min.toDouble(),
                     max: attribute.max.toDouble(),
+
+                    onChanged: (value){
+                      attribute.value = value;
+                      rebuildTab.value++;
+                      rebuildCanvas.value++;
+                      },
+
+                    onChangeEnd: (value) {
+                      opArt.saveToCache();
+                    },
+
                     divisions: attribute.max - attribute.min,
                   ),
           ),
@@ -111,22 +121,14 @@ Widget ToolBoxTab() {
                                       : Colors.cyan,
                                   onPressed: () {
                                     setState(() {
-                                      if (tools[index].settingType !=
-                                              SettingType.double &&
-                                          tools[index].settingType !=
-                                              SettingType.int) {
+                                      if (tools[index].settingType != SettingType.double && tools[index].settingType != SettingType.int) {
                                         if (slider != 100) {
                                           animateToHideSlider();
                                         }
                                       }
-                                      if (tools[index].silent != null &&
-                                          tools[index].silent) {
-                                        print('silent');
-
-                                        if (tools[index].settingType ==
-                                            SettingType.bool) {
-                                          tools[index].value =
-                                              !tools[index].value;
+                                      if (tools[index].silent != null && tools[index].silent) {
+                                        if (tools[index].settingType == SettingType.bool) {
+                                          tools[index].value = !tools[index].value;
                                         }
 
                                         if (tools[index].onChange != null) {
@@ -135,28 +137,19 @@ Widget ToolBoxTab() {
 
                                         opArt.saveToCache();
                                         rebuildCanvas.value++;
-                                      } else if (tools[index].settingType ==
-                                              SettingType.double ||
-                                          tools[index].settingType ==
-                                              SettingType.int) {
+                                      } else if (tools[index].settingType == SettingType.double || tools[index].settingType == SettingType.int) {
                                         animateToShowSlider();
                                         slider = index;
                                       } else {
-                                        if (tools[index].settingType ==
-                                            SettingType.list) {
-                                          int currentValue = tools[index]
-                                              .options
-                                              .indexWhere((value) =>
-                                                  value == tools[index].value);
+                                        if (tools[index].settingType == SettingType.list) {
+                                          int currentValue = tools[index].options.indexWhere((value) => value == tools[index].value);
+
                                           print(currentValue);
                                           print(tools[index].options.length);
 
-                                          tools[index].value = tools[index]
-                                              .options[currentValue ==
-                                                  tools[index].options.length -
-                                                      1
-                                              ? 0
-                                              : currentValue + 1];
+                                          tools[index].value = tools[index].options[
+                                              (currentValue == tools[index].options.length - 1) ? 0 : currentValue + 1
+                                          ];
                                           rebuildCanvas.value++;
                                           Scaffold.of(context).showSnackBar(
                                               SnackBar(
@@ -169,8 +162,7 @@ Widget ToolBoxTab() {
                                                     ),
                                                   )));
                                         } else {
-                                          settingsDialog(
-                                              context, tools[index], opArt);
+                                          settingsDialog(context, tools[index], opArt);
                                         }
                                       }
                                     });
