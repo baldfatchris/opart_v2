@@ -72,6 +72,7 @@ SettingsModel backgroundColor = SettingsModel(
   settingCategory: SettingCategory.palette,
   proFeature: false,
 );
+
 SettingsModel randomColors = SettingsModel(
   name: 'randomColors',
   settingType: SettingType.bool,
