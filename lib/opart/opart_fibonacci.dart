@@ -226,7 +226,7 @@ SettingsModel randomColors = SettingsModel(
     tooltip: 'randomize the colours!',
     defaultValue: false,
     icon: Icon(Icons.gamepad),
-    settingCategory: SettingCategory.palette,
+    settingCategory: SettingCategory.tool,
     silent: true,
     proFeature: false,
   );
