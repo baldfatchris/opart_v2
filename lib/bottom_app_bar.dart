@@ -46,8 +46,15 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
               onPressed: () {
                 if (enableButton) {
                   opArt.randomizeSettings();
+                  // opArt.randomizePalette();
                   opArt.saveToCache();
                   enableButton = false;
+                //
+                //   opArt.randomizeSettings();
+                //   opArt.saveToCache();
+                //   enableButton = false;
+                  rebuildCanvas.value++;
+
                 }
               },
             ),
@@ -84,6 +91,8 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
                 opArt.randomizePalette();
                 opArt.saveToCache();
                 enableButton = false;
+                rebuildCanvas.value++;
+
               }
             },
           ),
@@ -117,6 +126,8 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
                   opArt.randomizePalette();
                   opArt.saveToCache();
                   enableButton = false;
+                  rebuildCanvas.value++;
+
                 }
                // BottomSheetPalette(context);
                // if (animationController != null) {

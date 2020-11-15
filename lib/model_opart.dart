@@ -264,7 +264,6 @@ class OpArt {
 
     attributes.firstWhere((element) => element.name == 'paletteList').value = 'Default';
 
-    rebuildCanvas.value++;
   }
 
 

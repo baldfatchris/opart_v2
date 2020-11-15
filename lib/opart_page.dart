@@ -39,6 +39,7 @@ class _OpArtPageState extends State<OpArtPage> {
         opArt.randomizeSettings();
         opArt.randomizePalette();
         rebuildCanvas.value++;
+
         opArt.saveToCache();
       });
     });
@@ -202,6 +203,7 @@ class _OpArtPageState extends State<OpArtPage> {
                       opArt.randomizePalette();
                       opArt.saveToCache();
                       enableButton = false;
+                      rebuildCanvas.value++;
                     }
                   },
                     onTap: () {
