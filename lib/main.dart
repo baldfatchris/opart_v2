@@ -6,11 +6,11 @@ import 'package:opart_v2/loading.dart';
 
 import 'opart_page.dart';
 import 'model_opart.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
+// import 'package:in_app_purchase/in_app_purchase.dart';
 
 
 void main() {
-  InAppPurchaseConnection.enablePendingPurchases();
+  // InAppPurchaseConnection.enablePendingPurchases();
 
   runApp(MaterialApp(
     initialRoute: '/',

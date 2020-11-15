@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/OpArtLab.ttf
 ///
-///
+/// 
 ///
 import 'package:flutter/widgets.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:opart_v2/opart/opart_fibonacci.dart';
+import 'package:opart_v2/opart_icons.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';
 import '../model_settings.dart';
@@ -71,7 +71,7 @@ SettingsModel ratio = SettingsModel(
   max: 1.75,
   zoom: 100,
   defaultValue: 1.0,
-  icon: Icon(Icons.zoom_out_map),
+  icon: Icon(OpArtLab.wallpaper_ratio),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -88,7 +88,7 @@ SettingsModel driftX = SettingsModel(
   randomMax: 2.0,
   zoom: 100,
   defaultValue: 0.0,
-  icon: Icon(Icons.more_horiz),
+  icon: Icon(OpArtLab.horizontal_drift),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -118,7 +118,7 @@ SettingsModel driftY = SettingsModel(
   randomMax: 2.0,
   zoom: 100,
   defaultValue: 0.0,
-  icon: Icon(Icons.more_vert),
+  icon: Icon(OpArtLab.vertical_drift),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -168,7 +168,7 @@ SettingsModel offsetX = SettingsModel(
   max: 2.0,
   zoom: 100,
   defaultValue: 0.0,
-  icon: Icon(Icons.more_horiz),
+  icon: Icon(OpArtLab.horizontal_offset),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -181,7 +181,7 @@ SettingsModel offsetY = SettingsModel(
   max: 2.0,
   zoom: 100,
   defaultValue: 0.0,
-  icon: Icon(Icons.more_vert),
+  icon: Icon(OpArtLab.vertical_offset),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -319,7 +319,7 @@ SettingsModel lineWidth = SettingsModel(
   zoom: 100,
   defaultValue: 0.1,
   icon: Icon(Icons.line_weight),
-  settingCategory: SettingCategory.palette,
+  settingCategory: SettingCategory.tool,
   proFeature: false,
 );
 SettingsModel randomColors = SettingsModel(

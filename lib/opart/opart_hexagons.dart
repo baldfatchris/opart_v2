@@ -26,7 +26,7 @@ SettingsModel zoomHexagons = SettingsModel(
   settingType: SettingType.double,
   label: 'Zoom',
   tooltip: 'Zoom in and out',
-  min: 10.0,
+  min: 20.0,
   max: 500.0,
   randomMin: 20.0,
   randomMax: 200.0,
@@ -97,7 +97,7 @@ SettingsModel lineWidth = SettingsModel(
   zoom: 100,
   defaultValue: 0.0,
   icon: Icon(Icons.line_weight),
-  settingCategory: SettingCategory.palette,
+  settingCategory: SettingCategory.tool,
   proFeature: false,
 );
 

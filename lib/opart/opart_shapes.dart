@@ -178,7 +178,7 @@ SettingsModel lineWidth = SettingsModel(
   zoom: 100,
   defaultValue: 0.1,
   icon: Icon(Icons.line_weight),
-  settingCategory: SettingCategory.palette,
+  settingCategory: SettingCategory.tool,
   proFeature: false,
 );
 SettingsModel randomColors = SettingsModel(

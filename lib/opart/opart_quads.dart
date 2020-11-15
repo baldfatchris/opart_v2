@@ -126,7 +126,7 @@ SettingsModel lineWidth = SettingsModel(
   zoom: 100,
   defaultValue: 3.0,
   icon: Icon(Icons.line_weight),
-  settingCategory: SettingCategory.palette,
+  settingCategory: SettingCategory.tool,
   proFeature: false,
 );
 

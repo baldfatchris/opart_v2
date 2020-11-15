@@ -72,8 +72,7 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
                 Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Text(
-                    'Randomize\nEverything',
-                    textAlign: TextAlign.center,
+                    'Go\nWild!',
                     style: TextStyle(color: Colors.black),
                   ),
                 ),
@@ -156,7 +155,7 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
           //   //     Padding(
           //   //       padding: const EdgeInsets.all(8.0),
           //   //       child: Text(
-          //   //         'randomize \nEverything',
+          //   //         'Go Wild!',
           //   //         textAlign: TextAlign.center,
           //   //       ),
           //   //     )

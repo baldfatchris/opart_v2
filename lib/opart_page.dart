@@ -1,21 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:opart_v2/tabs/color_picker_widget.dart';
-import 'package:opart_v2/tabs/tab_choose_palette.dart';
-import 'bottom_app_bar.dart';
-import 'model_opart.dart';
-import 'tabs/tab_palette.dart';
-
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:share/share.dart';
 import 'package:shake/shake.dart';
 
-import 'package:share/share.dart';
-
-import 'canvas.dart';
+import 'package:opart_v2/tabs/color_picker_widget.dart';
+import 'bottom_app_bar.dart';
+import 'model_opart.dart';
 import 'download_high_resolution.dart';
-import 'tabs/tab_tools.dart';
-
+import 'canvas.dart';
 import 'tabs/tab_widget.dart';
 
 class OpArtPage extends StatefulWidget {
@@ -25,7 +19,7 @@ class OpArtPage extends StatefulWidget {
   _OpArtPageState createState() => _OpArtPageState();
 }
 
-int currentTab = 10;
+int currentTab = -1;
 
 bool showSettings = false;
 bool tabOut = false;
@@ -39,6 +33,7 @@ class _OpArtPageState extends State<OpArtPage> {
     opArt = OpArt(opArtType: widget.opArtType);
     showSettings = true;
     super.initState();
+
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
       setState(() {
         opArt.randomizeSettings();
@@ -54,6 +49,7 @@ class _OpArtPageState extends State<OpArtPage> {
   AnimationController animationController;
   @override
   Widget build(BuildContext context) {
+
     Future<void> _paymentDialog() async {
       if (animationController != null) {
         animationController.stop();
@@ -201,7 +197,7 @@ class _OpArtPageState extends State<OpArtPage> {
               children: [
                 GestureDetector(
                   onDoubleTap: (){
-                    if (enableButton&&!showSettings) {
+                    if (enableButton) {
                       opArt.randomizeSettings();
                       opArt.randomizePalette();
                       opArt.saveToCache();

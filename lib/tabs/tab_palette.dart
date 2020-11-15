@@ -82,6 +82,9 @@ Widget PaletteTab(context) {
                             }}
                           }),
                     ),
+                    Text(
+                      numberOfColors.value.toString(),
+                    ),
                     Container(height: 30,
                       child: IconButton(
                           icon: Icon(Icons.add),
