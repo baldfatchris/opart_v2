@@ -168,8 +168,8 @@ void paintHexagons(Canvas canvas, Size size, Random rnd, double animationVariabl
   double canvasHeight = size.height;
   double borderX = 0;
   double borderY = 0;
-  double imageWidth = canvasWidth;
-  double imageHeight = canvasHeight;
+  // double imageWidth = canvasWidth;
+  // double imageHeight = canvasHeight;
 
   // Work out the X and Y
   int cellsX = (canvasWidth / (zoomHexagons.value)+1.9999999).toInt();
@@ -180,7 +180,7 @@ void paintHexagons(Canvas canvas, Size size, Random rnd, double animationVariabl
   borderY = (canvasHeight - zoomHexagons.value * cellsY) / 2;
 
   // work out the radius from the width and the cells
-  double radius = zoomHexagons.value / 2;
+  // double radius = zoomHexagons.value / 2;
   double sideLength = zoomHexagons.value*0.6;
 
   // Calculate the vaious constants

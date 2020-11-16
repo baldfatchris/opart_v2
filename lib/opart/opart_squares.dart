@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:opart_v2/opart/opart_fibonacci.dart';
+import 'package:opart_v2/opart_icons.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';
 import '../model_settings.dart';
@@ -41,7 +41,7 @@ SettingsModel bulge = SettingsModel(
   label: "Bulge",
   tooltip: "The shape of the bulge",
   defaultValue: "circle",
-  icon: Icon(Icons.settings),
+  icon: Icon(OpArtLab.bulge),
   options: ['none', 'circle', 'triangle'],
   settingCategory: SettingCategory.tool,
   proFeature: false,
@@ -54,7 +54,7 @@ SettingsModel bulgeOneDirection = SettingsModel(
   label: "One Direction",
   tooltip: "Only bulge in one direction",
   defaultValue: false,
-  icon: Icon(Icons.arrow_forward),
+  icon: Icon(Icons.arrow_upward),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,

@@ -90,7 +90,6 @@ SettingsModel randomiseRatio = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
-
 );
 
 // palette settings
@@ -217,10 +216,6 @@ void paintQuads(Canvas canvas, Size size, Random rnd, double animationVariable, 
   // Initialise the canvas
   double canvasWidth = size.width;
   double canvasHeight = size.height;
-  double borderX = 0.0;
-  double borderY = 0.0;
-  double imageWidth = canvasWidth;
-  double imageHeight = canvasHeight;
 
   double imageSize = (canvasHeight>canvasWidth) ? canvasHeight : canvasWidth;
 

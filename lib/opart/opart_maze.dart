@@ -111,8 +111,8 @@ SettingsModel randomColors = SettingsModel(
 SettingsModel lineWidth = SettingsModel(
   name: 'lineWidth',
   settingType: SettingType.double,
-  label: 'Outline Width',
-  tooltip: 'The width of the outline',
+  label: 'Line Width',
+  tooltip: 'The width of the line',
   min: 0.0,
   max: 5.0,
   zoom: 100,
@@ -304,7 +304,6 @@ void paintMaze(Canvas canvas, Size size, Random rnd, double animationVariable, O
 
 
 }
-
 
 
 

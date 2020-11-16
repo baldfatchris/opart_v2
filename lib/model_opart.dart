@@ -1,10 +1,10 @@
 import 'dart:core';
 import 'dart:io';
 import 'dart:math';
-import 'package:opart_v2/opart/opart_hexagons.dart';
-import 'package:opart_v2/opart/opart_quads.dart';
-import 'package:opart_v2/opart/opart_riley.dart';
-
+import 'opart/opart_hexagons.dart';
+import 'opart/opart_quads.dart';
+import 'opart/opart_riley.dart';
+import 'opart/opart_neighbour.dart';
 import 'opart/opart_fibonacci.dart';
 import 'opart/opart_wave.dart';
 import 'opart/opart_wallpaper.dart';
@@ -37,7 +37,7 @@ bool proVersion = true;
 
 ScrollController scrollController = new ScrollController();
 
-enum OpArtType { Fibonacci, Tree, Wave, Wallpaper, Diagonal, Shapes, Squares, Hexagons, Quads, Riley, Maze }
+enum OpArtType { Fibonacci, Tree, Wave, Wallpaper, Diagonal, Shapes, Squares, Hexagons, Quads, Riley, Maze, Neighbour }
 
 class OpArtTypes {
   String name;
@@ -108,6 +108,14 @@ class OpArt {
         this.attributes = initializeQuadsAttributes();
         this.palette = OpArtPalette();
         this.name = 'Quads';
+        this.animation = false;
+
+        break;
+
+      case OpArtType.Neighbour:
+        this.attributes = initializeNeighbourAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Neighbours';
         this.animation = false;
 
         break;
@@ -196,8 +204,32 @@ class OpArt {
 
   void paint(Canvas canvas, Size size, int seed, double animationVariable) {
     switch (opArtType) {
+      case OpArtType.Diagonal:
+        paintDiagonal(canvas, size, rnd, animationVariable, this);
+        break;
       case OpArtType.Fibonacci:
         paintFibonacci(canvas, size, rnd, animationVariable, this);
+        break;
+      case OpArtType.Hexagons:
+        paintHexagons(canvas, size, rnd, animationVariable, this);
+        break;
+      case OpArtType.Maze:
+        paintMaze(canvas, size, rnd, animationVariable, this);
+        break;
+      case OpArtType.Neighbour:
+        paintNeighbour(canvas, size, rnd, animationVariable, this);
+        break;
+      case OpArtType.Quads:
+        paintQuads(canvas, size, rnd, animationVariable, this);
+        break;
+      case OpArtType.Riley:
+        paintRiley(canvas, size, rnd, animationVariable, this);
+        break;
+      case OpArtType.Shapes:
+        paintShapes(canvas, size, rnd, animationVariable, this);
+        break;
+      case OpArtType.Squares:
+        paintSquares(canvas, size, rnd, animationVariable, this);
         break;
       case OpArtType.Tree:
         paintTree(canvas, size, rnd, animationVariable, this);
@@ -205,29 +237,8 @@ class OpArt {
       case OpArtType.Wallpaper:
         paintWallpaper(canvas, size, rnd, animationVariable, this);
         break;
-      case OpArtType.Squares:
-        paintSquares(canvas, size, rnd, animationVariable, this);
-        break;
-      case OpArtType.Maze:
-        paintMaze(canvas, size, rnd, animationVariable, this);
-        break;
-      case OpArtType.Hexagons:
-        paintHexagons(canvas, size, rnd, animationVariable, this);
-        break;
-      case OpArtType.Quads:
-        paintQuads(canvas, size, rnd, animationVariable, this);
-        break;
       case OpArtType.Wave:
         paintWave(canvas, size, rnd, animationVariable, this);
-        break;
-      case OpArtType.Diagonal:
-        paintDiagonal(canvas, size, rnd, animationVariable, this);
-        break;
-      case OpArtType.Shapes:
-        paintShapes(canvas, size, rnd, animationVariable, this);
-        break;
-      case OpArtType.Riley:
-        paintRiley(canvas, size, rnd, animationVariable, this);
         break;
     }
   }

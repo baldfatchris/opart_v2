@@ -260,7 +260,7 @@ seed = DateTime.now().millisecond;
           palette.add(blendColour);
           for (int colourIndex = 1; colourIndex < numberOfColours; colourIndex++) {
             Color randomColor = Color(rnd.nextInt(0xFFFFFF));
-            palette.add(Color.fromARGB(((blendColour.alpha*2+randomColor.alpha)/3).toInt(), ((blendColour.red*2+randomColor.red)/3).toInt(), ((blendColour.green*2+randomColor.green)/3).toInt(), ((blendColour.blue*2+randomColor.blue)/3).toInt()));
+            palette.add(Color.fromARGB(((blendColour.alpha*2+randomColor.alpha)~/3), ((blendColour.red*2+randomColor.red)~/3), ((blendColour.green*2+randomColor.green)~/3), ((blendColour.blue*2+randomColor.blue)~/3)));
           }
         }
         break;

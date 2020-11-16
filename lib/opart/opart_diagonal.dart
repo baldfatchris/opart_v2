@@ -73,8 +73,6 @@ SettingsModel pointiness = SettingsModel(
 );
 
 
-
-
 SettingsModel resetDefaults = SettingsModel(
   name: 'resetDefaults',
   settingType: SettingType.button,

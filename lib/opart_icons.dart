@@ -43,4 +43,5 @@ class OpArtLab {
   static const IconData line_vertical = IconData(0xe813, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData line_diagonal_right = IconData(0xe814, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData line_diagonal_left = IconData(0xe815, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData bulge = IconData(0xe816, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
