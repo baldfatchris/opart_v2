@@ -9,6 +9,7 @@ import 'opart/opart_fibonacci.dart';
 import 'opart/opart_wave.dart';
 import 'opart/opart_wallpaper.dart';
 import 'opart/opart_squares.dart';
+import 'opart/opart_maze.dart';
 import 'opart/opart_tree.dart';
 import 'opart/opart_diagonal.dart';
 import 'opart/opart_shapes.dart';
@@ -36,7 +37,7 @@ bool proVersion = true;
 
 ScrollController scrollController = new ScrollController();
 
-enum OpArtType { Fibonacci, Tree, Wave, Wallpaper, Diagonal, Shapes, Squares, Hexagons, Quads, Riley }
+enum OpArtType { Fibonacci, Tree, Wave, Wallpaper, Diagonal, Shapes, Squares, Hexagons, Quads, Riley, Maze }
 
 class OpArtTypes {
   String name;
@@ -83,6 +84,14 @@ class OpArt {
         this.attributes = initializeSquaresAttributes();
         this.palette = OpArtPalette();
         this.name = 'Squares';
+        this.animation = false;
+
+        break;
+
+      case OpArtType.Maze:
+        this.attributes = initializeMazeAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Maze';
         this.animation = false;
 
         break;
@@ -198,6 +207,9 @@ class OpArt {
         break;
       case OpArtType.Squares:
         paintSquares(canvas, size, rnd, animationVariable, this);
+        break;
+      case OpArtType.Maze:
+        paintMaze(canvas, size, rnd, animationVariable, this);
         break;
       case OpArtType.Hexagons:
         paintHexagons(canvas, size, rnd, animationVariable, this);

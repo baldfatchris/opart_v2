@@ -39,4 +39,8 @@ class OpArtLab {
   static const IconData horizontal_offset = IconData(0xe80f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData vertical_offset = IconData(0xe810, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData wallpaper_ratio = IconData(0xe811, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData line_horizontal = IconData(0xe812, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData line_vertical = IconData(0xe813, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData line_diagonal_right = IconData(0xe814, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData line_diagonal_left = IconData(0xe815, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

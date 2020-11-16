@@ -64,7 +64,7 @@ Widget PaletteTab(context) {
                           onPressed: () {if(enableButton){
                             enableButton = false;
 
-                            if (numberOfColors.value > 2) {
+                            if (numberOfColors.value > 1) {
                               numberOfColors.value--;
                               if (numberOfColors.value > paletteLength) {
                                 opArt.palette.randomize(
