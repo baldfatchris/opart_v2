@@ -26,14 +26,17 @@ SettingsModel numberOfPoints = SettingsModel(
   name: 'numberOfPoints',
   label: 'Number of Points',
   tooltip: 'The number of points',
-  min: 0,
+  min: 1,
   max: 5000,
+  randomMin: 1,
+  randomMax: 2000,
   zoom: 100,
   defaultValue: 1000,
   icon: Icon(Icons.line_weight),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
+
 
 SettingsModel numberToLink = SettingsModel(
   settingType: SettingType.int,
@@ -49,6 +52,19 @@ SettingsModel numberToLink = SettingsModel(
   proFeature: false,
 );
 
+SettingsModel skipPoints = SettingsModel(
+  settingType: SettingType.int,
+  name: 'skipPoints',
+  label: 'Skip Points',
+  tooltip: 'The number of points to skip',
+  min: 0,
+  max: 10,
+  zoom: 100,
+  defaultValue: 0,
+  icon: Icon(Icons.line_weight),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 
 
 // palette settings
@@ -134,6 +150,7 @@ List<SettingsModel> initializeNeighbourAttributes() {
     reDraw,
     numberOfPoints,
     numberToLink,
+    skipPoints,
 
     backgroundColor,
     lineColor,
@@ -177,20 +194,22 @@ void paintNeighbour(Canvas canvas, Size size, Random rnd, double animationVariab
   var colourOrder = 0;
 
 
-  drawNeighbours(canvas, opArt.palette.colorList,
-      canvasWidth, canvasHeight,
-      lineWidth.value,
-      numberOfPoints.value.toInt(), numberToLink.value.toInt(),
+ drawNeighbours(canvas, opArt.palette.colorList,
+    canvasWidth, canvasHeight,
+    lineWidth.value,
+    numberOfPoints.value.toInt(),
+    numberToLink.value.toInt(),
+    skipPoints.value.toInt(),
   );
 
 
 }
 
-void drawNeighbours(Canvas canvas, List colorList,
+Future<void> drawNeighbours(Canvas canvas, List colorList,
     double canvasWidth, double canvasHeight,
-    double lineWidth, int numberOfPoints, int numberToLink
+    double lineWidth, int numberOfPoints, int numberToLink, int skipPoints
 
-) {
+) async {
 
   int colourOrder = 0;
 
@@ -214,7 +233,7 @@ int countPoints = 0;
             ).toInt()
     );
 
-    for (int j = 1; j < numberToLink; j++){
+    for (int j = 1+skipPoints; j < numberToLink+skipPoints; j++){
 
       // print('$countPoints - $j');
 
