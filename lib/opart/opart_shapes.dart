@@ -122,6 +122,19 @@ SettingsModel shapeMiniCircle = SettingsModel(
   proFeature: false,
 );
 
+SettingsModel shapeS = SettingsModel(
+  name: 'shapeS',
+  settingType: SettingType.bool,
+  label: 'S Shapes',
+  tooltip: 'Add s shapes to the shapes',
+  defaultValue: true,
+  icon: Icon(OpArtLab.s_shape),
+  settingCategory: SettingCategory.tool,
+  silent: true,
+  proFeature: false,
+);
+
+
 SettingsModel box = SettingsModel(
   name: 'box',
   settingType: SettingType.bool,
@@ -251,6 +264,7 @@ List<SettingsModel> initializeShapesAttributes() {
     shapeQuarterTriangle,
     shapeQuarterSquare,
     shapeMiniCircle,
+    shapeS,
 
     box,
     recursionDepth,
@@ -314,6 +328,7 @@ void paintShapes(Canvas canvas, Size size, Random rnd, double animationVariable,
   if (shapeQuarterTriangle.value == true) { shapesArray.add('shapeQuarterTriangle'); }
   if (shapeQuarterSquare.value == true) { shapesArray.add('shapeQuarterSquare'); }
   if (shapeMiniCircle.value == true) { shapesArray.add('shapeMiniCircle'); }
+  if (shapeS.value == true) { shapesArray.add('shapeS'); }
 
   double side = zoomShapes.value;
   
@@ -362,6 +377,7 @@ int drawSquare(
     List<double> PC = [PA[0] + side, PA[1] + side];
     List<double> PD = [PA[0], PA[1] + side];
 
+
     if (box.value == true) {
       // Choose the next colour
       colourOrder++;
@@ -381,7 +397,6 @@ int drawSquare(
     // now  draw the shape
     if (shapesArray.length>0){
 
-
       // Choose the next colour
       colourOrder++;
       nextColor = (randomColors.value)
@@ -395,6 +410,7 @@ int drawSquare(
 
       // pick a random shape
       switch (shapesArray[rnd.nextInt(shapesArray.length)]) {
+
         case 'shapeHalfDiagonalTriangle': // half diagonal triangle
 
           var shapeOrientation = rnd.nextInt(4);
@@ -596,6 +612,51 @@ int drawSquare(
               break;
           }
           break;
+          
+        case 'shapeS':
+
+          switch (rnd.nextInt(4)) {
+            case 0:
+              shape.moveTo(PA[0], PA[1]);
+              shape.lineTo((PA[0]+PB[0])/2, (PA[1]+PB[1])/2);
+              shape.quadraticBezierTo((PB[0]*3+PC[0])/4, (PB[1]*3+PC[1])/4, PO[0], PO[1]);
+              shape.quadraticBezierTo((PD[0]*3+PA[0])/4, (PD[1]*3+PA[1])/4, (PC[0]+PD[0])/2, (PC[1]+PD[1])/2);
+              shape.lineTo(PD[0], PD[1]);
+
+              break;
+
+            case 1:
+              shape.moveTo(PB[0], PB[1]);
+              shape.lineTo((PB[0]+PC[0])/2, (PB[1]+PC[1])/2);
+              shape.quadraticBezierTo((PC[0]*3+PD[0])/4, (PC[1]*3+PD[1])/4, PO[0], PO[1]);
+              shape.quadraticBezierTo((PA[0]*3+PB[0])/4, (PA[1]*3+PB[1])/4, (PD[0]+PA[0])/2, (PD[1]+PA[1])/2);
+              shape.lineTo(PA[0], PA[1]);
+
+              break;
+
+            case 2:
+              shape.moveTo(PC[0], PC[1]);
+              shape.lineTo((PC[0]+PD[0])/2, (PC[1]+PD[1])/2);
+              shape.quadraticBezierTo((PD[0]*3+PA[0])/4, (PD[1]*3+PA[1])/4, PO[0], PO[1]);
+              shape.quadraticBezierTo((PB[0]*3+PC[0])/4, (PB[1]*3+PC[1])/4, (PA[0]+PB[0])/2, (PA[1]+PB[1])/2);
+              shape.lineTo(PB[0], PB[1]);
+
+              break;
+
+            case 3:
+              shape.moveTo(PD[0], PD[1]);
+              shape.lineTo((PD[0]+PA[0])/2, (PD[1]+PA[1])/2);
+              shape.quadraticBezierTo((PA[0]*3+PB[0])/4, (PA[1]*3+PB[1])/4, PO[0], PO[1]);
+              shape.quadraticBezierTo((PC[0]*3+PD[0])/4, (PC[1]*3+PD[1])/4, (PB[0]+PC[0])/2, (PB[1]+PC[1])/2);
+              shape.lineTo(PC[0], PC[1]);
+
+              break;
+          }
+
+          canvas.drawPath(shape, paint);         
+
+          break;
+
       }
     }
   }
