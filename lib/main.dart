@@ -106,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
        OpArtTypes('Trees', OpArtType.Tree, 'lib/assets/tree_400.png'),
        OpArtTypes('Waves', OpArtType.Wave, 'lib/assets/wave_400.png'),
 
-      OpArtTypes('Blobs', OpArtType.Blobs, 'lib/assets/maze_500.png'),
+      OpArtTypes('Blobs', OpArtType.Blobs, 'lib/assets/blobs_500.png'),
       OpArtTypes('Diagonal', OpArtType.Diagonal, 'lib/assets/diagonal_500.png'),
       OpArtTypes('Hexagons', OpArtType.Hexagons, 'lib/assets/hexagons_500.png'),
       OpArtTypes('Maze', OpArtType.Maze, 'lib/assets/maze_500.png'),

@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/OpArtLab.ttf
 ///
-///
+/// 
 ///
 import 'package:flutter/widgets.dart';
 
@@ -46,5 +46,4 @@ class OpArtLab {
   static const IconData bulge = IconData(0xe816, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData s_shape = IconData(0xe817, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData pipe = IconData(0xe818, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-
 }

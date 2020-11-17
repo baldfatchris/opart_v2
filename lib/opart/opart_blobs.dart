@@ -35,8 +35,8 @@ SettingsModel zoomBlobs = SettingsModel(
   proFeature: false,
 );
 
-SettingsModel ratio = SettingsModel(
-  name: 'ratio',
+SettingsModel pipeWidth = SettingsModel(
+  name: 'pipeWidth',
   settingType: SettingType.double,
   label: 'Pipe Width',
   tooltip: 'The width of the pipe as a proportion of the square side',
@@ -44,11 +44,24 @@ SettingsModel ratio = SettingsModel(
   max: 1.0,
   zoom: 100,
   defaultValue: 0.3,
-  icon: Icon(Icons.format_color_fill),
+  icon: Icon(OpArtLab.pipe),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
 
+SettingsModel ratio = SettingsModel(
+  name: 'ratio',
+  settingType: SettingType.double,
+  label: 'Ratio',
+  tooltip: 'The ratio of left and right',
+  min: 0.0,
+  max: 1.0,
+  zoom: 100,
+  defaultValue: 0.5,
+  icon: Icon(Icons.pie_chart),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 
 
 // palette settings
@@ -139,6 +152,7 @@ List<SettingsModel> initializeBlobsAttributes() {
   return [
     reDraw,
     zoomBlobs,
+    pipeWidth,
     ratio,
 
     backgroundColor,
@@ -221,112 +235,112 @@ void paintBlobs(Canvas canvas, Size size, Random rnd, double animationVariable, 
         }
         nextColor = nextColor.withOpacity(opacity.value);
 
-if (rnd.nextBool()) {
+if (rnd.nextDouble()>ratio.value) {
 //  top left
   canvas.drawArc(Rect.fromCenter(
       center: Offset(p1[0], p1[1]),
-      height: sideLength * (1 + ratio.value),
-      width: sideLength * (1 + ratio.value)),
+      height: sideLength * (1 + pipeWidth.value),
+      width: sideLength * (1 + pipeWidth.value)),
       pi * 0, pi / 2, true, Paint()
         ..color = nextColor
         ..style = PaintingStyle.fill);
 
   canvas.drawArc(Rect.fromCenter(
       center: Offset(p1[0], p1[1]),
-      height: sideLength * (1 - ratio.value),
-      width: sideLength * (1 - ratio.value)),
+      height: sideLength * (1 - pipeWidth.value),
+      width: sideLength * (1 - pipeWidth.value)),
       pi * 0, pi / 2, true, Paint()
         ..color = backgroundColor.value.withOpacity(1.0)
         ..style = PaintingStyle.fill);
 
   canvas.drawArc(Rect.fromCenter(
       center: Offset(p1[0], p1[1]),
-      height: sideLength * (1 - ratio.value),
-      width: sideLength * (1 - ratio.value)),
+      height: sideLength * (1 - pipeWidth.value),
+      width: sideLength * (1 - pipeWidth.value)),
       pi * 0, pi / 2, true, Paint()
         ..color = backgroundColor.value.withOpacity(1.0)
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 0.5);
+        ..strokeWidth = 0.2);
 
 //  bottom right
   canvas.drawArc(Rect.fromCenter(
       center: Offset(p3[0], p3[1]),
-      height: sideLength * (1 + ratio.value),
-      width: sideLength * (1 + ratio.value)),
+      height: sideLength * (1 + pipeWidth.value),
+      width: sideLength * (1 + pipeWidth.value)),
       pi * 1, pi / 2, true, Paint()
         ..color = nextColor
         ..style = PaintingStyle.fill);
 
   canvas.drawArc(Rect.fromCenter(
       center: Offset(p3[0], p3[1]),
-      height: sideLength * (1 - ratio.value),
-      width: sideLength * (1 - ratio.value)),
+      height: sideLength * (1 - pipeWidth.value),
+      width: sideLength * (1 - pipeWidth.value)),
       pi * 1, pi / 2, true, Paint()
         ..color = backgroundColor.value.withOpacity(1.0)
         ..style = PaintingStyle.fill);
 
   canvas.drawArc(Rect.fromCenter(
       center: Offset(p3[0], p3[1]),
-      height: sideLength * (1 - ratio.value),
-      width: sideLength * (1 - ratio.value)),
+      height: sideLength * (1 - pipeWidth.value),
+      width: sideLength * (1 - pipeWidth.value)),
       pi * 1, pi / 2, true, Paint()
         ..color = backgroundColor.value.withOpacity(1.0)
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 0.5);
+        ..strokeWidth = 0.2);
 }
 else
 {
 //  top right
   canvas.drawArc(Rect.fromCenter(
       center: Offset(p2[0], p2[1]),
-      height: sideLength * (1 + ratio.value),
-      width: sideLength * (1 + ratio.value)),
+      height: sideLength * (1 + pipeWidth.value),
+      width: sideLength * (1 + pipeWidth.value)),
       pi * 0.5, pi / 2, true, Paint()
         ..color = nextColor
         ..style = PaintingStyle.fill);
 
   canvas.drawArc(Rect.fromCenter(
       center: Offset(p2[0], p2[1]),
-      height: sideLength * (1 - ratio.value),
-      width: sideLength * (1 - ratio.value)),
+      height: sideLength * (1 - pipeWidth.value),
+      width: sideLength * (1 - pipeWidth.value)),
       pi * 0.5, pi / 2, true, Paint()
         ..color = backgroundColor.value.withOpacity(1.0)
         ..style = PaintingStyle.fill);
 
   canvas.drawArc(Rect.fromCenter(
       center: Offset(p2[0], p2[1]),
-      height: sideLength * (1 - ratio.value),
-      width: sideLength * (1 - ratio.value)),
+      height: sideLength * (1 - pipeWidth.value),
+      width: sideLength * (1 - pipeWidth.value)),
       pi * 0.5, pi / 2, true, Paint()
         ..color = backgroundColor.value.withOpacity(1.0)
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 0.5);
+        ..strokeWidth = 0.2);
 
 //  bottom left
   canvas.drawArc(Rect.fromCenter(
       center: Offset(p4[0], p4[1]),
-      height: sideLength * (1 + ratio.value),
-      width: sideLength * (1 + ratio.value)),
+      height: sideLength * (1 + pipeWidth.value),
+      width: sideLength * (1 + pipeWidth.value)),
       pi * 1.5, pi / 2, true, Paint()
         ..color = nextColor
         ..style = PaintingStyle.fill);
 
   canvas.drawArc(Rect.fromCenter(
       center: Offset(p4[0], p4[1]),
-      height: sideLength * (1 - ratio.value),
-      width: sideLength * (1 - ratio.value)),
+      height: sideLength * (1 - pipeWidth.value),
+      width: sideLength * (1 - pipeWidth.value)),
       pi * 1.5, pi / 2, true, Paint()
         ..color = backgroundColor.value.withOpacity(1.0)
         ..style = PaintingStyle.fill);
 
   canvas.drawArc(Rect.fromCenter(
       center: Offset(p4[0], p4[1]),
-      height: sideLength * (1 - ratio.value),
-      width: sideLength * (1 - ratio.value)),
+      height: sideLength * (1 - pipeWidth.value),
+      width: sideLength * (1 - pipeWidth.value)),
       pi * 1.5, pi / 2, true, Paint()
         ..color = backgroundColor.value.withOpacity(1.0)
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 0.5);
+        ..strokeWidth = 0.2);
 }
 
     }
