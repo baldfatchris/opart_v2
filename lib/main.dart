@@ -101,18 +101,21 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
 
      opArtTypes = [
-      OpArtTypes('Spirals', OpArtType.Fibonacci, 'lib/assets/fibonacci_400.png'),
-      OpArtTypes('Waves', OpArtType.Wave, 'lib/assets/wave_400.png'),
-      OpArtTypes('Trees', OpArtType.Tree, 'lib/assets/tree_400.png'),
-       OpArtTypes('Squares', OpArtType.Squares, 'lib/assets/squares_500.png'),
-       OpArtTypes('Maze', OpArtType.Maze, 'lib/assets/maze_500.png'),
-      OpArtTypes('Wallpaper', OpArtType.Wallpaper, 'lib/assets/wallpaper_500.png'),
+
+       OpArtTypes('Spirals', OpArtType.Fibonacci, 'lib/assets/fibonacci_400.png'),
+       OpArtTypes('Trees', OpArtType.Tree, 'lib/assets/tree_400.png'),
+       OpArtTypes('Waves', OpArtType.Wave, 'lib/assets/wave_400.png'),
+
+      OpArtTypes('Blobs', OpArtType.Blobs, 'lib/assets/maze_500.png'),
       OpArtTypes('Diagonal', OpArtType.Diagonal, 'lib/assets/diagonal_500.png'),
-       OpArtTypes('Hexagons', OpArtType.Hexagons, 'lib/assets/hexagons_500.png'),
-       OpArtTypes('Quads', OpArtType.Quads, 'lib/assets/quads_500.png'),
-       OpArtTypes('Neighbour', OpArtType.Neighbour, 'lib/assets/neighbour_500.png'),
-       OpArtTypes('Riley', OpArtType.Riley, 'lib/assets/riley_500.png'),
-       OpArtTypes('Shapes', OpArtType.Shapes, 'lib/assets/shapes_500.png'),
+      OpArtTypes('Hexagons', OpArtType.Hexagons, 'lib/assets/hexagons_500.png'),
+      OpArtTypes('Maze', OpArtType.Maze, 'lib/assets/maze_500.png'),
+      OpArtTypes('Neighbour', OpArtType.Neighbour, 'lib/assets/neighbour_500.png'),
+      OpArtTypes('Quads', OpArtType.Quads, 'lib/assets/quads_500.png'),
+      OpArtTypes('Riley', OpArtType.Riley, 'lib/assets/riley_500.png'),
+      OpArtTypes('Shapes', OpArtType.Shapes, 'lib/assets/shapes_500.png'),
+      OpArtTypes('Squares', OpArtType.Squares, 'lib/assets/squares_500.png'),
+      OpArtTypes('Wallpaper', OpArtType.Wallpaper, 'lib/assets/wallpaper_500.png'),
 
     ];
      super.initState();

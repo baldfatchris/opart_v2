@@ -1,21 +1,21 @@
 import 'dart:core';
 import 'dart:io';
 import 'dart:math';
+import 'opart/opart_blobs.dart';
+import 'opart/opart_diagonal.dart';
+import 'opart/opart_fibonacci.dart';
 import 'opart/opart_hexagons.dart';
+import 'opart/opart_maze.dart';
+import 'opart/opart_neighbour.dart';
 import 'opart/opart_quads.dart';
 import 'opart/opart_riley.dart';
-import 'opart/opart_neighbour.dart';
-import 'opart/opart_fibonacci.dart';
-import 'opart/opart_wave.dart';
-import 'opart/opart_wallpaper.dart';
-import 'opart/opart_squares.dart';
-import 'opart/opart_maze.dart';
-import 'opart/opart_tree.dart';
-import 'opart/opart_diagonal.dart';
 import 'opart/opart_shapes.dart';
+import 'opart/opart_squares.dart';
+import 'opart/opart_tree.dart';
+import 'opart/opart_wallpaper.dart';
+import 'opart/opart_wave.dart';
 
-
-import 'package:opart_v2/model_palette.dart';
+import 'model_palette.dart';
 import 'model_settings.dart';
 
 import 'package:screenshot/screenshot.dart';
@@ -37,7 +37,7 @@ bool proVersion = true;
 
 ScrollController scrollController = new ScrollController();
 
-enum OpArtType { Fibonacci, Tree, Wave, Wallpaper, Diagonal, Shapes, Squares, Hexagons, Quads, Riley, Maze, Neighbour }
+enum OpArtType { Blobs, Diagonal, Fibonacci, Hexagons, Maze, Neighbour, Quads, Riley, Shapes, Squares, Tree, Wallpaper, Wave, }
 
 class OpArtTypes {
   String name;
@@ -58,10 +58,83 @@ class OpArt {
   // Initialise
   OpArt({this.opArtType}) {
     switch (opArtType) {
+
+      case OpArtType.Blobs:
+        this.attributes = initializeBlobsAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Blobs';
+        this.animation = false;
+
+        break;
+
+      case OpArtType.Diagonal:
+        this.attributes = initializeDiagonalAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Diagonal';
+        this.animation = false;
+
+        break;
+
       case OpArtType.Fibonacci:
         this.attributes = initializeFibonacciAttributes();
         this.palette = OpArtPalette();
         this.name = 'Spirals';
+
+        break;
+
+      case OpArtType.Hexagons:
+        this.attributes = initializeHexagonsAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Hexagons';
+        this.animation = false;
+
+        break;
+
+      case OpArtType.Maze:
+        this.attributes = initializeMazeAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Maze';
+        this.animation = false;
+
+        break;
+
+      case OpArtType.Neighbour:
+        this.attributes = initializeNeighbourAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Neighbours';
+        this.animation = false;
+
+        break;
+
+      case OpArtType.Quads:
+        this.attributes = initializeQuadsAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Quads';
+        this.animation = false;
+
+        break;
+
+      case OpArtType.Riley:
+        this.attributes = initializeRileyAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Riley';
+        this.animation = false;
+
+        break;
+
+      case OpArtType.Shapes:
+        this.attributes = initializeShapesAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Shapes';
+        this.animation = false;
+
+        break;
+
+      case OpArtType.Squares:
+        this.attributes = initializeSquaresAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Squares';
+        this.animation = false;
 
         break;
 
@@ -80,77 +153,13 @@ class OpArt {
 
         break;
 
-      case OpArtType.Squares:
-        this.attributes = initializeSquaresAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Squares';
-        this.animation = false;
-
-        break;
-
-      case OpArtType.Maze:
-        this.attributes = initializeMazeAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Maze';
-        this.animation = false;
-
-        break;
-
-      case OpArtType.Hexagons:
-        this.attributes = initializeHexagonsAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Hexagons';
-        this.animation = false;
-
-        break;
-
-      case OpArtType.Quads:
-        this.attributes = initializeQuadsAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Quads';
-        this.animation = false;
-
-        break;
-
-      case OpArtType.Neighbour:
-        this.attributes = initializeNeighbourAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Neighbours';
-        this.animation = false;
-
-        break;
-
       case OpArtType.Wave:
         this.attributes = initializeWaveAttributes();
         this.palette = OpArtPalette();
         this.name = 'Wave';
 
-
         break;
 
-      case OpArtType.Diagonal:
-        this.attributes = initializeDiagonalAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Diagonal';
-        this.animation = false;
-
-        break;
-
-      case OpArtType.Shapes:
-        this.attributes = initializeShapesAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Shapes';
-        this.animation = false;
-
-        break;
-
-      case OpArtType.Riley:
-        this.attributes = initializeRileyAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Riley';
-        this.animation = false;
-
-        break;
     }
 
     this.setDefault();
@@ -204,6 +213,10 @@ class OpArt {
 
   void paint(Canvas canvas, Size size, int seed, double animationVariable) {
     switch (opArtType) {
+
+      case OpArtType.Blobs:
+        paintBlobs(canvas, size, rnd, animationVariable, this);
+        break;
       case OpArtType.Diagonal:
         paintDiagonal(canvas, size, rnd, animationVariable, this);
         break;
