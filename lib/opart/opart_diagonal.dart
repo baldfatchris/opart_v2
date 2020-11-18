@@ -28,6 +28,8 @@ SettingsModel zoomDiagonal = SettingsModel(
   tooltip: 'Zoom in and out',
   min: 10.0,
   max: 250.0,
+  randomMin: 50.0,
+  randomMax: 250.0,
   zoom: 100,
   defaultValue: 150.0,
   icon: Icon(Icons.zoom_in),
