@@ -79,8 +79,6 @@ Widget ToolBoxTab() {
                       opArt.saveToCache();
                     },
 
-                    label: attribute.value.round().toString(),
-
                     divisions: attribute.max - attribute.min,
                   ),
           ),
