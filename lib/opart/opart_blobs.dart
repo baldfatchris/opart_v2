@@ -27,9 +27,9 @@ SettingsModel zoomBlobs = SettingsModel(
   label: 'Zoom',
   tooltip: 'Zoom in and out',
   min: 10.0,
-  max: 100.0,
+  max: 250.0,
   zoom: 100,
-  defaultValue: 50.0,
+  defaultValue: 150.0,
   icon: Icon(Icons.zoom_in),
   settingCategory: SettingCategory.tool,
   proFeature: false,
@@ -41,8 +41,10 @@ SettingsModel numberOfPipes = SettingsModel(
   label: 'Number Of Pipes',
   tooltip: 'The number of pipes',
   min: 1,
-  max: 10,
-  defaultValue: 1,
+  max: 50,
+  randomMin: 1,
+  randomMax: 15,
+  defaultValue: 32,
   icon: Icon(Icons.clear_all),
   settingCategory: SettingCategory.tool,
   proFeature: false,
@@ -59,10 +61,22 @@ SettingsModel ratio = SettingsModel(
   randomMin: 0.1,
   randomMax: 0.7,
   zoom: 100,
-  defaultValue: 0.3,
+  defaultValue: 1,
   icon: Icon(Icons.pie_chart),
   settingCategory: SettingCategory.tool,
   proFeature: false,
+);
+
+SettingsModel oneDirection = SettingsModel(
+  name: 'oneDirection',
+  settingType: SettingType.bool,
+  label: "One Direction",
+  tooltip: "Only bulge in one direction",
+  defaultValue: true,
+  icon: Icon(Icons.arrow_upward),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+  silent: true,
 );
 
 SettingsModel resetColors = SettingsModel(
@@ -72,8 +86,8 @@ SettingsModel resetColors = SettingsModel(
   tooltip: 'Reset the colours for each cell',
   defaultValue: true,
   icon: Icon(Icons.gamepad),
-  settingCategory: SettingCategory.palette,
-  proFeature: false,
+  settingCategory: SettingCategory.tool,
+  proFeature: true,
   silent: true,
 );
 
@@ -94,25 +108,11 @@ SettingsModel randomColors = SettingsModel(
   settingType: SettingType.bool,
   label: 'Random Colors',
   tooltip: 'randomize the colours',
-  defaultValue: true,
+  defaultValue: false,
   icon: Icon(Icons.gamepad),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
-);
-
-SettingsModel lineWidth = SettingsModel(
-  name: 'lineWidth',
-  settingType: SettingType.double,
-  label: 'Line Width',
-  tooltip: 'The width of the line',
-  min: 0.0,
-  max: 5.0,
-  zoom: 100,
-  defaultValue: 3.0,
-  icon: Icon(Icons.line_weight),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
 );
 
 
@@ -167,12 +167,13 @@ List<SettingsModel> initializeBlobsAttributes() {
     zoomBlobs,
     numberOfPipes,
     ratio,
+    oneDirection,
     resetColors,
 
     backgroundColor,
     randomColors,
     numberOfColors,
-    lineWidth,
+
     paletteType,
     paletteList,
     opacity,
@@ -184,10 +185,9 @@ List<SettingsModel> initializeBlobsAttributes() {
 
 
 void paintBlobs(Canvas canvas, Size size, Random rnd, double animationVariable, OpArt opArt) {
-
   rnd = Random(seed);
 
-  if (paletteList.value != opArt.palette.paletteName){
+  if (paletteList.value != opArt.palette.paletteName) {
     opArt.selectPalette(paletteList.value);
   }
 
@@ -195,83 +195,87 @@ void paintBlobs(Canvas canvas, Size size, Random rnd, double animationVariable, 
   // Initialise the canvas
   double canvasWidth = size.width;
   double canvasHeight = size.height;
-  double borderX = 0;
-  double borderY = 0;
-  double imageWidth = canvasWidth;
-  double imageHeight = canvasHeight;
+  double sideLength = zoomBlobs.value;
 
   // Work out the X and Y
-  int cellsX = (canvasWidth / (zoomBlobs.value)+1.9999999).toInt();
-  borderX = (canvasWidth - zoomBlobs.value * cellsX) / 2;
+  int cellsX = (canvasWidth / (sideLength) + 2).toInt();
+  int cellsY = (canvasHeight / (sideLength) + 2).toInt();
 
-  int cellsY = (canvasHeight / (zoomBlobs.value)+1.9999999).toInt();
-  borderY = (canvasHeight - zoomBlobs.value * cellsY) / 2;
-  borderY = (canvasHeight - zoomBlobs.value * cellsY) / 2;
+  double borderX = (canvasWidth - sideLength * cellsX) / 2;
+  double borderY = (canvasHeight - sideLength * cellsY) / 2;
 
-  int colourOrder = 0;
-  Color nextColor;
-  List centre1;
-  List centre2;
-  double startAngle1;
-  double startAngle2;
 
   // Now make some art
+  drawBlobs(
+      canvas, canvasWidth, canvasHeight,
+      cellsX, cellsY, borderX, borderY,
+      sideLength,
+      opArt.palette.colorList, backgroundColor.value,
+      (oneDirection.value==true),
+  );
 
-  // draw the square
+}
+void  drawBlobs(
+    Canvas canvas, double canvasWidth, double canvasHeight,
+    int cellsX, int cellsY, double borderX, double borderY,
+    double sideLength, List colorList, Color backgroundColor,
+    bool oneDirection,
+    ){
+
+  bool parity;
+  List centre1;
+  List centre2;
+  double startAngle;
+  int colourOrder = 0;
+  int nextColorOrder;
+  Color nextColor;
+  double radius;
+  double offset = 0.0;
+
+  // draw the background
   canvas.drawRect(
       Offset(0, 0) & Size(canvasWidth, canvasHeight),
       Paint()
-        ..color = backgroundColor.value.withOpacity(1.0)
+        ..color = backgroundColor.withOpacity(1.0)
         ..style = PaintingStyle.fill);
 
-
-  // work out the radius from the width and the cells
-  double radius;
-  double sideLength = zoomBlobs.value;
-
-
-  // Now make some art
   for (int i = 0; i < cellsX; ++i) {
     for (int j = 0; j < cellsY; ++j) {
 
+        parity = ((i+j)%2==0) ? true : false;
 
-        var x = borderX + i * sideLength;
-        var y = borderY + j * sideLength;
+        var p0 = [borderX + i * sideLength, borderY + j * sideLength];
+        var p1 = [borderX + (i+1) * sideLength, borderY + j * sideLength];
+        var p2 = [borderX + (i+1) * sideLength, borderY + (j+1) * sideLength];
+        var p3 = [borderX + i * sideLength, borderY + (j+1) * sideLength];
 
-        var p0 = [x, y];
-        var p1 = [x + sideLength, y];
-        var p2 = [x + sideLength, y + sideLength];
-        var p3 = [x, y + sideLength];
-
-        int orientation = rnd.nextInt(4);
+        int orientation = oneDirection ? 0 : rnd.nextInt(4);
         switch (orientation) {
 
           case 0:
             centre1 = p0;
             centre2 = p2;
-            startAngle1 = pi * 0;
-            startAngle2 = pi * 1;
+            startAngle = pi * 0;
             break;
 
           case 1:
             centre1 = p1;
             centre2 = p3;
-            startAngle1 = pi * 0.5;
-            startAngle2 = pi * 1.5;
+            startAngle = pi * 0.5;
+            parity = !parity;
             break;
 
           case 2:
             centre1 = p2;
             centre2 = p0;
-            startAngle1 = pi * 1.0;
-            startAngle2 = pi * 0;
+            startAngle = pi * 1.0;
             break;
 
           case 3:
             centre1 = p3;
             centre2 = p1;
-            startAngle1 = pi * 1.5;
-            startAngle2 = pi * 0.5;
+            startAngle = pi * 1.5;
+            parity = !parity;
             break;
         }
 
@@ -282,143 +286,42 @@ void paintBlobs(Canvas canvas, Size size, Random rnd, double animationVariable, 
         for (int i = numberOfPipes.value.toInt(); i > 0; i--){
 
           // Choose the next colour
+          nextColorOrder = parity ? numberOfPipes.value.toInt()-colourOrder-1 : colourOrder;
           colourOrder++;
+
           nextColor = (randomColors.value == true)
-              ? opArt.palette.colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value)
-              : opArt.palette.colorList[colourOrder % numberOfColors.value].withOpacity(opacity.value);
+              ? colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value)
+              : colorList[nextColorOrder % numberOfColors.value].withOpacity(opacity.value);
 
-          radius = sideLength / numberOfPipes.value * (i-0.5 + ratio.value/2);
-          drawQuarterArc(canvas, centre1, radius, startAngle1, nextColor);
+          radius = sideLength / numberOfPipes.value * (i-0.5 + ratio.value/2)-offset;
+          drawQuarterArc(canvas, centre1, radius, startAngle, nextColor);
 
-          radius = sideLength / numberOfPipes.value * (i-0.5 - ratio.value/2);
-          drawQuarterArc(canvas, centre1, radius, startAngle1, backgroundColor.value.withOpacity(1.0));
+          radius = sideLength / numberOfPipes.value * (i-0.5 - ratio.value/2)-offset;
+          drawQuarterArc(canvas, centre1, radius, startAngle, backgroundColor.withOpacity(1.0));
 
+        }
+
+        if (resetColors.value == true) {
+          colourOrder = 0;
         }
 
         for (int i = numberOfPipes.value.toInt(); i > 0; i--){
 
           // Choose the next colour
+          nextColorOrder = parity ? numberOfPipes.value.toInt()-colourOrder-1 : colourOrder;
           colourOrder++;
+
           nextColor = (randomColors.value == true)
-              ? opArt.palette.colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value)
-              : opArt.palette.colorList[colourOrder % numberOfColors.value].withOpacity(opacity.value);
+              ? colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value)
+              : colorList[nextColorOrder % numberOfColors.value].withOpacity(opacity.value);
 
-          radius = sideLength / numberOfPipes.value * (i-0.5 + ratio.value/2);
-          drawQuarterArc(canvas, centre2, radius, startAngle2, nextColor);
+          radius = sideLength / numberOfPipes.value * (i-0.5 + ratio.value/2)+offset;
+          drawQuarterArc(canvas, centre2, radius, startAngle+pi, nextColor);
 
-          radius = sideLength / numberOfPipes.value * (i-0.5 - ratio.value/2);
-          drawQuarterArc(canvas, centre2, radius, startAngle2, backgroundColor.value.withOpacity(1.0));
+          radius = sideLength / numberOfPipes.value * (i-0.5 - ratio.value/2)+offset;
+          drawQuarterArc(canvas, centre2, radius, startAngle+pi, backgroundColor.withOpacity(1.0));
 
         }
-
-//
-// if (rnd.nextDouble()>ratio.value) {
-// //  top left
-//   canvas.drawArc(Rect.fromCenter(
-//       center: Offset(p1[0], p1[1]),
-//       height: sideLength * (1 + pipeWidth.value),
-//       width: sideLength * (1 + pipeWidth.value)),
-//       pi * 0, pi / 2, true, Paint()
-//         ..color = nextColor
-//         ..style = PaintingStyle.fill);
-//
-//   canvas.drawArc(Rect.fromCenter(
-//       center: Offset(p1[0], p1[1]),
-//       height: sideLength * (1 - pipeWidth.value),
-//       width: sideLength * (1 - pipeWidth.value)),
-//       pi * 0, pi / 2, true, Paint()
-//         ..color = backgroundColor.value.withOpacity(1.0)
-//         ..style = PaintingStyle.fill);
-//
-//   canvas.drawArc(Rect.fromCenter(
-//       center: Offset(p1[0], p1[1]),
-//       height: sideLength * (1 - pipeWidth.value),
-//       width: sideLength * (1 - pipeWidth.value)),
-//       pi * 0, pi / 2, true, Paint()
-//         ..color = backgroundColor.value.withOpacity(1.0)
-//         ..style = PaintingStyle.stroke
-//         ..strokeWidth = 0.2);
-//
-// //  bottom right
-//   canvas.drawArc(Rect.fromCenter(
-//       center: Offset(p3[0], p3[1]),
-//       height: sideLength * (1 + pipeWidth.value),
-//       width: sideLength * (1 + pipeWidth.value)),
-//       pi * 1, pi / 2, true, Paint()
-//         ..color = nextColor
-//         ..style = PaintingStyle.fill);
-//
-//   canvas.drawArc(Rect.fromCenter(
-//       center: Offset(p3[0], p3[1]),
-//       height: sideLength * (1 - pipeWidth.value),
-//       width: sideLength * (1 - pipeWidth.value)),
-//       pi * 1, pi / 2, true, Paint()
-//         ..color = backgroundColor.value.withOpacity(1.0)
-//         ..style = PaintingStyle.fill);
-//
-//   canvas.drawArc(Rect.fromCenter(
-//       center: Offset(p3[0], p3[1]),
-//       height: sideLength * (1 - pipeWidth.value),
-//       width: sideLength * (1 - pipeWidth.value)),
-//       pi * 1, pi / 2, true, Paint()
-//         ..color = backgroundColor.value.withOpacity(1.0)
-//         ..style = PaintingStyle.stroke
-//         ..strokeWidth = 0.2);
-// }
-// else
-// {
-// //  top right
-//   canvas.drawArc(Rect.fromCenter(
-//       center: Offset(p2[0], p2[1]),
-//       height: sideLength * (1 + pipeWidth.value),
-//       width: sideLength * (1 + pipeWidth.value)),
-//       pi * 0.5, pi / 2, true, Paint()
-//         ..color = nextColor
-//         ..style = PaintingStyle.fill);
-//
-//   canvas.drawArc(Rect.fromCenter(
-//       center: Offset(p2[0], p2[1]),
-//       height: sideLength * (1 - pipeWidth.value),
-//       width: sideLength * (1 - pipeWidth.value)),
-//       pi * 0.5, pi / 2, true, Paint()
-//         ..color = backgroundColor.value.withOpacity(1.0)
-//         ..style = PaintingStyle.fill);
-//
-//   canvas.drawArc(Rect.fromCenter(
-//       center: Offset(p2[0], p2[1]),
-//       height: sideLength * (1 - pipeWidth.value),
-//       width: sideLength * (1 - pipeWidth.value)),
-//       pi * 0.5, pi / 2, true, Paint()
-//         ..color = backgroundColor.value.withOpacity(1.0)
-//         ..style = PaintingStyle.stroke
-//         ..strokeWidth = 0.2);
-//
-// //  bottom left
-//   canvas.drawArc(Rect.fromCenter(
-//       center: Offset(p4[0], p4[1]),
-//       height: sideLength * (1 + pipeWidth.value),
-//       width: sideLength * (1 + pipeWidth.value)),
-//       pi * 1.5, pi / 2, true, Paint()
-//         ..color = nextColor
-//         ..style = PaintingStyle.fill);
-//
-//   canvas.drawArc(Rect.fromCenter(
-//       center: Offset(p4[0], p4[1]),
-//       height: sideLength * (1 - pipeWidth.value),
-//       width: sideLength * (1 - pipeWidth.value)),
-//       pi * 1.5, pi / 2, true, Paint()
-//         ..color = backgroundColor.value.withOpacity(1.0)
-//         ..style = PaintingStyle.fill);
-//
-//   canvas.drawArc(Rect.fromCenter(
-//       center: Offset(p4[0], p4[1]),
-//       height: sideLength * (1 - pipeWidth.value),
-//       width: sideLength * (1 - pipeWidth.value)),
-//       pi * 1.5, pi / 2, true, Paint()
-//         ..color = backgroundColor.value.withOpacity(1.0)
-//         ..style = PaintingStyle.stroke
-//         ..strokeWidth = 0.2);
-// }
 
     }
 
@@ -437,14 +340,26 @@ void drawQuarterArc(Canvas canvas, List centre, double radius, double startAngle
         ..color = color
         ..style = PaintingStyle.fill);
 
-  canvas.drawArc(Rect.fromCenter(
-      center: Offset(centre[0], centre[1]),
-      height: 2 * radius,
-      width: 2 * radius),
-      startAngle, pi / 2, true, Paint()
+  canvas.drawLine(Offset(centre[0],centre[1]), Offset(centre[0]+cos(startAngle)*radius,centre[1]+sin(startAngle)*radius),
+      Paint()
+    ..color = color
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = 0.5);
+
+  canvas.drawLine(Offset(centre[0],centre[1]), Offset(centre[0]+cos(startAngle+pi/2)*radius,centre[1]+sin(startAngle+pi/2)*radius),
+      Paint()
         ..color = color
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 0.2);
+        ..strokeWidth = 0.5);
+
+  // canvas.drawArc(Rect.fromCenter(
+  //     center: Offset(centre[0], centre[1]),
+  //     height: 2 * radius,
+  //     width: 2 * radius),
+  //     startAngle, pi / 2, true, Paint()
+  //       ..color = color
+  //       ..style = PaintingStyle.stroke
+  //       ..strokeWidth = 0);
 }
 
 
