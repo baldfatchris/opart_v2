@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:opart_v2/opart_icons.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';
@@ -342,14 +343,15 @@ void drawQuarterArc(Canvas canvas, List centre, double radius, double startAngle
       width: 2 * radius),
       startAngle, pi / 2, true, Paint()
         ..color = color
-        ..style = PaintingStyle.fill);
+        ..style = PaintingStyle.fill
+  );
 
-  canvas.drawLine(Offset(centre[0],centre[1]), Offset(centre[0]+cos(startAngle)*radius,centre[1]+sin(startAngle)*radius),
-      Paint()
-        ..color = color
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 0.5);
-
+  // canvas.drawLine(Offset(centre[0],centre[1]), Offset(centre[0]+cos(startAngle)*radius,centre[1]+sin(startAngle)*radius),
+  //     Paint()
+  //       ..color = color
+  //       ..style = PaintingStyle.stroke
+  //       ..strokeWidth = 0.5);
+  //
   // canvas.drawLine(Offset(centre[0],centre[1]), Offset(centre[0]+cos(startAngle+pi/2)*radius,centre[1]+sin(startAngle+pi/2)*radius),
   //     Paint()
   //       ..color = color

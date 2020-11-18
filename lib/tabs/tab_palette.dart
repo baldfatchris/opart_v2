@@ -28,8 +28,8 @@ Widget PaletteTab(context) {
               tileMode: TileMode.clamp),
         ),
         child: Slider(
-          value: opacity.value,
-          min: 0.2,
+          value: (opacity.value == null) ? 1 : (opacity.value<0 || opacity.value>1) ? 1 : opacity.value,
+          min: 0.0,
           max: 1.0,
           onChanged: (value) {
             opacity.value = value;
@@ -45,7 +45,6 @@ Widget PaletteTab(context) {
   }
 
   int paletteLength = opArt.palette.colorList.length;
-
 
   return ValueListenableBuilder<int>(
       valueListenable: rebuildTab,

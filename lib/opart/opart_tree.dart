@@ -275,9 +275,9 @@ SettingsModel leafShape = SettingsModel(
     settingType: SettingType.list,
     label: "Leaf Type",
     tooltip: "The shape of the leaf",
-    defaultValue: "diamond",
+    defaultValue: "petal",
     icon: Icon(Icons.local_florist),
-    options: <String>['circle', 'triangle', 'square', 'diamond'],
+    options: <String>['petal', 'circle', 'triangle', 'square', 'diamond'],
     settingCategory: SettingCategory.tool,
     proFeature: false,
   );
@@ -331,7 +331,7 @@ SettingsModel numberOfColors = SettingsModel(
   max: 36,
   defaultValue: 10,
   icon: Icon(Icons.palette),
-  settingCategory: SettingCategory.other,
+  settingCategory: SettingCategory.tool,
   proFeature: false,
   onChange: (){checkNumberOfColors();},
 );
@@ -886,8 +886,36 @@ drawTheLeaf(
     leafPosition[1] - leafRadius * sin(randomizedLeafAngle)
   ];
 
-
   switch (leafShape) {
+
+    case "petal":
+
+    canvas.drawArc(Rect.fromCenter(
+        center: Offset(PC[0]+leafRadius*cos(randomizedLeafAngle+pi/2),PC[1]+leafRadius*sin(randomizedLeafAngle+pi*2)),
+        height: 1.141213*2*leafRadius,
+        width: 1.141213*2*leafRadius),
+        pi * 1.75 + randomizedLeafAngle, pi / 2, false, Paint()
+              ..style = PaintingStyle.fill
+              ..color = leafColor.withOpacity(opacity));
+
+    canvas.drawArc(Rect.fromCenter(
+        center: Offset(PC[0]+leafRadius*cos(randomizedLeafAngle+pi*3/2),PC[1]+leafRadius*sin(randomizedLeafAngle+pi*3/2)),
+        height: 1.141213*2*leafRadius,
+        width: 1.141213*2*leafRadius),
+        pi * 0.75 + randomizedLeafAngle, pi / 2, false, Paint()
+          ..style = PaintingStyle.fill
+          ..color = leafColor.withOpacity(opacity));
+
+    // canvas.drawArc(Rect.fromCenter(
+    //     center: Offset(PC[0]+leafRadius/2*cos(randomizedLeafAngle+pi/2), PC[1]-leafRadius/2*sin(randomizedLeafAngle+pi/2)),
+    //     leafRadius,
+    //     leafRadius),
+    //     0, pi / 2, true, Paint()
+    //       ..style = PaintingStyle.fill
+    //       ..color = leafColor.withOpacity(opacity));
+
+
+      break;
 
 
     case "circle":
