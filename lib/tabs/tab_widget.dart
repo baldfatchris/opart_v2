@@ -92,7 +92,7 @@ class _TabWidgetState extends State<TabWidget>
         valueListenable: rebuildTab,
         builder: (context, value, child) {
           return Positioned(
-              top: 115,
+              top: 0,
               bottom: 0,
               //right: widget.left? null:MediaQuery.of(context).size.width,
               left: widget.palette
@@ -114,61 +114,71 @@ class _TabWidgetState extends State<TabWidget>
                       widget.palette ? closeTab() : openTab();
                     }
                   },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      widget.palette
-                          ? Container(
-                              color: Colors.white.withOpacity(0.8),
-                              height: MediaQuery.of(context).size.height,
-                              width: widget.width,
-                              child: widget.palette
-                                  ? PaletteTab(context)
-                                  : ToolBoxTab())
-                          : Container(),
-                      Align(
-                        alignment: Alignment(0, widget.tabHeight),
-                        child: GestureDetector(
-                          onTap: () {
-                            if (!isOpen) {
-                              openTab();
-                              isOpen = true;
-                            } else {
-                              closeTab();
-                              isOpen = false;
-                            }
-                          },
-                          child: RotatedBox(
-                            quarterTurns: widget.palette ? 0 : 2,
-                            child: ClipPath(
-                              clipper: CustomMenuClipper(),
-                              child: Container(
-                                  color: Colors.white.withOpacity(0.8),
-                                  height: 100,
-                                  width: 45,
-                                  child: RotatedBox(
-                                    quarterTurns: widget.palette ? 0 : 2,
-                                    child: Icon(widget.icon,
-                                        color: Colors.cyan, size: 35),
-                                  )),
+                  child: Column(
+                    children: [Container(height: 120,width: widget.width + 45,),
+                      Expanded(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            widget.palette
+                                ? Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(30),
+                                    color: Colors.white.withOpacity(0.8),),
+                                    height: MediaQuery.of(context).size.height,
+                                    width: widget.width,
+                                    child: widget.palette
+                                        ? PaletteTab(context)
+                                        : ToolBoxTab())
+                                : Container(),
+                            Align(
+                              alignment: Alignment(0, widget.tabHeight),
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (!isOpen) {
+                                    openTab();
+                                    isOpen = true;
+                                  } else {
+                                    closeTab();
+                                    isOpen = false;
+                                  }
+                                },
+                                child: RotatedBox(
+                                  quarterTurns: widget.palette ? 0 : 2,
+                                  child: ClipPath(
+                                    clipper: CustomMenuClipper(),
+                                    child: Container(
+                                        color: Colors.white.withOpacity(0.8),
+                                        height: 100,
+                                        width: 45,
+                                        child: RotatedBox(
+                                          quarterTurns: widget.palette ? 0 : 2,
+                                          child: Icon(widget.icon,
+                                              color: Colors.cyan, size: 35),
+                                        )),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
+                            !widget.palette
+                                ? Container(
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(30),
+                                  color: Colors.white.withOpacity(0.8),),
+                                    height: MediaQuery.of(context).size.height,
+                                    width: slider == 100
+                                        ? widget.width
+                                        : widget.width + 40,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 0.0),
+                                      child: widget.palette
+                                          ? PaletteTab(context)
+                                          : ToolBoxTab(),
+                                    ))
+                                : Container(),
+                          ],
                         ),
                       ),
-                      !widget.palette
-                          ? Container(
-                              color: Colors.white.withOpacity(0.8),
-                              height: MediaQuery.of(context).size.height,
-                              width: slider == 100
-                                  ? widget.width
-                                  : widget.width + 40,
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 70.0),
-                                child: widget.palette
-                                    ? PaletteTab(context)
-                                    : ToolBoxTab(),
-                              ))
-                          : Container(),
+
+
+                      Container(height: 70,),
                     ],
                   ),
                 ),

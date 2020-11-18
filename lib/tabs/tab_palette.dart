@@ -116,7 +116,7 @@ Widget PaletteTab(context) {
                               rebuildCanvas.value++;
                             }}),
                     ),
-                    Container(height: MediaQuery.of(context).size.height - 115 - 70 - 30-30-150,
+                    Container(height: MediaQuery.of(context).size.height - 115 - 70 - 30-30-150 - 30,
                       width: 30,
                       child: ListView.builder(
                           padding: EdgeInsets.all(2),
@@ -147,7 +147,7 @@ Widget PaletteTab(context) {
                           }),
                     ),
 
-                    Container(height: 150,child: _opacityWidget()),
+                    Container(height: 130,child: _opacityWidget()),
                   ],
                 ),
               ],
