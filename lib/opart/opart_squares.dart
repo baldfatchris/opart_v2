@@ -58,7 +58,6 @@ SettingsModel bulgeOneDirection = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
-
 );
 
 // palette settings
