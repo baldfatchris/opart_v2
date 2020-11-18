@@ -36,6 +36,7 @@ class SettingsModel {
   var max;
   var randomMin;
   var randomMax;
+  double randomTrue;
   double zoom;
   var defaultValue;
 
@@ -53,6 +54,7 @@ class SettingsModel {
     this.max,
     this.randomMin,
     this.randomMax,
+    this.randomTrue,
     this.zoom,
     this.defaultValue,
     this.options,
@@ -96,7 +98,11 @@ class SettingsModel {
           break;
 
         case SettingType.bool:
-          this.value = rnd.nextBool();
+          this.value = (this.randomTrue != null)
+              ? (rnd.nextDouble()<this.randomTrue)
+                ? true
+                : false
+              : rnd.nextBool();
 
           break;
 

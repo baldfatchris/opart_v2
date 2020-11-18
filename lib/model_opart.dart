@@ -1,7 +1,6 @@
 import 'dart:core';
 import 'dart:io';
 import 'dart:math';
-import 'opart/opart_blobs.dart';
 import 'opart/opart_diagonal.dart';
 import 'opart/opart_fibonacci.dart';
 import 'opart/opart_hexagons.dart';
@@ -37,7 +36,7 @@ bool proVersion = true;
 
 ScrollController scrollController = new ScrollController();
 
-enum OpArtType { Blobs, Diagonal, Fibonacci, Hexagons, Maze, Neighbour, Quads, Riley, Shapes, Squares, Tree, Wallpaper, Wave, }
+enum OpArtType {Diagonal, Fibonacci, Hexagons, Maze, Neighbour, Quads, Riley, Shapes, Squares, Tree, Wallpaper, Wave, }
 
 class OpArtTypes {
   String name;
@@ -58,14 +57,6 @@ class OpArt {
   // Initialise
   OpArt({this.opArtType}) {
     switch (opArtType) {
-
-      case OpArtType.Blobs:
-        this.attributes = initializeBlobsAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Blobs';
-        this.animation = false;
-
-        break;
 
       case OpArtType.Diagonal:
         this.attributes = initializeDiagonalAttributes();
@@ -214,9 +205,6 @@ class OpArt {
   void paint(Canvas canvas, Size size, int seed, double animationVariable) {
     switch (opArtType) {
 
-      case OpArtType.Blobs:
-        paintBlobs(canvas, size, rnd, animationVariable, this);
-        break;
       case OpArtType.Diagonal:
         paintDiagonal(canvas, size, rnd, animationVariable, this);
         break;

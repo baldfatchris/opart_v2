@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:opart_v2/opart_icons.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';
 import '../model_settings.dart';
@@ -20,58 +21,131 @@ SettingsModel reDraw = SettingsModel(
   silent: true,
 );
 
-SettingsModel step = SettingsModel(
-  name: 'step',
+SettingsModel zoomDiagonal = SettingsModel(
+  name: 'zoomDiagonal',
   settingType: SettingType.double,
-  label: 'step',
-  tooltip: 'The width of each stripe',
-  min: 3.0,
-  max: 50.0,
+  label: 'Zoom',
+  tooltip: 'Zoom in and out',
+  min: 10.0,
+  max: 250.0,
   zoom: 100,
-  defaultValue: 5.0,
-  icon: Icon(Icons.more_horiz),
+  defaultValue: 150.0,
+  icon: Icon(Icons.zoom_in),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-SettingsModel group = SettingsModel(
-  name: 'group',
-  settingType: SettingType.double,
-  label: 'Groups',
-  tooltip: 'The number of gropus',
-  min: 20.0,
-  max: 500.0,
-  zoom: 100,
-  defaultValue: 100.0,
-  icon: Icon(Icons.autorenew),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-);
-// SettingsModel shape = SettingsModel(
-//   name: 'shape',
-//   settingType: SettingType.list,
-//   label: "Wave Shape",
-//   tooltip: "The shape of the wave",
-//   defaultValue: "circle",
-//   icon: Icon(Icons.local_florist),
-//   options: <String>['circle', 'triangle', 'square'],
-//   settingCategory: SettingCategory.tool,
-//   proFeature: false,
-// );
 
-SettingsModel pointiness = SettingsModel(
-  name: 'pointiness',
+SettingsModel numberOfPipes = SettingsModel(
+  name: 'numberOfPipes',
+  settingType: SettingType.int,
+  label: 'Number Of Pipes',
+  tooltip: 'The number of pipes',
+  min: 1,
+  max: 50,
+  randomMin: 1,
+  randomMax: 15,
+  defaultValue: 32,
+  icon: Icon(Icons.clear_all),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
+
+
+SettingsModel ratio = SettingsModel(
+  name: 'ratio',
   settingType: SettingType.double,
-  label: 'Pointiness',
-  tooltip: 'the pointiness of the wave',
+  label: 'Ratio',
+  tooltip: 'The ratio of left and right',
   min: 0.0,
-  max: pi / 2,
-  zoom: 200,
-  defaultValue: 1.0,
-  icon: Icon(Icons.change_history),
+  max: 1.0,
+  randomMin: 0.1,
+  randomMax: 0.7,
+  zoom: 100,
+  defaultValue: 1,
+  icon: Icon(Icons.pie_chart),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
 
+SettingsModel oneDirection = SettingsModel(
+  name: 'oneDirection',
+  settingType: SettingType.bool,
+  label: "One Direction",
+  tooltip: "Only bulge in one direction",
+  defaultValue: true,
+  icon: Icon(Icons.arrow_upward),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+  silent: true,
+);
+
+SettingsModel resetColors = SettingsModel(
+  name: 'resetColors',
+  settingType: SettingType.bool,
+  label: 'Reset Colors',
+  tooltip: 'Reset the colours for each cell',
+  defaultValue: true,
+  randomTrue: 0.9,
+  icon: Icon(Icons.gamepad),
+  settingCategory: SettingCategory.tool,
+  proFeature: true,
+  silent: true,
+);
+
+// palette settings
+SettingsModel backgroundColor = SettingsModel(
+  settingType: SettingType.color,
+  name: 'backgroundColor',
+  label: "Background Color",
+  tooltip: "The background colour for the canvas",
+  defaultValue: Colors.white,
+  icon: Icon(Icons.settings_overscan),
+  settingCategory: SettingCategory.palette,
+  proFeature: false,
+);
+
+SettingsModel randomColors = SettingsModel(
+  name: 'randomColors',
+  settingType: SettingType.bool,
+  label: 'Random Colors',
+  tooltip: 'randomize the colours',
+  defaultValue: false,
+  randomTrue: 0.1,
+  icon: Icon(Icons.gamepad),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+  silent: true,
+);
+
+
+SettingsModel paletteType = SettingsModel(
+  name: 'paletteType',
+  settingType: SettingType.list,
+  label: "Palette Type",
+  tooltip: "The nature of the palette",
+  defaultValue: "random",
+  icon: Icon(Icons.colorize),
+  options: [
+    'random',
+    'blended random',
+    'linear random',
+    'linear complementary'
+  ],
+  settingCategory: SettingCategory.palette,
+  onChange: (){generatePalette();},
+  proFeature: false,
+);
+SettingsModel paletteList = SettingsModel(
+  name: 'paletteList',
+  settingType: SettingType.list,
+  label: "Palette",
+  tooltip: "Choose from a list of palettes",
+  defaultValue: "Default",
+  icon: Icon(Icons.palette),
+  options: defaultPalleteNames(),
+  settingCategory: SettingCategory.other,
+  proFeature: false,
+);
 
 SettingsModel resetDefaults = SettingsModel(
   name: 'resetDefaults',
@@ -81,297 +155,206 @@ SettingsModel resetDefaults = SettingsModel(
   defaultValue: false,
   icon: Icon(Icons.low_priority),
   settingCategory: SettingCategory.tool,
-  proFeature: false,
   onChange: (){resetAllDefaults();},
+  proFeature: false,
   silent: true,
 );
+
+double aspectRatio = pi/2;
 
 List<SettingsModel> initializeDiagonalAttributes() {
 
   return [
     reDraw,
-    step,
-    group,
-    // shape,
-    // pointiness,
+    zoomDiagonal,
+    numberOfPipes,
+    ratio,
+    oneDirection,
+    resetColors,
 
     backgroundColor,
     randomColors,
     numberOfColors,
+
     paletteType,
     paletteList,
     opacity,
     resetDefaults,
-
   ];
+
+
 }
+
 
 void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariable, OpArt opArt) {
   rnd = Random(seed);
-
-  // sort out the palette
 
   if (paletteList.value != opArt.palette.paletteName) {
     opArt.selectPalette(paletteList.value);
   }
 
 
-  double imageWidth = (size.width > size.height) ? size.width : size.height;
+  // Initialise the canvas
+  double canvasWidth = size.width;
+  double canvasHeight = size.height;
+  double sideLength = zoomDiagonal.value;
 
-  double borderX = (size.width - imageWidth) / 2;
-  double borderY = (size.height - imageWidth) / 2;
+  // Work out the X and Y
+  int cellsX = (canvasWidth / (sideLength) + 2).toInt();
+  int cellsY = (canvasHeight / (sideLength) + 2).toInt();
 
-// // FIX TO PREVENT CRASHES IN IPADS
-// // Set the min  step to be no more than imageWidth / 1000
-//   if (step.min < imageWidth / 50){
-//     step.min = imageWidth / 50;
-//     if (step.min > step.max) {
-//       step.max = step.min;
-//     }
-//     if (step.value < step.min)
-//     {
-//       step.value = step.min;
-//     }
-//   }
-
-  print('step.min ${step.min}');
-  print('step.max ${step.max}');
-  print('step.value ${step.value}');
+  double borderX = (canvasWidth - sideLength * cellsX) / 2;
+  double borderY = (canvasHeight - sideLength * cellsY) / 2;
 
 
-  drawWaves(
-    canvas,
-    imageWidth,
-    borderX,
-    borderY,
-    step.value,
-    group.value,
-    // shape.value,
-    pointiness.value,
-    opArt.palette.colorList,
-    numberOfColors.value.toInt(),
-    (randomColors == true),
+  // Now make some art
+  drawDiagonal(
+    canvas, canvasWidth, canvasHeight,
+    cellsX, cellsY, borderX, borderY,
+    sideLength,
+    opArt.palette.colorList, backgroundColor.value,
+    (oneDirection.value==true),
   );
 
 }
-drawWaves(
-    Canvas canvas,
-    double imageWidth,
-    double borderX,
-    double borderY,
-    double step,
-    double group,
-    // String shape,
-    double pointiness,
-    List<Color> colorList,
-    int numberOfColors,
-    bool randomColors,
+void  drawDiagonal(
+    Canvas canvas, double canvasWidth, double canvasHeight,
+    int cellsX, int cellsY, double borderX, double borderY,
+    double sideLength, List colorList, Color backgroundColor,
+    bool oneDirection,
     ){
 
-  // Now make some art
+  bool parity;
+  List centre1;
+  List centre2;
+  double startAngle;
   int colourOrder = 0;
-  String shape = "circle";
+  int nextColorOrder;
+  Color nextColor;
+  double radius;
+  double offset = 0.0;
 
-  // Start with the Horizontal
-  for (double i = -group; i < 2 * imageWidth; i += step) {
+  // draw the background
+  canvas.drawRect(
+      Offset(0, 0) & Size(canvasWidth, canvasHeight),
+      Paint()
+        ..color = backgroundColor.withOpacity(1.0)
+        ..style = PaintingStyle.fill);
 
-    Color waveColor;
-    if (randomColors == true) {
-      waveColor = colorList[rnd.nextInt(numberOfColors)].withOpacity(opacity.value);
-    } else {
-      colourOrder++;
-      waveColor = colorList[colourOrder % numberOfColors].withOpacity(opacity.value);
-    }
+  for (int i = 0; i < cellsX; ++i) {
+    for (int j = 0; j < cellsY; ++j) {
 
-    int numberOfArcs = (i / group).floor() * 2 + 3;
-    var radiusA = i % group;
-    var radiusB = group - radiusA;
+      parity = ((i+j)%2==0) ? true : false;
 
-    Path wave = Path();
+      var p0 = [borderX + i * sideLength, borderY + j * sideLength];
+      var p1 = [borderX + (i+1) * sideLength, borderY + j * sideLength];
+      var p2 = [borderX + (i+1) * sideLength, borderY + (j+1) * sideLength];
+      var p3 = [borderX + i * sideLength, borderY + (j+1) * sideLength];
 
-    if (shape == "triangle" || shape == "square"){
-      wave.moveTo(borderX+2*imageWidth, borderY);
-    }
+      int orientation = oneDirection ? 0 : rnd.nextInt(4);
+      switch (orientation) {
 
-    Paint paint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeJoin = StrokeJoin.round
-      ..strokeWidth = step * 1.02 // add 2% to stop bleeding
-      ..color = waveColor;
+        case 0:
+          centre1 = p0;
+          centre2 = p2;
+          startAngle = pi * 0;
+          break;
 
-    var jStart = 0;
-    var jStop = numberOfArcs;
-    if (i >= imageWidth) {
-      jStart = ((i + 1 - imageWidth) / group).floor() * 2 + 1;
-      jStop = numberOfArcs - jStart;
-    }
+        case 1:
+          centre1 = p1;
+          centre2 = p3;
+          startAngle = pi * 0.5;
+          parity = !parity;
+          break;
 
-    for (int j = jStart; j < jStop; j++) {
+        case 2:
+          centre1 = p2;
+          centre2 = p0;
+          startAngle = pi * 1.0;
+          break;
 
-
-      if (j % 2 == 0) {
-
-        List PCentre = [
-          borderX + group * (numberOfArcs - j - 1) / 2,
-          borderY + group * (j / 2)
-        ];
-
-        if (PCentre[0] > 0 - 2 * group && PCentre[0] < borderX + imageWidth + group && PCentre[1] < borderY + imageWidth + group)  {
-
-          switch (shape) {
-            case "circle":
-              canvas.drawArc(
-                Rect.fromCenter(
-                    center: Offset(PCentre[0], PCentre[1]),
-                    height: radiusA * 2,
-                    width: radiusA * 2
-                ),
-                -0.01, // overlap slightly to cover the join
-                pi / 2 + 0.02,
-                false,
-                paint,
-              );
-              break;
-
-            case "triangle":
-              List P1 = [
-                PCentre[0] + radiusA * cos(0),
-                PCentre[1] + radiusA * sin(0)
-              ];
-              List P2 = [
-                PCentre[0] + pointiness * radiusA * cos(pi / 4),
-                PCentre[1] + pointiness * radiusA * sin(pi / 4)
-              ];
-              List P3 = [
-                PCentre[0] + radiusA * cos(pi / 2),
-                PCentre[1] + radiusA * sin(pi / 2)
-              ];
-
-              wave.lineTo(P1[0], P1[1]);
-              wave.lineTo(P2[0], P2[1]);
-              wave.lineTo(P3[0], P3[1]);
-
-              break;
-
-            case "square":
-              List P1 = [
-                PCentre[0] + radiusA * cos(0),
-                PCentre[1] + radiusA * sin(0)
-              ];
-              List P2 = [
-                PCentre[0] + radiusA * cos(pi * 1 / 6),
-                PCentre[1] + radiusA * sin(pi * 1 / 6)
-              ];
-              List P3 = [
-                PCentre[0] + radiusA * cos(pi * 2 / 6),
-                PCentre[1] + radiusA * sin(pi * 2 / 6)
-              ];
-              List P4 = [
-                PCentre[0] + radiusA * cos(pi * 3 / 6),
-                PCentre[1] + radiusA * sin(pi * 3 / 6)
-              ];
-
-              wave.lineTo(P1[0], P1[1]);
-              wave.lineTo(P2[0], P2[1]);
-              wave.lineTo(P3[0], P3[1]);
-              wave.lineTo(P4[0], P4[1]);
-
-              break;
-          }
-        }
+        case 3:
+          centre1 = p3;
+          centre2 = p1;
+          startAngle = pi * 1.5;
+          parity = !parity;
+          break;
       }
-      else {
 
-        List PCentre = [
-          borderX + group * ((numberOfArcs - j) / 2),
-          borderY + group * (j + 1) / 2
-        ];
-
-        if (PCentre[0] > 0 - 2 * group && PCentre[0] < borderX + imageWidth + group && PCentre[1] < borderY + imageWidth + group)  {
-
-          switch (shape) {
-
-            case "circle":
-              canvas.drawArc(
-                Rect.fromCenter(
-                    center: Offset(PCentre[0], PCentre[1]),
-                    height: radiusB * 2,
-                    width: radiusB * 2
-                ),
-                pi * 3 / 2 + 0.000,
-                -pi / 2 - 0.000,
-                false,
-                paint,
-              );
-
-              break;
-
-            // case "triangle":
-            //   List P3 = [
-            //     PCentre[0] + radiusB * cos(pi),
-            //     PCentre[1] + radiusB * sin(pi)
-            //   ];
-            //   List P2 = [
-            //     PCentre[0] + pointiness * radiusB * cos(pi * 5 / 4),
-            //     PCentre[1] + pointiness * radiusB * sin(pi * 5 / 4)
-            //   ];
-            //   List P1 = [
-            //     PCentre[0] + radiusB * cos(pi * 6 / 4),
-            //     PCentre[1] + radiusB * sin(pi * 6 / 4)
-            //   ];
-            //
-            //
-            //   wave.lineTo(P1[0], P1[1]);
-            //   wave.lineTo(P2[0], P2[1]);
-            //   wave.lineTo(P3[0], P3[1]);
-            //
-            //   break;
-            //
-            // case "square":
-            //   List P1 = [
-            //     PCentre[0] + radiusB * cos(pi * 9 / 6),
-            //     PCentre[1] + radiusB * sin(pi * 9 / 6)
-            //   ];
-            //   List P2 = [
-            //     PCentre[0] + radiusB * cos(pi * 8 / 6),
-            //     PCentre[1] + radiusB * sin(pi * 8 / 6)
-            //   ];
-            //   List P3 = [
-            //     PCentre[0] + radiusB * cos(pi * 7 / 6),
-            //     PCentre[1] + radiusB * sin(pi * 7 / 6)
-            //   ];
-            //   List P4 = [
-            //     PCentre[0] + radiusB * cos(pi * 6 / 6),
-            //     PCentre[1] + radiusB * sin(pi * 6 / 6)
-            //   ];
-            //
-            //   wave.lineTo(P1[0], P1[1]);
-            //   wave.lineTo(P2[0], P2[1]);
-            //   wave.lineTo(P3[0], P3[1]);
-            //   wave.lineTo(P4[0], P4[1]);
-            //
-            //   break;
-          }
-        }
+      if (resetColors.value == true) {
+        colourOrder = 0;
       }
+
+      for (int i = numberOfPipes.value.toInt(); i > 0; i--){
+
+        // Choose the next colour
+        nextColorOrder = parity ? numberOfPipes.value.toInt()-colourOrder-1 : colourOrder;
+        colourOrder++;
+
+        nextColor = (randomColors.value == true)
+            ? colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value)
+            : colorList[nextColorOrder % numberOfColors.value].withOpacity(opacity.value);
+
+        radius = sideLength / numberOfPipes.value * (i-0.5 + ratio.value/2)-offset;
+        drawQuarterArc(canvas, centre1, radius, startAngle, nextColor);
+
+        radius = sideLength / numberOfPipes.value * (i-0.5 - ratio.value/2)-offset;
+        drawQuarterArc(canvas, centre1, radius, startAngle, backgroundColor.withOpacity(1.0));
+
+      }
+
+      if (resetColors.value == true) {
+        colourOrder = 0;
+      }
+
+      for (int i = numberOfPipes.value.toInt(); i > 0; i--){
+
+        // Choose the next colour
+        nextColorOrder = parity ? numberOfPipes.value.toInt()-colourOrder-1 : colourOrder;
+        colourOrder++;
+
+        nextColor = (randomColors.value == true)
+            ? colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value)
+            : colorList[nextColorOrder % numberOfColors.value].withOpacity(opacity.value);
+
+        radius = sideLength / numberOfPipes.value * (i-0.5 + ratio.value/2)+offset;
+        drawQuarterArc(canvas, centre2, radius, startAngle+pi, nextColor);
+
+        radius = sideLength / numberOfPipes.value * (i-0.5 - ratio.value/2)+offset;
+        drawQuarterArc(canvas, centre2, radius, startAngle+pi, backgroundColor.withOpacity(1.0));
+
+      }
+
     }
-
-
-    if (i < imageWidth) {
-      wave.lineTo(borderX, borderY + imageWidth);
-    }
-
-
-    // wave.close();
-
-    if (shape == "triangle" || shape == "square"){
-      canvas.drawPath(
-          wave,
-          paint);
-    }
-
-    colourOrder++;
 
   }
 
+
 }
+
+void drawQuarterArc(Canvas canvas, List centre, double radius, double startAngle, Color color)
+{
+  canvas.drawArc(Rect.fromCenter(
+      center: Offset(centre[0], centre[1]),
+      height: 2 * radius,
+      width: 2 * radius),
+      startAngle, pi / 2, true, Paint()
+        ..color = color
+        ..style = PaintingStyle.fill);
+
+  canvas.drawLine(Offset(centre[0],centre[1]), Offset(centre[0]+cos(startAngle)*radius,centre[1]+sin(startAngle)*radius),
+      Paint()
+        ..color = color
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 0.5);
+
+  // canvas.drawLine(Offset(centre[0],centre[1]), Offset(centre[0]+cos(startAngle+pi/2)*radius,centre[1]+sin(startAngle+pi/2)*radius),
+  //     Paint()
+  //       ..color = color
+  //       ..style = PaintingStyle.stroke
+  //       ..strokeWidth = 0.0);
+
+  }
+
+
+
