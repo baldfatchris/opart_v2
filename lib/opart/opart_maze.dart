@@ -180,6 +180,7 @@ List<SettingsModel> initializeMazeAttributes() {
 
     backgroundColor,
     randomColors,
+    numberOfColors,
     lineWidth,
     paletteType,
     paletteList,

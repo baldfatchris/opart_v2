@@ -433,6 +433,7 @@ List<SettingsModel> initializeWallpaperAttributes() {
     lineColor,
     lineWidth,
     randomColors,
+    numberOfColors,
     resetColors,
     paletteType,
     paletteList,

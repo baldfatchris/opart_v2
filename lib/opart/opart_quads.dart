@@ -193,6 +193,7 @@ List<SettingsModel> initializeQuadsAttributes() {
     lineColor,
     lineWidth,
     randomColors,
+    numberOfColors,
     paletteType,
     paletteList,
     opacity,

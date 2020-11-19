@@ -156,6 +156,7 @@ List<SettingsModel> initializeNeighbourAttributes() {
     lineColor,
     lineWidth,
     randomColors,
+    numberOfColors,
     paletteType,
     paletteList,
     opacity,

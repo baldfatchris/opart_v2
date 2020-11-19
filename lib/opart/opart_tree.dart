@@ -401,6 +401,7 @@ List<SettingsModel> initializeTreeAttributes() {
     leafDecay,
     leafShape,
     backgroundColor,
+    numberOfColors,
     trunkFillColor,
     trunkOutlineColor,
     trunkStrokeWidth,

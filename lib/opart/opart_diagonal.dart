@@ -177,7 +177,7 @@ List<SettingsModel> initializeDiagonalAttributes() {
 
     backgroundColor,
     randomColors,
-
+    numberOfColors,
     paletteType,
     paletteList,
     opacity,

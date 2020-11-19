@@ -154,6 +154,7 @@ List<SettingsModel> initializeRileyAttributes() {
 
     backgroundColor,
     randomColors,
+    numberOfColors,
     paletteType,
     paletteList,
     opacity,

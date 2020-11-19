@@ -274,6 +274,7 @@ List<SettingsModel> initializeShapesAttributes() {
     lineColor,
     lineWidth,
     randomColors,
+    numberOfColors,
     paletteType,
     paletteList,
     opacity,

@@ -138,6 +138,7 @@ List<SettingsModel> initializeSquaresAttributes() {
 
     backgroundColor,
     randomColors,
+    numberOfColors,
     paletteType,
     paletteList,
     opacity,
