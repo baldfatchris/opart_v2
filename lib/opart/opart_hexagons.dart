@@ -143,7 +143,6 @@ List<SettingsModel> initializeHexagonsAttributes() {
     lineColor,
     lineWidth,
     randomColors,
-    numberOfColors,
     paletteType,
     paletteList,
     opacity,

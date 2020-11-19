@@ -157,7 +157,6 @@ List<SettingsModel> initializeWaveAttributes() {
 
     backgroundColor,
     randomColors,
-    numberOfColors,
     paletteType,
     paletteList,
     opacity,

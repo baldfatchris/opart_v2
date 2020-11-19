@@ -138,7 +138,6 @@ List<SettingsModel> initializeSquaresAttributes() {
 
     backgroundColor,
     randomColors,
-    numberOfColors,
     paletteType,
     paletteList,
     opacity,
@@ -221,6 +220,7 @@ void paintSquares(Canvas canvas, Size size, Random rnd, double animationVariable
       canvas.drawRect(
           Offset(p1[0], p1[1]) & Size(sideLength, sideLength),
           Paint()
+            ..strokeWidth = 0.0
             ..color = nextColor
             ..style = PaintingStyle.fill);
       canvas.drawRect(

@@ -344,19 +344,6 @@ SettingsModel resetColors = SettingsModel(
   proFeature: false,
   silent: true,
 );
-SettingsModel numberOfColors = SettingsModel(
-  name: 'numberOfColors',
-  settingType: SettingType.int,
-  label: 'Number of Colors',
-  tooltip: 'The number of colours in the palette',
-  min: 1,
-  max: 36,
-  defaultValue: 10,
-  icon: Icon(Icons.palette),
-  settingCategory: SettingCategory.other,
-  onChange: (){checkNumberOfColors();},
-  proFeature: false,
-);
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
@@ -447,7 +434,6 @@ List<SettingsModel> initializeWallpaperAttributes() {
     lineWidth,
     randomColors,
     resetColors,
-    numberOfColors,
     paletteType,
     paletteList,
     opacity,

@@ -322,19 +322,7 @@ SettingsModel trunkStrokeWidth = SettingsModel(
     settingCategory: SettingCategory.palette,
     proFeature: false,
   );
-SettingsModel numberOfColors = SettingsModel(
-  name: 'numberOfColors',
-  settingType: SettingType.int,
-  label: 'Number of Colors',
-  tooltip: 'The number of colours in the palette',
-  min: 1,
-  max: 36,
-  defaultValue: 10,
-  icon: Icon(Icons.palette),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-  onChange: (){checkNumberOfColors();},
-);
+
 SettingsModel paletteType = SettingsModel(
     name: 'paletteType',
     settingType: SettingType.list,
@@ -416,7 +404,6 @@ List<SettingsModel> initializeTreeAttributes() {
     trunkFillColor,
     trunkOutlineColor,
     trunkStrokeWidth,
-    numberOfColors,
     paletteType,
     paletteList,
     opacity,
@@ -898,6 +885,7 @@ drawTheLeaf(
           height: leafRadius*sqrt(2),
           width: leafRadius*sqrt(2)),
           pi*1.25-leafAngle, pi / 2, false, Paint()
+            ..strokeWidth = 0.0
             ..style = PaintingStyle.fill
             ..color = leafColor.withOpacity(opacity));
 
@@ -909,41 +897,11 @@ drawTheLeaf(
           height: leafRadius*sqrt(2),
           width: leafRadius*sqrt(2)),
           pi*0.25-leafAngle, pi / 2, false, Paint()
+            ..strokeWidth = 0.0
             ..style = PaintingStyle.fill
             ..color = leafColor.withOpacity(opacity));
 
       
-      
-      
-      
-      
-      
-      
-      
-    // canvas.drawArc(Rect.fromCenter(
-    //     center: Offset(PC[0]+leafRadius*cos(randomizedLeafAngle+pi/2),PC[1]+leafRadius*sin(randomizedLeafAngle+pi*2)),
-    //     height: 1.141213*2*leafRadius,
-    //     width: 1.141213*2*leafRadius),
-    //     pi * 0.75 + randomizedLeafAngle, pi / 2, false, Paint()
-    //           ..style = PaintingStyle.fill
-    //           ..color = leafColor.withOpacity(opacity));
-    //
-    // canvas.drawArc(Rect.fromCenter(
-    //     center: Offset(PC[0]+leafRadius*cos(randomizedLeafAngle+pi*3/2),PC[1]+leafRadius*sin(randomizedLeafAngle+pi*3/2)),
-    //     height: 1.141213*2*leafRadius,
-    //     width: 1.141213*2*leafRadius),
-    //     pi * 1.75 + randomizedLeafAngle, pi / 2, false, Paint()
-    //       ..style = PaintingStyle.fill
-    //       ..color = leafColor.withOpacity(opacity));
-
-    // canvas.drawArc(Rect.fromCenter(
-    //     center: Offset(PC[0]+leafRadius/2*cos(randomizedLeafAngle+pi/2), PC[1]-leafRadius/2*sin(randomizedLeafAngle+pi/2)),
-    //     leafRadius,
-    //     leafRadius),
-    //     0, pi / 2, true, Paint()
-    //       ..style = PaintingStyle.fill
-    //       ..color = leafColor.withOpacity(opacity));
-
 
       break;
 

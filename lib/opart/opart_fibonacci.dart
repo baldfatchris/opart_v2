@@ -311,7 +311,6 @@ List<SettingsModel> initializeFibonacciAttributes() {
     lineColor,
     lineWidth,
     randomColors,
-    numberOfColors,
     paletteType,
     paletteList,
     opacity,
