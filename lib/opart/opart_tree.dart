@@ -205,8 +205,8 @@ SettingsModel leafAngle = SettingsModel(
     settingCategory: SettingCategory.tool,
     proFeature: false,
   );
-SettingsModel leafLength = SettingsModel(
-    name: 'leafLength',
+SettingsModel leafRadius = SettingsModel(
+    name: 'leafRadius',
     settingType: SettingType.double,
     label: 'Leaf Length',
     tooltip: 'The fixed length of each leaf',
@@ -406,7 +406,7 @@ List<SettingsModel> initializeTreeAttributes() {
     maxDepth,
     leavesAfter,
     leafAngle,
-    leafLength,
+    leafRadius,
     randomLeafLength,
     leafSquareness,
     leafAsymmetry,
@@ -433,7 +433,6 @@ void paintTree(Canvas canvas, Size size, Random rnd, double animationVariable, O
   }
 
 
-
   generateTree(canvas, rnd, size.width, size.height, size.width, size.height, 0,0,
 
     zoomTree.value,
@@ -449,7 +448,7 @@ void paintTree(Canvas canvas, Size size, Random rnd, double animationVariable, O
     maxDepth.value,
     leavesAfter.value,
     leafAngle.value,
-    leafLength.value,
+    leafRadius.value,
     randomLeafLength.value,
     leafSquareness.value,
     leafAsymmetry.value,
@@ -494,7 +493,7 @@ generateTree(
     int maxDepth,
     int leavesAfter,
     double leafAngle,
-    double leafLength,
+    double leafRadius,
     double randomLeafLength,
     double leafSquareness,
     double leafAsymmetry,
@@ -544,7 +543,7 @@ generateTree(
     ratio,
     0,
     trunkStrokeWidth * zoomTree,
-    leafLength * zoomTree,
+    leafRadius * zoomTree,
     randomLeafLength,
     leafShape,
     false,
@@ -582,7 +581,7 @@ drawSegment(
     double ratio,
     int currentDepth,
     double lineWidth,
-    double leafLength,
+    double leafRadius,
     double randomLeafLength,
     String leafShape,
     bool justBranched,
@@ -653,8 +652,8 @@ drawSegment(
       directionB = direction + maxBranch * (angle + 2*angle*branchRatio);
     }
 
-    drawSegment( canvas, rnd, borderX, borderY, rootA, rootX, width * widthDecay, segmentLength * segmentDecay, directionB, ratio, currentDepth + 1, lineWidth, leafLength, randomLeafLength, leafShape, true, animationVariable, branch, angle, widthDecay, segmentDecay, bulbousness, leavesAfter, maxDepth, leafAngle, leafDecay, leafSquareness, leafAsymmetry, trunkFillColor, opacity, numberOfColors, trunkStrokeWidth, trunkOutlineColor, palette, );
-    drawSegment( canvas, rnd, borderX, borderY, rootX, rootB, width * widthDecay, segmentLength * segmentDecay, directionA, ratio, currentDepth + 1, lineWidth, leafLength, randomLeafLength, leafShape, true, animationVariable, branch, angle, widthDecay, segmentDecay, bulbousness, leavesAfter, maxDepth, leafAngle, leafDecay, leafSquareness, leafAsymmetry, trunkFillColor, opacity, numberOfColors, trunkStrokeWidth, trunkOutlineColor, palette, );
+    drawSegment( canvas, rnd, borderX, borderY, rootA, rootX, width * widthDecay, segmentLength * segmentDecay, directionB, ratio, currentDepth + 1, lineWidth, leafRadius, randomLeafLength, leafShape, true, animationVariable, branch, angle, widthDecay, segmentDecay, bulbousness, leavesAfter, maxDepth, leafAngle, leafDecay, leafSquareness, leafAsymmetry, trunkFillColor, opacity, numberOfColors, trunkStrokeWidth, trunkOutlineColor, palette, );
+    drawSegment( canvas, rnd, borderX, borderY, rootX, rootB, width * widthDecay, segmentLength * segmentDecay, directionA, ratio, currentDepth + 1, lineWidth, leafRadius, randomLeafLength, leafShape, true, animationVariable, branch, angle, widthDecay, segmentDecay, bulbousness, leavesAfter, maxDepth, leafAngle, leafDecay, leafSquareness, leafAsymmetry, trunkFillColor, opacity, numberOfColors, trunkStrokeWidth, trunkOutlineColor, palette, );
 
 
   } else {
@@ -686,7 +685,7 @@ drawSegment(
         P2,
         lineWidth,
         direction - leafAngle,
-        leafLength,
+        leafRadius,
         leafShape,
         ratio,
         randomLeafLength,
@@ -705,7 +704,7 @@ drawSegment(
         P3,
         lineWidth,
         direction + leafAngle,
-        leafLength,
+        leafRadius,
         leafShape,
         ratio,
         randomLeafLength,
@@ -733,7 +732,7 @@ drawSegment(
         ratio,
         currentDepth + 1,
         lineWidth,
-        leafLength * leafDecay,
+        leafRadius * leafDecay,
         randomLeafLength,
         leafShape,
         false,
@@ -859,7 +858,7 @@ drawTheLeaf(
     List leafPosition,
     double lineWidth,
     double leafAngle,
-    double leafLength,
+    double leafRadius,
     String leafShape,
     double ratio,
     double randomLeafLength,
@@ -876,7 +875,7 @@ drawTheLeaf(
   Color leafColor = palette[rnd.nextInt(numberOfColors)].withOpacity(opacity);
 
 
-  var leafRadius = leafLength + rnd.nextDouble() * randomLeafLength;
+  leafRadius = leafRadius + rnd.nextDouble() * randomLeafLength;
 
   double randomizedLeafAngle = leafAngle + (1 - rnd.nextDouble() / 2) * cos(animationVariable);
 
@@ -890,21 +889,52 @@ drawTheLeaf(
 
     case "petal":
 
-    canvas.drawArc(Rect.fromCenter(
-        center: Offset(PC[0]+leafRadius*cos(randomizedLeafAngle+pi/2),PC[1]+leafRadius*sin(randomizedLeafAngle+pi*2)),
-        height: 1.141213*2*leafRadius,
-        width: 1.141213*2*leafRadius),
-        pi * 1.75 + randomizedLeafAngle, pi / 2, false, Paint()
-              ..style = PaintingStyle.fill
-              ..color = leafColor.withOpacity(opacity));
 
-    canvas.drawArc(Rect.fromCenter(
-        center: Offset(PC[0]+leafRadius*cos(randomizedLeafAngle+pi*3/2),PC[1]+leafRadius*sin(randomizedLeafAngle+pi*3/2)),
-        height: 1.141213*2*leafRadius,
-        width: 1.141213*2*leafRadius),
-        pi * 0.75 + randomizedLeafAngle, pi / 2, false, Paint()
-          ..style = PaintingStyle.fill
-          ..color = leafColor.withOpacity(opacity));
+      leafRadius = leafRadius * 2;
+
+      canvas.drawArc(Rect.fromCenter(
+          center: Offset(leafPosition[0]+cos(leafAngle-pi/4)*leafRadius/sqrt(2),
+              leafPosition[1]-sin(leafAngle-pi/4)*leafRadius/sqrt(2)),
+          height: leafRadius*sqrt(2),
+          width: leafRadius*sqrt(2)),
+          pi*1.25-leafAngle, pi / 2, false, Paint()
+            ..style = PaintingStyle.fill
+            ..color = leafColor.withOpacity(opacity));
+
+
+
+      canvas.drawArc(Rect.fromCenter(
+          center: Offset(leafPosition[0]+cos(leafAngle+pi/4)*leafRadius/sqrt(2),
+              leafPosition[1]-sin(leafAngle+pi/4)*leafRadius/sqrt(2)),
+          height: leafRadius*sqrt(2),
+          width: leafRadius*sqrt(2)),
+          pi*0.25-leafAngle, pi / 2, false, Paint()
+            ..style = PaintingStyle.fill
+            ..color = leafColor.withOpacity(opacity));
+
+      
+      
+      
+      
+      
+      
+      
+      
+    // canvas.drawArc(Rect.fromCenter(
+    //     center: Offset(PC[0]+leafRadius*cos(randomizedLeafAngle+pi/2),PC[1]+leafRadius*sin(randomizedLeafAngle+pi*2)),
+    //     height: 1.141213*2*leafRadius,
+    //     width: 1.141213*2*leafRadius),
+    //     pi * 0.75 + randomizedLeafAngle, pi / 2, false, Paint()
+    //           ..style = PaintingStyle.fill
+    //           ..color = leafColor.withOpacity(opacity));
+    //
+    // canvas.drawArc(Rect.fromCenter(
+    //     center: Offset(PC[0]+leafRadius*cos(randomizedLeafAngle+pi*3/2),PC[1]+leafRadius*sin(randomizedLeafAngle+pi*3/2)),
+    //     height: 1.141213*2*leafRadius,
+    //     width: 1.141213*2*leafRadius),
+    //     pi * 1.75 + randomizedLeafAngle, pi / 2, false, Paint()
+    //       ..style = PaintingStyle.fill
+    //       ..color = leafColor.withOpacity(opacity));
 
     // canvas.drawArc(Rect.fromCenter(
     //     center: Offset(PC[0]+leafRadius/2*cos(randomizedLeafAngle+pi/2), PC[1]-leafRadius/2*sin(randomizedLeafAngle+pi/2)),
@@ -1104,6 +1134,70 @@ drawTheLeaf(
   }
 }
 
+void drawPetal(
+    Canvas canvas,
+    List leafPosition,
+    double leafAngle,
+    double leafRadius,
+    ){
+
+  // leafPosition = [200.0, 500.0];
+  // leafAngle = 1.2*pi/2;
+  // leafRadius = 100.0;
+
+  // leaf node
+  // canvas.drawCircle(Offset(leafPosition[0], leafPosition[1]), 2.0, Paint()
+  //   ..strokeWidth = 0.0
+  //   ..style = PaintingStyle.fill
+  //   ..color = Colors.black);
+
+  // leaf spine
+  // canvas.drawLine(Offset(leafPosition[0], leafPosition[1]),
+  //     Offset(leafPosition[0]+cos(leafAngle)*leafRadius,
+  //         leafPosition[1]-sin(leafAngle)*leafRadius),
+  //     Paint()
+  //       ..strokeWidth = 1.0
+  //       ..style = PaintingStyle.stroke
+  //       ..color = Colors.black);
+
+
+  List petalCentre1 = [
+    leafPosition[0]+cos(leafAngle-pi/4)*leafRadius/sqrt(2),
+    leafPosition[1]-sin(leafAngle-pi/4)*leafRadius/sqrt(2)];
+
+  // canvas.drawCircle(Offset(petalCentre1[0], petalCentre1[1]), 2, Paint()
+  //   ..strokeWidth = 0
+  //   ..style = PaintingStyle.fill
+  //   ..color = Colors.black);
+  
+  canvas.drawArc(Rect.fromCenter(
+      center: Offset(petalCentre1[0],petalCentre1[1]),
+      height: leafRadius*sqrt(2),
+      width: leafRadius*sqrt(2)),
+      pi*1.25-leafAngle, pi / 2, false, Paint()
+        ..style = PaintingStyle.fill
+        ..color = Colors.green);
+
+  List petalCentre2 = [
+    leafPosition[0]+cos(leafAngle+pi/4)*leafRadius/sqrt(2),
+    leafPosition[1]-sin(leafAngle+pi/4)*leafRadius/sqrt(2)];
+
+  // canvas.drawCircle(Offset(petalCentre2[0], petalCentre2[1]), 2, Paint()
+  //   ..strokeWidth = 0
+  //   ..style = PaintingStyle.fill
+  //   ..color = Colors.black);
+
+
+  canvas.drawArc(Rect.fromCenter(
+      center: Offset(petalCentre2[0],petalCentre2[1]),
+      height: leafRadius*sqrt(2),
+      width: leafRadius*sqrt(2)),
+      pi*0.25-leafAngle, pi / 2, false, Paint()
+        ..style = PaintingStyle.fill
+        ..color = Colors.green);
+
+
+}
 
 
 

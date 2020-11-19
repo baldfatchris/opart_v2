@@ -133,6 +133,7 @@ class OpArt {
         this.attributes = initializeTreeAttributes();
         this.palette = OpArtPalette();
         this.name = 'Tree';
+        this.animation = true;
 
         break;
 

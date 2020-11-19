@@ -342,6 +342,7 @@ void drawQuarterArc(Canvas canvas, List centre, double radius, double startAngle
       height: 2 * radius,
       width: 2 * radius),
       startAngle, pi / 2, true, Paint()
+        ..strokeWidth = 0
         ..color = color
         ..style = PaintingStyle.fill
   );
