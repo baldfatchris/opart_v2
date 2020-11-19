@@ -413,7 +413,6 @@ List<SettingsModel> initializeTreeAttributes() {
 }
 
 void paintTree(Canvas canvas, Size size, Random rnd, double animationVariable, OpArt opArt) {
-  print('animationVariable: $animationVariable');
 
   rnd = Random(seed);
 

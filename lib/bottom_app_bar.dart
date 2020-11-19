@@ -5,7 +5,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
   double width = MediaQuery.of(context).size.width;
-  print('width: $width');
 
   return Container(
     //  color: Colors.white.withOpacity(0.8),
