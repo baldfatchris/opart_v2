@@ -88,7 +88,7 @@ SettingsModel zoomTree = SettingsModel(
     randomMin: 20.0,
     randomMax: 70.0,
     zoom: 100,
-    defaultValue: 50.0,
+    defaultValue: 60.0,
     icon: Icon(Icons.swap_horizontal_circle),
     settingCategory: SettingCategory.tool,
     proFeature: false,
@@ -133,7 +133,7 @@ SettingsModel angle = SettingsModel(
     min: 0.1,
     max: 0.7,
     zoom: 100,
-    defaultValue: 0.5,
+    defaultValue: 0.3,
     icon: Icon(Icons.rotate_right),
     settingCategory: SettingCategory.tool,
     proFeature: false,
@@ -213,7 +213,7 @@ SettingsModel leafRadius = SettingsModel(
     min: 0.0,
     max: 20.0,
     zoom: 100,
-    defaultValue: 8.0,
+    defaultValue: 15.0,
     icon: Icon(Icons.rotate_right),
     settingCategory: SettingCategory.tool,
     proFeature: false,
@@ -392,6 +392,7 @@ List<SettingsModel> initializeTreeAttributes() {
     ratio,
     bulbousness,
     maxDepth,
+    leafShape,
     leavesAfter,
     leafAngle,
     leafRadius,
@@ -399,7 +400,6 @@ List<SettingsModel> initializeTreeAttributes() {
     leafSquareness,
     leafAsymmetry,
     leafDecay,
-    leafShape,
     backgroundColor,
     numberOfColors,
     trunkFillColor,
@@ -413,6 +413,7 @@ List<SettingsModel> initializeTreeAttributes() {
 }
 
 void paintTree(Canvas canvas, Size size, Random rnd, double animationVariable, OpArt opArt) {
+  print('animationVariable: $animationVariable');
 
   rnd = Random(seed);
 
@@ -420,139 +421,59 @@ void paintTree(Canvas canvas, Size size, Random rnd, double animationVariable, O
     opArt.selectPalette(paletteList.value);
   }
 
-
-  generateTree(canvas, rnd, size.width, size.height, size.width, size.height, 0,0,
-
-    zoomTree.value,
-    baseHeight.value,
-    trunkWidth.value,
-    widthDecay.value,
-    segmentLength.value,
-    segmentDecay.value,
-    branch.value,
-    angle.value,
-    ratio.value,
-    bulbousness.value,
-    maxDepth.value,
-    leavesAfter.value,
-    leafAngle.value,
-    leafRadius.value,
-    randomLeafLength.value,
-    leafSquareness.value,
-    leafAsymmetry.value,
-    leafDecay.value,
-    leafShape.value,
-
-    backgroundColor.value,
-    trunkFillColor.value,
-    trunkOutlineColor.value,
-    trunkStrokeWidth.value,
-
-    numberOfColors.value.toInt(),
-    paletteType.value,
-    opacity.value,
-    opArt.palette.colorList,
-    animationVariable * 10,
-  );
-
-
-}
-
-generateTree(
-    Canvas canvas,
-    Random rnd,
-    double canvasWidth,
-    double canvasHeight,
-    double imageWidth,
-    double imageHeight,
-    double borderX,
-    double borderY,
-
-    double zoomTree,
-    double baseHeight,
-    double trunkWidth,
-    double widthDecay,
-    double segmentLength,
-    double segmentDecay,
-    double branch,
-    double angle,
-    double ratio,
-    double bulbousness,
-    int maxDepth,
-    int leavesAfter,
-    double leafAngle,
-    double leafRadius,
-    double randomLeafLength,
-    double leafSquareness,
-    double leafAsymmetry,
-    double leafDecay,
-    String leafShape,
-
-    Color backgroundColor,
-    Color trunkFillColor,
-    Color trunkOutlineColor,
-    double trunkStrokeWidth,
-    int numberOfColors,
-    String paletteType,
-    double opacity,
-    List palette,
-    double animationVariable,
-    ) {
-  
-
   // colour in the canvas
   canvas.drawRect(
-      Offset(borderX, borderY) & Size(imageWidth, imageHeight),
+      Offset(0, 0) & Size(size.width, size.height),
       Paint()
-        ..color = backgroundColor
+        ..color = backgroundColor.value
         ..style = PaintingStyle.fill);
 
   // Starting point of the tree
   double direction = pi / 2;
   List treeBaseA = [
-    (canvasWidth - trunkWidth * zoomTree) / 2,
-    canvasHeight - baseHeight
+    (size.width - trunkWidth.value * zoomTree.value) / 2,
+    size.height - baseHeight.value
   ];
   List treeBaseB = [
-    (canvasWidth + trunkWidth * zoomTree) / 2,
-    canvasHeight - baseHeight
+    (size.width + trunkWidth.value * zoomTree.value) / 2,
+    size.height - baseHeight.value
   ];
 
   drawSegment(
     canvas,
     rnd,
-    borderX,
-    borderY,
+    0,
+    0,
     treeBaseA,
     treeBaseB,
-    trunkWidth * zoomTree,
-    segmentLength * zoomTree,
+    trunkWidth.value * zoomTree.value,
+    segmentLength.value * zoomTree.value,
     direction,
-    ratio,
+    ratio.value,
     0,
-    trunkStrokeWidth * zoomTree,
-    leafRadius * zoomTree,
-    randomLeafLength,
-    leafShape,
+    trunkStrokeWidth.value * zoomTree.value,
+    leafRadius.value * zoomTree.value,
+    randomLeafLength.value,
+    leafShape.value,
     false,
-    animationVariable * 2500,
-    branch,
-    angle,
-    widthDecay,
-    segmentDecay,
-    bulbousness,
-    leavesAfter,
-    maxDepth,
-    leafAngle,
-    leafDecay,
-    leafSquareness,
-    leafAsymmetry,
-    trunkFillColor,
-    opacity,
-    numberOfColors,
-    trunkStrokeWidth,
-    trunkOutlineColor,
-    palette,
+    animationVariable,
+    branch.value,
+    angle.value,
+    widthDecay.value,
+    segmentDecay.value,
+    bulbousness.value,
+    leavesAfter.value,
+    maxDepth.value,
+    leafAngle.value,
+    leafDecay.value,
+    leafSquareness.value,
+    leafAsymmetry.value,
+    trunkFillColor.value,
+    opacity.value,
+    numberOfColors.value.toInt(),
+    trunkStrokeWidth.value,
+    trunkOutlineColor.value,
+    opArt.palette.colorList,
   );
 }
 
@@ -621,7 +542,7 @@ drawSegment(
     // if angle = 1 the tree is basically a ball
 
     // the animation increases and decreases the ratio
-    double branchRatio = (1 - rnd.nextDouble()/5) * ratio * (1 - rnd.nextDouble() * cos(animationVariable) * 0.10);
+    double branchRatio = (1 - rnd.nextDouble()/5) * ratio * (1 - rnd.nextDouble() * cos(animationVariable*10000) * 0.50);
 
     // maxBranch is the max branching angle
     double maxBranch = pi/8;
@@ -862,10 +783,9 @@ drawTheLeaf(
   // pick a random color
   Color leafColor = palette[rnd.nextInt(numberOfColors)].withOpacity(opacity);
 
-
   leafRadius = leafRadius + rnd.nextDouble() * randomLeafLength;
 
-  double randomizedLeafAngle = leafAngle + (1 - rnd.nextDouble() / 2) * cos(animationVariable);
+  double randomizedLeafAngle = leafAngle +  cos(animationVariable*20000);
 
   // find the centre of the leaf
   List PC = [
@@ -881,11 +801,11 @@ drawTheLeaf(
       leafRadius = leafRadius * 2;
 
       canvas.drawArc(Rect.fromCenter(
-          center: Offset(leafPosition[0]+cos(leafAngle-pi/4)*leafRadius/sqrt(2),
-              leafPosition[1]-sin(leafAngle-pi/4)*leafRadius/sqrt(2)),
+          center: Offset(leafPosition[0]+cos(randomizedLeafAngle-pi/4)*leafRadius/sqrt(2),
+              leafPosition[1]-sin(randomizedLeafAngle-pi/4)*leafRadius/sqrt(2)),
           height: leafRadius*sqrt(2),
           width: leafRadius*sqrt(2)),
-          pi*1.25-leafAngle, pi / 2, false, Paint()
+          pi*1.25-randomizedLeafAngle, pi / 2, false, Paint()
             ..strokeWidth = 0.0
             ..style = PaintingStyle.fill
             ..color = leafColor.withOpacity(opacity));
@@ -893,11 +813,11 @@ drawTheLeaf(
 
 
       canvas.drawArc(Rect.fromCenter(
-          center: Offset(leafPosition[0]+cos(leafAngle+pi/4)*leafRadius/sqrt(2),
-              leafPosition[1]-sin(leafAngle+pi/4)*leafRadius/sqrt(2)),
+          center: Offset(leafPosition[0]+cos(randomizedLeafAngle+pi/4)*leafRadius/sqrt(2),
+              leafPosition[1]-sin(randomizedLeafAngle+pi/4)*leafRadius/sqrt(2)),
           height: leafRadius*sqrt(2),
           width: leafRadius*sqrt(2)),
-          pi*0.25-leafAngle, pi / 2, false, Paint()
+          pi*0.25-randomizedLeafAngle, pi / 2, false, Paint()
             ..strokeWidth = 0.0
             ..style = PaintingStyle.fill
             ..color = leafColor.withOpacity(opacity));
