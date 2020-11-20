@@ -13,6 +13,7 @@ void main() {
   // InAppPurchaseConnection.enablePendingPurchases();
 
   runApp(MaterialApp(
+      theme: ThemeData(primaryColor: Colors.cyan),
     initialRoute: '/',
     routes: {
       '/': (context) => Loading(),
