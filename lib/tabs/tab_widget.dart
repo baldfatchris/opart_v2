@@ -29,7 +29,6 @@ class TabWidget extends StatefulWidget {
 
 class _TabWidgetState extends State<TabWidget>
     with SingleTickerProviderStateMixin {
-
   void openTab() {
     showControls = false;
     tabOut = true;
@@ -40,7 +39,6 @@ class _TabWidgetState extends State<TabWidget>
   }
 
   void closeTab() {
-
     currentTab = 10;
     toolsAnimation = Tween<double>(begin: 0, end: -widget.width)
         .animate(toolsAnimationController)
@@ -115,14 +113,21 @@ class _TabWidgetState extends State<TabWidget>
                     }
                   },
                   child: Column(
-                    children: [Container(height: 120,width: widget.width + 45,),
+                    children: [
+                      Container(
+                        height: 120,
+                        width: widget.width + 45,
+                      ),
                       Expanded(
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             widget.palette
-                                ? Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(30),
-                                    color: Colors.white.withOpacity(0.8),),
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: Colors.white.withOpacity(0.8),
+                                    ),
                                     height: MediaQuery.of(context).size.height,
                                     width: widget.width,
                                     child: widget.palette
@@ -159,26 +164,30 @@ class _TabWidgetState extends State<TabWidget>
                               ),
                             ),
                             !widget.palette
-                                ? Container(
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(30),
-                                  color: Colors.white.withOpacity(0.8),),
-                                    height: MediaQuery.of(context).size.height,
-                                    width: slider == 100
-                                        ? widget.width
-                                        : widget.width + 40,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 0.0),
-                                      child: widget.palette
-                                          ? PaletteTab(context)
-                                          : ToolBoxTab(),
-                                    ))
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    child: Container(
+                                        color: Colors.white.withOpacity(0.8),
+                                        height:
+                                            MediaQuery.of(context).size.height,
+                                        width: slider == 100
+                                            ? widget.width
+                                            : widget.width + 40,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 0.0),
+                                          child: widget.palette
+                                              ? PaletteTab(context)
+                                              : ToolBoxTab(),
+                                        )),
+                                  )
                                 : Container(),
                           ],
                         ),
                       ),
-
-
-                      Container(height: 70,),
+                      Container(
+                        height: 70,
+                      ),
                     ],
                   ),
                 ),
