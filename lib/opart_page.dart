@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:share/share.dart';
 import 'package:shake/shake.dart';
+import 'main.dart';
 
 import 'package:opart_v2/tabs/color_picker_widget.dart';
 import 'bottom_app_bar.dart';
@@ -14,7 +15,8 @@ import 'tabs/tab_widget.dart';
 
 class OpArtPage extends StatefulWidget {
   OpArtType opArtType;
-  OpArtPage(this.opArtType);
+  Map<String, dynamic> opArtSettings;
+  OpArtPage(this.opArtType, {this.opArtSettings});
   @override
   _OpArtPageState createState() => _OpArtPageState();
 }
@@ -31,6 +33,17 @@ class _OpArtPageState extends State<OpArtPage> {
   @override
   void initState() {
     opArt = OpArt(opArtType: widget.opArtType);
+    if(widget.opArtSettings != null){
+      seed = widget.opArtSettings['seed'];
+      for (int i = 0; i < opArt.attributes.length; i++) {
+        opArt.attributes[i].value = widget.opArtSettings[opArt.attributes[i].label];
+      }
+      opArt.palette.paletteName = widget.opArtSettings['paletteName'];
+      opArt.palette.colorList = widget.opArtSettings['colors'];
+      rebuildCanvas.value++;
+      }
+
+
     showSettings = true;
     super.initState();
 
@@ -50,7 +63,6 @@ class _OpArtPageState extends State<OpArtPage> {
   AnimationController animationController;
   @override
   Widget build(BuildContext context) {
-
     Future<void> _paymentDialog() async {
       if (animationController != null) {
         animationController.stop();
@@ -59,7 +71,6 @@ class _OpArtPageState extends State<OpArtPage> {
       screenshotController
           .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
           .then((File image) async {
-
         setState(() {
           imageFile = image;
         });
@@ -119,6 +130,42 @@ class _OpArtPageState extends State<OpArtPage> {
         valueListenable: rebuildOpArtPage,
         builder: (context, value, child) {
           return Scaffold(
+            floatingActionButton: showSettings? Padding(
+              padding: const EdgeInsets.only(top: 130.0),
+              child: Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(width: 3, color: Colors.white)),
+                child: Builder(
+                  builder: (context) => FloatingActionButton(
+                      backgroundColor: Colors.cyan,
+                      heroTag: null,
+                      onPressed: () {
+                        opArt.saveToLocalDB();
+                        Scaffold.of(context).removeCurrentSnackBar();
+                        Scaffold.of(context).showSnackBar(SnackBar(
+                            backgroundColor: Colors.white.withOpacity(0.8),
+                            duration: Duration(seconds: 2),
+                            content: Container(
+                              child: Container(
+                                height: 70,
+                                child: Center(
+                                  child: Text(
+                                    'Saved to My Gallery',
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 18),
+                                  ),
+                                ),
+                              ),
+                            )));
+                      },
+                      child: Icon(Icons.save)),
+                ),
+              ),
+            ): Container(),
+            floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
             extendBodyBehindAppBar: true,
             appBar: showSettings
                 ? AppBar(
@@ -139,6 +186,8 @@ class _OpArtPageState extends State<OpArtPage> {
                         color: Colors.black,
                       ),
                       onPressed: () {
+                        rebuildMain.value++;
+                        showDelete = false;
                         showControls = false;
                         showCustomColorPicker = false;
                         opArt.setDefault();
@@ -197,7 +246,6 @@ class _OpArtPageState extends State<OpArtPage> {
             body: Stack(
               children: [
                 GestureDetector(
-
                     onTap: () {
                       setState(() {
                         if (showSettings || tabOut) {
@@ -265,12 +313,10 @@ class _OpArtPageState extends State<OpArtPage> {
                 //         -0.5, Icons.portrait, 0)
                 //     : Container(),
                 showSettings || tabOut
-                    ? TabWidget(50, 0.2,
-                        Icons.palette, true)
+                    ? TabWidget(50, 0.2, Icons.palette, true)
                     : Container(),
                 showSettings || tabOut
-                    ? TabWidget(90,  -0.5,
-                        MdiIcons.tools, false)
+                    ? TabWidget(90, -0.5, MdiIcons.tools, false)
                     : Container(),
                 showCustomColorPicker
                     ? Align(

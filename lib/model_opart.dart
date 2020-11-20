@@ -23,10 +23,11 @@ import 'package:flutter/material.dart';
 
 Random rnd = Random();
 int seed = rnd.nextInt(1 << 32);
-
+List<Map<String, dynamic>> savedOpArt = List();
 ScreenshotController screenshotController = ScreenshotController();
 
 final rebuildCache = new ValueNotifier(0);
+final rebuildMain = new ValueNotifier(0);
 final rebuildCanvas = new ValueNotifier(0);
 final rebuildOpArtPage = ValueNotifier(0);
 final rebuildTab = new ValueNotifier(0);
@@ -168,6 +169,27 @@ class OpArt {
 
   }
 
+  void saveToLocalDB() {
+     print('saving to localDB');
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => screenshotController
+        .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.4)
+        .then((File image) async {
+      Map<String, dynamic> map = Map();
+      for (int i = 0; i < attributes.length; i++) {
+        map.addAll({attributes[i].label: attributes[i].value});
+      }
+      map.addAll({
+        'seed':seed,
+        'image': image,
+        'paletteName': palette.paletteName,
+        'colors': palette.colorList,
+        'type': this.opArtType
+      });
+      savedOpArt.add(map);
+    }));
+    rebuildMain.value++;
+  }
   void saveToCache() {
     // print('saving to cache');
     WidgetsBinding.instance

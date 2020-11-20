@@ -91,6 +91,11 @@ List<Widget> additionColors = [];
             child:
                 Column(
                   children: [
+                    Container(
+                    height: lengthOfAdditionColors.toDouble()*35,
+            width: 30,
+            child: Column(children: additionColors,)
+        ),
                     SizedBox(height: 8),
                     Container(
                       height: 30,
@@ -159,13 +164,9 @@ List<Widget> additionColors = [];
                             }
                           }),
                     ),
-                    Container(
-                            height: lengthOfAdditionColors.toDouble()*35,
-                            width: 30,
-                            child: Column(children: additionColors,)
-                          )
 
-                  ,
+
+
                     Container(
                       height:
                           MediaQuery.of(context).size.height - 115 - 70 - 150 - 30 - 30 -30 - lengthOfAdditionColors.toDouble()*35,
