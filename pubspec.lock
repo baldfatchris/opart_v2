@@ -100,13 +100,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  image_gallery_saver:
-    dependency: "direct dev"
-    description:
-      name: image_gallery_saver
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.6.2"
   in_app_purchase:
     dependency: "direct dev"
     description:
@@ -398,7 +391,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.7.3"
+    version: "1.7.4"
   xdg_directories:
     dependency: transitive
     description:

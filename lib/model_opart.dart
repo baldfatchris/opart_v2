@@ -311,6 +311,9 @@ class OpArt {
 
   // randomise the palette
   void randomizePalette() {
+
+    Random rnd = Random(DateTime.now().millisecond);
+
     // print('Randomizing Palette');
     for (int i = 0; i < attributes.length; i++) {
       if (attributes[i].settingCategory == SettingCategory.palette) {
