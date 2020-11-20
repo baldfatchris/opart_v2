@@ -8,7 +8,7 @@ import 'opart_page.dart';
 import 'model_opart.dart';
 
 // import 'package:in_app_purchase/in_app_purchase.dart';
-
+bool showDelete = false;
 
 void main() {
   // InAppPurchaseConnection.enablePendingPurchases();
@@ -132,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
-                                        width: 100,
+                                        width: 70,
                                         height: 100,
                                         child: Image.file(
                                           savedOpArt[index]['image'],
