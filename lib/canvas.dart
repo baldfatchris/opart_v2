@@ -198,18 +198,18 @@ class _CanvasWidgetState extends State<CanvasWidget>
                   ),
                 )
               : Container(),
-          ValueListenableBuilder<int>(
-              valueListenable: rebuildCircularProgressIndicator,
-              builder: (context, value, child) {
-                print(rebuildCircularProgressIndicator.value);
-                if (rebuildCircularProgressIndicator.value.isEven) {
-                  return Center(
-                      child:
-                      CircularProgressIndicator(strokeWidth: 8, ));
-                } else {
-                  return Container();
-                }
-              }),
+          // ValueListenableBuilder<int>(
+          //     valueListenable: rebuildCircularProgressIndicator,
+          //     builder: (context, value, child) {
+          //       print(rebuildCircularProgressIndicator.value);
+          //       if (rebuildCircularProgressIndicator.value.isEven) {
+          //         return Center(
+          //             child:
+          //             CircularProgressIndicator(strokeWidth: 8, ));
+          //       } else {
+          //         return Container();
+          //       }
+          //     }),
         ],
       ),
     );
