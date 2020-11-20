@@ -13,7 +13,7 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 80.0, vertical: 80),
+      padding: const EdgeInsets.only(left: 80.0, bottom: 70, right: 60),
       child: Container(
           decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.8),
@@ -21,8 +21,9 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
           child: ValueListenableBuilder<int>(
               valueListenable: rebuildColorPicker,
               builder: (context, value, child) {
+                print(currentColor);
                 return Container(
-                  height: 200,
+                  height: 190,
                   child: Stack(
                     children: [
                       Align(
@@ -37,10 +38,17 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
                                 displayThumbColor: true,
                                 showLabel: false,
                                 enableAlpha: false,
-                                pickerColor:
-                                    opArt.palette.colorList[currentColor],
+                                pickerColor: currentColor > 100
+                                    ? opArt.attributes[currentColor - 100].value
+                                    : opArt.palette.colorList[currentColor],
                                 onColorChanged: (color) {
-                                  opArt.palette.colorList[currentColor] = color;
+                                  if (currentColor > 100) { opArt.attributes[currentColor - 100].value =
+                                      color;
+
+                                  } else {
+                                    opArt.palette.colorList[currentColor] =
+                                        color;
+                                  }
                                   rebuildTab.value++;
                                   rebuildCanvas.value++;
                                   rebuildColorPicker.value++;

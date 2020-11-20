@@ -76,16 +76,7 @@ SettingsModel threeD = SettingsModel(
 );
 
 
-SettingsModel lineColor = SettingsModel(
-  name: 'lineColor',
-  settingType: SettingType.color,
-  label: "Outline Color",
-  tooltip: "The outline colour for the petals",
-  defaultValue: Colors.white,
-  icon: Icon(Icons.zoom_out_map),
-  settingCategory: SettingCategory.palette,
-  proFeature: false,
-);
+
 
 SettingsModel lineWidth = SettingsModel(
   settingType: SettingType.double,

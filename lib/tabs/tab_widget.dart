@@ -105,7 +105,6 @@ class _TabWidgetState extends State<TabWidget>
                 child: GestureDetector(
                   onPanUpdate: (details) {
                     if (details.delta.dx > 0) {
-                      // swiping in right direction
                       widget.palette ? openTab() : closeTab();
                     }
                     if (details.delta.dx < 0) {

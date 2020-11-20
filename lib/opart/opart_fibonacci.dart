@@ -192,16 +192,16 @@ SettingsModel radialOscPeriod = SettingsModel(
     proFeature: false,
   );
 
-SettingsModel backgroundColor = SettingsModel(
-    name: 'backgroundColor',
-    settingType: SettingType.color,
-    label: "Background Color",
-    tooltip: "The background colour for the canvas",
-    defaultValue: Colors.cyan,
-    icon: Icon(Icons.settings_overscan),
-    settingCategory: SettingCategory.palette,
-    proFeature: false,
-  );
+// SettingsModel backgroundColor = SettingsModel(
+//     name: 'backgroundColor',
+//     settingType: SettingType.color,
+//     label: "Background Color",
+//     tooltip: "The background colour for the canvas",
+//     defaultValue: Colors.cyan,
+//     icon: Icon(Icons.settings_overscan),
+//     settingCategory: SettingCategory.palette,
+//     proFeature: false,
+//   );
 
 
 

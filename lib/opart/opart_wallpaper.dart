@@ -288,27 +288,7 @@ SettingsModel randomPetals = SettingsModel(
   silent: true,
 );
 
-// palette settings
-SettingsModel backgroundColor = SettingsModel(
-  settingType: SettingType.color,
-  name: 'backgroundColor',
-  label: "Background Color",
-  tooltip: "The background colour for the canvas",
-  defaultValue: Colors.white,
-  icon: Icon(Icons.settings_overscan),
-  settingCategory: SettingCategory.palette,
-  proFeature: false,
-);
-SettingsModel lineColor = SettingsModel(
-  settingType: SettingType.color,
-  name: 'lineColor',
-  label: "Outline Color",
-  tooltip: "The outline colour",
-  defaultValue: Colors.black,
-  icon: Icon(Icons.settings_overscan),
-  settingCategory: SettingCategory.palette,
-  proFeature: false,
-);
+
 SettingsModel lineWidth = SettingsModel(
   name: 'lineWidth',
   settingType: SettingType.double,

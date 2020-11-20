@@ -60,17 +60,7 @@ SettingsModel bulgeOneDirection = SettingsModel(
   silent: true,
 );
 
-// palette settings
-SettingsModel backgroundColor = SettingsModel(
-  settingType: SettingType.color,
-  name: 'backgroundColor',
-  label: "Background Color",
-  tooltip: "The background colour for the canvas",
-  defaultValue: Colors.white,
-  icon: Icon(Icons.settings_overscan),
-  settingCategory: SettingCategory.palette,
-  proFeature: false,
-);
+
 
 SettingsModel randomColors = SettingsModel(
   name: 'randomColors',

@@ -273,7 +273,7 @@ class _OpArtPageState extends State<OpArtPage> {
                 //         -0.5, Icons.portrait, 0)
                 //     : Container(),
                 showSettings || tabOut
-                    ? TabWidget(50, 0.3,
+                    ? TabWidget(50, 0.2,
                         Icons.palette, true)
                     : Container(),
                 showSettings || tabOut

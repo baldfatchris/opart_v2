@@ -60,13 +60,13 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Text('OpArt Lab',
                 style: TextStyle(
                     fontFamily: 'Righteous',
-                    fontSize: 40,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold)),
           ),
           Expanded(
             child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4, childAspectRatio: 0.8),
+                    crossAxisCount: 3, childAspectRatio: 0.7),
                 itemCount: opArtTypes.length,
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
