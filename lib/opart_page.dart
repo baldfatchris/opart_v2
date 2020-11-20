@@ -130,7 +130,7 @@ class _OpArtPageState extends State<OpArtPage> {
         valueListenable: rebuildOpArtPage,
         builder: (context, value, child) {
           return Scaffold(
-            floatingActionButton: Padding(
+            floatingActionButton: showSettings? Padding(
               padding: const EdgeInsets.only(top: 130.0),
               child: Container(
                 height: 50,
@@ -151,10 +151,12 @@ class _OpArtPageState extends State<OpArtPage> {
                             content: Container(
                               child: Container(
                                 height: 70,
-                                child: Text(
-                                  'Saved to My Gallery',
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 24),
+                                child: Center(
+                                  child: Text(
+                                    'Saved to My Gallery',
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 18),
+                                  ),
                                 ),
                               ),
                             )));
@@ -162,7 +164,7 @@ class _OpArtPageState extends State<OpArtPage> {
                       child: Icon(Icons.save)),
                 ),
               ),
-            ),
+            ): Container(),
             floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
             extendBodyBehindAppBar: true,
             appBar: showSettings
