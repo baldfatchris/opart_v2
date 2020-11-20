@@ -232,11 +232,13 @@ class OpArtPalette {
 
 
   void randomize(String paletteType, int numberOfColours) {
-print('paletteType: $paletteType');
-print('numberOfColours: $numberOfColours');
-seed = DateTime.now().millisecond;
 
-    Random rnd = Random(seed);
+    // print('paletteType: $paletteType');
+    // print('numberOfColours: $numberOfColours');
+
+    // seed = DateTime.now().millisecond;
+
+    Random rnd = Random(DateTime.now().millisecond);
 
     // print('randomizing palette');
 
