@@ -62,9 +62,9 @@ SettingsModel ratio = SettingsModel(
   min: 0.0,
   max: 1.0,
   randomMin: 0.1,
-  randomMax: 0.7,
+  randomMax: 1.0,
   zoom: 100,
-  defaultValue: 1,
+  defaultValue: 1.0,
   icon: Icon(Icons.pie_chart),
   settingCategory: SettingCategory.tool,
   proFeature: false,
@@ -188,7 +188,8 @@ List<SettingsModel> initializeDiagonalAttributes() {
 }
 
 
-void paintDiagonal(Canvas canvas, Size size, Random rnd, double animationVariable, OpArt opArt) {
+void paintDiagonal(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
+
   rnd = Random(seed);
 
   if (paletteList.value != opArt.palette.paletteName) {
@@ -293,9 +294,12 @@ void  drawDiagonal(
         nextColorOrder = parity ? numberOfPipes.value.toInt()-colourOrder-1 : colourOrder;
         colourOrder++;
 
-        nextColor = (randomColors.value == true)
-            ? colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value)
-            : colorList[nextColorOrder % numberOfColors.value].withOpacity(opacity.value);
+        // nextColor = (randomColors.value == true)
+        //     ? colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value)
+        //     : colorList[nextColorOrder % numberOfColors.value].withOpacity(opacity.value);
+
+        if (randomColors.value == true) nextColor = colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value);
+        else  nextColor = colorList[nextColorOrder % numberOfColors.value].withOpacity(opacity.value);
 
         radius = sideLength / numberOfPipes.value * (i-0.5 + ratio.value/2)-offset;
         drawQuarterArc(canvas, centre1, radius, startAngle, nextColor);
@@ -315,9 +319,8 @@ void  drawDiagonal(
         nextColorOrder = parity ? numberOfPipes.value.toInt()-colourOrder-1 : colourOrder;
         colourOrder++;
 
-        nextColor = (randomColors.value == true)
-            ? colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value)
-            : colorList[nextColorOrder % numberOfColors.value].withOpacity(opacity.value);
+        if (randomColors.value == true) nextColor = colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value);
+        else  nextColor = colorList[nextColorOrder % numberOfColors.value].withOpacity(opacity.value);
 
         radius = sideLength / numberOfPipes.value * (i-0.5 + ratio.value/2)+offset;
         drawQuarterArc(canvas, centre2, radius, startAngle+pi, nextColor);
@@ -346,19 +349,7 @@ void drawQuarterArc(Canvas canvas, List centre, double radius, double startAngle
         ..style = PaintingStyle.fill
   );
 
-  // canvas.drawLine(Offset(centre[0],centre[1]), Offset(centre[0]+cos(startAngle)*radius,centre[1]+sin(startAngle)*radius),
-  //     Paint()
-  //       ..color = color
-  //       ..style = PaintingStyle.stroke
-  //       ..strokeWidth = 0.5);
-  //
-  // canvas.drawLine(Offset(centre[0],centre[1]), Offset(centre[0]+cos(startAngle+pi/2)*radius,centre[1]+sin(startAngle+pi/2)*radius),
-  //     Paint()
-  //       ..color = color
-  //       ..style = PaintingStyle.stroke
-  //       ..strokeWidth = 0.0);
-
-  }
+}
 
 
 

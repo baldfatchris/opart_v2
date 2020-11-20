@@ -165,7 +165,7 @@ List<SettingsModel> initializeRileyAttributes() {
 }
 
 
-void paintRiley(Canvas canvas, Size size, Random rnd, double animationVariable, OpArt opArt) {
+void paintRiley(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
   rnd = Random(seed);
 
   if (paletteList.value != opArt.palette.paletteName){

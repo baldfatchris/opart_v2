@@ -321,7 +321,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
 
 }
 
-void paintFibonacci(Canvas canvas, Size size, Random rnd, double animationVariable, OpArt opArt) {
+void paintFibonacci(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
 
   rnd = Random(seed);
 

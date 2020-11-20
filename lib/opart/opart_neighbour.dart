@@ -66,6 +66,17 @@ SettingsModel skipPoints = SettingsModel(
   proFeature: false,
 );
 
+SettingsModel lines = SettingsModel(
+  name: 'lines',
+  settingType: SettingType.bool,
+  label: 'Lines',
+  tooltip: 'draw lines between each point',
+  defaultValue: true,
+  icon: Icon(Icons.timeline),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+  silent: true,
+);
 
 
 
@@ -94,7 +105,6 @@ SettingsModel randomColors = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
-
 );
 
 
@@ -140,6 +150,7 @@ List<SettingsModel> initializeNeighbourAttributes() {
     numberOfPoints,
     numberToLink,
     skipPoints,
+    lines,
 
     backgroundColor,
     lineColor,
@@ -156,7 +167,7 @@ List<SettingsModel> initializeNeighbourAttributes() {
 }
 
 
-void paintNeighbour(Canvas canvas, Size size, Random rnd, double animationVariable, OpArt opArt) {
+void paintNeighbour(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
 
   rnd = Random(seed);
 
