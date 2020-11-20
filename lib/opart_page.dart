@@ -197,15 +197,7 @@ class _OpArtPageState extends State<OpArtPage> {
             body: Stack(
               children: [
                 GestureDetector(
-                  onDoubleTap: (){
-                    if (enableButton) {
-                      opArt.randomizeSettings();
-                      opArt.randomizePalette();
-                      opArt.saveToCache();
-                      enableButton = false;
-                      rebuildCanvas.value++;
-                    }
-                  },
+
                     onTap: () {
                       setState(() {
                         if (showSettings || tabOut) {

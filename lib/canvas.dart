@@ -61,6 +61,15 @@ class _CanvasWidgetState extends State<CanvasWidget>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onDoubleTap: (){
+        if (!showSettings) {
+          opArt.randomizeSettings();
+          opArt.randomizePalette();
+          opArt.saveToCache();
+          enableButton = false;
+          rebuildCanvas.value++;
+        }
+      },
       child: Stack(
         children: [
           ValueListenableBuilder<int>(
