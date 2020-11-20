@@ -1,12 +1,15 @@
-import 'package:flutter/cupertino.dart';
+
+
 import 'package:flutter/material.dart';
 import 'package:opart_v2/loading.dart';
+
 
 import 'opart_page.dart';
 import 'model_opart.dart';
 
 // import 'package:in_app_purchase/in_app_purchase.dart';
-bool showDelete = false;
+
+
 void main() {
   // InAppPurchaseConnection.enablePendingPurchases();
 
@@ -21,6 +24,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -45,10 +49,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+ 
   List<OpArtTypes> opArtTypes;
   @override
   Widget build(BuildContext context) {
-    print(savedOpArt.length);
     return Scaffold(
         body: SafeArea(
       child: Column(
@@ -171,25 +175,28 @@ class _MyHomePageState extends State<MyHomePage> {
     ));
   }
 
+
   @override
   void initState() {
-    opArtTypes = [
-      OpArtTypes(
-          'Spirals', OpArtType.Fibonacci, 'lib/assets/fibonacci_400.png'),
-      OpArtTypes('Trees', OpArtType.Tree, 'lib/assets/tree_400.png'),
-      OpArtTypes('Waves', OpArtType.Wave, 'lib/assets/wave_400.png'),
+
+     opArtTypes = [
+
+       OpArtTypes('Spirals', OpArtType.Fibonacci, 'lib/assets/fibonacci_400.png'),
+       OpArtTypes('Trees', OpArtType.Tree, 'lib/assets/tree_400.png'),
+       OpArtTypes('Waves', OpArtType.Wave, 'lib/assets/wave_400.png'),
+
+       // OpArtTypes('Eyes', OpArtType.Eye, 'lib/assets/tree_400.png'),
       OpArtTypes('Diagonal', OpArtType.Diagonal, 'lib/assets/diagonal_500.png'),
       OpArtTypes('Hexagons', OpArtType.Hexagons, 'lib/assets/hexagons_500.png'),
       OpArtTypes('Maze', OpArtType.Maze, 'lib/assets/maze_500.png'),
-      OpArtTypes(
-          'Neighbour', OpArtType.Neighbour, 'lib/assets/neighbour_500.png'),
+      OpArtTypes('Neighbour', OpArtType.Neighbour, 'lib/assets/neighbour_500.png'),
       OpArtTypes('Quads', OpArtType.Quads, 'lib/assets/quads_500.png'),
       OpArtTypes('Riley', OpArtType.Riley, 'lib/assets/riley_500.png'),
       OpArtTypes('Shapes', OpArtType.Shapes, 'lib/assets/shapes_500.png'),
       OpArtTypes('Squares', OpArtType.Squares, 'lib/assets/squares_500.png'),
-      OpArtTypes(
-          'Wallpaper', OpArtType.Wallpaper, 'lib/assets/wallpaper_500.png'),
+      OpArtTypes('Wallpaper', OpArtType.Wallpaper, 'lib/assets/wallpaper_500.png'),
+
     ];
-    super.initState();
+     super.initState();
   }
 }
