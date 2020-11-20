@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'model_opart.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
+import 'canvas.dart';
 
 Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
   double width = MediaQuery.of(context).size.width;
@@ -80,7 +80,10 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
               ],
             ),
             onPressed: () async {
+
               if (enableButton) {
+                rebuildCircularProgressIndicator.value = 2*rebuildCircularProgressIndicator.value;
+                Future.delayed(const Duration(seconds: 0));
                 opArt.randomizeSettings();
                 opArt.randomizePalette();
                 opArt.saveToCache();

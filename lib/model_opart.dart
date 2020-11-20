@@ -30,6 +30,7 @@ final rebuildCanvas = new ValueNotifier(0);
 final rebuildOpArtPage = ValueNotifier(0);
 final rebuildTab = new ValueNotifier(0);
 final rebuildColorPicker = new ValueNotifier(0);
+final rebuildCircularProgressIndicator = ValueNotifier(0);
 bool enableButton = true;
 
 bool proVersion = true;
@@ -180,6 +181,8 @@ class OpArt {
      if(scrollController.hasClients) {scrollController.animateTo(scrollController.position.maxScrollExtent,
           duration: Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);}
       enableButton = true;
+     rebuildCircularProgressIndicator.value = 2*rebuildCircularProgressIndicator.value + 1;
+     rebuildCanvas.value++;
     }));
   }
 

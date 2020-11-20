@@ -13,7 +13,6 @@ class CanvasWidget extends StatefulWidget {
   _CanvasWidgetState createState() => _CanvasWidgetState();
 }
 
-
 bool showControls = false;
 AnimationController animationController;
 
@@ -52,6 +51,8 @@ class _CanvasWidgetState extends State<CanvasWidget>
 
       animationController.forward();
     }
+    rebuildCircularProgressIndicator.value = 2;
+    super.initState();
   }
 
   Hero hero1;
@@ -65,22 +66,28 @@ class _CanvasWidgetState extends State<CanvasWidget>
           ValueListenableBuilder<int>(
               valueListenable: rebuildCanvas,
               builder: (context, value, child) {
-                return Screenshot(
-                  controller: screenshotController,
-                  child: Visibility(
-                    visible: true,
-                    child: LayoutBuilder(
-                      builder: (_, constraints) => Container(
-                        color: Colors.white,
-                        width: constraints.widthConstraints().maxWidth,
-                        height: constraints.heightConstraints().maxHeight,
-                        child: CustomPaint(
-                          painter: OpArtPainter(seed, rnd,
-                              opArt.animation ? currentAnimation.value : 1),
+                return Stack(
+                  children: [
+                    Screenshot(
+                      controller: screenshotController,
+                      child: Visibility(
+                        visible: true,
+                        child: LayoutBuilder(
+                          builder: (_, constraints) => Container(
+                            color: Colors.white,
+                            width: constraints.widthConstraints().maxWidth,
+                            height: constraints.heightConstraints().maxHeight,
+                            child: CustomPaint(
+                              painter: OpArtPainter(seed, rnd,
+                                  opArt.animation ? currentAnimation.value : 1),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
+
+
+                  ],
                 );
               }),
           showSettings
@@ -97,71 +104,79 @@ class _CanvasWidgetState extends State<CanvasWidget>
                                 child: Padding(
                                   padding: const EdgeInsets.all(0.0),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-
                                       showControls
-                                          ?RotatedBox(
-                                          quarterTurns: 2,
-                                          child: _controlButton(
-                                              Icons.fast_forward, () {
-                                            if (timeDilation < 8) {
-                                              timeDilation = timeDilation * 2;
-                                            }
-                                          }, playing? true:false,)): Container(),
-
+                                          ? RotatedBox(
+                                              quarterTurns: 2,
+                                              child: _controlButton(
+                                                Icons.fast_forward,
+                                                () {
+                                                  if (timeDilation < 8) {
+                                                    timeDilation =
+                                                        timeDilation * 2;
+                                                  }
+                                                },
+                                                playing ? true : false,
+                                              ))
+                                          : Container(),
                                       showControls
-                                          ?RotatedBox(
-                                          quarterTurns: 2,
-                                          child: _controlButton(
-                                              Icons.play_arrow, () {
+                                          ? RotatedBox(
+                                              quarterTurns: 2,
+                                              child: _controlButton(
+                                                  Icons.play_arrow, () {
                                                 setState(() {
                                                   animationController.reverse();
                                                   playing = true;
                                                   _forward = false;
                                                 });
-
-                                          }, _forward? true: false)): Container(),
-
+                                              }, _forward ? true : false))
+                                          : Container(),
                                       showControls
-                                          ?_controlButton(Icons.pause, () {
-                                        if (animationController != null) {
-
-                                          setState(() {
-                                            animationController.stop();
-                                            playing = false;
-                                          });
-
-                                        }
-                                      }, playing? true: false): Container(),
-
+                                          ? _controlButton(Icons.pause, () {
+                                              if (animationController != null) {
+                                                setState(() {
+                                                  animationController.stop();
+                                                  playing = false;
+                                                });
+                                              }
+                                            }, playing ? true : false)
+                                          : Container(),
                                       showControls
-                                          ?_controlButton(Icons.play_arrow, () {
-                                            setState(() {
-                                              animationController.forward();
-                                              playing = true;
-                                              _forward = true;
-                                            });
-
-                                      }, !_forward||!playing? true: false,): Container(),
-
+                                          ? _controlButton(
+                                              Icons.play_arrow,
+                                              () {
+                                                setState(() {
+                                                  animationController.forward();
+                                                  playing = true;
+                                                  _forward = true;
+                                                });
+                                              },
+                                              !_forward || !playing
+                                                  ? true
+                                                  : false,
+                                            )
+                                          : Container(),
                                       showControls
-                                          ?_controlButton(
-                                        Icons.fast_forward,
-                                        () {
-                                          if (timeDilation > 0.2) {
-                                            timeDilation = timeDilation / 2;
-                                          }
-                                        },playing? true: false,
-                                      ): Container(), _controlButton(
+                                          ? _controlButton(
+                                              Icons.fast_forward,
+                                              () {
+                                                if (timeDilation > 0.2) {
+                                                  timeDilation =
+                                                      timeDilation / 2;
+                                                }
+                                              },
+                                              playing ? true : false,
+                                            )
+                                          : Container(),
+                                      _controlButton(
                                           showControls
                                               ? Icons.close
                                               : MdiIcons.playPause, () {
                                         setState(() {
                                           showControls = !showControls;
                                         });
-
-
                                       }, true),
                                     ],
                                   ),
@@ -174,6 +189,18 @@ class _CanvasWidgetState extends State<CanvasWidget>
                   ),
                 )
               : Container(),
+          ValueListenableBuilder<int>(
+              valueListenable: rebuildCircularProgressIndicator,
+              builder: (context, value, child) {
+                print(rebuildCircularProgressIndicator.value);
+                if (rebuildCircularProgressIndicator.value.isEven) {
+                  return Center(
+                      child:
+                      CircularProgressIndicator(strokeWidth: 8, ));
+                } else {
+                  return Container();
+                }
+              }),
         ],
       ),
     );
@@ -181,11 +208,13 @@ class _CanvasWidgetState extends State<CanvasWidget>
 
   Widget _controlButton(IconData icon, Function onPressed, bool active) {
     return Container(
-      decoration: BoxDecoration( shape: BoxShape.circle, border: Border.all(width: 3, color: Colors.white)),
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(width: 3, color: Colors.white)),
       child: Padding(
         padding: const EdgeInsets.all(0.0),
         child: FloatingActionButton(
-            backgroundColor: active? Colors.cyan: Colors.grey,
+            backgroundColor: active ? Colors.cyan : Colors.grey,
             heroTag: null,
             onPressed: () {
               onPressed();
