@@ -308,7 +308,7 @@ SettingsModel trunkStrokeWidth = SettingsModel(
     min: 0.0,
     max: 1.0,
     zoom: 100,
-    defaultValue: 0.1,
+    defaultValue: 1.0,
     icon: Icon(Icons.line_weight),
     settingCategory: SettingCategory.tool,
     proFeature: false,
