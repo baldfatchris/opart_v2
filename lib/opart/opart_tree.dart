@@ -310,7 +310,7 @@ SettingsModel trunkStrokeWidth = SettingsModel(
     zoom: 100,
     defaultValue: 0.1,
     icon: Icon(Icons.line_weight),
-    settingCategory: SettingCategory.palette,
+    settingCategory: SettingCategory.tool,
     proFeature: false,
   );
 
@@ -775,7 +775,9 @@ drawTheLeaf(
 
   leafRadius = leafRadius + rnd.nextDouble() * randomLeafLength;
 
-  double randomizedLeafAngle = leafAngle +  cos(animationVariable*20000);
+  // have each leaf oscillate on a different cycle
+
+  double randomizedLeafAngle = leafAngle +  cos(rnd.nextDouble()*pi*2 + animationVariable*((1-rnd.nextDouble()*0.5) * 20000));
 
   // find the centre of the leaf
   List PC = [
