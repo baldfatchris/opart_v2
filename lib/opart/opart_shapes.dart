@@ -672,27 +672,28 @@ int drawSquare(
           break;
 
         case 'shapeSquaredCircle':
-          canvas.drawCircle(Offset(PO[0], PO[1]), side / 2, paint);
 
           switch (rnd.nextInt(4)) {
             case 0:
+              canvas.drawArc(Rect.fromCenter(center: Offset(PO[0], PO[1]), width: side, height: side), pi*3/2, pi, true, paint);
               canvas.drawRect(Offset(PA[0], PA[1]) & Size(side/2, side), paint);
               break;
 
             case 1:
+              canvas.drawArc(Rect.fromCenter(center: Offset(PO[0], PO[1]), width: side, height: side), pi*1/2, pi, true, paint);
               canvas.drawRect(Offset(PB[0]-side/2, PB[1]) & Size(side/2, side), paint);
               break;
 
             case 2:
+              canvas.drawArc(Rect.fromCenter(center: Offset(PO[0], PO[1]), width: side, height: side), pi*0/2, pi, true, paint);
               canvas.drawRect(Offset(PA[0], PA[1]) & Size(side, side/2), paint);
               break;
 
             case 3:
+              canvas.drawArc(Rect.fromCenter(center: Offset(PO[0], PO[1]), width: side, height: side), pi*2/2, pi, true, paint);
               canvas.drawRect(Offset(PA[0], PA[1]+side/2) & Size(side, side/2), paint);
               break;
           }
-
-          canvas.drawPath(shape, paint);
 
           break;
       }
