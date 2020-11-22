@@ -12,7 +12,7 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
       child: ButtonBar(
         alignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          Container(width: (width > 400) ?110: 50,
+          Container(width: (width > 400) ?111: 50,
             child: FlatButton(
               shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
               padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
@@ -93,7 +93,7 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
               }
             },
           ),
-          Container(width: (width > 400) ?110: 50,
+          Container(width: (width > 400) ?111: 50,
             child: FlatButton(
               shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
               color: Colors.white.withOpacity(0.8),
@@ -121,9 +121,11 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
               onPressed: () {
                 if (enableButton) {
                   opArt.randomizePalette();
+
                   opArt.saveToCache();
                   enableButton = false;
                   rebuildCanvas.value++;
+                  rebuildTab.value++;
 
                 }
                // BottomSheetPalette(context);

@@ -12,44 +12,44 @@ class DownloadHighRes extends StatefulWidget {
   _DownloadHighResState createState() => _DownloadHighResState();
 }
 
-
-
 class _DownloadHighResState extends State<DownloadHighRes> {
-
-
   @override
   void initState() {
     super.initState();
   }
 
-
-
-@override
-
+  @override
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          Text("Offerings"),
+          Container(
+            height: 500,
+            child: ListView.builder(
+              itemCount: offerings.current.availablePackages.length,
+              itemBuilder: (context, index) {
+                return Row(
+                  children: [
+                    Text(offerings
+                        .current.availablePackages[index].product.title),
+                    SizedBox(width: 8),
+                    //Text(offerings.current.availablePackages[index].identifier),
+                    FloatingActionButton(onPressed:(){},
+                      child: Text(offerings
+                          .current.availablePackages[index].product.priceString
+                          ),
+                    )
 
-     return Scaffold(
-       body: Column(
-           children: [
-             Text("Offerings"),
-             Container(
-               height: 500,
-               child: ListView.builder(itemCount: offerings.current.availablePackages.length,
-               itemBuilder: (context, index){
-                  return Row(
-                    children: [
-                      Text(offerings.current.availablePackages[index].product.title),
-                      Text(offerings.current.availablePackages[index].identifier),
-                      Text(offerings.current.availablePackages[index].product.price.toString()),
-                      Text(offerings.current.availablePackages[index].product.title),
-                    ],
-                 );
-               },),
-             )
-           ],
-       ),
-
+                    // Text(offerings.current.availablePackages[index].product.title),
+                  ],
+                );
+              },
+            ),
+          )
+        ],
+      ),
     );
   }
 }

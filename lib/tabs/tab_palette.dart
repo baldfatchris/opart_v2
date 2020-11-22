@@ -63,7 +63,7 @@ Widget PaletteTab(context) {
               : (opacity.value < 0 || opacity.value > 1)
                   ? 1
                   : opacity.value,
-          min: 0.0,
+          min: 0.2,
           max: 1.0,
           onChanged: (value) {
             opacity.value = value;

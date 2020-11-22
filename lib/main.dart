@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Expanded(
             child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4, childAspectRatio: 0.7),
+                    crossAxisCount: 4, childAspectRatio: 0.6),
                 itemCount: opArtTypes.length,
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
@@ -97,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             style: TextStyle(
                                 fontFamily: 'Righteous',
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20)),
+                                fontSize: 18)),
                       ],
                     ),
                   );
