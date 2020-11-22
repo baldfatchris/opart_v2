@@ -22,8 +22,8 @@ SettingsModel reDraw = SettingsModel(
   silent: true,
 );
 
-SettingsModel zoomSquares = SettingsModel(
-  name: 'zoomSquares',
+SettingsModel zoomOpArt = SettingsModel(
+  name: 'zoomOpArt',
   settingType: SettingType.double,
   label: 'Zoom',
   tooltip: 'Zoom in and out',
@@ -123,7 +123,7 @@ List<SettingsModel> initializeSquaresAttributes() {
 
   return [
     reDraw,
-    zoomSquares,
+    zoomOpArt,
     bulge,
     bulgeOneDirection,
 
@@ -158,12 +158,12 @@ void paintSquares(Canvas canvas, Size size, int seed, double animationVariable, 
   double imageHeight = canvasHeight;
 
   // Work out the X and Y
-  int cellsX = (canvasWidth / (zoomSquares.value)+1.9999999).toInt();
-  borderX = (canvasWidth - zoomSquares.value * cellsX) / 2;
+  int cellsX = (canvasWidth / (zoomOpArt.value)+1.9999999).toInt();
+  borderX = (canvasWidth - zoomOpArt.value * cellsX) / 2;
 
-  int cellsY = (canvasHeight / (zoomSquares.value)+1.9999999).toInt();
-  borderY = (canvasHeight - zoomSquares.value * cellsY) / 2;
-  borderY = (canvasHeight - zoomSquares.value * cellsY) / 2;
+  int cellsY = (canvasHeight / (zoomOpArt.value)+1.9999999).toInt();
+  borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
+  borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
 
   int colourOrder = 0;
   Color nextColor;
@@ -178,8 +178,8 @@ void paintSquares(Canvas canvas, Size size, int seed, double animationVariable, 
   List squares = List();
 
   // work out the radius from the width and the cells
-  double radius = zoomSquares.value / 2;
-  double sideLength = zoomSquares.value;
+  double radius = zoomOpArt.value / 2;
+  double sideLength = zoomOpArt.value;
 
   // Now make some art
   for (int i = 0; i < cellsX; ++i) {

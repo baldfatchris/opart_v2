@@ -22,8 +22,8 @@ SettingsModel reDraw = SettingsModel(
   silent: true,
 );
 
-SettingsModel zoomShapes = SettingsModel(
-  name: 'zoomShapes',
+SettingsModel zoomOpArt = SettingsModel(
+  name: 'zoomOpArt',
   settingType: SettingType.double,
   label: 'Zoom',
   tooltip: 'Zoom in and out',
@@ -269,7 +269,7 @@ List<SettingsModel> initializeShapesAttributes() {
 
   return [
     reDraw,
-    zoomShapes,
+    zoomOpArt,
     shapeHalfDiagonalTriangle,
     shapeCircle,
     shapeQuarterCircle,
@@ -324,11 +324,11 @@ void paintShapes(Canvas canvas, Size size, int seed, double animationVariable, O
         ..style = PaintingStyle.fill);
 
   // Work out the X and Y
-  int cellsX = (canvasWidth / (zoomShapes.value)+0.9999999).toInt();
-  borderX = (canvasWidth - zoomShapes.value * cellsX) / 2;
+  int cellsX = (canvasWidth / (zoomOpArt.value)+0.9999999).toInt();
+  borderX = (canvasWidth - zoomOpArt.value * cellsX) / 2;
 
-  int cellsY = (canvasHeight / (zoomShapes.value)+0.9999999).toInt();
-  borderY = (canvasHeight - zoomShapes.value * cellsY) / 2;
+  int cellsY = (canvasHeight / (zoomOpArt.value)+0.9999999).toInt();
+  borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
 
   int colourOrder = 0;
 
@@ -345,7 +345,7 @@ void paintShapes(Canvas canvas, Size size, int seed, double animationVariable, O
   if (shapeS.value == true) { shapesArray.add('shapeS'); }
   if (shapeSquaredCircle.value == true) { shapesArray.add('shapeSquaredCircle'); }
 
-  double side = zoomShapes.value;
+  double side = zoomOpArt.value;
   
   // reset the colours
   Color nextColor;

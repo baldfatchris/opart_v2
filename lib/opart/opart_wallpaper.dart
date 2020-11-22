@@ -10,8 +10,8 @@ import '../main.dart';
 List<String> list = List();
 
 
-SettingsModel zoomWallpaper = SettingsModel(
-  name: 'zoomWallpaper',
+SettingsModel zoomOpArt = SettingsModel(
+  name: 'zoomOpArt',
   settingType: SettingType.double,
   label: 'Zoom',
   tooltip: 'Zoom in and out',
@@ -385,7 +385,7 @@ double aspectRatio = pi/2;
 List<SettingsModel> initializeWallpaperAttributes() {
 
   return [
-    zoomWallpaper,
+    zoomOpArt,
     shape,
 
     step,
@@ -444,11 +444,11 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
   double imageHeight = canvasHeight;
 
   // Work out the X and Y
-  int cellsX = (canvasWidth / (zoomWallpaper.value * squeezeX.value)+1.9999999).toInt();
-  borderX = (canvasWidth - zoomWallpaper.value * squeezeX.value * cellsX) / 2;
+  int cellsX = (canvasWidth / (zoomOpArt.value * squeezeX.value)+1.9999999).toInt();
+  borderX = (canvasWidth - zoomOpArt.value * squeezeX.value * cellsX) / 2;
 
-  int cellsY = (canvasHeight / (zoomWallpaper.value * squeezeY.value)+1.9999999).toInt();
-  borderY = (canvasHeight - zoomWallpaper.value * squeezeY.value * cellsY) / 2;
+  int cellsY = (canvasHeight / (zoomOpArt.value * squeezeY.value)+1.9999999).toInt();
+  borderY = (canvasHeight - zoomOpArt.value * squeezeY.value * cellsY) / 2;
 
   int colourOrder = 0;
 
@@ -465,7 +465,7 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
   }
 
   // work out the radius from the width and the cells
-  double radius = zoomWallpaper.value / 2;
+  double radius = zoomOpArt.value / 2;
 
   // double localSquareness = sin(2500 * animationVariable);
   double localSquareness = squareness.value;

@@ -6,6 +6,7 @@ import 'model_opart.dart';
 import 'opart_page.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'model_settings.dart';
 
 class CanvasWidget extends StatefulWidget {
   bool _fullScreen;
@@ -59,9 +60,27 @@ class _CanvasWidgetState extends State<CanvasWidget>
   Hero hero1;
   Hero hero2;
   bool _forward = true;
+
+  double _scaleFactor = 1.0;
+  double _baseScaleFactor = 1.0;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onScaleStart: (ScaleStartDetails details) {
+        _baseScaleFactor = _scaleFactor;
+        print('onScaleStart');
+      },
+      onScaleUpdate: (ScaleUpdateDetails details){
+        print('onScaleUpdate');
+        _scaleFactor = _baseScaleFactor * details.scale;
+        SettingsModel zoomOpArt = opArt.attributes.firstWhere((element) => element.name=='zoomOpArt');
+        double zoom = zoomOpArt.value * details.scale /_baseScaleFactor;
+        zoom = (zoom < zoomOpArt.min) ? zoomOpArt.min : zoom;
+        zoom = (zoom > zoomOpArt.max) ? zoomOpArt.max : zoom;
+        zoomOpArt.value = zoom;
+      },
+
       onDoubleTap: (){
         if (!showSettings) {
           opArt.randomizeSettings();

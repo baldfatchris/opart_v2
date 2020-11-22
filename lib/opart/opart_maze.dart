@@ -22,8 +22,8 @@ SettingsModel reDraw = SettingsModel(
   silent: true,
 );
 
-SettingsModel zoomMaze = SettingsModel(
-  name: 'zoomMaze',
+SettingsModel zoomOpArt = SettingsModel(
+  name: 'zoomOpArt',
   settingType: SettingType.double,
   label: 'Zoom',
   tooltip: 'Zoom in and out',
@@ -161,7 +161,7 @@ List<SettingsModel> initializeMazeAttributes() {
 
   return [
     reDraw,
-    zoomMaze,
+    zoomOpArt,
 
     lineHorizontal,
     lineVertical,
@@ -200,12 +200,12 @@ void paintMaze(Canvas canvas, Size size, int seed, double animationVariable, OpA
   double imageHeight = canvasHeight;
 
   // Work out the X and Y
-  int cellsX = (canvasWidth / (zoomMaze.value)+1.9999999).toInt();
-  borderX = (canvasWidth - zoomMaze.value * cellsX) / 2;
+  int cellsX = (canvasWidth / (zoomOpArt.value)+1.9999999).toInt();
+  borderX = (canvasWidth - zoomOpArt.value * cellsX) / 2;
 
-  int cellsY = (canvasHeight / (zoomMaze.value)+1.9999999).toInt();
-  borderY = (canvasHeight - zoomMaze.value * cellsY) / 2;
-  borderY = (canvasHeight - zoomMaze.value * cellsY) / 2;
+  int cellsY = (canvasHeight / (zoomOpArt.value)+1.9999999).toInt();
+  borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
+  borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
 
   int colourOrder = 0;
   Color nextColor;
@@ -222,8 +222,8 @@ void paintMaze(Canvas canvas, Size size, int seed, double animationVariable, OpA
 
 
   // work out the radius from the width and the cells
-  double radius = zoomMaze.value / 2;
-  double sideLength = zoomMaze.value;
+  double radius = zoomOpArt.value / 2;
+  double sideLength = zoomOpArt.value;
 
   List shapesArray = [];
   if (lineHorizontal.value == true) { shapesArray.add('lineHorizontal'); }
@@ -281,7 +281,7 @@ void paintMaze(Canvas canvas, Size size, int seed, double animationVariable, OpA
         canvas.drawLine(Offset(PA[0], PA[1]), Offset(PB[0], PB[1]), Paint()
           ..color = nextColor
           ..style = PaintingStyle.stroke
-          ..strokeWidth = lineWidth.value * zoomMaze.value / 10
+          ..strokeWidth = lineWidth.value * zoomOpArt.value / 10
           ..strokeCap = StrokeCap.round
         );
 

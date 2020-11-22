@@ -21,8 +21,8 @@ SettingsModel reDraw = SettingsModel(
   silent: true,
 );
 
-SettingsModel zoomTree = SettingsModel(
-    name: 'zoomTree',
+SettingsModel zoomOpArt = SettingsModel(
+    name: 'zoomOpArt',
     settingType: SettingType.double,
     label: 'Zoom',
     tooltip: 'Zoom in and out',
@@ -382,7 +382,7 @@ SettingsModel resetDefaults = SettingsModel(
 List<SettingsModel> initializeEyeAttributes() {
   return [
     reDraw,
-    zoomTree,
+    zoomOpArt,
     baseHeight,
     trunkWidth,
     widthDecay,
@@ -450,13 +450,13 @@ print('irisRadius: $irisRadius');
       0,
       treeBaseA,
       treeBaseB,
-      trunkWidth.value * zoomTree.value,
-      segmentLength.value * zoomTree.value,
+      trunkWidth.value * zoomOpArt.value,
+      segmentLength.value * zoomOpArt.value,
       treeAngle,
       ratio.value,
       0,
-      trunkStrokeWidth.value * zoomTree.value,
-      leafRadius.value * zoomTree.value,
+      trunkStrokeWidth.value * zoomOpArt.value,
+      leafRadius.value * zoomOpArt.value,
       randomLeafLength.value,
       leafShape.value,
       false,

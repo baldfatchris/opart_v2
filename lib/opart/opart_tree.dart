@@ -6,6 +6,7 @@ import 'dart:math';
 import 'dart:core';
 import '../main.dart';
 
+
 List<String> list = List();
 
 SettingsModel reDraw = SettingsModel(
@@ -21,8 +22,8 @@ SettingsModel reDraw = SettingsModel(
   silent: true,
 );
 
-SettingsModel zoomTree = SettingsModel(
-    name: 'zoomTree',
+SettingsModel zoomOpArt = SettingsModel(
+    name: 'zoomOpArt',
     settingType: SettingType.double,
     label: 'Zoom',
     tooltip: 'Zoom in and out',
@@ -373,7 +374,7 @@ SettingsModel resetDefaults = SettingsModel(
 List<SettingsModel> initializeTreeAttributes() {
   return [
     reDraw,
-    zoomTree,
+    zoomOpArt,
     baseHeight,
     trunkWidth,
     widthDecay,
@@ -422,11 +423,11 @@ void paintTree(Canvas canvas, Size size, int seed, double animationVariable, OpA
   // Starting point of the tree
   double direction = pi / 2;
   List treeBaseA = [
-    (size.width - trunkWidth.value * zoomTree.value) / 2,
+    (size.width - trunkWidth.value * zoomOpArt.value) / 2,
     size.height - baseHeight.value
   ];
   List treeBaseB = [
-    (size.width + trunkWidth.value * zoomTree.value) / 2,
+    (size.width + trunkWidth.value * zoomOpArt.value) / 2,
     size.height - baseHeight.value
   ];
 
@@ -437,13 +438,13 @@ void paintTree(Canvas canvas, Size size, int seed, double animationVariable, OpA
     0,
     treeBaseA,
     treeBaseB,
-    trunkWidth.value * zoomTree.value,
-    segmentLength.value * zoomTree.value,
+    trunkWidth.value * zoomOpArt.value,
+    segmentLength.value * zoomOpArt.value,
     direction,
     ratio.value,
     0,
-    trunkStrokeWidth.value * zoomTree.value,
-    leafRadius.value * zoomTree.value,
+    trunkStrokeWidth.value * zoomOpArt.value,
+    leafRadius.value * zoomOpArt.value,
     randomLeafLength.value,
     leafShape.value,
     false,
