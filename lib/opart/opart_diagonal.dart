@@ -23,8 +23,8 @@ SettingsModel reDraw = SettingsModel(
   silent: true,
 );
 
-SettingsModel zoomDiagonal = SettingsModel(
-  name: 'zoomDiagonal',
+SettingsModel zoomOpArt = SettingsModel(
+  name: 'zoomOpArt',
   settingType: SettingType.double,
   label: 'Zoom',
   tooltip: 'Zoom in and out',
@@ -170,7 +170,7 @@ List<SettingsModel> initializeDiagonalAttributes() {
 
   return [
     reDraw,
-    zoomDiagonal,
+    zoomOpArt,
     numberOfPipes,
     ratio,
     oneDirection,
@@ -202,7 +202,7 @@ void paintDiagonal(Canvas canvas, Size size, int seed, double animationVariable,
   // Initialise the canvas
   double canvasWidth = size.width;
   double canvasHeight = size.height;
-  double sideLength = zoomDiagonal.value;
+  double sideLength = zoomOpArt.value;
 
   // Work out the X and Y
   int cellsX = (canvasWidth / (sideLength) + 2).toInt();

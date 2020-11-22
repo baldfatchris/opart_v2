@@ -22,8 +22,8 @@ SettingsModel reDraw = SettingsModel(
   silent: true,
 );
 
-SettingsModel zoomHexagons = SettingsModel(
-  name: 'zoomHexagons',
+SettingsModel zoomOpArt = SettingsModel(
+  name: 'zoomOpArt',
   settingType: SettingType.double,
   label: 'Zoom',
   tooltip: 'Zoom in and out',
@@ -126,7 +126,7 @@ List<SettingsModel> initializeHexagonsAttributes() {
 
   return [
     reDraw,
-    zoomHexagons,
+    zoomOpArt,
     split,
     splat,
     threeD,
@@ -164,16 +164,16 @@ void paintHexagons(Canvas canvas, Size size, int seed, double animationVariable,
   // double imageHeight = canvasHeight;
 
   // Work out the X and Y
-  int cellsX = (canvasWidth / (zoomHexagons.value)+1.9999999).toInt();
-  borderX = (canvasWidth - zoomHexagons.value * cellsX) / 2;
+  int cellsX = (canvasWidth / (zoomOpArt.value)+1.9999999).toInt();
+  borderX = (canvasWidth - zoomOpArt.value * cellsX) / 2;
 
-  int cellsY = (canvasHeight * 2.3 / (zoomHexagons.value)+1.9999999).toInt();
-  borderY = (canvasHeight - zoomHexagons.value * cellsY) / 2;
-  borderY = (canvasHeight - zoomHexagons.value * cellsY) / 2;
+  int cellsY = (canvasHeight * 2.3 / (zoomOpArt.value)+1.9999999).toInt();
+  borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
+  borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
 
   // work out the radius from the width and the cells
-  // double radius = zoomHexagons.value / 2;
-  double sideLength = zoomHexagons.value*0.6;
+  // double radius = zoomOpArt.value / 2;
+  double sideLength = zoomOpArt.value*0.6;
 
   // Calculate the vaious constants
   double hexagonAngle = 0.523598776; // 30 degrees in radians

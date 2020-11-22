@@ -22,8 +22,8 @@ SettingsModel reDraw = SettingsModel(
   silent: true,
 );
 
-SettingsModel zoomRiley = SettingsModel(
-  name: 'zoomRiley',
+SettingsModel zoomOpArt = SettingsModel(
+  name: 'zoomOpArt',
   settingType: SettingType.double,
   label: 'Zoom',
   tooltip: 'Zoom in and out',
@@ -147,7 +147,7 @@ List<SettingsModel> initializeRileyAttributes() {
 
   return [
     reDraw,
-    zoomRiley,
+    zoomOpArt,
     gradientTypeX0,
     gradientTypeX1,
     gradientTypeY0,
@@ -183,14 +183,14 @@ void paintRiley(Canvas canvas, Size size, int seed, double animationVariable, Op
   double imageHeight = canvasHeight;
 
   // Work out the X and Y
-  double sideLength = zoomRiley.value;
+  double sideLength = zoomOpArt.value;
 
-  int cellsX = (canvasWidth / (zoomRiley.value)+1.9999999).toInt();
-  borderX = (canvasWidth - zoomRiley.value * cellsX) / 2;
+  int cellsX = (canvasWidth / (zoomOpArt.value)+1.9999999).toInt();
+  borderX = (canvasWidth - zoomOpArt.value * cellsX) / 2;
 
-  int cellsY = (canvasHeight / (zoomRiley.value)+1.9999999).toInt();
-  borderY = (canvasHeight - zoomRiley.value * cellsY) / 2;
-  borderY = (canvasHeight - zoomRiley.value * cellsY) / 2;
+  int cellsY = (canvasHeight / (zoomOpArt.value)+1.9999999).toInt();
+  borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
+  borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
 
   int colourOrder = 0;
   Color nextColor;

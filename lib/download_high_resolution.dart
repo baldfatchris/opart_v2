@@ -32,11 +32,38 @@ class _DownloadHighResState extends State<DownloadHighRes> {
               itemBuilder: (context, index) {
                 return Row(
                   children: [
-                    Text(offerings
-                        .current.availablePackages[index].product.title),
+                    Text(offerings.current.availablePackages[index].product.title),
                     SizedBox(width: 8),
                     //Text(offerings.current.availablePackages[index].identifier),
-                    FloatingActionButton(onPressed:(){},
+                    FloatingActionButton(onPressed:() async {
+
+                      print('buy the thing!');
+
+                      try {
+                        Purchases.setFinishTransactions(true);
+
+                        PurchaserInfo purchaserInfo = await Purchases.purchasePackage(offerings.current.availablePackages[index]);
+
+                        print('Bought it!!');
+
+                        print(purchaserInfo.allPurchasedProductIdentifiers);
+
+                        if (purchaserInfo.entitlements.all["my_entitlement_identifier"].isActive) {
+                          // Unlock that great "pro" content
+                        }
+
+
+
+
+                      } on PlatformException catch (e) {
+                        var errorCode = PurchasesErrorHelper.getErrorCode(e);
+                        if (errorCode != PurchasesErrorCode.purchaseCancelledError) {
+                          print(e);
+                        }
+                      }
+
+
+                    },
                       child: Text(offerings
                           .current.availablePackages[index].product.priceString
                           ),
