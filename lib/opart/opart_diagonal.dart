@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:opart_v2/opart_icons.dart';
+import '../main.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';
 import '../model_settings.dart';
@@ -191,6 +192,7 @@ List<SettingsModel> initializeDiagonalAttributes() {
 void paintDiagonal(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
 
   rnd = Random(seed);
+  print('seed: $seed');
 
   if (paletteList.value != opArt.palette.paletteName) {
     opArt.selectPalette(paletteList.value);

@@ -5,6 +5,7 @@ import '../model_palette.dart';
 import '../model_settings.dart';
 import 'dart:math';
 import 'dart:core';
+import '../main.dart';
 
 List<String> list = List();
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'model_opart.dart';
 import 'dart:math';
-
+import 'main.dart';
 import 'model_settings.dart';
 
 SettingsModel numberOfColors = SettingsModel(
@@ -237,9 +237,7 @@ class OpArtPalette {
     // print('numberOfColours: $numberOfColours');
 
     // seed = DateTime.now().millisecond;
-
-    Random rnd = Random(DateTime.now().millisecond);
-
+    Random rnd = Random(seed);
     // print('randomizing palette');
 
     List<Color> palette = List();

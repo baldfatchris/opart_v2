@@ -1,14 +1,21 @@
-
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:opart_v2/loading.dart';
-
-
 import 'opart_page.dart';
 import 'model_opart.dart';
 
+import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:flutter/services.dart';
+
 // import 'package:in_app_purchase/in_app_purchase.dart';
+
 bool showDelete = false;
+bool proVersion = true;
+Random rnd = Random();
+int seed = DateTime.now().millisecond;
+
+
 
 void main() {
   // InAppPurchaseConnection.enablePendingPurchases();
@@ -200,5 +207,43 @@ class _MyHomePageState extends State<MyHomePage> {
 
     ];
      super.initState();
+     initPlatformState();
   }
+
+
+  Future<void> initPlatformState() async {
+    proVersion = false;
+
+    await Purchases.setDebugLogsEnabled(true);
+    await Purchases.setup("dZAXkioWKFdOESaEtJMQkRsrETmZbFUK");
+
+    PurchaserInfo purchaserInfo;
+    try {
+    purchaserInfo = await Purchases.getPurchaserInfo();
+    print(purchaserInfo.toString());
+    if (purchaserInfo.entitlements.all['all_features'] != null) {
+    proVersion = purchaserInfo.entitlements.all['all_features'].isActive;
+    } else {
+    proVersion = false;
+    }
+    } on PlatformException catch (e) {
+    print(e);
+    }
+
+    print('#### is user pro? ${proVersion}');
+
+    try {
+    Offerings offerings = await Purchases.getOfferings();
+    if (offerings.current != null && offerings.current.availablePackages.isNotEmpty) {
+    // Display packages for sale
+    }
+    } on PlatformException catch (e) {
+    // optional error handling
+    }
+
+
+  }
+
+
+
 }

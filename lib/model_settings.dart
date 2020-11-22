@@ -2,7 +2,7 @@ import 'dart:core';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:opart_v2/opart_page.dart';
-import 'model_opart.dart';
+import 'main.dart';
 
 // bool proVersion = true;
 

@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'dart:io';
 import 'dart:math';
+import 'main.dart';
 import 'opart/opart_diagonal.dart';
 import 'opart/opart_eye.dart';
 import 'opart/opart_fibonacci.dart';
@@ -21,8 +22,6 @@ import 'model_settings.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:flutter/material.dart';
 
-Random rnd = Random();
-int seed = rnd.nextInt(1 << 32);
 List<Map<String, dynamic>> savedOpArt = List();
 ScreenshotController screenshotController = ScreenshotController();
 
@@ -35,7 +34,7 @@ final rebuildColorPicker = new ValueNotifier(0);
 final rebuildCircularProgressIndicator = ValueNotifier(0);
 bool enableButton = true;
 
-bool proVersion = true;
+
 
 ScrollController scrollController = new ScrollController();
 
@@ -284,6 +283,9 @@ class OpArt {
 
   // randomise the non-palette settings
   void randomizeSettings() {
+    seed = DateTime.now().millisecond;
+    Random rnd = Random(seed);
+
     // print('Randomizing Settings');
     for (int i = 0; i < attributes.length; i++) {
       if (attributes[i].settingCategory == SettingCategory.tool) {
@@ -312,7 +314,8 @@ class OpArt {
   // randomise the palette
   void randomizePalette() {
 
-    Random rnd = Random(DateTime.now().millisecond);
+    seed = DateTime.now().millisecond;
+    Random rnd = Random(seed);
 
     // print('Randomizing Palette');
     for (int i = 0; i < attributes.length; i++) {
