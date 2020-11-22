@@ -15,6 +15,7 @@ bool proVersion = true;
 Random rnd = Random();
 int seed = DateTime.now().millisecond;
 
+Offerings offerings;
 
 
 void main() {
@@ -233,7 +234,7 @@ class _MyHomePageState extends State<MyHomePage> {
     print('#### is user pro? ${proVersion}');
 
     try {
-    Offerings offerings = await Purchases.getOfferings();
+    offerings = await Purchases.getOfferings();
     if (offerings.current != null && offerings.current.availablePackages.isNotEmpty) {
     // Display packages for sale
     }
