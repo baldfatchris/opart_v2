@@ -48,10 +48,17 @@ class _DownloadHighResState extends State<DownloadHighRes> {
 
                         print(purchaserInfo.allPurchasedProductIdentifiers);
 
-                        if (purchaserInfo.entitlements.all["my_entitlement_identifier"].isActive) {
-                          // Unlock that great "pro" content
-                        }
+                        // if (purchaserInfo.entitlements.all["my_entitlement_identifier"].isActive) {
+                        //   // Unlock that great "pro" content
+                        // }
 
+                        List<String> purchases = purchaserInfo.allPurchasedProductIdentifiers;
+                        purchases.forEach((element) {
+                          if (element == 'p0001'){
+                            // Process the high definition download
+                            print('you can now download the image');
+                          }
+                        });
 
 
 

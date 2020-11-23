@@ -67,18 +67,25 @@ class _CanvasWidgetState extends State<CanvasWidget>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onScaleStart: (ScaleStartDetails details) {
+      onScaleStart: (details) {
         _baseScaleFactor = _scaleFactor;
         print('onScaleStart');
       },
-      onScaleUpdate: (ScaleUpdateDetails details){
+      onScaleUpdate: (details){
         print('onScaleUpdate');
         _scaleFactor = _baseScaleFactor * details.scale;
         SettingsModel zoomOpArt = opArt.attributes.firstWhere((element) => element.name=='zoomOpArt');
-        double zoom = zoomOpArt.value * details.scale /_baseScaleFactor;
-        zoom = (zoom < zoomOpArt.min) ? zoomOpArt.min : zoom;
-        zoom = (zoom > zoomOpArt.max) ? zoomOpArt.max : zoom;
-        zoomOpArt.value = zoom;
+        if (zoomOpArt != null){
+          double zoom = zoomOpArt.value * details.scale /_baseScaleFactor;
+          zoom = (zoom < zoomOpArt.min) ? zoomOpArt.min : zoom;
+          zoom = (zoom > zoomOpArt.max) ? zoomOpArt.max : zoom;
+          zoomOpArt.value = zoom;
+          rebuildCanvas.value++;
+        }
+      },
+      onScaleEnd: (details){
+        opArt.saveToCache();
+        rebuildCanvas.value++;
       },
 
       onDoubleTap: (){

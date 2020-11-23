@@ -13,6 +13,10 @@ import 'download_high_resolution.dart';
 import 'canvas.dart';
 import 'tabs/tab_widget.dart';
 
+import 'dart:async';
+import 'package:purchases_flutter/purchases_flutter.dart';
+
+
 class OpArtPage extends StatefulWidget {
   OpArtType opArtType;
   Map<String, dynamic> opArtSettings;
@@ -28,6 +32,9 @@ bool tabOut = false;
 File imageFile;
 bool showCustomColorPicker = false;
 OpArt opArt;
+
+bool highDefDownloadAvailable = false;
+String highDefPrice;
 
 class _OpArtPageState extends State<OpArtPage> {
   @override
@@ -75,6 +82,16 @@ class _OpArtPageState extends State<OpArtPage> {
           imageFile = image;
         });
 
+        // find the product
+        print(offerings.current.availablePackages);
+        Package p0001 = offerings.current.availablePackages.firstWhere((element) => element.product.identifier == "p0001");
+        if (p0001 != null){
+          highDefDownloadAvailable = true;
+          highDefPrice = p0001.product.priceString;
+          print('highDefPrice: $highDefPrice');
+        }
+
+
         return showDialog<void>(
           context: context,
           barrierDismissible: false, // user must tap button!
@@ -85,16 +102,81 @@ class _OpArtPageState extends State<OpArtPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Text(
-                        'For only 99p you can download this image in a resolution suitable for printing.'),
-                    Container(
-                        height: 100,
-                        width: 100,
-                        child: Image.file(
-                          image,
-                          fit: BoxFit.fitWidth,
-                        ))
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Flexible(
+                          child: Container(
+                            height: 50,
+                            width: 50,
+                            child: Image.file(
+                              image,
+                              fit: BoxFit.fitWidth,
+                            ),
+                          ),
+                        ),
+                        Flexible(flex: 2,
+                            child: Text('Low definition - suitable for sharing.')),
+                        Flexible(
+                          child: FloatingActionButton(onPressed:() async {
+                          },
+                            child: Text('Free!'),
+                          ),
+                        )
+
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Flexible(
+                          child: Container(
+                            height: 100,
+                            width: 100,
+                            child: Image.file(
+                              image,
+                              fit: BoxFit.fitWidth,
+                            ),
+                          ),
+                        ),
+                        Flexible(flex: 2, child: Text('High definition -  suitable for printing.')),
+                        Flexible(
+                          child: FloatingActionButton(onPressed:() async {
+
+                            print('buy the thing!');
+                            try {
+                              Purchases.setFinishTransactions(true);
+                              PurchaserInfo purchaserInfo = await Purchases.purchasePackage(p0001);
+                              print('Bought it!!');
+                              print(purchaserInfo.allPurchasedProductIdentifiers);
+                              // if (purchaserInfo.entitlements.all["my_entitlement_identifier"].isActive) {
+                              //   // Unlock that great "pro" content
+                              // }
+
+                              List<String> purchases = purchaserInfo.allPurchasedProductIdentifiers;
+                              purchases.forEach((element) {
+                                if (element == 'p0001'){
+                                  // Process the high definition download
+                                  print('you can now download the image');
+                                }
+                              });
+
+                            } on PlatformException catch (e) {
+                              var errorCode = PurchasesErrorHelper.getErrorCode(e);
+                              if (errorCode != PurchasesErrorCode.purchaseCancelledError) {
+                                print(e);
+                              }
+                            }
+                          },
+                            child: Text(highDefPrice),
+                          ),
+                        )
+
+                      ],
+                    ),
                   ],
+
+
                 ),
               ),
               actions: <Widget>[
