@@ -11,6 +11,7 @@ import 'bottom_app_bar.dart';
 import 'model_opart.dart';
 import 'download_high_resolution.dart';
 import 'canvas.dart';
+import 'mygallery.dart';
 import 'tabs/tab_widget.dart';
 
 import 'dart:async';
@@ -116,81 +117,7 @@ class _OpArtPageState extends State<OpArtPage> {
                               ),
                             ),
                             SizedBox(height: 18),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Flexible(
-                                  child: Container(
-                                    height: 50,
-                                    width: 50,
-                                    child: Image.file(
-                                      image,
-                                      fit: BoxFit.fitWidth,
-                                    ),
-                                  ),
-                                ),
-                                Flexible(
-                                    flex: 2, child: Text('Save to My Gallery.')),
-                                Flexible(
-                                  child: FloatingActionButton(
-                                    onPressed: () async {
-                                      opArt.saveToLocalDB();
-                                      Navigator.pop(context);
-                                      showDialog<void>(
-                                          context: context,
-                                          barrierDismissible:
-                                              true, // user must tap button!
-                                          builder: (BuildContext context) {
-                                            return Dialog(
-                                                child: Container(height: 200,
-                                                  child: Stack(
-                                              children: [
-                                                  Center(
-                                                    child: (Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        children: [
-                                                          Text(
-                                                              'Saved to My Gallery', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                                                          SizedBox(height: 12),RaisedButton(
-                                                            onPressed: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                              rebuildMain.value++;
-                                                              showDelete = false;
-                                                              showControls = false;
-                                                              showCustomColorPicker = false;
-                                                              opArt.setDefault();
-                                                              opArt.clearCache();
-                                                              SystemChrome.setEnabledSystemUIOverlays(
-                                                                  SystemUiOverlay.values);
-                                                              Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                      builder: (context) =>
-                                                                          MyHomePage()));
 
-                                                            },
-                                                            child: Text(
-                                                                'View My Gallery'),
-                                                          )
-                                                        ])),
-                                                  ),
-                                                  Align(
-                                                      alignment: Alignment.topRight,
-                                                      child: Material(
-                                                          child: CloseButton()))
-                                              ],
-                                            ),
-                                                ));
-                                          });
-                                    },
-                                    child: Text('Free!'),
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(height: 12),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -246,7 +173,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                 )
                               ],
                             ),
-                            SizedBox(height: 12),
+                            SizedBox(height: 20),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -324,7 +251,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                         }
                                       }
                                     },
-                                    child: Text(highDefPrice!=null?highDefPrice:'doh'),
+                                    child: Text(highDefPrice!=null?highDefPrice:'doh!'),
                                     backgroundColor: highDefPrice!=null? Colors.blue: Colors.grey,
                                   ),
                                 )
@@ -430,9 +357,68 @@ class _OpArtPageState extends State<OpArtPage> {
                         SystemChrome.setEnabledSystemUIOverlays(
                             SystemUiOverlay.values);
                         Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyHomePage()));
+
                       },
                     ),
                     actions: [
+                      IconButton(
+                          icon: Icon(Icons.save, color: Colors.black),
+                          onPressed: ()  {
+                            opArt.saveToLocalDB();
+                            showDialog<void>(
+                                context: context,
+                                barrierDismissible:
+                                true, // user must tap button!
+                                builder: (BuildContext context) {
+                                  return Dialog(
+                                      child: Container(height: 200,
+                                        child: Stack(
+                                          children: [
+                                            Center(
+                                              child: (Column(
+                                                  mainAxisSize:
+                                                  MainAxisSize.min,
+                                                  children: [
+                                                    Text(
+                                                        'Saved to My Gallery', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                                                    SizedBox(height: 12),RaisedButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(
+                                                            context);
+                                                        rebuildMain.value++;
+                                                        showDelete = false;
+                                                        showControls = false;
+                                                        showCustomColorPicker = false;
+                                                        opArt.setDefault();
+                                                        opArt.clearCache();
+                                                        SystemChrome.setEnabledSystemUIOverlays(
+                                                            SystemUiOverlay.values);
+                                                        Navigator.pop(context);
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) =>
+                                                                    MyGallery()));
+
+                                                      },
+                                                      child: Text(
+                                                          'View My Gallery'),
+                                                    )
+                                                  ])),
+                                            ),
+                                            Align(
+                                                alignment: Alignment.topRight,
+                                                child: Material(
+                                                    child: CloseButton()))
+                                          ],
+                                        ),
+                                      ));
+                                });
+                          }),
                       IconButton(
                           icon: Icon(Icons.share, color: Colors.black),
                           onPressed: () async {

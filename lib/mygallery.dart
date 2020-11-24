@@ -1,0 +1,108 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'main.dart';
+import 'model_opart.dart';
+import 'opart_page.dart';
+
+class MyGallery extends StatefulWidget {
+  @override
+  _MyGalleryState createState() => _MyGalleryState();
+}
+
+class _MyGalleryState extends State<MyGallery> {
+  final rebuildGallery = new ValueNotifier(0);
+  bool showDelete = false;
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<int>(
+        valueListenable: rebuildGallery,
+        builder: (context, value, child) {
+          return Scaffold(
+              appBar: AppBar(
+                title: Text('My Gallery',
+                    style: TextStyle(
+                        fontFamily: 'Righteous',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20)),
+                leading: IconButton(
+                    icon: Icon(
+                      Icons.home,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MyHomePage()));
+                    }),
+              ),
+              body: savedOpArt.length == 0
+                  ? Center(
+                      child: Text(
+                          'You have not yet saved any opArt to your gallery'))
+                  : Center(
+                      child: CarouselSlider.builder(
+                          options: CarouselOptions(
+                              height:
+                                  (MediaQuery.of(context).size.height - 60) *
+                                      0.9,
+                              enlargeCenterPage: true,
+                          initialPage: savedOpArt.length-1),
+                          itemCount: savedOpArt.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return GestureDetector(
+                              onLongPress: () {
+                                print('long press');
+                                showDelete = true;
+                                rebuildGallery.value++;
+                              },
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => OpArtPage(
+                                              savedOpArt[index]['type'],
+                                              opArtSettings: savedOpArt[index],
+                                            )));
+                              },
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Image.file(
+                                      savedOpArt[index]['image'],
+                                      fit: BoxFit.fitWidth,
+                                    ),
+                                  ),
+                                  showDelete
+                                      ? Positioned(
+                                          right: 0,
+                                          top: 0,
+                                          child: Container(
+                                            height: 30,
+                                            width: 30,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                shape: BoxShape.circle),
+                                            child: Center(
+                                              child: FloatingActionButton(
+                                                  onPressed: () {
+                                                    savedOpArt.removeAt(index);
+                                                    showDelete = false;
+                                                    rebuildGallery.value++;
+                                                  },
+                                                  backgroundColor: Colors.white,
+                                                  child: Icon(Icons.remove,
+                                                      color: Colors.red)),
+                                            ),
+                                          ))
+                                      : Container(),
+                                ],
+                              ),
+                            );
+                          }),
+                    ));
+        });
+  }
+}

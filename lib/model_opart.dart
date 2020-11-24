@@ -172,7 +172,7 @@ class OpArt {
      print('saving to localDB');
     WidgetsBinding.instance
         .addPostFrameCallback((_) => screenshotController
-        .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.4)
+        .capture(delay: Duration(milliseconds: 100), pixelRatio: 1)
         .then((File image) async {
       Map<String, dynamic> map = Map();
       for (int i = 0; i < attributes.length; i++) {

@@ -144,16 +144,13 @@ Widget ToolBoxTab() {
                                         if (tools[index].settingType == SettingType.list) {
                                           int currentValue = tools[index].options.indexWhere((value) => value == tools[index].value);
 
-                                          print(currentValue);
-                                          print(tools[index].options.length);
 
                                           tools[index].value = tools[index].options[
                                               (currentValue == tools[index].options.length - 1) ? 0 : currentValue + 1
                                           ];
                                           rebuildCanvas.value++;
-                                          Scaffold.of(context).removeCurrentSnackBar();
-
-                                          Scaffold.of(context).showSnackBar(
+                                          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                                          ScaffoldMessenger.of(context).showSnackBar(
                                               SnackBar(
                                                   backgroundColor: Colors.white.withOpacity(0.8),
                                                 duration: Duration(seconds:2),
@@ -163,6 +160,7 @@ Widget ToolBoxTab() {
                                                           tools[index].value, style: TextStyle(color: Colors.black),textAlign: TextAlign.center,),
                                                     ),
                                                   )));
+                                          opArt.saveToCache();
                                         } else {
                                           settingsDialog(context, tools[index], opArt);
                                         }
