@@ -72,19 +72,22 @@ class _CanvasWidgetState extends State<CanvasWidget>
         print('onScaleStart');
       },
       onScaleUpdate: (details){
-        print('onScaleUpdate');
-        _scaleFactor = _baseScaleFactor * details.scale;
+        _scaleFactor = details.scale;
+
+        print('onScaleUpdate: _baseScaleFactor: $_baseScaleFactor details.scale: ${details.scale} _scaleFactor: $_scaleFactor');
+
         SettingsModel zoomOpArt = opArt.attributes.firstWhere((element) => element.name=='zoomOpArt');
         if (zoomOpArt != null){
-          double zoom = zoomOpArt.value * details.scale /_baseScaleFactor;
+          double zoom = zoomOpArt.value * sqrt(details.scale);
           zoom = (zoom < zoomOpArt.min) ? zoomOpArt.min : zoom;
           zoom = (zoom > zoomOpArt.max) ? zoomOpArt.max : zoom;
           zoomOpArt.value = zoom;
           rebuildCanvas.value++;
+          // Future.delayed(const Duration(milliseconds: 1000));
         }
       },
       onScaleEnd: (details){
-        opArt.saveToCache();
+        print('onScaleEnd');
         rebuildCanvas.value++;
       },
 

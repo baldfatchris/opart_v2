@@ -158,6 +158,9 @@ class _OpArtPageState extends State<OpArtPage> {
                                 if (element == 'p0001'){
                                   // Process the high definition download
                                   print('you can now download the image');
+
+
+
                                 }
                               });
 
