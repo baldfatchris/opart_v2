@@ -236,9 +236,13 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
     offerings = await Purchases.getOfferings();
     if (offerings.current != null && offerings.current.availablePackages.isNotEmpty) {
+      print(offerings.current.availablePackages.length);
+      print('offerings');
     // Display packages for sale
     }
     } on PlatformException catch (e) {
+      print('offerings errors');
+      print(e);
     // optional error handling
     }
 
