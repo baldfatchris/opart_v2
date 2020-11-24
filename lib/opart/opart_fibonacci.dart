@@ -36,8 +36,8 @@ SettingsModel angleIncrement = SettingsModel(
     proFeature: false,
   );
   
-SettingsModel flowerFill = SettingsModel(
-    name: 'flowerFill',
+SettingsModel zoomOpArt = SettingsModel(
+    name: 'zoomOpArt',
     settingType: SettingType.double,
     label: 'Zoom',
     tooltip: 'Zoom in and out',
@@ -297,7 +297,7 @@ List<SettingsModel> initializeFibonacciAttributes() {
   return [
     reDraw,
     angleIncrement,
-    flowerFill,
+    zoomOpArt,
     petalSize,
     ratio,
     randomizeAngle,
@@ -334,7 +334,7 @@ void paintFibonacci(Canvas canvas, Size size, int seed, double animationVariable
   generateFlower(canvas, rnd, size.width, size.height, size.width, size.height, 0,0,size.width/2, size.height/2,
 
       animationVariable * 2 * pi + angleIncrement.value,
-      flowerFill.value,
+      zoomOpArt.value,
       petalSize.value,
       ratio.value,
       randomizeAngle.value,
