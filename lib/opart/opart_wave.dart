@@ -21,10 +21,10 @@ SettingsModel reDraw = SettingsModel(
   silent: true,
 );
 
-SettingsModel stepX = SettingsModel(
-  name: 'stepX',
+SettingsModel zoomOpArt = SettingsModel(
+  name: 'zoomOpArt',
   settingType: SettingType.double,
-  label: 'stepX',
+  label: 'zoomOpArt',
   tooltip: 'The horizontal width of each stripe',
   min: 1.0,
   max: 50.0,
@@ -148,7 +148,7 @@ List<SettingsModel> initializeWaveAttributes() {
 
   return [
     reDraw,
-    stepX,
+    zoomOpArt,
     stepY,
     frequency,
     amplitude,
@@ -179,7 +179,7 @@ void paintWave(Canvas canvas, Size size, int seed, double animationVariable, OpA
 
   generateWave(canvas, rnd, size.width, size.height, size.width, size.height, 0,0,
 
-    stepX.value,
+    zoomOpArt.value,
     stepY.value,
     frequency.value,
     amplitude.value,
