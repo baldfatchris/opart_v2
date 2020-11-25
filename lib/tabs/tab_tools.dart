@@ -70,7 +70,7 @@ Widget ToolBoxTab() {
                     max: attribute.max.toDouble(),
 
                     onChanged: (value){
-                      attribute.value = value;
+                      attribute.value = value.toInt();
                       rebuildTab.value++;
                       rebuildCanvas.value++;
                       },
