@@ -60,21 +60,20 @@ class _CanvasWidgetState extends State<CanvasWidget>
   Hero hero1;
   Hero hero2;
   bool _forward = true;
-
-  double _scaleFactor = 1.0;
-  double _baseScaleFactor = 1.0;
+  double dx;
+  double dy;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onScaleStart: (details) {
-        _baseScaleFactor = _scaleFactor;
-        print('onScaleStart');
+      onScaleStart: (details){
+        dx = details.focalPoint.dx;
+        dy = details.focalPoint.dy;
+
       },
       onScaleUpdate: (details){
-        _scaleFactor = details.scale;
 
-        print('onScaleUpdate: _baseScaleFactor: $_baseScaleFactor details.scale: ${details.scale} _scaleFactor: $_scaleFactor');
+        print('onScaleUpdate: details.scale: ${details.scale}  offset: ${details.focalPoint.dx- dx} ${details.focalPoint.dy- dy}');
 
         SettingsModel zoomOpArt = opArt.attributes.firstWhere((element) => element.name=='zoomOpArt');
         if (zoomOpArt != null){
@@ -83,8 +82,27 @@ class _CanvasWidgetState extends State<CanvasWidget>
           zoom = (zoom > zoomOpArt.max) ? zoomOpArt.max : zoom;
           zoomOpArt.value = zoom;
           rebuildCanvas.value++;
-          // Future.delayed(const Duration(milliseconds: 1000));
         }
+
+        SettingsModel centerX = opArt.attributes.firstWhere((element) => element.name=='centerX');
+        if (centerX != null){
+          double x = centerX.value + (details.focalPoint.dx - dx)/20;
+          x = (x < centerX.min) ? centerX.min : x;
+          x = (x > centerX.max) ? centerX.max : x;
+          centerX.value = x;
+          rebuildCanvas.value++;
+        }
+
+        SettingsModel centerY = opArt.attributes.firstWhere((element) => element.name=='centerY');
+        if (centerY != null){
+          double y = centerY.value + (details.focalPoint.dy - dy)/20;
+          y = (y < centerY.min) ? centerY.min : y;
+          y = (y > centerY.max) ? centerY.max : y;
+          centerY.value = y;
+          rebuildCanvas.value++;
+        }
+        
+        
       },
       onScaleEnd: (details){
         print('onScaleEnd');

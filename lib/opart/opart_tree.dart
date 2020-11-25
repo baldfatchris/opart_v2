@@ -36,23 +36,40 @@ SettingsModel zoomOpArt = SettingsModel(
     proFeature: false,
   );
 
-  SettingsModel baseHeight = SettingsModel(
-    name: 'baseHeight',
+  SettingsModel centerX = SettingsModel(
+    name: 'centerX',
     settingType: SettingType.double,
-    label: 'Base Height',
+    label: 'Horizontal offset',
     tooltip: 'The offset from the bottom of the sceen',
-    min: 0.0,
-    max: 500.0,
-    randomMax: 120.0,
-    randomMin: 120.0,
+    min: -200.0,
+    max: 200.0,
+    randomMax: 0.0,
+    randomMin: 0.0,
     zoom: 100,
-    defaultValue: 120.0,
-    icon: Icon(Icons.vertical_align_bottom),
+    defaultValue: 0.0,
+    icon: Icon(Icons.swap_horiz),
     settingCategory: SettingCategory.tool,
     proFeature: false,
   );
 
-  SettingsModel trunkWidth = SettingsModel(
+SettingsModel centerY = SettingsModel(
+  name: 'centerY',
+  settingType: SettingType.double,
+  label: 'Vertical Offset',
+  tooltip: 'The horizontal offset from the center of the sceen',
+  min: -200.0,
+  max: 300.0,
+  randomMax: -120.0,
+  randomMin: -120.0,
+  zoom: 100,
+  defaultValue: -120.0,
+  icon: Icon(Icons.swap_vert),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
+
+
+SettingsModel trunkWidth = SettingsModel(
     name: 'trunkWidth',
     settingType: SettingType.double,
     label: 'Trunk Width',
@@ -210,7 +227,7 @@ SettingsModel leafAngle = SettingsModel(
 SettingsModel leafRadius = SettingsModel(
     name: 'leafRadius',
     settingType: SettingType.double,
-    label: 'Leaf Length',
+    label: 'Leaf Size',
     tooltip: 'The fixed length of each leaf',
     min: 0.0,
     max: 20.0,
@@ -297,7 +314,7 @@ SettingsModel trunkOutlineColor = SettingsModel(settingType: SettingType.color,
     name: 'trunkOutlineColor',
     label: "Trunk Outline Color",
     tooltip: "The outline colour of the trunk",
-    defaultValue: Colors.black,
+    defaultValue: Colors.grey,
     icon: Icon(Icons.settings_overscan),
     settingCategory: SettingCategory.palette,
     proFeature: false,
@@ -310,7 +327,7 @@ SettingsModel trunkStrokeWidth = SettingsModel(
     min: 0.0,
     max: 1.0,
     zoom: 100,
-    defaultValue: 1.0,
+    defaultValue: 0.0,
     icon: Icon(Icons.line_weight),
     settingCategory: SettingCategory.tool,
     proFeature: false,
@@ -375,7 +392,8 @@ List<SettingsModel> initializeTreeAttributes() {
   return [
     reDraw,
     zoomOpArt,
-    baseHeight,
+    centerX,
+    centerY,
     trunkWidth,
     widthDecay,
     segmentLength,
@@ -386,13 +404,13 @@ List<SettingsModel> initializeTreeAttributes() {
     bulbousness,
     maxDepth,
     leafShape,
+    leafRadius,
+    leafDecay,
     leavesAfter,
     leafAngle,
-    leafRadius,
     randomLeafLength,
     leafSquareness,
     leafAsymmetry,
-    leafDecay,
     backgroundColor,
     numberOfColors,
     trunkFillColor,
@@ -423,12 +441,12 @@ void paintTree(Canvas canvas, Size size, int seed, double animationVariable, OpA
   // Starting point of the tree
   double direction = pi / 2;
   List treeBaseA = [
-    (size.width - trunkWidth.value * zoomOpArt.value) / 2,
-    size.height - baseHeight.value
+    (size.width - trunkWidth.value * zoomOpArt.value) / 2 + centerX.value,
+    size.height + centerY.value
   ];
   List treeBaseB = [
-    (size.width + trunkWidth.value * zoomOpArt.value) / 2,
-    size.height - baseHeight.value
+    (size.width + trunkWidth.value * zoomOpArt.value) / 2 + centerX.value,
+    size.height + centerY.value
   ];
 
   drawSegment(

@@ -22,15 +22,29 @@ SettingsModel reDraw = SettingsModel(
   silent: true,
 );
 
+SettingsModel zoomOpArt = SettingsModel(
+  name: 'zoomOpArt',
+  settingType: SettingType.double,
+  label: 'zoomOpArt',
+  tooltip: 'The horizontal width of each stripe',
+  min: 0.1,
+  max: 10.0,
+  zoom: 100,
+  defaultValue: 1.0,
+  icon: Icon(Icons.more_horiz),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
+
 SettingsModel minimumDepth = SettingsModel(
   settingType: SettingType.int,
   name: 'minimumDepth',
   label: 'Minimum Depth',
   tooltip: 'The minimum recursion depth',
   min: 0,
-  max: 10,
+  max: 20,
   zoom: 100,
-  defaultValue: 6,
+  defaultValue: 12,
   icon: Icon(Icons.line_weight),
   settingCategory: SettingCategory.tool,
   proFeature: false,
@@ -41,10 +55,10 @@ SettingsModel maximumDepth = SettingsModel(
   name: 'maximumDepth',
   label: 'Maximum Depth',
   tooltip: 'The maximum recursion depth',
-  min: 5,
-  max: 12,
+  min: 0,
+  max: 30,
   zoom: 100,
-  defaultValue: 8,
+  defaultValue: 15,
   icon: Icon(Icons.line_weight),
   settingCategory: SettingCategory.tool,
   proFeature: false,
@@ -175,6 +189,7 @@ List<SettingsModel> initializeQuadsAttributes() {
 
   return [
     reDraw,
+    zoomOpArt,
     minimumDepth,
     maximumDepth,
     density,
@@ -206,10 +221,10 @@ void paintQuads(Canvas canvas, Size size, int seed, double animationVariable, Op
 
 
   // Initialise the canvas
-  double canvasWidth = size.width;
-  double canvasHeight = size.height;
+  double canvasWidth = size.width*10;
+  double canvasHeight = size.height*10;
 
-  double imageSize = (canvasHeight>canvasWidth) ? canvasHeight : canvasWidth;
+  double imageSize = (canvasHeight>canvasWidth) ? canvasHeight * sqrt(sqrt(zoomOpArt.value)) : canvasWidth * sqrt(sqrt(zoomOpArt.value));
 
   // Now make some art
   int recursionDepth = 0;
