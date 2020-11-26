@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:opart_v2/loading.dart';
 import 'database_helper.dart';
+import 'information.dart';
 import 'opart_page.dart';
 import 'model_opart.dart';
 import 'mygallery.dart';
@@ -80,13 +81,27 @@ class _MyHomePageState extends State<MyHomePage> {
         body: SafeArea(
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Text('OpArt Lab',
-                style: TextStyle(
-                    fontFamily: 'Righteous',
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold)),
+          Stack(
+            children: [
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text('OpArt Lab',
+                      style: TextStyle(
+                          fontFamily: 'Righteous',
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold)),
+                ),
+              ),
+              IconButton(
+                  icon: Icon(Icons.info, color: Colors.cyan),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => InformationPage()));
+                  })
+            ],
           ),
           Expanded(
             child: GridView.builder(
@@ -98,7 +113,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             : 3
                         : MediaQuery.of(context).size.width > 800
                             ? 6
-                            : MediaQuery.of(context).size.width>600? 5: 4,
+                            : MediaQuery.of(context).size.width > 600
+                                ? 5
+                                : 4,
                     childAspectRatio: 0.8),
                 itemCount: opArtTypes.length,
                 itemBuilder: (BuildContext context, int index) {
