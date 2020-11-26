@@ -91,7 +91,7 @@ class DatabaseHelper {
       if (map != null) {
         for (int i = 0; i < map.length; i++) {
           Map<String, dynamic> _data = jsonDecode(map[i]['data']);
-          print(_data);
+
           Map<String, dynamic> fixedData = Map();
           fixedData.addAll({'id': map[i]['id']});
 

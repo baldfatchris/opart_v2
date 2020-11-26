@@ -32,7 +32,7 @@ bool tabOut = false;
 File imageFile;
 bool showCustomColorPicker = false;
 OpArt opArt;
-
+bool changeSettingsView = true;
 bool highDefDownloadAvailable = false;
 String highDefPrice;
 
@@ -392,6 +392,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                       child: Container(
 
                                     height: 150,
+                                    width: 200,
                                     child: Stack(
                                       children: [
                                         Center(
@@ -454,6 +455,8 @@ class _OpArtPageState extends State<OpArtPage> {
               children: [
                 GestureDetector(
                     onTap: () {
+                      if(changeSettingsView){
+                        changeSettingsView = false;
                       setState(() {
                         if (showSettings || tabOut) {
                           if (showCustomColorPicker) {
@@ -469,6 +472,10 @@ class _OpArtPageState extends State<OpArtPage> {
                           showCustomColorPicker = false;
                         }
                       });
+                        Future.delayed(const Duration(seconds: 1));
+                        changeSettingsView = true;
+                      }
+
                     },
                     child: InteractiveViewer(
                       child: ClipRect(

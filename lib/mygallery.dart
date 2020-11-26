@@ -36,6 +36,7 @@ class _MyGalleryState extends State<MyGallery> {
                       color: Colors.black,
                     ),
                     onPressed: () {
+                      Navigator.pop(context);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -100,8 +101,7 @@ class _MyGalleryState extends State<MyGallery> {
                                                     rebuildGallery.value++;
                                                   },
                                                   backgroundColor: Colors.white,
-                                                  child: Icon(Icons.remove,
-                                                      color: Colors.red)),
+                                                  child: Icon(Icons.delete,color: Colors.grey),),
                                             ),
                                           ))
                                       : Container(),

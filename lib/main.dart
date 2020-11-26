@@ -34,13 +34,11 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -57,7 +55,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     DatabaseHelper helper = DatabaseHelper.instance;
-  // helper.deleteDB();
+    // helper.deleteDB();
     helper.getUserDb();
     super.initState();
   }
@@ -76,6 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
   List<OpArtTypes> opArtTypes;
   @override
   Widget build(BuildContext context) {
+    print(MediaQuery.of(context).size.width);
+    print(MediaQuery.of(context).size.height);
     return Scaffold(
         body: SafeArea(
       child: Column(
@@ -91,7 +91,15 @@ class _MyHomePageState extends State<MyHomePage> {
           Expanded(
             child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4, childAspectRatio: 0.8),
+                    crossAxisCount: MediaQuery.of(context).orientation ==
+                            Orientation.portrait
+                        ? MediaQuery.of(context).size.width > 400
+                            ? 4
+                            : 3
+                        : MediaQuery.of(context).size.width > 800
+                            ? 6
+                            : MediaQuery.of(context).size.width>600? 5: 4,
+                    childAspectRatio: 0.8),
                 itemCount: opArtTypes.length,
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
@@ -136,15 +144,13 @@ class _MyHomePageState extends State<MyHomePage> {
             child: ValueListenableBuilder<int>(
                 valueListenable: rebuildMain,
                 builder: (context, value, child) {
-
-
                   return Container(
                     height: 100,
                     child: ListView.builder(
                         itemCount: savedOpArt.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          if(savedOpArt.length==0){
+                          if (savedOpArt.length == 0) {
                             return Text('view your saved images here');
                           }
                           return Padding(
@@ -170,35 +176,39 @@ class _MyHomePageState extends State<MyHomePage> {
                                       width: 70,
                                       height: 100,
                                       child: Image.memory(
-                                        base64Decode(savedOpArt[index]['image']),
+                                        base64Decode(
+                                            savedOpArt[index]['image']),
                                         fit: BoxFit.fitWidth,
                                       ),
                                     ),
-                                  ),showDelete
+                                  ),
+                                  showDelete
                                       ? Positioned(
-                                      right: 0,
-                                      top: 0,
-                                      child: Container(
-                                        height: 30,
-                                        width: 30,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            shape: BoxShape.circle),
-                                        child: Center(
-                                          child: FloatingActionButton(
-                                              onPressed: () {
-
-                                                DatabaseHelper helper = DatabaseHelper.instance;
-                                                helper.delete(savedOpArt[index]['id']);
-                                                savedOpArt.removeAt(index);
-                                                showDelete = false;
-                                                rebuildMain.value++;
-                                              },
-                                              backgroundColor: Colors.white,
-                                              child: Icon(Icons.remove,
-                                                  color: Colors.red)),
-                                        ),
-                                      ))
+                                          right: 0,
+                                          top: 0,
+                                          child: Container(
+                                            height: 30,
+                                            width: 30,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                shape: BoxShape.circle),
+                                            child: Center(
+                                              child: FloatingActionButton(
+                                                  onPressed: () {
+                                                    DatabaseHelper helper =
+                                                        DatabaseHelper.instance;
+                                                    helper.delete(
+                                                        savedOpArt[index]
+                                                            ['id']);
+                                                    savedOpArt.removeAt(index);
+                                                    showDelete = false;
+                                                    rebuildMain.value++;
+                                                  },
+                                                  backgroundColor: Colors.white,
+                                                  child: Icon(Icons.delete,
+                                                      color: Colors.grey)),
+                                            ),
+                                          ))
                                       : Container(),
                                 ],
                               ),
