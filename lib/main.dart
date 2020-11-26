@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     DatabaseHelper helper = DatabaseHelper.instance;
-    //helper.deleteDB();
+  // helper.deleteDB();
     helper.getUserDb();
     super.initState();
   }
@@ -136,12 +136,17 @@ class _MyHomePageState extends State<MyHomePage> {
             child: ValueListenableBuilder<int>(
                 valueListenable: rebuildMain,
                 builder: (context, value, child) {
+
+
                   return Container(
                     height: 100,
                     child: ListView.builder(
                         itemCount: savedOpArt.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
+                          if(savedOpArt.length==0){
+                            return Text('view your saved images here');
+                          }
                           return Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 0.0),
@@ -182,6 +187,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                         child: Center(
                                           child: FloatingActionButton(
                                               onPressed: () {
+
+                                                DatabaseHelper helper = DatabaseHelper.instance;
+                                                helper.delete(savedOpArt[index]['id']);
                                                 savedOpArt.removeAt(index);
                                                 showDelete = false;
                                                 rebuildMain.value++;

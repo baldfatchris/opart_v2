@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'database_helper.dart';
 import 'main.dart';
 import 'model_opart.dart';
 import 'opart_page.dart';
@@ -92,6 +93,8 @@ class _MyGalleryState extends State<MyGallery> {
                                             child: Center(
                                               child: FloatingActionButton(
                                                   onPressed: () {
+                                                    DatabaseHelper helper = DatabaseHelper.instance;
+                                                    helper.delete(savedOpArt[index]['id']);
                                                     savedOpArt.removeAt(index);
                                                     showDelete = false;
                                                     rebuildGallery.value++;

@@ -60,7 +60,6 @@ class DatabaseHelper {
     return id;
   }
 
-  saveCurrentOpArt(OpArt opArt) {}
   Future<List<Map<String, dynamic>>> getData() async {
     Database db = await database;
     List<Map> maps = await db.query(
@@ -73,16 +72,18 @@ class DatabaseHelper {
     return null;
   }
 
-  delete(int i) async {
-    Database db = await database;
-    List<Map> maps = await db.query(
-      'opart',
-    );
+  Future<void> delete(int id) async {
+    // Get a reference to the database.
+    final db = await database;
 
-    if (maps.length > 0) {
-      return await db.rawDelete('DELETE FROM opart WHERE id = ?', [i]);
-    }
-    return maps;
+    // Remove the Dog from the Database.
+    await db.delete(
+      'opart',
+      // Use a `where` clause to delete a specific dog.
+      where: "id = ?",
+      // Pass the Dog's id as a whereArg to prevent SQL injection.
+      whereArgs: [id],
+    );
   }
 
   getUserDb() async {
@@ -90,8 +91,9 @@ class DatabaseHelper {
       if (map != null) {
         for (int i = 0; i < map.length; i++) {
           Map<String, dynamic> _data = jsonDecode(map[i]['data']);
-
+          print(_data);
           Map<String, dynamic> fixedData = Map();
+          fixedData.addAll({'id': map[i]['id']});
 
           for (int j = 0; j < _data.length; j++) {
             _data.forEach((key, value) {
@@ -109,12 +111,12 @@ class DatabaseHelper {
 
                 List<Color> colorList = List();
                 for (int j = 0; j < stringList.length; j++) {
-
-                  String valueString = stringList[j].split('(0x')[1].split(')')[0];
-                    int intValue = int.parse(valueString, radix: 16);
-                    colorList.add(Color(intValue));
+                  String valueString =
+                      stringList[j].split('(0x')[1].split(')')[0];
+                  int intValue = int.parse(valueString, radix: 16);
+                  colorList.add(Color(intValue));
                 }
-                 fixedData.addAll({'colors': colorList});
+                fixedData.addAll({'colors': colorList});
               } else if (value.toString().contains('Color(')) {
                 String valueString = value.split('(0x')[1].split(')')[0];
                 int intValue = int.parse(valueString, radix: 16);

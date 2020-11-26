@@ -398,7 +398,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                           child: (Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                Text('Saved to My Gallery',
+                                                Text('Saved to My \nGallery',textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                         fontSize: 18,
                                                         fontWeight:

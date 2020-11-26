@@ -223,10 +223,16 @@ class OpArt {
           });
 
           DatabaseHelper helper = DatabaseHelper.instance;
-          helper.insert(sqlMap);
-          savedOpArt.add(map);
+        helper.insert(sqlMap).then((id){
+          print(id);
+            map.addAll({'id': id});
+            savedOpArt.add(map);
+            rebuildMain.value++;
+          });
+
+
         }));
-    rebuildMain.value++;
+
   }
 
   void saveToCache() {
