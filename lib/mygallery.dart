@@ -23,7 +23,7 @@ class _MyGalleryState extends State<MyGallery> {
     return ValueListenableBuilder<int>(
         valueListenable: rebuildGallery,
         builder: (context, value, child) {
-          return Scaffold(backgroundColor: Colors.black,
+          return Scaffold(backgroundColor: Colors.white,
               appBar: AppBar(
                 title: Text('My Gallery',
                     style: TextStyle(
@@ -74,12 +74,17 @@ class _MyGalleryState extends State<MyGallery> {
                               },
                               child: Stack(
                                 children: [
-                                  Container(color: Colors.white,
+                                  Container(color: Colors.black,
                                     child: Padding(
                                       padding: const EdgeInsets.all(20.0),
-                                      child: Image.memory(
-                                       base64Decode( savedOpArt[index]['image']),
-                                        fit: BoxFit.fitWidth,
+                                      child: Container(color: Colors.white,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Image.memory(
+                                           base64Decode( savedOpArt[index]['image']),
+                                            fit: BoxFit.fitWidth,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
