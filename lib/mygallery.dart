@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -6,6 +8,8 @@ import 'model_opart.dart';
 import 'opart_page.dart';
 
 class MyGallery extends StatefulWidget {
+  int currentImage;
+  MyGallery(this.currentImage);
   @override
   _MyGalleryState createState() => _MyGalleryState();
 }
@@ -48,7 +52,7 @@ class _MyGalleryState extends State<MyGallery> {
                                   (MediaQuery.of(context).size.height - 60) *
                                       0.9,
                               enlargeCenterPage: true,
-                          initialPage: savedOpArt.length-1),
+                          initialPage: widget.currentImage-1),
                           itemCount: savedOpArt.length,
                           itemBuilder: (BuildContext context, int index) {
                             return GestureDetector(
@@ -70,8 +74,8 @@ class _MyGalleryState extends State<MyGallery> {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Image.file(
-                                      savedOpArt[index]['image'],
+                                    child: Image.memory(
+                                     base64Decode( savedOpArt[index]['image']),
                                       fit: BoxFit.fitWidth,
                                     ),
                                   ),

@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:opart_v2/model_opart.dart';
 import 'package:opart_v2/opart_page.dart';
-
+import 'dart:io';
 import 'main.dart';
 
 class DatabaseHelper {
@@ -54,11 +54,13 @@ class DatabaseHelper {
 
   // Database helper methods:
   Future<int> insert(Map<String, dynamic> data) async {
+    String jsonMap = jsonEncode(data);
     Database db = await database;
-    int id = await db.insert('data', data);
+    int id = await db.insert('opart', {'data': jsonMap});
     return id;
   }
 
+  saveCurrentOpArt(OpArt opArt) {}
   Future<List<Map<String, dynamic>>> getData() async {
     Database db = await database;
     List<Map> maps = await db.query(
@@ -85,11 +87,49 @@ class DatabaseHelper {
 
   getUserDb() async {
     await getData().then((map) {
-      if(map != null){
-      for (int i = 0; i < map.length; i++) {
-        Map<String, dynamic> _data = jsonDecode(map[i]['data']);
-        savedOpArt.add(_data);
-      }}
+      if (map != null) {
+        for (int i = 0; i < map.length; i++) {
+          Map<String, dynamic> _data = jsonDecode(map[i]['data']);
+
+          Map<String, dynamic> fixedData = Map();
+
+          for (int j = 0; j < _data.length; j++) {
+            _data.forEach((key, value) {
+              if (key == 'type') {
+                fixedData.addAll({
+                  'type': OpArtType.values
+                      .firstWhere((e) => e.toString() == _data['type']),
+                });
+              } else if (key == 'colors') {
+                value.toString().replaceAll('[', '');
+
+                value.toString().replaceAll(']', '');
+
+                List<String> stringList = value.split(',');
+
+                List<Color> colorList = List();
+                for (int j = 0; j < stringList.length; j++) {
+
+                  String valueString = stringList[j].split('(0x')[1].split(')')[0];
+                    int intValue = int.parse(valueString, radix: 16);
+                    colorList.add(Color(intValue));
+                }
+                 fixedData.addAll({'colors': colorList});
+              } else if (value.toString().contains('Color(')) {
+                String valueString = value.split('(0x')[1].split(')')[0];
+                int intValue = int.parse(valueString, radix: 16);
+                Color otherColor = new Color(intValue);
+                fixedData.addAll({key: otherColor});
+              } else {
+                fixedData.addAll({key: value});
+              }
+            });
+          }
+
+          savedOpArt.add(fixedData);
+        }
+        rebuildMain.value++;
+      }
     });
   }
 

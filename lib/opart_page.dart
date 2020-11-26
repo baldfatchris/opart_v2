@@ -42,11 +42,13 @@ class _OpArtPageState extends State<OpArtPage> {
     opArt = OpArt(opArtType: widget.opArtType);
     if (widget.opArtSettings != null) {
       seed = widget.opArtSettings['seed'];
+
       for (int i = 0; i < opArt.attributes.length; i++) {
         opArt.attributes[i].value =
             widget.opArtSettings[opArt.attributes[i].label];
       }
       opArt.palette.paletteName = widget.opArtSettings['paletteName'];
+
       opArt.palette.colorList = widget.opArtSettings['colors'];
       rebuildCanvas.value++;
     }
@@ -84,16 +86,16 @@ class _OpArtPageState extends State<OpArtPage> {
         });
         Package p0001;
         // find the product
-     //   print(offerings.current.availablePackages);
-       if(offerings!=null) {
+        //   print(offerings.current.availablePackages);
+        if (offerings != null) {
           p0001 = offerings.current.availablePackages
-             .firstWhere((element) => element.product.identifier == "p0001");
-         if (p0001 != null) {
-           highDefDownloadAvailable = true;
-           highDefPrice = p0001.product.priceString;
-           print('highDefPrice: $highDefPrice');
-         }
-       }
+              .firstWhere((element) => element.product.identifier == "p0001");
+          if (p0001 != null) {
+            highDefDownloadAvailable = true;
+            highDefPrice = p0001.product.priceString;
+            print('highDefPrice: $highDefPrice');
+          }
+        }
         return showDialog<void>(
           context: context,
           barrierDismissible: true, // user must tap button!
@@ -117,7 +119,6 @@ class _OpArtPageState extends State<OpArtPage> {
                               ),
                             ),
                             SizedBox(height: 18),
-
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -141,8 +142,9 @@ class _OpArtPageState extends State<OpArtPage> {
                                       imageFile = null;
                                       screenshotController
                                           .capture(
-                                          delay: Duration(milliseconds: 100),
-                                          pixelRatio: 2)
+                                              delay:
+                                                  Duration(milliseconds: 100),
+                                              pixelRatio: 2)
                                           .then((File image) async {
                                         print(image);
                                         setState(() {
@@ -152,17 +154,21 @@ class _OpArtPageState extends State<OpArtPage> {
                                             Share.shareFiles(
                                               [imageFile.path],
                                               subject:
-                                              'Created using OpArt Lab - download the free app now!',
+                                                  'Created using OpArt Lab - download the free app now!',
                                               text:
-                                              'Created using OpArt Lab - check it out at opartlab.com',
+                                                  'Created using OpArt Lab - check it out at opartlab.com',
                                             );
                                           } else {
                                             Share.shareFiles(
                                               [imageFile.path],
-                                              sharePositionOrigin: Rect.fromLTWH(
-                                                  0, 0, size.width, size.height / 2),
+                                              sharePositionOrigin:
+                                                  Rect.fromLTWH(
+                                                      0,
+                                                      0,
+                                                      size.width,
+                                                      size.height / 2),
                                               subject:
-                                              'Using Chris\'s fabulous OpArt App',
+                                                  'Using Chris\'s fabulous OpArt App',
                                             );
                                           }
                                         });
@@ -213,8 +219,9 @@ class _OpArtPageState extends State<OpArtPage> {
                                             imageFile = null;
                                             screenshotController
                                                 .capture(
-                                                delay: Duration(milliseconds: 100),
-                                                pixelRatio: 4)
+                                                    delay: Duration(
+                                                        milliseconds: 100),
+                                                    pixelRatio: 4)
                                                 .then((File image) async {
                                               print(image);
                                               setState(() {
@@ -224,17 +231,21 @@ class _OpArtPageState extends State<OpArtPage> {
                                                   Share.shareFiles(
                                                     [imageFile.path],
                                                     subject:
-                                                    'Created using OpArt Lab - download the free app now!',
+                                                        'Created using OpArt Lab - download the free app now!',
                                                     text:
-                                                    'Created using OpArt Lab - check it out at opartlab.com',
+                                                        'Created using OpArt Lab - check it out at opartlab.com',
                                                   );
                                                 } else {
                                                   Share.shareFiles(
                                                     [imageFile.path],
-                                                    sharePositionOrigin: Rect.fromLTWH(
-                                                        0, 0, size.width, size.height / 2),
+                                                    sharePositionOrigin:
+                                                        Rect.fromLTWH(
+                                                            0,
+                                                            0,
+                                                            size.width,
+                                                            size.height / 2),
                                                     subject:
-                                                    'Using Chris\'s fabulous OpArt App',
+                                                        'Using Chris\'s fabulous OpArt App',
                                                   );
                                                 }
                                               });
@@ -243,7 +254,8 @@ class _OpArtPageState extends State<OpArtPage> {
                                         });
                                       } on PlatformException catch (e) {
                                         var errorCode =
-                                            PurchasesErrorHelper.getErrorCode(e);
+                                            PurchasesErrorHelper.getErrorCode(
+                                                e);
                                         if (errorCode !=
                                             PurchasesErrorCode
                                                 .purchaseCancelledError) {
@@ -251,8 +263,12 @@ class _OpArtPageState extends State<OpArtPage> {
                                         }
                                       }
                                     },
-                                    child: Text(highDefPrice!=null?highDefPrice:'doh!'),
-                                    backgroundColor: highDefPrice!=null? Colors.blue: Colors.grey,
+                                    child: Text(highDefPrice != null
+                                        ? highDefPrice
+                                        : 'doh!'),
+                                    backgroundColor: highDefPrice != null
+                                        ? Colors.blue
+                                        : Colors.grey,
                                   ),
                                 )
                               ],
@@ -282,7 +298,6 @@ class _OpArtPageState extends State<OpArtPage> {
     }
 
     SystemChrome.setEnabledSystemUIOverlays([]);
-
 
     return ValueListenableBuilder<int>(
         valueListenable: rebuildOpArtPage,
@@ -361,62 +376,70 @@ class _OpArtPageState extends State<OpArtPage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => MyHomePage()));
-
                       },
                     ),
                     actions: [
                       IconButton(
                           icon: Icon(Icons.save, color: Colors.black),
-                          onPressed: ()  {
+                          onPressed: () {
                             opArt.saveToLocalDB();
                             showDialog<void>(
                                 context: context,
                                 barrierDismissible:
-                                true, // user must tap button!
+                                    true, // user must tap button!
                                 builder: (BuildContext context) {
                                   return Dialog(
-                                      child: Container(height: 200,
-                                        child: Stack(
-                                          children: [
-                                            Center(
-                                              child: (Column(
-                                                  mainAxisSize:
-                                                  MainAxisSize.min,
-                                                  children: [
-                                                    Text(
-                                                        'Saved to My Gallery', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                                                    SizedBox(height: 12),RaisedButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(
-                                                            context);
-                                                        rebuildMain.value++;
-                                                        showDelete = false;
-                                                        showControls = false;
-                                                        showCustomColorPicker = false;
-                                                        opArt.setDefault();
-                                                        opArt.clearCache();
-                                                        SystemChrome.setEnabledSystemUIOverlays(
-                                                            SystemUiOverlay.values);
-                                                        Navigator.pop(context);
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder: (context) =>
-                                                                    MyGallery()));
+                                      child: Container(
 
-                                                      },
-                                                      child: Text(
-                                                          'View My Gallery'),
-                                                    )
-                                                  ])),
-                                            ),
-                                            Align(
-                                                alignment: Alignment.topRight,
-                                                child: Material(
-                                                    child: CloseButton()))
-                                          ],
+                                    height: 150,
+                                    child: Stack(
+                                      children: [
+                                        Center(
+                                          child: (Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text('Saved to My Gallery',
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                SizedBox(height: 12),
+                                                RaisedButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                    rebuildMain.value++;
+                                                    showDelete = false;
+                                                    showControls = false;
+                                                    showCustomColorPicker =
+                                                        false;
+                                                    opArt.setDefault();
+                                                    opArt.clearCache();
+                                                    SystemChrome
+                                                        .setEnabledSystemUIOverlays(
+                                                            SystemUiOverlay
+                                                                .values);
+                                                    Navigator.pop(context);
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                MyGallery(savedOpArt.length-1)));
+                                                  },
+                                                  child:
+                                                      Text('View My Gallery'),
+                                                )
+                                              ])),
                                         ),
-                                      ));
+                                        Align(
+                                            alignment: Alignment.topRight,
+                                            child:
+                                                Material(child: Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: CloseButton(),
+                                                )))
+                                      ],
+                                    ),
+                                  ));
                                 });
                           }),
                       IconButton(

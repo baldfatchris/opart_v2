@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:opart_v2/loading.dart';
+import 'database_helper.dart';
 import 'opart_page.dart';
 import 'model_opart.dart';
 import 'mygallery.dart';
@@ -20,9 +22,7 @@ int seed = DateTime.now().millisecond;
 
 Offerings offerings;
 
-void main()  async{
-  // InAppPurchaseConnection.enablePendingPurchases();
-
+void main() async {
   runApp(MaterialApp(
     theme: ThemeData(primaryColor: Colors.cyan),
     initialRoute: '/',
@@ -33,7 +33,14 @@ void main()  async{
   ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -45,6 +52,14 @@ class MyApp extends StatelessWidget {
       ),
       home: MyHomePage(title: 'Op Art Studio'),
     );
+  }
+
+  @override
+  void initState() {
+    DatabaseHelper helper = DatabaseHelper.instance;
+    //helper.deleteDB();
+    helper.getUserDb();
+    super.initState();
   }
 }
 
@@ -105,8 +120,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MyGallery()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MyGallery(savedOpArt.length - 1)));
             },
             child: Text('My Gallery',
                 style: TextStyle(
@@ -114,41 +131,74 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontWeight: FontWeight.bold,
                     fontSize: 20)),
           ),
-          GestureDetector( onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => MyGallery()));
-          },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: ValueListenableBuilder<int>(
-                  valueListenable: rebuildMain,
-                  builder: (context, value, child) {
-                    return Container(
-                      height: 100,
-                      child: ListView.builder(
-                          itemCount: savedOpArt.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 0.0),
-                              child: GestureDetector(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: ValueListenableBuilder<int>(
+                valueListenable: rebuildMain,
+                builder: (context, value, child) {
+                  return Container(
+                    height: 100,
+                    child: ListView.builder(
+                        itemCount: savedOpArt.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 0.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            MyGallery(index + 1)));
+                              },
+                              onLongPress: () {
+                                showDelete = true;
+                                rebuildMain.value++;
+                              },
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
                                       width: 70,
                                       height: 100,
-                                      child: Image.file(
-                                        savedOpArt[index]['image'],
+                                      child: Image.memory(
+                                        base64Decode(savedOpArt[index]['image']),
                                         fit: BoxFit.fitWidth,
-                                      )),
-                                ),
+                                      ),
+                                    ),
+                                  ),showDelete
+                                      ? Positioned(
+                                      right: 0,
+                                      top: 0,
+                                      child: Container(
+                                        height: 30,
+                                        width: 30,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.circle),
+                                        child: Center(
+                                          child: FloatingActionButton(
+                                              onPressed: () {
+                                                savedOpArt.removeAt(index);
+                                                showDelete = false;
+                                                rebuildMain.value++;
+                                              },
+                                              backgroundColor: Colors.white,
+                                              child: Icon(Icons.remove,
+                                                  color: Colors.red)),
+                                        ),
+                                      ))
+                                      : Container(),
+                                ],
                               ),
-                            );
-                          }),
-                    );
-                  }),
-            ),
+                            ),
+                          );
+                        }),
+                  );
+                }),
           ),
         ],
       ),
@@ -157,13 +207,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
+    // InAppPurchaseConnection.enablePendingPurchases();
+
     opArtTypes = [
       OpArtTypes(
           'Spirals', OpArtType.Fibonacci, 'lib/assets/fibonacci_400.png'),
       OpArtTypes('Trees', OpArtType.Tree, 'lib/assets/tree_400.png'),
       OpArtTypes('Waves', OpArtType.Wave, 'lib/assets/wave_400.png'),
-
-      // OpArtTypes('Eyes', OpArtType.Eye, 'lib/assets/tree_400.png'),
       OpArtTypes('Diagonal', OpArtType.Diagonal, 'lib/assets/diagonal_500.png'),
       OpArtTypes('Hexagons', OpArtType.Hexagons, 'lib/assets/hexagons_500.png'),
       OpArtTypes('Maze', OpArtType.Maze, 'lib/assets/maze_500.png'),
@@ -189,29 +239,29 @@ class _MyHomePageState extends State<MyHomePage> {
     PurchaserInfo purchaserInfo;
     try {
       purchaserInfo = await Purchases.getPurchaserInfo();
-      print(purchaserInfo.toString());
+      //  print(purchaserInfo.toString());
       if (purchaserInfo.entitlements.all['all_features'] != null) {
         proVersion = purchaserInfo.entitlements.all['all_features'].isActive;
       } else {
         proVersion = false;
       }
     } on PlatformException catch (e) {
-      print(e);
+//      print(e);
     }
 
-    print('#### is user pro? ${proVersion}');
+//    print('#### is user pro? ${proVersion}');
 
     try {
       offerings = await Purchases.getOfferings();
       if (offerings.current != null &&
           offerings.current.availablePackages.isNotEmpty) {
-        print(offerings.current.availablePackages.length);
-        print('offerings');
+        // print(offerings.current.availablePackages.length);
+        // print('offerings');
         // Display packages for sale
       }
     } on PlatformException catch (e) {
-      print('offerings errors');
-      print(e);
+      // print('offerings errors');
+      // print(e);
       // optional error handling
     }
   }

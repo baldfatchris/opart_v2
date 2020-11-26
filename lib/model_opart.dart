@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'dart:io';
 import 'dart:math';
+import 'database_helper.dart';
 import 'main.dart';
 import 'opart/opart_diagonal.dart';
 import 'opart/opart_eye.dart';
@@ -21,6 +22,8 @@ import 'model_settings.dart';
 
 import 'package:screenshot/screenshot.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'dart:convert';
 
 List<Map<String, dynamic>> savedOpArt = List();
 ScreenshotController screenshotController = ScreenshotController();
@@ -34,11 +37,23 @@ final rebuildColorPicker = new ValueNotifier(0);
 final rebuildCircularProgressIndicator = ValueNotifier(0);
 bool enableButton = true;
 
-
-
 ScrollController scrollController = new ScrollController();
 
-enum OpArtType {Diagonal, Eye, Fibonacci, Hexagons, Maze, Neighbour, Quads, Riley, Shapes, Squares, Tree, Wallpaper, Wave, }
+enum OpArtType {
+  Diagonal,
+  Eye,
+  Fibonacci,
+  Hexagons,
+  Maze,
+  Neighbour,
+  Quads,
+  Riley,
+  Shapes,
+  Squares,
+  Tree,
+  Wallpaper,
+  Wave,
+}
 
 class OpArtTypes {
   String name;
@@ -59,7 +74,6 @@ class OpArt {
   // Initialise
   OpArt({this.opArtType}) {
     switch (opArtType) {
-
       case OpArtType.Diagonal:
         this.attributes = initializeDiagonalAttributes();
         this.palette = OpArtPalette();
@@ -161,62 +175,90 @@ class OpArt {
         this.name = 'Wave';
 
         break;
-
     }
 
     this.setDefault();
-
   }
 
   void saveToLocalDB() {
-     print('saving to localDB');
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => screenshotController
-        .capture(delay: Duration(milliseconds: 100), pixelRatio: 1)
-        .then((File image) async {
-      Map<String, dynamic> map = Map();
-      for (int i = 0; i < attributes.length; i++) {
-        map.addAll({attributes[i].label: attributes[i].value});
-      }
-      map.addAll({
-        'seed':seed,
-        'image': image,
-        'paletteName': palette.paletteName,
-        'colors': palette.colorList,
-        'type': this.opArtType
-      });
-      savedOpArt.add(map);
-    }));
+    print('saving to localDB');
+    WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
+            .capture(delay: Duration(milliseconds: 100), pixelRatio: 1)
+            .then((File image) async {
+      List<int> imageBytes = image.readAsBytesSync();
+      String base64Image = base64Encode(imageBytes);
+          Map<String, dynamic> map = Map();
+          for (int i = 0; i < attributes.length; i++) {
+            map.addAll({attributes[i].label: attributes[i].value});
+          }
+          map.addAll({
+            'seed': seed,
+            'colors': palette.colorList,
+            'image': base64Image,
+            'paletteName': palette.paletteName,
+
+            'type': this.opArtType
+          });
+
+          Map<String, dynamic> sqlMap = Map();
+
+
+
+          for (int i = 0; i < attributes.length; i++) {
+
+
+            if (attributes[i].settingType == SettingType.color) {
+              sqlMap.addAll(
+                  {attributes[i].label: attributes[i].value.toString()});
+            } else {
+              sqlMap.addAll({attributes[i].label: attributes[i].value});
+            }
+          }
+          sqlMap.addAll({
+            'seed': seed,
+            'colors': palette.colorList.toString(),
+            'image': base64Image,
+            'paletteName': palette.paletteName,
+            'type': this.opArtType.toString(),
+          });
+
+          DatabaseHelper helper = DatabaseHelper.instance;
+          helper.insert(sqlMap);
+          savedOpArt.add(map);
+        }));
     rebuildMain.value++;
   }
+
   void saveToCache() {
-    // print('saving to cache');
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => screenshotController
-        .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
-        .then((File image) async {
-      Map<String, dynamic> map = Map();
-      for (int i = 0; i < attributes.length; i++) {
-        map.addAll({attributes[i].label: attributes[i].value});
-      }
-      map.addAll({
-        'seed':seed,
-        'image': image,
-        'paletteName': palette.paletteName,
-        'colors': palette.colorList
-      });
 
-      this.cache.add(map);
-      rebuildCache.value++;
-     if(scrollController.hasClients) {scrollController.animateTo(scrollController.position.maxScrollExtent,
-          duration: Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);}
-      enableButton = true;
-     rebuildCircularProgressIndicator.value = 2*rebuildCircularProgressIndicator.value + 1;
-     rebuildCanvas.value++;
-    }));
+    WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
+            .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
+            .then((File image) async {
+          Map<String, dynamic> map = Map();
+          for (int i = 0; i < attributes.length; i++) {
+            map.addAll({attributes[i].label: attributes[i].value});
+          }
+          map.addAll({
+            'seed': seed,
+            'image': image,
+            'paletteName': palette.paletteName,
+            'colors': palette.colorList
+          });
+
+          this.cache.add(map);
+          rebuildCache.value++;
+          if (scrollController.hasClients) {
+            scrollController.animateTo(
+                scrollController.position.maxScrollExtent,
+                duration: Duration(milliseconds: 300),
+                curve: Curves.fastOutSlowIn);
+          }
+          enableButton = true;
+          rebuildCircularProgressIndicator.value =
+              2 * rebuildCircularProgressIndicator.value + 1;
+          rebuildCanvas.value++;
+        }));
   }
-
-
 
   void revertToCache(int index) {
     seed = this.cache[index]['seed'];
@@ -238,7 +280,6 @@ class OpArt {
 
   void paint(Canvas canvas, Size size, int seed, double animationVariable) {
     switch (opArtType) {
-
       case OpArtType.Diagonal:
         paintDiagonal(canvas, size, seed, animationVariable, this);
         break;
@@ -286,54 +327,54 @@ class OpArt {
     seed = DateTime.now().millisecond;
     Random rnd = Random(seed);
 
-    // print('Randomizing Settings');
+
     for (int i = 0; i < attributes.length; i++) {
       if (attributes[i].settingCategory == SettingCategory.tool) {
         attributes[i].randomize(rnd);
-        // print('${attributes[i].name}: ${attributes[i].value}');
+
       }
     }
-
-
   }
 
-
   // select a palette from the list
-  void selectPalette(String paletteName){
-
-    List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == paletteName);
+  void selectPalette(String paletteName) {
+    List newPalette =
+        defaultPalettes.firstWhere((palette) => palette[0] == paletteName);
     palette.colorList = [];
     for (int z = 0; z < newPalette[3].length; z++) {
       palette.colorList.add(Color(int.parse(newPalette[3][z])));
     }
-    attributes.firstWhere((element) => element.name == 'numberOfColors').value = newPalette[1].toInt();
-    attributes.firstWhere((element) => element.name == 'backgroundColor').value =  Color(int.parse(newPalette[2]));
-
+    attributes.firstWhere((element) => element.name == 'numberOfColors').value =
+        newPalette[1].toInt();
+    attributes
+        .firstWhere((element) => element.name == 'backgroundColor')
+        .value = Color(int.parse(newPalette[2]));
   }
 
   // randomise the palette
   void randomizePalette() {
-
     seed = DateTime.now().millisecond;
     Random rnd = Random(seed);
 
-    // print('Randomizing Palette');
+
     for (int i = 0; i < attributes.length; i++) {
       if (attributes[i].settingCategory == SettingCategory.palette) {
         attributes[i].randomize(rnd);
-        // print('${attributes[i].name}: ${attributes[i].value}');
+
       }
     }
 
     palette.randomize(
       attributes.firstWhere((element) => element.name == 'paletteType').value,
-      attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt(),
+      attributes
+          .firstWhere((element) => element.name == 'numberOfColors')
+          .value
+          .toInt(),
     );
 
-    attributes.firstWhere((element) => element.name == 'paletteList').value = 'Default';
-
+    attributes.firstWhere((element) => element.name == 'paletteList').value =
+        'Default';
   }
-
 
   // reset to defaults
   void setDefault() {
@@ -341,10 +382,14 @@ class OpArt {
       attributes[i].setDefault();
     }
 
-    List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == "Default");
-    attributes.firstWhere((element) => element.name == 'numberOfColors').value = newPalette[1].toInt();
+    List newPalette =
+        defaultPalettes.firstWhere((palette) => palette[0] == "Default");
+    attributes.firstWhere((element) => element.name == 'numberOfColors').value =
+        newPalette[1].toInt();
 
-    attributes.firstWhere((element) => element.name == 'backgroundColor').value = Color(int.parse(newPalette[2]));
+    attributes
+        .firstWhere((element) => element.name == 'backgroundColor')
+        .value = Color(int.parse(newPalette[2]));
     palette.colorList = [];
     for (int z = 0; z < newPalette[3].length; z++) {
       palette.colorList.add(Color(int.parse(newPalette[3][z])));
