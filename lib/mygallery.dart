@@ -24,12 +24,12 @@ class _MyGalleryState extends State<MyGallery> {
         valueListenable: rebuildGallery,
         builder: (context, value, child) {
           return Scaffold(backgroundColor: Colors.white,
-              appBar: AppBar(
+              appBar: AppBar(centerTitle: true,
                 title: Text('My Gallery',
                     style: TextStyle(
                         fontFamily: 'Righteous',
                         fontWeight: FontWeight.bold,
-                        fontSize: 20)),
+                        fontSize: 24, color: Colors.black)),
                 leading: IconButton(
                     icon: Icon(
                       Icons.home,
