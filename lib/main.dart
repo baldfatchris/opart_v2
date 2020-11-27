@@ -108,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: MediaQuery.of(context).orientation ==
                             Orientation.portrait
-                        ? MediaQuery.of(context).size.width > 400
+                        ? MediaQuery.of(context).size.width > 350
                             ? 4
                             : 3
                         : MediaQuery.of(context).size.width > 800
