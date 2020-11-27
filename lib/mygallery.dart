@@ -170,7 +170,8 @@ class _MyGalleryState extends State<MyGallery> {
                                       ),
                                       ButtonBar(
                                         children: [
-                                          RaisedButton(child: Text('Buy now')),
+                                          RaisedButton(child: Text(
+                                              'Buy now')),
                                         ],
                                       )
                                     ],

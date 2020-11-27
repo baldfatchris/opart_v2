@@ -161,15 +161,16 @@ class _MyHomePageState extends State<MyHomePage> {
             child: ValueListenableBuilder<int>(
                 valueListenable: rebuildMain,
                 builder: (context, value, child) {
+                  if (savedOpArt.length == 0) {
+                    return Text('Curate your own gallery of stunning OpArt here.');
+                  }
                   return Container(
                     height: 100,
                     child: ListView.builder(
                         itemCount: savedOpArt.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          if (savedOpArt.length == 0) {
-                            return Text('view your saved images here');
-                          }
+
                           return Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 0.0),
