@@ -13,7 +13,7 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 80.0, bottom: 70, right: 60),
+      padding: const EdgeInsets.only(left: 80.0, bottom: 70, right: 10),
       child: Container(
           decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.8),
