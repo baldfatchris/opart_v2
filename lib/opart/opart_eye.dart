@@ -287,7 +287,7 @@ SettingsModel trunkFillColor = SettingsModel(settingType: SettingType.color,
     name: 'trunkFillColor',
     label: "Trunk Color",
     tooltip: "The fill colour of the trunk",
-    defaultValue: Colors.grey,
+    defaultValue: Colors.black87,
     icon: Icon(Icons.settings_overscan),
     settingCategory: SettingCategory.palette,
     proFeature: false,
@@ -422,17 +422,17 @@ void paintEye(Canvas canvas, Size size, int seed, double animationVariable, OpAr
 
 
   int numberOfTrees=20;
-  double irisRadius = 20;
 
-  canvas.drawCircle(Offset(size.width, size.height), irisRadius,       Paint()
+  canvas.drawCircle(Offset(size.width/2, size.height/2), baseHeight.value,
+      Paint()
     ..style = PaintingStyle.fill
     ..color = trunkFillColor.value.withOpacity(opacity.value));
-print('irisRadius: $irisRadius');
+
 
   for (int t = 0; t<numberOfTrees; t++){
     double treeAngle = 2 * pi * t / numberOfTrees;
-    List treeBaseA = [ size.width/2 + irisRadius * cos(treeAngle), size.height/2 - irisRadius * sin(treeAngle)];
-    List treeBaseB = [ size.width/2 + irisRadius * cos(treeAngle), size.height/2 - irisRadius * sin(treeAngle)];
+    List treeBaseA = [ size.width/2 + baseHeight.value * cos(treeAngle + trunkWidth.value*pi/numberOfTrees), size.height/2 - baseHeight.value * sin(treeAngle + trunkWidth.value*pi/numberOfTrees)];
+    List treeBaseB = [ size.width/2 + baseHeight.value * cos(treeAngle - trunkWidth.value*pi/numberOfTrees), size.height/2 - baseHeight.value * sin(treeAngle - trunkWidth.value*pi/numberOfTrees)];
 
     drawSegment(
       canvas,
@@ -583,47 +583,47 @@ drawSegment(
     drawTheTrunk(canvas, rnd, borderX, borderY, rootB, P2, P3, rootA,
         bulbousness, trunkFillColor, opacity, trunkStrokeWidth, trunkOutlineColor);
 
-    // // Draw the leaves
-    // if (currentDepth > leavesAfter) {
-    //   drawTheLeaf(
-    //     canvas,
-    //     rnd,
-    //     borderX,
-    //     borderY,
-    //     P2,
-    //     lineWidth,
-    //     direction - leafAngle,
-    //     leafRadius,
-    //     leafShape,
-    //     ratio,
-    //     randomLeafLength,
-    //     leafSquareness,
-    //     leafAsymmetry,
-    //     animationVariable,
-    //     opacity,
-    //     numberOfColors,
-    //     palette,
-    //   );
-    //   drawTheLeaf(
-    //     canvas,
-    //     rnd,
-    //     borderX,
-    //     borderY,
-    //     P3,
-    //     lineWidth,
-    //     direction + leafAngle,
-    //     leafRadius,
-    //     leafShape,
-    //     ratio,
-    //     randomLeafLength,
-    //     leafSquareness,
-    //     leafAsymmetry,
-    //     animationVariable,
-    //     opacity,
-    //     numberOfColors,
-    //     palette,
-    //   );
-    // }
+    // Draw the leaves
+    if (currentDepth > leavesAfter) {
+      drawTheLeaf(
+        canvas,
+        rnd,
+        borderX,
+        borderY,
+        P2,
+        lineWidth,
+        direction - leafAngle,
+        leafRadius,
+        leafShape,
+        ratio,
+        randomLeafLength,
+        leafSquareness,
+        leafAsymmetry,
+        animationVariable,
+        opacity,
+        numberOfColors,
+        palette,
+      );
+      drawTheLeaf(
+        canvas,
+        rnd,
+        borderX,
+        borderY,
+        P3,
+        lineWidth,
+        direction + leafAngle,
+        leafRadius,
+        leafShape,
+        ratio,
+        randomLeafLength,
+        leafSquareness,
+        leafAsymmetry,
+        animationVariable,
+        opacity,
+        numberOfColors,
+        palette,
+      );
+    }
 
     // next
     if (currentDepth < maxDepth) {
