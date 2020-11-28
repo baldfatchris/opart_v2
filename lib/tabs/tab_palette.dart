@@ -13,7 +13,13 @@ List<Widget> listViewWidgets = List();
   List<Widget> additionalColors = [];
   void _additionalColors() {
     for (int i = 0; i < opArt.attributes.length; i++) {
+
       if (opArt.attributes[i].settingType == SettingType.color) {
+
+        if(opArt.attributes[i].name =='lineColor' && opArt.attributes.firstWhere((element) => element.name =='lineWidth').value ==0){
+          print('should leave out');
+        }
+        else{
         listViewWidgets.add(Padding(
           padding: const EdgeInsets.symmetric(vertical: 2.0),
           child: GestureDetector(
@@ -37,7 +43,7 @@ List<Widget> listViewWidgets = List();
           ),
         ));
         lengthOfAdditionalColors++;
-      }
+      }}
     }
   }
 
