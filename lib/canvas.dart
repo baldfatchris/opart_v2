@@ -65,201 +65,132 @@ class _CanvasWidgetState extends State<CanvasWidget>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onScaleStart: (details){
-        dx = details.focalPoint.dx;
-        dy = details.focalPoint.dy;
-
-      },
-      onScaleUpdate: (details){
-
-        print('onScaleUpdate: details.scale: ${details.scale}  offset: ${details.focalPoint.dx- dx} ${details.focalPoint.dy- dy}');
-
-        SettingsModel zoomOpArt = opArt.attributes.firstWhere((element) => element.name=='zoomOpArt');
-        if (zoomOpArt != null){
-          double zoom = zoomOpArt.value * sqrt(details.scale);
-          zoom = (zoom < zoomOpArt.min) ? zoomOpArt.min : zoom;
-          zoom = (zoom > zoomOpArt.max) ? zoomOpArt.max : zoom;
-          zoomOpArt.value = zoom;
-          rebuildCanvas.value++;
-        }
-
-        SettingsModel centerX = opArt.attributes.firstWhere((element) => element.name=='centerX');
-        if (centerX != null){
-          double x = centerX.value + (details.focalPoint.dx - dx)/20;
-          x = (x < centerX.min) ? centerX.min : x;
-          x = (x > centerX.max) ? centerX.max : x;
-          centerX.value = x;
-          rebuildCanvas.value++;
-        }
-
-        SettingsModel centerY = opArt.attributes.firstWhere((element) => element.name=='centerY');
-        if (centerY != null){
-          double y = centerY.value + (details.focalPoint.dy - dy)/20;
-          y = (y < centerY.min) ? centerY.min : y;
-          y = (y > centerY.max) ? centerY.max : y;
-          centerY.value = y;
-          rebuildCanvas.value++;
-        }
-        
-        
-      },
-      onScaleEnd: (details){
-        print('onScaleEnd');
-        rebuildCanvas.value++;
-      },
-
-      onDoubleTap: (){
-        if (!showSettings) {
-          opArt.randomizeSettings();
-          opArt.randomizePalette();
-          opArt.saveToCache();
-          enableButton = false;
-          rebuildCanvas.value++;
-        }
-      },
-      child: Stack(
-        children: [
-          ValueListenableBuilder<int>(
-              valueListenable: rebuildCanvas,
-              builder: (context, value, child) {
-                return Stack(
-                  children: [
-                    Screenshot(
-                      controller: screenshotController,
-                      child: Visibility(
-                        visible: true,
-                        child: LayoutBuilder(
-                          builder: (_, constraints) => Container(
-                            color: Colors.white,
-                            width: constraints.widthConstraints().maxWidth,
-                            height: constraints.heightConstraints().maxHeight,
-                            child: CustomPaint(
-                              painter: OpArtPainter(seed, rnd,
-                                  opArt.animation ? currentAnimation.value : 1),
-                            ),
+    return Stack(
+      children: [
+        ValueListenableBuilder<int>(
+            valueListenable: rebuildCanvas,
+            builder: (context, value, child) {
+              return Stack(
+                children: [
+                  Screenshot(
+                    controller: screenshotController,
+                    child: Visibility(
+                      visible: true,
+                      child: LayoutBuilder(
+                        builder: (_, constraints) => Container(
+                          color: Colors.white,
+                          width: constraints.widthConstraints().maxWidth,
+                          height: constraints.heightConstraints().maxHeight,
+                          child: CustomPaint(
+                            painter: OpArtPainter(seed, rnd,
+                                opArt.animation ? currentAnimation.value : 1),
                           ),
                         ),
                       ),
                     ),
-
-
-                  ],
-                );
-              }),
-          showSettings
-              ? Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      opArt.animation
-                          ? Padding(
-                              padding: const EdgeInsets.only(bottom: 10.0),
-                              child: Container(
-                                height: 50,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      showControls
-                                          ? RotatedBox(
-                                              quarterTurns: 2,
-                                              child: _controlButton(
-                                                Icons.fast_forward,
-                                                () {
-                                                  if (timeDilation < 8) {
-                                                    timeDilation =
-                                                        timeDilation * 2;
-                                                  }
-                                                },
-                                                playing ? true : false,
-                                              ))
-                                          : Container(),
-                                      showControls
-                                          ? RotatedBox(
-                                              quarterTurns: 2,
-                                              child: _controlButton(
-                                                  Icons.play_arrow, () {
-                                                setState(() {
-                                                  animationController.reverse();
-                                                  playing = true;
-                                                  _forward = false;
-                                                });
-                                              }, _forward ? true : false))
-                                          : Container(),
-                                      showControls
-                                          ? _controlButton(Icons.pause, () {
-                                              if (animationController != null) {
-                                                setState(() {
-                                                  animationController.stop();
-                                                  playing = false;
-                                                });
-                                              }
-                                            }, playing ? true : false)
-                                          : Container(),
-                                      showControls
-                                          ? _controlButton(
-                                              Icons.play_arrow,
-                                              () {
-                                                setState(() {
-                                                  animationController.forward();
-                                                  playing = true;
-                                                  _forward = true;
-                                                });
-                                              },
-                                              !_forward || !playing
-                                                  ? true
-                                                  : false,
-                                            )
-                                          : Container(),
-                                      showControls
-                                          ? _controlButton(
+                  ),
+                ],
+              );
+            }),
+        showSettings
+            ? Align(
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    opArt.animation
+                        ? Padding(
+                            padding: const EdgeInsets.only(bottom: 10.0),
+                            child: Container(
+                              height: 50,
+                              child: Padding(
+                                padding: const EdgeInsets.all(0.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    showControls
+                                        ? RotatedBox(
+                                            quarterTurns: 2,
+                                            child: _controlButton(
                                               Icons.fast_forward,
                                               () {
-                                                if (timeDilation > 0.2) {
+                                                if (timeDilation < 8) {
                                                   timeDilation =
-                                                      timeDilation / 2;
+                                                      timeDilation * 2;
                                                 }
                                               },
                                               playing ? true : false,
-                                            )
-                                          : Container(),
-                                      _controlButton(
-                                          showControls
-                                              ? Icons.close
-                                              : MdiIcons.playPause, () {
-                                        setState(() {
-                                          showControls = !showControls;
-                                        });
-                                      }, true),
-                                    ],
-                                  ),
+                                            ))
+                                        : Container(),
+                                    showControls
+                                        ? RotatedBox(
+                                            quarterTurns: 2,
+                                            child: _controlButton(
+                                                Icons.play_arrow, () {
+                                              setState(() {
+                                                animationController.reverse();
+                                                playing = true;
+                                                _forward = false;
+                                              });
+                                            }, _forward ? true : false))
+                                        : Container(),
+                                    showControls
+                                        ? _controlButton(Icons.pause, () {
+                                            if (animationController != null) {
+                                              setState(() {
+                                                animationController.stop();
+                                                playing = false;
+                                              });
+                                            }
+                                          }, playing ? true : false)
+                                        : Container(),
+                                    showControls
+                                        ? _controlButton(
+                                            Icons.play_arrow,
+                                            () {
+                                              setState(() {
+                                                animationController.forward();
+                                                playing = true;
+                                                _forward = true;
+                                              });
+                                            },
+                                            !_forward || !playing
+                                                ? true
+                                                : false,
+                                          )
+                                        : Container(),
+                                    showControls
+                                        ? _controlButton(
+                                            Icons.fast_forward,
+                                            () {
+                                              if (timeDilation > 0.2) {
+                                                timeDilation = timeDilation / 2;
+                                              }
+                                            },
+                                            playing ? true : false,
+                                          )
+                                        : Container(),
+                                    _controlButton(
+                                        showControls
+                                            ? Icons.close
+                                            : MdiIcons.playPause, () {
+                                      setState(() {
+                                        showControls = !showControls;
+                                      });
+                                    }, true),
+                                  ],
                                 ),
                               ),
-                            )
-                          : Container(),
-                      widget._fullScreen ? Container(height: 70) : Container(),
-                    ],
-                  ),
-                )
-              : Container(),
-          // ValueListenableBuilder<int>(
-          //     valueListenable: rebuildCircularProgressIndicator,
-          //     builder: (context, value, child) {
-          //       print(rebuildCircularProgressIndicator.value);
-          //       if (rebuildCircularProgressIndicator.value.isEven) {
-          //         return Center(
-          //             child:
-          //             CircularProgressIndicator(strokeWidth: 8, ));
-          //       } else {
-          //         return Container();
-          //       }
-          //     }),
-        ],
-      ),
+                            ),
+                          )
+                        : Container(),
+                    widget._fullScreen ? Container(height: 70) : Container(),
+                  ],
+                ),
+              )
+            : Container(),
+      ],
     );
   }
 

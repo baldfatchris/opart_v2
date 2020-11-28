@@ -498,6 +498,17 @@ class _OpArtPageState extends State<OpArtPage> {
             body: Stack(
               children: [
                 GestureDetector(
+
+                    onDoubleTap: (){
+                      if (!showSettings) {
+                        opArt.randomizeSettings();
+                        opArt.randomizePalette();
+                        opArt.saveToCache();
+                        enableButton = false;
+                        rebuildCanvas.value++;
+                      }
+                    },
+
                     onTap: () {
                       if(changeSettingsView){
                         changeSettingsView = false;
@@ -526,7 +537,8 @@ class _OpArtPageState extends State<OpArtPage> {
                           child: CanvasWidget(
                         showSettings,
                       )),
-                    )),
+                    )
+                ),
                 Align(
                   alignment: Alignment.topCenter,
                   child: showSettings
