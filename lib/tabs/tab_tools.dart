@@ -149,8 +149,8 @@ Widget ToolBoxTab() {
                                               (currentValue == tools[index].options.length - 1) ? 0 : currentValue + 1
                                           ];
                                           rebuildCanvas.value++;
-                                          ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                          Scaffold.of(context).removeCurrentSnackBar();
+                                          Scaffold.of(context).showSnackBar(
                                               SnackBar(
                                                   backgroundColor: Colors.white.withOpacity(0.8),
                                                 duration: Duration(seconds:2),

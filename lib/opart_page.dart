@@ -220,7 +220,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                                 .capture(
                                                     delay: Duration(
                                                         milliseconds: 100),
-                                                    pixelRatio: 4)
+                                                    pixelRatio: 10)
                                                 .then((File image) async {
                                               print(image);
                                               setState(() {

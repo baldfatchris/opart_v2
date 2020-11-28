@@ -182,7 +182,7 @@ List<SettingsModel> initializeQuadsAttributes() {
     ratio,
     randomiseRatio,
 
-
+    backgroundColor,
     lineColor,
     lineWidth,
     randomColors,

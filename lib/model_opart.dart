@@ -386,10 +386,7 @@ class OpArt {
       attributes[i].setDefault();
     }
 
-    List newPalette =
-        defaultPalettes.firstWhere((palette) => palette[0] == "Default");
-    attributes.firstWhere((element) => element.name == 'numberOfColors').value =
-        newPalette[1].toInt();
+    List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == "Default");
 
     backgroundColor?.value = Color(int.parse(newPalette[2]));
     palette.colorList = [];
