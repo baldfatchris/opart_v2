@@ -55,12 +55,11 @@ class _MyGalleryState extends State<MyGallery> {
                                 builder: (context) => MyHomePage()));
                       }),
                   actions: [
-                    IconButton(
-                        onPressed: () {
-                          setState(() {
-                            carouselView = !carouselView;
-                          });
-                        },
+                    IconButton(onPressed: (){
+                      setState(() {
+                        carouselView = !carouselView;
+                      });
+                    },
                         icon: Icon(carouselView
                             ? Icons.view_comfortable
                             : Icons.view_carousel_rounded,color: Colors.black ))
@@ -207,8 +206,8 @@ class _MyGalleryState extends State<MyGallery> {
                           child: Center(
                             child: CarouselSlider.builder(
                                 options: CarouselOptions(
-                                    height:
-                                        (MediaQuery.of(context).size.height),
+                                    enableInfiniteScroll: false,
+                                    height: (MediaQuery.of(context).size.height),
                                     enlargeCenterPage: true,
                                     initialPage: widget.currentImage - 1),
                                 itemCount: savedOpArt.length,
@@ -233,9 +232,9 @@ class _MyGalleryState extends State<MyGallery> {
                                     child: Stack(
                                       children: [
                                         Container(
-                                          color: Colors.black,
+                                          color: Colors.grey[700],
                                           child: Padding(
-                                            padding: const EdgeInsets.all(20.0),
+                                            padding: const EdgeInsets.all(10.0),
                                             child: Container(
                                               color: Colors.white,
                                               child: Padding(
