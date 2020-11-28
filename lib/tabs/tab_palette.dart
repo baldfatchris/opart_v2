@@ -11,29 +11,33 @@ Widget PaletteTab(context) {
 List<Widget> listViewWidgets = List();
   int lengthOfAdditionalColors = 0;
   List<Widget> additionalColors = [];
-  for (int i = 0; i < opArt.attributes.length; i++) {
-    if (opArt.attributes[i].settingType == SettingType.color) {
-      listViewWidgets.add(Padding(
-        padding: const EdgeInsets.symmetric(vertical: 2.0),
-        child: GestureDetector(
-          onTap: () {
-            currentColor = i + 100;
-            showCustomColorPicker = true;
-            rebuildColorPicker.value++;
-            rebuildOpArtPage.value++;
-          },
-          child: Container(
-            decoration: BoxDecoration(
-                border: Border.all(
-                    width: i == currentColor && showCustomColorPicker ? 2 : 0),
-                color: opArt.attributes[i].value,
-                shape: BoxShape.circle),
-            height: 30,
-            width: 30,
+  void _additionalColors() {
+    for (int i = 0; i < opArt.attributes.length; i++) {
+      if (opArt.attributes[i].settingType == SettingType.color) {
+        listViewWidgets.add(Padding(
+          padding: const EdgeInsets.symmetric(vertical: 2.0),
+          child: GestureDetector(
+            onTap: () {
+              currentColor = i + 100;
+              showCustomColorPicker = true;
+              rebuildColorPicker.value++;
+              rebuildOpArtPage.value++;
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      width: i == currentColor && showCustomColorPicker
+                          ? 2
+                          : 0),
+                  color: opArt.attributes[i].value,
+                  shape: BoxShape.circle),
+              height: 30,
+              width: 30,
+            ),
           ),
-        ),
-      ));
-      lengthOfAdditionalColors++;
+        ));
+        lengthOfAdditionalColors++;
+      }
     }
   }
 
@@ -84,7 +88,7 @@ List<Widget> listViewWidgets = List();
   return ValueListenableBuilder<int>(
       valueListenable: rebuildTab,
       builder: (context, value, child) {
-
+        _additionalColors();
         listViewWidgets.add(Container(
           height: 30,
           child: IconButton(

@@ -234,23 +234,23 @@ SettingsModel randomColors = SettingsModel(
 
 
 
-SettingsModel paletteType = SettingsModel(
-    settingType: SettingType.list,
-    name: 'paletteType',
-    label: "Palette Type",
-    tooltip: "The nature of the palette",
-    defaultValue: "random",
-    icon: Icon(Icons.colorize),
-  options: <String>[
-    'random',
-    'blended random',
-    'linear random',
-    'linear complementary'
-  ],
-    settingCategory: SettingCategory.palette,
-    onChange: (){generatePalette();},
-    proFeature: false,
-  );
+// SettingsModel paletteType = SettingsModel(
+//     settingType: SettingType.list,
+//     name: 'paletteType',
+//     label: "Palette Type",
+//     tooltip: "The nature of the palette",
+//     defaultValue: "random",
+//     icon: Icon(Icons.colorize),
+//   options: <String>[
+//     'random',
+//     'blended random',
+//     'linear random',
+//     'linear complementary'
+//   ],
+//     settingCategory: SettingCategory.palette,
+//     onChange: (){generatePalette();},
+//     proFeature: false,
+//   );
 
 SettingsModel paletteList = SettingsModel(
     settingType: SettingType.list,

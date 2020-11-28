@@ -89,6 +89,7 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
                 opArt.saveToCache();
                 enableButton = false;
                 rebuildCanvas.value++;
+                rebuildTab.value++;
 
               }
             },

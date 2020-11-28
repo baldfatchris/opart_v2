@@ -63,7 +63,7 @@ class _MyGalleryState extends State<MyGallery> {
                         },
                         icon: Icon(carouselView
                             ? Icons.view_comfortable
-                            : Icons.view_carousel_rounded))
+                            : Icons.view_carousel_rounded,color: Colors.black ))
                   ]
                   // actions: [
                   //   IconButton(
