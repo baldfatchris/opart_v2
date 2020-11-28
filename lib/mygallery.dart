@@ -25,6 +25,7 @@ class _MyGalleryState extends State<MyGallery> {
   Color frameColor = Colors.black;
   final rebuildGallery = new ValueNotifier(0);
   final rebuildDialog = new ValueNotifier(0);
+  final _rebuildDelete = new ValueNotifier(0);
   bool showDelete = false;
   @override
   Widget build(BuildContext context) {
@@ -215,7 +216,7 @@ class _MyGalleryState extends State<MyGallery> {
                                 onLongPress: () {
                                   print('long press');
                                   showDelete = true;
-                                  rebuildGallery.value++;
+                                  _rebuildDelete.value++;
                                 },
                                 onTap: () {
                                   Navigator.push(
@@ -246,35 +247,40 @@ class _MyGalleryState extends State<MyGallery> {
                                         ),
                                       ),
                                     ),
-                                    showDelete
-                                        ? Positioned(
-                                            right: 0,
-                                            top: 0,
-                                            child: Container(
-                                              height: 30,
-                                              width: 30,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  shape: BoxShape.circle),
-                                              child: Center(
-                                                child: FloatingActionButton(
-                                                  onPressed: () {
-                                                    DatabaseHelper helper =
-                                                        DatabaseHelper.instance;
-                                                    helper.delete(
-                                                        savedOpArt[index]
-                                                            ['id']);
-                                                    savedOpArt.removeAt(index);
-                                                    showDelete = false;
-                                                    rebuildGallery.value++;
-                                                  },
-                                                  backgroundColor: Colors.white,
-                                                  child: Icon(Icons.delete,
-                                                      color: Colors.grey),
-                                                ),
-                                              ),
-                                            ))
-                                        : Container(),
+                                    ValueListenableBuilder<int>(
+                                        valueListenable: _rebuildDelete,
+                                        builder: (context, value, child) {
+                                        return showDelete
+                                            ? Positioned(
+                                                right: 0,
+                                                top: 0,
+                                                child: Container(
+                                                  height: 30,
+                                                  width: 30,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      shape: BoxShape.circle),
+                                                  child: Center(
+                                                    child: FloatingActionButton(
+                                                      onPressed: () {
+                                                        DatabaseHelper helper =
+                                                            DatabaseHelper.instance;
+                                                        helper.delete(
+                                                            savedOpArt[index]
+                                                                ['id']);
+                                                        savedOpArt.removeAt(index);
+                                                        showDelete = false;
+                                                        rebuildGallery.value++;
+                                                      },
+                                                      backgroundColor: Colors.white,
+                                                      child: Icon(Icons.delete,
+                                                          color: Colors.grey),
+                                                    ),
+                                                  ),
+                                                ))
+                                            : Container();
+                                      }
+                                    ),
                                   ],
                                 ),
                               );
@@ -298,7 +304,7 @@ class _MyGalleryState extends State<MyGallery> {
                             onLongPress: () {
                               print('long press');
                               showDelete = true;
-                              rebuildGallery.value++;
+                              _rebuildDelete.value++;
                             },
                             onTap: () {
                               Navigator.push(
@@ -334,35 +340,40 @@ class _MyGalleryState extends State<MyGallery> {
                                     ),
                                   ),
                                 ),
-                                showDelete
-                                    ? Positioned(
-                                    right: 0,
-                                    top: 0,
-                                    child: Container(
-                                      height: 30,
-                                      width: 30,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          shape: BoxShape.circle),
-                                      child: Center(
-                                        child: FloatingActionButton(
-                                          onPressed: () {
-                                            DatabaseHelper helper =
-                                                DatabaseHelper.instance;
-                                            helper.delete(
-                                                savedOpArt[index]
-                                                ['id']);
-                                            savedOpArt.removeAt(index);
-                                            showDelete = false;
-                                            rebuildGallery.value++;
-                                          },
-                                          backgroundColor: Colors.white,
-                                          child: Icon(Icons.delete,
-                                              color: Colors.grey),
-                                        ),
-                                      ),
-                                    ))
-                                    : Container(),
+                                ValueListenableBuilder<int>(
+                                    valueListenable: _rebuildDelete,
+                                    builder: (context, value, child) {
+                                    return showDelete
+                                        ? Positioned(
+                                        right: 0,
+                                        top: 0,
+                                        child: Container(
+                                          height: 30,
+                                          width: 30,
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              shape: BoxShape.circle),
+                                          child: Center(
+                                            child: FloatingActionButton(
+                                              onPressed: () {
+                                                DatabaseHelper helper =
+                                                    DatabaseHelper.instance;
+                                                helper.delete(
+                                                    savedOpArt[index]
+                                                    ['id']);
+                                                savedOpArt.removeAt(index);
+                                                showDelete = false;
+                                                rebuildGallery.value++;
+                                              },
+                                              backgroundColor: Colors.white,
+                                              child: Icon(Icons.delete,
+                                                  color: Colors.grey),
+                                            ),
+                                          ),
+                                        ))
+                                        : Container();
+                                  }
+                                ),
                               ],
                             ),
                           ),

@@ -72,6 +72,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final _rebuildDelete = new ValueNotifier(0);
   List<OpArtTypes> opArtTypes;
   @override
   Widget build(BuildContext context) {
@@ -184,7 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               },
                               onLongPress: () {
                                 showDelete = true;
-                                rebuildMain.value++;
+                                _rebuildDelete.value++;
                               },
                               child: Stack(
                                 children: [
@@ -200,34 +201,39 @@ class _MyHomePageState extends State<MyHomePage> {
                                       ),
                                     ),
                                   ),
-                                  showDelete
-                                      ? Positioned(
-                                          right: 0,
-                                          top: 0,
-                                          child: Container(
-                                            height: 30,
-                                            width: 30,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                shape: BoxShape.circle),
-                                            child: Center(
-                                              child: FloatingActionButton(
-                                                  onPressed: () {
-                                                    DatabaseHelper helper =
-                                                        DatabaseHelper.instance;
-                                                    helper.delete(
-                                                        savedOpArt[index]
-                                                            ['id']);
-                                                    savedOpArt.removeAt(index);
-                                                    showDelete = false;
-                                                    rebuildMain.value++;
-                                                  },
-                                                  backgroundColor: Colors.white,
-                                                  child: Icon(Icons.delete,
-                                                      color: Colors.grey)),
-                                            ),
-                                          ))
-                                      : Container(),
+                                  ValueListenableBuilder<int>(
+                                      valueListenable: _rebuildDelete,
+                                      builder: (context, value, child) {
+                                      return showDelete
+                                          ? Positioned(
+                                              right: 0,
+                                              top: 0,
+                                              child: Container(
+                                                height: 30,
+                                                width: 30,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    shape: BoxShape.circle),
+                                                child: Center(
+                                                  child: FloatingActionButton(
+                                                      onPressed: () {
+                                                        DatabaseHelper helper =
+                                                            DatabaseHelper.instance;
+                                                        helper.delete(
+                                                            savedOpArt[index]
+                                                                ['id']);
+                                                        savedOpArt.removeAt(index);
+                                                        showDelete = false;
+                                                        rebuildMain.value++;
+                                                      },
+                                                      backgroundColor: Colors.white,
+                                                      child: Icon(Icons.delete,
+                                                          color: Colors.grey)),
+                                                ),
+                                              ))
+                                          : Container();
+                                    }
+                                  ),
                                 ],
                               ),
                             ),

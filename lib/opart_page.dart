@@ -200,7 +200,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                 Flexible(
                                   child: FloatingActionButton(
                                     onPressed: () async {
-                                      print('buy the thing!');
+
                                       try {
                                         Purchases.setFinishTransactions(true);
                                         PurchaserInfo purchaserInfo =
@@ -214,8 +214,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                         purchases.forEach((element) {
                                           if (element == 'p0001') {
                                             // Process the high definition download
-                                            print(
-                                                'you can now download the image');
+                                            Navigator.pop(context);
                                             imageFile = null;
                                             screenshotController
                                                 .capture(
@@ -233,7 +232,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                                     subject:
                                                         'Created using OpArt Lab - download the free app now!',
                                                     text:
-                                                        'Created using OpArt Lab - check it out at opartlab.com',
+                                                        'Created using OpArt Lab - download the free app now!',
                                                   );
                                                 } else {
                                                   Share.shareFiles(
@@ -245,9 +244,54 @@ class _OpArtPageState extends State<OpArtPage> {
                                                             size.width,
                                                             size.height / 2),
                                                     subject:
-                                                        'Using Chris\'s fabulous OpArt App',
+                                                        'Created using OpArt Lab - download the free app now!',
                                                   );
                                                 }
+                                                showDialog<void>(
+                                                    context: context,
+                                                    barrierDismissible:
+                                                    true, // user must tap button!
+                                                    builder: (BuildContext context) {
+                                                      return Dialog(
+                                                          child: Container(
+
+                                                            height: 250,
+                                                            width: 300,
+                                                            child: Stack(
+                                                              children: [
+                                                                Center(
+                                                                  child: (Column(
+                                                                      mainAxisSize: MainAxisSize.min,
+                                                                      children: [
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(top: 60.0),
+                                                                          child: Text('Thank you for buying from OpArt Lab',textAlign: TextAlign.center,
+                                                                              style: TextStyle(
+                                                                                  fontSize: 18,
+                                                                                  fontWeight:
+                                                                                  FontWeight.bold)),
+                                                                        ),
+                                                                        SizedBox(height: 12),
+                                                                        RaisedButton(
+                                                                          onPressed: () {
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                          child:
+                                                                          Text('Ok'),
+                                                                        )
+                                                                      ])),
+                                                                ),
+                                                                Align(
+                                                                    alignment: Alignment.topRight,
+                                                                    child:
+                                                                    Material(child: Padding(
+                                                                      padding: const EdgeInsets.all(8.0),
+                                                                      child: CloseButton(),
+                                                                    )))
+                                                              ],
+                                                            ),
+                                                          ));
+                                                    });
                                               });
                                             });
                                           }
