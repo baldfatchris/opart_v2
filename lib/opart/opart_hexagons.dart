@@ -130,8 +130,6 @@ List<SettingsModel> initializeHexagonsAttributes() {
     split,
     splat,
     threeD,
-
-    backgroundColor,
     lineColor,
     lineWidth,
     randomColors,

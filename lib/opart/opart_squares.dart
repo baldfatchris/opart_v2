@@ -127,7 +127,7 @@ List<SettingsModel> initializeSquaresAttributes() {
     bulge,
     bulgeOneDirection,
 
-    backgroundColor,
+
     randomColors,
     numberOfColors,
     paletteType,

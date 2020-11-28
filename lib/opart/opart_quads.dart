@@ -107,20 +107,6 @@ SettingsModel randomiseRatio = SettingsModel(
   silent: true,
 );
 
-// palette settings
-SettingsModel backgroundColor = SettingsModel(
-  settingType: SettingType.color,
-  name: 'backgroundColor',
-  label: "Background Color",
-  tooltip: "The background colour for the canvas",
-  defaultValue: Colors.white,
-  icon: Icon(Icons.settings_overscan),
-  settingCategory: SettingCategory.palette,
-  proFeature: false,
-);
-
-
-
 SettingsModel lineWidth = SettingsModel(
   settingType: SettingType.double,
   name: 'lineWidth',
@@ -196,7 +182,7 @@ List<SettingsModel> initializeQuadsAttributes() {
     ratio,
     randomiseRatio,
 
-    backgroundColor,
+
     lineColor,
     lineWidth,
     randomColors,

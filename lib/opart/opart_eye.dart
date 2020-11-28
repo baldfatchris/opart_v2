@@ -282,16 +282,7 @@ SettingsModel leafShape = SettingsModel(
     settingCategory: SettingCategory.tool,
     proFeature: false,
   );
-SettingsModel backgroundColor = SettingsModel(
-    settingType: SettingType.color,
-    name: 'backgroundColor',
-    label: "Background Color",
-    tooltip: "The background colour for the canvas",
-    defaultValue: Colors.cyan,
-    icon: Icon(Icons.settings_overscan),
-    settingCategory: SettingCategory.palette,
-    proFeature: false,
-  );
+
 SettingsModel trunkFillColor = SettingsModel(settingType: SettingType.color,
     name: 'trunkFillColor',
     label: "Trunk Color",

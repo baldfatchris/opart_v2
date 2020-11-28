@@ -284,7 +284,7 @@ List<SettingsModel> initializeShapesAttributes() {
     recursionDepth,
     recursionRatio,
 
-    backgroundColor,
+
     lineColor,
     lineWidth,
     randomColors,
@@ -320,7 +320,6 @@ void paintShapes(Canvas canvas, Size size, int seed, double animationVariable, O
   canvas.drawRect(
       Offset(borderX, borderY) & Size(imageWidth, imageHeight * 2),
       Paint()
-        ..color = backgroundColor.value
         ..style = PaintingStyle.fill);
 
   // Work out the X and Y

@@ -410,7 +410,7 @@ List<SettingsModel> initializeWallpaperAttributes() {
     numberOfSides,
     randomPetals,
 
-    backgroundColor,
+
     lineColor,
     lineWidth,
     randomColors,

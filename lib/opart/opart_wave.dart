@@ -155,8 +155,6 @@ List<SettingsModel> initializeWaveAttributes() {
     offset,
     fanWidth,
     zigZag,
-
-    backgroundColor,
     randomColors,
     numberOfColors,
     paletteType,
@@ -186,7 +184,7 @@ void paintWave(Canvas canvas, Size size, int seed, double animationVariable, OpA
     offset.value,
     fanWidth.value,
     zigZag.value,
-    backgroundColor.value,
+
     (randomColors.value == true),
     numberOfColors.value.toInt(),
     paletteType.value,
@@ -215,7 +213,7 @@ generateWave(
     double currentOffset,
     double currentFanWidth,
     bool currentZigZag,
-    Color currentBackgroundColor,
+
     bool currentRandomColors,
     int currentNumberOfColors,
     String currentPaletteType,
@@ -231,7 +229,7 @@ generateWave(
   canvas.drawRect(
       Offset(borderX, borderY) & Size(imageWidth, imageHeight * 2),
       Paint()
-        ..color = currentBackgroundColor
+      
         ..style = PaintingStyle.fill);
 
   double start = 0 - currentAmplitude;
