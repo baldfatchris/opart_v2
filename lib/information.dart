@@ -27,8 +27,12 @@ class _InformationPageState extends State<InformationPage> {
     ), body: Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(children: [
-        Text('Siblings Chris and Emily teamed up remotely to create this beautiful app. \n\n'
-            'It combines Chris\'s passion for OpArt with Emily\'s love for app design.',
+        Text('Inspired by the work of Bridget Riley, OpArt Lab allows you to produce your own OpArt creations '
+            'without going to the the bother of recruiting a team of art students to painstakingly color in your canvases '
+            'and with absolutely no formaldehyde.\n\n'
+            'Written in Flutter and available in on both Apple and Android platforms, '
+            'OpArt Lab is an collaboration between team of artists and nerds.\n\n'
+            'If you have any feedback, suggestions for new features or additional OpArt styles, please drop the team an email at info@amovada.com',
         style: TextStyle(fontSize: 18),
         )
       ],),

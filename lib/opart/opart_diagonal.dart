@@ -286,12 +286,12 @@ void  drawDiagonal(
         nextColorOrder = parity ? numberOfPipes.value.toInt()-colourOrder-1 : colourOrder;
         colourOrder++;
 
-        // nextColor = (randomColors.value == true)
-        //     ? colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value)
-        //     : colorList[nextColorOrder % numberOfColors.value].withOpacity(opacity.value);
+        nextColor = (randomColors.value == true)
+            ? colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value)
+            : colorList[nextColorOrder % numberOfColors.value].withOpacity(opacity.value);
 
-        if (randomColors.value == true) nextColor = colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value);
-        else  nextColor = colorList[nextColorOrder % numberOfColors.value].withOpacity(opacity.value);
+        // if (randomColors.value == true) nextColor = colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value);
+        // else  nextColor = colorList[nextColorOrder % numberOfColors.value].withOpacity(opacity.value);
 
         radius = sideLength / numberOfPipes.value * (i-0.5 + ratio.value/2)-offset;
         drawQuarterArc(canvas, centre1, radius, startAngle, nextColor);
@@ -335,10 +335,13 @@ void drawQuarterArc(Canvas canvas, List centre, double radius, double startAngle
       center: Offset(centre[0], centre[1]),
       height: 2 * radius,
       width: 2 * radius),
-      startAngle, pi / 2, true, Paint()
+      startAngle, pi / 2, true,
+      Paint()
+        ..isAntiAlias = false
         ..strokeWidth = 0.0
         ..color = color
         ..style = PaintingStyle.fill
+
   );
 
 }
