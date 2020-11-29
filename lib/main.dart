@@ -20,6 +20,7 @@ bool showDelete = false;
 bool proVersion = true;
 Random rnd = Random();
 int seed = DateTime.now().millisecond;
+double aspectRatio = 4/3;
 
 Offerings offerings;
 
