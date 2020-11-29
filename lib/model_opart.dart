@@ -197,8 +197,8 @@ class OpArt {
             'colors': palette.colorList,
             'image': base64Image,
             'paletteName': palette.paletteName,
-
-            'type': this.opArtType
+            'type': this.opArtType,
+            'purchased': false
           });
 
           Map<String, dynamic> sqlMap = Map();

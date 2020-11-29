@@ -79,173 +79,175 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     print(MediaQuery.of(context).size.width);
     print(MediaQuery.of(context).size.height);
-    return Scaffold(
-        body: SafeArea(
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Text('OpArt Lab',
-                      style: TextStyle(
-                          fontFamily: 'Righteous',
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold)),
+    return WillPopScope(onWillPop: () async => false,
+      child: Scaffold(
+          body: SafeArea(
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text('OpArt Lab',
+                        style: TextStyle(
+                            fontFamily: 'Righteous',
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold)),
+                  ),
                 ),
-              ),
-              IconButton(
-                  icon: Icon(Icons.info, color: Colors.cyan),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => InformationPage()));
-                  })
-            ],
-          ),
-          Expanded(
-            child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: MediaQuery.of(context).orientation ==
-                            Orientation.portrait
-                        ? MediaQuery.of(context).size.width > 350
-                            ? 4
-                            : 3
-                        : MediaQuery.of(context).size.width > 800
-                            ? 6
-                            : MediaQuery.of(context).size.width > 600
-                                ? 5
-                                : 4,
-                    childAspectRatio: 0.8),
-                itemCount: opArtTypes.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    onTap: () {
+                IconButton(
+                    icon: Icon(Icons.info, color: Colors.cyan),
+                    onPressed: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  OpArtPage(opArtTypes[index].opArtType)));
-                    },
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(opArtTypes[index].image),
-                        ),
-                        Text(opArtTypes[index].name,
-                            style: TextStyle(
-                                fontFamily: 'Righteous',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18)),
-                      ],
-                    ),
-                  );
-                }),
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => MyGallery(savedOpArt.length - 1)));
-            },
-            child: Text('My Gallery',
-                style: TextStyle(
-                    fontFamily: 'Righteous',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20)),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: ValueListenableBuilder<int>(
-                valueListenable: rebuildMain,
-                builder: (context, value, child) {
-                  if (savedOpArt.length == 0) {
-                    return Text('Curate your own gallery of stunning OpArt here.');
-                  }
-                  return Container(
-                    height: 100,
-                    child: ListView.builder(
-                        itemCount: savedOpArt.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
+                              builder: (context) => InformationPage()));
+                    })
+              ],
+            ),
+            Expanded(
+              child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: MediaQuery.of(context).orientation ==
+                              Orientation.portrait
+                          ? MediaQuery.of(context).size.width > 350
+                              ? 4
+                              : 3
+                          : MediaQuery.of(context).size.width > 800
+                              ? 6
+                              : MediaQuery.of(context).size.width > 600
+                                  ? 5
+                                  : 4,
+                      childAspectRatio: 0.8),
+                  itemCount: opArtTypes.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    OpArtPage(opArtTypes[index].opArtType)), );
+                      },
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.asset(opArtTypes[index].image),
+                          ),
+                          Text(opArtTypes[index].name,
+                              style: TextStyle(
+                                  fontFamily: 'Righteous',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18)),
+                        ],
+                      ),
+                    );
+                  }),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MyGallery(savedOpArt.length - 1)));
+              },
+              child: Text('My Gallery',
+                  style: TextStyle(
+                      fontFamily: 'Righteous',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20)),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: ValueListenableBuilder<int>(
+                  valueListenable: rebuildMain,
+                  builder: (context, value, child) {
+                    if (savedOpArt.length == 0) {
+                      return Text('Curate your own gallery of stunning OpArt here.');
+                    }
+                    return Container(
+                      height: 100,
+                      child: ListView.builder(
+                          itemCount: savedOpArt.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
 
-                          return Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 0.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            MyGallery(index + 1)));
-                              },
-                              onLongPress: () {
-                                showDelete = true;
-                                _rebuildDelete.value++;
-                              },
-                              child: Stack(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      width: 70,
-                                      height: 100,
-                                      child: Image.memory(
-                                        base64Decode(
-                                            savedOpArt[index]['image']),
-                                        fit: BoxFit.fitWidth,
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 0.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              MyGallery(index + 1)));
+                                },
+                                onLongPress: () {
+                                  showDelete = true;
+                                  _rebuildDelete.value++;
+                                },
+                                child: Stack(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        width: 70,
+                                        height: 100,
+                                        child: Image.memory(
+                                          base64Decode(
+                                              savedOpArt[index]['image']),
+                                          fit: BoxFit.fitWidth,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  ValueListenableBuilder<int>(
-                                      valueListenable: _rebuildDelete,
-                                      builder: (context, value, child) {
-                                      return showDelete
-                                          ? Positioned(
-                                              right: 0,
-                                              top: 0,
-                                              child: Container(
-                                                height: 30,
-                                                width: 30,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: FloatingActionButton(
-                                                      onPressed: () {
-                                                        DatabaseHelper helper =
-                                                            DatabaseHelper.instance;
-                                                        helper.delete(
-                                                            savedOpArt[index]
-                                                                ['id']);
-                                                        savedOpArt.removeAt(index);
-                                                        showDelete = false;
-                                                        rebuildMain.value++;
-                                                      },
-                                                      backgroundColor: Colors.white,
-                                                      child: Icon(Icons.delete,
-                                                          color: Colors.grey)),
-                                                ),
-                                              ))
-                                          : Container();
-                                    }
-                                  ),
-                                ],
+                                    ValueListenableBuilder<int>(
+                                        valueListenable: _rebuildDelete,
+                                        builder: (context, value, child) {
+                                        return showDelete
+                                            ? Positioned(
+                                                right: 0,
+                                                top: 0,
+                                                child: Container(
+                                                  height: 30,
+                                                  width: 30,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      shape: BoxShape.circle),
+                                                  child: Center(
+                                                    child: FloatingActionButton(
+                                                        onPressed: () {
+                                                          DatabaseHelper helper =
+                                                              DatabaseHelper.instance;
+                                                          helper.delete(
+                                                              savedOpArt[index]
+                                                                  ['id']);
+                                                          savedOpArt.removeAt(index);
+                                                          showDelete = false;
+                                                          rebuildMain.value++;
+                                                        },
+                                                        backgroundColor: Colors.white,
+                                                        child: Icon(Icons.delete,
+                                                            color: Colors.grey)),
+                                                  ),
+                                                ))
+                                            : Container();
+                                      }
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        }),
-                  );
-                }),
-          ),
-        ],
-      ),
-    ));
+                            );
+                          }),
+                    );
+                  }),
+            ),
+          ],
+        ),
+      )),
+    );
   }
 
   @override

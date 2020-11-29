@@ -41,6 +41,7 @@ String highDefPrice;
 class _OpArtPageState extends State<OpArtPage> {
   @override
   void initState() {
+     slider = 100;
     opArt = OpArt(opArtType: widget.opArtType);
     if (widget.opArtSettings != null) {
       seed = widget.opArtSettings['seed'];
@@ -74,6 +75,7 @@ class _OpArtPageState extends State<OpArtPage> {
   AnimationController animationController;
   @override
   Widget build(BuildContext context) {
+
      toolsTab = ToolsTab();
      paletteTab = PaletteTab(context);
      choosePaletteTab = ChoosePaletteTab();
@@ -351,260 +353,262 @@ class _OpArtPageState extends State<OpArtPage> {
     return ValueListenableBuilder<int>(
         valueListenable: rebuildOpArtPage,
         builder: (context, value, child) {
-          return Scaffold(
-            // floatingActionButton: showSettings
-            //     ? Padding(
-            //         padding: const EdgeInsets.only(top: 130.0),
-            //         child: Container(
-            //           height: 50,
-            //           width: 50,
-            //           decoration: BoxDecoration(
-            //               shape: BoxShape.circle,
-            //               border: Border.all(width: 3, color: Colors.white)),
-            //           child: Builder(
-            //             builder: (context) => FloatingActionButton(
-            //                 backgroundColor: Colors.cyan,
-            //                 heroTag: null,
-            //                 onPressed: () {
-            //                   opArt.saveToLocalDB();
-            //                   Scaffold.of(context).removeCurrentSnackBar();
-            //                   Scaffold.of(context).showSnackBar(SnackBar(
-            //                       backgroundColor:
-            //                           Colors.white.withOpacity(0.8),
-            //                       duration: Duration(seconds: 2),
-            //                       content: Container(
-            //                         child: Container(
-            //                           height: 70,
-            //                           child: Center(
-            //                             child: Text(
-            //                               'Saved to My Gallery',
-            //                               style: TextStyle(
-            //                                   color: Colors.black,
-            //                                   fontSize: 18),
-            //                             ),
-            //                           ),
-            //                         ),
-            //                       )));
-            //                 },
-            //                 child: Icon(Icons.save)),
-            //           ),
-            //         ),
-            //       )
-            //     : Container(),
-            // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-            extendBodyBehindAppBar: true,
-            appBar: showSettings
-                ? AppBar(
-                    backgroundColor: Colors.cyan[200].withOpacity(0.8),
-                    title: Text(
-                      opArt.name,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Righteous',
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    centerTitle: true,
-                    elevation: 1,
-                    leading: IconButton(
-                      icon: Icon(
-                        Icons.home,
-                        color: Colors.black,
+          return WillPopScope(onWillPop: () async => false,
+            child: Scaffold(
+              // floatingActionButton: showSettings
+              //     ? Padding(
+              //         padding: const EdgeInsets.only(top: 130.0),
+              //         child: Container(
+              //           height: 50,
+              //           width: 50,
+              //           decoration: BoxDecoration(
+              //               shape: BoxShape.circle,
+              //               border: Border.all(width: 3, color: Colors.white)),
+              //           child: Builder(
+              //             builder: (context) => FloatingActionButton(
+              //                 backgroundColor: Colors.cyan,
+              //                 heroTag: null,
+              //                 onPressed: () {
+              //                   opArt.saveToLocalDB();
+              //                   Scaffold.of(context).removeCurrentSnackBar();
+              //                   Scaffold.of(context).showSnackBar(SnackBar(
+              //                       backgroundColor:
+              //                           Colors.white.withOpacity(0.8),
+              //                       duration: Duration(seconds: 2),
+              //                       content: Container(
+              //                         child: Container(
+              //                           height: 70,
+              //                           child: Center(
+              //                             child: Text(
+              //                               'Saved to My Gallery',
+              //                               style: TextStyle(
+              //                                   color: Colors.black,
+              //                                   fontSize: 18),
+              //                             ),
+              //                           ),
+              //                         ),
+              //                       )));
+              //                 },
+              //                 child: Icon(Icons.save)),
+              //           ),
+              //         ),
+              //       )
+              //     : Container(),
+              // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+              extendBodyBehindAppBar: true,
+              appBar: showSettings
+                  ? AppBar(
+                      backgroundColor: Colors.cyan[200].withOpacity(0.8),
+                      title: Text(
+                        opArt.name,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Righteous',
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold),
                       ),
-                      onPressed: () {
+                      centerTitle: true,
+                      elevation: 1,
+                      leading: IconButton(
+                        icon: Icon(
+                          Icons.home,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
 
-                        rebuildMain.value++;
-                        showDelete = false;
-                        showControls = false;
-                        showCustomColorPicker = false;
-                        opArt.setDefault();
-                        opArt.clearCache();
-                        SystemChrome.setEnabledSystemUIOverlays(
-                            SystemUiOverlay.values);
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyHomePage()));
-                      },
-                    ),
-                    actions: [
-                      IconButton(
-                          icon: Icon(Icons.save, color: Colors.black),
-                          onPressed: () {
-                            opArt.saveToLocalDB();
-                            showDialog<void>(
-                                context: context,
-                                barrierDismissible:
-                                    true, // user must tap button!
-                                builder: (BuildContext context) {
-                                  return Dialog(
-                                      child: Container(
-
-                                    height: 150,
-                                    width: 200,
-                                    child: Stack(
-                                      children: [
-                                        Center(
-                                          child: (Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Text('Saved to My \nGallery',textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.bold)),
-                                                SizedBox(height: 12),
-                                                RaisedButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                    rebuildMain.value++;
-                                                    showDelete = false;
-                                                    showControls = false;
-                                                    showCustomColorPicker =
-                                                        false;
-                                                    opArt.setDefault();
-                                                    opArt.clearCache();
-                                                    SystemChrome
-                                                        .setEnabledSystemUIOverlays(
-                                                            SystemUiOverlay
-                                                                .values);
-                                                    Navigator.pop(context);
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                MyGallery(savedOpArt.length-1)));
-                                                  },
-                                                  child:
-                                                      Text('View My Gallery'),
-                                                )
-                                              ])),
-                                        ),
-                                        Align(
-                                            alignment: Alignment.topRight,
-                                            child:
-                                                Material(child: Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: CloseButton(),
-                                                )))
-                                      ],
-                                    ),
-                                  ));
-                                });
-                          }),
-                      IconButton(
-                          icon: Icon(Icons.share, color: Colors.black),
-                          onPressed: () async {
-                            _paymentDialog();
-                          }),
-                    ],
-                  )
-                : null,
-            body: Stack(
-              children: [
-                GestureDetector(
-
-                    onDoubleTap: (){
-                      if (!showSettings) {
-                        opArt.randomizeSettings();
-                        opArt.randomizePalette();
-                        opArt.saveToCache();
-                        enableButton = false;
-                        rebuildCanvas.value++;
-                      }
-                    },
-
-                    onTap: () {
-                      if(changeSettingsView){
-                        changeSettingsView = false;
-                      setState(() {
-                        if (showSettings) {
-                          slider = 100;
-                          if (showCustomColorPicker) {
-                            opArt.saveToCache();
-                          }
+                          rebuildMain.value++;
+                          showDelete = false;
                           showControls = false;
-                          showSettings = false;
-
                           showCustomColorPicker = false;
-                        } else {
-                          showSettings = true;
-                          showCustomColorPicker = false;
-                        }
-                      });
-                        Future.delayed(const Duration(seconds: 1));
-                        changeSettingsView = true;
-                      }
+                          opArt.setDefault();
+                          opArt.clearCache();
+                          SystemChrome.setEnabledSystemUIOverlays(
+                              SystemUiOverlay.values);
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyHomePage()));
+                        },
+                      ),
+                      actions: [
+                        IconButton(
+                            icon: Icon(Icons.save, color: Colors.black),
+                            onPressed: () {
+                              opArt.saveToLocalDB();
+                              showDialog<void>(
+                                  context: context,
+                                  barrierDismissible:
+                                      true, // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return Dialog(
+                                        child: Container(
 
-                    },
-                    child: InteractiveViewer(
-                      child: ClipRect(
-                          child: CanvasWidget(
-                        showSettings,
-                      )),
+                                      height: 150,
+                                      width: 200,
+                                      child: Stack(
+                                        children: [
+                                          Center(
+                                            child: (Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text('Saved to My \nGallery',textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  SizedBox(height: 12),
+                                                  RaisedButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                      rebuildMain.value++;
+                                                      showDelete = false;
+                                                      showControls = false;
+                                                      showCustomColorPicker =
+                                                          false;
+                                                      opArt.setDefault();
+                                                      opArt.clearCache();
+                                                      SystemChrome
+                                                          .setEnabledSystemUIOverlays(
+                                                              SystemUiOverlay
+                                                                  .values);
+                                                      Navigator.pop(context);
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  MyGallery(savedOpArt.length)));
+                                                    },
+                                                    child:
+                                                        Text('View My Gallery'),
+                                                  )
+                                                ])),
+                                          ),
+                                          Align(
+                                              alignment: Alignment.topRight,
+                                              child:
+                                                  Material(child: Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: CloseButton(),
+                                                  )))
+                                        ],
+                                      ),
+                                    ));
+                                  });
+                            }),
+                        IconButton(
+                            icon: Icon(Icons.share, color: Colors.black),
+                            onPressed: () async {
+                              _paymentDialog();
+                            }),
+                      ],
                     )
-                ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: showSettings
-                      ? SafeArea(
-                          child: Container(
-                              color: Colors.white.withOpacity(0.8),
-                              width: MediaQuery.of(context).size.width,
-                              height: 60,
-                              child: ValueListenableBuilder<int>(
-                                  valueListenable: rebuildCache,
-                                  builder: (context, value, child) {
-                                    return opArt.cacheListLength() == 0
-                                        ? Container()
-                                        : ListView.builder(
-                                            scrollDirection: Axis.horizontal,
-                                            controller: scrollController,
-                                            itemCount: opArt.cacheListLength(),
-                                            reverse: false,
-                                            itemBuilder: (context, index) {
-                                              return Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 2.0,
-                                                        horizontal: 4),
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    opArt.revertToCache(index);
-                                                  },
-                                                  child: Image.file(opArt
-                                                      .cache[index]['image']),
-                                                ),
-                                              );
-                                            },
-                                          );
-                                  })),
-                        )
-                      : Container(height: 0),
-                ),
+                  : null,
+              body: Stack(
+                children: [
+                  GestureDetector(
 
-                showSettings && !paletteTab.startOpening
-                    ? TabWidget(choosePaletteTab)
-                    : Container(),
-                showSettings
-                    ? TabWidget(toolsTab)
-                    : Container(),
-                showSettings && !choosePaletteTab.startOpening
-                    ? TabWidget(paletteTab)
-                    : Container(),
-                showCustomColorPicker
-                    ? Align(
-                        alignment: Alignment.bottomCenter,
-                        child: ColorPickerWidget())
-                    : Container(),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: showSettings
-                      ? customBottomAppBar(context: context, opArt: opArt)
-                      : BottomAppBar(),
-                ),
-              ],
+                      onDoubleTap: (){
+                        if (!showSettings) {
+                          opArt.randomizeSettings();
+                          opArt.randomizePalette();
+                          opArt.saveToCache();
+                          enableButton = false;
+                          rebuildCanvas.value++;
+                        }
+                      },
+
+                      onTap: () {
+                        if(changeSettingsView){
+                          changeSettingsView = false;
+                        setState(() {
+                          if (showSettings) {
+                            slider = 100;
+                            if (showCustomColorPicker) {
+                              opArt.saveToCache();
+                            }
+                            showControls = false;
+                            showSettings = false;
+
+                            showCustomColorPicker = false;
+                          } else {
+                            showSettings = true;
+                            showCustomColorPicker = false;
+                          }
+                        });
+                          Future.delayed(const Duration(seconds: 1));
+                          changeSettingsView = true;
+                        }
+
+                      },
+                      child: InteractiveViewer(
+                        child: ClipRect(
+                            child: CanvasWidget(
+                          showSettings,
+                        )),
+                      )
+                  ),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: showSettings
+                        ? SafeArea(
+                            child: Container(
+                                color: Colors.white.withOpacity(0.8),
+                                width: MediaQuery.of(context).size.width,
+                                height: 60,
+                                child: ValueListenableBuilder<int>(
+                                    valueListenable: rebuildCache,
+                                    builder: (context, value, child) {
+                                      return opArt.cacheListLength() == 0
+                                          ? Container()
+                                          : ListView.builder(
+                                              scrollDirection: Axis.horizontal,
+                                              controller: scrollController,
+                                              itemCount: opArt.cacheListLength(),
+                                              reverse: false,
+                                              itemBuilder: (context, index) {
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                          vertical: 2.0,
+                                                          horizontal: 4),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      opArt.revertToCache(index);
+                                                    },
+                                                    child: Image.file(opArt
+                                                        .cache[index]['image']),
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                    })),
+                          )
+                        : Container(height: 0),
+                  ),
+
+                  showSettings && !paletteTab.startOpening
+                      ? TabWidget(choosePaletteTab)
+                      : Container(),
+                  showSettings
+                      ? TabWidget(toolsTab)
+                      : Container(),
+                  showSettings && !choosePaletteTab.startOpening
+                      ? TabWidget(paletteTab)
+                      : Container(),
+                  showCustomColorPicker
+                      ? Align(
+                          alignment: Alignment.bottomCenter,
+                          child: ColorPickerWidget())
+                      : Container(),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: showSettings
+                        ? customBottomAppBar(context: context, opArt: opArt)
+                        : BottomAppBar(),
+                  ),
+                ],
+              ),
             ),
           );
         });

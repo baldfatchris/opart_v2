@@ -40,11 +40,11 @@ class _TabWidgetState extends State<TabWidget>
               child: GestureDetector(onPanUpdate: (details) {
                     if (details.delta.dx > 0) {
                       tab.left ? tab.openTab() : tab.closeTab();
-                      print(' pan right');
+
                     }
                     if (details.delta.dx < 0) {
                       tab.left ? tab.closeTab() : tab.openTab();
-                      print(' pan left');
+
                     }},
                 child: Row(
                   children: [
@@ -93,7 +93,7 @@ class _TabWidgetState extends State<TabWidget>
   void initState() {
     tab = widget.tab;
     tab.animationController =
-        AnimationController(duration: const Duration(seconds: 1), vsync: this);
+        AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
     tab.animation =
         Tween<double>(begin: 0, end: tab.width).animate(tab.animationController)
           ..addListener(() {

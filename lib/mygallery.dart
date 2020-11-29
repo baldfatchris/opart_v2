@@ -29,6 +29,13 @@ class _MyGalleryState extends State<MyGallery> {
   bool showDelete = false;
   @override
   Widget build(BuildContext context) {
+    print(  MediaQuery.of(context)
+        .size
+        .width /
+        (MediaQuery.of(context)
+            .size
+            .height -
+            60));
     return ValueListenableBuilder<int>(
         valueListenable: rebuildGallery,
         builder: (context, value, child) {
@@ -55,14 +62,17 @@ class _MyGalleryState extends State<MyGallery> {
                                 builder: (context) => MyHomePage()));
                       }),
                   actions: [
-                    IconButton(onPressed: (){
-                      setState(() {
-                        carouselView = !carouselView;
-                      });
-                    },
-                        icon: Icon(carouselView
-                            ? Icons.view_comfortable
-                            : Icons.view_carousel_rounded,color: Colors.black ))
+                    IconButton(
+                        onPressed: () {
+                          setState(() {
+                            carouselView = !carouselView;
+                          });
+                        },
+                        icon: Icon(
+                            carouselView
+                                ? Icons.view_comfortable
+                                : Icons.view_carousel_rounded,
+                            color: Colors.black))
                   ]
                   // actions: [
                   //   IconButton(
@@ -205,9 +215,10 @@ class _MyGalleryState extends State<MyGallery> {
                           padding: const EdgeInsets.only(top: 30.0),
                           child: Center(
                             child: CarouselSlider.builder(
-                                options: CarouselOptions(
+                                options: CarouselOptions(viewportFraction: MediaQuery.of(context).orientation==Orientation.portrait? 0.8:0.3,
                                     enableInfiniteScroll: false,
-                                    height: (MediaQuery.of(context).size.height),
+                                    height:
+                                        (MediaQuery.of(context).size.height),
                                     enlargeCenterPage: true,
                                     initialPage: widget.currentImage - 1),
                                 itemCount: savedOpArt.length,
@@ -232,7 +243,7 @@ class _MyGalleryState extends State<MyGallery> {
                                     child: Stack(
                                       children: [
                                         Container(
-                                          color: Colors.grey[800],
+                                          color: Colors.black,
                                           child: Padding(
                                             padding: const EdgeInsets.all(10.0),
                                             child: Container(
@@ -305,17 +316,27 @@ class _MyGalleryState extends State<MyGallery> {
                       : Padding(
                           padding: const EdgeInsets.only(top: 0.0),
                           child: Center(
-                            child: GridView.builder(
+                            child: GridView.builder(scrollDirection: MediaQuery.of(context).orientation ==Orientation.portrait? Axis.vertical: Axis.horizontal,
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        childAspectRatio: MediaQuery.of(context)
-                                                .size
-                                                .width /
-                                            (MediaQuery.of(context)
+                                        crossAxisCount:2,
+                                        childAspectRatio:
+                                        MediaQuery.of(context).orientation ==Orientation.portrait?
+
+                                             MediaQuery.of(context)
                                                     .size
-                                                    .height -
-                                                60)),
+                                                    .width /
+                                                (MediaQuery.of(context)
+                                                        .size
+                                                        .height -
+                                                    60): 2*MediaQuery.of(context)
+                                            .size
+                                            .height /
+                                            (MediaQuery.of(context)
+                                                .size
+                                                .width -
+                                                60)
+                                    ),
                                 itemCount: savedOpArt.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   currentIndex = index;
@@ -348,8 +369,8 @@ class _MyGalleryState extends State<MyGallery> {
                                               child: Container(
                                                 color: Colors.black,
                                                 child: Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      8.0),
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
                                                   child: Container(
                                                     color: Colors.white,
                                                     child: Padding(
