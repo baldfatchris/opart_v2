@@ -265,7 +265,7 @@ class _MyHomePageState extends State<MyHomePage> {
       OpArtTypes('Squares', OpArtType.Squares, 'lib/assets/squares_500.png'),
       OpArtTypes('Wallpaper', OpArtType.Wallpaper, 'lib/assets/wallpaper_500.png'),
       OpArtTypes('Neighbour', OpArtType.Neighbour, 'lib/assets/neighbour_500.png'),
-      OpArtTypes('Eye', OpArtType.Eye, 'lib/assets/neighbour_500.png'),
+      OpArtTypes('Eye', OpArtType.Eye, 'lib/assets/eye.png'),
     ];
     super.initState();
     initPlatformState();
