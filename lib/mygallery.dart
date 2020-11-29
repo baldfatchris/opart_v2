@@ -202,7 +202,7 @@ class _MyGalleryState extends State<MyGallery> {
                           'You have not yet saved any opArt to your gallery'))
                   : carouselView
                       ? Padding(
-                          padding: const EdgeInsets.only(top: 60.0),
+                          padding: const EdgeInsets.only(top: 30.0),
                           child: Center(
                             child: CarouselSlider.builder(
                                 options: CarouselOptions(
@@ -232,7 +232,7 @@ class _MyGalleryState extends State<MyGallery> {
                                     child: Stack(
                                       children: [
                                         Container(
-                                          color: Colors.grey[700],
+                                          color: Colors.grey[800],
                                           child: Padding(
                                             padding: const EdgeInsets.all(10.0),
                                             child: Container(
@@ -349,7 +349,7 @@ class _MyGalleryState extends State<MyGallery> {
                                                 color: Colors.black,
                                                 child: Padding(
                                                   padding: const EdgeInsets.all(
-                                                      20.0),
+                                                      8.0),
                                                   child: Container(
                                                     color: Colors.white,
                                                     child: Padding(

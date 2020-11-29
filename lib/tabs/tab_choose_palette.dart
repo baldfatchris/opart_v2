@@ -10,9 +10,11 @@ import 'package:opart_v2/model_settings.dart';
 import 'dart:math';
 import 'package:opart_v2/choose_palette.dart';
 
+import 'general_tab.dart';
+
 int currentColor = 0;
 
-Widget ChoosePaletteTab(){
+Widget choosePaletteTabWidget(){
   Animation<double> _animation;
 
     List<Widget> _circularPalette(int index) {

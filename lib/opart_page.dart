@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:opart_v2/tabs/general_tab.dart';
+import 'package:opart_v2/tabs/tab_choose_palette.dart';
 import 'package:share/share.dart';
 import 'package:shake/shake.dart';
 import 'main.dart';
@@ -12,6 +14,7 @@ import 'model_opart.dart';
 import 'download_high_resolution.dart';
 import 'canvas.dart';
 import 'mygallery.dart';
+import 'tabs/tab_tools.dart';
 import 'tabs/tab_widget.dart';
 
 import 'dart:async';
@@ -25,10 +28,9 @@ class OpArtPage extends StatefulWidget {
   _OpArtPageState createState() => _OpArtPageState();
 }
 
-int currentTab = -1;
+
 
 bool showSettings = false;
-bool tabOut = false;
 File imageFile;
 bool showCustomColorPicker = false;
 OpArt opArt;
@@ -72,6 +74,9 @@ class _OpArtPageState extends State<OpArtPage> {
   AnimationController animationController;
   @override
   Widget build(BuildContext context) {
+     toolsTab = ToolsTab();
+     paletteTab = PaletteTab(context);
+     choosePaletteTab = ChoosePaletteTab();
     Size size = MediaQuery.of(context).size;
     Future<void> _paymentDialog() async {
       if (animationController != null) {
@@ -407,6 +412,7 @@ class _OpArtPageState extends State<OpArtPage> {
                         color: Colors.black,
                       ),
                       onPressed: () {
+
                         rebuildMain.value++;
                         showDelete = false;
                         showControls = false;
@@ -513,14 +519,14 @@ class _OpArtPageState extends State<OpArtPage> {
                       if(changeSettingsView){
                         changeSettingsView = false;
                       setState(() {
-                        if (showSettings || tabOut) {
+                        if (showSettings) {
+                          slider = 100;
                           if (showCustomColorPicker) {
                             opArt.saveToCache();
                           }
                           showControls = false;
                           showSettings = false;
-                          currentTab = 10;
-                          tabOut = false;
+
                           showCustomColorPicker = false;
                         } else {
                           showSettings = true;
@@ -578,15 +584,14 @@ class _OpArtPageState extends State<OpArtPage> {
                       : Container(height: 0),
                 ),
 
-                // showSettings || currentTab == 0
-                //     ? TabWidget(80, animationController, ChoosePaletteTab(),
-                //         -0.5, Icons.portrait, 0)
-                //     : Container(),
-                showSettings || tabOut
-                    ? TabWidget(50, 0.5, Icons.palette, true)
+                showSettings && !paletteTab.startOpening
+                    ? TabWidget(choosePaletteTab)
                     : Container(),
-                showSettings || tabOut
-                    ? TabWidget(90, -0.7, MdiIcons.tools, false)
+                showSettings
+                    ? TabWidget(toolsTab)
+                    : Container(),
+                showSettings && !choosePaletteTab.startOpening
+                    ? TabWidget(paletteTab)
                     : Container(),
                 showCustomColorPicker
                     ? Align(

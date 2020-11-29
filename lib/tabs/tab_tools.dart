@@ -4,34 +4,18 @@ import '../model_settings.dart';
 import '../opart_page.dart';
 import '../settings_dialog.dart';
 import 'package:opart_v2/opart_page.dart';
+import 'general_tab.dart';
 import 'tab_widget.dart';
 
-int slider = 100;
 
+int slider = 100;
 Widget ToolBoxTab() {
 
   List<SettingsModel> tools = opArt.attributes
       .where((element) => element.settingCategory == SettingCategory.tool)
       .toList();
 
-  void animateToShowSlider() {
-    toolsAnimation =
-        Tween<double>(begin: 0, end: -120).animate(toolsAnimationController)
-          ..addListener(() {
-            rebuildTab.value++;
-          });
-    toolsAnimationController.forward(from: 80);
-  }
 
-  void animateToHideSlider() {
-    toolsAnimation =
-        Tween<double>(begin: -120, end: -80).animate(toolsAnimationController)
-          ..addListener(() {
-            rebuildTab.value++;
-          });
-    slider = 100;
-    toolsAnimationController.forward(from: 0);
-  }
 
   return StatefulBuilder(builder: (context, setState) {
     Widget sliderWidget(int slider) {
@@ -122,9 +106,27 @@ Widget ToolBoxTab() {
                                   onPressed: () {
                                     setState(() {
                                       if (tools[index].settingType != SettingType.double && tools[index].settingType != SettingType.int) {
-                                        if (slider != 100) {
-                                          animateToHideSlider();
-                                        }
+                                        slider = 100;
+                                        print('should expand');
+                                        toolsTab.width = 80;
+                                        toolsTab.animation =
+                                        Tween<double>(begin: 0, end: toolsTab.width).animate(toolsTab.animationController)
+                                          ..addListener(() {
+                                            setState(() {});
+                                          })
+                                          ..addStatusListener((status) {
+                                            if (status == AnimationStatus.completed) {
+                                              toolsTab.open = true;
+                                              rebuildOpArtPage.value++;
+                                            }
+                                            if (status == AnimationStatus.dismissed) {
+                                              toolsTab.open = false;
+                                              toolsTab.startOpening = false;
+                                              rebuildOpArtPage.value++;
+                                            }
+                                          });
+                                        toolsTab.animationController.forward();
+                                        rebuildTab.value++;
                                       }
                                       if (tools[index].silent != null && tools[index].silent) {
                                         if (tools[index].settingType == SettingType.bool) {
@@ -138,7 +140,26 @@ Widget ToolBoxTab() {
                                         opArt.saveToCache();
                                         rebuildCanvas.value++;
                                       } else if (tools[index].settingType == SettingType.double || tools[index].settingType == SettingType.int) {
-                                        animateToShowSlider();
+                                        print('should expand');
+                                        toolsTab.width = 120;
+                                        toolsTab.animation =
+                                        Tween<double>(begin: 0, end: toolsTab.width).animate(toolsTab.animationController)
+                                          ..addListener(() {
+                                            setState(() {});
+                                          })
+                                          ..addStatusListener((status) {
+                                            if (status == AnimationStatus.completed) {
+                                              toolsTab.open = true;
+                                              rebuildOpArtPage.value++;
+                                            }
+                                            if (status == AnimationStatus.dismissed) {
+                                              toolsTab.open = false;
+                                              toolsTab.startOpening = false;
+                                              rebuildOpArtPage.value++;
+                                            }
+                                          });
+                                        toolsTab.animationController.forward();
+                                        rebuildTab.value++;
                                         slider = index;
                                       } else {
                                         if (tools[index].settingType == SettingType.list) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../model_opart.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'general_tab.dart';
 import 'tab_palette.dart';
 import '../opart_page.dart';
 

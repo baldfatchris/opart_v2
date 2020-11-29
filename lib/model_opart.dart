@@ -32,7 +32,8 @@ final rebuildCache = new ValueNotifier(0);
 final rebuildMain = new ValueNotifier(0);
 final rebuildCanvas = new ValueNotifier(0);
 final rebuildOpArtPage = ValueNotifier(0);
-final rebuildTab = new ValueNotifier(0);
+final rebuildTab = ValueNotifier(0);
+
 final rebuildColorPicker = new ValueNotifier(0);
 final rebuildCircularProgressIndicator = ValueNotifier(0);
 bool enableButton = true;

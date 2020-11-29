@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:opart_v2/tabs/general_tab.dart';
 import 'model_opart.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'canvas.dart';
