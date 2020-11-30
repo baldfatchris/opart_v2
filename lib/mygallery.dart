@@ -277,7 +277,7 @@ class _MyGalleryState extends State<MyGallery> {
                                                 : savedOpArt[index]['paid']
                                                     ? Row(mainAxisAlignment: MainAxisAlignment.center,
                                                         children: [
-                                                          Text('paid'),
+                                                          Text('purchased'),
                                                           IconButton(
                                                               icon: Icon(Icons
                                                                   .file_download),
