@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:opart_v2/tabs/tab_tools.dart';
+import 'package:opart_v2/tabs/tools_widget.dart';
 import '../canvas.dart';
 import '../model_opart.dart';
 import '../opart_page.dart';
-import 'tab_palette.dart';
-import 'tab_choose_palette.dart';
+import 'palette_widget.dart';
+import 'choose_pallette_widget.dart';
 
 class GeneralTab {
   bool open = false;

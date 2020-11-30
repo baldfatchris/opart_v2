@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:opart_v2/tabs/general_tab.dart';
-import 'package:opart_v2/tabs/tab_choose_palette.dart';
+import 'package:opart_v2/tabs/choose_pallette_widget.dart';
 import 'package:share/share.dart';
 import 'package:shake/shake.dart';
 import 'main.dart';
@@ -14,7 +14,7 @@ import 'model_opart.dart';
 import 'download_high_resolution.dart';
 import 'canvas.dart';
 import 'mygallery.dart';
-import 'tabs/tab_tools.dart';
+import 'tabs/tools_widget.dart';
 import 'tabs/tab_widget.dart';
 
 import 'dart:async';
@@ -220,6 +220,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                         print(image);
                                         setState(() {
                                           imageFile = image;
+                                          Navigator.pop(context);
                                           _shareImage(size);
                                         });
                                       });

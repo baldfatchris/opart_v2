@@ -34,7 +34,7 @@ class _InformationPageState extends State<InformationPage> {
         fontSize: 24, color: Colors.black)),
     ), body: Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(children: [
+      child: ListView(children: [
         Text('Inspired by the work of Bridget Riley, OpArt Lab allows you to produce your own OpArt creations '
             'without going to the the bother of recruiting a team of art students to painstakingly color in your canvases '
             'and with absolutely no formaldehyde.\n\n'

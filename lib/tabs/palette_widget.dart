@@ -200,11 +200,18 @@ class _paletteTabWidgetState extends State<paletteTabWidget> {
 
               );
             }
-            listViewWidgets.add(_opacityWidget());
+          //  listViewWidgets.add(_opacityWidget());
             return Container(
                 height: MediaQuery.of(context).size.height - 60-60-70,
-                child: ListView(
-                    children: listViewWidgets
+                child: Column(
+                  children: [
+                    Expanded(
+
+                      child: ListView(
+                          children: listViewWidgets
+                      ),
+                    ),Container(height: 150,child: _opacityWidget())
+                  ],
                 ));
           });
     }
