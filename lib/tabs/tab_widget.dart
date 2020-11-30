@@ -2,12 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:opart_v2/opart_page.dart';
 import 'package:opart_v2/tabs/general_tab.dart';
-import 'package:opart_v2/tabs/tab_tools.dart';
+import 'package:opart_v2/tabs/tools_widget.dart';
 
 import '../canvas.dart';
 import '../model_opart.dart';
 
-import 'tab_palette.dart';
+import 'palette_widget.dart';
 
 class TabWidget extends StatefulWidget {
   GeneralTab tab;
@@ -93,7 +93,7 @@ class _TabWidgetState extends State<TabWidget>
   void initState() {
     tab = widget.tab;
     tab.animationController =
-        AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
+        AnimationController(duration: const Duration(milliseconds: 300), vsync: this);
     tab.animation =
         Tween<double>(begin: 0, end: tab.width).animate(tab.animationController)
           ..addListener(() {
