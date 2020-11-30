@@ -598,10 +598,9 @@ class _OpArtPageState extends State<OpArtPage> {
                           )
                         : Container(height: 0),
                   ),
-                  TabWidget(choosePaletteTab), TabWidget(toolsTab),
-                  TabWidget(paletteTab),
-                  // showSettings ? TabWidget(toolsTab) : Container(),
-                  // showSettings ? TabWidget(paletteTab) : Container(),
+                  showSettings? TabWidget(choosePaletteTab): Container(),
+                  showSettings ? TabWidget(toolsTab) : Container(),
+                  showSettings ? TabWidget(paletteTab) : Container(),
                   showCustomColorPicker
                       ? Align(
                           alignment: Alignment.bottomCenter,
