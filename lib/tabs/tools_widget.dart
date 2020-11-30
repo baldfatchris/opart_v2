@@ -121,7 +121,6 @@ Widget ToolBoxTab() {
                                             }
                                             if (status == AnimationStatus.dismissed) {
                                               toolsTab.open = false;
-                                              toolsTab.startOpening = false;
                                               rebuildOpArtPage.value++;
                                             }
                                           });
@@ -154,7 +153,6 @@ Widget ToolBoxTab() {
                                             }
                                             if (status == AnimationStatus.dismissed) {
                                               toolsTab.open = false;
-                                              toolsTab.startOpening = false;
                                               rebuildOpArtPage.value++;
                                             }
                                           });

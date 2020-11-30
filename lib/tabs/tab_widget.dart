@@ -97,22 +97,32 @@ class _TabWidgetState extends State<TabWidget>
     tab.animation =
         Tween<double>(begin: 0, end: tab.width).animate(tab.animationController)
           ..addListener(() {
+
             setState(() {});
           })
           ..addStatusListener((status) {
             if (status == AnimationStatus.completed) {
               tab.open = true;
               rebuildOpArtPage.value++;
+
             }
             if (status == AnimationStatus.dismissed) {
               tab.open = false;
-              tab.startOpening = false;
+
               rebuildOpArtPage.value++;
             }
           });
 
 
     super.initState();
+  }
+  @override
+  void dispose() {
+    print('animation disposed');
+    print(tab.name);
+    tab.animationController.dispose();
+
+    super.dispose();
   }
 }
 
@@ -139,11 +149,7 @@ class _TabWidgetState extends State<TabWidget>
 // super.initState();
 //   }
 //
-//   @override
-//   void dispose() {
-//     animationController.dispose();
-//     super.dispose();
-//   }
+
 //
 //   @override
 //   Widget build(BuildContext context) {

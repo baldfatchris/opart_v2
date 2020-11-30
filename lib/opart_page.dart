@@ -78,7 +78,10 @@ class _OpArtPageState extends State<OpArtPage> {
       });
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => opArt.saveToCache());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      opArt.saveToCache();
+      toolsTab.openTab();
+    });
   }
 
   _downloadHighResFile() async {
@@ -597,13 +600,9 @@ class _OpArtPageState extends State<OpArtPage> {
                           )
                         : Container(height: 0),
                   ),
-                  showSettings && !paletteTab.startOpening
-                      ? TabWidget(choosePaletteTab)
-                      : Container(),
+                  showSettings ? TabWidget(choosePaletteTab) : Container(),
                   showSettings ? TabWidget(toolsTab) : Container(),
-                  showSettings && !choosePaletteTab.startOpening
-                      ? TabWidget(paletteTab)
-                      : Container(),
+                  showSettings ? TabWidget(paletteTab) : Container(),
                   showCustomColorPicker
                       ? Align(
                           alignment: Alignment.bottomCenter,

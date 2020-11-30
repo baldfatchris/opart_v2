@@ -8,6 +8,7 @@ import 'palette_widget.dart';
 import 'choose_pallette_widget.dart';
 
 class GeneralTab {
+  String name;
   bool open = false;
 
   AnimationController animationController;
@@ -16,19 +17,14 @@ class GeneralTab {
   double tabHeight;
   bool left;
   IconData icon;
-  bool startOpening = false;
+
+  void showTab(){}
+
 
   void openTab() {
-    startOpening = true;
-    rebuildOpArtPage.value++;
-    showControls = false;
-    animationController.forward();
-    rebuildOpArtPage.value++;
   }
 
   void closeTab() {
-    animationController?.reverse();
-    open = false;
   }
 
   Widget content() {
@@ -58,7 +54,6 @@ class ToolsTab implements GeneralTab {
 
   @override
   double width = 80;
-  PaletteTab paletteTab;
   @override
   void openTab() {
     paletteTab?.closeTab();
@@ -80,8 +75,17 @@ class ToolsTab implements GeneralTab {
   @override
   Animation animation;
 
+
+
+
   @override
-  bool startOpening = false;
+  String name = 'tools';
+
+  @override
+  void showTab() {
+   animation = Tween<double>(begin: 0, end: width).animate(animationController);
+    animationController.forward();
+  }
 }
 
 class PaletteTab implements GeneralTab {
@@ -108,7 +112,8 @@ class PaletteTab implements GeneralTab {
   @override
   void openTab() {
     toolsTab?.closeTab();
-    startOpening = true;
+    choosePaletteTab?.closeTab();
+
     rebuildOpArtPage.value++;
     animationController.forward();
   }
@@ -128,8 +133,17 @@ class PaletteTab implements GeneralTab {
   @override
   Animation animation ;
 
+
+
+
+
   @override
-  bool startOpening = false;
+  String name = 'palette tab';
+
+  @override
+  void showTab() {
+    // TODO: implement hideTab
+  }
 }
 
 class ChoosePaletteTab implements GeneralTab {
@@ -154,7 +168,8 @@ class ChoosePaletteTab implements GeneralTab {
   @override
   void openTab() {
     toolsTab?.closeTab();
-    startOpening = true;
+    paletteTab?.closeTab();
+
     rebuildOpArtPage.value++;
 
     animationController.forward();
@@ -174,6 +189,12 @@ class ChoosePaletteTab implements GeneralTab {
   @override
   Animation animation;
 
+
   @override
-  bool startOpening = false;
+  String name = 'choose palette';
+
+  @override
+  void showTab() {
+    // TODO: implement hideTab
+  }
 }
