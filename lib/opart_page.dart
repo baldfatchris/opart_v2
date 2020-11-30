@@ -422,7 +422,7 @@ class _OpArtPageState extends State<OpArtPage> {
                           SystemChrome.setEnabledSystemUIOverlays(
                               SystemUiOverlay.values);
                           Navigator.pop(context);
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => MyHomePage()));

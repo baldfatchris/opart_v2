@@ -55,7 +55,7 @@ class _MyGalleryState extends State<MyGallery> {
                       ),
                       onPressed: () {
                         Navigator.pop(context);
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => MyHomePage()));
@@ -236,7 +236,7 @@ class _MyGalleryState extends State<MyGallery> {
                                       _rebuildDelete.value++;
                                     },
                                     onTap: () {
-                                      Navigator.push(
+                                      Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => OpArtPage(
@@ -386,7 +386,6 @@ class _MyGalleryState extends State<MyGallery> {
                                   return Center(
                                     child: GestureDetector(
                                       onLongPress: () {
-                                        print('long press');
                                         showDelete = true;
                                         _rebuildDelete.value++;
                                       },

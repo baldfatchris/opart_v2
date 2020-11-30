@@ -39,7 +39,7 @@ class _InformationPageState extends State<InformationPage> {
             'without going to the the bother of recruiting a team of art students to painstakingly color in your canvases '
             'and with absolutely no formaldehyde.\n\n'
             'Written in Flutter and available in on both Apple and Android platforms, '
-            'OpArt Lab is a collaboration between team of artists and nerds.\n\n'
+            'OpArt Lab is a collaboration between teams of artists and nerds.\n\n'
             'If you have any feedback, suggestions for new features or additional OpArt styles, please drop the team an email at info@amovada.com',
         style: TextStyle(fontSize: 18),
         ),
