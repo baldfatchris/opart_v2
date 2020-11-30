@@ -74,7 +74,7 @@ class ToolsTab implements GeneralTab {
 
   @override
   Widget content() {
-    return ToolBoxTab();
+    return toolBoxTab();
   }
 
   @override
@@ -122,7 +122,7 @@ class PaletteTab implements GeneralTab {
 
   @override
   Widget content() {
-    return paletteTabWidget();
+    return PaletteTabWidget();
   }
 
   @override

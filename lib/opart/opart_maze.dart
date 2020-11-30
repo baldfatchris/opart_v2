@@ -194,9 +194,7 @@ void paintMaze(Canvas canvas, Size size, int seed, double animationVariable, OpA
   double canvasHeight = size.height;
   double borderX = 0;
   double borderY = 0;
-  double imageWidth = canvasWidth;
-  double imageHeight = canvasHeight;
-
+  
   // Work out the X and Y
   int cellsX = (canvasWidth / (zoomOpArt.value)+1.9999999).toInt();
   borderX = (canvasWidth - zoomOpArt.value * cellsX) / 2;
@@ -218,11 +216,6 @@ void paintMaze(Canvas canvas, Size size, int seed, double animationVariable, OpA
         ..color = backgroundColor.value.withOpacity(1.0)
         ..style = PaintingStyle.fill);
 
-
-  // work out the radius from the width and the cells
-  double radius = zoomOpArt.value / 2;
-  double sideLength = zoomOpArt.value;
-
   List shapesArray = [];
   if (lineHorizontal.value == true) { shapesArray.add('lineHorizontal'); }
   if (lineVertical.value == true) { shapesArray.add('lineVertical'); }
@@ -236,13 +229,13 @@ void paintMaze(Canvas canvas, Size size, int seed, double animationVariable, OpA
 
       if (shapesArray.length>0) {
 
-        var x = borderX + i * sideLength;
-        var y = borderY + j * sideLength;
+        var x = borderX + i * zoomOpArt.value;
+        var y = borderY + j * zoomOpArt.value;
 
         var p1 = [x, y];
-        var p2 = [x + sideLength, y];
-        var p3 = [x + sideLength, y + sideLength];
-        var p4 = [x, y + sideLength];
+        var p2 = [x + zoomOpArt.value, y];
+        var p3 = [x + zoomOpArt.value, y + zoomOpArt.value];
+        var p4 = [x, y + zoomOpArt.value];
 
         // Choose the next colour
         colourOrder++;
@@ -253,30 +246,30 @@ void paintMaze(Canvas canvas, Size size, int seed, double animationVariable, OpA
         }
         nextColor = nextColor.withOpacity(opacity.value);
 
-        List PA = [];
-        List PB = [];
+        List pA = [];
+        List pB = [];
 
         switch (shapesArray[rnd.nextInt(shapesArray.length)]) {
           case 'lineDiagonalRight':
-            PA = p1;
-            PB = p3;
+            pA = p1;
+            pB = p3;
             break;
           case 'lineDiagonalLeft':
-            PA = p2;
-            PB = p4;
+            pA = p2;
+            pB = p4;
             break;
           case 'lineHorizontal':
-            PA = p1;
-            PB = p2;
+            pA = p1;
+            pB = p2;
             break;
           case 'lineVertical':
-            PA = p2;
-            PB = p3;
+            pA = p2;
+            pB = p3;
             break;
         }
 
         // draw the line
-        canvas.drawLine(Offset(PA[0], PA[1]), Offset(PB[0], PB[1]), Paint()
+        canvas.drawLine(Offset(pA[0], pA[1]), Offset(pB[0], pB[1]), Paint()
           ..color = nextColor
           ..style = PaintingStyle.stroke
           ..strokeWidth = lineWidth.value * zoomOpArt.value / 10

@@ -1,13 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:opart_v2/opart_page.dart';
 import 'package:opart_v2/tabs/general_tab.dart';
-import 'package:opart_v2/tabs/tools_widget.dart';
-
-import '../canvas.dart';
 import '../model_opart.dart';
-
-import 'palette_widget.dart';
 
 class TabWidget extends StatefulWidget {
   GeneralTab tab;
@@ -192,8 +185,8 @@ class _TabWidgetState extends State<TabWidget>
 //                                     height: MediaQuery.of(context).size.height,
 //                                     width: tab.width,
 //                                     child: tab.left
-//                                         ? paletteTabWidget(context)
-//                                         : ToolBoxTab())
+//                                         ? PaletteTabWidget(context)
+//                                         : toolBoxTab())
 //                                 : Container(),
 //                             Align(
 //                               alignment: Alignment(0, tab.tabHeight),
@@ -238,8 +231,8 @@ class _TabWidgetState extends State<TabWidget>
 //                                           padding: const EdgeInsets.symmetric(
 //                                               vertical: 0.0),
 //                                           child: tab.left
-//                                               ? paletteTabWidget(context)
-//                                               : ToolBoxTab(),
+//                                               ? PaletteTabWidget(context)
+//                                               : toolBoxTab(),
 //                                         )),
 //                                   )
 //                                 : Container(),

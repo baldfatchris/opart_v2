@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:opart_v2/opart_icons.dart';
 import '../main.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';

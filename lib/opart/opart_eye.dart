@@ -502,11 +502,11 @@ drawSegment(
       );
     } else {
       // draw the trunk
-      List PD = [
+      List pD = [
         root[0] + segmentLength * cos(direction),
         root[1] - segmentLength * sin(direction)
       ];
-      drawTheTrunk(canvas, rnd, borderX, borderY, root, PD, nextColor,
+      drawTheTrunk(canvas, rnd, borderX, borderY, root, pD, nextColor,
           opacity, width);
 
       //grow
@@ -515,7 +515,7 @@ drawSegment(
         rnd,
         borderX,
         borderY,
-        PD,
+        pD,
         width * widthDecay,
         segmentLength * segmentDecay,
         direction,
@@ -541,11 +541,11 @@ drawSegment(
   }
 }
 
-drawTheTrunk(Canvas canvas, Random rnd, double borderX, double borderY, List P1,
-    List P2, Color trunkFillColor, double opacity, double width) {
+drawTheTrunk(Canvas canvas, Random rnd, double borderX, double borderY,
+    List p1, List p2, Color trunkFillColor, double opacity, double width) {
   canvas.drawLine(
-      Offset(P1[0], P1[1]),
-      Offset(P2[0], P2[1]),
+      Offset(p1[0], p1[1]),
+      Offset(p2[0], p2[1]),
       Paint()
         ..style = PaintingStyle.stroke
         ..color = trunkFillColor.withOpacity(opacity)

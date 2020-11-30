@@ -22,20 +22,6 @@ SettingsModel reDraw = SettingsModel(
   silent: true,
 );
 
-SettingsModel zoomOpArt = SettingsModel(
-  name: 'zoomOpArt',
-  settingType: SettingType.double,
-  label: 'zoomOpArt',
-  tooltip: 'The horizontal width of each stripe',
-  min: 0.1,
-  max: 10.0,
-  zoom: 100,
-  defaultValue: 1.0,
-  icon: Icon(Icons.more_horiz),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-);
-
 SettingsModel minimumDepth = SettingsModel(
   settingType: SettingType.int,
   name: 'minimumDepth',
@@ -173,7 +159,6 @@ List<SettingsModel> initializeQuadsAttributes() {
 
   return [
     reDraw,
-    zoomOpArt,
     minimumDepth,
     maximumDepth,
     density,
@@ -213,13 +198,13 @@ void paintQuads(Canvas canvas, Size size, int seed, double animationVariable, Op
   int recursionDepth = 0;
   var colourOrder = 0;
 
-  var P1 = [0.0, 0.0];
-  var P2 = [imageSize, 0.0];
-  var P3 = [imageSize, imageSize];
-  var P4 = [0.0, imageSize];
+  var p1 = [0.0, 0.0];
+  var p2 = [imageSize, 0.0];
+  var p3 = [imageSize, imageSize];
+  var p4 = [0.0, imageSize];
 
   drawQuadrilateral(canvas, opArt.palette.colorList,
-      P1, P2, P3, P4,
+      p1, p2, p3, p4,
       recursionDepth, minimumDepth.value.toInt(), maximumDepth.value.toInt(),
       ratio.value, density.value, randomiseRatio.value,
       colourOrder, 0, lineColor.value, lineWidth.value);
@@ -232,7 +217,7 @@ void paintQuads(Canvas canvas, Size size, int seed, double animationVariable, Op
 
 
 void drawQuadrilateral(Canvas canvas, List colorList,
-    List P0, List P1, List P2, List P3,
+    List p0, List p1, List p2, List p3,
     int recursionDepth, int minimumDepth, int maximumDepth,
     double ratio, double density, bool randomiseRatio,
     int colourOrder, direction, Color lineColor, double lineWidth) {
@@ -253,10 +238,10 @@ void drawQuadrilateral(Canvas canvas, List colorList,
 
 
   Path quad = Path();
-  quad.moveTo(P0[0], P0[1]);
-  quad.lineTo(P1[0], P1[1]);
-  quad.lineTo(P2[0], P2[1]);
-  quad.lineTo(P3[0], P3[1]);
+  quad.moveTo(p0[0], p0[1]);
+  quad.lineTo(p1[0], p1[1]);
+  quad.lineTo(p2[0], p2[1]);
+  quad.lineTo(p3[0], p3[1]);
   quad.close();
   canvas.drawPath(quad, Paint()
     ..color = nextColor
@@ -277,31 +262,31 @@ void drawQuadrilateral(Canvas canvas, List colorList,
     }
 
     if (direction == 0) {
-      List PA = [P0[0] * localRatio + P1[0] * (1 - localRatio), P0[1] * localRatio + P1[1] * (1 - localRatio)];
-      List PB = [P2[0] * localRatio + P3[0] * (1 - localRatio), P2[1] * localRatio + P3[1] * (1 - localRatio)];
+      List pA = [p0[0] * localRatio + p1[0] * (1 - localRatio), p0[1] * localRatio + p1[1] * (1 - localRatio)];
+      List pB = [p2[0] * localRatio + p3[0] * (1 - localRatio), p2[1] * localRatio + p3[1] * (1 - localRatio)];
 
       drawQuadrilateral(canvas, colorList,
-          P0, PA, PB, P3,
+          p0, pA, pB, p3,
           recursionDepth + 1, minimumDepth, maximumDepth,
           ratio, density, randomiseRatio,
           colourOrder + 1, 1, lineColor, lineWidth);
       drawQuadrilateral(canvas, colorList,
-          P1, PA, PB, P2,
+          p1, pA, pB, p2,
           recursionDepth + 1, minimumDepth, maximumDepth,
           ratio, density, randomiseRatio,
           colourOrder + 1, 1, lineColor, lineWidth);
     }
     else {
-      List PA = [P1[0] * localRatio + P2[0] * (1 - localRatio), P1[1] * localRatio + P2[1] * (1 - localRatio)];
-      List PB = [P3[0] * localRatio + P0[0] * (1 - localRatio), P3[1] * localRatio + P0[1] * (1 - localRatio)];
+      List pA = [p1[0] * localRatio + p2[0] * (1 - localRatio), p1[1] * localRatio + p2[1] * (1 - localRatio)];
+      List pB = [p3[0] * localRatio + p0[0] * (1 - localRatio), p3[1] * localRatio + p0[1] * (1 - localRatio)];
 
       drawQuadrilateral(canvas, colorList,
-          P0, P1, PA, PB,
+          p0, p1, pA, pB,
           recursionDepth + 1, minimumDepth, maximumDepth,
           ratio, density, randomiseRatio,
           colourOrder + 1, 0, lineColor, lineWidth);
       drawQuadrilateral(canvas, colorList,
-          P2, P3, PB, PA,
+          p2, p3, pB, pA,
           recursionDepth + 1, minimumDepth, maximumDepth,
           ratio, density, randomiseRatio,
           colourOrder + 1, 0, lineColor, lineWidth);

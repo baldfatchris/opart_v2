@@ -6,9 +6,6 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:path/path.dart';
 import 'package:opart_v2/model_opart.dart';
-import 'package:opart_v2/opart_page.dart';
-import 'dart:io';
-import 'main.dart';
 
 class DatabaseHelper {
   // This is the actual database filename that is saved in the docs directory.

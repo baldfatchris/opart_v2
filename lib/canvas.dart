@@ -6,7 +6,6 @@ import 'model_opart.dart';
 import 'opart_page.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'model_settings.dart';
 
 class CanvasWidget extends StatefulWidget {
   bool _fullScreen;
@@ -22,11 +21,9 @@ class _CanvasWidgetState extends State<CanvasWidget>
     with TickerProviderStateMixin {
   bool playing = true;
   Animation<double> currentAnimation;
-  double _timeDilation = 1;
 
   @override
   void initState() {
-    bool playing = true;
     _forward = true;
     timeDilation = 1;
 

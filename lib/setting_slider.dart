@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class settingsSlider extends StatefulWidget {
+class SettingsSlider extends StatefulWidget {
   String label;
   String tooltip;
   double currentValue;
@@ -12,11 +12,11 @@ class settingsSlider extends StatefulWidget {
   Function toggleLock;
   Function updateCache;
 
-  settingsSlider(this.label, this.tooltip, this.currentValue, this.min,
+  SettingsSlider(this.label, this.tooltip, this.currentValue, this.min,
       this.max, this.locked, this.zoom, this.onChanged, this.toggleLock,this.updateCache );
 
   @override
-  _settingsSliderState createState() => _settingsSliderState();
+  _SettingsSliderState createState() => _SettingsSliderState();
 }
 
 // calculate the min of the zoom slider
@@ -45,7 +45,7 @@ double zoomMax (double min, double max, double value, double zoom) {
 
 
 
-class _settingsSliderState extends State<settingsSlider> {
+class _SettingsSliderState extends State<SettingsSlider> {
 
   @override
   Widget build(BuildContext context) {

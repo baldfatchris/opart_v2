@@ -5,11 +5,9 @@ import '../opart_page.dart';
 import '../settings_dialog.dart';
 import 'package:opart_v2/opart_page.dart';
 import 'general_tab.dart';
-import 'tab_widget.dart';
-
 
 int slider = 100;
-Widget ToolBoxTab() {
+Widget toolBoxTab() {
 
   List<SettingsModel> tools = opArt.attributes
       .where((element) => element.settingCategory == SettingCategory.tool)

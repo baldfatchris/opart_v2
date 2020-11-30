@@ -11,10 +11,6 @@ import 'mygallery.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
-
-// import 'package:in_app_purchase/in_app_purchase.dart';
 
 bool showDelete = false;
 bool proVersion = true;

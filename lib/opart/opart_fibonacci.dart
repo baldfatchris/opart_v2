@@ -405,7 +405,7 @@ generateFlower(
   Color nextColor;
 
 
-  List P0 = [flowerCentreX + borderX, flowerCentreY + borderY];
+  List p0 = [flowerCentreX + borderX, flowerCentreY + borderY];
 
   double maxRadius = (imageWidth < imageHeight)
       ? currentFlowerFill * imageWidth / 2
@@ -426,7 +426,7 @@ generateFlower(
     drawPetal(
       canvas,
       rnd,
-      P0,
+      p0,
       angle,
       radius,
       petalColor,
@@ -467,7 +467,7 @@ generateFlower(
 drawPetal(
     Canvas canvas,
     Random rnd,
-    List P0,
+    List p0,
     double angle,
     double radius,
     Color colour,
@@ -502,18 +502,18 @@ drawPetal(
   switch (currentPetalType) {
     case 'circle': //"circle": not quite a circle
 
-      List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
+      List p1 = [p0[0] + radius * cos(angle), p0[1] + radius * sin(angle)];
       var petalRadius = radius * currentPetalToRadius;
 
       canvas.drawCircle(
-          Offset(P1[0], P1[1]),
+          Offset(p1[0], p1[1]),
           petalRadius,
           Paint()
             ..style = PaintingStyle.fill
             ..color = colour);
       if (currentLineWidth > 0) {
         canvas.drawCircle(
-            Offset(P1[0], P1[1]),
+            Offset(p1[0], p1[1]),
             petalRadius,
             Paint()
               ..style = PaintingStyle.stroke
@@ -524,43 +524,43 @@ drawPetal(
 
     case 'triangle': //"triangle":
 
-      List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
+      List p1 = [p0[0] + radius * cos(angle), p0[1] + radius * sin(angle)];
       double petalRadius = radius * currentPetalToRadius;
 
-      List PA = [
-        P1[0] +
+      List pA = [
+        p1[0] +
             petalRadius *
                 cos(angle +
                     currentPetalRotation +
                     angle * currentPetalRotationRatio),
-        P1[1] +
+        p1[1] +
             petalRadius *
                 sin(angle +
                     currentPetalRotation +
                     angle * currentPetalRotationRatio)
       ];
-      List PB = [
-        P1[0] +
+      List pB = [
+        p1[0] +
             petalRadius *
                 cos(angle +
                     currentPetalRotation +
                     angle * currentPetalRotationRatio +
                     pi * currentPetalPointiness),
-        P1[1] +
+        p1[1] +
             petalRadius *
                 sin(angle +
                     currentPetalRotation +
                     angle * currentPetalRotationRatio +
                     pi * currentPetalPointiness)
       ];
-      List PC = [
-        P1[0] +
+      List pC = [
+        p1[0] +
             petalRadius *
                 cos(angle +
                     currentPetalRotation +
                     angle * currentPetalRotationRatio -
                     pi * currentPetalPointiness),
-        P1[1] +
+        p1[1] +
             petalRadius *
                 sin(angle +
                     currentPetalRotation +
@@ -569,9 +569,9 @@ drawPetal(
       ];
 
       Path triangle = Path();
-      triangle.moveTo(PA[0], PA[1]);
-      triangle.lineTo(PB[0], PB[1]);
-      triangle.lineTo(PC[0], PC[1]);
+      triangle.moveTo(pA[0], pA[1]);
+      triangle.lineTo(pB[0], pB[1]);
+      triangle.lineTo(pC[0], pC[1]);
       triangle.close();
 
       canvas.drawPath(
@@ -591,11 +591,11 @@ drawPetal(
 
     case 'square': // "square":
 
-      List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
+      List p1 = [p0[0] + radius * cos(angle), p0[1] + radius * sin(angle)];
       double petalRadius = radius * currentPetalToRadius;
 
-      List PA = [
-        P1[0] +
+      List pA = [
+        p1[0] +
             petalRadius *
                 cos(angle +
                     currentPetalRotation +
@@ -603,7 +603,7 @@ drawPetal(
                     pi * 0.0 +
                     currentPetalPointiness +
                     pi / 4),
-        P1[1] +
+        p1[1] +
             petalRadius *
                 sin(angle +
                     currentPetalRotation +
@@ -613,8 +613,8 @@ drawPetal(
                     pi / 4)
       ];
 
-      List PB = [
-        P1[0] +
+      List pB = [
+        p1[0] +
             petalRadius *
                 cos(angle +
                     currentPetalRotation +
@@ -622,7 +622,7 @@ drawPetal(
                     pi * 0.5 -
                     currentPetalPointiness -
                     pi / 4),
-        P1[1] +
+        p1[1] +
             petalRadius *
                 sin(angle +
                     currentPetalRotation +
@@ -632,8 +632,8 @@ drawPetal(
                     pi / 4)
       ];
 
-      List PC = [
-        P1[0] +
+      List pC = [
+        p1[0] +
             petalRadius *
                 cos(angle +
                     currentPetalRotation +
@@ -641,7 +641,7 @@ drawPetal(
                     pi * 1.0 +
                     currentPetalPointiness +
                     pi / 4),
-        P1[1] +
+        p1[1] +
             petalRadius *
                 sin(angle +
                     currentPetalRotation +
@@ -651,8 +651,8 @@ drawPetal(
                     pi / 4)
       ];
 
-      List PD = [
-        P1[0] +
+      List pD = [
+        p1[0] +
             petalRadius *
                 cos(angle +
                     currentPetalRotation +
@@ -660,7 +660,7 @@ drawPetal(
                     pi * 1.5 -
                     currentPetalPointiness -
                     pi / 4),
-        P1[1] +
+        p1[1] +
             petalRadius *
                 sin(angle +
                     currentPetalRotation +
@@ -671,10 +671,10 @@ drawPetal(
       ];
 
       Path square = Path();
-      square.moveTo(PA[0], PA[1]);
-      square.lineTo(PB[0], PB[1]);
-      square.lineTo(PC[0], PC[1]);
-      square.lineTo(PD[0], PD[1]);
+      square.moveTo(pA[0], pA[1]);
+      square.lineTo(pB[0], pB[1]);
+      square.lineTo(pC[0], pC[1]);
+      square.lineTo(pD[0], pD[1]);
       square.close();
 
       canvas.drawPath(
@@ -694,17 +694,17 @@ drawPetal(
 
     // case 'petal': //"petal":
     //
-    //   List P1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
+    //   List p1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
     //   var petalRadius = radius * currentPetalToRadius;
     //
-    //   List PA = [
-    //     P1[0] +
+    //   List pA = [
+    //     p1[0] +
     //         petalRadius *
     //             cos(angle +
     //                 currentPetalRotation +
     //                 angle * currentPetalRotationRatio +
     //                 pi * 0.0),
-    //     P1[1] +
+    //     p1[1] +
     //         petalRadius *
     //             sin(angle +
     //                 currentPetalRotation +
@@ -712,15 +712,15 @@ drawPetal(
     //                 pi * 0.0)
     //   ];
     //
-    //   List PB = [
-    //     P1[0] +
+    //   List pB = [
+    //     p1[0] +
     //         petalRadius *
     //             currentPetalPointiness *
     //             cos(angle +
     //                 currentPetalRotation +
     //                 angle * currentPetalRotationRatio +
     //                 pi * 0.5),
-    //     P1[1] +
+    //     p1[1] +
     //         petalRadius *
     //             currentPetalPointiness *
     //             sin(angle +
@@ -729,14 +729,14 @@ drawPetal(
     //                 pi * 0.5)
     //   ];
     //
-    //   List PC = [
-    //     P1[0] +
+    //   List pC = [
+    //     p1[0] +
     //         petalRadius *
     //             cos(angle +
     //                 currentPetalRotation +
     //                 angle * currentPetalRotationRatio +
     //                 pi * 1.0),
-    //     P1[1] +
+    //     p1[1] +
     //         petalRadius *
     //             sin(angle +
     //                 currentPetalRotation +
@@ -744,15 +744,15 @@ drawPetal(
     //                 pi * 1.0)
     //   ];
     //
-    //   List PD = [
-    //     P1[0] +
+    //   List pD = [
+    //     p1[0] +
     //         petalRadius *
     //             currentPetalPointiness *
     //             cos(angle +
     //                 currentPetalRotation +
     //                 angle * currentPetalRotationRatio +
     //                 pi * 1.5),
-    //     P1[1] +
+    //     p1[1] +
     //         petalRadius *
     //             currentPetalPointiness *
     //             sin(angle +
@@ -763,9 +763,9 @@ drawPetal(
     //
     //   Path petal = Path();
     //
-    //   petal.moveTo(PA[0], PA[1]);
-    //   petal.quadraticBezierTo(PB[0], PB[1], PC[0], PC[1]);
-    //   petal.quadraticBezierTo(PD[0], PD[1], PA[0], PA[1]);
+    //   petal.moveTo(pA[0], pA[1]);
+    //   petal.quadraticBezierTo(pB[0], pB[1], pC[0], pC[1]);
+    //   petal.quadraticBezierTo(pD[0], pD[1], pA[0], pA[1]);
     //   petal.close();
     //
     //   canvas.drawPath(

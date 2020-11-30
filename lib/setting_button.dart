@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 
-class settingsButton extends StatefulWidget {
+class SettingsButton extends StatefulWidget {
   String label;
   String tooltip;
   bool currentValue;
   Function onPressed;
 
-  settingsButton(this.label, this.tooltip, this.currentValue, this.onPressed);
+  SettingsButton(this.label, this.tooltip, this.currentValue, this.onPressed);
 
   @override
-  _settingsButtonState createState() => _settingsButtonState();
+  _SettingsButtonState createState() => _SettingsButtonState();
 }
 
-class _settingsButtonState extends State<settingsButton> {
+class _SettingsButtonState extends State<SettingsButton> {
 
   @override
   Widget build(BuildContext context) {

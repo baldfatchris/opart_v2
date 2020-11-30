@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-class settingsRadioButton extends StatefulWidget {
+class SettingsRadioButton extends StatefulWidget {
   String label;
   String tooltip;
   bool currentValue;
@@ -9,13 +9,13 @@ class settingsRadioButton extends StatefulWidget {
   Function onChanged;
   Function toggleLock;
 
-  settingsRadioButton(this.label, this.tooltip, this.currentValue, this.locked, this.onChanged, this.toggleLock);
+  SettingsRadioButton(this.label, this.tooltip, this.currentValue, this.locked, this.onChanged, this.toggleLock);
 
   @override
-  _settingsRadioButtonState createState() => _settingsRadioButtonState();
+  _SettingsRadioButtonState createState() => _SettingsRadioButtonState();
 }
 
-class _settingsRadioButtonState extends State<settingsRadioButton> {
+class _SettingsRadioButtonState extends State<SettingsRadioButton> {
 
   @override
   Widget build(BuildContext context) {

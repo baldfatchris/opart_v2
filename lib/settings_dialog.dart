@@ -40,7 +40,7 @@ void settingsDialog(context, SettingsModel attribute, OpArt opArt ) {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         (attribute.settingType == SettingType.double )
-                            ? settingsSlider(
+                            ? SettingsSlider(
                           attribute.label,
                           attribute.tooltip,
                           attribute.value,
@@ -65,7 +65,7 @@ void settingsDialog(context, SettingsModel attribute, OpArt opArt ) {
                           },
                         )
                             : (attribute.settingType == SettingType.int)
-                            ? settingsIntSlider(
+                            ? SettingsIntSlider(
                           attribute.label,
                           attribute.tooltip,
                           attribute.value,
@@ -115,7 +115,7 @@ void settingsDialog(context, SettingsModel attribute, OpArt opArt ) {
                           attribute,
                         )
                             : (attribute.settingType == SettingType.color)
-                            ? settingsColorPicker(
+                            ? SettingsColorPicker(
                           attribute.label,
                           attribute.tooltip,
                           attribute.value,
@@ -135,7 +135,7 @@ void settingsDialog(context, SettingsModel attribute, OpArt opArt ) {
                           },
                         )
                             : (attribute.settingType == SettingType.bool)
-                            ? settingsRadioButton(
+                            ? SettingsRadioButton(
                           attribute.label,
                           attribute.tooltip,
                           attribute.value,
@@ -155,7 +155,7 @@ void settingsDialog(context, SettingsModel attribute, OpArt opArt ) {
                             setLocalState(() {});
                           },
                         )
-                            : settingsButton(
+                            : SettingsButton(
                           attribute.label,
                           attribute.tooltip,
                           attribute.value,
