@@ -13,8 +13,8 @@ List<String> list = List();
 SettingsModel zoomOpArt = SettingsModel(
   name: 'zoomOpArt',
   settingType: SettingType.double,
-  label: 'Zoom',
-  tooltip: 'Zoom in and out',
+  label: 'Radius',
+  tooltip: 'The radius of the shapes',
   min: 20.0,
   max: 500.0,
   zoom: 100,
@@ -50,19 +50,7 @@ SettingsModel step = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-SettingsModel stepStep = SettingsModel(
-  name: 'stepStep',
-  settingType: SettingType.double,
-  label: 'Step Ratio',
-  tooltip: 'The ratio of change of the ratio',
-  min: 0.5,
-  max: 1.0,
-  zoom: 100,
-  defaultValue: 0.9,
-  icon: Icon(Icons.control_point_duplicate),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-);
+
 SettingsModel ratio = SettingsModel(
   name: 'ratio',
   settingType: SettingType.double,
@@ -76,7 +64,6 @@ SettingsModel ratio = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-
 
 SettingsModel driftX = SettingsModel( 
   name: 'driftX',
@@ -93,21 +80,7 @@ SettingsModel driftX = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-SettingsModel driftXStep = SettingsModel(
-  name: 'driftXStep',
-  settingType: SettingType.double,
-  label: 'Horizontal Step',
-  tooltip: 'The acceleration of the drift in the horizontal axis',
-  min: -2.0,
-  max: 2.0,
-  randomMin: -0.5,
-  randomMax: -0.5,
-  zoom: 100,
-  defaultValue: 0.0,
-  icon: Icon(Icons.screen_lock_landscape),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-);
+
 SettingsModel driftY = SettingsModel(
   name: 'driftY',
   settingType: SettingType.double,
@@ -123,21 +96,7 @@ SettingsModel driftY = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-SettingsModel driftYStep = SettingsModel(
-  name: 'driftYStep',
-  settingType: SettingType.double,
-  label: 'Vertical Step',
-  tooltip: 'The acceleration of the drift in the vertical axis',
-  min: -2.0,
-  max: 2.0,
-  randomMin: -0.5,
-  randomMax: 0.5,
-  zoom: 100,
-  defaultValue: 0.0,
-  icon: Icon(Icons.screen_lock_portrait),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-);
+
 SettingsModel alternateDrift = SettingsModel(
   name: 'alternateDrift',
   settingType: SettingType.bool,
@@ -148,6 +107,7 @@ SettingsModel alternateDrift = SettingsModel(
   proFeature: false,
   silent: true,
 );
+
 SettingsModel box = SettingsModel(
   name: 'box',
   settingType: SettingType.bool,
@@ -173,6 +133,7 @@ SettingsModel offsetX = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
+
 SettingsModel offsetY = SettingsModel(
   name: 'offsetY',
   settingType: SettingType.double,
@@ -186,6 +147,7 @@ SettingsModel offsetY = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
+
 SettingsModel rotate = SettingsModel(
   name: 'rotate',
   settingType: SettingType.double,
@@ -199,6 +161,7 @@ SettingsModel rotate = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
+
 SettingsModel randomRotation = SettingsModel(
   name: 'randomRotation',
   settingType: SettingType.bool,
@@ -209,19 +172,6 @@ SettingsModel randomRotation = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
-);
-SettingsModel rotateStep = SettingsModel(
-  name: 'rotateStep',
-  settingType: SettingType.double,
-  label: 'Rotate Step',
-  tooltip: 'The rate of increase of the rotation',
-  min: 0.0,
-  max: 2.0,
-  zoom: 100,
-  defaultValue: 0.0,
-  icon: Icon(Icons.screen_rotation),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
 );
 
 SettingsModel squareness = SettingsModel(
@@ -239,6 +189,7 @@ SettingsModel squareness = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
+
 SettingsModel squeezeX = SettingsModel(
   name: 'squeezeX',
   settingType: SettingType.double,
@@ -252,6 +203,7 @@ SettingsModel squeezeX = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
+
 SettingsModel squeezeY = SettingsModel(
   name: 'squeezeY',
   settingType: SettingType.double,
@@ -265,6 +217,7 @@ SettingsModel squeezeY = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
+
 SettingsModel numberOfSides = SettingsModel(
   name: 'numberOfSides',
   settingType: SettingType.int,
@@ -277,6 +230,7 @@ SettingsModel numberOfSides = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
+
 SettingsModel randomPetals = SettingsModel(
   name: 'randomPetals',
   settingType: SettingType.bool,
@@ -288,7 +242,6 @@ SettingsModel randomPetals = SettingsModel(
   proFeature: false,
   silent: true,
 );
-
 
 SettingsModel lineWidth = SettingsModel(
   name: 'lineWidth',
@@ -303,6 +256,7 @@ SettingsModel lineWidth = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
+
 SettingsModel randomColors = SettingsModel(
   name: 'randomColors',
   settingType: SettingType.bool,
@@ -314,6 +268,7 @@ SettingsModel randomColors = SettingsModel(
   proFeature: false,
   silent: true,
 );
+
 SettingsModel resetColors = SettingsModel(
   name: 'resetColors',
   settingType: SettingType.bool,
@@ -325,6 +280,7 @@ SettingsModel resetColors = SettingsModel(
   proFeature: false,
   silent: true,
 );
+
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
@@ -342,6 +298,7 @@ SettingsModel paletteType = SettingsModel(
   onChange: (){generatePalette();},
   proFeature: false,
 );
+
 SettingsModel paletteList = SettingsModel(
   name: 'paletteList',
   settingType: SettingType.list,
@@ -353,6 +310,7 @@ SettingsModel paletteList = SettingsModel(
   settingCategory: SettingCategory.other,
   proFeature: false,
 );
+
 SettingsModel opacity = SettingsModel(
   name: 'opacity',
   settingType: SettingType.double,
@@ -387,21 +345,17 @@ List<SettingsModel> initializeWallpaperAttributes() {
     shape,
 
     step,
-    stepStep,
     ratio,
 
     offsetX,
     offsetY,
 
     driftX,
-    driftXStep,
     driftY,
-    driftYStep,
     alternateDrift,
     box,
     rotate,
     randomRotation,
-    rotateStep,
     squareness,
     squeezeX,
     squeezeY,
@@ -1020,31 +974,18 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
         }
 
         // Drift & Rotate
-        if (alternateDrift.value && (i + j) % 2 == 0) {
-          localRotate = localRotate - rotateStep.value;
-        } else {
-          localRotate = localRotate + rotateStep.value;
-        }
         if (alternateDrift.value && (i) % 2 == 0) {
-          dX = dX -
-              driftX.value -
-              k * driftXStep.value;
+          dX = dX - driftX.value;
         } else {
-          dX = dX +
-              driftX.value +
-              k * driftXStep.value;
+          dX = dX + driftX.value;
         }
         if (alternateDrift.value && (j) % 2 == 0) {
           dY = dY -
-              driftY.value -
-              k * driftYStep.value;
+              driftY.value;
         } else {
-          dY = dY +
-              driftY.value +
-              k * driftYStep.value;
+          dY = dY + driftY.value;
         }
 
-        localStep = localStep * stepStep.value;
         stepRadius = stepRadius - localStep;
         k++;
       } while (k < 40 && stepRadius > 0 && step.value > 0);
