@@ -23,12 +23,15 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 class OpArtPage extends StatefulWidget {
   OpArtType opArtType;
   Map<String, dynamic> opArtSettings;
-  OpArtPage(this.opArtType, {this.opArtSettings});
+  bool downloadNow;
+  OpArtPage(
+    this.opArtType,
+    this.downloadNow, {
+    this.opArtSettings,
+  });
   @override
   _OpArtPageState createState() => _OpArtPageState();
 }
-
-
 
 bool showSettings = false;
 File imageFile;
@@ -37,15 +40,21 @@ OpArt opArt;
 bool changeSettingsView = true;
 bool highDefDownloadAvailable = false;
 String highDefPrice;
+bool downloadNow = false;
 
 class _OpArtPageState extends State<OpArtPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool showProgressIndicator = false;
   @override
   void initState() {
-     slider = 100;
+    downloadNow = widget.downloadNow;
+    if (downloadNow) {
+      showProgressIndicator = true;
+    }
+    slider = 100;
     opArt = OpArt(opArtType: widget.opArtType);
     if (widget.opArtSettings != null) {
       seed = widget.opArtSettings['seed'];
-
       for (int i = 0; i < opArt.attributes.length; i++) {
         opArt.attributes[i].value =
             widget.opArtSettings[opArt.attributes[i].label];
@@ -72,13 +81,68 @@ class _OpArtPageState extends State<OpArtPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) => opArt.saveToCache());
   }
 
+  _downloadHighResFile() async {
+    downloadNow = false;
+    imageFile = null;
+    screenshotController
+        .capture(delay: Duration(milliseconds: 100), pixelRatio: 10)
+        .then((File image) async {
+      print(image);
+      setState(() {
+        imageFile = image;
+
+        if (Platform.isAndroid) {
+          Share.shareFiles(
+            [imageFile.path],
+            subject: 'Created using OpArt Lab - download the free app now!',
+            text: 'Created using OpArt Lab - download the free app now!',
+          );
+        } else {
+          Share.shareFiles(
+            [imageFile.path],
+            sharePositionOrigin: Rect.fromLTWH(
+                0,
+                0,
+                MediaQuery.of(context).size.width,
+                MediaQuery.of(context).size.height / 2),
+            subject: 'Created using OpArt Lab - download the free app now!',
+          );
+        }
+        showProgressIndicator = false;
+        rebuildOpArtPage.value++;
+      });
+    });
+  }
+
+  Future<bool> _shareImage(Size size) async {
+    if (Platform.isAndroid) {
+      Share.shareFiles(
+        [imageFile.path],
+        subject: 'Created using OpArt Lab - download the free app now!',
+        text: 'Created using OpArt Lab - download the free app now!',
+      );
+    } else {
+      Share.shareFiles(
+        [imageFile.path],
+        sharePositionOrigin: Rect.fromLTWH(0, 0, size.width, size.height / 2),
+        subject: 'Created using OpArt Lab - download the free app now!',
+      );
+    }
+    return true;
+  }
+
   AnimationController animationController;
   @override
   Widget build(BuildContext context) {
-
-     toolsTab = ToolsTab();
-     paletteTab = PaletteTab(context);
-     choosePaletteTab = ChoosePaletteTab();
+    if (downloadNow) {
+      WidgetsBinding.instance.addPostFrameCallback((value) {
+        _downloadHighResFile();
+      });
+    }
+    ;
+    toolsTab = ToolsTab();
+    paletteTab = PaletteTab(context);
+    choosePaletteTab = ChoosePaletteTab();
     Size size = MediaQuery.of(context).size;
     Future<void> _paymentDialog() async {
       if (animationController != null) {
@@ -156,28 +220,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                         print(image);
                                         setState(() {
                                           imageFile = image;
-
-                                          if (Platform.isAndroid) {
-                                            Share.shareFiles(
-                                              [imageFile.path],
-                                              subject:
-                                                  'Created using OpArt Lab - download the free app now!',
-                                              text:
-                                                  'Created using OpArt Lab - check it out at opartlab.com',
-                                            );
-                                          } else {
-                                            Share.shareFiles(
-                                              [imageFile.path],
-                                              sharePositionOrigin:
-                                                  Rect.fromLTWH(
-                                                      0,
-                                                      0,
-                                                      size.width,
-                                                      size.height / 2),
-                                              subject:
-                                                  'Using Chris\'s fabulous OpArt App',
-                                            );
-                                          }
+                                          _shareImage(size);
                                         });
                                       });
                                     },
@@ -207,7 +250,9 @@ class _OpArtPageState extends State<OpArtPage> {
                                 Flexible(
                                   child: FloatingActionButton(
                                     onPressed: () async {
-
+                                      Navigator.pop(context);
+                                      showProgressIndicator = true;
+                                      rebuildOpArtPage.value++;
                                       try {
                                         Purchases.setFinishTransactions(true);
                                         PurchaserInfo purchaserInfo =
@@ -221,84 +266,35 @@ class _OpArtPageState extends State<OpArtPage> {
                                         purchases.forEach((element) {
                                           if (element == 'p0001') {
                                             // Process the high definition download
-                                            Navigator.pop(context);
                                             imageFile = null;
+
                                             screenshotController
                                                 .capture(
                                                     delay: Duration(
                                                         milliseconds: 100),
                                                     pixelRatio: 10)
                                                 .then((File image) async {
-                                              print(image);
-                                              setState(() {
-                                                imageFile = image;
+                                              print('image saved');
 
-                                                if (Platform.isAndroid) {
-                                                  Share.shareFiles(
-                                                    [imageFile.path],
-                                                    subject:
-                                                        'Created using OpArt Lab - download the free app now!',
-                                                    text:
-                                                        'Created using OpArt Lab - download the free app now!',
-                                                  );
-                                                } else {
-                                                  Share.shareFiles(
-                                                    [imageFile.path],
-                                                    sharePositionOrigin:
-                                                        Rect.fromLTWH(
-                                                            0,
-                                                            0,
-                                                            size.width,
-                                                            size.height / 2),
-                                                    subject:
-                                                        'Created using OpArt Lab - download the free app now!',
-                                                  );
-                                                }
-                                                showDialog<void>(
-                                                    context: context,
-                                                    barrierDismissible:
-                                                    true, // user must tap button!
-                                                    builder: (BuildContext context) {
-                                                      return Dialog(
-                                                          child: Container(
+                                              imageFile = image;
+                                              _shareImage(size).then((value) {
+                                                opArt
+                                                    .saveToLocalDB(true)
+                                                    .then((value) async {
+                                                  rebuildMain.value++;
+                                                  rebuildGallery.value++;
 
-                                                            height: 250,
-                                                            width: 300,
-                                                            child: Stack(
-                                                              children: [
-                                                                Center(
-                                                                  child: (Column(
-                                                                      mainAxisSize: MainAxisSize.min,
-                                                                      children: [
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(top: 60.0),
-                                                                          child: Text('Thank you for buying from OpArt Lab',textAlign: TextAlign.center,
-                                                                              style: TextStyle(
-                                                                                  fontSize: 18,
-                                                                                  fontWeight:
-                                                                                  FontWeight.bold)),
-                                                                        ),
-                                                                        SizedBox(height: 12),
-                                                                        RaisedButton(
-                                                                          onPressed: () {
-                                                                            Navigator.pop(context);
-                                                                          },
-                                                                          child:
-                                                                          Text('Ok'),
-                                                                        )
-                                                                      ])),
-                                                                ),
-                                                                Align(
-                                                                    alignment: Alignment.topRight,
-                                                                    child:
-                                                                    Material(child: Padding(
-                                                                      padding: const EdgeInsets.all(8.0),
-                                                                      child: CloseButton(),
-                                                                    )))
-                                                              ],
-                                                            ),
-                                                          ));
-                                                    });
+                                                  showProgressIndicator = false;
+
+                                                  Navigator.pushReplacement(
+                                                      _scaffoldKey
+                                                          .currentContext,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              MyGallery(
+                                                                  value + 10,
+                                                                  true)));
+                                                });
                                               });
                                             });
                                           }
@@ -353,8 +349,10 @@ class _OpArtPageState extends State<OpArtPage> {
     return ValueListenableBuilder<int>(
         valueListenable: rebuildOpArtPage,
         builder: (context, value, child) {
-          return WillPopScope(onWillPop: () async => false,
+          return WillPopScope(
+            onWillPop: () async => false,
             child: Scaffold(
+              key: _scaffoldKey,
               // floatingActionButton: showSettings
               //     ? Padding(
               //         padding: const EdgeInsets.only(top: 130.0),
@@ -415,7 +413,6 @@ class _OpArtPageState extends State<OpArtPage> {
                           color: Colors.black,
                         ),
                         onPressed: () {
-
                           rebuildMain.value++;
                           showDelete = false;
                           showControls = false;
@@ -435,7 +432,7 @@ class _OpArtPageState extends State<OpArtPage> {
                         IconButton(
                             icon: Icon(Icons.save, color: Colors.black),
                             onPressed: () {
-                              opArt.saveToLocalDB();
+                              opArt.saveToLocalDB(false);
                               showDialog<void>(
                                   context: context,
                                   barrierDismissible:
@@ -443,7 +440,6 @@ class _OpArtPageState extends State<OpArtPage> {
                                   builder: (BuildContext context) {
                                     return Dialog(
                                         child: Container(
-
                                       height: 150,
                                       width: 200,
                                       child: Stack(
@@ -452,7 +448,9 @@ class _OpArtPageState extends State<OpArtPage> {
                                             child: (Column(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
-                                                  Text('Saved to My \nGallery',textAlign: TextAlign.center,
+                                                  Text('Saved to My \nGallery',
+                                                      textAlign:
+                                                          TextAlign.center,
                                                       style: TextStyle(
                                                           fontSize: 18,
                                                           fontWeight:
@@ -477,7 +475,10 @@ class _OpArtPageState extends State<OpArtPage> {
                                                           context,
                                                           MaterialPageRoute(
                                                               builder: (context) =>
-                                                                  MyGallery(savedOpArt.length)));
+                                                                  MyGallery(
+                                                                      savedOpArt
+                                                                          .length,
+                                                                      false)));
                                                     },
                                                     child:
                                                         Text('View My Gallery'),
@@ -486,11 +487,12 @@ class _OpArtPageState extends State<OpArtPage> {
                                           ),
                                           Align(
                                               alignment: Alignment.topRight,
-                                              child:
-                                                  Material(child: Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: CloseButton(),
-                                                  )))
+                                              child: Material(
+                                                  child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: CloseButton(),
+                                              )))
                                         ],
                                       ),
                                     ));
@@ -507,8 +509,7 @@ class _OpArtPageState extends State<OpArtPage> {
               body: Stack(
                 children: [
                   GestureDetector(
-
-                      onDoubleTap: (){
+                      onDoubleTap: () {
                         if (!showSettings) {
                           opArt.randomizeSettings();
                           opArt.randomizePalette();
@@ -517,37 +518,44 @@ class _OpArtPageState extends State<OpArtPage> {
                           rebuildCanvas.value++;
                         }
                       },
-
                       onTap: () {
-                        if(changeSettingsView){
+                        if (changeSettingsView) {
                           changeSettingsView = false;
-                        setState(() {
-                          if (showSettings) {
-                            slider = 100;
-                            if (showCustomColorPicker) {
-                              opArt.saveToCache();
-                            }
-                            showControls = false;
-                            showSettings = false;
+                          setState(() {
+                            if (showSettings) {
+                              slider = 100;
+                              if (showCustomColorPicker) {
+                                opArt.saveToCache();
+                              }
+                              showControls = false;
+                              showSettings = false;
 
-                            showCustomColorPicker = false;
-                          } else {
-                            showSettings = true;
-                            showCustomColorPicker = false;
-                          }
-                        });
+                              showCustomColorPicker = false;
+                            } else {
+                              showSettings = true;
+                              showCustomColorPicker = false;
+                            }
+                          });
                           Future.delayed(const Duration(seconds: 1));
                           changeSettingsView = true;
                         }
-
                       },
-                      child: InteractiveViewer(
-                        child: ClipRect(
-                            child: CanvasWidget(
-                          showSettings,
-                        )),
-                      )
-                  ),
+                      child: Stack(
+                        children: [
+                          InteractiveViewer(
+                            child: ClipRect(
+                                child: CanvasWidget(
+                              showSettings,
+                            )),
+                          ),
+                          showProgressIndicator
+                              ? Container(
+                                  color: Colors.white.withOpacity(0.4),
+                                  child: Center(
+                                      child: CircularProgressIndicator()))
+                              : Container()
+                        ],
+                      )),
                   Align(
                     alignment: Alignment.topCenter,
                     child: showSettings
@@ -564,17 +572,19 @@ class _OpArtPageState extends State<OpArtPage> {
                                           : ListView.builder(
                                               scrollDirection: Axis.horizontal,
                                               controller: scrollController,
-                                              itemCount: opArt.cacheListLength(),
+                                              itemCount:
+                                                  opArt.cacheListLength(),
                                               reverse: false,
                                               itemBuilder: (context, index) {
                                                 return Padding(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(
-                                                          vertical: 2.0,
-                                                          horizontal: 4),
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      vertical: 2.0,
+                                                      horizontal: 4),
                                                   child: GestureDetector(
                                                     onTap: () {
-                                                      opArt.revertToCache(index);
+                                                      opArt
+                                                          .revertToCache(index);
                                                     },
                                                     child: Image.file(opArt
                                                         .cache[index]['image']),
@@ -586,13 +596,10 @@ class _OpArtPageState extends State<OpArtPage> {
                           )
                         : Container(height: 0),
                   ),
-
                   showSettings && !paletteTab.startOpening
                       ? TabWidget(choosePaletteTab)
                       : Container(),
-                  showSettings
-                      ? TabWidget(toolsTab)
-                      : Container(),
+                  showSettings ? TabWidget(toolsTab) : Container(),
                   showSettings && !choosePaletteTab.startOpening
                       ? TabWidget(paletteTab)
                       : Container(),
