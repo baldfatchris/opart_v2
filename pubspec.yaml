@@ -32,7 +32,7 @@ dev_dependencies:
   screenshot: ^0.2.0
 #  image_gallery_saver: '^1.5.0'
   path_provider: ^1.6.18
-  permission_handler: ^5.0.1+1
+#  permission_handler: ^5.0.1+1
   share: ^0.6.5+3
   shake: ^0.1.0
   flutter_icons: ^1.1.0

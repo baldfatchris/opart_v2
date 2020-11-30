@@ -16,7 +16,7 @@ bool showDelete = false;
 bool proVersion = true;
 Random rnd = Random();
 int seed = DateTime.now().millisecond;
-double aspectRatio = 2/3;
+double aspectRatio = 2 / 3;
 
 Offerings offerings;
 
@@ -49,6 +49,7 @@ class _MyAppState extends State<MyApp> {
       home: MyHomePage(title: 'Op Art Studio'),
     );
   }
+
   Future<void> initPlatformState() async {
     proVersion = false;
 
@@ -84,6 +85,7 @@ class _MyAppState extends State<MyApp> {
       // optional error handling
     }
   }
+
   @override
   void initState() {
     DatabaseHelper helper = DatabaseHelper.instance;
@@ -110,7 +112,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     print(MediaQuery.of(context).size.width);
     print(MediaQuery.of(context).size.height);
-    return WillPopScope(onWillPop: () async => false,
+    return WillPopScope(
+      onWillPop: () async => false,
       child: Scaffold(
           body: SafeArea(
         child: Column(
@@ -156,10 +159,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     return GestureDetector(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    OpArtPage(opArtTypes[index].opArtType, false)), );
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => OpArtPage(
+                                  opArtTypes[index].opArtType, false)),
+                        );
                       },
                       child: Column(
                         children: [
@@ -182,7 +186,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => MyGallery(savedOpArt.length - 1, false)));
+                        builder: (context) =>
+                            MyGallery(savedOpArt.length - 1, false)));
               },
               child: Text('My Gallery',
                   style: TextStyle(
@@ -196,7 +201,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   valueListenable: rebuildMain,
                   builder: (context, value, child) {
                     if (savedOpArt.length == 0) {
-                      return Text('Curate your own gallery of stunning OpArt here.');
+                      return Text(
+                          'Curate your own gallery of stunning OpArt here.');
                     }
                     return Container(
                       height: 100,
@@ -204,7 +210,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           itemCount: savedOpArt.length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
-
                             return Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 0.0),
@@ -237,36 +242,46 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ValueListenableBuilder<int>(
                                         valueListenable: _rebuildDelete,
                                         builder: (context, value, child) {
-                                        return showDelete
-                                            ? Positioned(
-                                                right: 0,
-                                                top: 0,
-                                                child: Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      shape: BoxShape.circle),
-                                                  child: Center(
-                                                    child: FloatingActionButton(
-                                                        onPressed: () {
-                                                          DatabaseHelper helper =
-                                                              DatabaseHelper.instance;
-                                                          helper.delete(
-                                                              savedOpArt[index]
-                                                                  ['id']);
-                                                          savedOpArt.removeAt(index);
-                                                          showDelete = false;
-                                                          rebuildMain.value++;
-                                                        },
-                                                        backgroundColor: Colors.white,
-                                                        child: Icon(Icons.delete,
-                                                            color: Colors.grey)),
-                                                  ),
-                                                ))
-                                            : Container();
-                                      }
-                                    ),
+                                          return showDelete
+                                              ? Positioned(
+                                                  right: 0,
+                                                  top: 0,
+                                                  child: Container(
+                                                    height: 30,
+                                                    width: 30,
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        shape: BoxShape.circle),
+                                                    child: Center(
+                                                      child:
+                                                          FloatingActionButton(
+                                                              onPressed: () {
+                                                                DatabaseHelper
+                                                                    helper =
+                                                                    DatabaseHelper
+                                                                        .instance;
+                                                                helper.delete(
+                                                                    savedOpArt[
+                                                                            index]
+                                                                        ['id']);
+                                                                savedOpArt
+                                                                    .removeAt(
+                                                                        index);
+                                                                showDelete =
+                                                                    false;
+                                                                rebuildMain
+                                                                    .value++;
+                                                              },
+                                                              backgroundColor:
+                                                                  Colors.white,
+                                                              child: Icon(
+                                                                  Icons.delete,
+                                                                  color: Colors
+                                                                      .grey)),
+                                                    ),
+                                                  ))
+                                              : Container();
+                                        }),
                                   ],
                                 ),
                               ),
@@ -286,24 +301,25 @@ class _MyHomePageState extends State<MyHomePage> {
     // InAppPurchaseConnection.enablePendingPurchases();
 
     opArtTypes = [
-      OpArtTypes('Wallpaper', OpArtType.Wallpaper, 'lib/assets/wallpaper_500.png'),OpArtTypes('Neighbour', OpArtType.Neighbour, 'lib/assets/neighbour_500.png'),
+      OpArtTypes(
+          'Wallpaper', OpArtType.Wallpaper, 'lib/assets/wallpaper_500.png'),
       OpArtTypes('Diagonal', OpArtType.Diagonal, 'lib/assets/diagonal_500.png'),
       OpArtTypes('Shapes', OpArtType.Shapes, 'lib/assets/shapes_500.png'),
+       OpArtTypes(
+          'Neighbour', OpArtType.Neighbour, 'lib/assets/neighbour_500.png'),
       OpArtTypes('Maze', OpArtType.Maze, 'lib/assets/maze_500.png'),
       OpArtTypes('Quads', OpArtType.Quads, 'lib/assets/quads_500.png'),
       OpArtTypes('Riley', OpArtType.Riley, 'lib/assets/riley_500.png'),
-      OpArtTypes('Hexagons', OpArtType.Hexagons, 'lib/assets/hexagons_500.png'),
+      OpArtTypes(
+          'Triangles', OpArtType.Triangles, 'lib/assets/triangles_500.png'),
       OpArtTypes('Squares', OpArtType.Squares, 'lib/assets/squares_500.png'),
-      OpArtTypes('Triangles', OpArtType.Triangles, 'lib/assets/triangles_500.png'),
-
-
-      OpArtTypes('Eye', OpArtType.Eye, 'lib/assets/eye_500.png'),OpArtTypes('Spirals', OpArtType.Fibonacci, 'lib/assets/fibonacci_400.png'),
+      OpArtTypes(
+          'Spirals', OpArtType.Fibonacci, 'lib/assets/fibonacci_400.png'),
+      OpArtTypes('Eye', OpArtType.Eye, 'lib/assets/eye_500.png'),
+        OpArtTypes('Hexagons', OpArtType.Hexagons, 'lib/assets/hexagons_500.png'),
       OpArtTypes('Trees', OpArtType.Tree, 'lib/assets/tree_400.png'),
       OpArtTypes('Waves', OpArtType.Wave, 'lib/assets/wave_400.png'),
     ];
     super.initState();
-
   }
-
-
 }
