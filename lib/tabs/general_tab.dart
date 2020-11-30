@@ -8,23 +8,34 @@ import 'palette_widget.dart';
 import 'choose_pallette_widget.dart';
 
 class GeneralTab {
-  String name;
   bool open = false;
-
-  AnimationController animationController;
-  Animation animation;
+  double position;
   double width;
   double tabHeight;
   bool left;
   IconData icon;
-
-  void showTab(){}
-
-
-  void openTab() {
-  }
+  bool hidden = false;
 
   void closeTab() {
+    if(hidden){
+      hidden = false;
+    }
+    position = -width;
+    rebuildTab.value++;
+    open = false;
+  }
+
+  void openTab() {
+    position = 0;
+    open = true;
+    rebuildTab.value++;
+  }
+
+  void hideTab() {
+    position = -width-45;
+    rebuildTab.value++;
+    open = false;
+    hidden = true;
   }
 
   Widget content() {
@@ -36,10 +47,7 @@ ToolsTab toolsTab;
 PaletteTab paletteTab;
 ChoosePaletteTab choosePaletteTab;
 
-class ToolsTab implements GeneralTab {
-  @override
-  AnimationController animationController;
-
+class ToolsTab extends GeneralTab {
   @override
   IconData icon = MdiIcons.tools;
 
@@ -47,24 +55,28 @@ class ToolsTab implements GeneralTab {
   bool left = false;
 
   @override
-  bool open = false;
-
-  @override
   double tabHeight = -0.5;
 
   @override
-  double width = 80;
+  double position = -80;
+
   @override
-  void openTab() {
-    paletteTab?.closeTab();
-    choosePaletteTab?.closeTab();
-    animationController.forward();
-    open = false;
+  double width = 80;
+
+  void showSlider(){
+  position = 80;
+  rebuildTab.value++;
   }
 
   @override
-  void closeTab() {
-    animationController?.reverse();
+  void openTab() {
+    position = 0;
+    if(paletteTab.open){
+    paletteTab?.closeTab();}
+    if(choosePaletteTab.open){
+    choosePaletteTab?.closeTab();}
+    open = true;
+    rebuildTab.value++;
   }
 
   @override
@@ -72,27 +84,11 @@ class ToolsTab implements GeneralTab {
     return ToolBoxTab();
   }
 
-  @override
-  Animation animation;
-
-
-
-
-  @override
-  String name = 'tools';
-
-  @override
-  void showTab() {
-   animation = Tween<double>(begin: 0, end: width).animate(animationController);
-    animationController.forward();
-  }
 }
 
-class PaletteTab implements GeneralTab {
+class PaletteTab extends GeneralTab {
   BuildContext context;
   PaletteTab(this.context);
-  @override
-  AnimationController animationController;
 
   @override
   IconData icon = Icons.palette;
@@ -100,8 +96,6 @@ class PaletteTab implements GeneralTab {
   @override
   bool left = true;
 
-  @override
-  bool open = false;
 
   @override
   double tabHeight = -0.5;
@@ -111,18 +105,25 @@ class PaletteTab implements GeneralTab {
 
   @override
   void openTab() {
-    toolsTab?.closeTab();
-    choosePaletteTab?.closeTab();
+    position = 0;
+    open = true;
+    if(toolsTab.open){
+    toolsTab.closeTab();}
+    choosePaletteTab.hideTab();
 
-    rebuildOpArtPage.value++;
-    animationController.forward();
+    rebuildTab.value++;
   }
 
   @override
   void closeTab() {
+    if(choosePaletteTab.hidden){
+      choosePaletteTab.closeTab();
+      choosePaletteTab.hidden = false;
+    }
+    position = -50;
     showCustomColorPicker = false;
-    animationController?.reverse();
     open = false;
+    rebuildTab.value++;
   }
 
   @override
@@ -130,34 +131,19 @@ class PaletteTab implements GeneralTab {
     return paletteTabWidget();
   }
 
-  @override
-  Animation animation ;
-
-
-
 
 
   @override
-  String name = 'palette tab';
+  double position = -50;
 
-  @override
-  void showTab() {
-    // TODO: implement hideTab
-  }
 }
 
-class ChoosePaletteTab implements GeneralTab {
-  @override
-  AnimationController animationController;
-
+class ChoosePaletteTab extends GeneralTab {
   @override
   IconData icon = Icons.palette_outlined;
 
   @override
   bool left = true;
-
-  @override
-  bool open = false;
 
   @override
   double tabHeight = 0.3;
@@ -167,34 +153,44 @@ class ChoosePaletteTab implements GeneralTab {
 
   @override
   void openTab() {
-    toolsTab?.closeTab();
-    paletteTab?.closeTab();
-
-    rebuildOpArtPage.value++;
-
-    animationController.forward();
+    position = 0;
+    open = true;
+    if(toolsTab.open){
+    toolsTab.closeTab();}
+    paletteTab.hideTab();
+    rebuildTab.value++;
   }
 
-  @override
-  void closeTab() {
-    animationController?.reverse();
-    print('should close palette tab');
-  }
+
+
 
   @override
   Widget content() {
     return choosePaletteTabWidget();
   }
 
+@override
+void hideTab() {
+  position = -width - 45;
+  rebuildTab.value++;
+  hidden = true;
+}
+
+@override
+void closeTab(){
+    if(paletteTab.hidden){
+      paletteTab.closeTab();
+      paletteTab.hidden = false;
+    }
+    if(hidden){
+      hidden = false;
+    }
+  position = -width;
+  rebuildTab.value++;
+  open = false;
+}
   @override
-  Animation animation;
+  double position = -80;
 
 
-  @override
-  String name = 'choose palette';
-
-  @override
-  void showTab() {
-    // TODO: implement hideTab
-  }
 }

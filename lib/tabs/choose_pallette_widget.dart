@@ -86,6 +86,7 @@ Widget choosePaletteTabWidget(){
             onTap: () {
               List newPalette = defaultPalettes[index][3];
               opArt.palette.colorList.clear();
+              opacity.value = 1.0;
               for (int i = 0; i < newPalette.length; i++) {
                 opArt.palette.colorList
                     .add(Color(int.parse(newPalette[i])));

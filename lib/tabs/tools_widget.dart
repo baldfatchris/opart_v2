@@ -107,24 +107,9 @@ Widget ToolBoxTab() {
                                     setState(() {
                                       if (tools[index].settingType != SettingType.double && tools[index].settingType != SettingType.int) {
                                         slider = 100;
-                                        print('should expand');
+
                                         toolsTab.width = 80;
-                                        toolsTab.animation =
-                                        Tween<double>(begin: 0, end: toolsTab.width).animate(toolsTab.animationController)
-                                          ..addListener(() {
-                                            setState(() {});
-                                          })
-                                          ..addStatusListener((status) {
-                                            if (status == AnimationStatus.completed) {
-                                              toolsTab.open = true;
-                                              rebuildOpArtPage.value++;
-                                            }
-                                            if (status == AnimationStatus.dismissed) {
-                                              toolsTab.open = false;
-                                              rebuildOpArtPage.value++;
-                                            }
-                                          });
-                                        toolsTab.animationController.forward();
+
                                         rebuildTab.value++;
                                       }
                                       if (tools[index].silent != null && tools[index].silent) {
@@ -141,22 +126,7 @@ Widget ToolBoxTab() {
                                       } else if (tools[index].settingType == SettingType.double || tools[index].settingType == SettingType.int) {
                                         print('should expand');
                                         toolsTab.width = 120;
-                                        toolsTab.animation =
-                                        Tween<double>(begin: 0, end: toolsTab.width).animate(toolsTab.animationController)
-                                          ..addListener(() {
-                                            setState(() {});
-                                          })
-                                          ..addStatusListener((status) {
-                                            if (status == AnimationStatus.completed) {
-                                              toolsTab.open = true;
-                                              rebuildOpArtPage.value++;
-                                            }
-                                            if (status == AnimationStatus.dismissed) {
-                                              toolsTab.open = false;
-                                              rebuildOpArtPage.value++;
-                                            }
-                                          });
-                                        toolsTab.animationController.forward();
+
                                         rebuildTab.value++;
                                         slider = index;
                                       } else {
