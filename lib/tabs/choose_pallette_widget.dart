@@ -9,7 +9,7 @@ import 'dart:math';
 int currentColor = 0;
 
 Widget choosePaletteTabWidget(){
-  Animation<double> _animation;
+  // Animation<double> _animation;
 
     List<Widget> _circularPalette(int index) {
       int _sizeOfPalette = defaultPalettes[index][3].length;

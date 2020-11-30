@@ -17,7 +17,7 @@ class _PaletteTabWidgetState extends State<PaletteTabWidget> {
 
       List<Widget> listViewWidgets = List();
       int lengthOfAdditionalColors = 0;
-      List<Widget> additionalColors = [];
+      // List<Widget> additionalColors = [];
       void _additionalColors() {
         for (int i = 0; i < opArt.attributes.length; i++) {
 
