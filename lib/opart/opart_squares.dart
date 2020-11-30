@@ -117,8 +117,6 @@ SettingsModel resetDefaults = SettingsModel(
   silent: true,
 );
 
-double aspectRatio = pi/2;
-
 List<SettingsModel> initializeSquaresAttributes() {
 
   return [
@@ -214,6 +212,7 @@ void paintSquares(Canvas canvas, Size size, int seed, double animationVariable, 
           Paint()
             ..strokeWidth = 0.0
             ..color = nextColor
+            ..isAntiAlias = false
             ..style = PaintingStyle.fill);
       canvas.drawRect(
           Offset(p1[0], p1[1]) & Size(sideLength, sideLength),
@@ -370,6 +369,7 @@ void paintSquares(Canvas canvas, Size size, int seed, double animationVariable, 
 void drawBulge(Canvas canvas, Color colour, P1, P2, P3, P4, int direction, double radius, String bulge) {
   Paint paint = Paint()
     ..color = colour
+    ..isAntiAlias = false
     ..style = PaintingStyle.fill;
 
   //          bulgeDirection:  1 = right, 2 = bottom, 3 = left, 4 = top

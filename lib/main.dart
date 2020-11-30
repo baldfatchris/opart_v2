@@ -20,7 +20,7 @@ bool showDelete = false;
 bool proVersion = true;
 Random rnd = Random();
 int seed = DateTime.now().millisecond;
-double aspectRatio = 4/3;
+double aspectRatio = 2/3;
 
 Offerings offerings;
 
@@ -265,6 +265,7 @@ class _MyHomePageState extends State<MyHomePage> {
       OpArtTypes('Quads', OpArtType.Quads, 'lib/assets/quads_500.png'),
       OpArtTypes('Riley', OpArtType.Riley, 'lib/assets/riley_500.png'),
       OpArtTypes('Squares', OpArtType.Squares, 'lib/assets/squares_500.png'),
+      OpArtTypes('Triangles', OpArtType.Triangles, 'lib/assets/triangles_500.png'),
       OpArtTypes('Wallpaper', OpArtType.Wallpaper, 'lib/assets/wallpaper_500.png'),
       OpArtTypes('Neighbour', OpArtType.Neighbour, 'lib/assets/neighbour_500.png'),
       OpArtTypes('Eye', OpArtType.Eye, 'lib/assets/eye_500.png'),

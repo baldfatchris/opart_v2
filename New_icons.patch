@@ -49,8 +49,7 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 +      Color(0xFF074E71)
      ];
 +
-     this.aspectRatio = pi / 2;
- 
+
      this.image;
 Index: pubspec.lock
 IDEA additional info:

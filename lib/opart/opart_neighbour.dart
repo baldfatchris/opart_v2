@@ -142,8 +142,6 @@ SettingsModel resetDefaults = SettingsModel(
   proFeature: false,
 );
 
-double aspectRatio = pi/2;
-
 List<SettingsModel> initializeNeighbourAttributes() {
 
   return [

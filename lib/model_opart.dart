@@ -1,6 +1,8 @@
 import 'dart:core';
 import 'dart:io';
 import 'dart:math';
+import 'package:opart_v2/opart/opart_triangles.dart';
+
 import 'database_helper.dart';
 import 'main.dart';
 import 'opart/opart_diagonal.dart';
@@ -52,6 +54,7 @@ enum OpArtType {
   Shapes,
   Squares,
   Tree,
+  Triangles,
   Wallpaper,
   Wave,
 }
@@ -159,6 +162,14 @@ class OpArt {
         this.palette = OpArtPalette();
         this.name = 'Tree';
         this.animation = true;
+
+        break;
+
+      case OpArtType.Triangles:
+        this.attributes = initializeTrianglesAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Triangles';
+        this.animation = false;
 
         break;
 
@@ -319,6 +330,9 @@ class OpArt {
         break;
       case OpArtType.Tree:
         paintTree(canvas, size, seed, animationVariable, this);
+        break;
+      case OpArtType.Triangles:
+        paintTriangles(canvas, size, seed, animationVariable, this);
         break;
       case OpArtType.Wallpaper:
         paintWallpaper(canvas, size, seed, animationVariable, this);

@@ -154,8 +154,6 @@ SettingsModel resetDefaults = SettingsModel(
   silent: true,
 );
 
-double aspectRatio = pi/2;
-
 List<SettingsModel> initializeDiagonalAttributes() {
 
   return [

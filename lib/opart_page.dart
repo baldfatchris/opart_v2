@@ -355,46 +355,6 @@ class _OpArtPageState extends State<OpArtPage> {
         builder: (context, value, child) {
           return WillPopScope(onWillPop: () async => false,
             child: Scaffold(
-              // floatingActionButton: showSettings
-              //     ? Padding(
-              //         padding: const EdgeInsets.only(top: 130.0),
-              //         child: Container(
-              //           height: 50,
-              //           width: 50,
-              //           decoration: BoxDecoration(
-              //               shape: BoxShape.circle,
-              //               border: Border.all(width: 3, color: Colors.white)),
-              //           child: Builder(
-              //             builder: (context) => FloatingActionButton(
-              //                 backgroundColor: Colors.cyan,
-              //                 heroTag: null,
-              //                 onPressed: () {
-              //                   opArt.saveToLocalDB();
-              //                   Scaffold.of(context).removeCurrentSnackBar();
-              //                   Scaffold.of(context).showSnackBar(SnackBar(
-              //                       backgroundColor:
-              //                           Colors.white.withOpacity(0.8),
-              //                       duration: Duration(seconds: 2),
-              //                       content: Container(
-              //                         child: Container(
-              //                           height: 70,
-              //                           child: Center(
-              //                             child: Text(
-              //                               'Saved to My Gallery',
-              //                               style: TextStyle(
-              //                                   color: Colors.black,
-              //                                   fontSize: 18),
-              //                             ),
-              //                           ),
-              //                         ),
-              //                       )));
-              //                 },
-              //                 child: Icon(Icons.save)),
-              //           ),
-              //         ),
-              //       )
-              //     : Container(),
-              // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
               extendBodyBehindAppBar: true,
               appBar: showSettings
                   ? AppBar(
@@ -542,6 +502,9 @@ class _OpArtPageState extends State<OpArtPage> {
 
                       },
                       child: InteractiveViewer(
+                        minScale: 0.1,
+                        maxScale: 5.0,
+
                         child: ClipRect(
                             child: CanvasWidget(
                           showSettings,

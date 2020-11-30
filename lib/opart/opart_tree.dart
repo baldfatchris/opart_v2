@@ -77,7 +77,7 @@ SettingsModel trunkWidth = SettingsModel(
     min: 0.0,
     max: 50.0,
     zoom: 100,
-    defaultValue: 20.0,
+    defaultValue: 18.0,
     icon: Icon(Icons.track_changes),
     settingCategory: SettingCategory.tool,
     proFeature: false,
@@ -107,7 +107,7 @@ SettingsModel trunkWidth = SettingsModel(
     randomMin: 20.0,
     randomMax: 70.0,
     zoom: 100,
-    defaultValue: 60.0,
+    defaultValue: 47.0,
     icon: Icon(Icons.swap_horizontal_circle),
     settingCategory: SettingCategory.tool,
     proFeature: false,
@@ -232,7 +232,7 @@ SettingsModel leafRadius = SettingsModel(
     min: 0.0,
     max: 20.0,
     zoom: 100,
-    defaultValue: 15.0,
+    defaultValue: 12.0,
     icon: Icon(Icons.rotate_right),
     settingCategory: SettingCategory.tool,
     proFeature: false,
@@ -425,15 +425,29 @@ List<SettingsModel> initializeTreeAttributes() {
 
 void paintTree(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
 
+  // reseed the random number generator
   rnd = Random(seed);
 
-  if (paletteList.value != opArt.palette.paletteName){
-    opArt.selectPalette(paletteList.value);
-  }
+  // sort out the image size
+  double borderX = 0;
+  double borderY = 0;
+  double imageWidth = size.width;
+  double imageHeight = size.height;
+
+  // if (size.width / size.height < aspectRatio) {
+  //   borderY = (size.height - size.width / aspectRatio) / 2;
+  //   imageHeight = imageWidth / aspectRatio;
+  // } else {
+  //   borderX = (size.width - size.height * aspectRatio) / 2;
+  //   imageWidth = imageHeight * aspectRatio;
+  // }
+
+
+
 
   // colour in the canvas
   canvas.drawRect(
-      Offset(0, 0) & Size(size.width, size.height),
+      Offset(borderX, borderY) & Size(imageWidth, imageHeight),
       Paint()
         ..color = backgroundColor.value
         ..style = PaintingStyle.fill);
@@ -441,19 +455,17 @@ void paintTree(Canvas canvas, Size size, int seed, double animationVariable, OpA
   // Starting point of the tree
   double direction = pi / 2;
   List treeBaseA = [
-    (size.width - trunkWidth.value * zoomOpArt.value) / 2 + centerX.value,
-    size.height + centerY.value
+    borderX + (imageWidth - trunkWidth.value * zoomOpArt.value) / 2 + centerX.value,
+    borderY + imageHeight + centerY.value
   ];
   List treeBaseB = [
-    (size.width + trunkWidth.value * zoomOpArt.value) / 2 + centerX.value,
-    size.height + centerY.value
+    borderX + (imageWidth + trunkWidth.value * zoomOpArt.value) / 2 + centerX.value,
+    borderY + imageHeight + centerY.value
   ];
 
   drawSegment(
     canvas,
     rnd,
-    0,
-    0,
     treeBaseA,
     treeBaseB,
     trunkWidth.value * zoomOpArt.value,
@@ -485,13 +497,40 @@ void paintTree(Canvas canvas, Size size, int seed, double animationVariable, OpA
     trunkOutlineColor.value,
     opArt.palette.colorList,
   );
+
+  //
+  // // colour in the borders
+  // if (borderX>0){
+  //   canvas.drawRect(
+  //       Offset(0, 0) & Size(borderX, size.height),
+  //       Paint()
+  //         ..color = Colors.black
+  //         ..style = PaintingStyle.fill);
+  //   canvas.drawRect(
+  //       Offset(size.width-borderX , 0) & Size(size.width, size.height),
+  //       Paint()
+  //         ..color = Colors.black
+  //         ..style = PaintingStyle.fill);
+  // }
+  // if (borderY>0){
+  //   canvas.drawRect(
+  //       Offset(0, 0) & Size(size.width, borderY),
+  //       Paint()
+  //         ..color = Colors.black
+  //         ..style = PaintingStyle.fill);
+  //   canvas.drawRect(
+  //       Offset(0, size.height-borderY) & Size(size.width, size.height),
+  //       Paint()
+  //         ..color = Colors.black
+  //         ..style = PaintingStyle.fill);
+  // }
+
+
 }
 
 drawSegment(
     Canvas canvas,
     Random rnd,
-    double borderX,
-    double borderY,
     List rootA,
     List rootB,
     double width,
@@ -537,7 +576,7 @@ drawSegment(
     ];
 
     // draw the triangle
-    drawTheTriangle(canvas, rnd, borderX, borderY, rootA, rootB, rootX,
+    drawTheTriangle(canvas, rnd, rootA, rootB, rootX,
       trunkFillColor, opacity,trunkStrokeWidth, trunkOutlineColor,
     );
 
@@ -571,8 +610,8 @@ drawSegment(
       directionB = direction + maxBranch * (angle + 2*angle*branchRatio);
     }
 
-    drawSegment( canvas, rnd, borderX, borderY, rootA, rootX, width * widthDecay, segmentLength * segmentDecay, directionB, ratio, currentDepth + 1, lineWidth, leafRadius, randomLeafLength, leafShape, true, animationVariable, branch, angle, widthDecay, segmentDecay, bulbousness, leavesAfter, maxDepth, leafAngle, leafDecay, leafSquareness, leafAsymmetry, trunkFillColor, opacity, numberOfColors, trunkStrokeWidth, trunkOutlineColor, palette, );
-    drawSegment( canvas, rnd, borderX, borderY, rootX, rootB, width * widthDecay, segmentLength * segmentDecay, directionA, ratio, currentDepth + 1, lineWidth, leafRadius, randomLeafLength, leafShape, true, animationVariable, branch, angle, widthDecay, segmentDecay, bulbousness, leavesAfter, maxDepth, leafAngle, leafDecay, leafSquareness, leafAsymmetry, trunkFillColor, opacity, numberOfColors, trunkStrokeWidth, trunkOutlineColor, palette, );
+    drawSegment( canvas, rnd, rootA, rootX, width * widthDecay, segmentLength * segmentDecay, directionB, ratio, currentDepth + 1, lineWidth, leafRadius, randomLeafLength, leafShape, true, animationVariable, branch, angle, widthDecay, segmentDecay, bulbousness, leavesAfter, maxDepth, leafAngle, leafDecay, leafSquareness, leafAsymmetry, trunkFillColor, opacity, numberOfColors, trunkStrokeWidth, trunkOutlineColor, palette, );
+    drawSegment( canvas, rnd, rootX, rootB, width * widthDecay, segmentLength * segmentDecay, directionA, ratio, currentDepth + 1, lineWidth, leafRadius, randomLeafLength, leafShape, true, animationVariable, branch, angle, widthDecay, segmentDecay, bulbousness, leavesAfter, maxDepth, leafAngle, leafDecay, leafSquareness, leafAsymmetry, trunkFillColor, opacity, numberOfColors, trunkStrokeWidth, trunkOutlineColor, palette, );
 
 
   } else {
@@ -591,7 +630,7 @@ drawSegment(
     ];
 
     // draw the trunk
-    drawTheTrunk(canvas, rnd, borderX, borderY, rootB, P2, P3, rootA,
+    drawTheTrunk(canvas, rnd, rootB, P2, P3, rootA,
         bulbousness, trunkFillColor, opacity, trunkStrokeWidth, trunkOutlineColor);
 
     // Draw the leaves
@@ -599,8 +638,6 @@ drawSegment(
       drawTheLeaf(
         canvas,
         rnd,
-        borderX,
-        borderY,
         P2,
         lineWidth,
         direction - leafAngle,
@@ -618,8 +655,6 @@ drawSegment(
       drawTheLeaf(
         canvas,
         rnd,
-        borderX,
-        borderY,
         P3,
         lineWidth,
         direction + leafAngle,
@@ -641,8 +676,6 @@ drawSegment(
       drawSegment(
         canvas,
         rnd,
-        borderX,
-        borderY,
         P3,
         P2,
         width * widthDecay,
@@ -682,8 +715,6 @@ drawSegment(
 drawTheTrunk(
     Canvas canvas,
     Random rnd,
-    double borderX,
-    double borderY,
     List P1,
     List P2,
     List P3,
@@ -710,12 +741,12 @@ drawTheTrunk(
   ];
 
   Path trunk = Path();
-  trunk.moveTo(borderX + P1[0], -borderY + P1[1]);
+  trunk.moveTo(P1[0], P1[1]);
   trunk.quadraticBezierTo(
-      borderX + PX[0], -borderY + PX[1], borderX + P2[0], -borderY + P2[1]);
-  trunk.lineTo(borderX + P3[0], -borderY + P3[1]);
+      PX[0], PX[1], P2[0], P2[1]);
+  trunk.lineTo(P3[0], P3[1]);
   trunk.quadraticBezierTo(
-      borderX + PY[0], -borderY + PY[1], borderX + P4[0], -borderY + P4[1]);
+      PY[0], PY[1], P4[0], P4[1]);
   trunk.close();
 
   canvas.drawPath(
@@ -737,8 +768,6 @@ drawTheTrunk(
 drawTheTriangle(
     Canvas canvas,
     Random rnd,
-    double borderX,
-    double borderY,
     List P1,
     List P2,
     List P3,
@@ -748,9 +777,9 @@ drawTheTriangle(
     Color trunkOutlineColor,
     ) {
   Path trunk = Path();
-  trunk.moveTo(borderX + P1[0], -borderY + P1[1]);
-  trunk.lineTo(borderX + P2[0], -borderY + P2[1]);
-  trunk.lineTo(borderX + P3[0], -borderY + P3[1]);
+  trunk.moveTo(P1[0], P1[1]);
+  trunk.lineTo(P2[0], P2[1]);
+  trunk.lineTo(P3[0], P3[1]);
   trunk.close();
 
   canvas.drawPath(
@@ -772,8 +801,6 @@ drawTheTriangle(
 drawTheLeaf(
     Canvas canvas,
     Random rnd,
-    double borderX,
-    double borderY,
     List leafPosition,
     double lineWidth,
     double leafAngle,
@@ -870,9 +897,9 @@ drawTheLeaf(
       ];
 
       Path leaf = Path();
-      leaf.moveTo(borderX + PA[0], -borderY + PA[1]);
-      leaf.lineTo(borderX + PB1[0], -borderY + PB1[1]);
-      leaf.lineTo(borderX + PB2[0], -borderY + PB2[1]);
+      leaf.moveTo(PA[0], PA[1]);
+      leaf.lineTo(PB1[0], PB1[1]);
+      leaf.lineTo(PB2[0], PB2[1]);
       leaf.close();
 
       canvas.drawPath(
@@ -907,10 +934,10 @@ drawTheLeaf(
       ];
 
       Path leaf = Path();
-      leaf.moveTo(borderX + PA[0], -borderY + PA[1]);
-      leaf.lineTo(borderX + PB1[0], -borderY + PB1[1]);
-      leaf.lineTo(borderX + PB2[0], -borderY + PB2[1]);
-      leaf.lineTo(borderX + PB3[0], -borderY + PB3[1]);
+      leaf.moveTo(PA[0], PA[1]);
+      leaf.lineTo(PB1[0], PB1[1]);
+      leaf.lineTo(PB2[0], PB2[1]);
+      leaf.lineTo(PB3[0], PB3[1]);
       leaf.close();
 
       canvas.drawPath(
@@ -956,10 +983,10 @@ drawTheLeaf(
     ];
 
     Path leaf = Path();
-    leaf.moveTo(borderX + leafPosition[0], -borderY + leafPosition[1]);
-    leaf.lineTo(borderX + PE[0], -borderY + PE[1]);
-    leaf.lineTo(borderX + PS[0], -borderY + PS[1]);
-    leaf.lineTo(borderX + PW[0], -borderY + PW[1]);
+    leaf.moveTo(leafPosition[0], leafPosition[1]);
+    leaf.lineTo(PE[0], PE[1]);
+    leaf.lineTo(PS[0], PS[1]);
+    leaf.lineTo(PW[0], PW[1]);
     leaf.close();
 
     canvas.drawPath(
@@ -1008,11 +1035,11 @@ drawTheLeaf(
       ];
 
       Path leaf = Path();
-      leaf.moveTo(borderX + leafPosition[0], -borderY + leafPosition[1]);
-      leaf.quadraticBezierTo(borderX + PE[0], -borderY + PE[1],
-          borderX + PS[0], -borderY + PS[1]);
-      leaf.quadraticBezierTo(borderX + PW[0], -borderY + PW[1],
-          borderX + leafPosition[0], -borderY + leafPosition[1]);
+      leaf.moveTo(leafPosition[0], leafPosition[1]);
+      leaf.quadraticBezierTo(PE[0], PE[1],
+          PS[0], PS[1]);
+      leaf.quadraticBezierTo(PW[0], PW[1],
+          leafPosition[0], leafPosition[1]);
       leaf.close();
 
       canvas.drawPath(

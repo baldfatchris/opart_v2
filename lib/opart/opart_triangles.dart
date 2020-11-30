@@ -169,7 +169,7 @@ SettingsModel resetDefaults = SettingsModel(
   proFeature: false,
 );
 
-List<SettingsModel> initializeQuadsAttributes() {
+List<SettingsModel> initializeTrianglesAttributes() {
 
   return [
     reDraw,
@@ -194,7 +194,7 @@ List<SettingsModel> initializeQuadsAttributes() {
 }
 
 
-void paintQuads(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
+void paintTriangles(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
 
   rnd = Random(seed);
 
@@ -209,33 +209,34 @@ void paintQuads(Canvas canvas, Size size, int seed, double animationVariable, Op
 
   double imageSize = (canvasHeight>canvasWidth) ? canvasHeight : canvasWidth;
 
+
   // Now make some art
-  int recursionDepth = 0;
-  var colourOrder = 0;
+  List P1 = [0.0, 0.0];
+  List P2 = [imageSize, 0.0];
+  List P3 = [imageSize, imageSize];
+  List P4 = [0.0, imageSize];
 
-  var P1 = [0.0, 0.0];
-  var P2 = [imageSize, 0.0];
-  var P3 = [imageSize, imageSize];
-  var P4 = [0.0, imageSize];
-
-  drawQuadrilateral(canvas, opArt.palette.colorList,
-      P1, P2, P3, P4,
-      recursionDepth, minimumDepth.value.toInt(), maximumDepth.value.toInt(),
+  drawTriangle(canvas, opArt.palette.colorList,
+      P1, P2, P3,
+      0, minimumDepth.value.toInt(), maximumDepth.value.toInt(),
       ratio.value, density.value, randomiseRatio.value,
-      colourOrder, 0, lineColor.value, lineWidth.value);
+      0, lineColor.value, lineWidth.value);
 
-
-
+  drawTriangle(canvas, opArt.palette.colorList,
+      P1, P4, P3,
+      0, minimumDepth.value.toInt(), maximumDepth.value.toInt(),
+      ratio.value, density.value, randomiseRatio.value,
+      0, lineColor.value, lineWidth.value);
 
 }
 
 
 
-void drawQuadrilateral(Canvas canvas, List colorList,
-    List P0, List P1, List P2, List P3,
+void drawTriangle(Canvas canvas, List colorList,
+    List P0, List P1, List P2,
     int recursionDepth, int minimumDepth, int maximumDepth,
     double ratio, double density, bool randomiseRatio,
-    int colourOrder, direction, Color lineColor, double lineWidth) {
+    int colourOrder, Color lineColor, double lineWidth) {
 
   Color nextColor;
 
@@ -252,17 +253,17 @@ void drawQuadrilateral(Canvas canvas, List colorList,
   }
 
 
-  Path quad = Path();
-  quad.moveTo(P0[0], P0[1]);
-  quad.lineTo(P1[0], P1[1]);
-  quad.lineTo(P2[0], P2[1]);
-  quad.lineTo(P3[0], P3[1]);
-  quad.close();
-  canvas.drawPath(quad, Paint()
+  Path triangle = Path();
+  triangle.moveTo(P0[0], P0[1]);
+  triangle.lineTo(P1[0], P1[1]);
+  triangle.lineTo(P2[0], P2[1]);
+  triangle.close();
+  canvas.drawPath(triangle, Paint()
     ..color = nextColor
     ..style = PaintingStyle.fill);
-  canvas.drawPath(quad, Paint()
+  canvas.drawPath(triangle, Paint()
     ..color = localLineColor
+    ..strokeJoin = StrokeJoin.round
     ..style = PaintingStyle.stroke
     ..strokeWidth=lineWidth);
 
@@ -271,46 +272,147 @@ void drawQuadrilateral(Canvas canvas, List colorList,
   if (recursionDepth < minimumDepth || (recursionDepth < maximumDepth && rnd.nextDouble() < density)) {
     // split
 
+
+    // work out the longest length
+    double L0 = (P2[0] - P1[0]) * (P2[0] - P1[0]) +
+        (P2[1] - P1[1]) * (P2[1] - P1[1]);
+    double L1 = (P2[0] - P0[0]) * (P2[0] - P0[0]) +
+        (P2[1] - P0[1]) * (P2[1] - P0[1]);
+    double L2 = (P0[0] - P1[0]) * (P0[0] - P1[0]) +
+        (P0[1] - P1[1]) * (P0[1] - P1[1]);
+
+    int splitDirection = (L2 > L0 && L2 > L1) ? 2 : (L1 > L0) ? 1 : 0;
+
+
     var localRatio = ratio;
     if (randomiseRatio) {
       localRatio = ratio * (rnd.nextDouble() / 10 + 0.95);
     }
 
-    if (direction == 0) {
-      List PA = [P0[0] * localRatio + P1[0] * (1 - localRatio), P0[1] * localRatio + P1[1] * (1 - localRatio)];
-      List PB = [P2[0] * localRatio + P3[0] * (1 - localRatio), P2[1] * localRatio + P3[1] * (1 - localRatio)];
+    switch (splitDirection) {
+      case 0:
+        List PN = [
+          P1[0] * localRatio + P2[0] * (1 - localRatio),
+          P1[1] * localRatio + P2[1] * (1 - localRatio)
+        ];
 
-      drawQuadrilateral(canvas, colorList,
-          P0, PA, PB, P3,
-          recursionDepth + 1, minimumDepth, maximumDepth,
-          ratio, density, randomiseRatio,
-          colourOrder + 1, 1, lineColor, lineWidth);
-      drawQuadrilateral(canvas, colorList,
-          P1, PA, PB, P2,
-          recursionDepth + 1, minimumDepth, maximumDepth,
-          ratio, density, randomiseRatio,
-          colourOrder + 1, 1, lineColor, lineWidth);
+        drawTriangle(
+            canvas,
+            colorList,
+            P0,
+            P1,
+            PN,
+            recursionDepth + 1,
+            minimumDepth,
+            maximumDepth,
+            ratio,
+            density,
+            randomiseRatio,
+            colourOrder + 1,
+            lineColor,
+            lineWidth);
+
+        drawTriangle(
+            canvas,
+            colorList,
+            P0,
+            P2,
+            PN,
+            recursionDepth + 1,
+            minimumDepth,
+            maximumDepth,
+            ratio,
+            density,
+            randomiseRatio,
+            colourOrder + 2,
+            lineColor,
+            lineWidth);
+
+        break;
+
+      case 1:
+        List PN = [
+          P0[0] * localRatio + P2[0] * (1 - localRatio),
+          P0[1] * localRatio + P2[1] * (1 - localRatio)
+        ];
+
+        drawTriangle(
+            canvas,
+            colorList,
+            P1,
+            P0,
+            PN,
+            recursionDepth + 1,
+            minimumDepth,
+            maximumDepth,
+            ratio,
+            density,
+            randomiseRatio,
+            colourOrder + 1,
+            lineColor,
+            lineWidth);
+
+        drawTriangle(
+            canvas,
+            colorList,
+            P1,
+            P2,
+            PN,
+            recursionDepth + 1,
+            minimumDepth,
+            maximumDepth,
+            ratio,
+            density,
+            randomiseRatio,
+            colourOrder + 2,
+            lineColor,
+            lineWidth);
+
+        break;
+
+      case 2:
+        List PN = [
+          P0[0] * localRatio + P1[0] * (1 - localRatio),
+          P0[1] * localRatio + P1[1] * (1 - localRatio)
+        ];
+
+        drawTriangle(
+            canvas,
+            colorList,
+            P2,
+            P0,
+            PN,
+            recursionDepth + 1,
+            minimumDepth,
+            maximumDepth,
+            ratio,
+            density,
+            randomiseRatio,
+            colourOrder + 1,
+            lineColor,
+            lineWidth);
+
+        drawTriangle(
+            canvas,
+            colorList,
+            P2,
+            P1,
+            PN,
+            recursionDepth + 1,
+            minimumDepth,
+            maximumDepth,
+            ratio,
+            density,
+            randomiseRatio,
+            colourOrder + 2,
+            lineColor,
+            lineWidth);
+
+
+        break;
     }
-    else {
-      List PA = [P1[0] * localRatio + P2[0] * (1 - localRatio), P1[1] * localRatio + P2[1] * (1 - localRatio)];
-      List PB = [P3[0] * localRatio + P0[0] * (1 - localRatio), P3[1] * localRatio + P0[1] * (1 - localRatio)];
-
-      drawQuadrilateral(canvas, colorList,
-          P0, P1, PA, PB,
-          recursionDepth + 1, minimumDepth, maximumDepth,
-          ratio, density, randomiseRatio,
-          colourOrder + 1, 0, lineColor, lineWidth);
-      drawQuadrilateral(canvas, colorList,
-          P2, P3, PB, PA,
-          recursionDepth + 1, minimumDepth, maximumDepth,
-          ratio, density, randomiseRatio,
-          colourOrder + 1, 0, lineColor, lineWidth);
-    }
-
-
   }
-  else {
 
-  }
+
 
 }
