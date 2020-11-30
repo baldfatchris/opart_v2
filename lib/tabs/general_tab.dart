@@ -126,7 +126,7 @@ class PaletteTab implements GeneralTab {
   }
 
   @override
-  Animation animation;
+  Animation animation ;
 
   @override
   bool startOpening = false;

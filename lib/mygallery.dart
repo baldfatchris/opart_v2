@@ -31,7 +31,9 @@ class _MyGalleryState extends State<MyGallery> {
   Widget build(BuildContext context) {
     if(widget.paid){
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      buttonCarouselController.nextPage();buttonCarouselController.nextPage();
+      buttonCarouselController.nextPage();
+      rebuildGallery.value++;
+      buttonCarouselController.nextPage();
     });}
     print(MediaQuery.of(context).size.width /
         (MediaQuery.of(context).size.height - 60));

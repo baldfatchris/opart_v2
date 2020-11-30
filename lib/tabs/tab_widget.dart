@@ -93,7 +93,7 @@ class _TabWidgetState extends State<TabWidget>
   void initState() {
     tab = widget.tab;
     tab.animationController =
-        AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
+        AnimationController(duration: const Duration(milliseconds: 300), vsync: this);
     tab.animation =
         Tween<double>(begin: 0, end: tab.width).animate(tab.animationController)
           ..addListener(() {
