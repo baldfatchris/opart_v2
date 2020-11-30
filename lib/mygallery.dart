@@ -54,7 +54,7 @@ class _MyGalleryState extends State<MyGallery> {
                         color: Colors.black,
                       ),
                       onPressed: () {
-                        Navigator.pop(context);
+                       // Navigator.pop(context);
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -282,7 +282,7 @@ class _MyGalleryState extends State<MyGallery> {
                                                               icon: Icon(Icons
                                                                   .file_download),
                                                               onPressed: () {
-                                                                Navigator.push(
+                                                                Navigator.pushReplacement(
                                                                     context,
                                                                     MaterialPageRoute(
                                                                         builder: (context) => OpArtPage(
@@ -390,7 +390,7 @@ class _MyGalleryState extends State<MyGallery> {
                                         _rebuildDelete.value++;
                                       },
                                       onTap: () {
-                                        Navigator.push(
+                                        Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) => OpArtPage(
