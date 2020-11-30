@@ -176,8 +176,6 @@ void paintRiley(Canvas canvas, Size size, int seed, double animationVariable, Op
   double canvasHeight = size.height;
   double borderX = 0;
   double borderY = 0;
-  double imageWidth = canvasWidth;
-  double imageHeight = canvasHeight;
 
   // Work out the X and Y
   double sideLength = zoomOpArt.value;
@@ -204,22 +202,10 @@ void paintRiley(Canvas canvas, Size size, int seed, double animationVariable, Op
   for (int i = 0; i < cellsX; ++i) {
     for (int j = 0; j < cellsY; ++j) {
 
-      var x = borderX + i * sideLength;
-      var y = borderY + j * sideLength;
-
-
-      List p1 = [x, y];
-      List p2 = [x + sideLength, y];
-      List p3 = [x + sideLength, y + sideLength];
-      List p4 = [x, y + sideLength];
-
-
       double h0 = 0;
       double hN = 0;
       double v0 = 0;
       double vN = 0;
-
-
 
       switch (gradientTypeX0.value) {
         case "linear":
@@ -322,24 +308,24 @@ void paintRiley(Canvas canvas, Size size, int seed, double animationVariable, Op
       }
 
       //9 points
-      List PA = [borderX + cellSizeX * i, borderY + cellSizeY * j];
+      List pA = [borderX + cellSizeX * i, borderY + cellSizeY * j];
 
-      List PB = [borderX + cellSizeX * (i + h0 + (j / cellsY) * (hN - h0)), borderY + cellSizeY * j];
+      List pB = [borderX + cellSizeX * (i + h0 + (j / cellsY) * (hN - h0)), borderY + cellSizeY * j];
 
-      List PC = [borderX + cellSizeX * (i + 1), borderY + cellSizeY * j];
+      List pC = [borderX + cellSizeX * (i + 1), borderY + cellSizeY * j];
 
-      List PD = [borderX + cellSizeX * (i + 1), borderY + cellSizeY * (j + v0 + ((i + 1) / cellsX) * (vN - v0))];
+      List pD = [borderX + cellSizeX * (i + 1), borderY + cellSizeY * (j + v0 + ((i + 1) / cellsX) * (vN - v0))];
 
-      List PE = [borderX + cellSizeX * (i + 1), borderY + cellSizeY * (j + 1)];
+      List pE = [borderX + cellSizeX * (i + 1), borderY + cellSizeY * (j + 1)];
 
-      List PF = [borderX + cellSizeX * (i + h0 + ((j + 1) / cellsY) * (hN - h0)), borderY + cellSizeY * (j + 1)];
+      List pF = [borderX + cellSizeX * (i + h0 + ((j + 1) / cellsY) * (hN - h0)), borderY + cellSizeY * (j + 1)];
 
-      List PG = [borderX + cellSizeX * i, borderY + cellSizeY * (j + 1)];
+      List pG = [borderX + cellSizeX * i, borderY + cellSizeY * (j + 1)];
 
-      List PH = [borderX + cellSizeX * i, borderY + cellSizeY * (j + v0 + (i / cellsX) * (vN - v0))];
+      List pH = [borderX + cellSizeX * i, borderY + cellSizeY * (j + v0 + (i / cellsX) * (vN - v0))];
 
       double X = (j + v0 + (i + h0) * gradientV) / (gradientV - gradientH);
-      List PO = [borderX + cellSizeX * X, borderY + cellSizeY * (j + v0 + gradientH * X)];
+      List pO = [borderX + cellSizeX * X, borderY + cellSizeY * (j + v0 + gradientH * X)];
 
 
 
@@ -347,19 +333,19 @@ void paintRiley(Canvas canvas, Size size, int seed, double animationVariable, Op
 
       colourOrder++;
       nextColor = (randomColors.value) ? opArt.palette.colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value) : opArt.palette.colorList[colourOrder % numberOfColors.value].withOpacity(opacity.value);
-      fillQuad(canvas, PA, PB, PO, PH, nextColor);
+      fillQuad(canvas, pA, pB, pO, pH, nextColor);
 
       colourOrder++;
       nextColor = (randomColors.value) ? opArt.palette.colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value) : opArt.palette.colorList[colourOrder % numberOfColors.value].withOpacity(opacity.value);
-      fillQuad(canvas, PB, PC, PD, PO, nextColor);
+      fillQuad(canvas, pB, pC, pD, pO, nextColor);
 
       colourOrder++;
       nextColor = (randomColors.value) ? opArt.palette.colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value) : opArt.palette.colorList[colourOrder % numberOfColors.value].withOpacity(opacity.value);
-      fillQuad(canvas, PO, PD, PE, PF, nextColor);
+      fillQuad(canvas, pO, pD, pE, pF, nextColor);
 
       colourOrder++;
       nextColor = (randomColors.value) ? opArt.palette.colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value) : opArt.palette.colorList[colourOrder % numberOfColors.value].withOpacity(opacity.value);
-      fillQuad(canvas, PH, PO, PF, PG, nextColor);
+      fillQuad(canvas, pH, pO, pF, pG, nextColor);
 
 
     }

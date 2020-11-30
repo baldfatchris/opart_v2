@@ -190,9 +190,6 @@ void paintNeighbour(Canvas canvas, Size size, int seed, double animationVariable
 
 
   // Now make some art
-  var colourOrder = 0;
-
-
  drawNeighbours(canvas, opArt.palette.colorList,
     canvasWidth, canvasHeight,
     lineWidth.value,
@@ -216,9 +213,6 @@ Future<void> drawNeighbours(Canvas canvas, List colorList,
   for (int i = 0; i<numberOfPoints; i++){
     points.add([canvasWidth * rnd.nextDouble(),canvasHeight * rnd.nextDouble()]);
   }
-
-
-int countPoints = 0;
 
   // process each point
   points.forEach((point) {

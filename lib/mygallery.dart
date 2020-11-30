@@ -1,15 +1,13 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:share/share.dart';
 import 'database_helper.dart';
 import 'main.dart';
 import 'model_opart.dart';
 import 'opart_page.dart';
+
 CarouselController buttonCarouselController = CarouselController();
 class MyGallery extends StatefulWidget {
   int currentImage;

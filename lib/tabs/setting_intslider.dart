@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-class settingsIntSlider extends StatefulWidget {
+class SettingsIntSlider extends StatefulWidget {
   String label;
   String tooltip;
   int currentValue;
@@ -13,13 +13,13 @@ class settingsIntSlider extends StatefulWidget {
   Function updateCache;
 
 
-  settingsIntSlider(this.label, this.tooltip, this.currentValue, this.min, this.max, this.locked, this.onChanged, this.toggleLock, this.updateCache);
+  SettingsIntSlider(this.label, this.tooltip, this.currentValue, this.min, this.max, this.locked, this.onChanged, this.toggleLock, this.updateCache);
 
   @override
-  _settingsIntSliderState createState() => _settingsIntSliderState();
+  _SettingsIntSliderState createState() => _SettingsIntSliderState();
 }
 
-class _settingsIntSliderState extends State<settingsIntSlider> {
+class _SettingsIntSliderState extends State<SettingsIntSlider> {
 
   @override
   Widget build(BuildContext context) {

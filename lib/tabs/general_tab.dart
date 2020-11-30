@@ -81,7 +81,7 @@ class ToolsTab extends GeneralTab {
 
   @override
   Widget content() {
-    return ToolBoxTab();
+    return toolBoxTab();
   }
 
 }
@@ -128,7 +128,7 @@ class PaletteTab extends GeneralTab {
 
   @override
   Widget content() {
-    return paletteTabWidget();
+    return PaletteTabWidget();
   }
 
 

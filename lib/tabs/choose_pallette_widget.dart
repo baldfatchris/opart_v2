@@ -1,16 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:opart_v2/opart_page.dart';
-import 'package:opart_v2/settings_dialog.dart';
 
 import 'package:opart_v2/model_opart.dart';
 import 'package:opart_v2/model_palette.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:opart_v2/model_settings.dart';
 import 'dart:math';
-import 'package:opart_v2/choose_palette.dart';
 
-import 'general_tab.dart';
 
 int currentColor = 0;
 

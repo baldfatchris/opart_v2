@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:opart_v2/model_settings.dart';
 import 'package:opart_v2/opart_page.dart';
-import 'package:opart_v2/tabs/tab_widget.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';
-import 'general_tab.dart';
 
 int currentColor = 0;
 
-class paletteTabWidget extends StatefulWidget {
+class PaletteTabWidget extends StatefulWidget {
   @override
-  _paletteTabWidgetState createState() => _paletteTabWidgetState();
+  _PaletteTabWidgetState createState() => _PaletteTabWidgetState();
 }
 
-class _paletteTabWidgetState extends State<paletteTabWidget> {
+class _PaletteTabWidgetState extends State<PaletteTabWidget> {
   @override
   Widget build(BuildContext context) {
 

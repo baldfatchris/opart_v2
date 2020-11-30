@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import 'opart_page.dart';
 import 'dart:math';
 
-import 'tabs/general_tab.dart';
-// import 'choose_palette.dart';
-
 class ChoosePalette extends StatefulWidget {
   @override
   _ChoosePaletteState createState() => _ChoosePaletteState();

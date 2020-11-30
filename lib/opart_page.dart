@@ -1,9 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:opart_v2/tabs/general_tab.dart';
-import 'package:opart_v2/tabs/choose_pallette_widget.dart';
 import 'package:share/share.dart';
 import 'package:shake/shake.dart';
 import 'main.dart';
@@ -11,7 +9,6 @@ import 'main.dart';
 import 'package:opart_v2/tabs/color_picker_widget.dart';
 import 'bottom_app_bar.dart';
 import 'model_opart.dart';
-import 'download_high_resolution.dart';
 import 'canvas.dart';
 import 'mygallery.dart';
 import 'tabs/tools_widget.dart';
@@ -141,8 +138,7 @@ class _OpArtPageState extends State<OpArtPage> {
       WidgetsBinding.instance.addPostFrameCallback((value) {
         _downloadHighResFile();
       });
-    }
-    ;
+    };
     toolsTab = ToolsTab();
     paletteTab = PaletteTab(context);
     choosePaletteTab = ChoosePaletteTab();

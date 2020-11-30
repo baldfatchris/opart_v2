@@ -13,8 +13,8 @@ List<String> list = List();
 SettingsModel zoomOpArt = SettingsModel(
   name: 'zoomOpArt',
   settingType: SettingType.double,
-  label: 'Zoom',
-  tooltip: 'Zoom in and out',
+  label: 'Radius',
+  tooltip: 'The radius of the shapes',
   min: 20.0,
   max: 500.0,
   zoom: 100,
@@ -50,19 +50,7 @@ SettingsModel step = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-SettingsModel stepStep = SettingsModel(
-  name: 'stepStep',
-  settingType: SettingType.double,
-  label: 'Step Ratio',
-  tooltip: 'The ratio of change of the ratio',
-  min: 0.5,
-  max: 1.0,
-  zoom: 100,
-  defaultValue: 0.9,
-  icon: Icon(Icons.control_point_duplicate),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-);
+
 SettingsModel ratio = SettingsModel(
   name: 'ratio',
   settingType: SettingType.double,
@@ -76,7 +64,6 @@ SettingsModel ratio = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-
 
 SettingsModel driftX = SettingsModel( 
   name: 'driftX',
@@ -93,21 +80,7 @@ SettingsModel driftX = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-SettingsModel driftXStep = SettingsModel(
-  name: 'driftXStep',
-  settingType: SettingType.double,
-  label: 'Horizontal Step',
-  tooltip: 'The acceleration of the drift in the horizontal axis',
-  min: -2.0,
-  max: 2.0,
-  randomMin: -0.5,
-  randomMax: -0.5,
-  zoom: 100,
-  defaultValue: 0.0,
-  icon: Icon(Icons.screen_lock_landscape),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-);
+
 SettingsModel driftY = SettingsModel(
   name: 'driftY',
   settingType: SettingType.double,
@@ -123,21 +96,7 @@ SettingsModel driftY = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-SettingsModel driftYStep = SettingsModel(
-  name: 'driftYStep',
-  settingType: SettingType.double,
-  label: 'Vertical Step',
-  tooltip: 'The acceleration of the drift in the vertical axis',
-  min: -2.0,
-  max: 2.0,
-  randomMin: -0.5,
-  randomMax: 0.5,
-  zoom: 100,
-  defaultValue: 0.0,
-  icon: Icon(Icons.screen_lock_portrait),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-);
+
 SettingsModel alternateDrift = SettingsModel(
   name: 'alternateDrift',
   settingType: SettingType.bool,
@@ -148,6 +107,7 @@ SettingsModel alternateDrift = SettingsModel(
   proFeature: false,
   silent: true,
 );
+
 SettingsModel box = SettingsModel(
   name: 'box',
   settingType: SettingType.bool,
@@ -173,6 +133,7 @@ SettingsModel offsetX = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
+
 SettingsModel offsetY = SettingsModel(
   name: 'offsetY',
   settingType: SettingType.double,
@@ -186,6 +147,7 @@ SettingsModel offsetY = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
+
 SettingsModel rotate = SettingsModel(
   name: 'rotate',
   settingType: SettingType.double,
@@ -199,6 +161,7 @@ SettingsModel rotate = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
+
 SettingsModel randomRotation = SettingsModel(
   name: 'randomRotation',
   settingType: SettingType.bool,
@@ -209,19 +172,6 @@ SettingsModel randomRotation = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
-);
-SettingsModel rotateStep = SettingsModel(
-  name: 'rotateStep',
-  settingType: SettingType.double,
-  label: 'Rotate Step',
-  tooltip: 'The rate of increase of the rotation',
-  min: 0.0,
-  max: 2.0,
-  zoom: 100,
-  defaultValue: 0.0,
-  icon: Icon(Icons.screen_rotation),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
 );
 
 SettingsModel squareness = SettingsModel(
@@ -239,6 +189,7 @@ SettingsModel squareness = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
+
 SettingsModel squeezeX = SettingsModel(
   name: 'squeezeX',
   settingType: SettingType.double,
@@ -252,6 +203,7 @@ SettingsModel squeezeX = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
+
 SettingsModel squeezeY = SettingsModel(
   name: 'squeezeY',
   settingType: SettingType.double,
@@ -265,6 +217,7 @@ SettingsModel squeezeY = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
+
 SettingsModel numberOfSides = SettingsModel(
   name: 'numberOfSides',
   settingType: SettingType.int,
@@ -277,6 +230,7 @@ SettingsModel numberOfSides = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
+
 SettingsModel randomPetals = SettingsModel(
   name: 'randomPetals',
   settingType: SettingType.bool,
@@ -288,7 +242,6 @@ SettingsModel randomPetals = SettingsModel(
   proFeature: false,
   silent: true,
 );
-
 
 SettingsModel lineWidth = SettingsModel(
   name: 'lineWidth',
@@ -303,6 +256,7 @@ SettingsModel lineWidth = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
+
 SettingsModel randomColors = SettingsModel(
   name: 'randomColors',
   settingType: SettingType.bool,
@@ -314,6 +268,7 @@ SettingsModel randomColors = SettingsModel(
   proFeature: false,
   silent: true,
 );
+
 SettingsModel resetColors = SettingsModel(
   name: 'resetColors',
   settingType: SettingType.bool,
@@ -325,6 +280,7 @@ SettingsModel resetColors = SettingsModel(
   proFeature: false,
   silent: true,
 );
+
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
@@ -342,6 +298,7 @@ SettingsModel paletteType = SettingsModel(
   onChange: (){generatePalette();},
   proFeature: false,
 );
+
 SettingsModel paletteList = SettingsModel(
   name: 'paletteList',
   settingType: SettingType.list,
@@ -353,6 +310,7 @@ SettingsModel paletteList = SettingsModel(
   settingCategory: SettingCategory.other,
   proFeature: false,
 );
+
 SettingsModel opacity = SettingsModel(
   name: 'opacity',
   settingType: SettingType.double,
@@ -387,21 +345,17 @@ List<SettingsModel> initializeWallpaperAttributes() {
     shape,
 
     step,
-    stepStep,
     ratio,
 
     offsetX,
     offsetY,
 
     driftX,
-    driftXStep,
     driftY,
-    driftYStep,
     alternateDrift,
     box,
     rotate,
     randomRotation,
-    rotateStep,
     squareness,
     squeezeX,
     squeezeY,
@@ -438,8 +392,6 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
   double canvasHeight = size.height;
   double borderX = 0;
   double borderY = 0;
-  double imageWidth = canvasWidth;
-  double imageHeight = canvasHeight;
 
   // Work out the X and Y
   int cellsX = (canvasWidth / (zoomOpArt.value * squeezeX.value)+1.9999999).toInt();
@@ -458,8 +410,8 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
   int extraCellsX = 0;
   int extraCellsY = 0;
   if (fill) {
-    extraCellsX = (cellsX * 2 / squeezeX.value).toInt();
-    extraCellsY = (cellsY * 2 / squeezeY.value).toInt();
+    extraCellsX = (cellsX * 2 ~/ squeezeX.value);
+    extraCellsY = (cellsY * 2 ~/ squeezeY.value);
   }
 
   // work out the radius from the width and the cells
@@ -498,7 +450,7 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
       }
 
       // Centre of the square
-      List PO = [
+      List pO = [
         borderX +
             radius * (1 - squeezeX.value) +
             dX +
@@ -511,21 +463,21 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
             (j * 2 + 1) * radius * squeezeY.value
       ];
 
-      List PA = [
-        PO[0] + stepRadius * sqrt(2) * cos(pi * (5 / 4 + localRotate)),
-        PO[1] + stepRadius * sqrt(2) * sin(pi * (5 / 4 + localRotate))
+      List pA = [
+        pO[0] + stepRadius * sqrt(2) * cos(pi * (5 / 4 + localRotate)),
+        pO[1] + stepRadius * sqrt(2) * sin(pi * (5 / 4 + localRotate))
       ];
-      List PB = [
-        PO[0] + stepRadius * sqrt(2) * cos(pi * (7 / 4 + localRotate)),
-        PO[1] + stepRadius * sqrt(2) * sin(pi * (7 / 4 + localRotate))
+      List pB = [
+        pO[0] + stepRadius * sqrt(2) * cos(pi * (7 / 4 + localRotate)),
+        pO[1] + stepRadius * sqrt(2) * sin(pi * (7 / 4 + localRotate))
       ];
-      List PC = [
-        PO[0] + stepRadius * sqrt(2) * cos(pi * (1 / 4 + localRotate)),
-        PO[1] + stepRadius * sqrt(2) * sin(pi * (1 / 4 + localRotate))
+      List pC = [
+        pO[0] + stepRadius * sqrt(2) * cos(pi * (1 / 4 + localRotate)),
+        pO[1] + stepRadius * sqrt(2) * sin(pi * (1 / 4 + localRotate))
       ];
-      List PD = [
-        PO[0] + stepRadius * sqrt(2) * cos(pi * (3 / 4 + localRotate)),
-        PO[1] + stepRadius * sqrt(2) * sin(pi * (3 / 4 + localRotate))
+      List pD = [
+        pO[0] + stepRadius * sqrt(2) * cos(pi * (3 / 4 + localRotate)),
+        pO[1] + stepRadius * sqrt(2) * sin(pi * (3 / 4 + localRotate))
       ];
 
       // reset the colours
@@ -544,10 +496,10 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
 
         // fill the square
         Path path = Path();
-        path.moveTo(PA[0], PA[1]);
-        path.lineTo(PB[0], PB[1]);
-        path.lineTo(PC[0], PC[1]);
-        path.lineTo(PD[0], PD[1]);
+        path.moveTo(pA[0], pA[1]);
+        path.lineTo(pB[0], pB[1]);
+        path.lineTo(pC[0], pC[1]);
+        path.lineTo(pD[0], pD[1]);
         path.close();
 
         canvas.drawPath(
@@ -565,7 +517,7 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
 
       do {
         // drift...
-        PO = [PO[0] + dX, PO[1] + dY];
+        pO = [pO[0] + dX, pO[1] + dY];
 
         switch (shape.value) {
 
@@ -579,14 +531,14 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
             }
 
             canvas.drawCircle(
-                Offset(PO[0], PO[1]),
+                Offset(pO[0], pO[1]),
                 stepRadius,
                 Paint()
                   ..style = PaintingStyle.fill
                   ..color =
                   nextColor.withOpacity(opacity.value));
             canvas.drawCircle(
-                Offset(PO[0], PO[1]),
+                Offset(pO[0], pO[1]),
                 stepRadius,
                 Paint()
                   ..style = PaintingStyle.stroke
@@ -601,23 +553,23 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
             Path square = Path();
 
             square.moveTo(
-                PO[0] + stepRadius * sqrt(2) * cos(pi * (1 / 4 + localRotate)),
-                PO[1] + stepRadius * sqrt(2) * sin(pi * (1 / 4 + localRotate))
+                pO[0] + stepRadius * sqrt(2) * cos(pi * (1 / 4 + localRotate)),
+                pO[1] + stepRadius * sqrt(2) * sin(pi * (1 / 4 + localRotate))
             );
 
             square.lineTo(
-                PO[0] + stepRadius * sqrt(2) * cos(pi * (3 / 4 + localRotate)),
-                PO[1] + stepRadius * sqrt(2) * sin(pi * (3 / 4 + localRotate))
+                pO[0] + stepRadius * sqrt(2) * cos(pi * (3 / 4 + localRotate)),
+                pO[1] + stepRadius * sqrt(2) * sin(pi * (3 / 4 + localRotate))
             );
 
             square.lineTo(
-                PO[0] + stepRadius * sqrt(2) * cos(pi * (5 / 4 + localRotate)),
-                PO[1] + stepRadius * sqrt(2) * sin(pi * (5 / 4 + localRotate))
+                pO[0] + stepRadius * sqrt(2) * cos(pi * (5 / 4 + localRotate)),
+                pO[1] + stepRadius * sqrt(2) * sin(pi * (5 / 4 + localRotate))
             );
 
             square.lineTo(
-                PO[0] + stepRadius * sqrt(2) * cos(pi * (7 / 4 + localRotate)),
-                PO[1] + stepRadius * sqrt(2) * sin(pi * (7 / 4 + localRotate))
+                pO[0] + stepRadius * sqrt(2) * cos(pi * (7 / 4 + localRotate)),
+                pO[1] + stepRadius * sqrt(2) * sin(pi * (7 / 4 + localRotate))
             );
 
             // Choose the next colour
@@ -655,8 +607,8 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
 
             squaricle.arcTo(Rect.fromCenter(
                 center: Offset(
-                    PO[0] + curveCentreRadius * cos(pi * (1 / 4 + localRotate)),
-                    PO[1] + curveCentreRadius * sin(pi * (1 / 4 + localRotate))
+                    pO[0] + curveCentreRadius * cos(pi * (1 / 4 + localRotate)),
+                    pO[1] + curveCentreRadius * sin(pi * (1 / 4 + localRotate))
                 ),
                 height: curveRadius,
                 width: curveRadius),
@@ -667,8 +619,8 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
 
             squaricle.arcTo(Rect.fromCenter(
                 center: Offset(
-                    PO[0] + curveCentreRadius * cos(pi * (3 / 4 + localRotate)),
-                    PO[1] + curveCentreRadius * sin(pi * (3 / 4 + localRotate))
+                    pO[0] + curveCentreRadius * cos(pi * (3 / 4 + localRotate)),
+                    pO[1] + curveCentreRadius * sin(pi * (3 / 4 + localRotate))
                 ),
                 height: curveRadius,
                 width: curveRadius),
@@ -679,8 +631,8 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
 
             squaricle.arcTo(Rect.fromCenter(
                 center: Offset(
-                    PO[0] + curveCentreRadius * cos(pi * (5 / 4 + localRotate)),
-                    PO[1] + curveCentreRadius * sin(pi * (5 / 4 + localRotate))
+                    pO[0] + curveCentreRadius * cos(pi * (5 / 4 + localRotate)),
+                    pO[1] + curveCentreRadius * sin(pi * (5 / 4 + localRotate))
                 ),
                 height: curveRadius,
                 width: curveRadius),
@@ -691,8 +643,8 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
 
             squaricle.arcTo(Rect.fromCenter(
                 center: Offset(
-                    PO[0] + curveCentreRadius * cos(pi * (7 / 4 + localRotate)),
-                    PO[1] + curveCentreRadius * sin(pi * (7 / 4 + localRotate))
+                    pO[0] + curveCentreRadius * cos(pi * (7 / 4 + localRotate)),
+                    pO[1] + curveCentreRadius * sin(pi * (7 / 4 + localRotate))
                 ),
                 height: curveRadius,
                 width: curveRadius),
@@ -732,23 +684,23 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
           case 'star':
             for (var p = 0; p < localNumberOfPetals; p++) {
               List petalPoint = [
-                PO[0] +
+                pO[0] +
                     stepRadius *
                         cos(localRotate * pi +
                             p * pi * 2 / localNumberOfPetals),
-                PO[1] +
+                pO[1] +
                     stepRadius *
                         sin(localRotate * pi +
                             p * pi * 2 / localNumberOfPetals)
               ];
 
               List petalMidPointA = [
-                PO[0] +
+                pO[0] +
                     (localSquareness) *
                         stepRadius *
                         cos(localRotate * pi +
                             (p - 1) * pi * 2 / localNumberOfPetals),
-                PO[1] +
+                pO[1] +
                     (localSquareness) *
                         stepRadius *
                         sin(localRotate * pi +
@@ -756,12 +708,12 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
               ];
 
               List petalMidPointP = [
-                PO[0] +
+                pO[0] +
                     (localSquareness) *
                         stepRadius *
                         cos(localRotate * pi +
                             (p + 1) * pi * 2 / localNumberOfPetals),
-                PO[1] +
+                pO[1] +
                     (localSquareness) *
                         stepRadius *
                         sin(localRotate * pi +
@@ -770,11 +722,11 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
 
               Path star = Path();
 
-              star.moveTo(PO[0], PO[1]);
+              star.moveTo(pO[0], pO[1]);
               star.quadraticBezierTo(petalMidPointA[0], petalMidPointA[1],
                   petalPoint[0], petalPoint[1]);
               star.quadraticBezierTo(
-                  petalMidPointP[0], petalMidPointP[1], PO[0], PO[1]);
+                  petalMidPointP[0], petalMidPointP[1], pO[0], pO[1]);
               star.close();
 
               // Choose the next colour
@@ -806,13 +758,13 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
             Path polygon = Path();
 
             polygon.moveTo(
-                PO[0]+ stepRadius * cos(localRotate),
-                PO[1]+ stepRadius * sin(localRotate));
+                pO[0]+ stepRadius * cos(localRotate),
+                pO[1]+ stepRadius * sin(localRotate));
 
             for (int s = 1; s<numberOfSides.value;s++){
               polygon.lineTo(
-                  PO[0]+ stepRadius * cos(pi*2*s/numberOfSides.value + localRotate),
-                  PO[1]+ stepRadius * sin(pi*2*s/numberOfSides.value + localRotate));
+                  pO[0]+ stepRadius * cos(pi*2*s/numberOfSides.value + localRotate),
+                  pO[1]+ stepRadius * sin(pi*2*s/numberOfSides.value + localRotate));
             }
 
             // Choose the next colour
@@ -846,23 +798,23 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
           case 'star':
             for (var p = 0; p < localNumberOfPetals; p++) {
               List petalPoint = [
-                PO[0] +
+                pO[0] +
                     stepRadius *
                         cos(localRotate * pi +
                             p * pi * 2 / localNumberOfPetals),
-                PO[1] +
+                pO[1] +
                     stepRadius *
                         sin(localRotate * pi +
                             p * pi * 2 / localNumberOfPetals)
               ];
 
               List petalMidPointA = [
-                PO[0] +
+                pO[0] +
                     (localSquareness) *
                         stepRadius *
                         cos(localRotate * pi +
                             (p - 1) * pi * 2 / localNumberOfPetals),
-                PO[1] +
+                pO[1] +
                     (localSquareness) *
                         stepRadius *
                         sin(localRotate * pi +
@@ -870,12 +822,12 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
               ];
 
               List petalMidPointP = [
-                PO[0] +
+                pO[0] +
                     (localSquareness) *
                         stepRadius *
                         cos(localRotate * pi +
                             (p + 1) * pi * 2 / localNumberOfPetals),
-                PO[1] +
+                pO[1] +
                     (localSquareness) *
                         stepRadius *
                         sin(localRotate * pi +
@@ -884,11 +836,11 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
 
               Path star = Path();
 
-              star.moveTo(PO[0], PO[1]);
+              star.moveTo(pO[0], pO[1]);
               star.quadraticBezierTo(petalMidPointA[0], petalMidPointA[1],
                   petalPoint[0], petalPoint[1]);
               star.quadraticBezierTo(
-                  petalMidPointP[0], petalMidPointP[1], PO[0], PO[1]);
+                  petalMidPointP[0], petalMidPointP[1], pO[0], pO[1]);
               star.close();
 
               // Choose the next colour
@@ -927,14 +879,14 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
             }
 
             canvas.drawCircle(
-                Offset(PO[0], PO[1]),
+                Offset(pO[0], pO[1]),
                 centreRadius,
                 Paint()
                   ..style = PaintingStyle.fill
                   ..color =
                   nextColor.withOpacity(opacity.value));
             canvas.drawCircle(
-                Offset(PO[0], PO[1]),
+                Offset(pO[0], pO[1]),
                 centreRadius,
                 Paint()
                   ..style = PaintingStyle.stroke
@@ -957,48 +909,48 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
                   stepRadius * (centreRatio + (1 - centreRatio) / 2);
               var petalRadius = stepRadius * ((1 - centreRatio) / 2);
 
-              // PC = Petal centre
-              List PC = [
-                PO[0] + petalCentreRadius * cos(petalAngle),
-                PO[1] + petalCentreRadius * sin(petalAngle),
+              // pC = Petal centre
+              List pC = [
+                pO[0] + petalCentreRadius * cos(petalAngle),
+                pO[1] + petalCentreRadius * sin(petalAngle),
               ];
 
-              List PN = [
-                PC[0] - petalRadius * cos(petalAngle),
-                PC[1] - petalRadius * sin(petalAngle)
+              List pN = [
+                pC[0] - petalRadius * cos(petalAngle),
+                pC[1] - petalRadius * sin(petalAngle)
               ];
 
-              List PS = [
-                PC[0] - petalRadius * cos(petalAngle + pi),
-                PC[1] - petalRadius * sin(petalAngle + pi)
+              List pS = [
+                pC[0] - petalRadius * cos(petalAngle + pi),
+                pC[1] - petalRadius * sin(petalAngle + pi)
               ];
 
-              List PE = [
-                PC[0] -
+              List pE = [
+                pC[0] -
                     localSquareness *
                         petalRadius *
                         cos(petalAngle + pi * 0.5),
-                PC[1] -
+                pC[1] -
                     localSquareness *
                         petalRadius *
                         sin(petalAngle + pi * 0.5)
               ];
 
-              List PW = [
-                PC[0] -
+              List pW = [
+                pC[0] -
                     localSquareness *
                         petalRadius *
                         cos(petalAngle + pi * 1.5),
-                PC[1] -
+                pC[1] -
                     localSquareness *
                         petalRadius *
                         sin(petalAngle + pi * 1.5)
               ];
 
               Path path = Path();
-              path.moveTo(PN[0], PN[1]);
-              path.quadraticBezierTo(PE[0], PE[1], PS[0], PS[1]);
-              path.quadraticBezierTo(PW[0], PW[1], PN[0], PN[1]);
+              path.moveTo(pN[0], pN[1]);
+              path.quadraticBezierTo(pE[0], pE[1], pS[0], pS[1]);
+              path.quadraticBezierTo(pW[0], pW[1], pN[0], pN[1]);
               path.close();
 
               canvas.drawPath(
@@ -1020,31 +972,18 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
         }
 
         // Drift & Rotate
-        if (alternateDrift.value && (i + j) % 2 == 0) {
-          localRotate = localRotate - rotateStep.value;
-        } else {
-          localRotate = localRotate + rotateStep.value;
-        }
         if (alternateDrift.value && (i) % 2 == 0) {
-          dX = dX -
-              driftX.value -
-              k * driftXStep.value;
+          dX = dX - driftX.value;
         } else {
-          dX = dX +
-              driftX.value +
-              k * driftXStep.value;
+          dX = dX + driftX.value;
         }
         if (alternateDrift.value && (j) % 2 == 0) {
           dY = dY -
-              driftY.value -
-              k * driftYStep.value;
+              driftY.value;
         } else {
-          dY = dY +
-              driftY.value +
-              k * driftYStep.value;
+          dY = dY + driftY.value;
         }
 
-        localStep = localStep * stepStep.value;
         stepRadius = stepRadius - localStep;
         k++;
       } while (k < 40 && stepRadius > 0 && step.value > 0);
@@ -1052,15 +991,5 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
   }
 
 }
-
-
-List edgePoint(List Point1, List Point2, double ratio) {
-  return [
-    Point1[0] * (ratio) + Point2[0] * (1 - ratio),
-    Point1[1] * (ratio) + Point2[1] * (1 - ratio)
-  ];
-}
-
-
 
 
