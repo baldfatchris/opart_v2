@@ -53,11 +53,46 @@ class _MyAppState extends State<MyApp> {
       home: MyHomePage(title: 'Op Art Studio'),
     );
   }
+  Future<void> initPlatformState() async {
+    proVersion = false;
 
+    await Purchases.setDebugLogsEnabled(true);
+    await Purchases.setup("dZAXkioWKFdOESaEtJMQkRsrETmZbFUK");
+
+    PurchaserInfo purchaserInfo;
+    try {
+      purchaserInfo = await Purchases.getPurchaserInfo();
+      //  print(purchaserInfo.toString());
+      if (purchaserInfo.entitlements.all['all_features'] != null) {
+        proVersion = purchaserInfo.entitlements.all['all_features'].isActive;
+      } else {
+        proVersion = false;
+      }
+    } on PlatformException catch (e) {
+//      print(e);
+    }
+
+//    print('#### is user pro? ${proVersion}');
+
+    try {
+      offerings = await Purchases.getOfferings();
+      if (offerings.current != null &&
+          offerings.current.availablePackages.isNotEmpty) {
+        // print(offerings.current.availablePackages.length);
+        // print('offerings');
+        // Display packages for sale
+      }
+    } on PlatformException catch (e) {
+      // print('offerings errors');
+      // print(e);
+      // optional error handling
+    }
+  }
   @override
   void initState() {
     DatabaseHelper helper = DatabaseHelper.instance;
     // helper.deleteDB();
+    initPlatformState();
     helper.getUserDb();
     super.initState();
   }
@@ -128,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    OpArtPage(opArtTypes[index].opArtType)), );
+                                    OpArtPage(opArtTypes[index].opArtType, false)), );
                       },
                       child: Column(
                         children: [
@@ -151,7 +186,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => MyGallery(savedOpArt.length - 1)));
+                        builder: (context) => MyGallery(savedOpArt.length - 1, false)));
               },
               child: Text('My Gallery',
                   style: TextStyle(
@@ -183,10 +218,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              MyGallery(index + 1)));
+                                              MyGallery(index + 1, false)));
                                 },
                                 onLongPress: () {
-                                  showDelete = true;
+                                  showDelete = !showDelete;
                                   _rebuildDelete.value++;
                                 },
                                 child: Stack(
@@ -271,42 +306,8 @@ class _MyHomePageState extends State<MyHomePage> {
       OpArtTypes('Eye', OpArtType.Eye, 'lib/assets/eye_500.png'),
     ];
     super.initState();
-    initPlatformState();
+
   }
 
-  Future<void> initPlatformState() async {
-    proVersion = false;
 
-    await Purchases.setDebugLogsEnabled(true);
-    await Purchases.setup("dZAXkioWKFdOESaEtJMQkRsrETmZbFUK");
-
-    PurchaserInfo purchaserInfo;
-    try {
-      purchaserInfo = await Purchases.getPurchaserInfo();
-      //  print(purchaserInfo.toString());
-      if (purchaserInfo.entitlements.all['all_features'] != null) {
-        proVersion = purchaserInfo.entitlements.all['all_features'].isActive;
-      } else {
-        proVersion = false;
-      }
-    } on PlatformException catch (e) {
-//      print(e);
-    }
-
-//    print('#### is user pro? ${proVersion}');
-
-    try {
-      offerings = await Purchases.getOfferings();
-      if (offerings.current != null &&
-          offerings.current.availablePackages.isNotEmpty) {
-        // print(offerings.current.availablePackages.length);
-        // print('offerings');
-        // Display packages for sale
-      }
-    } on PlatformException catch (e) {
-      // print('offerings errors');
-      // print(e);
-      // optional error handling
-    }
-  }
 }

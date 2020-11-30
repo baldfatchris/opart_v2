@@ -35,7 +35,8 @@ final rebuildMain = new ValueNotifier(0);
 final rebuildCanvas = new ValueNotifier(0);
 final rebuildOpArtPage = ValueNotifier(0);
 final rebuildTab = ValueNotifier(0);
-
+final rebuildGallery = new ValueNotifier(0);
+final rebuildDialog = new ValueNotifier(0);
 final rebuildColorPicker = new ValueNotifier(0);
 final rebuildCircularProgressIndicator = ValueNotifier(0);
 bool enableButton = true;
@@ -192,13 +193,13 @@ class OpArt {
     this.setDefault();
   }
 
-  void saveToLocalDB() {
+  Future<int> saveToLocalDB(bool paid) async {
     print('saving to localDB');
-    WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
+    screenshotController
             .capture(delay: Duration(milliseconds: 100), pixelRatio: 1)
             .then((File image) async {
-      List<int> imageBytes = image.readAsBytesSync();
-      String base64Image = base64Encode(imageBytes);
+          List<int> imageBytes = image.readAsBytesSync();
+          String base64Image = base64Encode(imageBytes);
           Map<String, dynamic> map = Map();
           for (int i = 0; i < attributes.length; i++) {
             map.addAll({attributes[i].label: attributes[i].value});
@@ -209,16 +210,12 @@ class OpArt {
             'image': base64Image,
             'paletteName': palette.paletteName,
             'type': this.opArtType,
-            'purchased': false
+            'paid': paid
           });
 
           Map<String, dynamic> sqlMap = Map();
 
-
-
           for (int i = 0; i < attributes.length; i++) {
-
-
             if (attributes[i].settingType == SettingType.color) {
               sqlMap.addAll(
                   {attributes[i].label: attributes[i].value.toString()});
@@ -232,23 +229,22 @@ class OpArt {
             'image': base64Image,
             'paletteName': palette.paletteName,
             'type': this.opArtType.toString(),
+            'paid': paid
           });
 
           DatabaseHelper helper = DatabaseHelper.instance;
-        helper.insert(sqlMap).then((id){
-          print(id);
+          helper.insert(sqlMap).then((id) {
+            print(id);
             map.addAll({'id': id});
             savedOpArt.add(map);
             rebuildMain.value++;
+            rebuildGallery.value++;
           });
-
-
-        }));
-
+        });
+    return savedOpArt.length;
   }
 
   void saveToCache() {
-
     WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
             .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
             .then((File image) async {
@@ -348,11 +344,9 @@ class OpArt {
     seed = DateTime.now().millisecond;
     Random rnd = Random(seed);
 
-
     for (int i = 0; i < attributes.length; i++) {
       if (attributes[i].settingCategory == SettingCategory.tool) {
         attributes[i].randomize(rnd);
-
       }
     }
   }
@@ -375,11 +369,9 @@ class OpArt {
     seed = DateTime.now().millisecond;
     Random rnd = Random(seed);
 
-
     for (int i = 0; i < attributes.length; i++) {
       if (attributes[i].settingCategory == SettingCategory.palette) {
         attributes[i].randomize(rnd);
-
       }
     }
 
@@ -401,7 +393,8 @@ class OpArt {
       attributes[i].setDefault();
     }
 
-    List newPalette = defaultPalettes.firstWhere((palette) => palette[0] == "Default");
+    List newPalette =
+        defaultPalettes.firstWhere((palette) => palette[0] == "Default");
 
     backgroundColor?.value = Color(int.parse(newPalette[2]));
     palette.colorList = [];

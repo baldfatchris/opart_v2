@@ -1,19 +1,20 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-
+import 'package:share/share.dart';
 import 'database_helper.dart';
 import 'main.dart';
 import 'model_opart.dart';
 import 'opart_page.dart';
-
+CarouselController buttonCarouselController = CarouselController();
 class MyGallery extends StatefulWidget {
   int currentImage;
-
-  MyGallery(this.currentImage);
+  bool paid;
+  MyGallery(this.currentImage, this.paid);
   @override
   _MyGalleryState createState() => _MyGalleryState();
 }
@@ -23,19 +24,17 @@ class _MyGalleryState extends State<MyGallery> {
   int currentIndex;
   String currentSize = '8\' x 10\'';
   Color frameColor = Colors.black;
-  final rebuildGallery = new ValueNotifier(0);
-  final rebuildDialog = new ValueNotifier(0);
+
   final _rebuildDelete = new ValueNotifier(0);
   bool showDelete = false;
   @override
   Widget build(BuildContext context) {
-    print(  MediaQuery.of(context)
-        .size
-        .width /
-        (MediaQuery.of(context)
-            .size
-            .height -
-            60));
+    if(widget.paid){
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      buttonCarouselController.nextPage();buttonCarouselController.nextPage();
+    });}
+    print(MediaQuery.of(context).size.width /
+        (MediaQuery.of(context).size.height - 60));
     return ValueListenableBuilder<int>(
         valueListenable: rebuildGallery,
         builder: (context, value, child) {
@@ -56,7 +55,7 @@ class _MyGalleryState extends State<MyGallery> {
                       ),
                       onPressed: () {
                         Navigator.pop(context);
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => MyHomePage()));
@@ -215,50 +214,88 @@ class _MyGalleryState extends State<MyGallery> {
                           padding: const EdgeInsets.only(top: 30.0),
                           child: Center(
                             child: CarouselSlider.builder(
-                                options: CarouselOptions(viewportFraction: MediaQuery.of(context).orientation==Orientation.portrait? 0.8:0.3,
+                              carouselController:  buttonCarouselController,
+                                options: CarouselOptions(
+                                    viewportFraction:
+                                        MediaQuery.of(context).orientation ==
+                                                Orientation.portrait
+                                            ? 0.8
+                                            : 0.3,
                                     enableInfiniteScroll: false,
                                     height:
                                         (MediaQuery.of(context).size.height),
                                     enlargeCenterPage: true,
-                                    initialPage: widget.currentImage - 1),
+                                    initialPage: widget.currentImage -1),
                                 itemCount: savedOpArt.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   currentIndex = index;
                                   return GestureDetector(
                                     onLongPress: () {
-                                      print('long press');
-                                      showDelete = true;
+
+                                      showDelete = !showDelete;
                                       _rebuildDelete.value++;
                                     },
                                     onTap: () {
-                                      Navigator.push(
+                                      Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => OpArtPage(
-                                                    savedOpArt[index]['type'],
+                                                    savedOpArt[index]['type'],false,
                                                     opArtSettings:
                                                         savedOpArt[index],
                                                   )));
                                     },
                                     child: Stack(
                                       children: [
-                                        Container(
-                                          color: Colors.black,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Container(
-                                              color: Colors.white,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Image.memory(
-                                                  base64Decode(savedOpArt[index]
-                                                      ['image']),
-                                                  fit: BoxFit.fitWidth,
+                                        Column(
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                color: Colors.black,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      10.0),
+                                                  child: Container(
+                                                    color: Colors.white,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Image.memory(
+                                                        base64Decode(
+                                                            savedOpArt[index]
+                                                                ['image']),
+                                                        fit: BoxFit.fitWidth,
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
+                                            savedOpArt[index]['paid'] == null
+                                                ? Container(height: 12)
+                                                : savedOpArt[index]['paid']
+                                                    ? Row(mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Text('paid'),
+                                                          IconButton(
+                                                              icon: Icon(Icons
+                                                                  .file_download),
+                                                              onPressed: () {
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (context) => OpArtPage(
+                                                                          savedOpArt[index]['type'],true,
+                                                                          opArtSettings:
+                                                                          savedOpArt[index],
+
+                                                                        )));
+                                                              })
+                                                        ],
+                                                      )
+                                                    : Container(height: 12)
+                                          ],
                                         ),
                                         ValueListenableBuilder<int>(
                                             valueListenable: _rebuildDelete,
@@ -316,34 +353,39 @@ class _MyGalleryState extends State<MyGallery> {
                       : Padding(
                           padding: const EdgeInsets.only(top: 0.0),
                           child: Center(
-                            child: GridView.builder(scrollDirection: MediaQuery.of(context).orientation ==Orientation.portrait? Axis.vertical: Axis.horizontal,
+                            child: GridView.builder(
+                                scrollDirection: MediaQuery.of(context)
+                                            .orientation ==
+                                        Orientation.portrait
+                                    ? Axis.vertical
+                                    : Axis.horizontal,
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount:2,
-                                        childAspectRatio:
-                                        MediaQuery.of(context).orientation ==Orientation.portrait?
-
-                                             MediaQuery.of(context)
+                                        crossAxisCount: 2,
+                                        childAspectRatio: MediaQuery.of(context)
+                                                    .orientation ==
+                                                Orientation.portrait
+                                            ? MediaQuery.of(context)
                                                     .size
                                                     .width /
                                                 (MediaQuery.of(context)
                                                         .size
                                                         .height -
-                                                    60): 2*MediaQuery.of(context)
-                                            .size
-                                            .height /
-                                            (MediaQuery.of(context)
-                                                .size
-                                                .width -
-                                                60)
-                                    ),
+                                                    60)
+                                            : 2 *
+                                                MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                (MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    60)),
                                 itemCount: savedOpArt.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   currentIndex = index;
                                   return Center(
                                     child: GestureDetector(
                                       onLongPress: () {
-                                        print('long press');
                                         showDelete = true;
                                         _rebuildDelete.value++;
                                       },
@@ -352,7 +394,7 @@ class _MyGalleryState extends State<MyGallery> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) => OpArtPage(
-                                                      savedOpArt[index]['type'],
+                                                      savedOpArt[index]['type'], false,
                                                       opArtSettings:
                                                           savedOpArt[index],
                                                     )));
@@ -370,13 +412,14 @@ class _MyGalleryState extends State<MyGallery> {
                                                 color: Colors.black,
                                                 child: Padding(
                                                   padding:
-                                                      const EdgeInsets.all(8.0),
+                                                      const EdgeInsets.all(
+                                                          8.0),
                                                   child: Container(
                                                     color: Colors.white,
                                                     child: Padding(
                                                       padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
+                                                          const EdgeInsets
+                                                              .all(8.0),
                                                       child: Image.memory(
                                                         base64Decode(
                                                             savedOpArt[index]
