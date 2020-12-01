@@ -124,7 +124,6 @@ Widget toolBoxTab() {
                                       } else if (tools[index].settingType == SettingType.double || tools[index].settingType == SettingType.int) {
                                         print('should expand');
                                         toolsTab.width = 120;
-
                                         rebuildTab.value++;
                                         slider = index;
                                       } else {

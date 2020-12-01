@@ -44,6 +44,10 @@ class _OpArtPageState extends State<OpArtPage> {
   bool showProgressIndicator = false;
   @override
   void initState() {
+    ToolsTab toolsTab = ToolsTab();
+    PaletteTab paletteTab = PaletteTab(context);
+    ChoosePaletteTab choosePaletteTab = ChoosePaletteTab();
+
     downloadNow = widget.downloadNow;
     if (downloadNow) {
       showProgressIndicator = true;
@@ -77,7 +81,14 @@ class _OpArtPageState extends State<OpArtPage> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       opArt.saveToCache();
-     // toolsTab.openTab();
+      //
+      // paletteTab.open = true;
+      // toolsTab.open = true;
+      // choosePaletteTab.open = true;
+      // paletteTab.open = false;
+      // toolsTab.open = false;
+      // choosePaletteTab.open = false;
+
     });
   }
 
@@ -516,7 +527,6 @@ class _OpArtPageState extends State<OpArtPage> {
                           opArt.randomizePalette();
                           opArt.saveToCache();
                           enableButton = false;
-
                           rebuildCanvas.value++;
                         }
                       },
@@ -534,7 +544,6 @@ class _OpArtPageState extends State<OpArtPage> {
                               showCustomColorPicker = false;
                             } else {
                               showSettings = true;
-
                               showCustomColorPicker = false;
                             }
                           });

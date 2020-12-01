@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:opart_v2/opart_page.dart';
@@ -69,7 +71,9 @@ class _TabWidgetState extends State<TabWidget> {
       alignment: Alignment(0, tab.tabHeight),
       child: GestureDetector(
         onTap: () {
-          tab.open ? tab.closeTab() : tab.openTab();
+
+            tab.open ? tab.closeTab() : tab.openTab();
+
         },
         child: RotatedBox(
           quarterTurns: tab.left ? 0 : 2,

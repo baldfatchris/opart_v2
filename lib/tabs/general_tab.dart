@@ -17,25 +17,39 @@ class GeneralTab {
   bool hidden = false;
 
   void closeTab() {
-    if(hidden){
-      hidden = false;
-    }
-    position = -width;
+    paletteTab.position = -paletteTab.width;
+    paletteTab.open = false;
+    toolsTab.position = -toolsTab.width;
+    toolsTab.open = false;
+    choosePaletteTab.position = -choosePaletteTab.width;
+    choosePaletteTab.open = false;
+    this.position = -this.width;
+    showCustomColorPicker = false;
+    rebuildOpArtPage.value++;
     rebuildTab.value++;
-    open = false;
   }
 
   void openTab() {
-    position = 0;
-    open = true;
+    showCustomColorPicker = false;
+    rebuildOpArtPage.value++;
+    paletteTab.position = -paletteTab.width;
+    paletteTab.open = false;
+    toolsTab.position = -toolsTab.width;
+    toolsTab.open = false;
+    choosePaletteTab.position = -choosePaletteTab.width;
+    choosePaletteTab.open = false;
+    this.open = true;
+    this.position = 0;
+    showCustomColorPicker = false;
+    rebuildOpArtPage.value++;
     rebuildTab.value++;
+
   }
 
   void hideTab() {
-    position = -width-45;
-    rebuildTab.value++;
     open = false;
-    hidden = true;
+    position = -width -45;
+    rebuildTab.value++;
   }
 
   Widget content() {
@@ -48,6 +62,8 @@ PaletteTab paletteTab;
 ChoosePaletteTab choosePaletteTab;
 
 class ToolsTab extends GeneralTab {
+@override
+bool open = false;
   @override
   IconData icon = MdiIcons.tools;
 
@@ -68,16 +84,7 @@ class ToolsTab extends GeneralTab {
   rebuildTab.value++;
   }
 
-  @override
-  void openTab() {
-    position = 0;
-    if(paletteTab.open){
-    paletteTab?.closeTab();}
-    if(choosePaletteTab.open){
-    choosePaletteTab?.closeTab();}
-    open = true;
-    rebuildTab.value++;
-  }
+
 
   @override
   Widget content() {
@@ -87,44 +94,34 @@ class ToolsTab extends GeneralTab {
 }
 
 class PaletteTab extends GeneralTab {
+  @override
+  bool open = false;
   BuildContext context;
   PaletteTab(this.context);
-
   @override
   IconData icon = Icons.palette;
 
   @override
   bool left = true;
-
-
+@override
+  void openTab() {
+    toolsTab.position = -toolsTab.width;
+    toolsTab.open = false;
+    choosePaletteTab.position = -choosePaletteTab.width-45;
+    choosePaletteTab.open = false;
+    this.open = true;
+    this.position = 0;
+    rebuildTab.value++;
+  }
   @override
   double tabHeight = -0.5;
 
   @override
   double width = 50;
 
-  @override
-  void openTab() {
-    position = 0;
-    open = true;
-    if(toolsTab.open){
-    toolsTab.closeTab();}
-    choosePaletteTab.hideTab();
 
-    rebuildTab.value++;
-  }
 
-  @override
-  void closeTab() {
-    if(choosePaletteTab.hidden){
-      choosePaletteTab.closeTab();
-      choosePaletteTab.hidden = false;
-    }
-    position = -50;
-    showCustomColorPicker = false;
-    open = false;
-    rebuildTab.value++;
-  }
+
 
   @override
   Widget content() {
@@ -140,6 +137,8 @@ class PaletteTab extends GeneralTab {
 
 class ChoosePaletteTab extends GeneralTab {
   @override
+  bool open = false;
+  @override
   IconData icon = Icons.palette_outlined;
 
   @override
@@ -150,16 +149,18 @@ class ChoosePaletteTab extends GeneralTab {
 
   @override
   double width = 80;
+@override
+void openTab() {
+  paletteTab.position = -paletteTab.width-45;
+  paletteTab.open = false;
+  toolsTab.position = -toolsTab.width;
+  toolsTab.open = false;
+  this.open = true;
+  this.position = 0;
+  rebuildTab.value++;
 
-  @override
-  void openTab() {
-    position = 0;
-    open = true;
-    if(toolsTab.open){
-    toolsTab.closeTab();}
-    paletteTab.hideTab();
-    rebuildTab.value++;
-  }
+}
+
 
 
 
@@ -169,26 +170,9 @@ class ChoosePaletteTab extends GeneralTab {
     return choosePaletteTabWidget();
   }
 
-@override
-void hideTab() {
-  position = -width - 45;
-  rebuildTab.value++;
-  hidden = true;
-}
 
-@override
-void closeTab(){
-    if(paletteTab.hidden){
-      paletteTab.closeTab();
-      paletteTab.hidden = false;
-    }
-    if(hidden){
-      hidden = false;
-    }
-  position = -width;
-  rebuildTab.value++;
-  open = false;
-}
+
+
   @override
   double position = -80;
 

@@ -92,6 +92,7 @@ class _MyAppState extends State<MyApp> {
     // helper.deleteDB();
     initPlatformState();
     helper.getUserDb();
+
     super.initState();
   }
 }
