@@ -63,27 +63,11 @@ SettingsModel offsetY = SettingsModel(
   min: -50.0,
   max: 50.0,
   zoom: 100,
-  defaultValue: 0.0,
+  defaultValue: 10.0,
   icon: Icon(OpArtLab.vertical_offset),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-
-SettingsModel borderWidth = SettingsModel(
-  name: 'borderWidth',
-  settingType: SettingType.double,
-  label: 'Border Width',
-  tooltip: 'The width of the border',
-  min: 0.0,
-  max: 20.0,
-  zoom: 100,
-  defaultValue: 20.0,
-  icon: Icon(Icons.check_box_outline_blank),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-);
-
-
 
 SettingsModel lineWidth = SettingsModel(
   settingType: SettingType.double,
@@ -96,17 +80,6 @@ SettingsModel lineWidth = SettingsModel(
   defaultValue: 0.0,
   icon: Icon(Icons.line_weight),
   settingCategory: SettingCategory.tool,
-  proFeature: false,
-);
-
-SettingsModel lineColor = SettingsModel(
-  name: 'lineColor',
-  settingType: SettingType.color,
-  label: "Outline Color",
-  tooltip: "The outline colour for the shape",
-  defaultValue: Colors.white,
-  icon: Icon(Icons.zoom_out_map),
-  settingCategory: SettingCategory.palette,
   proFeature: false,
 );
 
@@ -172,9 +145,7 @@ List<SettingsModel> initializeRhombusAttributes() {
     columns,
     ratio,
     offsetY,
-    borderWidth,
     lineWidth,
-    lineColor,
     backgroundColor,
     randomColors,
     numberOfColors,
@@ -200,14 +171,14 @@ void paintRhombus(Canvas canvas, Size size, int seed, double animationVariable, 
   // Initialise the canvas
   double canvasWidth = size.width;
   double canvasHeight = size.height;
-  double borderX = borderWidth.value;
-  double borderY = borderWidth.value;
+  double borderX = 0;
+  double borderY = 0;
 
   // Work out the X and Y
-  double cellWidth = (canvasWidth - 2 * borderWidth.value) / columns.value;
+  double cellWidth = canvasWidth / columns.value;
   double cellHeight = cellWidth / ratio.value;
   int cellsX = columns.value.toInt();
-  int cellsY = ((canvasHeight - 2 * borderWidth.value) / cellHeight).ceil();
+  int cellsY = (canvasHeight / cellHeight).ceil();
   int extraY = (offsetY.value / cellHeight).ceil();
 
   int colourOrder = 0;
@@ -253,7 +224,7 @@ void paintRhombus(Canvas canvas, Size size, int seed, double animationVariable, 
         canvas.drawPath(
             rhombus,
             Paint()
-              ..color = lineColor.value.withOpacity(opacity.value)
+              ..color = backgroundColor.value.withOpacity(opacity.value)
               ..style = PaintingStyle.stroke
               ..strokeWidth = lineWidth.value
         );
@@ -261,14 +232,6 @@ void paintRhombus(Canvas canvas, Size size, int seed, double animationVariable, 
     }
   }
 
-  //draw the border
-  canvas.drawRect(
-      Offset(0, 0) & Size(canvasWidth, canvasHeight),
-      Paint()
-        ..style = PaintingStyle.stroke
-        ..color = backgroundColor.value.withOpacity(1.0)
-        ..strokeWidth = borderWidth.value*2
-  );
 }
 
 
