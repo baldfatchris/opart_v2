@@ -12,6 +12,7 @@ import 'opart/opart_hexagons.dart';
 import 'opart/opart_maze.dart';
 import 'opart/opart_neighbour.dart';
 import 'opart/opart_quads.dart';
+import 'opart/opart_rhombus.dart';
 import 'opart/opart_riley.dart';
 import 'opart/opart_shapes.dart';
 import 'opart/opart_squares.dart';
@@ -50,6 +51,7 @@ enum OpArtType {
   Maze,
   Neighbour,
   Quads,
+  Rhombus,
   Riley,
   Shapes,
   Squares,
@@ -129,6 +131,14 @@ class OpArt {
         this.attributes = initializeQuadsAttributes();
         this.palette = OpArtPalette();
         this.name = 'Quads';
+        this.animation = false;
+
+        break;
+
+      case OpArtType.Rhombus:
+        this.attributes = initializeRhombusAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Rhombus';
         this.animation = false;
 
         break;
@@ -313,6 +323,9 @@ class OpArt {
         break;
       case OpArtType.Quads:
         paintQuads(canvas, size, seed, animationVariable, this);
+        break;
+      case OpArtType.Rhombus:
+        paintRhombus(canvas, size, seed, animationVariable, this);
         break;
       case OpArtType.Riley:
         paintRiley(canvas, size, seed, animationVariable, this);
