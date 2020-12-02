@@ -66,7 +66,7 @@ class _OpArtPageState extends State<OpArtPage> {
       rebuildCanvas.value++;
     }
 
-    showSettings = true;
+    showSettings = false;
     super.initState();
 
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
