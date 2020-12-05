@@ -310,7 +310,7 @@ class _MyHomePageState extends State<MyHomePage> {
       OpArtTypes('Quads', OpArtType.Quads, 'lib/assets/quads_500.png'),
       OpArtTypes('Plasma', OpArtType.Plasma, 'lib/assets/plasma_500.png'),
       OpArtTypes('Rhombus', OpArtType.Rhombus, 'lib/assets/rhombus_500.png'),
-      OpArtTypes('Riley', OpArtType.Riley, 'lib/assets/riley_500.png'),
+      // OpArtTypes('Riley', OpArtType.Riley, 'lib/assets/riley_500.png'),
       OpArtTypes('Triangles', OpArtType.Triangles, 'lib/assets/triangles_500.png'),
       OpArtTypes('Squares', OpArtType.Squares, 'lib/assets/squares_500.png'),
       OpArtTypes('Life', OpArtType.Life, 'lib/assets/squares_500.png'),
