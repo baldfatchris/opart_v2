@@ -10,8 +10,8 @@ import 'dart:core';
 List cells;
 List shades;
 int shadeOffset;
-int maxDepthOld;
-int numberOfColoursOld;
+int recursionDepthOld;
+double randomizerOld;
 
 SettingsModel reDraw = SettingsModel(
   name: 'reDraw',
@@ -27,11 +27,11 @@ SettingsModel reDraw = SettingsModel(
   silent: true,
 );
 
-SettingsModel maximumDepth = SettingsModel(
+SettingsModel recursionDepth = SettingsModel(
   settingType: SettingType.int,
-  name: 'maximumDepth',
-  label: 'Maximum Depth',
-  tooltip: 'The maximum recursion depth',
+  name: 'recursionDepth',
+  label: 'Recursion Depth',
+  tooltip: 'The recursion depth',
   min: 2,
   max: 8,
   zoom: 100,
@@ -41,46 +41,33 @@ SettingsModel maximumDepth = SettingsModel(
   proFeature: false,
 );
 
+SettingsModel colorDepth = SettingsModel(
+  settingType: SettingType.int,
+  name: 'colorDepth',
+  label: 'Color Depth',
+  tooltip: 'Sets the colorDepth.valueness of the colors',
+  min: 1,
+  max: 100,
+  zoom: 100,
+  defaultValue: 32,
+  icon: Icon(Icons.line_weight),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 
 
-SettingsModel ratio = SettingsModel(
-  name: 'ratio',
+SettingsModel randomizer = SettingsModel(
+  name: 'randomizer',
   settingType: SettingType.double,
   label: 'Randomizer',
   tooltip: 'The amount of randomness in the plasma',
   min: 0.0,
-  max: 0.1,
+  max: 0.5,
   randomMin: 0.05,
   randomMax: 0.35,
   zoom: 100,
   defaultValue: 0.1,
   icon: Icon(Icons.remove_red_eye),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-);
-
-SettingsModel randomiseRatio = SettingsModel(
-  name: 'randomiseRatio',
-  settingType: SettingType.bool,
-  label: 'Randomise Ratio',
-  tooltip: 'Randomise the split ratio',
-  defaultValue: false,
-  icon: Icon(Icons.track_changes),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-  silent: true,
-);
-
-SettingsModel lineWidth = SettingsModel(
-  settingType: SettingType.double,
-  name: 'lineWidth',
-  label: 'Outline Width',
-  tooltip: 'The width of the petal outline',
-  min: 0.0,
-  max: 10.0,
-  zoom: 100,
-  defaultValue: 3.0,
-  icon: Icon(Icons.line_weight),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -137,13 +124,11 @@ List<SettingsModel> initializePlasmaAttributes() {
 
   return [
     reDraw,
-    maximumDepth,
-    ratio,
-    randomiseRatio,
+    recursionDepth,
+    colorDepth,
+    randomizer,
 
-    lineColor,
-    lineWidth,
-    randomColors,
+
     numberOfColors,
     paletteType,
     paletteList,
@@ -162,39 +147,40 @@ void paintPlasma(Canvas canvas, Size size, int seed, double animationVariable, O
     opArt.selectPalette(paletteList.value);
   }
 
-  int smooth = 32;
-
-  if (reDraw.value == true || shades == null || shades.length != (opArt.palette.colorList.length-1)*smooth+1){
+  if (reDraw.value == true || shades == null || shades.length != (opArt.palette.colorList.length-1)*colorDepth.value+1 ){
 
     // generate the palette
     shadeOffset = 0;
     shades = null;
 
     int numberOfColors = opArt.palette.colorList.length;
-    int numberOfShades = (numberOfColors-1)*smooth+1;
+    int numberOfShades = (numberOfColors-1)*colorDepth.value+1;
     shades = List(numberOfShades);
     shades[0] = opArt.palette.colorList[0];
     for (int i=1; i<opArt.palette.colorList.length; i++) {
-      for (int j = 1; j <= smooth; j++) {
-        shades[(i-1)*smooth+j] = Color.fromRGBO(
-            (opArt.palette.colorList[i-1].red * (smooth - j) + opArt.palette.colorList[i].red * j)~/smooth,
-            (opArt.palette.colorList[i-1].blue * (smooth - j) + opArt.palette.colorList[i].blue * j)~/smooth,
-            (opArt.palette.colorList[i-1].green * (smooth - j) + opArt.palette.colorList[i].green * j)~/smooth,
+      for (int j = 1; j <= colorDepth.value; j++) {
+        shades[(i-1)*colorDepth.value+j] = Color.fromRGBO(
+            (opArt.palette.colorList[i-1].red * (colorDepth.value - j) + opArt.palette.colorList[i].red * j)~/colorDepth.value,
+            (opArt.palette.colorList[i-1].blue * (colorDepth.value - j) + opArt.palette.colorList[i].blue * j)~/colorDepth.value,
+            (opArt.palette.colorList[i-1].green * (colorDepth.value - j) + opArt.palette.colorList[i].green * j)~/colorDepth.value,
             1);
       }
     }
 
   }
 
-  if (reDraw.value == true || maxDepthOld != maximumDepth.value) {
-    maxDepthOld = maximumDepth.value;
+  if (reDraw.value == true || recursionDepthOld != recursionDepth.value || randomizerOld != randomizer.value) {
+    recursionDepthOld = recursionDepth.value;
+    randomizerOld = randomizer.value;
 
-    // generate the plasma
+  // reseed - otherwise it's boring
+  rnd = Random(DateTime.now().millisecond);
+
+  // generate the plasma
     cells = null;
-    double randomizer = ratio.value;
 
     // create the grid
-    int numberOfCells = pow(2, maximumDepth.value);
+    int numberOfCells = pow(2, recursionDepth.value);
     // print('numberOfCells: $numberOfCells');
 
     cells = List(numberOfCells + 1);
@@ -211,15 +197,15 @@ void paintPlasma(Canvas canvas, Size size, int seed, double animationVariable, O
     for (int d = numberOfCells; d > 1; d = d ~/ 2) {
       for (int i = d ~/ 2; i <= numberOfCells; i = i + d) {
         for (int j = d ~/ 2; j <= numberOfCells; j = j + d) {
-          square(i, j, d ~/ 2, randomizer, numberOfCells);
+          square(i, j, d ~/ 2, randomizer.value, numberOfCells);
         }
       }
       for (int i = d ~/ 2; i <= numberOfCells; i = i + d) {
         for (int j = d ~/ 2; j <= numberOfCells; j = j + d) {
-          diamond(i, j - d ~/ 2, d ~/ 2, randomizer, numberOfCells);
-          diamond(i, j + d ~/ 2, d ~/ 2, randomizer, numberOfCells);
-          diamond(i - d ~/ 2, j, d ~/ 2, randomizer, numberOfCells);
-          diamond(i + d ~/ 2, j, d ~/ 2, randomizer, numberOfCells);
+          diamond(i, j - d ~/ 2, d ~/ 2, randomizer.value, numberOfCells);
+          diamond(i, j + d ~/ 2, d ~/ 2, randomizer.value, numberOfCells);
+          diamond(i - d ~/ 2, j, d ~/ 2, randomizer.value, numberOfCells);
+          diamond(i + d ~/ 2, j, d ~/ 2, randomizer.value, numberOfCells);
         }
       }
     }
@@ -232,7 +218,7 @@ void paintPlasma(Canvas canvas, Size size, int seed, double animationVariable, O
 
 
   // Initialise the canvas
-  int numberOfCells = pow(2,maximumDepth.value);
+  int numberOfCells = pow(2,recursionDepth.value);
   double cellWidth = size.width / (numberOfCells + 1);
   double cellHeight = size.height / (numberOfCells + 1);
 
