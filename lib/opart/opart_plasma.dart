@@ -7,8 +7,9 @@ import '../model_settings.dart';
 import 'dart:math';
 import 'dart:core';
 
-List cells;
 List shades;
+List cells;
+List colorList;
 int shadeOffset;
 int recursionDepthOld;
 double randomizerOld;
@@ -36,7 +37,7 @@ SettingsModel recursionDepth = SettingsModel(
   max: 8,
   zoom: 100,
   defaultValue: 8,
-  icon: Icon(Icons.line_weight),
+  icon: Icon(Icons.file_download),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -49,9 +50,9 @@ SettingsModel colorDepth = SettingsModel(
   min: 1,
   max: 100,
   zoom: 100,
-  defaultValue: 32,
+  defaultValue: 10,
   icon: Icon(Icons.line_weight),
-  settingCategory: SettingCategory.tool,
+  settingCategory: SettingCategory.palette,
   proFeature: false,
 );
 
@@ -146,23 +147,26 @@ void paintPlasma(Canvas canvas, Size size, int seed, double animationVariable, O
   if (paletteList.value != opArt.palette.paletteName){
     opArt.selectPalette(paletteList.value);
   }
+print('colorList: $colorList');
+print('opArt.palette.colorList: ${opArt.palette.colorList}');
 
-  if (reDraw.value == true || shades == null || shades.length != (opArt.palette.colorList.length-1)*colorDepth.value+1 ){
+  if (reDraw.value == true || shades == null || colorList != opArt.palette.colorList || shades.length != (opArt.palette.colorList.length)*colorDepth.value){
 
     // generate the palette
     shadeOffset = 0;
     shades = null;
+    colorList = opArt.palette.colorList;
 
     int numberOfColors = opArt.palette.colorList.length;
-    int numberOfShades = (numberOfColors-1)*colorDepth.value+1;
+    int numberOfShades = numberOfColors*colorDepth.value;
     shades = List(numberOfShades);
     shades[0] = opArt.palette.colorList[0];
-    for (int i=1; i<opArt.palette.colorList.length; i++) {
-      for (int j = 1; j <= colorDepth.value; j++) {
-        shades[(i-1)*colorDepth.value+j] = Color.fromRGBO(
-            (opArt.palette.colorList[i-1].red * (colorDepth.value - j) + opArt.palette.colorList[i].red * j)~/colorDepth.value,
-            (opArt.palette.colorList[i-1].blue * (colorDepth.value - j) + opArt.palette.colorList[i].blue * j)~/colorDepth.value,
-            (opArt.palette.colorList[i-1].green * (colorDepth.value - j) + opArt.palette.colorList[i].green * j)~/colorDepth.value,
+    for (int i=0; i<numberOfColors; i++) {
+      for (int j=0; j<colorDepth.value; j++) {
+        shades[i*colorDepth.value+j] = Color.fromRGBO(
+            (opArt.palette.colorList[i].red * (colorDepth.value - j) + opArt.palette.colorList[(i+1)%numberOfColors].red * j)~/colorDepth.value,
+            (opArt.palette.colorList[i].blue * (colorDepth.value - j) + opArt.palette.colorList[(i+1)%numberOfColors].blue * j)~/colorDepth.value,
+            (opArt.palette.colorList[i].green * (colorDepth.value - j) + opArt.palette.colorList[(i+1)%numberOfColors].green * j)~/colorDepth.value,
             1);
       }
     }

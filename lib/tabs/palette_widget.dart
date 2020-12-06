@@ -111,6 +111,7 @@ class _PaletteTabWidgetState extends State<PaletteTabWidget> {
 
                       if (numberOfColors.value > 1) {
                         numberOfColors.value--;
+                        opArt.palette.colorList.removeLast();
                         if (numberOfColors.value > paletteLength) {
                           opArt.palette.randomize(
                               paletteType.value.toString(),
