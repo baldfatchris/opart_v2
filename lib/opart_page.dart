@@ -433,7 +433,6 @@ class _OpArtPageState extends State<OpArtPage> {
                           opArt.clearCache();
                           SystemChrome.setEnabledSystemUIOverlays(
                               SystemUiOverlay.values);
-                          Navigator.pop(context);
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
