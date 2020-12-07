@@ -128,7 +128,7 @@ SettingsModel shapeS = SettingsModel(
   settingType: SettingType.bool,
   label: 'S Shapes',
   tooltip: 'Add s shapes to the shapes',
-  defaultValue: true,
+  defaultValue: false,
   icon: Icon(OpArtLab.s_shape),
   settingCategory: SettingCategory.tool,
   silent: true,
@@ -400,6 +400,7 @@ int drawSquare(
       canvas.drawRect(Offset(pA[0], pA[1]) & Size(side, side),
           Paint()
             ..style = PaintingStyle.fill
+            ..isAntiAlias = false
             ..color = nextColor.withOpacity(opacity.value));
     }
 
@@ -415,6 +416,7 @@ int drawSquare(
           : palette[rnd.nextInt(numberOfColors.value)];
       Paint paint = Paint()
         ..style = PaintingStyle.fill
+        ..isAntiAlias = false
         ..color = nextColor.withOpacity(opacity.value);
 
       Path shape = Path();
