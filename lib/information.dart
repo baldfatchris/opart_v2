@@ -38,7 +38,7 @@ class _InformationPageState extends State<InformationPage> {
         Text('Inspired by the work of Bridget Riley, OpArt Lab allows you to produce your own OpArt creations '
             'without going to the the bother of recruiting a team of art students to painstakingly color in your canvases '
             'and with absolutely no formaldehyde.\n\n'
-            'Written in Flutter and available in on both Apple and Android platforms, '
+            'Written in Flutter and available on both Apple and Android platforms, '
             'OpArt Lab is a collaboration between teams of artists and nerds.\n\n'
             'If you have any feedback, suggestions for new features or additional OpArt styles, please drop the team an email at info@amovada.com',
         style: TextStyle(fontSize: 18),
