@@ -13,8 +13,6 @@ Widget toolBoxTab() {
       .where((element) => element.settingCategory == SettingCategory.tool)
       .toList();
 
-
-
   return StatefulBuilder(builder: (context, setState) {
     Widget sliderWidget(int slider) {
       if (slider == 100) {

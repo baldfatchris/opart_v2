@@ -6,6 +6,7 @@ import '../model_palette.dart';
 import '../model_settings.dart';
 import 'dart:math';
 import 'dart:core';
+import 'dart:ui' as ui;
 
 List<String> list = List();
 
@@ -243,9 +244,10 @@ void  drawDiagonal(
       var p2 = [borderX + (i+1) * sideLength, borderY + (j+1) * sideLength];
       var p3 = [borderX + i * sideLength, borderY + (j+1) * sideLength];
 
+
+      // Quarter Circles
       int orientation = oneDirection ? 0 : rnd.nextInt(4);
       switch (orientation) {
-
         case 0:
           centre1 = p0;
           centre2 = p2;
@@ -277,53 +279,46 @@ void  drawDiagonal(
         colourOrder = 0;
       }
 
-      for (int i = numberOfPipes.value.toInt(); i > 0; i--){
+      for (int i = numberOfPipes.value.toInt(); i > 0; i--) {
 
         // Choose the next colour
-        nextColorOrder = parity ? numberOfPipes.value.toInt()-colourOrder-1 : colourOrder;
+        nextColorOrder = parity ? numberOfPipes.value.toInt() - colourOrder - 1 : colourOrder;
         colourOrder++;
 
         nextColor = (randomColors.value == true)
             ? colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value)
             : colorList[nextColorOrder % numberOfColors.value].withOpacity(opacity.value);
 
-        // if (randomColors.value == true) nextColor = colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value);
-        // else  nextColor = colorList[nextColorOrder % numberOfColors.value].withOpacity(opacity.value);
-
-        radius = sideLength / numberOfPipes.value * (i-0.5 + ratio.value/2)-offset;
+        radius = sideLength / numberOfPipes.value * (i - 0.5 + ratio.value / 2) - offset;
         drawQuarterArc(canvas, centre1, radius, startAngle, nextColor);
 
-        radius = sideLength / numberOfPipes.value * (i-0.5 - ratio.value/2)-offset;
+        radius = sideLength / numberOfPipes.value * (i - 0.5 - ratio.value / 2) - offset;
         drawQuarterArc(canvas, centre1, radius, startAngle, backgroundColor.withOpacity(1.0));
-
       }
 
       if (resetColors.value == true) {
         colourOrder = 0;
       }
 
-      for (int i = numberOfPipes.value.toInt(); i > 0; i--){
+      for (int i = numberOfPipes.value.toInt(); i > 0; i--) {
 
         // Choose the next colour
-        nextColorOrder = parity ? numberOfPipes.value.toInt()-colourOrder-1 : colourOrder;
+        nextColorOrder = parity ? numberOfPipes.value.toInt() - colourOrder - 1 : colourOrder;
         colourOrder++;
 
-        if (randomColors.value == true) nextColor = colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value);
-        else  nextColor = colorList[nextColorOrder % numberOfColors.value].withOpacity(opacity.value);
+        nextColor = (randomColors.value == true)
+            ? colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value)
+            : colorList[nextColorOrder % numberOfColors.value].withOpacity(opacity.value);
 
-        radius = sideLength / numberOfPipes.value * (i-0.5 + ratio.value/2)+offset;
-        drawQuarterArc(canvas, centre2, radius, startAngle+pi, nextColor);
+        radius = sideLength / numberOfPipes.value * (i - 0.5 + ratio.value / 2) + offset;
+        drawQuarterArc(canvas, centre2, radius, startAngle + pi, nextColor);
 
-        radius = sideLength / numberOfPipes.value * (i-0.5 - ratio.value/2)+offset;
-        drawQuarterArc(canvas, centre2, radius, startAngle+pi, backgroundColor.withOpacity(1.0));
-
+        radius = sideLength / numberOfPipes.value * (i - 0.5 - ratio.value / 2) + offset;
+        drawQuarterArc(canvas, centre2, radius, startAngle + pi, backgroundColor.withOpacity(1.0));
       }
-
     }
 
   }
-
-
 }
 
 void drawQuarterArc(Canvas canvas, List centre, double radius, double startAngle, Color color)

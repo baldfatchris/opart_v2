@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:opart_v2/loading.dart';
+// import 'package:opart_v2/loading.dart';
 import 'database_helper.dart';
 import 'information.dart';
 import 'opart_page.dart';
@@ -23,9 +23,9 @@ Offerings offerings;
 void main() async {
   runApp(MaterialApp(
     theme: ThemeData(primaryColor: Colors.cyan),
-    initialRoute: '/',
+    initialRoute: '/menu',
     routes: {
-      '/': (context) => Loading(),
+      // '/': (context) => Loading(),
       '/menu': (context) => MyApp(),
     },
   ));
@@ -117,86 +117,86 @@ class _MyHomePageState extends State<MyHomePage> {
       onWillPop: () async => false,
       child: Scaffold(
           body: SafeArea(
-        child: Column(
-          children: [
-            Stack(
+            child: Column(
               children: [
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text('OpArt Lab',
-                        style: TextStyle(
-                            fontFamily: 'Righteous',
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                ),
-                IconButton(
-                    icon: Icon(Icons.info, color: Colors.cyan),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => InformationPage()));
-                    })
-              ],
-            ),
-            Expanded(
-              child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: MediaQuery.of(context).orientation ==
-                              Orientation.portrait
-                          ? MediaQuery.of(context).size.width > 350
-                              ? 4
-                              : 3
-                          : MediaQuery.of(context).size.width > 800
-                              ? 6
-                              : MediaQuery.of(context).size.width > 600
-                                  ? 5
-                                  : 4,
-                      childAspectRatio: 0.8),
-                  itemCount: opArtTypes.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => OpArtPage(
-                                  opArtTypes[index].opArtType, false)),
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Image.asset(opArtTypes[index].image),
-                          ),
-                          Text(opArtTypes[index].name,
-                              style: TextStyle(
-                                  fontFamily: 'Righteous',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18)),
-                        ],
+                Stack(
+                  children: [
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text('OpArt Lab',
+                            style: TextStyle(
+                                fontFamily: 'Righteous',
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold)),
                       ),
-                    );
-                  }),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            MyGallery(savedOpArt.length - 1, false)));
-              },
-              child: Text('My Gallery',
-                  style: TextStyle(
-                      fontFamily: 'Righteous',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20)),
-            ),
-            Padding(
+                    ),
+                    IconButton(
+                        icon: Icon(Icons.info, color: Colors.cyan),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => InformationPage()));
+                        })
+                  ],
+                ),
+                Expanded(
+                  child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: MediaQuery.of(context).orientation ==
+                                  Orientation.portrait
+                              ? MediaQuery.of(context).size.width > 350
+                                  ? 4
+                                  : 3
+                              : MediaQuery.of(context).size.width > 800
+                                  ? 6
+                                  : MediaQuery.of(context).size.width > 600
+                                      ? 5
+                                      : 4,
+                          childAspectRatio: 0.84),
+                      itemCount: opArtTypes.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => OpArtPage(
+                                      opArtTypes[index].opArtType, false)),
+                            );
+                          },
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Image.asset(opArtTypes[index].image),
+                              ),
+                              // Text(opArtTypes[index].name,
+                              //     style: TextStyle(
+                              //         fontFamily: 'Righteous',
+                              //         fontWeight: FontWeight.bold,
+                              //         fontSize: 18)),
+                            ],
+                          ),
+                        );
+                      }),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                MyGallery(savedOpArt.length - 1, false)));
+                  },
+                  child: Text('My Gallery',
+                      style: TextStyle(
+                          fontFamily: 'Righteous',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20)),
+                ),
+                Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: ValueListenableBuilder<int>(
                   valueListenable: rebuildMain,
@@ -302,21 +302,23 @@ class _MyHomePageState extends State<MyHomePage> {
     // InAppPurchaseConnection.enablePendingPurchases();
 
     opArtTypes = [
-      OpArtTypes('Wallpaper', OpArtType.Wallpaper, 'lib/assets/wallpaper_500.png'),
-      OpArtTypes('Diagonal', OpArtType.Diagonal, 'lib/assets/diagonal_500.png'),
-      OpArtTypes('Shapes', OpArtType.Shapes, 'lib/assets/shapes_500.png'),
-       OpArtTypes('Neighbour', OpArtType.Neighbour, 'lib/assets/neighbour_500.png'),
-      OpArtTypes('Maze', OpArtType.Maze, 'lib/assets/maze_500.png'),
-      OpArtTypes('Quads', OpArtType.Quads, 'lib/assets/quads_500.png'),
-      OpArtTypes('Rhombus', OpArtType.Rhombus, 'lib/assets/rhombus_500.png'),
-      OpArtTypes('Riley', OpArtType.Riley, 'lib/assets/riley_500.png'),
-      OpArtTypes('Triangles', OpArtType.Triangles, 'lib/assets/triangles_500.png'),
-      OpArtTypes('Squares', OpArtType.Squares, 'lib/assets/squares_500.png'),
-      OpArtTypes('Spirals', OpArtType.Fibonacci, 'lib/assets/fibonacci_400.png'),
-      OpArtTypes('Eye', OpArtType.Eye, 'lib/assets/eye_500.png'),
-        OpArtTypes('Hexagons', OpArtType.Hexagons, 'lib/assets/hexagons_500.png'),
-      OpArtTypes('Trees', OpArtType.Tree, 'lib/assets/tree_400.png'),
-      OpArtTypes('Waves', OpArtType.Wave, 'lib/assets/wave_400.png'),
+      OpArtTypes('Wallpaper', OpArtType.Wallpaper, 'lib/assets/wallpaper.png'),
+      OpArtTypes('Diagonal', OpArtType.Diagonal, 'lib/assets/diagonal.png'),
+      OpArtTypes('Shapes', OpArtType.Shapes, 'lib/assets/shapes.png'),
+      OpArtTypes('Neighbour', OpArtType.Neighbour, 'lib/assets/neighbour.png'),
+      OpArtTypes('Maze', OpArtType.Maze, 'lib/assets/maze.png'),
+      OpArtTypes('Quads', OpArtType.Quads, 'lib/assets/quads.png'),
+      OpArtTypes('Plasma', OpArtType.Plasma, 'lib/assets/plasma.png'),
+      OpArtTypes('Rhombus', OpArtType.Rhombus, 'lib/assets/rhombus.png'),
+      // OpArtTypes('Riley', OpArtType.Riley, 'lib/assets/riley.png'),
+      OpArtTypes('Triangles', OpArtType.Triangles, 'lib/assets/triangles.png'),
+      OpArtTypes('Squares', OpArtType.Squares, 'lib/assets/squares.png'),
+      // OpArtTypes('Life', OpArtType.Life, 'lib/assets/squares.png'),
+      OpArtTypes('Spirals', OpArtType.Fibonacci, 'lib/assets/fibonacci.png'),
+      OpArtTypes('Eye', OpArtType.Eye, 'lib/assets/eye.png'),
+      OpArtTypes('Hexagons', OpArtType.Hexagons, 'lib/assets/hexagons.png'),
+      OpArtTypes('Trees', OpArtType.Tree, 'lib/assets/tree.png'),
+      OpArtTypes('Waves', OpArtType.Wave, 'lib/assets/wave.png'),
     ];
     super.initState();
   }

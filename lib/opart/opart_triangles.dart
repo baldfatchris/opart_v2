@@ -147,7 +147,7 @@ SettingsModel resetDefaults = SettingsModel(
   tooltip: 'Reset all settings to defaults',
   defaultValue: false,
   icon: Icon(Icons.low_priority),
-  settingCategory: SettingCategory.palette,
+  settingCategory: SettingCategory.tool,
   onChange: () {},
   silent: true,
   proFeature: false,

@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'dart:io';
 import 'dart:math';
+import 'package:opart_v2/opart/opart_life.dart';
 import 'package:opart_v2/opart/opart_triangles.dart';
 
 import 'database_helper.dart';
@@ -11,6 +12,7 @@ import 'opart/opart_fibonacci.dart';
 import 'opart/opart_hexagons.dart';
 import 'opart/opart_maze.dart';
 import 'opart/opart_neighbour.dart';
+import 'opart/opart_plasma.dart';
 import 'opart/opart_quads.dart';
 import 'opart/opart_rhombus.dart';
 import 'opart/opart_riley.dart';
@@ -48,8 +50,10 @@ enum OpArtType {
   Eye,
   Fibonacci,
   Hexagons,
+  Life,
   Maze,
   Neighbour,
+  Plasma,
   Quads,
   Rhombus,
   Riley,
@@ -111,6 +115,14 @@ class OpArt {
 
         break;
 
+      case OpArtType.Life:
+        this.attributes = initializeLifeAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Life';
+        this.animation = true;
+
+        break;
+
       case OpArtType.Maze:
         this.attributes = initializeMazeAttributes();
         this.palette = OpArtPalette();
@@ -124,6 +136,14 @@ class OpArt {
         this.palette = OpArtPalette();
         this.name = 'Neighbours';
         this.animation = false;
+
+        break;
+
+      case OpArtType.Plasma:
+        this.attributes = initializePlasmaAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Plasma';
+        this.animation = true;
 
         break;
 
@@ -315,11 +335,17 @@ class OpArt {
       case OpArtType.Hexagons:
         paintHexagons(canvas, size, seed, animationVariable, this);
         break;
+      case OpArtType.Life:
+        paintLife(canvas, size, seed, animationVariable, this);
+        break;
       case OpArtType.Maze:
         paintMaze(canvas, size, seed, animationVariable, this);
         break;
       case OpArtType.Neighbour:
         paintNeighbour(canvas, size, seed, animationVariable, this);
+        break;
+      case OpArtType.Plasma:
+        paintPlasma(canvas, size, seed, animationVariable, this);
         break;
       case OpArtType.Quads:
         paintQuads(canvas, size, seed, animationVariable, this);
