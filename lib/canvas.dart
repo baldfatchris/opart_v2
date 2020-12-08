@@ -50,7 +50,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
 
       animationController.forward();
     }
-    rebuildCircularProgressIndicator.value = 2;
+
     super.initState();
   }
 

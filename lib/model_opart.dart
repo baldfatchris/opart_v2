@@ -40,7 +40,7 @@ final rebuildTab = ValueNotifier(0);
 final rebuildGallery = new ValueNotifier(0);
 final rebuildDialog = new ValueNotifier(0);
 final rebuildColorPicker = new ValueNotifier(0);
-final rebuildCircularProgressIndicator = ValueNotifier(0);
+
 bool enableButton = true;
 
 ScrollController scrollController = new ScrollController();
@@ -297,9 +297,6 @@ class OpArt {
                 curve: Curves.fastOutSlowIn);
           }
           enableButton = true;
-          // rebuildCircularProgressIndicator.value =
-          //     2 * rebuildCircularProgressIndicator.value + 1;
-          // rebuildCanvas.value++;
         }));
   }
 

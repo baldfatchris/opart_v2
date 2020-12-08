@@ -81,7 +81,6 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
             onPressed: () async {
 
               if (enableButton) {
-                rebuildCircularProgressIndicator.value = 2*rebuildCircularProgressIndicator.value;
                 Future.delayed(const Duration(seconds: 0));
                 opArt.randomizeSettings();
                 opArt.randomizePalette();
