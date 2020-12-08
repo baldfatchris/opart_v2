@@ -6,18 +6,20 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
   double width = MediaQuery.of(context).size.width;
 
   return Container(
-    //  color: Colors.white.withOpacity(0.8),
+      //  color: Colors.white.withOpacity(0.8),
       height: 70,
       child: ButtonBar(
         alignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          Container(width: (width > 400) ?111: 50,
+          Container(height: 70,
+            width: (width > 400) ? 111 : 50,
             child: FlatButton(
-              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
-              padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+              shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(10.0)),
+
               color: Colors.white.withOpacity(0.8),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 textDirection: TextDirection.ltr,
                 children: <Widget>[
                   Icon(
@@ -26,13 +28,10 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
                   ),
                   (width > 400) ? SizedBox(width: 3) : Container(),
                   (width > 400)
-                      ? Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text(
-                            'Random\nShape',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                        )
+                      ? Text(
+                        'Random\nShape',
+                        style: TextStyle(color: Colors.black),
+                      )
                       : Container(),
                 ],
               ),
@@ -42,63 +41,60 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
                   // opArt.randomizePalette();
                   opArt.saveToCache();
                   enableButton = false;
-                //
-                //   opArt.randomizeSettings();
-                //   opArt.saveToCache();
-                //   enableButton = false;
+                  //
+                  //   opArt.randomizeSettings();
+                  //   opArt.saveToCache();
+                  //   enableButton = false;
                   rebuildCanvas.value++;
-
                 }
               },
             ),
           ),
-          FlatButton(
-            splashColor: Colors.white,
-            shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(10.0),
-            ),
-            color: Colors.white.withOpacity(0.8),
-            padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              textDirection: TextDirection.ltr,
-              children: <Widget>[
-                Icon(
-                  MdiIcons.autoFix,
-                  color: Colors.cyan,
-                  size: 30,
-                ),
-                SizedBox(width: 3),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Text(
-                    'Go\nWild!',
+          Container(
+            height: 70,
+            child: FlatButton(
+              splashColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              color: Colors.white.withOpacity(0.8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Icon(
+                    MdiIcons.autoFix,
+                    color: Colors.cyan,
+                    size: 30,
+                  ),
+                  SizedBox(width: 3),
+                  Text(
+                    'Go Wild!',
                     style: TextStyle(color: Colors.black),
                   ),
-                ),
-              ],
+                ],
+              ),
+              onPressed: () async {
+                if (enableButton) {
+                  Future.delayed(const Duration(seconds: 0));
+                  opArt.randomizeSettings();
+                  opArt.randomizePalette();
+                  opArt.saveToCache();
+                  enableButton = false;
+                  rebuildCanvas.value++;
+                  rebuildTab.value++;
+                }
+              },
             ),
-            onPressed: () async {
-
-              if (enableButton) {
-                Future.delayed(const Duration(seconds: 0));
-                opArt.randomizeSettings();
-                opArt.randomizePalette();
-                opArt.saveToCache();
-                enableButton = false;
-                rebuildCanvas.value++;
-                rebuildTab.value++;
-
-              }
-            },
           ),
-          Container(width: (width > 400) ?111: 50,
+          Container(height: 70,
+            width: (width > 400) ? 111 : 50,
             child: FlatButton(
-              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+              shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(10.0)),
               color: Colors.white.withOpacity(0.8),
-              padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 textDirection: TextDirection.ltr,
                 children: <Widget>[
                   Icon(
@@ -107,13 +103,10 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
                   ),
                   (width > 400) ? SizedBox(width: 3) : Container(),
                   (width > 400)
-                      ? Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text(
-                            'Random\nColors',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                        )
+                      ? Text(
+                        'Random\nColors',
+                        style: TextStyle(color: Colors.black),
+                      )
                       : Container(),
                 ],
               ),
@@ -125,17 +118,15 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
                   enableButton = false;
                   rebuildCanvas.value++;
                   rebuildTab.value++;
-
                 }
-               // BottomSheetPalette(context);
-               // if (animationController != null) {
-               //   animationController.stop();
-               // }
+                // BottomSheetPalette(context);
+                // if (animationController != null) {
+                //   animationController.stop();
+                // }
                 // PaletteToolBox(
                 //   context,
                 //   opArt,
                 // );
-
               },
             ),
           ),
@@ -226,4 +217,3 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
         ],
       ));
 }
-
