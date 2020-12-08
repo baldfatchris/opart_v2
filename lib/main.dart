@@ -138,17 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Expanded(
               child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: MediaQuery.of(context).orientation == Orientation.portrait
-                          ? MediaQuery.of(context).size.width > 350
-                              ? 4
-                              : 3
-                          : MediaQuery.of(context).size.width > 800
-                              ? 6
-                              : MediaQuery.of(context).size.width > 600
-                                  ? 5
-                                  : 4,
-                      childAspectRatio: 0.84),
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(childAspectRatio: 0.8, maxCrossAxisExtent: 120),
                   itemCount: opArtTypes.length,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
