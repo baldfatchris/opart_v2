@@ -16,11 +16,11 @@ class CanvasWidget extends StatefulWidget {
 
 bool showControls = false;
 AnimationController animationController;
-
+Animation<double> currentAnimation;
 class _CanvasWidgetState extends State<CanvasWidget>
     with TickerProviderStateMixin {
   bool playing = true;
-  Animation<double> currentAnimation;
+
 
   @override
   void initState() {
@@ -62,6 +62,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
 
   @override
   Widget build(BuildContext context) {
+
     return Stack(
       children: [
         ValueListenableBuilder<int>(

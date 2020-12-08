@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:opart_v2/opart/opart_life.dart';
 import 'package:opart_v2/opart/opart_triangles.dart';
 
+import 'canvas.dart';
 import 'database_helper.dart';
 import 'main.dart';
 import 'opart/opart_diagonal.dart';
@@ -285,8 +286,10 @@ class OpArt {
             'seed': seed,
             'image': image,
             'paletteName': palette.paletteName,
-            'colors': palette.colorList
+            'colors': palette.colorList,
+            'animationControllerValue': this.animation ? animationController.value : 1
           });
+
 
           this.cache.add(map);
           rebuildCache.value++;
@@ -302,6 +305,7 @@ class OpArt {
 
   void revertToCache(int index) {
     seed = this.cache[index]['seed'];
+    if(this.animation){ animationController.forward(from: this.cache[index]['animationControllerValue']);}
     for (int i = 0; i < attributes.length; i++) {
       attributes[i].value = this.cache[index][attributes[i].label];
     }
