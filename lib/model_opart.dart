@@ -297,9 +297,9 @@ class OpArt {
                 curve: Curves.fastOutSlowIn);
           }
           enableButton = true;
-          rebuildCircularProgressIndicator.value =
-              2 * rebuildCircularProgressIndicator.value + 1;
-          rebuildCanvas.value++;
+          // rebuildCircularProgressIndicator.value =
+          //     2 * rebuildCircularProgressIndicator.value + 1;
+          // rebuildCanvas.value++;
         }));
   }
 
