@@ -311,20 +311,6 @@ SettingsModel paletteList = SettingsModel(
   proFeature: false,
 );
 
-SettingsModel opacity = SettingsModel(
-  name: 'opacity',
-  settingType: SettingType.double,
-  label: 'Opactity',
-  tooltip: 'The opacity of the shape',
-  min: 0.2,
-  max: 1.0,
-  zoom: 100,
-  defaultValue: 1.0,
-  icon: Icon(Icons.remove_red_eye),
-  settingCategory: SettingCategory.palette,
-  proFeature: false,
-);
-
 SettingsModel resetDefaults = SettingsModel(
   name: 'resetDefaults',
   settingType: SettingType.button,

@@ -60,7 +60,7 @@ SettingsModel randomColors = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
-  onChange:(){randomColors.value = !randomColors.value;}
+  // onChange:(){randomColors.value = !randomColors.value;}
 );
 
 SettingsModel paletteType = SettingsModel(

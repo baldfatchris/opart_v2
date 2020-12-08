@@ -361,19 +361,7 @@ SettingsModel paletteList = SettingsModel(
     settingCategory: SettingCategory.palette,
     proFeature: false,
   );
-SettingsModel opacity = SettingsModel(
-    name: 'opacity',
-    settingType: SettingType.double,
-    label: 'Opactity',
-    tooltip: 'The opacity of the petal',
-    min: 0.2,
-    max: 1.0,
-    zoom: 100,
-    defaultValue: 1.0,
-    icon: Icon(Icons.remove_red_eye),
-    settingCategory: SettingCategory.palette,
-    proFeature: false,
-  );
+
 SettingsModel resetDefaults = SettingsModel(
   name: 'resetDefaults',
   settingType: SettingType.button,
@@ -563,6 +551,7 @@ drawSegment(
     List palette,
     )
 {
+
   List segmentBaseCentre = [
     (rootA[0] + rootB[0]) / 2,
     (rootA[1] + rootB[1]) / 2
@@ -815,7 +804,6 @@ drawTheLeaf(
     int numberOfColors,
     List palette,
     ) {
-
 
   // pick a random color
   Color leafColor = palette[rnd.nextInt(numberOfColors)].withOpacity(opacity);

@@ -97,21 +97,6 @@ SettingsModel resetColors = SettingsModel(
 );
 
 
-
-SettingsModel randomColors = SettingsModel(
-  name: 'randomColors',
-  settingType: SettingType.bool,
-  label: 'Random Colors',
-  tooltip: 'randomize the colours',
-  defaultValue: false,
-  randomTrue: 0.1,
-  icon: Icon(Icons.gamepad),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-  silent: true,
-);
-
-
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,

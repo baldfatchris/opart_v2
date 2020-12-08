@@ -83,20 +83,20 @@ SettingsModel gradientTypeY1 = SettingsModel(
 
 
 
-
-
-SettingsModel randomColors = SettingsModel(
-  name: 'randomColors',
-  settingType: SettingType.bool,
-  label: 'Random Colors',
-  tooltip: 'randomize the colours',
-  defaultValue: false,
-  icon: Icon(Icons.gamepad),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-  silent: true,
-
-);
+//
+//
+// SettingsModel randomColors = SettingsModel(
+//   name: 'randomColors',
+//   settingType: SettingType.bool,
+//   label: 'Random Colors',
+//   tooltip: 'randomize the colours',
+//   defaultValue: false,
+//   icon: Icon(Icons.gamepad),
+//   settingCategory: SettingCategory.tool,
+//   proFeature: false,
+//   silent: true,
+//
+// );
 
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',

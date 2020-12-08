@@ -94,19 +94,6 @@ SettingsModel lineWidth = SettingsModel(
 );
 
 
-SettingsModel randomColors = SettingsModel(
-  name: 'randomColors',
-  settingType: SettingType.bool,
-  label: 'Random Colors',
-  tooltip: 'randomize the colours',
-  defaultValue: true,
-  icon: Icon(Icons.gamepad),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-  silent: true,
-);
-
-
 SettingsModel resetDefaults = SettingsModel(
   name: 'resetDefaults',
   settingType: SettingType.button,
@@ -143,7 +130,6 @@ List<SettingsModel> initializeHexagonsAttributes() {
 
 
 void paintHexagons(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
-
   rnd = Random(seed);
 
   if (paletteList.value != opArt.palette.paletteName){

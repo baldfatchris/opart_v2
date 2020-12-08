@@ -225,19 +225,6 @@ SettingsModel paletteList = SettingsModel(
   settingCategory: SettingCategory.palette,
   proFeature: false,
 );
-SettingsModel opacity = SettingsModel(
-  name: 'opacity',
-  settingType: SettingType.double,
-  label: 'Opactity',
-  tooltip: 'The opacity of the petal',
-  min: 0.2,
-  max: 1.0,
-  zoom: 100,
-  defaultValue: 1.0,
-  icon: Icon(Icons.remove_red_eye),
-  settingCategory: SettingCategory.palette,
-  proFeature: false,
-);
 
 SettingsModel colorDecay = SettingsModel(
   name: 'colorDecay',
@@ -253,19 +240,6 @@ SettingsModel colorDecay = SettingsModel(
   icon: Icon(Icons.track_changes),
   settingCategory: SettingCategory.tool,
   proFeature: false,
-);
-
-
-SettingsModel randomColors = SettingsModel(
-  name: 'randomColors',
-  settingType: SettingType.bool,
-  label: 'Random Colors',
-  tooltip: 'randomize the colours',
-  defaultValue: true,
-  icon: Icon(Icons.gamepad),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-  silent: true,
 );
 
 SettingsModel resetDefaults = SettingsModel(
@@ -304,7 +278,7 @@ List<SettingsModel> initializeEyeAttributes() {
     paletteList,
     opacity,
     colorDecay,
-    randomColors,
+    // randomColors,
     resetDefaults,
   ];
 }

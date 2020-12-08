@@ -193,19 +193,6 @@ SettingsModel radialOscPeriod = SettingsModel(
     proFeature: false,
   );
 
-// SettingsModel backgroundColor = SettingsModel(
-//     name: 'backgroundColor',
-//     settingType: SettingType.color,
-//     label: "Background Color",
-//     tooltip: "The background colour for the canvas",
-//     defaultValue: Colors.cyan,
-//     icon: Icon(Icons.settings_overscan),
-//     settingCategory: SettingCategory.palette,
-//     proFeature: false,
-//   );
-
-
-
 SettingsModel lineWidth = SettingsModel(
     settingType: SettingType.double,
     name: 'lineWidth',
@@ -219,19 +206,19 @@ SettingsModel lineWidth = SettingsModel(
     settingCategory: SettingCategory.tool,
     proFeature: false,
   );
-
-SettingsModel randomColors = SettingsModel(
-    name: 'randomColors',
-    settingType: SettingType.bool ,
-    label: 'Random Colors',
-    tooltip: 'randomize the colours!',
-    defaultValue: false,
-    icon: Icon(Icons.gamepad),
-    settingCategory: SettingCategory.tool,
-    silent: true,
-    proFeature: false,
-  );
-
+//
+// SettingsModel randomColors = SettingsModel(
+//     name: 'randomColors',
+//     settingType: SettingType.bool ,
+//     label: 'Random Colors',
+//     tooltip: 'randomize the colours!',
+//     defaultValue: false,
+//     icon: Icon(Icons.gamepad),
+//     settingCategory: SettingCategory.tool,
+//     silent: true,
+//     proFeature: false,
+//   );
+//
 
 
 // SettingsModel paletteType = SettingsModel(
@@ -263,20 +250,6 @@ SettingsModel paletteList = SettingsModel(
     settingCategory: SettingCategory.other,
     proFeature: false,
   );
-
-// SettingsModel opacity = SettingsModel(
-//     name: 'opacity',
-//     settingType: SettingType.double,
-//     label: 'Opactity',
-//     tooltip: 'The opacity of the petal',
-//     min: 0.2,
-//     max: 1.0,
-//     zoom: 100,
-//     defaultValue: 1.0,
-//     icon: Icon(Icons.remove_red_eye),
-//     settingCategory: SettingCategory.palette,
-//     proFeature: false,
-//   );
 
 SettingsModel resetDefaults = SettingsModel(
   name: 'resetDefaults',
