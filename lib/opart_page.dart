@@ -21,11 +21,12 @@ class OpArtPage extends StatefulWidget {
   OpArtType opArtType;
   Map<String, dynamic> opArtSettings;
   bool downloadNow;
-
+double animationValue;
   OpArtPage(
     this.opArtType,
     this.downloadNow, {
     this.opArtSettings,
+        this.animationValue,
   });
 
   @override
@@ -47,10 +48,6 @@ class _OpArtPageState extends State<OpArtPage> {
 
   @override
   void initState() {
-    ToolsTab toolsTab = ToolsTab();
-    PaletteTab paletteTab = PaletteTab(context);
-    ChoosePaletteTab choosePaletteTab = ChoosePaletteTab();
-
     downloadNow = widget.downloadNow;
     if (downloadNow) {
       showProgressIndicator = true;
@@ -495,6 +492,8 @@ class _OpArtPageState extends State<OpArtPage> {
                             child: ClipRect(
                                 child: CanvasWidget(
                               showSettings,
+                                  animationValue: widget.animationValue,
+
                             )),
                           ),
                           showProgressIndicator

@@ -35,8 +35,7 @@ class _MyGalleryState extends State<MyGallery> {
         buttonCarouselController.nextPage();
       });
     }
-    print(MediaQuery.of(context).size.width /
-        (MediaQuery.of(context).size.height - 60));
+
     return ValueListenableBuilder<int>(
         valueListenable: rebuildGallery,
         builder: (context, value, child) {
@@ -237,6 +236,7 @@ class _MyGalleryState extends State<MyGallery> {
                                       _rebuildDelete.value++;
                                     },
                                     onTap: () {
+
                                       Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
@@ -245,6 +245,8 @@ class _MyGalleryState extends State<MyGallery> {
                                                     false,
                                                     opArtSettings:
                                                         savedOpArt[index],
+                                                animationValue: savedOpArt[index]['animationControllerValue'],
+
                                                   )));
                                     },
                                     child: Stack(

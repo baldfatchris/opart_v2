@@ -224,7 +224,6 @@ class OpArt {
   }
 
   Future<int> saveToLocalDB(bool paid) async {
-    print('saving to localDB');
     screenshotController
             .capture(delay: Duration(milliseconds: 100), pixelRatio: 1)
             .then((File image) async {
@@ -240,7 +239,8 @@ class OpArt {
             'image': base64Image,
             'paletteName': palette.paletteName,
             'type': this.opArtType,
-            'paid': paid
+            'paid': paid,
+            'animationControllerValue': this.animation ? animationController.value : 1,
           });
 
           Map<String, dynamic> sqlMap = Map();
@@ -259,12 +259,12 @@ class OpArt {
             'image': base64Image,
             'paletteName': palette.paletteName,
             'type': this.opArtType.toString(),
-            'paid': paid
+            'paid': paid,
+            'animationControllerValue': this.animation ? animationController.value : 1
           });
 
           DatabaseHelper helper = DatabaseHelper.instance;
           helper.insert(sqlMap).then((id) {
-            print(id);
             map.addAll({'id': id});
             savedOpArt.add(map);
             rebuildMain.value++;
