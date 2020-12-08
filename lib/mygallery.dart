@@ -9,6 +9,7 @@ import 'model_opart.dart';
 import 'opart_page.dart';
 
 CarouselController buttonCarouselController = CarouselController();
+
 class MyGallery extends StatefulWidget {
   int currentImage;
   bool paid;
@@ -27,12 +28,13 @@ class _MyGalleryState extends State<MyGallery> {
   bool showDelete = false;
   @override
   Widget build(BuildContext context) {
-    if(widget.paid){
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      buttonCarouselController.nextPage();
-      rebuildGallery.value++;
-      buttonCarouselController.nextPage();
-    });}
+    if (widget.paid) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        buttonCarouselController.nextPage();
+        rebuildGallery.value++;
+        buttonCarouselController.nextPage();
+      });
+    }
     print(MediaQuery.of(context).size.width /
         (MediaQuery.of(context).size.height - 60));
     return ValueListenableBuilder<int>(
@@ -54,7 +56,7 @@ class _MyGalleryState extends State<MyGallery> {
                         color: Colors.black,
                       ),
                       onPressed: () {
-                       // Navigator.pop(context);
+                        // Navigator.pop(context);
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -214,7 +216,7 @@ class _MyGalleryState extends State<MyGallery> {
                           padding: const EdgeInsets.only(top: 30.0),
                           child: Center(
                             child: CarouselSlider.builder(
-                              carouselController:  buttonCarouselController,
+                                carouselController: buttonCarouselController,
                                 options: CarouselOptions(
                                     viewportFraction:
                                         MediaQuery.of(context).orientation ==
@@ -225,13 +227,12 @@ class _MyGalleryState extends State<MyGallery> {
                                     height:
                                         (MediaQuery.of(context).size.height),
                                     enlargeCenterPage: true,
-                                    initialPage: widget.currentImage -1),
+                                    initialPage: widget.currentImage - 1),
                                 itemCount: savedOpArt.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   currentIndex = index;
                                   return GestureDetector(
                                     onLongPress: () {
-
                                       showDelete = !showDelete;
                                       _rebuildDelete.value++;
                                     },
@@ -240,7 +241,8 @@ class _MyGalleryState extends State<MyGallery> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => OpArtPage(
-                                                    savedOpArt[index]['type'],false,
+                                                    savedOpArt[index]['type'],
+                                                    false,
                                                     opArtSettings:
                                                         savedOpArt[index],
                                                   )));
@@ -275,7 +277,10 @@ class _MyGalleryState extends State<MyGallery> {
                                             savedOpArt[index]['paid'] == null
                                                 ? Container(height: 12)
                                                 : savedOpArt[index]['paid']
-                                                    ? Row(mainAxisAlignment: MainAxisAlignment.center,
+                                                    ? Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
                                                         children: [
                                                           Text('purchased'),
                                                           IconButton(
@@ -286,11 +291,10 @@ class _MyGalleryState extends State<MyGallery> {
                                                                     context,
                                                                     MaterialPageRoute(
                                                                         builder: (context) => OpArtPage(
-                                                                          savedOpArt[index]['type'],true,
-                                                                          opArtSettings:
-                                                                          savedOpArt[index],
-
-                                                                        )));
+                                                                              savedOpArt[index]['type'],
+                                                                              true,
+                                                                              opArtSettings: savedOpArt[index],
+                                                                            )));
                                                               })
                                                         ],
                                                       )
@@ -317,21 +321,57 @@ class _MyGalleryState extends State<MyGallery> {
                                                           child:
                                                               FloatingActionButton(
                                                             onPressed: () {
-                                                              DatabaseHelper
-                                                                  helper =
-                                                                  DatabaseHelper
-                                                                      .instance;
-                                                              helper.delete(
-                                                                  savedOpArt[
-                                                                          index]
-                                                                      ['id']);
-                                                              savedOpArt
-                                                                  .removeAt(
-                                                                      index);
-                                                              showDelete =
-                                                                  false;
-                                                              rebuildGallery
-                                                                  .value++;
+                                                              if (savedOpArt[
+                                                                      index]
+                                                                  ['paid']) {
+                                                                showDialog(
+                                                                    context:
+                                                                        context,
+                                                                    builder:
+                                                                        (context) {
+                                                                      return AlertDialog(
+                                                                          title:
+                                                                              Text(' Are you sure you want to delete?'),
+                                                                          content: Text('You have paid for this image. If you delete it you will not be able to download it again.'),
+                                                                          actions: [
+                                                                            RaisedButton(child: Text('Delete'), onPressed: (){
+                                                                              DatabaseHelper
+                                                                              helper =
+                                                                                  DatabaseHelper
+                                                                                      .instance;
+                                                                              helper.delete(
+                                                                                  savedOpArt[
+                                                                                  index]
+                                                                                  ['id']);
+                                                                              savedOpArt
+                                                                                  .removeAt(
+                                                                                  index);
+                                                                              showDelete =
+                                                                              false;
+                                                                              rebuildGallery
+                                                                                  .value++;
+                                                                              Navigator.pop(context);
+                                                                            },),
+                                                                            RaisedButton(child: Text('Cancel'), onPressed:(){ Navigator.pop(context);},)
+                                                                          ]);
+                                                                    });
+                                                              } else {
+                                                                DatabaseHelper
+                                                                    helper =
+                                                                    DatabaseHelper
+                                                                        .instance;
+                                                                helper.delete(
+                                                                    savedOpArt[
+                                                                            index]
+                                                                        ['id']);
+                                                                savedOpArt
+                                                                    .removeAt(
+                                                                        index);
+                                                                showDelete =
+                                                                    false;
+                                                                rebuildGallery
+                                                                    .value++;
+                                                              }
                                                             },
                                                             backgroundColor:
                                                                 Colors.white,
@@ -394,7 +434,8 @@ class _MyGalleryState extends State<MyGallery> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) => OpArtPage(
-                                                      savedOpArt[index]['type'], false,
+                                                      savedOpArt[index]['type'],
+                                                      false,
                                                       opArtSettings:
                                                           savedOpArt[index],
                                                     )));
@@ -412,14 +453,13 @@ class _MyGalleryState extends State<MyGallery> {
                                                 color: Colors.black,
                                                 child: Padding(
                                                   padding:
-                                                      const EdgeInsets.all(
-                                                          8.0),
+                                                      const EdgeInsets.all(8.0),
                                                   child: Container(
                                                     color: Colors.white,
                                                     child: Padding(
                                                       padding:
-                                                          const EdgeInsets
-                                                              .all(8.0),
+                                                          const EdgeInsets.all(
+                                                              8.0),
                                                       child: Image.memory(
                                                         base64Decode(
                                                             savedOpArt[index]

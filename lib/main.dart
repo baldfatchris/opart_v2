@@ -235,11 +235,57 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     child: Center(
                                                       child: FloatingActionButton(
                                                           onPressed: () {
-                                                            DatabaseHelper helper = DatabaseHelper.instance;
-                                                            helper.delete(savedOpArt[index]['id']);
-                                                            savedOpArt.removeAt(index);
-                                                            showDelete = false;
-                                                            rebuildMain.value++;
+                                                            if (savedOpArt[
+                                                            index]
+                                                            ['paid']) {
+                                                              showDialog(
+                                                                  context:
+                                                                  context,
+                                                                  builder:
+                                                                      (context) {
+                                                                    return AlertDialog(
+                                                                        title:
+                                                                        Text(' Are you sure you want to delete?'),
+                                                                        content: Text('You have paid for this image. If you delete it you will not be able to download it again.'),
+                                                                        actions: [
+                                                                          RaisedButton(child: Text('Delete'), onPressed: (){
+                                                                            DatabaseHelper
+                                                                            helper =
+                                                                                DatabaseHelper
+                                                                                    .instance;
+                                                                            helper.delete(
+                                                                                savedOpArt[
+                                                                                index]
+                                                                                ['id']);
+                                                                            savedOpArt
+                                                                                .removeAt(
+                                                                                index);
+                                                                            showDelete =
+                                                                            false;
+                                                                            rebuildMain
+                                                                                .value++;
+                                                                            Navigator.pop(context);
+                                                                          },),
+                                                                          RaisedButton(child: Text('Cancel'), onPressed:(){ Navigator.pop(context);},)
+                                                                        ]);
+                                                                  });
+                                                            } else {
+                                                              DatabaseHelper
+                                                              helper =
+                                                                  DatabaseHelper
+                                                                      .instance;
+                                                              helper.delete(
+                                                                  savedOpArt[
+                                                                  index]
+                                                                  ['id']);
+                                                              savedOpArt
+                                                                  .removeAt(
+                                                                  index);
+                                                              showDelete =
+                                                              false;
+                                                              rebuildMain
+                                                                  .value++;
+                                                            }
                                                           },
                                                           backgroundColor: Colors.white,
                                                           child: Icon(Icons.delete, color: Colors.grey)),

@@ -209,7 +209,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                 ),
                                 Flexible(flex: 2, child: Text('Low definition - suitable for sharing.')),
                                 Flexible(
-                                  child: FloatingActionButton(
+                                  child: FloatingActionButton.extended(
                                     onPressed: () async {
                                       imageFile = null;
                                       screenshotController
@@ -223,7 +223,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                         });
                                       });
                                     },
-                                    child: Text('Free!'),
+                                    label: Text('Free!'),
                                   ),
                                 )
                               ],
@@ -244,7 +244,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                 ),
                                 Flexible(flex: 2, child: Text('High definition -  suitable for printing.')),
                                 Flexible(
-                                  child: FloatingActionButton(
+                                  child: FloatingActionButton.extended(
                                     onPressed: () async {
                                       Navigator.pop(context);
                                       showProgressIndicator = true;
@@ -289,7 +289,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                         }
                                       }
                                     },
-                                    child: Text(highDefPrice != null ? highDefPrice : 'doh!'),
+                                    label: Text(highDefPrice != null ? highDefPrice : 'doh!'),
                                     backgroundColor: highDefPrice != null ? Colors.blue : Colors.grey,
                                   ),
                                 )
