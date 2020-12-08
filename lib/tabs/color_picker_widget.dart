@@ -42,9 +42,9 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
                                     ? opArt.attributes[currentColor - 100].value
                                     : opArt.palette.colorList[currentColor],
                                 onColorChanged: (color) {
-                                  if (currentColor > 100) { opArt.attributes[currentColor - 100].value =
-                                      color;
-
+                                  if (currentColor > 100) {
+                                    opArt.attributes[currentColor - 100].value =
+                                        color;
                                   } else {
                                     opArt.palette.colorList[currentColor] =
                                         color;
