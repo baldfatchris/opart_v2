@@ -211,12 +211,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        width: 70,
-                                        height: 100,
-                                        child: Image.memory(
-                                          base64Decode(savedOpArt[index]['image']),
-                                          fit: BoxFit.fitWidth,
+                                      child: AspectRatio(aspectRatio: 1,
+                                        child: Container(
+                                          width: 100,
+                                          height: 100,
+                                          child: Image.memory(
+                                            base64Decode(savedOpArt[index]['image']),
+                                            fit: BoxFit.fitWidth,
+                                          ),
                                         ),
                                       ),
                                     ),
