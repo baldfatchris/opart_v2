@@ -57,7 +57,7 @@ SettingsModel numberOfTrees = SettingsModel(
   name: 'numberOfTrees',
   settingType: SettingType.int,
   label: 'Number of spokes',
-  tooltip: 'The number of spokesradiating from the iris',
+  tooltip: 'The number of spokes radiating from the iris',
   min: 5,
   max: 50,
   randomMin: 5,
@@ -202,12 +202,7 @@ SettingsModel paletteType = SettingsModel(
   tooltip: "The nature of the palette",
   defaultValue: "random",
   icon: Icon(Icons.colorize),
-  options: <String>[
-    'random',
-    'blended random',
-    'linear random',
-    'linear complementary'
-  ],
+  options: <String>['random', 'blended random', 'linear random', 'linear complementary'],
   settingCategory: SettingCategory.palette,
   onChange: () {
     generatePalette();
@@ -283,8 +278,7 @@ List<SettingsModel> initializeEyeAttributes() {
   ];
 }
 
-void paintEye(
-    Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
+void paintEye(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
   rnd = Random(seed);
 
   if (paletteList.value != opArt.palette.paletteName) {
@@ -298,7 +292,6 @@ void paintEye(
         ..color = backgroundColor.value
         ..style = PaintingStyle.fill);
 
-
   for (int t = 0; t < numberOfTrees.value; t++) {
     double treeAngle = t * 2 * pi / numberOfTrees.value;
     List treeBase = [
@@ -307,32 +300,31 @@ void paintEye(
     ];
 
     drawSegment(
-      canvas,
-      rnd,
-      0,
-      0,
-      treeBase,
-      trunkWidth.value * zoomOpArt.value,
-      segmentLength.value * zoomOpArt.value,
-      treeAngle,
-      ratio.value,
-      0,
-      false,
-      animationVariable,
-      branch.value,
-      angle.value,
-      widthDecay.value,
-      segmentDecay.value,
-      maxDepth.value,
-      trunkFillColor.value,
-      opacity.value,
-      colorDecay.value,
-      1.0,
-      numberOfColors.value.toInt(),
-      opArt.palette.colorList,
-      0,
-      (randomColors.value = true)
-    );
+        canvas,
+        rnd,
+        0,
+        0,
+        treeBase,
+        trunkWidth.value * zoomOpArt.value,
+        segmentLength.value * zoomOpArt.value,
+        treeAngle,
+        ratio.value,
+        0,
+        false,
+        animationVariable,
+        branch.value,
+        angle.value,
+        widthDecay.value,
+        segmentDecay.value,
+        maxDepth.value,
+        trunkFillColor.value,
+        opacity.value,
+        colorDecay.value,
+        1.0,
+        numberOfColors.value.toInt(),
+        opArt.palette.colorList,
+        0,
+        (randomColors.value = true));
   }
 
   canvas.drawCircle(
@@ -341,7 +333,6 @@ void paintEye(
       Paint()
         ..style = PaintingStyle.fill
         ..color = trunkFillColor.value.withOpacity(opacity.value));
-
 }
 
 drawSegment(
@@ -369,10 +360,9 @@ drawSegment(
   numberOfColors,
   List palette,
   int colourOrder,
-    bool randomColours,
+  bool randomColours,
 ) {
   if (currentDepth < maxDepth) {
-
     // Choose the next colour
     colourOrder++;
     Color nextColor = palette[colourOrder % numberOfColors];
@@ -382,11 +372,10 @@ drawSegment(
 
     // blend the color with the trunk color
     nextColor = Color.fromRGBO(
-        (nextColor.red * (1-colorRatio) + trunkFillColor.red * (colorRatio)).toInt(),
-        (nextColor.green * (1-colorRatio) + trunkFillColor.green * (colorRatio)).toInt(),
-        (nextColor.blue * (1-colorRatio) + trunkFillColor.blue * (colorRatio)).toInt(),
+        (nextColor.red * (1 - colorRatio) + trunkFillColor.red * (colorRatio)).toInt(),
+        (nextColor.green * (1 - colorRatio) + trunkFillColor.green * (colorRatio)).toInt(),
+        (nextColor.blue * (1 - colorRatio) + trunkFillColor.blue * (colorRatio)).toInt(),
         opacity);
-
 
     //branch
     if (!justBranched && rnd.nextDouble() < branch) {
@@ -400,9 +389,8 @@ drawSegment(
       // if angle = 1 the tree is basically a ball
 
       // the animation increases and decreases the ratio
-      double branchRatio = (1 - rnd.nextDouble() / 5) *
-          ratio *
-          (1 - rnd.nextDouble() * cos(animationVariable * 10000) * 0.50);
+      double branchRatio =
+          (1 - rnd.nextDouble() / 5) * ratio * (1 - rnd.nextDouble() * cos(animationVariable * 10000) * 0.50);
 
       // maxBranch is the max branching angle
       double maxBranch = pi / 8;
@@ -412,11 +400,9 @@ drawSegment(
 
       if (rnd.nextBool()) {
         directionA = direction - maxBranch * (angle + 2 * angle * branchRatio);
-        directionB =
-            direction + maxBranch * (angle + 2 * angle * (1 - branchRatio));
+        directionB = direction + maxBranch * (angle + 2 * angle * (1 - branchRatio));
       } else {
-        directionA =
-            direction - maxBranch * (angle + 2 * angle * (1 - branchRatio));
+        directionA = direction - maxBranch * (angle + 2 * angle * (1 - branchRatio));
         directionB = direction + maxBranch * (angle + 2 * angle * branchRatio);
       }
 
@@ -476,12 +462,8 @@ drawSegment(
       );
     } else {
       // draw the trunk
-      List pD = [
-        root[0] + segmentLength * cos(direction),
-        root[1] - segmentLength * sin(direction)
-      ];
-      drawTheTrunk(canvas, rnd, borderX, borderY, root, pD, nextColor,
-          opacity, width);
+      List pD = [root[0] + segmentLength * cos(direction), root[1] - segmentLength * sin(direction)];
+      drawTheTrunk(canvas, rnd, borderX, borderY, root, pD, nextColor, opacity, width);
 
       //grow
       drawSegment(
@@ -515,8 +497,8 @@ drawSegment(
   }
 }
 
-drawTheTrunk(Canvas canvas, Random rnd, double borderX, double borderY,
-    List p1, List p2, Color trunkFillColor, double opacity, double width) {
+drawTheTrunk(Canvas canvas, Random rnd, double borderX, double borderY, List p1, List p2, Color trunkFillColor,
+    double opacity, double width) {
   canvas.drawLine(
       Offset(p1[0], p1[1]),
       Offset(p2[0], p2[1]),
@@ -524,6 +506,5 @@ drawTheTrunk(Canvas canvas, Random rnd, double borderX, double borderY,
         ..style = PaintingStyle.stroke
         ..color = trunkFillColor.withOpacity(opacity)
         ..strokeWidth = width
-        ..strokeCap = StrokeCap.round
-  );
+        ..strokeCap = StrokeCap.round);
 }

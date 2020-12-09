@@ -24,6 +24,7 @@ class _PaletteTabWidgetState extends State<PaletteTabWidget> {
           if (opArt.attributes[i].settingType == SettingType.color) {
 
             if(opArt.attributes[i].name =='lineColor' && opArt.attributes.firstWhere((element) => element.name =='lineWidth').value ==0){
+              //???
             }
             else{
               listViewWidgets.add(Padding(

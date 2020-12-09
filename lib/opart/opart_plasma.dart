@@ -129,7 +129,6 @@ List<SettingsModel> initializePlasmaAttributes() {
     colorDepth,
     randomizer,
 
-
     numberOfColors,
     paletteType,
     paletteList,

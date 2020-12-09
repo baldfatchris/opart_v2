@@ -112,8 +112,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size.width);
-    print(MediaQuery.of(context).size.height);
+    // print(MediaQuery.of(context).size.width);
+    // print(MediaQuery.of(context).size.height);
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -312,7 +312,7 @@ class _MyHomePageState extends State<MyHomePage> {
       OpArtTypes('Quads', OpArtType.Quads, 'lib/assets/quads.png'),
       OpArtTypes('Plasma', OpArtType.Plasma, 'lib/assets/plasma.png'),
       OpArtTypes('Rhombus', OpArtType.Rhombus, 'lib/assets/rhombus.png'),
-      // OpArtTypes('Riley', OpArtType.Riley, 'lib/assets/riley.png'),
+      OpArtTypes('Riley', OpArtType.Riley, 'lib/assets/riley.png'),
       OpArtTypes('Triangles', OpArtType.Triangles, 'lib/assets/triangles.png'),
       OpArtTypes('Squares', OpArtType.Squares, 'lib/assets/squares.png'),
       // OpArtTypes('Life', OpArtType.Life, 'lib/assets/squares.png'),

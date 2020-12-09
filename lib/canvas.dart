@@ -80,8 +80,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
                           color: Colors.white,
                           width: constraints.widthConstraints().maxWidth,
                           height: constraints.heightConstraints().maxHeight,
-                          child: CustomPaint(
-                            painter: OpArtPainter(seed, rnd, opArt.animation ? currentAnimation.value : 1),
+                          child: CustomPaint(painter: OpArtPainter(seed, rnd, opArt.animation ? currentAnimation.value : 1),
                           ),
                         ),
                       ),
