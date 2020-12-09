@@ -293,7 +293,7 @@ class OpArt {
 
 
           this.cache.add(map);
-          print(map);
+
           rebuildCache.value++;
           if (scrollController.hasClients) {
             scrollController.animateTo(
