@@ -78,8 +78,8 @@ Widget choosePaletteTabWidget(){
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              List newPalette = defaultPalettes[index][3];
-              opArt.palette.colorList.clear();
+              List<String> newPalette = defaultPalettes[index][3];
+              opArt.palette.colorList = [];
               opacity.value = 1.0;
               for (int i = 0; i < newPalette.length; i++) {
                 opArt.palette.colorList

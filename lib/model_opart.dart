@@ -240,7 +240,7 @@ class OpArt {
             'paletteName': palette.paletteName,
             'type': this.opArtType,
             'paid': paid,
-            'animationControllerValue': this.animation ? animationController.value : 1,
+            'animationControllerValue': this.animation ? animationController.value : 1.0,
           });
 
           Map<String, dynamic> sqlMap = Map();
@@ -287,11 +287,13 @@ class OpArt {
             'image': image,
             'paletteName': palette.paletteName,
             'colors': palette.colorList,
-            'animationControllerValue': this.animation ? animationController.value : 1
+            'numberOfColors': numberOfColors.value,
+            'animationControllerValue': this.animation ? animationController.value : 1.0
           });
 
 
           this.cache.add(map);
+          print(map);
           rebuildCache.value++;
           if (scrollController.hasClients) {
             scrollController.animateTo(
@@ -309,8 +311,10 @@ class OpArt {
     for (int i = 0; i < attributes.length; i++) {
       attributes[i].value = this.cache[index][attributes[i].label];
     }
+    numberOfColors.value = this.cache[index]['numberOfColors'];
     palette.paletteName = this.cache[index]['paletteName'];
     palette.colorList = this.cache[index]['colors'];
+
     rebuildCanvas.value++;
     rebuildTab.value++;
   }

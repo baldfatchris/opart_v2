@@ -49,7 +49,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
           }
         });
 
-      animationController.forward(from: widget.animationValue==null? 0: widget.animationValue);
+      animationController.forward(from: widget.animationValue==null? 0.0: widget.animationValue);
     }
 
     super.initState();
