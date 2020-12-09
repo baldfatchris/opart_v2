@@ -11,7 +11,17 @@ class ColorPickerWidget extends StatefulWidget {
 
 class _ColorPickerWidgetState extends State<ColorPickerWidget> {
   @override
+
+
   Widget build(BuildContext context) {
+    print(currentColor);
+    Color oldColor = currentColor > 100
+        ? opArt.attributes[currentColor - 100].value
+        : opArt.palette.colorList[currentColor];
+    if (oldColor == Colors.white) oldColor = Color.fromRGBO(1, 1, 1, 1);
+    if (oldColor == Colors.black) oldColor = Color.fromRGBO(254, 254, 254, 1);
+    print('oldColor: $oldColor');
+
     return Padding(
       padding: const EdgeInsets.only(left: 80.0, bottom: 70, right: 10),
       child: Container(
@@ -21,7 +31,6 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
           child: ValueListenableBuilder<int>(
               valueListenable: rebuildColorPicker,
               builder: (context, value, child) {
-                print(currentColor);
                 return Container(
                   height: 190,
                   child: Stack(
@@ -38,9 +47,7 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
                                 displayThumbColor: true,
                                 showLabel: false,
                                 enableAlpha: false,
-                                pickerColor: currentColor > 100
-                                    ? opArt.attributes[currentColor - 100].value
-                                    : opArt.palette.colorList[currentColor],
+                                pickerColor: oldColor,
                                 onColorChanged: (color) {
                                   if (currentColor > 100) {
                                     opArt.attributes[currentColor - 100].value =
