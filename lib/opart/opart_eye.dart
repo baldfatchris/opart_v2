@@ -195,6 +195,19 @@ SettingsModel trunkFillColor = SettingsModel(
   proFeature: false,
 );
 
+//
+// SettingsModel randomColors = SettingsModel(
+//   name: 'randomColors',
+//   settingType: SettingType.bool,
+//   label: 'Random Colors',
+//   tooltip: 'randomize the colours',
+//   defaultValue: true,
+//   icon: Icon(Icons.gamepad),
+//   settingCategory: SettingCategory.tool,
+//   proFeature: false,
+//   silent: true,
+// );
+
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
@@ -273,13 +286,16 @@ List<SettingsModel> initializeEyeAttributes() {
     paletteList,
     opacity,
     colorDecay,
-    // randomColors,
+    randomColors,
     resetDefaults,
   ];
 }
 
 void paintEye(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
   rnd = Random(seed);
+
+  print('randomColors: ${randomColors.value}');
+
 
   if (paletteList.value != opArt.palette.paletteName) {
     opArt.selectPalette(paletteList.value);
@@ -324,7 +340,8 @@ void paintEye(Canvas canvas, Size size, int seed, double animationVariable, OpAr
         numberOfColors.value.toInt(),
         opArt.palette.colorList,
         0,
-        (randomColors.value = true));
+        (randomColors.value == true)
+    );
   }
 
   canvas.drawCircle(
@@ -360,13 +377,14 @@ drawSegment(
   numberOfColors,
   List palette,
   int colourOrder,
-  bool randomColours,
+  bool randomColors,
 ) {
+
   if (currentDepth < maxDepth) {
     // Choose the next colour
     colourOrder++;
     Color nextColor = palette[colourOrder % numberOfColors];
-    if (randomColours) {
+    if (randomColors) {
       nextColor = palette[rnd.nextInt(numberOfColors)];
     }
 
@@ -431,7 +449,7 @@ drawSegment(
         numberOfColors,
         palette,
         colourOrder,
-        randomColours,
+        randomColors,
       );
       drawSegment(
         canvas,
@@ -458,7 +476,7 @@ drawSegment(
         numberOfColors,
         palette,
         colourOrder,
-        randomColours,
+        randomColors,
       );
     } else {
       // draw the trunk
@@ -491,7 +509,7 @@ drawSegment(
         numberOfColors,
         palette,
         colourOrder,
-        randomColours,
+        randomColors,
       );
     }
   }

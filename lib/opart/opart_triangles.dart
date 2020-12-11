@@ -107,18 +107,18 @@ SettingsModel lineWidth = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-
-SettingsModel randomColors = SettingsModel(
-  name: 'randomColors',
-  settingType: SettingType.bool,
-  label: 'Random Colors',
-  tooltip: 'randomize the colours',
-  defaultValue: true,
-  icon: Icon(Icons.gamepad),
-  settingCategory: SettingCategory.tool,
-  proFeature: false,
-  silent: true,
-);
+//
+// SettingsModel randomColors = SettingsModel(
+//   name: 'randomColors',
+//   settingType: SettingType.bool,
+//   label: 'Random Colors',
+//   tooltip: 'randomize the colours',
+//   defaultValue: true,
+//   icon: Icon(Icons.gamepad),
+//   settingCategory: SettingCategory.tool,
+//   proFeature: false,
+//   silent: true,
+// );
 
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',

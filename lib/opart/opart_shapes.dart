@@ -207,6 +207,7 @@ SettingsModel lineWidth = SettingsModel(
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
+//
 // SettingsModel randomColors = SettingsModel(
 //   name: 'randomColors',
 //   settingType: SettingType.bool,
@@ -285,7 +286,7 @@ List<SettingsModel> initializeShapesAttributes() {
 
     lineColor,
     lineWidth,
-    // randomColors,
+    randomColors,
     numberOfColors,
     paletteType,
     paletteList,

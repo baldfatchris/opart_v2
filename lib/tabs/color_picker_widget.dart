@@ -14,8 +14,15 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
   Widget build(BuildContext context) {
     print(currentColor);
     Color oldColor = currentColor > 100 ? opArt.attributes[currentColor - 100].value : opArt.palette.colorList[currentColor];
-    if (oldColor == Colors.white) oldColor = Color.fromRGBO(254, 255, 255, 1);
-    if (oldColor == Colors.black) oldColor = Color.fromRGBO(1, 0, 0, 1);
+    if (oldColor.red == oldColor.blue && oldColor.blue == oldColor.green) {
+      if (oldColor.red < 255) {
+        oldColor = Color.fromRGBO(oldColor.red+1, oldColor.green, oldColor.blue, 1);
+      }
+      else {
+        oldColor = Color.fromRGBO(oldColor.red-1, oldColor.green, oldColor.blue, 1);
+      }
+
+    }
     print('oldColor: $oldColor');
 
     return Padding(
