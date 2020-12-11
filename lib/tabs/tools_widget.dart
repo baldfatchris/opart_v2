@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../model_opart.dart';
 import '../model_settings.dart';
 import '../opart_page.dart';
-import '../settings_dialog.dart';
+
 import 'package:opart_v2/opart_page.dart';
 import 'general_tab.dart';
 
@@ -145,8 +145,6 @@ Widget toolBoxTab() {
                                                     ),
                                                   )));
                                           opArt.saveToCache();
-                                        } else {
-                                          settingsDialog(context, tools[index], opArt);
                                         }
                                       }
                                     });
