@@ -107,20 +107,6 @@ SettingsModel lineWidth = SettingsModel(
   proFeature: false,
 );
 
-//
-// SettingsModel randomColors = SettingsModel(
-//   name: 'randomColors',
-//   settingType: SettingType.bool,
-//   label: 'Random Colors',
-//   tooltip: 'randomize the colours',
-//   defaultValue: true,
-//   icon: Icon(Icons.gamepad),
-//   settingCategory: SettingCategory.tool,
-//   proFeature: false,
-//   silent: true,
-//
-// );
-
 
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
@@ -167,7 +153,7 @@ List<SettingsModel> initializeQuadsAttributes() {
 
     lineColor,
     lineWidth,
-    // randomColors,
+
     numberOfColors,
     paletteType,
     paletteList,
@@ -226,11 +212,7 @@ void drawQuadrilateral(Canvas canvas, List colorList,
 
   // Choose the next colour
   colourOrder++;
-  nextColor = colorList[colourOrder % numberOfColors.value];
-  if (randomColors.value) {
-    nextColor = colorList[rnd.nextInt(numberOfColors.value)];
-  }
-  nextColor = nextColor.withOpacity(opacity.value);
+  nextColor = colorList[colourOrder % numberOfColors.value].withOpacity(opacity.value);
   Color localLineColor = lineColor;
   if (lineWidth == 0){
     localLineColor = nextColor;

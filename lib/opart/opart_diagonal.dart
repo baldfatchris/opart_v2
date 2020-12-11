@@ -27,7 +27,7 @@ SettingsModel zoomOpArt = SettingsModel(
   name: 'zoomOpArt',
   settingType: SettingType.double,
   label: 'Zoom',
-  tooltip: 'Zoom in and out',
+  tooltip: 'Zoom in or out',
   min: 10.0,
   max: 250.0,
   randomMin: 50.0,

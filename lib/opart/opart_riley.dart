@@ -166,10 +166,11 @@ List<SettingsModel> initializeRileyAttributes() {
 void paintRiley(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
   rnd = Random(seed);
 
-  if (paletteList.value != opArt.palette.paletteName){
-    opArt.selectPalette(paletteList.value);
-  }
+  // if (paletteList.value != opArt.palette.paletteName){
+  //   opArt.selectPalette(paletteList.value);
+  // }
 
+  print('opArt.palette.colorList: ${opArt.palette.colorList}');
 
   // Initialise the canvas
   double canvasWidth = size.width;

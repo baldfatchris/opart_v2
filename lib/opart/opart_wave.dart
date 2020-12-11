@@ -24,7 +24,7 @@ SettingsModel reDraw = SettingsModel(
 SettingsModel zoomOpArt = SettingsModel(
   name: 'zoomOpArt',
   settingType: SettingType.double,
-  label: 'zoomOpArt',
+  label: 'Stripe Width',
   tooltip: 'The horizontal width of each stripe',
   min: 1.0,
   max: 50.0,
