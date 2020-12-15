@@ -260,7 +260,7 @@ class OpArt {
             'paletteName': palette.paletteName,
             'type': this.opArtType.toString(),
             'paid': paid,
-            'animationControllerValue': this.animation ? animationController.value : 1
+            'animationControllerValue': this.animation ? animationController.value : 1.0
           });
 
           DatabaseHelper helper = DatabaseHelper.instance;
