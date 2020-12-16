@@ -18,6 +18,7 @@ import 'opart/opart_quads.dart';
 import 'opart/opart_rhombus.dart';
 import 'opart/opart_riley.dart';
 import 'opart/opart_shapes.dart';
+import 'opart/opart_string.dart';
 import 'opart/opart_squares.dart';
 import 'opart/opart_tree.dart';
 import 'opart/opart_wallpaper.dart';
@@ -60,6 +61,7 @@ enum OpArtType {
   Riley,
   Shapes,
   Squares,
+  String,
   Tree,
   Triangles,
   Wallpaper,
@@ -184,6 +186,14 @@ class OpArt {
         this.attributes = initializeSquaresAttributes();
         this.palette = OpArtPalette();
         this.name = 'Squares';
+        this.animation = false;
+
+        break;
+
+      case OpArtType.String:
+        this.attributes = initializeStringAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'String';
         this.animation = false;
 
         break;
@@ -367,6 +377,9 @@ class OpArt {
         break;
       case OpArtType.Squares:
         paintSquares(canvas, size, seed, animationVariable, this);
+        break;
+      case OpArtType.String:
+        paintString(canvas, size, seed, animationVariable, this);
         break;
       case OpArtType.Tree:
         paintTree(canvas, size, seed, animationVariable, this);

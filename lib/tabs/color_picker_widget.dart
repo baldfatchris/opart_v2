@@ -21,9 +21,7 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
       else {
         oldColor = Color.fromRGBO(oldColor.red-1, oldColor.green, oldColor.blue, 1);
       }
-
     }
-    print('oldColor: $oldColor');
 
     return Padding(
       padding: const EdgeInsets.only(left: 80.0, bottom: 70, right: 10),

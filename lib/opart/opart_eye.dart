@@ -294,9 +294,6 @@ List<SettingsModel> initializeEyeAttributes() {
 void paintEye(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
   rnd = Random(seed);
 
-  print('randomColors: ${randomColors.value}');
-
-
   if (paletteList.value != opArt.palette.paletteName) {
     opArt.selectPalette(paletteList.value);
   }
