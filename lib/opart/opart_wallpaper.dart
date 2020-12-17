@@ -162,6 +162,22 @@ SettingsModel rotate = SettingsModel(
   proFeature: false,
 );
 
+
+SettingsModel rotateStep = SettingsModel(
+  name: 'rotateStep',
+  settingType: SettingType.double,
+  label: 'Rotate Step',
+  tooltip: 'The rate of increase of the rotation',
+  min: 0.0,
+  max: 2.0,
+  zoom: 100,
+  defaultValue: 0.0,
+  icon: Icon(Icons.screen_rotation),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
+
+
 SettingsModel randomRotation = SettingsModel(
   name: 'randomRotation',
   settingType: SettingType.bool,
@@ -249,7 +265,7 @@ SettingsModel lineWidth = SettingsModel(
   label: 'Outline Width',
   tooltip: 'The width of the outline',
   min: 0.0,
-  max: 1.0,
+  max: 10.0,
   zoom: 100,
   defaultValue: 0.1,
   icon: Icon(Icons.line_weight),
@@ -276,7 +292,7 @@ SettingsModel resetColors = SettingsModel(
   tooltip: 'Reset the colours for each cell',
   defaultValue: false,
   icon: Icon(Icons.gamepad),
-  settingCategory: SettingCategory.palette,
+  settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
 );
@@ -341,6 +357,7 @@ List<SettingsModel> initializeWallpaperAttributes() {
     alternateDrift,
     box,
     rotate,
+    rotateStep,
     randomRotation,
     squareness,
     squeezeX,
@@ -348,7 +365,7 @@ List<SettingsModel> initializeWallpaperAttributes() {
     numberOfSides,
     randomPetals,
 
-
+    backgroundColor,
     lineColor,
     lineWidth,
     randomColors,
@@ -378,6 +395,13 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
   double canvasHeight = size.height;
   double borderX = 0;
   double borderY = 0;
+
+  // colour in the canvas
+  canvas.drawRect(
+      Offset(borderX, borderY) & Size(canvasWidth, canvasHeight),
+      Paint()
+        ..color = backgroundColor.value
+        ..style = PaintingStyle.fill);
 
   // Work out the X and Y
   int cellsX = (canvasWidth / (zoomOpArt.value * squeezeX.value)+1.9999999).toInt();
@@ -417,7 +441,7 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
       double dX = 0;
       double dY = 0;
 
-      double stepRadius = radius * ratio.value;
+      double stepRadius = (radius - lineWidth.value/2) * ratio.value;
       double localStep = step.value * radius;
 
       double localRotate = rotate.value;
@@ -449,23 +473,6 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
             (j * 2 + 1) * radius * squeezeY.value
       ];
 
-      List pA = [
-        pO[0] + stepRadius * sqrt(2) * cos(pi * (5 / 4 + localRotate)),
-        pO[1] + stepRadius * sqrt(2) * sin(pi * (5 / 4 + localRotate))
-      ];
-      List pB = [
-        pO[0] + stepRadius * sqrt(2) * cos(pi * (7 / 4 + localRotate)),
-        pO[1] + stepRadius * sqrt(2) * sin(pi * (7 / 4 + localRotate))
-      ];
-      List pC = [
-        pO[0] + stepRadius * sqrt(2) * cos(pi * (1 / 4 + localRotate)),
-        pO[1] + stepRadius * sqrt(2) * sin(pi * (1 / 4 + localRotate))
-      ];
-      List pD = [
-        pO[0] + stepRadius * sqrt(2) * cos(pi * (3 / 4 + localRotate)),
-        pO[1] + stepRadius * sqrt(2) * sin(pi * (3 / 4 + localRotate))
-      ];
-
       // reset the colours
       Color nextColor;
       if (resetColors.value) {
@@ -473,6 +480,24 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
       }
 
       if (box.value) {
+
+        List pA = [
+          pO[0] + radius * sqrt(2) * cos(pi * (5 / 4 + localRotate)),
+          pO[1] + radius * sqrt(2) * sin(pi * (5 / 4 + localRotate))
+        ];
+        List pB = [
+          pO[0] + radius * sqrt(2) * cos(pi * (7 / 4 + localRotate)),
+          pO[1] + radius * sqrt(2) * sin(pi * (7 / 4 + localRotate))
+        ];
+        List pC = [
+          pO[0] + radius * sqrt(2) * cos(pi * (1 / 4 + localRotate)),
+          pO[1] + radius * sqrt(2) * sin(pi * (1 / 4 + localRotate))
+        ];
+        List pD = [
+          pO[0] + radius * sqrt(2) * cos(pi * (3 / 4 + localRotate)),
+          pO[1] + radius * sqrt(2) * sin(pi * (3 / 4 + localRotate))
+        ];
+
         // Choose the next colour
         colourOrder++;
         nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
@@ -558,6 +583,8 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
                 pO[1] + stepRadius * sqrt(2) * sin(pi * (7 / 4 + localRotate))
             );
 
+            square.close();
+
             // Choose the next colour
             colourOrder++;
             nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
@@ -569,16 +596,16 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
             canvas.drawPath(
                 square,
                 Paint()
+                  ..style = PaintingStyle.fill
+                  ..color =
+                  nextColor.withOpacity(opacity.value));
+            canvas.drawPath(
+                square,
+                Paint()
                   ..style = PaintingStyle.stroke
                   ..strokeWidth = lineWidth.value
                   ..color = lineColor.value
                       .withOpacity(opacity.value));
-            canvas.drawPath(
-                square,
-                Paint()
-                  ..style = PaintingStyle.fill
-                  ..color =
-                  nextColor.withOpacity(opacity.value));
 
             square.reset();
 
@@ -752,6 +779,8 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
                   pO[0]+ stepRadius * cos(pi*2*s/numberOfSides.value + localRotate),
                   pO[1]+ stepRadius * sin(pi*2*s/numberOfSides.value + localRotate));
             }
+
+            polygon.close();
 
             // Choose the next colour
             colourOrder++;
@@ -958,6 +987,13 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
         }
 
         // Drift & Rotate
+
+        if (alternateDrift.value && (i + j) % 2 == 0) {
+          localRotate = localRotate - rotateStep.value;
+        } else {
+          localRotate = localRotate + rotateStep.value;
+        }
+
         if (alternateDrift.value && (i) % 2 == 0) {
           dX = dX - driftX.value;
         } else {

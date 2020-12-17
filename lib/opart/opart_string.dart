@@ -100,6 +100,8 @@ SettingsModel spiralRatio = SettingsModel(
   tooltip: 'The ratio of the spiral',
   min: 0.9,
   max: 1.0,
+  randomMin: 0.98,
+  randomMax: 1.0,
   zoom: 100,
   defaultValue: 1.0,
   icon: Icon(Icons.arrow_circle_down),
