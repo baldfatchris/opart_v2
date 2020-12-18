@@ -32,7 +32,7 @@ SettingsModel shape = SettingsModel(
   tooltip: "The shape in the cell",
   defaultValue: "squaricle",
   icon: Icon(Icons.settings),
-  options: ['circle', 'square', 'squaricle', 'polygon'],
+  options: ['circle', 'square', 'squaricle', 'polygon', 'heart'],
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -197,7 +197,7 @@ SettingsModel squareness = SettingsModel(
   tooltip: 'The squareness of the shape',
   min: -3.0,
   max: 1.0,
-  randomMin: -1.5,
+  randomMin: -0.5,
   randomMax: 1.0,
   zoom: 100,
   defaultValue: 0.5,
@@ -984,6 +984,137 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
             }
 
             break;
+
+
+
+          case 'heart':
+
+            // double cusp = 0.50;
+            // double heartBezierPointAngle = 0.53 * pi;
+            // double heartBezierPointRadiusRatio = 17.2;
+            int localNumberoOfSides = 2;
+            double heartRadiusRatio = 0.75;
+            double heartRadiusDelta = 0.25;
+
+
+            Path heart = Path();
+
+            heart.moveTo(
+                pO[0]+ (stepRadius*(heartRadiusRatio + heartRadiusDelta) + cos(localRotate + pi/2)) * cos(localRotate + pi/2),
+                pO[1]+ stepRadius*(heartRadiusRatio + heartRadiusDelta) * sin(localRotate + pi/2));
+
+            for (int s = 1; s<=localNumberoOfSides;s++){
+              double t = 0.4;
+              double bezierPointRadiusDeltaA = 3.1;
+              double bezierPointRadiusDeltaB = 1.5;
+
+              // heart.lineTo(
+              //     pO[0]+ stepRadius*(heartRadiusRatio * bezierPointRadiusDelta) * cos(pi*2*t/localNumberoOfSides + localRotate + pi/2),
+              //     pO[1]+ stepRadius*(heartRadiusRatio * bezierPointRadiusDelta) * sin(pi*2*t/localNumberoOfSides + localRotate + pi/2));
+              //
+              // heart.lineTo(
+              //     pO[0]+ stepRadius*(heartRadiusRatio + heartRadiusDelta*cos(pi*2*s/localNumberoOfSides + localRotate)) * cos(pi*2*s/localNumberoOfSides + localRotate + pi/2),
+              //     pO[1]+ stepRadius*(heartRadiusRatio + heartRadiusDelta*cos(pi*2*s/localNumberoOfSides + localRotate)) * sin(pi*2*s/localNumberoOfSides + localRotate + pi/2));
+
+
+              if (s % 2 == 1) {
+                heart.cubicTo(
+                    pO[0] + stepRadius * (heartRadiusRatio * bezierPointRadiusDeltaA) * cos(pi * 2 * (s-t) / localNumberoOfSides + localRotate + pi / 2),
+                    pO[1] + stepRadius * (heartRadiusRatio * bezierPointRadiusDeltaA) * sin(pi * 2 * (s-t) / localNumberoOfSides + localRotate + pi / 2),
+
+                    pO[0] + stepRadius * (heartRadiusRatio * bezierPointRadiusDeltaB) * cos(pi * 2 * s / localNumberoOfSides + localRotate + pi / 2),
+                    pO[1] + stepRadius * (heartRadiusRatio * bezierPointRadiusDeltaB) * sin(pi * 2 * s / localNumberoOfSides + localRotate + pi / 2),
+
+                    pO[0] + stepRadius * (heartRadiusRatio + heartRadiusDelta * cos(pi * 2 * s / localNumberoOfSides)) * cos(pi * 2 * s / localNumberoOfSides + localRotate + pi / 2),
+                    pO[1] + stepRadius * (heartRadiusRatio + heartRadiusDelta * cos(pi * 2 * s / localNumberoOfSides)) * sin(pi * 2 * s / localNumberoOfSides + localRotate + pi / 2));
+              }
+              else {
+                heart.cubicTo(
+                    pO[0] + stepRadius * (heartRadiusRatio * bezierPointRadiusDeltaB) * cos(pi * 2 * (s-1) / localNumberoOfSides + localRotate + pi / 2),
+                    pO[1] + stepRadius * (heartRadiusRatio * bezierPointRadiusDeltaB) * sin(pi * 2 * (s-1) / localNumberoOfSides + localRotate + pi / 2),
+
+                    pO[0] + stepRadius * (heartRadiusRatio * bezierPointRadiusDeltaA) * cos(pi * 2 * (s-1+t) / localNumberoOfSides + localRotate + pi / 2),
+                    pO[1] + stepRadius * (heartRadiusRatio * bezierPointRadiusDeltaA) * sin(pi * 2 * (s-1+t) / localNumberoOfSides + localRotate + pi / 2),
+
+                    pO[0] + stepRadius * (heartRadiusRatio + heartRadiusDelta * cos(pi * 2 * s / localNumberoOfSides)) * cos(pi * 2 * s / localNumberoOfSides + localRotate + pi / 2),
+                    pO[1] + stepRadius * (heartRadiusRatio + heartRadiusDelta * cos(pi * 2 * s / localNumberoOfSides)) * sin(pi * 2 * s / localNumberoOfSides + localRotate + pi / 2));
+              }
+
+
+
+            }
+
+            heart.close();
+
+
+
+
+            // Path heart = Path();
+            //
+            // heart.moveTo(
+            //     pO[0]+ stepRadius * cos(localRotate + pi/2),
+            //     pO[1]+ stepRadius * sin(localRotate + pi/2));
+
+            // heart.lineTo(
+            //     pO[0]+ stepRadius * heartBezierPointRadiusRatio * cos(localRotate + pi*2 + heartBezierPointAngle),
+            //     pO[1]+ stepRadius * heartBezierPointRadiusRatio * sin(localRotate + pi/2 + heartBezierPointAngle));
+            //
+            // heart.lineTo(
+            //     pO[0]+ stepRadius * cusp * cos(localRotate + pi*3/2),
+            //     pO[1]+ stepRadius * cusp * sin(localRotate + pi*3/2));
+            //
+            // heart.lineTo(
+            //   pO[0]- stepRadius * heartBezierPointRadiusRatio * cos(localRotate + pi*2 + heartBezierPointAngle),
+            //   pO[1]+ stepRadius * heartBezierPointRadiusRatio * sin(localRotate + pi/2 + heartBezierPointAngle));
+            //
+            // heart.lineTo(
+            //   pO[0]+ stepRadius * cos(localRotate + pi/2),
+            //   pO[1]+ stepRadius * sin(localRotate + pi/2));
+
+
+            //
+            // heart.quadraticBezierTo(
+            //     pO[0]+ stepRadius * heartBezierPointRadiusRatio * cos(localRotate + pi*2 + heartBezierPointAngle),
+            //     pO[1]+ stepRadius * heartBezierPointRadiusRatio * sin(localRotate + pi/2 + heartBezierPointAngle),
+            //     pO[0]+ stepRadius * cusp * cos(localRotate + pi*3/2),
+            //     pO[1]+ stepRadius * cusp * sin(localRotate + pi*3/2));
+            //
+            // heart.quadraticBezierTo(
+            //     pO[0]- stepRadius * heartBezierPointRadiusRatio * cos(localRotate + pi*2 + heartBezierPointAngle),
+            //     pO[1]+ stepRadius * heartBezierPointRadiusRatio * sin(localRotate + pi/2 + heartBezierPointAngle),
+            //     pO[0]+ stepRadius * cos(localRotate + pi/2),
+            //     pO[1]+ stepRadius * sin(localRotate + pi/2));
+            //
+            // heart.close();
+
+            // Choose the next colour
+            colourOrder++;
+            nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
+            if (randomColors.value) {
+              nextColor = opArt.palette.colorList[
+              rnd.nextInt(numberOfColors.value)];
+            }
+
+            canvas.drawPath(
+                heart,
+                Paint()
+                  ..style = PaintingStyle.stroke
+                  ..strokeWidth = lineWidth.value
+                  ..color = lineColor.value
+                      .withOpacity(opacity.value));
+            canvas.drawPath(
+                heart,
+                Paint()
+                  ..style = PaintingStyle.fill
+                  ..color =
+                  nextColor.withOpacity(opacity.value));
+
+
+            heart.reset();
+
+
+            break;
+
         }
 
         // Drift & Rotate
