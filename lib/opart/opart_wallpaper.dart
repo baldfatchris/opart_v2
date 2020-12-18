@@ -32,7 +32,7 @@ SettingsModel shape = SettingsModel(
   tooltip: "The shape in the cell",
   defaultValue: "squaricle",
   icon: Icon(Icons.settings),
-  options: ['circle', 'square', 'squaricle', 'polygon', 'heart'],
+  options: ['circle', 'square', 'squaricle', 'polygon', 'heart', 'random'],
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -530,7 +530,13 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
         // drift...
         pO = [pO[0] + dX, pO[1] + dY];
 
-        switch (shape.value) {
+
+        //  options: ['circle', 'square', 'squaricle', 'polygon', 'heart', 'random'],
+        String shapeOption = shape.value;
+        if (shapeOption == 'random') {
+          shapeOption = ['circle', 'square', 'squaricle', 'polygon', 'heart', 'random'][rnd.nextInt(5)];
+        }
+        switch (shapeOption) {
 
           case 'circle':
 
