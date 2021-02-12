@@ -10,6 +10,7 @@ import 'main.dart';
 import 'opart/opart_diagonal.dart';
 import 'opart/opart_eye.dart';
 import 'opart/opart_fibonacci.dart';
+import 'opart/opart_flow.dart';
 import 'opart/opart_hexagons.dart';
 import 'opart/opart_maze.dart';
 import 'opart/opart_neighbour.dart';
@@ -50,6 +51,7 @@ ScrollController scrollController = new ScrollController();
 enum OpArtType {
   Diagonal,
   Eye,
+  Flow,
   Fibonacci,
   Hexagons,
   Life,
@@ -171,6 +173,14 @@ class OpArt {
         this.palette = OpArtPalette();
         this.name = 'Riley';
         this.animation = false;
+
+        break;
+
+      case OpArtType.Flow:
+        this.attributes = initializeFlowAttributes();
+        this.palette = OpArtPalette();
+        this.name = 'Flow';
+        this.animation = true;
 
         break;
 
@@ -347,6 +357,9 @@ class OpArt {
         break;
       case OpArtType.Fibonacci:
         paintFibonacci(canvas, size, seed, animationVariable, this);
+        break;
+      case OpArtType.Flow:
+        paintFlow(canvas, size, seed, animationVariable, this);
         break;
       case OpArtType.Hexagons:
         paintHexagons(canvas, size, seed, animationVariable, this);

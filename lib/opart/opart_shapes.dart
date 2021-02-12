@@ -148,6 +148,19 @@ SettingsModel shapeSquaredCircle = SettingsModel(
 );
 
 
+SettingsModel randomSize = SettingsModel(
+  name: 'randomSize',
+  settingType: SettingType.bool,
+  label: 'Random Size',
+  tooltip: 'Randomize the shape size',
+  defaultValue: false,
+  randomTrue: 0.2,
+  icon: Icon(Icons.adjust),
+  settingCategory: SettingCategory.tool,
+  silent: true,
+  proFeature: true,
+);
+
 SettingsModel box = SettingsModel(
   name: 'box',
   settingType: SettingType.bool,
@@ -279,10 +292,10 @@ List<SettingsModel> initializeShapesAttributes() {
     shapeS,
     shapeSquaredCircle,
 
+    randomSize,
     box,
     recursionDepth,
     recursionRatio,
-
 
     lineColor,
     lineWidth,
@@ -296,7 +309,6 @@ List<SettingsModel> initializeShapesAttributes() {
 
 
 }
-
 
 void paintShapes(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
 
@@ -351,7 +363,7 @@ void paintShapes(Canvas canvas, Size size, int seed, double animationVariable, O
   for (int j = 0; j < cellsY; j++) {
     for (int i = 0;  i < cellsX; i++) {
   
-      colourOrder = drawSquare(canvas, rnd, opArt.palette.colorList, colourOrder, shapesArray, [borderX + i * side, borderY + j * side], side, 0);
+      colourOrder = drawSquare(canvas, rnd, opArt.palette.colorList, colourOrder, shapesArray, [borderX + i * side, borderY + j * side], side, 0, randomSize.value ? rnd.nextDouble() : 1);
 
     }
   }
@@ -369,15 +381,16 @@ int drawSquare(
     List<double> pA,
     double side,
     int recursion,
+    double ratio
   ) {
   
   Color nextColor;
 
   if (recursion < recursionDepth.value && rnd.nextDouble()<recursionRatio.value) {
-    colourOrder = drawSquare(canvas, rnd, palette, colourOrder, shapesArray, pA, side/2, recursion+1);
-    colourOrder = drawSquare(canvas, rnd, palette, colourOrder, shapesArray, [pA[0]+side/2,pA[1]], side/2, recursion+1);
-    colourOrder = drawSquare(canvas, rnd, palette, colourOrder, shapesArray, [pA[0]+side/2,pA[1]+side/2], side/2, recursion+1);
-    colourOrder = drawSquare(canvas, rnd, palette, colourOrder, shapesArray, [pA[0],pA[1]+side/2], side/2, recursion+1);
+    colourOrder = drawSquare(canvas, rnd, palette, colourOrder, shapesArray, pA, side/2, recursion+1, ratio);
+    colourOrder = drawSquare(canvas, rnd, palette, colourOrder, shapesArray, [pA[0]+side/2,pA[1]], side/2, recursion+1, ratio);
+    colourOrder = drawSquare(canvas, rnd, palette, colourOrder, shapesArray, [pA[0]+side/2,pA[1]+side/2], side/2, recursion+1, ratio);
+    colourOrder = drawSquare(canvas, rnd, palette, colourOrder, shapesArray, [pA[0],pA[1]+side/2], side/2, recursion+1, ratio);
   }
 
   else {
@@ -431,25 +444,25 @@ int drawSquare(
           switch (shapeOrientation) {
             case 0:
               shape.moveTo(pA[0], pA[1]);
-              shape.lineTo(pA[0] + 2 * side / 2, pA[1]);
-              shape.lineTo(pA[0], pA[1] + 2 * side / 2);
+              shape.lineTo(pA[0] + side * ratio, pA[1]);
+              shape.lineTo(pA[0], pA[1] + side * ratio);
               break;
 
             case 1:
-              shape.moveTo(pB[0] - 2 * side / 2, pB[1]);
+              shape.moveTo(pB[0] - side * ratio, pB[1]);
               shape.lineTo(pB[0], pB[1]);
-              shape.lineTo(pB[0], pB[1] + 2 * side / 2);
+              shape.lineTo(pB[0], pB[1] + side * ratio);
               break;
 
             case 2:
-              shape.moveTo(pC[0], pC[1] - 2 * side / 2);
+              shape.moveTo(pC[0], pC[1] - side * ratio);
               shape.lineTo(pC[0], pC[1]);
-              shape.lineTo(pC[0] - 2 * side / 2, pC[1]);
+              shape.lineTo(pC[0] - side * ratio, pC[1]);
               break;
 
             case 3:
-              shape.moveTo(pD[0], pD[1] - 2 * side / 2);
-              shape.lineTo(pD[0] + 2 * side / 2, pD[1]);
+              shape.moveTo(pD[0], pD[1] - side * ratio);
+              shape.lineTo(pD[0] + side * ratio, pD[1]);
               shape.lineTo(pD[0], pD[1]);
               break;
           }
@@ -460,7 +473,7 @@ int drawSquare(
 
         case 'shapeCircle': // circle
 
-          canvas.drawCircle(Offset(pO[0], pO[1]), side / 2, paint);
+          canvas.drawCircle(Offset(pO[0], pO[1]), ratio * side / 2, paint);
 
           break;
 
@@ -470,29 +483,29 @@ int drawSquare(
             case 0: // centre top left
               canvas.drawArc(Rect.fromCenter(
                   center: Offset(pO[0] - side / 2, pO[1] - side / 2),
-                  height: side / 2 * 4,
-                  width: side / 2 * 4),
+                  height: ratio * side * 2,
+                  width: ratio * side * 2),
                   pi * (0.0), pi * 0.5, true, paint);
               break;
             case 1: // centre top right
               canvas.drawArc(Rect.fromCenter(
                   center: Offset(pO[0] + side / 2, pO[1] - side / 2),
-                  height: side / 2 * 4,
-                  width: side / 2 * 4),
+                  height: ratio * side * 2,
+                  width: ratio * side * 2),
                   pi * (0.5), pi * 0.5, true, paint);
               break;
             case 2: // centre bottom right
               canvas.drawArc(Rect.fromCenter(
                   center: Offset(pO[0] + side / 2, pO[1] + side / 2),
-                  height: side / 2 * 4,
-                  width: side / 2 * 4),
+                  height: ratio * side * 2,
+                  width: ratio * side * 2),
                   pi * (1.0), pi * 0.5, true, paint);
               break;
             case 3: // centre bottom left
               canvas.drawArc(Rect.fromCenter(
                   center: Offset(pO[0] - side / 2, pO[1] + side / 2),
-                  height: side / 2 * 4,
-                  width: side / 2 * 4),
+                  height: ratio * side * 2,
+                  width: ratio * side * 2),
                   pi * (1.5), pi * 0.5, true, paint);
               break;
           }
@@ -504,32 +517,32 @@ int drawSquare(
             case 0: // centre top
               canvas.drawArc(Rect.fromCenter(
                   center: Offset(pO[0], pO[1] - side / 2),
-                  height: side / 2 * 2,
-                  width: side / 2 * 2),
+                  height: ratio * side,
+                  width: ratio * side),
                   pi * (0.0), pi * 1.0, true, paint);
               break;
 
             case 1: // centre right
               canvas.drawArc(Rect.fromCenter(
                   center: Offset(pO[0] + side / 2, pO[1]),
-                  height: side / 2 * 2,
-                  width: side / 2 * 2),
+                  height: ratio * side,
+                  width: ratio * side),
                   pi * (0.5), pi * 1.0, true, paint);
               break;
 
             case 2: // centre bottom
               canvas.drawArc(Rect.fromCenter(
                   center: Offset(pO[0], pO[1] + side / 2),
-                  height: side / 2 * 2,
-                  width: side / 2 * 2),
+                  height: ratio * side,
+                  width: ratio * side),
                   pi * (1.0), pi * 1.0, true, paint);
               break;
 
             case 3: // centre left
               canvas.drawArc(Rect.fromCenter(
                   center: Offset(pO[0] - side / 2, pO[1]),
-                  height: side / 2 * 2,
-                  width: side / 2 * 2),
+                  height: ratio * side,
+                  width: ratio * side),
                   pi * (1.5), pi * 1.0, true, paint);
               break;
           }
