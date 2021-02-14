@@ -304,24 +304,25 @@ class _MyHomePageState extends State<MyHomePage> {
     // InAppPurchaseConnection.enablePendingPurchases();
 
     opArtTypes = [
+      OpArtTypes('Flow', OpArtType.Flow, 'lib/assets/flow.png'),
       OpArtTypes('Wallpaper', OpArtType.Wallpaper, 'lib/assets/wallpaper.png'),
       OpArtTypes('Diagonal', OpArtType.Diagonal, 'lib/assets/diagonal.png'),
       OpArtTypes('Shapes', OpArtType.Shapes, 'lib/assets/shapes.png'),
-      OpArtTypes('Neighbour', OpArtType.Neighbour, 'lib/assets/neighbour.png'),
+      OpArtTypes('Trees', OpArtType.Tree, 'lib/assets/tree.png'),
       OpArtTypes('Maze', OpArtType.Maze, 'lib/assets/maze.png'),
       OpArtTypes('Quads', OpArtType.Quads, 'lib/assets/quads.png'),
       // OpArtTypes('Plasma', OpArtType.Plasma, 'lib/assets/plasma.png'),
       OpArtTypes('String', OpArtType.String, 'lib/assets/string.png'),
       OpArtTypes('Rhombus', OpArtType.Rhombus, 'lib/assets/rhombus.png'),
-      OpArtTypes('Riley', OpArtType.Riley, 'lib/assets/riley.png'),
       OpArtTypes('Triangles', OpArtType.Triangles, 'lib/assets/triangles.png'),
       OpArtTypes('Squares', OpArtType.Squares, 'lib/assets/squares.png'),
       // OpArtTypes('Life', OpArtType.Life, 'lib/assets/squares.png'),
       OpArtTypes('Spirals', OpArtType.Fibonacci, 'lib/assets/fibonacci.png'),
       OpArtTypes('Eye', OpArtType.Eye, 'lib/assets/eye.png'),
       OpArtTypes('Hexagons', OpArtType.Hexagons, 'lib/assets/hexagons.png'),
-      OpArtTypes('Trees', OpArtType.Tree, 'lib/assets/tree.png'),
       OpArtTypes('Waves', OpArtType.Wave, 'lib/assets/wave.png'),
+      OpArtTypes('Riley', OpArtType.Riley, 'lib/assets/riley.png'),
+      OpArtTypes('Neighbour', OpArtType.Neighbour, 'lib/assets/neighbour.png'),
     ];
     super.initState();
   }
