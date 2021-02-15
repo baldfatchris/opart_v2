@@ -45,7 +45,7 @@ SettingsModel step = SettingsModel(
   min: 0.05,
   max: 0.80,
   zoom: 100,
-  defaultValue: 0.8,
+  defaultValue: 0.05,
   icon: Icon(Icons.control_point),
   settingCategory: SettingCategory.tool,
   proFeature: false,
