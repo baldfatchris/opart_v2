@@ -9,7 +9,7 @@ import 'package:opart_v2/model_opart.dart';
 
 class DatabaseHelper {
   // This is the actual database filename that is saved in the docs directory.
-  static final _databaseName = "MyDatabase.db";
+  static final _databaseName = 'MyDatabase.db';
   // Increment this version when you need to change the schema.
   static final _databaseVersion = 1;
 
@@ -27,7 +27,7 @@ class DatabaseHelper {
   }
 
   // open the database
-  _initDatabase() async {
+   Future<Database> _initDatabase() async {
     // The path_provider plugin gets the right directory for Android or iOS.
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, _databaseName);
@@ -62,7 +62,7 @@ class DatabaseHelper {
     List<Map> maps = await db.query(
       'opart',
     );
-    if (maps.length > 0) {
+    if (maps.isNotEmpty) {
       return maps;
     }
 
@@ -77,19 +77,19 @@ class DatabaseHelper {
     await db.delete(
       'opart',
       // Use a `where` clause to delete a specific dog.
-      where: "id = ?",
+      where: 'id = ?',
       // Pass the Dog's id as a whereArg to prevent SQL injection.
       whereArgs: [id],
     );
   }
 
-  getUserDb() async {
+  Future<void> getUserDb() async {
     await getData().then((map) {
       if (map != null) {
         for (int i = 0; i < map.length; i++) {
           Map<String, dynamic> _data = jsonDecode(map[i]['data']);
 
-          Map<String, dynamic> fixedData = Map();
+          Map<String, dynamic> fixedData = {};
           fixedData.addAll({'id': map[i]['id']});
 
           for (int j = 0; j < _data.length; j++) {
@@ -106,7 +106,7 @@ class DatabaseHelper {
 
                 List<String> stringList = value.split(',');
 
-                List<Color> colorList = List();
+                List<Color> colorList = [];
                 for (int j = 0; j < stringList.length; j++) {
                   String valueString =
                       stringList[j].split('(0x')[1].split(')')[0];
@@ -117,7 +117,7 @@ class DatabaseHelper {
               } else if (value.toString().contains('Color(')) {
                 String valueString = value.split('(0x')[1].split(')')[0];
                 int intValue = int.parse(valueString, radix: 16);
-                Color otherColor = new Color(intValue);
+                Color otherColor =  Color(intValue);
                 fixedData.addAll({key: otherColor});
               } else {
                 fixedData.addAll({key: value});
@@ -132,8 +132,8 @@ class DatabaseHelper {
     });
   }
 
-  deleteDB() async {
+  Future<void> deleteDB() async {
     Database db = await database;
-    db.delete('opart');
+   await db.delete('opart');
   }
 }

@@ -14,8 +14,8 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
           Container(height: 70,
             width: (width > 400) ? 111 : 50,
             child: FlatButton(
-              shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(10.0)),
+              shape:  RoundedRectangleBorder(
+                  borderRadius:  BorderRadius.circular(10.0)),
 
               color: Colors.white.withOpacity(0.8),
               child: Row(
@@ -75,7 +75,7 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
               ),
               onPressed: () async {
                 if (enableButton) {
-                  Future.delayed(const Duration(seconds: 0));
+                  await Future.delayed(const Duration(seconds: 0));
                   opArt.randomizeSettings();
                   opArt.randomizePalette();
                   opArt.saveToCache();
@@ -89,8 +89,8 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
           Container(height: 70,
             width: (width > 400) ? 111 : 50,
             child: FlatButton(
-              shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(10.0)),
+              shape:  RoundedRectangleBorder(
+                  borderRadius:  BorderRadius.circular(10.0)),
               color: Colors.white.withOpacity(0.8),
 
               child: Row(

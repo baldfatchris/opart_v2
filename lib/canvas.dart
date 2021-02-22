@@ -8,8 +8,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CanvasWidget extends StatefulWidget {
-  bool _fullScreen;
-  double animationValue;
+  final bool _fullScreen;
+ final  double animationValue;
   CanvasWidget(this._fullScreen, {this.animationValue});
   @override
   _CanvasWidgetState createState() => _CanvasWidgetState();
@@ -49,7 +49,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
           }
         });
 
-      animationController.forward(from: widget.animationValue==null? 0.0: widget.animationValue);
+      animationController.forward(from: widget.animationValue?? 0.0);
     }
 
     super.initState();

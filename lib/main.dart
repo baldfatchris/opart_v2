@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
     proVersion = false;
 
     await Purchases.setDebugLogsEnabled(true);
-    await Purchases.setup("dZAXkioWKFdOESaEtJMQkRsrETmZbFUK");
+    await Purchases.setup('dZAXkioWKFdOESaEtJMQkRsrETmZbFUK');
 
     PurchaserInfo purchaserInfo;
     try {
@@ -67,7 +67,7 @@ class _MyAppState extends State<MyApp> {
         proVersion = false;
       }
     } on PlatformException catch (e) {
-//      print(e);
+     print(e);
     }
 
 //    print('#### is user pro? ${proVersion}');
@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp> {
       }
     } on PlatformException catch (e) {
       // print('offerings errors');
-      // print(e);
+       print(e);
       // optional error handling
     }
   }
@@ -107,7 +107,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _rebuildDelete = new ValueNotifier(0);
+  final _rebuildDelete =  ValueNotifier(0);
   List<OpArtTypes> opArtTypes;
 
   @override
@@ -177,7 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: ValueListenableBuilder<int>(
                   valueListenable: rebuildMain,
                   builder: (context, value, child) {
-                    if (savedOpArt.length == 0) {
+                    if (savedOpArt.isEmpty) {
                       return Text('Curate your own gallery of stunning OpArt here.');
                     }
                     return Container(

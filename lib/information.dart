@@ -13,7 +13,7 @@ class InformationPage extends StatefulWidget {
 }
 
 class _InformationPageState extends State<InformationPage> {
-  final rebuildGallery = new ValueNotifier(0);
+  final rebuildGallery =  ValueNotifier(0);
   bool showDelete = false;
   @override
   Widget build(BuildContext context) {
@@ -55,8 +55,8 @@ class _InformationPageState extends State<InformationPage> {
             onPressed: () {
               LaunchReview.launch(
                 androidAppId:
-                "com.opartlab",
-                iOSAppId: "1538193511",
+                'com.opartlab',
+                iOSAppId: '1538193511',
               );
             },
           ),

@@ -32,21 +32,21 @@ import 'package:screenshot/screenshot.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
-List<Map<String, dynamic>> savedOpArt = List();
+List<Map<String, dynamic>> savedOpArt = [];
 ScreenshotController screenshotController = ScreenshotController();
 
-final rebuildCache = new ValueNotifier(0);
-final rebuildMain = new ValueNotifier(0);
-final rebuildCanvas = new ValueNotifier(0);
+final rebuildCache =  ValueNotifier(0);
+final rebuildMain =  ValueNotifier(0);
+final rebuildCanvas =  ValueNotifier(0);
 final rebuildOpArtPage = ValueNotifier(0);
 final rebuildTab = ValueNotifier(0);
-final rebuildGallery = new ValueNotifier(0);
-final rebuildDialog = new ValueNotifier(0);
-final rebuildColorPicker = new ValueNotifier(0);
+final rebuildGallery =  ValueNotifier(0);
+final rebuildDialog =  ValueNotifier(0);
+final rebuildColorPicker =  ValueNotifier(0);
 
 bool enableButton = true;
 
-ScrollController scrollController = new ScrollController();
+ScrollController scrollController =  ScrollController();
 
 enum OpArtType {
   Diagonal,
@@ -79,8 +79,8 @@ class OpArtTypes {
 
 class OpArt {
   OpArtType opArtType;
-  List<SettingsModel> attributes = List<SettingsModel>();
-  List<Map<String, dynamic>> cache = List();
+  List<SettingsModel> attributes = [];
+  List<Map<String, dynamic>> cache =[];
   // Random rnd = Random();
   OpArtPalette palette;
   String name;
@@ -90,157 +90,157 @@ class OpArt {
   OpArt({this.opArtType}) {
     switch (opArtType) {
       case OpArtType.Diagonal:
-        this.attributes = initializeDiagonalAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Diagonal';
-        this.animation = false;
+        attributes = initializeDiagonalAttributes();
+        palette = OpArtPalette();
+        name = 'Diagonal';
+        animation = false;
 
         break;
 
       case OpArtType.Eye:
-        this.attributes = initializeEyeAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Eye';
-        this.animation = false;
+        attributes = initializeEyeAttributes();
+        palette = OpArtPalette();
+        name = 'Eye';
+        animation = false;
 
         break;
 
       case OpArtType.Fibonacci:
-        this.attributes = initializeFibonacciAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Spirals';
+        attributes = initializeFibonacciAttributes();
+        palette = OpArtPalette();
+        name = 'Spirals';
 
         break;
 
       case OpArtType.Hexagons:
-        this.attributes = initializeHexagonsAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Hexagons';
-        this.animation = false;
+        attributes = initializeHexagonsAttributes();
+        palette = OpArtPalette();
+        name = 'Hexagons';
+        animation = false;
 
         break;
 
       case OpArtType.Life:
-        this.attributes = initializeLifeAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Life';
-        this.animation = true;
+        attributes = initializeLifeAttributes();
+        palette = OpArtPalette();
+        name = 'Life';
+        animation = true;
 
         break;
 
       case OpArtType.Maze:
-        this.attributes = initializeMazeAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Maze';
-        this.animation = false;
+        attributes = initializeMazeAttributes();
+        palette = OpArtPalette();
+        name = 'Maze';
+        animation = false;
 
         break;
 
       case OpArtType.Neighbour:
-        this.attributes = initializeNeighbourAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Neighbours';
-        this.animation = false;
+        attributes = initializeNeighbourAttributes();
+        palette = OpArtPalette();
+        name = 'Neighbours';
+        animation = false;
 
         break;
 
       case OpArtType.Plasma:
-        this.attributes = initializePlasmaAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Plasma';
-        this.animation = true;
+        attributes = initializePlasmaAttributes();
+        palette = OpArtPalette();
+        name = 'Plasma';
+        animation = true;
 
         break;
 
       case OpArtType.Quads:
-        this.attributes = initializeQuadsAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Quads';
-        this.animation = false;
+        attributes = initializeQuadsAttributes();
+        palette = OpArtPalette();
+        name = 'Quads';
+        animation = false;
 
         break;
 
       case OpArtType.Rhombus:
-        this.attributes = initializeRhombusAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Rhombus';
-        this.animation = false;
+        attributes = initializeRhombusAttributes();
+        palette = OpArtPalette();
+        name = 'Rhombus';
+        animation = false;
 
         break;
 
       case OpArtType.Riley:
-        this.attributes = initializeRileyAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Riley';
-        this.animation = false;
+        attributes = initializeRileyAttributes();
+        palette = OpArtPalette();
+        name = 'Riley';
+        animation = false;
 
         break;
 
       case OpArtType.Flow:
-        this.attributes = initializeFlowAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Flow';
-        this.animation = true;
+        attributes = initializeFlowAttributes();
+        palette = OpArtPalette();
+        name = 'Flow';
+        animation = true;
 
         break;
 
       case OpArtType.Shapes:
-        this.attributes = initializeShapesAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Shapes';
-        this.animation = false;
+        attributes = initializeShapesAttributes();
+        palette = OpArtPalette();
+        name = 'Shapes';
+        animation = false;
 
         break;
 
       case OpArtType.Squares:
-        this.attributes = initializeSquaresAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Squares';
-        this.animation = false;
+        attributes = initializeSquaresAttributes();
+        palette = OpArtPalette();
+        name = 'Squares';
+        animation = false;
 
         break;
 
       case OpArtType.String:
-        this.attributes = initializeStringAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'String';
-        this.animation = false;
+        attributes = initializeStringAttributes();
+        palette = OpArtPalette();
+        name = 'String';
+        animation = false;
 
         break;
 
       case OpArtType.Tree:
-        this.attributes = initializeTreeAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Tree';
-        this.animation = true;
+        attributes = initializeTreeAttributes();
+        palette = OpArtPalette();
+        name = 'Tree';
+        animation = true;
 
         break;
 
       case OpArtType.Triangles:
-        this.attributes = initializeTrianglesAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Triangles';
-        this.animation = false;
+        attributes = initializeTrianglesAttributes();
+        palette = OpArtPalette();
+        name = 'Triangles';
+        animation = false;
 
         break;
 
       case OpArtType.Wallpaper:
-        this.attributes = initializeWallpaperAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Wallpaper';
-        this.animation = false;
+        attributes = initializeWallpaperAttributes();
+        palette = OpArtPalette();
+        name = 'Wallpaper';
+        animation = false;
 
         break;
 
       case OpArtType.Wave:
-        this.attributes = initializeWaveAttributes();
-        this.palette = OpArtPalette();
-        this.name = 'Wave';
+        attributes = initializeWaveAttributes();
+        palette = OpArtPalette();
+        name = 'Wave';
 
         break;
     }
 
-    this.setDefault();
+    setDefault();
   }
 
   Future<int> saveToLocalDB(bool paid) async {
@@ -258,9 +258,9 @@ class OpArt {
             'colors': palette.colorList,
             'image': base64Image,
             'paletteName': palette.paletteName,
-            'type': this.opArtType,
+            'type': opArtType,
             'paid': paid,
-            'animationControllerValue': this.animation ? animationController.value : 1.0,
+            'animationControllerValue': animation ? animationController.value : 1.0,
           });
 
           Map<String, dynamic> sqlMap = Map();
@@ -278,9 +278,9 @@ class OpArt {
             'colors': palette.colorList.toString(),
             'image': base64Image,
             'paletteName': palette.paletteName,
-            'type': this.opArtType.toString(),
+            'type': opArtType.toString(),
             'paid': paid,
-            'animationControllerValue': this.animation ? animationController.value : 1.0
+            'animationControllerValue': animation ? animationController.value : 1.0
           });
 
           DatabaseHelper helper = DatabaseHelper.instance;
@@ -308,11 +308,11 @@ class OpArt {
             'paletteName': palette.paletteName,
             'colors': palette.colorList,
             'numberOfColors': numberOfColors.value,
-            'animationControllerValue': this.animation ? animationController.value : 1.0
+            'animationControllerValue': animation ? animationController.value : 1.0
           });
 
 
-          this.cache.add(map);
+          cache.add(map);
 
           rebuildCache.value++;
           if (scrollController.hasClients) {
@@ -326,14 +326,14 @@ class OpArt {
   }
 
   void revertToCache(int index) {
-    seed = this.cache[index]['seed'];
-    if(this.animation){ animationController.forward(from: this.cache[index]['animationControllerValue']);}
+    seed = cache[index]['seed'];
+    if(animation){ animationController.forward(from: cache[index]['animationControllerValue']);}
     for (int i = 0; i < attributes.length; i++) {
-      attributes[i].value = this.cache[index][attributes[i].label];
+      attributes[i].value = cache[index][attributes[i].label];
     }
-    numberOfColors.value = this.cache[index]['numberOfColors'];
-    palette.paletteName = this.cache[index]['paletteName'];
-    palette.colorList = this.cache[index]['colors'];
+    numberOfColors.value = cache[index]['numberOfColors'];
+    palette.paletteName = cache[index]['paletteName'];
+    palette.colorList = cache[index]['colors'];
 
     rebuildCanvas.value++;
     rebuildTab.value++;

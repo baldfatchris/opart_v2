@@ -12,10 +12,10 @@ class _LoadingState extends State<Loading> {
   void waitSome() async {
 
     // print('wait 1 second');
-    await new Future.delayed(const Duration(seconds : 0));
+    await  Future.delayed(const Duration(seconds : 0));
     // print('1 second gone');
 
-    Navigator.pushReplacementNamed(context, '/menu', arguments: {
+    await Navigator.pushReplacementNamed(context, '/menu', arguments: {
       'location':'OpArt Menu',
     });
 

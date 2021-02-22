@@ -46,6 +46,7 @@ dev_dependencies:
   rflutter_alert: ^1.0.3
   purchases_flutter: ^1.1.1
   carousel_slider: ^2.3.1
+  pedantic: ^1.9.2
   launch_review: ^2.0.0
 
 
