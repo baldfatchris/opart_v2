@@ -313,9 +313,6 @@ void paintFlow(Canvas canvas, Size size, int seed, double animationVariable, OpA
       double stepRatio = ratio.value;
       int k = 0; // count the steps
 
-      double radius = (deltaX < deltaY) ? deltaX/2 : deltaY/2;
-      double stepRadius = (radius - lineWidth.value/2) * stepRatio;
-
       // Centre of the square
       List pO = [x+deltaX/2, y+deltaY/2];
 
@@ -373,7 +370,13 @@ void paintFlow(Canvas canvas, Size size, int seed, double animationVariable, OpA
               rnd.nextInt(numberOfColors.value)];
             }
 
-            canvas.drawRect(Rect.fromLTRB(pO[0]-deltaX/2*stepRatio, pO[1]-deltaY/2*stepRatio, pO[0]+deltaX/2*stepRatio, pO[1]+deltaY/2*stepRatio),
+            canvas.drawRect(
+                Rect.fromLTRB(
+                    pO[0]-deltaX/2*stepRatio,
+                    pO[1]-deltaY/2*stepRatio,
+                    pO[0]+deltaX/2*stepRatio,
+                    pO[1]+deltaY/2*stepRatio
+                ),
                 Paint()
                   ..style = PaintingStyle.fill
                   ..color =
@@ -388,42 +391,20 @@ void paintFlow(Canvas canvas, Size size, int seed, double animationVariable, OpA
 
           case 'squaricle':
 
-            double curveCentreRadius = stepRadius * sqrt(2) * squareness.value;
-            double curveRadius = stepRadius * sqrt(2) * (1 - squareness.value);
+            double radius =
+              (deltaX < deltaY)
+                ? stepRatio * deltaX/2 * (1 - squareness.value) - lineWidth.value/2
+                : stepRatio * deltaY/2 * (1 - squareness.value) - lineWidth.value/2;
 
             Path squaricle = Path();
 
             squaricle.arcTo(Rect.fromCenter(
                 center: Offset(
-                    pO[0] + curveCentreRadius * cos(pi * (1 / 4)),
-                    pO[1] + curveCentreRadius * sin(pi * (1 / 4))
+                    pO[0]-deltaX/2*stepRatio + radius,
+                    pO[1]-deltaY/2*stepRatio + radius,
                 ),
-                height: curveRadius,
-                width: curveRadius),
-                pi * (0 / 2),
-                pi/2,
-                false
-            );
-
-            squaricle.arcTo(Rect.fromCenter(
-                center: Offset(
-                    pO[0] + curveCentreRadius * cos(pi * (3 / 4)),
-                    pO[1] + curveCentreRadius * sin(pi * (3 / 4))
-                ),
-                height: curveRadius,
-                width: curveRadius),
-                pi * (1 / 2),
-                pi/2,
-                false
-            );
-
-            squaricle.arcTo(Rect.fromCenter(
-                center: Offset(
-                    pO[0] + curveCentreRadius * cos(pi * (5 / 4)),
-                    pO[1] + curveCentreRadius * sin(pi * (5 / 4))
-                ),
-                height: curveRadius,
-                width: curveRadius),
+                height: radius,
+                width: radius),
                 pi * (2 / 2),
                 pi/2,
                 false
@@ -431,12 +412,36 @@ void paintFlow(Canvas canvas, Size size, int seed, double animationVariable, OpA
 
             squaricle.arcTo(Rect.fromCenter(
                 center: Offset(
-                    pO[0] + curveCentreRadius * cos(pi * (7 / 4)),
-                    pO[1] + curveCentreRadius * sin(pi * (7 / 4))
+                  pO[0]+deltaX/2*stepRatio - radius,
+                  pO[1]-deltaY/2*stepRatio + radius,
                 ),
-                height: curveRadius,
-                width: curveRadius),
+                height: radius,
+                width: radius),
                 pi * (3 / 2),
+                pi/2,
+                false
+            );
+
+            squaricle.arcTo(Rect.fromCenter(
+                center: Offset(
+                  pO[0]+deltaX/2*stepRatio - radius,
+                  pO[1]+deltaY/2*stepRatio - radius,
+                ),
+                height: radius,
+                width: radius),
+                pi * (0 / 2),
+                pi/2,
+                false
+            );
+
+            squaricle.arcTo(Rect.fromCenter(
+                center: Offset(
+                  pO[0]-deltaX/2*stepRatio + radius,
+                  pO[1]+deltaY/2*stepRatio - radius,
+                ),
+                height: radius,
+                width: radius),
+                pi * (1 / 2),
                 pi/2,
                 false
             );
@@ -454,16 +459,16 @@ void paintFlow(Canvas canvas, Size size, int seed, double animationVariable, OpA
             canvas.drawPath(
                 squaricle,
                 Paint()
+                  ..style = PaintingStyle.fill
+                  ..color =
+                  nextColor.withOpacity(opacity.value));
+            canvas.drawPath(
+                squaricle,
+                Paint()
                   ..style = PaintingStyle.stroke
                   ..strokeWidth = lineWidth.value
                   ..color = lineColor.value
                       .withOpacity(opacity.value));
-            canvas.drawPath(
-                squaricle,
-                Paint()
-                  ..style = PaintingStyle.fill
-                  ..color =
-                  nextColor.withOpacity(opacity.value));
 
             squaricle.reset();
 
