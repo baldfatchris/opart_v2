@@ -553,10 +553,12 @@ class _OpArtPageState extends State<OpArtPage> {
                         children: [
                           InteractiveViewer(
                             child: ClipRect(
-                                child: CanvasWidget(
+                                child: Hero(tag: opArt.name,
+                                  child: CanvasWidget(
                               showSettings,
                               animationValue: widget.animationValue,
-                            )),
+                            ),
+                                )),
                           ),
                           showProgressIndicator
                               ? Container(

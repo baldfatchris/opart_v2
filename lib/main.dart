@@ -67,21 +67,22 @@ class _MyAppState extends State<MyApp> {
         proVersion = false;
       }
     } on PlatformException catch (e) {
-     print(e);
+      print(e);
     }
 
 //    print('#### is user pro? ${proVersion}');
 
     try {
       offerings = await Purchases.getOfferings();
-      if (offerings.current != null && offerings.current.availablePackages.isNotEmpty) {
+      if (offerings.current != null &&
+          offerings.current.availablePackages.isNotEmpty) {
         // print(offerings.current.availablePackages.length);
         // print('offerings');
         // Display packages for sale
       }
     } on PlatformException catch (e) {
       // print('offerings errors');
-       print(e);
+      print(e);
       // optional error handling
     }
   }
@@ -107,7 +108,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _rebuildDelete =  ValueNotifier(0);
+  final _rebuildDelete = ValueNotifier(0);
   List<OpArtTypes> opArtTypes;
 
   @override
@@ -117,185 +118,256 @@ class _MyHomePageState extends State<MyHomePage> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
+      //    backgroundColor: Colors.grey[200],
           body: SafeArea(
-        child: Column(
-          children: [
-            Stack(
+            child: Column(
               children: [
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text('OpArt Lab',
-                        style: TextStyle(fontFamily: 'Righteous', fontSize: 30, fontWeight: FontWeight.bold)),
-                  ),
-                ),
-                IconButton(
-                    icon: Icon(Icons.info, color: Colors.cyan),
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => InformationPage()));
-                    })
-              ],
-            ),
-            Expanded(
-              child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(childAspectRatio: 0.8, maxCrossAxisExtent: 130),
-                  itemCount: opArtTypes.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => OpArtPage(opArtTypes[index].opArtType, false)),
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Image.asset(opArtTypes[index].image),
-                          ),
-                          // Text(opArtTypes[index].name,
-                          //     style: TextStyle(
-                          //         fontFamily: 'Righteous',
-                          //         fontWeight: FontWeight.bold,
-                          //         fontSize: 18)),
-                        ],
+                Stack(
+                  children: [
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text('OpArt Lab',
+                            style: TextStyle(
+                                fontFamily: 'Righteous',
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold)),
                       ),
-                    );
-                  }),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => MyGallery(savedOpArt.length - 1, false)));
-              },
-              child: Text('My Gallery',
-                  style: TextStyle(fontFamily: 'Righteous', fontWeight: FontWeight.bold, fontSize: 20)),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: ValueListenableBuilder<int>(
-                  valueListenable: rebuildMain,
-                  builder: (context, value, child) {
-                    if (savedOpArt.isEmpty) {
-                      return Text('Curate your own gallery of stunning OpArt here.');
-                    }
-                    return Container(
-                      height: 100,
-                      child: ListView.builder(
-                          itemCount: savedOpArt.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context, MaterialPageRoute(builder: (context) => MyGallery(index + 1, false)));
-                                },
-                                onLongPress: () {
-                                  showDelete = !showDelete;
-                                  _rebuildDelete.value++;
-                                },
-                                child: Stack(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: AspectRatio(aspectRatio: 1,
-                                        child: Container(
-                                          width: 100,
-                                          height: 100,
-                                          child: Image.memory(
-                                            base64Decode(savedOpArt[index]['image']),
-                                            fit: BoxFit.fitWidth,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    ValueListenableBuilder<int>(
-                                        valueListenable: _rebuildDelete,
-                                        builder: (context, value, child) {
-                                          return showDelete
-                                              ? Positioned(
-                                                  right: 0,
-                                                  top: 0,
-                                                  child: Container(
-                                                    height: 30,
-                                                    width: 30,
-                                                    decoration:
-                                                        BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-                                                    child: Center(
-                                                      child: FloatingActionButton(
-                                                          onPressed: () {
-                                                            if (savedOpArt[
-                                                            index]
-                                                            ['paid']) {
-                                                              showDialog(
-                                                                  context:
-                                                                  context,
-                                                                  builder:
-                                                                      (context) {
-                                                                    return AlertDialog(
-                                                                        title:
-                                                                        Text(' Are you sure you want to delete?'),
-                                                                        content: Text('You have paid for this image. If you delete it you will not be able to download it again.'),
-                                                                        actions: [
-                                                                          RaisedButton(child: Text('Delete'), onPressed: (){
-                                                                            DatabaseHelper
-                                                                            helper =
-                                                                                DatabaseHelper
-                                                                                    .instance;
-                                                                            helper.delete(
-                                                                                savedOpArt[
-                                                                                index]
-                                                                                ['id']);
-                                                                            savedOpArt
-                                                                                .removeAt(
-                                                                                index);
-                                                                            showDelete =
-                                                                            false;
-                                                                            rebuildMain
-                                                                                .value++;
-                                                                            Navigator.pop(context);
-                                                                          },),
-                                                                          RaisedButton(child: Text('Cancel'), onPressed:(){ Navigator.pop(context);},)
-                                                                        ]);
-                                                                  });
-                                                            } else {
-                                                              DatabaseHelper
-                                                              helper =
-                                                                  DatabaseHelper
-                                                                      .instance;
-                                                              helper.delete(
-                                                                  savedOpArt[
-                                                                  index]
-                                                                  ['id']);
-                                                              savedOpArt
-                                                                  .removeAt(
-                                                                  index);
-                                                              showDelete =
-                                                              false;
-                                                              rebuildMain
-                                                                  .value++;
-                                                            }
-                                                          },
-                                                          backgroundColor: Colors.white,
-                                                          child: Icon(Icons.delete, color: Colors.grey)),
-                                                    ),
-                                                  ))
-                                              : Container();
-                                        }),
-                                  ],
+                    ),
+                    IconButton(
+                        icon: Icon(Icons.info, color: Colors.cyan),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => InformationPage()));
+                        })
+                  ],
+                ),
+                Expanded(
+                  child: Wrap(
+                    direction: Axis.horizontal,
+                    spacing: 20,
+                    runSpacing: 20,
+                    children: opArtTypes
+                        .map(
+                          (opArtType) => GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        OpArtPage(opArtType.opArtType, false)),
+                              );
+                            },
+                            child: Hero(
+                              tag: opArtType.name,
+                              child: Container(
+                                width: 100,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  boxShadow: [BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    spreadRadius: 0,
+                                    blurRadius: 20,
+                                    offset: Offset(0, 0),
+                                  )],
+                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                ),
+                                child: ClipRRect(borderRadius: BorderRadius.circular(20),
+                                  child: GridTile(
+                                    child: Image.asset(opArtType.image),
+                                  ),
                                 ),
                               ),
-                            );
-                          }),
-                    );
-                  }),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+
+
+
+                // GridView.builder(
+                //     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(childAspectRatio: 0.8, maxCrossAxisExtent: 130),
+                //     itemCount: opArtTypes.length,
+                //     itemBuilder: (BuildContext context, int index) {
+                //       return GestureDetector(
+                //         onTap: () {
+                //           Navigator.push(
+                //             context,
+                //             MaterialPageRoute(builder: (context) => OpArtPage(opArtTypes[index].opArtType, false)),
+                //           );
+                //         },
+                //         child: Column(
+                //           children: [
+                //             Padding(
+                //               padding: const EdgeInsets.all(8.0),
+                //               child: Image.asset(opArtTypes[index].image),
+                //             ),
+                //             // Text(opArtTypes[index].name,
+                //             //     style: TextStyle(
+                //             //         fontFamily: 'Righteous',
+                //             //         fontWeight: FontWeight.bold,
+                //             //         fontSize: 18)),
+                //           ],
+                //         ),
+                //       );
+                //     }),
+                // ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                MyGallery(savedOpArt.length - 1, false)));
+                  },
+                  child: Text('My Gallery',
+                      style: TextStyle(
+                          fontFamily: 'Righteous',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: ValueListenableBuilder<int>(
+                      valueListenable: rebuildMain,
+                      builder: (context, value, child) {
+                        if (savedOpArt.isEmpty) {
+                          return Text(
+                              'Curate your own gallery of stunning OpArt here.');
+                        }
+                        return Container(
+                          height: 100,
+                          child: ListView.builder(
+                              itemCount: savedOpArt.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 0.0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MyGallery(index + 1, false)));
+                                    },
+                                    onLongPress: () {
+                                      showDelete = !showDelete;
+                                      _rebuildDelete.value++;
+                                    },
+                                    child: Stack(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: AspectRatio(
+                                            aspectRatio: 1,
+                                            child: Container(
+                                              width: 100,
+                                              height: 100,
+                                              child: Image.memory(
+                                                base64Decode(
+                                                    savedOpArt[index]['image']),
+                                                fit: BoxFit.fitWidth,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        ValueListenableBuilder<int>(
+                                            valueListenable: _rebuildDelete,
+                                            builder: (context, value, child) {
+                                              return showDelete
+                                                  ? Positioned(
+                                                      right: 0,
+                                                      top: 0,
+                                                      child: Container(
+                                                        height: 30,
+                                                        width: 30,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                color: Colors
+                                                                    .white,
+                                                                shape: BoxShape
+                                                                    .circle),
+                                                        child: Center(
+                                                          child:
+                                                              FloatingActionButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    if (savedOpArt[
+                                                                            index]
+                                                                        [
+                                                                        'paid']) {
+                                                                      showDialog(
+                                                                          context:
+                                                                              context,
+                                                                          builder:
+                                                                              (context) {
+                                                                            return AlertDialog(title: Text(' Are you sure you want to delete?'), content: Text('You have paid for this image. If you delete it you will not be able to download it again.'), actions: [
+                                                                              RaisedButton(
+                                                                                child: Text('Delete'),
+                                                                                onPressed: () {
+                                                                                  DatabaseHelper helper = DatabaseHelper.instance;
+                                                                                  helper.delete(savedOpArt[index]['id']);
+                                                                                  savedOpArt.removeAt(index);
+                                                                                  showDelete = false;
+                                                                                  rebuildMain.value++;
+                                                                                  Navigator.pop(context);
+                                                                                },
+                                                                              ),
+                                                                              RaisedButton(
+                                                                                child: Text('Cancel'),
+                                                                                onPressed: () {
+                                                                                  Navigator.pop(context);
+                                                                                },
+                                                                              )
+                                                                            ]);
+                                                                          });
+                                                                    } else {
+                                                                      DatabaseHelper
+                                                                          helper =
+                                                                          DatabaseHelper
+                                                                              .instance;
+                                                                      helper.delete(
+                                                                          savedOpArt[index]
+                                                                              [
+                                                                              'id']);
+                                                                      savedOpArt
+                                                                          .removeAt(
+                                                                              index);
+                                                                      showDelete =
+                                                                          false;
+                                                                      rebuildMain
+                                                                          .value++;
+                                                                    }
+                                                                  },
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .white,
+                                                                  child: Icon(
+                                                                      Icons
+                                                                          .delete,
+                                                                      color: Colors
+                                                                          .grey)),
+                                                        ),
+                                                      ))
+                                                  : Container();
+                                            }),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }),
+                        );
+                      }),
+                ),
+              ],
             ),
-          ],
-        ),
-      )),
+          )),
     );
   }
 
