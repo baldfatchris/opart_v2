@@ -179,7 +179,7 @@ class OpArt {
       case OpArtType.Flow:
         attributes = initializeFlowAttributes();
         palette = OpArtPalette();
-        name = 'Flow';
+        name = 'Flow ';
         animation = true;
 
         break;
