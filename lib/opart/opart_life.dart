@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:opart_v2/opart_icons.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';
 import '../model_settings.dart';
@@ -7,7 +6,7 @@ import 'dart:math';
 import 'dart:core';
 import '../main.dart';
 
-// List<String> list = List();
+// List<String> list = [];
 
 List squaresI;
 
@@ -55,9 +54,9 @@ SettingsModel zoomOpArt = SettingsModel(
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
-  label: "Palette Type",
-  tooltip: "The nature of the palette",
-  defaultValue: "random",
+  label: 'Palette Type',
+  tooltip: 'The nature of the palette',
+  defaultValue: 'random',
   icon: Icon(Icons.colorize),
   options: [
     'random',
@@ -72,9 +71,9 @@ SettingsModel paletteType = SettingsModel(
 SettingsModel paletteList = SettingsModel(
   name: 'paletteList',
   settingType: SettingType.list,
-  label: "Palette",
-  tooltip: "Choose from a list of palettes",
-  defaultValue: "Default",
+  label: 'Palette',
+  tooltip: 'Choose from a list of palettes',
+  defaultValue: 'Default',
   icon: Icon(Icons.palette),
   options: defaultPalleteNames(),
   settingCategory: SettingCategory.other,
@@ -135,7 +134,7 @@ void paintLife(Canvas canvas, Size size, int seed, double animationVariable, OpA
   borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
   borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
 
-  int colourOrder = 0;
+  //int colourOrder = 0;
   Color nextColor;
 
   // Now make some art
@@ -146,12 +145,12 @@ void paintLife(Canvas canvas, Size size, int seed, double animationVariable, OpA
   {
 
     // initialise the game
-    squaresI = List();
+    squaresI = [];
 
     // Now make some art
     for (int i = 0; i < cellsX; ++i) {
 
-      List squaresJ = List();
+      List squaresJ = [];
 
       for (int j = 0; j < cellsY; ++j) {
 
@@ -192,17 +191,17 @@ void paintLife(Canvas canvas, Size size, int seed, double animationVariable, OpA
   else
   {
     List oldSquaresI = squaresI;
-    squaresI = List();
+    squaresI = [];
 
     //play the game
     for (int i = 0; i < cellsX; ++i) {
 
-      List squaresJ = List();
+      List squaresJ = [];
 
       for (int j = 0; j < cellsY; ++j) {
 
 
-        List neighbours = List();
+        List neighbours = [];
 
         // if (i>0 && j>0) neighbours.add(oldSquaresI[i-1][j-1]);
         // if (i>0 && j<cellsY-1) neighbours.add(oldSquaresI[i-1][j+1]);

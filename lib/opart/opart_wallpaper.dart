@@ -7,7 +7,7 @@ import 'dart:math';
 import 'dart:core';
 import '../main.dart';
 
-List<String> list = List();
+List<String> list = [];
 
 
 SettingsModel zoomOpArt = SettingsModel(
@@ -28,9 +28,9 @@ SettingsModel zoomOpArt = SettingsModel(
 SettingsModel shape = SettingsModel(
   name: 'shape',
   settingType: SettingType.list,
-  label: "Shape",
-  tooltip: "The shape in the cell",
-  defaultValue: "squaricle",
+  label: 'Shape',
+  tooltip: 'The shape in the cell',
+  defaultValue: 'squaricle',
   icon: Icon(Icons.settings),
   options: ['circle', 'square', 'squaricle', 'polygon', 'heart', 'random'],
   settingCategory: SettingCategory.tool,
@@ -300,9 +300,9 @@ SettingsModel resetColors = SettingsModel(
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
-  label: "Palette Type",
-  tooltip: "The nature of the palette",
-  defaultValue: "random",
+  label: 'Palette Type',
+  tooltip: 'The nature of the palette',
+  defaultValue: 'random',
   icon: Icon(Icons.colorize),
   options: [
     'random',
@@ -318,9 +318,9 @@ SettingsModel paletteType = SettingsModel(
 SettingsModel paletteList = SettingsModel(
   name: 'paletteList',
   settingType: SettingType.list,
-  label: "Palette",
-  tooltip: "Choose from a list of palettes",
-  defaultValue: "Default",
+  label: 'Palette',
+  tooltip: 'Choose from a list of palettes',
+  defaultValue: 'Default',
   icon: Icon(Icons.palette),
   options: defaultPalleteNames(),
   settingCategory: SettingCategory.other,
@@ -816,77 +816,77 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
 
             break;
 
-          case 'star':
-            for (var p = 0; p < localNumberOfPetals; p++) {
-              List petalPoint = [
-                pO[0] +
-                    stepRadius *
-                        cos(localRotate * pi +
-                            p * pi * 2 / localNumberOfPetals),
-                pO[1] +
-                    stepRadius *
-                        sin(localRotate * pi +
-                            p * pi * 2 / localNumberOfPetals)
-              ];
-
-              List petalMidPointA = [
-                pO[0] +
-                    (localSquareness) *
-                        stepRadius *
-                        cos(localRotate * pi +
-                            (p - 1) * pi * 2 / localNumberOfPetals),
-                pO[1] +
-                    (localSquareness) *
-                        stepRadius *
-                        sin(localRotate * pi +
-                            (p - 1) * pi * 2 / localNumberOfPetals)
-              ];
-
-              List petalMidPointP = [
-                pO[0] +
-                    (localSquareness) *
-                        stepRadius *
-                        cos(localRotate * pi +
-                            (p + 1) * pi * 2 / localNumberOfPetals),
-                pO[1] +
-                    (localSquareness) *
-                        stepRadius *
-                        sin(localRotate * pi +
-                            (p + 1) * pi * 2 / localNumberOfPetals)
-              ];
-
-              Path star = Path();
-
-              star.moveTo(pO[0], pO[1]);
-              star.quadraticBezierTo(petalMidPointA[0], petalMidPointA[1],
-                  petalPoint[0], petalPoint[1]);
-              star.quadraticBezierTo(
-                  petalMidPointP[0], petalMidPointP[1], pO[0], pO[1]);
-              star.close();
-
-              // Choose the next colour
-              colourOrder++;
-              nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-              if (randomColors.value) {
-                nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
-              }
-
-              canvas.drawPath(
-                  star,
-                  Paint()
-                    ..style = PaintingStyle.stroke
-                    ..strokeWidth = lineWidth.value
-                    ..color = lineColor.value
-                        .withOpacity(opacity.value));
-              canvas.drawPath(
-                  star,
-                  Paint()
-                    ..style = PaintingStyle.fill
-                    ..color = nextColor
-                        .withOpacity(opacity.value));
-            }
-
-            break;
+          // case 'star':
+          //   for (var p = 0; p < localNumberOfPetals; p++) {
+          //     List petalPoint = [
+          //       pO[0] +
+          //           stepRadius *
+          //               cos(localRotate * pi +
+          //                   p * pi * 2 / localNumberOfPetals),
+          //       pO[1] +
+          //           stepRadius *
+          //               sin(localRotate * pi +
+          //                   p * pi * 2 / localNumberOfPetals)
+          //     ];
+          //
+          //     List petalMidPointA = [
+          //       pO[0] +
+          //           (localSquareness) *
+          //               stepRadius *
+          //               cos(localRotate * pi +
+          //                   (p - 1) * pi * 2 / localNumberOfPetals),
+          //       pO[1] +
+          //           (localSquareness) *
+          //               stepRadius *
+          //               sin(localRotate * pi +
+          //                   (p - 1) * pi * 2 / localNumberOfPetals)
+          //     ];
+          //
+          //     List petalMidPointP = [
+          //       pO[0] +
+          //           (localSquareness) *
+          //               stepRadius *
+          //               cos(localRotate * pi +
+          //                   (p + 1) * pi * 2 / localNumberOfPetals),
+          //       pO[1] +
+          //           (localSquareness) *
+          //               stepRadius *
+          //               sin(localRotate * pi +
+          //                   (p + 1) * pi * 2 / localNumberOfPetals)
+          //     ];
+          //
+          //     Path star = Path();
+          //
+          //     star.moveTo(pO[0], pO[1]);
+          //     star.quadraticBezierTo(petalMidPointA[0], petalMidPointA[1],
+          //         petalPoint[0], petalPoint[1]);
+          //     star.quadraticBezierTo(
+          //         petalMidPointP[0], petalMidPointP[1], pO[0], pO[1]);
+          //     star.close();
+          //
+          //     // Choose the next colour
+          //     colourOrder++;
+          //     nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
+          //     if (randomColors.value) {
+          //       nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+          //     }
+          //
+          //     canvas.drawPath(
+          //         star,
+          //         Paint()
+          //           ..style = PaintingStyle.stroke
+          //           ..strokeWidth = lineWidth.value
+          //           ..color = lineColor.value
+          //               .withOpacity(opacity.value));
+          //     canvas.drawPath(
+          //         star,
+          //         Paint()
+          //           ..style = PaintingStyle.fill
+          //           ..color = nextColor
+          //               .withOpacity(opacity.value));
+          //   }
+          //
+          //   break;
 
           case 'daisy': // daisy
             double centreRatio = 0.3;

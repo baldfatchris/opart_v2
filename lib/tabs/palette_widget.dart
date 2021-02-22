@@ -15,7 +15,7 @@ class _PaletteTabWidgetState extends State<PaletteTabWidget> {
   @override
   Widget build(BuildContext context) {
 
-      List<Widget> listViewWidgets = List();
+      List<Widget> listViewWidgets = [];
       int lengthOfAdditionalColors = 0;
       // List<Widget> additionalColors = [];
       void _additionalColors() {
@@ -61,11 +61,11 @@ class _PaletteTabWidgetState extends State<PaletteTabWidget> {
           child: Container(
             height: 40,
             width: 150,
-            decoration: new BoxDecoration(
-              borderRadius: new BorderRadius.all(
+            decoration:  BoxDecoration(
+              borderRadius:  BorderRadius.all(
                 Radius.circular(5),
               ),
-              gradient: new LinearGradient(
+              gradient:  LinearGradient(
                   colors: [
                     const Color(0xFFffffff).withOpacity(0.2),
                     const Color(0xFF303030),

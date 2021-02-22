@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:opart_v2/tabs/tools_widget.dart';
-import '../canvas.dart';
 import '../model_opart.dart';
 import '../opart_page.dart';
 import 'palette_widget.dart';
@@ -23,7 +22,7 @@ class GeneralTab {
     toolsTab.open = false;
     choosePaletteTab.position = -choosePaletteTab.width;
     choosePaletteTab.open = false;
-    this.position = -this.width;
+    position = -width;
     showCustomColorPicker = false;
     rebuildOpArtPage.value++;
     rebuildTab.value++;
@@ -38,8 +37,8 @@ class GeneralTab {
     toolsTab.open = false;
     choosePaletteTab.position = -choosePaletteTab.width;
     choosePaletteTab.open = false;
-    this.open = true;
-    this.position = 0;
+    open = true;
+    position = 0;
     showCustomColorPicker = false;
     rebuildOpArtPage.value++;
     rebuildTab.value++;
@@ -97,7 +96,7 @@ class PaletteTab extends GeneralTab {
   @override
   bool open = false;
   BuildContext context;
-  PaletteTab(this.context);
+  PaletteTab(context);
   @override
   IconData icon = Icons.palette;
 
@@ -109,8 +108,8 @@ class PaletteTab extends GeneralTab {
     toolsTab.open = false;
     choosePaletteTab.position = -choosePaletteTab.width-45;
     choosePaletteTab.open = false;
-    this.open = true;
-    this.position = 0;
+    open = true;
+    position = 0;
     rebuildTab.value++;
   }
   @override
@@ -155,8 +154,8 @@ void openTab() {
   paletteTab.open = false;
   toolsTab.position = -toolsTab.width;
   toolsTab.open = false;
-  this.open = true;
-  this.position = 0;
+  open = true;
+  position = 0;
   rebuildTab.value++;
 
 }

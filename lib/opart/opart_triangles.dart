@@ -7,7 +7,7 @@ import '../model_settings.dart';
 import 'dart:math';
 import 'dart:core';
 
-List<String> list = List();
+List<String> list = [];
 
 SettingsModel reDraw = SettingsModel(
   name: 'reDraw',
@@ -123,9 +123,9 @@ SettingsModel lineWidth = SettingsModel(
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
-  label: "Palette Type",
-  tooltip: "The nature of the palette",
-  defaultValue: "random",
+  label: 'Palette Type',
+  tooltip: 'The nature of the palette',
+  defaultValue: 'random',
   icon: Icon(Icons.colorize),
   options: ['random', 'blended random', 'linear random', 'linear complementary'],
   settingCategory: SettingCategory.palette,

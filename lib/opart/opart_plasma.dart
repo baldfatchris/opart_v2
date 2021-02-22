@@ -91,9 +91,9 @@ SettingsModel randomizer = SettingsModel(
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
-  label: "Palette Type",
-  tooltip: "The nature of the palette",
-  defaultValue: "random",
+  label: 'Palette Type',
+  tooltip: 'The nature of the palette',
+  defaultValue: 'random',
   icon: Icon(Icons.colorize),
   options: [
     'random',

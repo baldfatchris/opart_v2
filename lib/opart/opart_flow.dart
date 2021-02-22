@@ -28,9 +28,9 @@ SettingsModel zoomOpArt = SettingsModel(
 SettingsModel shape = SettingsModel(
   name: 'shape',
   settingType: SettingType.list,
-  label: "Shape",
-  tooltip: "The shape in the cell",
-  defaultValue: "circle",
+  label: 'Shape',
+  tooltip: 'The shape in the cell',
+  defaultValue: 'circle',
   icon: Icon(Icons.settings),
   options: ['circle', 'square', 'squaricle'],
   settingCategory: SettingCategory.tool,
@@ -164,9 +164,9 @@ SettingsModel resetColors = SettingsModel(
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
-  label: "Palette Type",
-  tooltip: "The nature of the palette",
-  defaultValue: "random",
+  label: 'Palette Type',
+  tooltip: 'The nature of the palette',
+  defaultValue: 'random',
   icon: Icon(Icons.colorize),
   options: [
     'random',
@@ -182,9 +182,9 @@ SettingsModel paletteType = SettingsModel(
 SettingsModel paletteList = SettingsModel(
   name: 'paletteList',
   settingType: SettingType.list,
-  label: "Palette",
-  tooltip: "Choose from a list of palettes",
-  defaultValue: "Default",
+  label: 'Palette',
+  tooltip: 'Choose from a list of palettes',
+  defaultValue: 'Default',
   icon: Icon(Icons.palette),
   options: defaultPalleteNames(),
   settingCategory: SettingCategory.other,
@@ -279,7 +279,7 @@ void paintFlow(Canvas canvas, Size size, int seed, double animationVariable, OpA
   // double radius = zoomOpArt.value / 2;
 
   // double localSquareness = sin(2500 * animationVariable);
-  double localSquareness = squareness.value;
+ // double localSquareness = squareness.value;
 
   double baseX = zoomOpArt.value;
   double amplitudeX = (amplitude.value < zoomOpArt.value*0.9) ? amplitude.value : zoomOpArt.value*0.9;

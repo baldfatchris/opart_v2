@@ -7,7 +7,7 @@ import 'dart:math';
 import 'dart:core';
 import '../main.dart';
 
-List<String> list = List();
+List<String> list = [];
 
 SettingsModel reDraw = SettingsModel(
   name: 'reDraw',
@@ -39,9 +39,9 @@ SettingsModel zoomOpArt = SettingsModel(
 SettingsModel bulge = SettingsModel(
   name: 'bulge',
   settingType: SettingType.list,
-  label: "Bulge",
-  tooltip: "The shape of the bulge",
-  defaultValue: "circle",
+  label: 'Bulge',
+  tooltip: 'The shape of the bulge',
+  defaultValue: 'circle',
   icon: Icon(OpArtLab.bulge),
   options: ['none', 'circle', 'triangle'],
   settingCategory: SettingCategory.tool,
@@ -52,8 +52,8 @@ SettingsModel bulge = SettingsModel(
 SettingsModel bulgeOneDirection = SettingsModel(
   name: 'bulgeOneDirection',
   settingType: SettingType.bool,
-  label: "One Direction",
-  tooltip: "Only bulge in one direction",
+  label: 'One Direction',
+  tooltip: 'Only bulge in one direction',
   defaultValue: false,
   icon: Icon(Icons.arrow_upward),
   settingCategory: SettingCategory.tool,
@@ -78,9 +78,9 @@ SettingsModel bulgeOneDirection = SettingsModel(
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
-  label: "Palette Type",
-  tooltip: "The nature of the palette",
-  defaultValue: "random",
+  label: 'Palette Type',
+  tooltip: 'The nature of the palette',
+  defaultValue: 'random',
   icon: Icon(Icons.colorize),
   options: [
     'random',
@@ -95,9 +95,9 @@ SettingsModel paletteType = SettingsModel(
 SettingsModel paletteList = SettingsModel(
   name: 'paletteList',
   settingType: SettingType.list,
-  label: "Palette",
-  tooltip: "Choose from a list of palettes",
-  defaultValue: "Default",
+  label: 'Palette',
+  tooltip: 'Choose from a list of palettes',
+  defaultValue: 'Default',
   icon: Icon(Icons.palette),
   options: defaultPalleteNames(),
   settingCategory: SettingCategory.other,
@@ -167,11 +167,11 @@ void paintSquares(Canvas canvas, Size size, int seed, double animationVariable, 
 
   // Now make some art
 
-  List squares = List();
+  List squares = [];
 
   // Now make some art
   for (int i = 0; i < cellsX; ++i) {
-    List squaresJ = List();
+    List squaresJ = [];
 
     for (int j = 0; j < cellsY; ++j) {
 
@@ -211,9 +211,9 @@ void paintSquares(Canvas canvas, Size size, int seed, double animationVariable, 
 
   }
 
-  List bulgeDirectionArray = List();
+  List bulgeDirectionArray = [];
   for (int q=0; q < squares.length; q++){
-    List bulgeDirectionArrayQ = List();
+    List bulgeDirectionArrayQ = [];
     for (int r=0; r < squares[q].length; r++){
       bulgeDirectionArrayQ.add(0);
     }
@@ -222,7 +222,7 @@ void paintSquares(Canvas canvas, Size size, int seed, double animationVariable, 
 
 
   // if we are bulging, run through these again
-  if (bulge.value != "none") {
+  if (bulge.value != 'none') {
 
 
     var bulgeDirection;
@@ -264,7 +264,7 @@ void paintSquares(Canvas canvas, Size size, int seed, double animationVariable, 
         }
 
         //if circle
-        if (bulge.value == "circle") {
+        if (bulge.value == 'circle') {
 
           // if the square to the top keft bulged right  Don't bulge top
           if (i > 0 && j > 0 && bulgeDirectionArray[i - 1][j - 1] == 1) {
@@ -309,7 +309,7 @@ void paintSquares(Canvas canvas, Size size, int seed, double animationVariable, 
           bulgeRight = false;
         }
 
-        List<int> possibleBulgeDirections = List();
+        List<int> possibleBulgeDirections = [];
         if (bulgeRight) { possibleBulgeDirections.add(1); }
         if (bulgeDown) { possibleBulgeDirections.add(2); }
         if (bulgeLeft) { possibleBulgeDirections.add(3); }
@@ -361,7 +361,7 @@ void drawBulge(Canvas canvas, Color colour, p1, p2, p3, p4, int direction, doubl
 
   switch (bulge) {
 
-    case "circle":
+    case 'circle':
     //radius = radius - 1;
 
       switch (direction) {
@@ -413,7 +413,7 @@ void drawBulge(Canvas canvas, Color colour, p1, p2, p3, p4, int direction, doubl
 
       break;
 
-  case "triangle":
+  case 'triangle':
 
     double pointiness = 0.3;
 
@@ -465,7 +465,7 @@ void drawBulge(Canvas canvas, Color colour, p1, p2, p3, p4, int direction, doubl
 
     break;
 
-  // case "bezier1":
+  // case 'bezier1':
   //
   //   switch (direction) {
   //     case 1: // bulge right
@@ -550,7 +550,7 @@ void drawBulge(Canvas canvas, Color colour, p1, p2, p3, p4, int direction, doubl
   //
   //   break;
 
-  // case "bezier2":
+  // case 'bezier2':
   //
   //   switch (direction) {
   //     case 1: // bulge right
@@ -647,7 +647,7 @@ void drawBulge(Canvas canvas, Color colour, p1, p2, p3, p4, int direction, doubl
 //     canvas.lineWidth = lineWidth;
 //     canvas.fillStyle = lineColour;
 //     canvas.strokeStyle = lineColour;
-//     canvas.lineJoin = "round";
+//     canvas.lineJoin = 'round';
 //
 //     canvas.moveTo(p1[0], p1[1]);
 //     canvas.lineTo(p2[0], p2[1]);

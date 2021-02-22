@@ -1,18 +1,10 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:opart_v2/opart_page.dart';
 import 'package:opart_v2/tabs/general_tab.dart';
-import 'package:opart_v2/tabs/tools_widget.dart';
-
-import '../canvas.dart';
 import '../model_opart.dart';
 
-import 'palette_widget.dart';
 
 class TabWidget extends StatefulWidget {
-  GeneralTab tab;
+  final GeneralTab tab;
   TabWidget(this.tab);
   @override
   _TabWidgetState createState() => _TabWidgetState();

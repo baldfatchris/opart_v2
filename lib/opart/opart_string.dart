@@ -6,7 +6,7 @@ import '../model_settings.dart';
 import 'dart:math';
 import 'dart:core';
 
-List<String> list = List();
+List<String> list = [];
 
 SettingsModel reDraw = SettingsModel(
   name: 'reDraw',
@@ -128,9 +128,9 @@ SettingsModel lineWidth = SettingsModel(
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
-  label: "Palette Type",
-  tooltip: "The nature of the palette",
-  defaultValue: "random",
+  label: 'Palette Type',
+  tooltip: 'The nature of the palette',
+  defaultValue: 'random',
   icon: Icon(Icons.colorize),
   options: <String>['random', 'blended random', 'linear random', 'linear complementary'],
   settingCategory: SettingCategory.palette,
@@ -142,9 +142,9 @@ SettingsModel paletteType = SettingsModel(
 SettingsModel paletteList = SettingsModel(
   name: 'paletteList',
   settingType: SettingType.list,
-  label: "Palette",
-  tooltip: "Choose from a list of palettes",
-  defaultValue: "Default",
+  label: 'Palette',
+  tooltip: 'Choose from a list of palettes',
+  defaultValue: 'Default',
   icon: Icon(Icons.palette),
   options: defaultPalleteNames(),
   settingCategory: SettingCategory.palette,
@@ -197,8 +197,8 @@ void paintString(Canvas canvas, Size size, int seed, double animationVariable, O
         ..color = backgroundColor.value
         ..style = PaintingStyle.fill);
 
-  double borderX = (size.width < size.height) ? 0 : (size.height - size.width)/2;
-  double borderY = (size.width > size.height) ? 0 : (size.width - size.height)/2;
+  // double borderX = (size.width < size.height) ? 0 : (size.height - size.width)/2;
+  // double borderY = (size.width > size.height) ? 0 : (size.width - size.height)/2;
   double radius = (size.width < size.height) ? size.width/2 * zoomOpArt.value : size.height/2 * zoomOpArt.value;
   int chords = (numberOfChords.value<numberOfDivisions.value) ? numberOfChords.value : numberOfDivisions.value;
   int colourOrder = 0;

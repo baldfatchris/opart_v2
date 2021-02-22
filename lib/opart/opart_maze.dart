@@ -7,7 +7,7 @@ import 'dart:math';
 import 'dart:core';
 import '../main.dart';
 
-List<String> list = List();
+List<String> list = [];
 
 SettingsModel reDraw = SettingsModel(
   name: 'reDraw',
@@ -116,9 +116,9 @@ SettingsModel lineWidth = SettingsModel(
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
-  label: "Palette Type",
-  tooltip: "The nature of the palette",
-  defaultValue: "random",
+  label: 'Palette Type',
+  tooltip: 'The nature of the palette',
+  defaultValue: 'random',
   icon: Icon(Icons.colorize),
   options: [
     'random',
@@ -133,9 +133,9 @@ SettingsModel paletteType = SettingsModel(
 SettingsModel paletteList = SettingsModel(
   name: 'paletteList',
   settingType: SettingType.list,
-  label: "Palette",
-  tooltip: "Choose from a list of palettes",
-  defaultValue: "Default",
+  label: 'Palette',
+  tooltip: 'Choose from a list of palettes',
+  defaultValue: 'Default',
   icon: Icon(Icons.palette),
   options: defaultPalleteNames(),
   settingCategory: SettingCategory.other,
@@ -227,7 +227,7 @@ void paintMaze(Canvas canvas, Size size, int seed, double animationVariable, OpA
   for (int i = 0; i < cellsX; ++i) {
     for (int j = 0; j < cellsY; ++j) {
 
-      if (shapesArray.length>0) {
+      if (shapesArray.isNotEmpty) {
 
         var x = borderX + i * zoomOpArt.value;
         var y = borderY + j * zoomOpArt.value;

@@ -6,7 +6,7 @@ import 'dart:math';
 import 'dart:core';
 import '../main.dart';
 
-List<String> list = List();
+List<String> list = [];
 
 SettingsModel reDraw = SettingsModel(
   name: 'reDraw',
@@ -196,7 +196,7 @@ void paintWave(Canvas canvas, Size size, int seed, double animationVariable, OpA
 
 }
 
-generateWave(
+void generateWave(
     Canvas canvas,
     Random rnd,
     double canvasWidth,

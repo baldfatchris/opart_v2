@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 
 class SettingsIntSlider extends StatefulWidget {
-  String label;
-  String tooltip;
-  int currentValue;
-  int min;
-  int max;
-  bool locked;
-  Function onChanged;
-  Function toggleLock;
-  Function updateCache;
+  final String label;
+  final String tooltip;
+  final int currentValue;
+  final int min;
+  final int max;
+  final bool locked;
+  final Function onChanged;
+  final Function toggleLock;
+  final Function updateCache;
 
 
   SettingsIntSlider(this.label, this.tooltip, this.currentValue, this.min, this.max, this.locked, this.onChanged, this.toggleLock, this.updateCache);

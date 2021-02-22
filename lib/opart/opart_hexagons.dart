@@ -7,7 +7,7 @@ import '../model_settings.dart';
 import 'dart:math';
 import 'dart:core';
 
-List<String> list = List();
+List<String> list = [];
 
 SettingsModel reDraw = SettingsModel(
   name: 'reDraw',
@@ -41,9 +41,9 @@ SettingsModel zoomOpArt = SettingsModel(
 SettingsModel split = SettingsModel(
   name: 'split',
   settingType: SettingType.list,
-  label: "Split",
-  tooltip: "Split the hegaxom into",
-  defaultValue: "three",
+  label: 'Split',
+  tooltip: 'Split the hegaxom into',
+  defaultValue: 'three',
   icon: Icon(Icons.call_split),
   options: ['none', 'three', 'six'],
   settingCategory: SettingCategory.tool,
@@ -53,9 +53,9 @@ SettingsModel split = SettingsModel(
 SettingsModel splat = SettingsModel(
   name: 'splat',
   settingType: SettingType.list,
-  label: "Split Type",
-  tooltip: "How to split the hexagons",
-  defaultValue: "center",
+  label: 'Split Type',
+  tooltip: 'How to split the hexagons',
+  defaultValue: 'center',
   icon: Icon(Icons.settings),
   options: ['center', 'random', 'linear'],
   settingCategory: SettingCategory.tool,
@@ -184,17 +184,17 @@ void paintHexagons(Canvas canvas, Size size, int seed, double animationVariable,
 
       List p0 = [(p1[0]+p4[0])/2,(p1[1]+p4[1])/2];
 
-      if (splat.value == "random") {
+      if (splat.value == 'random') {
         p0[0] = p0[0] + (rnd.nextDouble() * hexRadius * 0.6).floor();
         p0[1] = p0[1] + (rnd.nextDouble() * hexRectangleHeight * 0.3).floor();
       }
-      else if (splat.value == "linear") {
+      else if (splat.value == 'linear') {
         p0[0] = p0[0] + ((i - cellsX / 2) / cellsX) * hexRadius * 1.2;
         p0[1] = p0[1] + ((j - cellsY / 2) / cellsY) * hexRectangleHeight * 0.6;
       }
 
       switch (split.value){
-        case "none":
+        case 'none':
 
           // Choose the next colour
           colourOrder++;
@@ -226,7 +226,7 @@ void paintHexagons(Canvas canvas, Size size, int seed, double animationVariable,
 
           break;
 
-        case "three":
+        case 'three':
 
         // R1
         // Choose the next colour
@@ -346,7 +346,7 @@ void paintHexagons(Canvas canvas, Size size, int seed, double animationVariable,
 
           break;
 
-        case "six":
+        case 'six':
 
         // T1
         // Choose the next colour

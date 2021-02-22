@@ -18,15 +18,16 @@ import 'dart:async';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 class OpArtPage extends StatefulWidget {
-  OpArtType opArtType;
-  Map<String, dynamic> opArtSettings;
-  bool downloadNow;
-double animationValue;
+  final OpArtType opArtType;
+  final Map<String, dynamic> opArtSettings;
+  final bool downloadNow;
+  final double animationValue;
+
   OpArtPage(
     this.opArtType,
     this.downloadNow, {
     this.opArtSettings,
-        this.animationValue,
+    this.animationValue,
   });
 
   @override
@@ -57,7 +58,8 @@ class _OpArtPageState extends State<OpArtPage> {
     if (widget.opArtSettings != null) {
       seed = widget.opArtSettings['seed'];
       for (int i = 0; i < opArt.attributes.length; i++) {
-        opArt.attributes[i].value = widget.opArtSettings[opArt.attributes[i].label];
+        opArt.attributes[i].value =
+            widget.opArtSettings[opArt.attributes[i].label];
       }
       opArt.palette.paletteName = widget.opArtSettings['paletteName'];
 
@@ -90,10 +92,12 @@ class _OpArtPageState extends State<OpArtPage> {
     });
   }
 
-  _downloadHighResFile() async {
+  Future<void> _downloadHighResFile() async {
     downloadNow = false;
     imageFile = null;
-    screenshotController.capture(delay: Duration(milliseconds: 100), pixelRatio: 10).then((File image) async {
+    await screenshotController
+        .capture(delay: Duration(milliseconds: 100), pixelRatio: 10)
+        .then((File image) async {
       print(image);
       setState(() {
         imageFile = image;
@@ -107,8 +111,11 @@ class _OpArtPageState extends State<OpArtPage> {
         } else {
           Share.shareFiles(
             [imageFile.path],
-            sharePositionOrigin:
-                Rect.fromLTWH(0, 0, MediaQuery.of(context).size.width, MediaQuery.of(context).size.height / 2),
+            sharePositionOrigin: Rect.fromLTWH(
+                0,
+                0,
+                MediaQuery.of(context).size.width,
+                MediaQuery.of(context).size.height / 2),
             subject: 'Created using OpArt Lab - download the free app now!',
           );
         }
@@ -120,13 +127,13 @@ class _OpArtPageState extends State<OpArtPage> {
 
   Future<bool> _shareImage(Size size) async {
     if (Platform.isAndroid) {
-      Share.shareFiles(
+      await Share.shareFiles(
         [imageFile.path],
         subject: 'Created using OpArt Lab - download the free app now!',
         text: 'Created using OpArt Lab - download the free app now!',
       );
     } else {
-      Share.shareFiles(
+      await Share.shareFiles(
         [imageFile.path],
         sharePositionOrigin: Rect.fromLTWH(0, 0, size.width, size.height / 2),
         subject: 'Created using OpArt Lab - download the free app now!',
@@ -154,7 +161,9 @@ class _OpArtPageState extends State<OpArtPage> {
         animationController.stop();
       }
       imageFile = null;
-      screenshotController.capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2).then((File image) async {
+      await screenshotController
+          .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
+          .then((File image) async {
         setState(() {
           imageFile = image;
         });
@@ -162,7 +171,8 @@ class _OpArtPageState extends State<OpArtPage> {
         // find the product
         //   print(offerings.current.availablePackages);
         if (offerings != null) {
-          p0001 = offerings.current.availablePackages.firstWhere((element) => element.product.identifier == "p0001");
+          p0001 = offerings.current.availablePackages
+              .firstWhere((element) => element.product.identifier == 'p0001');
           if (p0001 != null) {
             highDefDownloadAvailable = true;
             highDefPrice = p0001.product.priceString;
@@ -187,7 +197,8 @@ class _OpArtPageState extends State<OpArtPage> {
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 'Download Options',
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                             ),
                             SizedBox(height: 18),
@@ -204,13 +215,19 @@ class _OpArtPageState extends State<OpArtPage> {
                                     ),
                                   ),
                                 ),
-                                Flexible(flex: 2, child: Text('Low definition - suitable for sharing.')),
+                                Flexible(
+                                    flex: 2,
+                                    child: Text(
+                                        'Low definition - suitable for sharing.')),
                                 Flexible(
                                   child: FloatingActionButton.extended(
                                     onPressed: () async {
                                       imageFile = null;
-                                      screenshotController
-                                          .capture(delay: Duration(milliseconds: 100), pixelRatio: 2)
+                                      await screenshotController
+                                          .capture(
+                                              delay:
+                                                  Duration(milliseconds: 100),
+                                              pixelRatio: 2)
                                           .then((File image) async {
                                         print(image);
                                         setState(() {
@@ -239,7 +256,10 @@ class _OpArtPageState extends State<OpArtPage> {
                                     ),
                                   ),
                                 ),
-                                Flexible(flex: 2, child: Text('High definition -  suitable for printing.')),
+                                Flexible(
+                                    flex: 2,
+                                    child: Text(
+                                        'High definition -  suitable for printing.')),
                                 Flexible(
                                   child: FloatingActionButton.extended(
                                     onPressed: () async {
@@ -247,47 +267,66 @@ class _OpArtPageState extends State<OpArtPage> {
                                       showProgressIndicator = true;
                                       rebuildOpArtPage.value++;
                                       try {
-                                        Purchases.setFinishTransactions(true);
-                                        PurchaserInfo purchaserInfo = await Purchases.purchasePackage(p0001);
+                                        await Purchases.setFinishTransactions(true);
+                                        PurchaserInfo purchaserInfo =
+                                            await Purchases.purchasePackage(
+                                                p0001);
                                         print('Bought it!!');
-                                        print(purchaserInfo.allPurchasedProductIdentifiers);
-                                        List<String> purchases = purchaserInfo.allPurchasedProductIdentifiers;
+                                        print(purchaserInfo
+                                            .allPurchasedProductIdentifiers);
+                                        List<String> purchases = purchaserInfo
+                                            .allPurchasedProductIdentifiers;
                                         purchases.forEach((element) {
                                           if (element == 'p0001') {
                                             // Process the high definition download
                                             imageFile = null;
 
                                             screenshotController
-                                                .capture(delay: Duration(milliseconds: 100), pixelRatio: 10)
+                                                .capture(
+                                                    delay: Duration(
+                                                        milliseconds: 100),
+                                                    pixelRatio: 10)
                                                 .then((File image) async {
                                               print('image saved');
 
                                               imageFile = image;
-                                              _shareImage(size).then((value) {
-                                                opArt.saveToLocalDB(true).then((value) async {
+                                              await _shareImage(size).then((value) {
+                                                opArt
+                                                    .saveToLocalDB(true)
+                                                    .then((value) async {
                                                   rebuildMain.value++;
                                                   rebuildGallery.value++;
 
                                                   showProgressIndicator = false;
 
-                                                  Navigator.pushReplacement(
-                                                      _scaffoldKey.currentContext,
+                                                  await Navigator.pushReplacement(
+                                                      _scaffoldKey
+                                                          .currentContext,
                                                       MaterialPageRoute(
-                                                          builder: (context) => MyGallery(value + 10, true)));
+                                                          builder: (context) =>
+                                                              MyGallery(
+                                                                  value + 10,
+                                                                  true)));
                                                 });
                                               });
                                             });
                                           }
                                         });
                                       } on PlatformException catch (e) {
-                                        var errorCode = PurchasesErrorHelper.getErrorCode(e);
-                                        if (errorCode != PurchasesErrorCode.purchaseCancelledError) {
+                                        var errorCode =
+                                            PurchasesErrorHelper.getErrorCode(
+                                                e);
+                                        if (errorCode !=
+                                            PurchasesErrorCode
+                                                .purchaseCancelledError) {
                                           print(e);
                                         }
                                       }
                                     },
-                                    label: Text(highDefPrice != null ? highDefPrice : 'doh!'),
-                                    backgroundColor: highDefPrice != null ? Colors.blue : Colors.grey,
+                                    label: Text(highDefPrice?? 'doh!'),
+                                    backgroundColor: highDefPrice != null
+                                        ? Colors.blue
+                                        : Colors.grey,
                                   ),
                                 )
                               ],
@@ -372,7 +411,10 @@ class _OpArtPageState extends State<OpArtPage> {
                       title: Text(
                         opArt.name,
                         style: TextStyle(
-                            color: Colors.black, fontFamily: 'Righteous', fontSize: 24, fontWeight: FontWeight.bold),
+                            color: Colors.black,
+                            fontFamily: 'Righteous',
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold),
                       ),
                       centerTitle: true,
                       elevation: 1,
@@ -388,8 +430,12 @@ class _OpArtPageState extends State<OpArtPage> {
                           showCustomColorPicker = false;
                           opArt.setDefault();
                           opArt.clearCache();
-                          SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyHomePage()));
+                          SystemChrome.setEnabledSystemUIOverlays(
+                              SystemUiOverlay.values);
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyHomePage()));
                         },
                       ),
                       actions: [
@@ -399,7 +445,8 @@ class _OpArtPageState extends State<OpArtPage> {
                               opArt.saveToLocalDB(false);
                               showDialog<void>(
                                   context: context,
-                                  barrierDismissible: true, // user must tap button!
+                                  barrierDismissible:
+                                      true, // user must tap button!
                                   builder: (BuildContext context) {
                                     return Dialog(
                                         child: Container(
@@ -408,36 +455,52 @@ class _OpArtPageState extends State<OpArtPage> {
                                       child: Stack(
                                         children: [
                                           Center(
-                                            child: (Column(mainAxisSize: MainAxisSize.min, children: [
-                                              Text('Saved to My \nGallery',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                                              SizedBox(height: 12),
-                                              RaisedButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                  rebuildMain.value++;
-                                                  showDelete = false;
-                                                  showControls = false;
-                                                  showCustomColorPicker = false;
-                                                  opArt.setDefault();
-                                                  opArt.clearCache();
-                                                  SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-                                                  Navigator.pop(context);
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) => MyGallery(savedOpArt.length, false)));
-                                                },
-                                                child: Text('View My Gallery'),
-                                              )
-                                            ])),
+                                            child: (Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text('Saved to My \nGallery',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  SizedBox(height: 12),
+                                                  RaisedButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                      rebuildMain.value++;
+                                                      showDelete = false;
+                                                      showControls = false;
+                                                      showCustomColorPicker =
+                                                          false;
+                                                      opArt.setDefault();
+                                                      opArt.clearCache();
+                                                      SystemChrome
+                                                          .setEnabledSystemUIOverlays(
+                                                              SystemUiOverlay
+                                                                  .values);
+                                                      Navigator.pop(context);
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  MyGallery(
+                                                                      savedOpArt
+                                                                          .length,
+                                                                      false)));
+                                                    },
+                                                    child:
+                                                        Text('View My Gallery'),
+                                                  )
+                                                ])),
                                           ),
                                           Align(
                                               alignment: Alignment.topRight,
                                               child: Material(
                                                   child: Padding(
-                                                padding: const EdgeInsets.all(8.0),
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
                                                 child: CloseButton(),
                                               )))
                                         ],
@@ -448,7 +511,7 @@ class _OpArtPageState extends State<OpArtPage> {
                         IconButton(
                             icon: Icon(Icons.share, color: Colors.black),
                             onPressed: () async {
-                              _paymentDialog();
+                              await _paymentDialog();
                             }),
                       ],
                     )
@@ -492,14 +555,14 @@ class _OpArtPageState extends State<OpArtPage> {
                             child: ClipRect(
                                 child: CanvasWidget(
                               showSettings,
-                                  animationValue: widget.animationValue,
-
+                              animationValue: widget.animationValue,
                             )),
                           ),
                           showProgressIndicator
                               ? Container(
                                   color: Colors.white.withOpacity(0.4),
-                                  child: Center(child: CircularProgressIndicator()))
+                                  child: Center(
+                                      child: CircularProgressIndicator()))
                               : Container()
                         ],
                       )),
@@ -519,17 +582,26 @@ class _OpArtPageState extends State<OpArtPage> {
                                           : ListView.builder(
                                               scrollDirection: Axis.horizontal,
                                               controller: scrollController,
-                                              itemCount: opArt.cacheListLength(),
+                                              itemCount:
+                                                  opArt.cacheListLength(),
                                               reverse: false,
                                               itemBuilder: (context, index) {
                                                 return Padding(
-                                                  padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 4),
-                                                  child: AspectRatio(aspectRatio: 1,
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      vertical: 2.0,
+                                                      horizontal: 4),
+                                                  child: AspectRatio(
+                                                    aspectRatio: 1,
                                                     child: GestureDetector(
                                                       onTap: () {
-                                                        opArt.revertToCache(index);
+                                                        opArt.revertToCache(
+                                                            index);
                                                       },
-                                                      child: Image.file(opArt.cache[index]['image'], fit: BoxFit.fitWidth),
+                                                      child: Image.file(
+                                                          opArt.cache[index]
+                                                              ['image'],
+                                                          fit: BoxFit.fitWidth),
                                                     ),
                                                   ),
                                                 );
@@ -543,11 +615,15 @@ class _OpArtPageState extends State<OpArtPage> {
                   showSettings ? TabWidget(toolsTab) : Container(),
                   showSettings ? TabWidget(paletteTab) : Container(),
                   showCustomColorPicker
-                      ? Align(alignment: Alignment.bottomCenter, child: ColorPickerWidget())
+                      ? Align(
+                          alignment: Alignment.bottomCenter,
+                          child: ColorPickerWidget())
                       : Container(),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: showSettings ? customBottomAppBar(context: context, opArt: opArt) : BottomAppBar(),
+                    child: showSettings
+                        ? customBottomAppBar(context: context, opArt: opArt)
+                        : BottomAppBar(),
                   ),
                 ],
               ),

@@ -7,7 +7,7 @@ import '../model_settings.dart';
 import 'dart:math';
 import 'dart:core';
 
-List<String> list = List();
+List<String> list = [];
 
 SettingsModel reDraw = SettingsModel(
   name: 'reDraw',
@@ -39,44 +39,44 @@ SettingsModel zoomOpArt = SettingsModel(
 SettingsModel gradientTypeX0 = SettingsModel(
   name: 'gradientTypeX0',
   settingType: SettingType.list,
-  label: "gradientTypeX0",
-  tooltip: "gradientTypeX0",
-  defaultValue: "linear",
+  label: 'gradientTypeX0',
+  tooltip: 'gradientTypeX0',
+  defaultValue: 'linear',
   icon: Icon(Icons.settings),
-  options: ['linear', 'cycle:0-1', 'cycle:0.5-0.5', "fixed"],
+  options: ['linear', 'cycle:0-1', 'cycle:0.5-0.5', 'fixed'],
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
 SettingsModel gradientTypeX1 = SettingsModel(
   name: 'gradientTypeX1',
   settingType: SettingType.list,
-  label: "gradientTypeX1",
-  tooltip: "gradientTypeX1",
-  defaultValue: "linear",
+  label: 'gradientTypeX1',
+  tooltip: 'gradientTypeX1',
+  defaultValue: 'linear',
   icon: Icon(Icons.settings),
-  options: ['linear', 'cycle:0-1', 'cycle:0.5-0.5', "fixed"],
+  options: ['linear', 'cycle:0-1', 'cycle:0.5-0.5', 'fixed'],
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
 SettingsModel gradientTypeY0 = SettingsModel(
   name: 'gradientTypeY0',
   settingType: SettingType.list,
-  label: "gradientTypeY0",
-  tooltip: "gradientTypeY0",
-  defaultValue: "linear",
+  label: 'gradientTypeY0',
+  tooltip: 'gradientTypeY0',
+  defaultValue: 'linear',
   icon: Icon(Icons.settings),
-  options: ['linear', 'cycle:0-1', 'cycle:0.5-0.5', "fixed"],
+  options: ['linear', 'cycle:0-1', 'cycle:0.5-0.5', 'fixed'],
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
 SettingsModel gradientTypeY1 = SettingsModel(
   name: 'gradientTypeY1',
   settingType: SettingType.list,
-  label: "gradientTypeY1",
-  tooltip: "gradientTypeY1",
-  defaultValue: "linear",
+  label: 'gradientTypeY1',
+  tooltip: 'gradientTypeY1',
+  defaultValue: 'linear',
   icon: Icon(Icons.settings),
-  options: ['linear', 'cycle:0-1', 'cycle:0.5-0.5', "fixed"],
+  options: ['linear', 'cycle:0-1', 'cycle:0.5-0.5', 'fixed'],
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -101,9 +101,9 @@ SettingsModel gradientTypeY1 = SettingsModel(
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
-  label: "Palette Type",
-  tooltip: "The nature of the palette",
-  defaultValue: "random",
+  label: 'Palette Type',
+  tooltip: 'The nature of the palette',
+  defaultValue: 'random',
   icon: Icon(Icons.colorize),
   options: [
     'random',
@@ -118,9 +118,9 @@ SettingsModel paletteType = SettingsModel(
 SettingsModel paletteList = SettingsModel(
   name: 'paletteList',
   settingType: SettingType.list,
-  label: "Palette",
-  tooltip: "Choose from a list of palettes",
-  defaultValue: "Black and White",
+  label: 'Palette',
+  tooltip: 'Choose from a list of palettes',
+  defaultValue: 'Black and White',
   icon: Icon(Icons.palette),
   options: defaultPalleteNames(),
   settingCategory: SettingCategory.other,
@@ -209,65 +209,65 @@ void paintRiley(Canvas canvas, Size size, int seed, double animationVariable, Op
       double vN = 0;
 
       switch (gradientTypeX0.value) {
-        case "linear":
+        case 'linear':
         // Linear progression
           h0 = i / (cellsX - 1);
           break;
 
-        case "cycle:0-1":
+        case 'cycle:0-1':
         // Sin progression
           h0 = sin(pi * i / (cellsX - 1));
           break;
 
-        case "cycle:0.5-0.5":
+        case 'cycle:0.5-0.5':
         // cos progression
           h0 = 0.5 + 0.5 * cos(pi * 2 * i / (cellsX - 1));
           break;
 
-        case "fixed":
+        case 'fixed':
           h0 = 0.5;
           break;
       }
 
       switch (gradientTypeX1.value) {
-        case "linear":
+        case 'linear':
         // Linear progression
           hN = i / (cellsX - 1);
           break;
 
-        case "cycle:0-1":
+        case 'cycle:0-1':
         // Sin progression
           hN = sin(pi * i / (cellsX - 1));
           break;
 
-        case "cycle:0.5-0.5":
+        case 'cycle:0.5-0.5':
         // cos progression
           hN = 0.5 + 0.5 * cos(pi * 2 * i / (cellsX - 1));
           break;
 
-        case "fixed":
+        case 'fixed':
           hN = 0.5;
           break;
       }
 
       switch (gradientTypeY0.value) {
-        case "linear":
+        case 'linear':
         // Linear progression
           v0 = j / (cellsY - 1);
           break;
 
-        case "cycle:0-1":
+        case 'cycle:0-1':
         // Sin progression
           v0 = sin(pi * j / (cellsY - 1));
           break;
 
-        case "cycle:0.5-0.5":
+        case 'cycle:0.5-0.5':
         // Cos progression
           v0 = 0.5 + 0.5 * cos(pi * 2 * j / (cellsY - 1));
           break;
 
 
-        case "fixed":
+        case 'fixed':
           v0 = 0.5;
           break;
       }
@@ -275,22 +275,22 @@ void paintRiley(Canvas canvas, Size size, int seed, double animationVariable, Op
 
 
       switch (gradientTypeY1.value) {
-        case "linear":
+        case 'linear':
         // Linear progression
           vN = j / (cellsY - 1);
           break;
 
-        case "cycle:0-1":
+        case 'cycle:0-1':
         // Sin progression
           vN = sin(pi * j / (cellsY - 1));
           break;
 
-        case "cycle:0.5-0.5":
+        case 'cycle:0.5-0.5':
         // Cos progression
           vN = 0.5 + 0.5 * cos(pi * 2 * j / (cellsY - 1));
           break;
 
-        case "fixed":
+        case 'fixed':
           vN = 0.5;
           break;
       }

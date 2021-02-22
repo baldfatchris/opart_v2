@@ -7,7 +7,7 @@ import 'dart:core';
 import '../main.dart';
 
 
-List<String> list = List();
+List<String> list = [];
 
 SettingsModel reDraw = SettingsModel(
   name: 'reDraw',
@@ -292,9 +292,9 @@ SettingsModel leafDecay = SettingsModel(
 SettingsModel leafShape = SettingsModel(
     name: 'leafShape',
     settingType: SettingType.list,
-    label: "Leaf Type",
-    tooltip: "The shape of the leaf",
-    defaultValue: "petal",
+    label: 'Leaf Type',
+    tooltip: 'The shape of the leaf',
+    defaultValue: 'petal',
     icon: Icon(Icons.local_florist),
     options: <String>['petal', 'circle', 'triangle', 'square', 'diamond'],
     settingCategory: SettingCategory.tool,
@@ -303,8 +303,8 @@ SettingsModel leafShape = SettingsModel(
 
 SettingsModel trunkFillColor = SettingsModel(settingType: SettingType.color,
     name: 'trunkFillColor',
-    label: "Trunk Color",
-    tooltip: "The fill colour of the trunk",
+    label: 'Trunk Color',
+    tooltip: 'The fill colour of the trunk',
     defaultValue: Colors.grey,
     icon: Icon(Icons.settings_overscan),
     settingCategory: SettingCategory.palette,
@@ -312,8 +312,8 @@ SettingsModel trunkFillColor = SettingsModel(settingType: SettingType.color,
   );
 SettingsModel trunkOutlineColor = SettingsModel(settingType: SettingType.color,
     name: 'trunkOutlineColor',
-    label: "Trunk Outline Color",
-    tooltip: "The outline colour of the trunk",
+    label: 'Trunk Outline Color',
+    tooltip: 'The outline colour of the trunk',
     defaultValue: Colors.grey,
     icon: Icon(Icons.settings_overscan),
     settingCategory: SettingCategory.palette,
@@ -336,9 +336,9 @@ SettingsModel trunkStrokeWidth = SettingsModel(
 SettingsModel paletteType = SettingsModel(
     name: 'paletteType',
     settingType: SettingType.list,
-    label: "Palette Type",
-    tooltip: "The nature of the palette",
-    defaultValue: "random",
+    label: 'Palette Type',
+    tooltip: 'The nature of the palette',
+    defaultValue: 'random',
     icon: Icon(Icons.colorize),
     options: <String>[
     'random',
@@ -353,9 +353,9 @@ SettingsModel paletteType = SettingsModel(
 SettingsModel paletteList = SettingsModel(
     name: 'paletteList',
     settingType: SettingType.list,
-    label: "Palette",
-    tooltip: "Choose from a list of palettes",
-    defaultValue: "Default",
+    label: 'Palette',
+    tooltip: 'Choose from a list of palettes',
+    defaultValue: 'Default',
     icon: Icon(Icons.palette),
     options: defaultPalleteNames(),
     settingCategory: SettingCategory.palette,
@@ -516,7 +516,7 @@ void paintTree(Canvas canvas, Size size, int seed, double animationVariable, OpA
 
 }
 
-drawSegment(
+void drawSegment(
     Canvas canvas,
     Random rnd,
     List rootA,
@@ -701,7 +701,7 @@ drawSegment(
 }
 
 
-drawTheTrunk(
+void drawTheTrunk(
     Canvas canvas,
     Random rnd,
     List p1,
@@ -754,7 +754,7 @@ drawTheTrunk(
             .withOpacity(opacity));
 }
 
-drawTheTriangle(
+void drawTheTriangle(
     Canvas canvas,
     Random rnd,
     List p1,
@@ -787,7 +787,7 @@ drawTheTriangle(
             .withOpacity(opacity));
 }
 
-drawTheLeaf(
+void drawTheLeaf(
     Canvas canvas,
     Random rnd,
     List leafPosition,
@@ -822,7 +822,7 @@ drawTheLeaf(
 
   switch (leafShape) {
 
-    case "petal":
+    case 'petal':
 
 
       leafRadius = leafRadius * 2;
@@ -854,7 +854,7 @@ drawTheLeaf(
       break;
 
 
-    case "circle":
+    case 'circle':
 
       canvas.drawCircle(
           Offset(pC[0], pC[1]),
@@ -866,7 +866,7 @@ drawTheLeaf(
 
       break;
 
-    case "triangle":
+    case 'triangle':
 
     // find the tips of the leaf
       List pA = [
@@ -898,7 +898,7 @@ drawTheLeaf(
 
       break;
 
-    case "square":
+    case 'square':
 
     // find the tips of the leaf
       List pA = [
@@ -936,7 +936,7 @@ drawTheLeaf(
 
 
 
-      break;   case "diamond":
+      break;   case 'diamond':
   // find the tip of the leaf
     List pS = [
       pC[0] - leafRadius * cos(randomizedLeafAngle + pi),
@@ -987,7 +987,7 @@ drawTheLeaf(
 
     break;
 
-    case "quadratic":
+    case 'quadratic':
 
     // find the tip of the leaf
       List pS = [
