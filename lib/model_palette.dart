@@ -19,8 +19,8 @@ SettingsModel numberOfColors = SettingsModel(
 SettingsModel lineColor = SettingsModel(
   name: 'lineColor',
   settingType: SettingType.color,
-  label: "Outline Color",
-  tooltip: "The outline colour for the petals",
+  label: 'Outline Color',
+  tooltip: 'The outline colour for the petals',
   defaultValue: Colors.white,
   icon: Icon(Icons.zoom_out_map),
   settingCategory: SettingCategory.palette,
@@ -42,8 +42,8 @@ SettingsModel opacity = SettingsModel(
 SettingsModel backgroundColor = SettingsModel(
   name: 'backgroundColor',
   settingType: SettingType.color,
-  label: "Background Color",
-  tooltip: "The background colour for the canvas",
+  label: 'Background Color',
+  tooltip: 'The background colour for the canvas',
   defaultValue: Colors.cyan,
   icon: Icon(Icons.settings_overscan),
   settingCategory: SettingCategory.palette,
@@ -66,9 +66,9 @@ SettingsModel randomColors = SettingsModel(
 SettingsModel paletteType = SettingsModel(
   settingType: SettingType.list,
   name: 'paletteType',
-  label: "Palette Type",
-  tooltip: "The nature of the palette",
-  defaultValue: "random",
+  label: 'Palette Type',
+  tooltip: 'The nature of the palette',
+  defaultValue: 'random',
   icon: Icon(Icons.colorize),
   options: <String>[
     'random',
@@ -83,9 +83,9 @@ SettingsModel paletteType = SettingsModel(
 SettingsModel paletteList = SettingsModel(
   name: 'paletteList',
   settingType: SettingType.list,
-  label: "Palette",
-  tooltip: "Choose from a list of palettes",
-  defaultValue: "Default",
+  label: 'Palette',
+  tooltip: 'Choose from a list of palettes',
+  defaultValue: 'Default',
   icon: Icon(Icons.palette),
   options: defaultPalleteNames(),
   settingCategory: SettingCategory.other,
@@ -225,9 +225,9 @@ List<List> defaultPalettes =
 
 class OpArtPalette {
 
-  String paletteName = "Default";
+  String paletteName = 'Default';
   List<Color> colorList= [Color(0xFF34a1af), Color(0xFFa570a8), Color(0xFFd6aa27), Color(0xFF5f9d50), Color(0xFF789dd1), Color(0xFFc25666), Color(0xFF2b7b1), Color(0xFFd63aa), Color(0xFF1f4ed), Color(0xFF383c47)];
-  String paletteType = "random";
+  String paletteType = 'random';
 
 
 
@@ -240,7 +240,7 @@ class OpArtPalette {
     Random rnd = Random(seed);
     // print('randomizing palette');
 
-    List<Color> palette = List();
+    List<Color> palette = [];
 
     switch (paletteType) {
     // random
@@ -336,6 +336,6 @@ class OpArtPalette {
 
     }
 
-    this.colorList = palette;
+    colorList = palette;
   }
 }

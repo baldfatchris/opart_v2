@@ -7,7 +7,7 @@ import 'dart:math';
 import 'dart:core';
 import '../main.dart';
 
-List<String> list = List();
+List<String> list = [];
 
 SettingsModel reDraw = SettingsModel(
   name: 'reDraw',
@@ -139,9 +139,9 @@ SettingsModel petalRotationRatio = SettingsModel(
 SettingsModel petalType = SettingsModel(
     name: 'petalType',
     settingType: SettingType.list,
-    label: "Petal Type",
-    tooltip: "The shape of the petal",
-    defaultValue: "square",
+    label: 'Petal Type',
+    tooltip: 'The shape of the petal',
+    defaultValue: 'square',
     icon: Icon(OpArtLab.shapes),
     options: <String>['circle', 'triangle', 'square'],
     settingCategory: SettingCategory.tool,
@@ -224,9 +224,9 @@ SettingsModel lineWidth = SettingsModel(
 // SettingsModel paletteType = SettingsModel(
 //     settingType: SettingType.list,
 //     name: 'paletteType',
-//     label: "Palette Type",
-//     tooltip: "The nature of the palette",
-//     defaultValue: "random",
+//     label: 'Palette Type',
+//     tooltip: 'The nature of the palette',
+//     defaultValue: 'random',
 //     icon: Icon(Icons.colorize),
 //   options: <String>[
 //     'random',
@@ -242,9 +242,9 @@ SettingsModel lineWidth = SettingsModel(
 SettingsModel paletteList = SettingsModel(
     settingType: SettingType.list,
     name: 'paletteList',
-    label: "Palette",
-    tooltip: "Choose from a list of palettes",
-    defaultValue: "Default",
+    label: 'Palette',
+    tooltip: 'Choose from a list of palettes',
+    defaultValue: 'Default',
     icon: Icon(Icons.palette),
     options: defaultPalleteNames(),
     settingCategory: SettingCategory.other,
@@ -330,7 +330,7 @@ void paintFibonacci(Canvas canvas, Size size, int seed, double animationVariable
 
 
 }
-generateFlower(
+void generateFlower(
     Canvas canvas,
     Random rnd,
     double canvasWidth,
@@ -437,7 +437,7 @@ generateFlower(
 
 }
 
-drawPetal(
+void drawPetal(
     Canvas canvas,
     Random rnd,
     List p0,
@@ -473,7 +473,7 @@ drawPetal(
           currentRadialOscAmplitude;
 
   switch (currentPetalType) {
-    case 'circle': //"circle": not quite a circle
+    case 'circle': //'circle': not quite a circle
 
       List p1 = [p0[0] + radius * cos(angle), p0[1] + radius * sin(angle)];
       var petalRadius = radius * currentPetalToRadius;
@@ -495,7 +495,7 @@ drawPetal(
       }
       break;
 
-    case 'triangle': //"triangle":
+    case 'triangle': //'triangle':
 
       List p1 = [p0[0] + radius * cos(angle), p0[1] + radius * sin(angle)];
       double petalRadius = radius * currentPetalToRadius;
@@ -562,7 +562,7 @@ drawPetal(
       }
       break;
 
-    case 'square': // "square":
+    case 'square': // 'square':
 
       List p1 = [p0[0] + radius * cos(angle), p0[1] + radius * sin(angle)];
       double petalRadius = radius * currentPetalToRadius;
@@ -665,7 +665,7 @@ drawPetal(
       }
       break;
 
-    // case 'petal': //"petal":
+    // case 'petal': //'petal':
     //
     //   List p1 = [P0[0] + radius * cos(angle), P0[1] + radius * sin(angle)];
     //   var petalRadius = radius * currentPetalToRadius;

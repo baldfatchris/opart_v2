@@ -65,41 +65,41 @@ class SettingsModel {
 
 
   void randomize(Random rnd) {
-    if (!this.locked && (proVersion || !proVersion && !this.proFeature)) {
-      // print('Name: ${this.name}: ${this.settingType}');
+    if (!locked && (proVersion || !proVersion && !proFeature)) {
+      // print('Name: ${name}: ${settingType}');
 
-      switch (this.settingType) {
+      switch (settingType) {
         case SettingType.double:
-        // print(this.settingType);
-        // print(this.value);
-          double min = (this.randomMin != null) ? this.randomMin : this.min;
-          double max = (this.randomMax != null) ? this.randomMax : this.max;
+        // print(settingType);
+        // print(value);
+          double min = (randomMin != null) ? randomMin : this.min;
+          double max = (randomMax != null) ? randomMax : this.max;
 
           // half the time use the default
-          this.value = (rnd.nextBool() == true)
+          value = (rnd.nextBool() == true)
               ? rnd.nextDouble() * (max - min) + min
-              : this.defaultValue;
+              : defaultValue;
 
           break;
 
         case SettingType.int:
-          int min = (this.randomMin != null)
-              ? this.randomMin.toInt()
+          int min = (randomMin != null)
+              ? randomMin.toInt()
               : this.min.toInt();
-          int max = (this.randomMax != null)
-              ? this.randomMax.toInt()
+          int max = (randomMax != null)
+              ? randomMax.toInt()
               : this.max.toInt();
 
           // half the time use the default
-          this.value = (rnd.nextBool() == true)
+          value = (rnd.nextBool() == true)
               ? rnd.nextInt(max - min) + min
-              : this.defaultValue;
+              : defaultValue;
 
           break;
 
         case SettingType.bool:
-          this.value = (this.randomTrue != null)
-              ? (rnd.nextDouble()<this.randomTrue)
+          value = (randomTrue != null)
+              ? (rnd.nextDouble()<randomTrue)
                 ? true
                 : false
               : rnd.nextBool();
@@ -107,27 +107,27 @@ class SettingsModel {
           break;
 
         case SettingType.color:
-          this.value =
+          value =
               Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1);
 
           break;
 
         case SettingType.button:
-          this.value = false;
+          value = false;
 
           break;
         case SettingType.list:
-          this.value = (rnd.nextBool() == true)
-              ? this.options[rnd.nextInt(this.options.length)]
-              : this.defaultValue;
+          value = (rnd.nextBool() == true)
+              ? options[rnd.nextInt(options.length)]
+              : defaultValue;
       }
     }
   }
 
 
   void setDefault() {
-    this.value = this.defaultValue;
-    this.locked = false;
+    value = defaultValue;
+    locked = false;
   }
 }
 

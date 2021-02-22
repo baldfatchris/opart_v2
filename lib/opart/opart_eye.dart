@@ -6,7 +6,7 @@ import '../model_settings.dart';
 import 'dart:math';
 import 'dart:core';
 
-List<String> list = List();
+List<String> list = [];
 
 SettingsModel reDraw = SettingsModel(
   name: 'reDraw',
@@ -187,8 +187,8 @@ SettingsModel maxDepth = SettingsModel(
 SettingsModel trunkFillColor = SettingsModel(
   settingType: SettingType.color,
   name: 'trunkFillColor',
-  label: "Trunk Color",
-  tooltip: "The fill colour of the trunk",
+  label: 'Trunk Color',
+  tooltip: 'The fill colour of the trunk',
   defaultValue: Colors.black87,
   icon: Icon(Icons.settings_overscan),
   settingCategory: SettingCategory.palette,
@@ -211,9 +211,9 @@ SettingsModel trunkFillColor = SettingsModel(
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
-  label: "Palette Type",
-  tooltip: "The nature of the palette",
-  defaultValue: "random",
+  label: 'Palette Type',
+  tooltip: 'The nature of the palette',
+  defaultValue: 'random',
   icon: Icon(Icons.colorize),
   options: <String>['random', 'blended random', 'linear random', 'linear complementary'],
   settingCategory: SettingCategory.palette,
@@ -225,9 +225,9 @@ SettingsModel paletteType = SettingsModel(
 SettingsModel paletteList = SettingsModel(
   name: 'paletteList',
   settingType: SettingType.list,
-  label: "Palette",
-  tooltip: "Choose from a list of palettes",
-  defaultValue: "Default",
+  label: 'Palette',
+  tooltip: 'Choose from a list of palettes',
+  defaultValue: 'Default',
   icon: Icon(Icons.palette),
   options: defaultPalleteNames(),
   settingCategory: SettingCategory.palette,
@@ -349,7 +349,7 @@ void paintEye(Canvas canvas, Size size, int seed, double animationVariable, OpAr
         ..color = trunkFillColor.value.withOpacity(opacity.value));
 }
 
-drawSegment(
+void drawSegment(
   Canvas canvas,
   Random rnd,
   double borderX,
@@ -512,7 +512,7 @@ drawSegment(
   }
 }
 
-drawTheTrunk(Canvas canvas, Random rnd, double borderX, double borderY, List p1, List p2, Color trunkFillColor,
+void drawTheTrunk(Canvas canvas, Random rnd, double borderX, double borderY, List p1, List p2, Color trunkFillColor,
     double opacity, double width) {
   canvas.drawLine(
       Offset(p1[0], p1[1]),

@@ -6,9 +6,8 @@ import '../model_palette.dart';
 import '../model_settings.dart';
 import 'dart:math';
 import 'dart:core';
-import 'dart:ui' as ui;
 
-List<String> list = List();
+List<String> list =[];
 
 SettingsModel reDraw = SettingsModel(
   name: 'reDraw',
@@ -74,8 +73,8 @@ SettingsModel ratio = SettingsModel(
 SettingsModel oneDirection = SettingsModel(
   name: 'oneDirection',
   settingType: SettingType.bool,
-  label: "One Direction",
-  tooltip: "Only bulge in one direction",
+  label: 'One Direction',
+  tooltip: 'Only bulge in one direction',
   defaultValue: true,
   icon: Icon(Icons.arrow_upward),
   settingCategory: SettingCategory.tool,
@@ -100,9 +99,9 @@ SettingsModel resetColors = SettingsModel(
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
-  label: "Palette Type",
-  tooltip: "The nature of the palette",
-  defaultValue: "random",
+  label: 'Palette Type',
+  tooltip: 'The nature of the palette',
+  defaultValue: 'random',
   icon: Icon(Icons.colorize),
   options: [
     'random',
@@ -117,9 +116,9 @@ SettingsModel paletteType = SettingsModel(
 SettingsModel paletteList = SettingsModel(
   name: 'paletteList',
   settingType: SettingType.list,
-  label: "Palette",
-  tooltip: "Choose from a list of palettes",
-  defaultValue: "Default",
+  label: 'Palette',
+  tooltip: 'Choose from a list of palettes',
+  defaultValue: 'Default',
   icon: Icon(Icons.palette),
   options: defaultPalleteNames(),
   settingCategory: SettingCategory.other,

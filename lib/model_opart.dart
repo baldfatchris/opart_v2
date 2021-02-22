@@ -244,12 +244,12 @@ class OpArt {
   }
 
   Future<int> saveToLocalDB(bool paid) async {
-    screenshotController
+    await screenshotController
             .capture(delay: Duration(milliseconds: 100), pixelRatio: 1)
             .then((File image) async {
           List<int> imageBytes = image.readAsBytesSync();
           String base64Image = base64Encode(imageBytes);
-          Map<String, dynamic> map = Map();
+          Map<String, dynamic> map = {};
           for (int i = 0; i < attributes.length; i++) {
             map.addAll({attributes[i].label: attributes[i].value});
           }
@@ -263,7 +263,7 @@ class OpArt {
             'animationControllerValue': animation ? animationController.value : 1.0,
           });
 
-          Map<String, dynamic> sqlMap = Map();
+          Map<String, dynamic> sqlMap = {};
 
           for (int i = 0; i < attributes.length; i++) {
             if (attributes[i].settingType == SettingType.color) {
@@ -284,7 +284,7 @@ class OpArt {
           });
 
           DatabaseHelper helper = DatabaseHelper.instance;
-          helper.insert(sqlMap).then((id) {
+          await helper.insert(sqlMap).then((id) {
             map.addAll({'id': id});
             savedOpArt.add(map);
             rebuildMain.value++;
@@ -298,7 +298,7 @@ class OpArt {
     WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
             .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
             .then((File image) async {
-          Map<String, dynamic> map = Map();
+          Map<String, dynamic> map = {};
           for (int i = 0; i < attributes.length; i++) {
             map.addAll({attributes[i].label: attributes[i].value});
           }
@@ -316,7 +316,7 @@ class OpArt {
 
           rebuildCache.value++;
           if (scrollController.hasClients) {
-            scrollController.animateTo(
+            await scrollController.animateTo(
                 scrollController.position.maxScrollExtent,
                 duration: Duration(milliseconds: 300),
                 curve: Curves.fastOutSlowIn);
@@ -464,7 +464,7 @@ class OpArt {
     }
 
     List newPalette =
-        defaultPalettes.firstWhere((palette) => palette[0] == "Default");
+        defaultPalettes.firstWhere((palette) => palette[0] == 'Default');
 
     backgroundColor?.value = Color(int.parse(newPalette[2]));
     palette.colorList = [];

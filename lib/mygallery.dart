@@ -11,8 +11,8 @@ import 'opart_page.dart';
 CarouselController buttonCarouselController = CarouselController();
 
 class MyGallery extends StatefulWidget {
-  int currentImage;
-  bool paid;
+  final int currentImage;
+  final bool paid;
   MyGallery(this.currentImage, this.paid);
   @override
   _MyGalleryState createState() => _MyGalleryState();
@@ -24,7 +24,7 @@ class _MyGalleryState extends State<MyGallery> {
   String currentSize = '8\' x 10\'';
   Color frameColor = Colors.black;
 
-  final _rebuildDelete = new ValueNotifier(0);
+  final _rebuildDelete =  ValueNotifier(0);
   bool showDelete = false;
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class _MyGalleryState extends State<MyGallery> {
                             color: Colors.black))
                   ]
                   ),
-              body: savedOpArt.length == 0
+              body: savedOpArt.isEmpty
                   ? Center(
                       child: Text(
                           'You have not yet saved any opArt to your gallery'))
@@ -403,5 +403,6 @@ class _MyGalleryState extends State<MyGallery> {
   @override
   void initState() {
     currentIndex = widget.currentImage;
+    super.initState();
   }
 }

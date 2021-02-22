@@ -7,7 +7,7 @@ import 'dart:math';
 import 'dart:core';
 import '../main.dart';
 
-List<String> list = List();
+List<String> list = [];
 
 
 SettingsModel zoomOpArt = SettingsModel(
