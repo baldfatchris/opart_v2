@@ -1,10 +1,12 @@
+import 'dart:core';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+
 import '../main.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';
 import '../model_settings.dart';
-import 'dart:math';
-import 'dart:core';
 
 List<String> list = [];
 
@@ -14,7 +16,7 @@ SettingsModel reDraw = SettingsModel(
   label: 'Redraw',
   tooltip: 'Re-draw the picture with a different random seed',
   defaultValue: false,
-  icon: Icon(Icons.refresh),
+  icon: const Icon(Icons.refresh),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   onChange: () {
@@ -32,7 +34,7 @@ SettingsModel zoomOpArt = SettingsModel(
   max: 4.0,
   zoom: 100,
   defaultValue: 2.0,
-  icon: Icon(Icons.zoom_in),
+  icon: const Icon(Icons.zoom_in),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -48,7 +50,7 @@ SettingsModel irisRadius = SettingsModel(
   randomMin: 30.0,
   zoom: 100,
   defaultValue: 30.0,
-  icon: Icon(Icons.adjust),
+  icon: const Icon(Icons.adjust),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -63,7 +65,7 @@ SettingsModel numberOfTrees = SettingsModel(
   randomMin: 5,
   randomMax: 30,
   defaultValue: 20,
-  icon: Icon(Icons.filter_tilt_shift),
+  icon: const Icon(Icons.filter_tilt_shift),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -77,7 +79,7 @@ SettingsModel trunkWidth = SettingsModel(
   max: 10.0,
   zoom: 100,
   defaultValue: 2.0,
-  icon: Icon(Icons.track_changes),
+  icon: const Icon(Icons.track_changes),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -92,7 +94,7 @@ SettingsModel widthDecay = SettingsModel(
   randomMax: 0.9,
   zoom: 100,
   defaultValue: 0.8,
-  icon: Icon(Icons.swap_horiz),
+  icon: const Icon(Icons.swap_horiz),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -107,7 +109,7 @@ SettingsModel segmentLength = SettingsModel(
   randomMax: 30.0,
   zoom: 100,
   defaultValue: 10.0,
-  icon: Icon(Icons.swap_horizontal_circle),
+  icon: const Icon(Icons.swap_horizontal_circle),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -123,7 +125,7 @@ SettingsModel segmentDecay = SettingsModel(
   randomMax: 0.95,
   zoom: 100,
   defaultValue: 0.92,
-  icon: Icon(Icons.swap_vert),
+  icon: const Icon(Icons.swap_vert),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -139,7 +141,7 @@ SettingsModel branch = SettingsModel(
   randomMax: 0.8,
   zoom: 100,
   defaultValue: 0.7,
-  icon: Icon(Icons.ac_unit),
+  icon: const Icon(Icons.ac_unit),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -152,7 +154,7 @@ SettingsModel angle = SettingsModel(
   max: 0.7,
   zoom: 100,
   defaultValue: 0.3,
-  icon: Icon(Icons.rotate_right),
+  icon: const Icon(Icons.rotate_right),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -165,7 +167,7 @@ SettingsModel ratio = SettingsModel(
   max: 1.0,
   zoom: 100,
   defaultValue: 0.5,
-  icon: Icon(Icons.blur_circular),
+  icon: const Icon(Icons.blur_circular),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -179,7 +181,7 @@ SettingsModel maxDepth = SettingsModel(
   randomMin: 5,
   randomMax: 10,
   defaultValue: 10,
-  icon: Icon(Icons.fiber_smart_record),
+  icon: const Icon(Icons.fiber_smart_record),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -190,7 +192,7 @@ SettingsModel trunkFillColor = SettingsModel(
   label: 'Trunk Color',
   tooltip: 'The fill colour of the trunk',
   defaultValue: Colors.black87,
-  icon: Icon(Icons.settings_overscan),
+  icon: const Icon(Icons.settings_overscan),
   settingCategory: SettingCategory.palette,
   proFeature: false,
 );
@@ -202,7 +204,7 @@ SettingsModel trunkFillColor = SettingsModel(
 //   label: 'Random Colors',
 //   tooltip: 'randomize the colours',
 //   defaultValue: true,
-//   icon: Icon(Icons.gamepad),
+//   icon: const Icon(Icons.gamepad),
 //   settingCategory: SettingCategory.tool,
 //   proFeature: false,
 //   silent: true,
@@ -214,7 +216,7 @@ SettingsModel paletteType = SettingsModel(
   label: 'Palette Type',
   tooltip: 'The nature of the palette',
   defaultValue: 'random',
-  icon: Icon(Icons.colorize),
+  icon: const Icon(Icons.colorize),
   options: <String>['random', 'blended random', 'linear random', 'linear complementary'],
   settingCategory: SettingCategory.palette,
   onChange: () {
@@ -228,7 +230,7 @@ SettingsModel paletteList = SettingsModel(
   label: 'Palette',
   tooltip: 'Choose from a list of palettes',
   defaultValue: 'Default',
-  icon: Icon(Icons.palette),
+  icon: const Icon(Icons.palette),
   options: defaultPalleteNames(),
   settingCategory: SettingCategory.palette,
   proFeature: false,
@@ -245,7 +247,7 @@ SettingsModel colorDecay = SettingsModel(
   randomMax: 1.0,
   zoom: 100,
   defaultValue: 0.8,
-  icon: Icon(Icons.track_changes),
+  icon: const Icon(Icons.track_changes),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -256,7 +258,7 @@ SettingsModel resetDefaults = SettingsModel(
   label: 'Reset Defaults',
   tooltip: 'Reset all settings to defaults',
   defaultValue: false,
-  icon: Icon(Icons.low_priority),
+  icon: const Icon(Icons.low_priority),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   onChange: () {
@@ -295,21 +297,21 @@ void paintEye(Canvas canvas, Size size, int seed, double animationVariable, OpAr
   rnd = Random(seed);
 
   if (paletteList.value != opArt.palette.paletteName) {
-    opArt.selectPalette(paletteList.value);
+    opArt.selectPalette(paletteList.value as String);
   }
 
   // colour in the canvas
   canvas.drawRect(
       Offset(0, 0) & Size(size.width, size.height),
       Paint()
-        ..color = backgroundColor.value
+        ..color = backgroundColor.value as Color
         ..style = PaintingStyle.fill);
 
-  for (int t = 0; t < numberOfTrees.value; t++) {
-    double treeAngle = t * 2 * pi / numberOfTrees.value;
-    List treeBase = [
-      size.width / 2 + irisRadius.value * cos(treeAngle),
-      size.height / 2 - irisRadius.value * sin(treeAngle)
+  for (int t = 0; t < (numberOfTrees.value as int); t++) {
+    final double treeAngle = t * 2 * pi / (numberOfTrees.value as num);
+    final List treeBase = [
+      size.width / 2 + (irisRadius.value as num )* cos(treeAngle),
+      size.height / 2 - (irisRadius.value as num) * sin(treeAngle)
     ];
 
     drawSegment(
@@ -318,35 +320,35 @@ void paintEye(Canvas canvas, Size size, int seed, double animationVariable, OpAr
         0,
         0,
         treeBase,
-        trunkWidth.value * zoomOpArt.value,
-        segmentLength.value * zoomOpArt.value,
+        (trunkWidth.value as double) * (zoomOpArt.value as double),
+        segmentLength.value * zoomOpArt.value as double,
         treeAngle,
-        ratio.value,
+        ratio.value as double,
         0,
         false,
         animationVariable,
-        branch.value,
-        angle.value,
-        widthDecay.value,
-        segmentDecay.value,
-        maxDepth.value,
-        trunkFillColor.value,
-        opacity.value,
-        colorDecay.value,
+        branch.value as double,
+        angle.value as double,
+        widthDecay.value as double,
+        segmentDecay.value as double,
+        maxDepth.value as int,
+        trunkFillColor.value as Color,
+        opacity.value as double,
+        colorDecay.value as double,
         1.0,
         numberOfColors.value.toInt(),
         opArt.palette.colorList,
         0,
-        (randomColors.value == true)
+        randomColors.value as bool
     );
   }
 
   canvas.drawCircle(
       Offset(size.width / 2, size.height / 2),
-      irisRadius.value,
+      irisRadius.value as double,
       Paint()
         ..style = PaintingStyle.fill
-        ..color = trunkFillColor.value.withOpacity(opacity.value));
+        ..color = (trunkFillColor.value as Color).withOpacity(opacity.value as double));
 }
 
 void drawSegment(
@@ -380,16 +382,16 @@ void drawSegment(
   if (currentDepth < maxDepth) {
     // Choose the next colour
     colourOrder++;
-    Color nextColor = palette[colourOrder % numberOfColors];
+    Color nextColor = palette[colourOrder % (numberOfColors as num) as int] as Color;
     if (randomColors) {
-      nextColor = palette[rnd.nextInt(numberOfColors)];
+      nextColor = palette[rnd.nextInt(numberOfColors as int)] as Color;
     }
 
     // blend the color with the trunk color
     nextColor = Color.fromRGBO(
-        (nextColor.red * (1 - colorRatio) + trunkFillColor.red * (colorRatio)).toInt(),
-        (nextColor.green * (1 - colorRatio) + trunkFillColor.green * (colorRatio)).toInt(),
-        (nextColor.blue * (1 - colorRatio) + trunkFillColor.blue * (colorRatio)).toInt(),
+        (nextColor.red * (1 - colorRatio) + trunkFillColor.red * colorRatio).toInt(),
+        (nextColor.green * (1 - colorRatio) + trunkFillColor.green * colorRatio).toInt(),
+        (nextColor.blue * (1 - colorRatio) + trunkFillColor.blue * colorRatio).toInt(),
         opacity);
 
     //branch
@@ -515,8 +517,8 @@ void drawSegment(
 void drawTheTrunk(Canvas canvas, Random rnd, double borderX, double borderY, List p1, List p2, Color trunkFillColor,
     double opacity, double width) {
   canvas.drawLine(
-      Offset(p1[0], p1[1]),
-      Offset(p2[0], p2[1]),
+      Offset(p1[0] as double, p1[1] as double),
+      Offset(p2[0] as double, p2[1] as double),
       Paint()
         ..style = PaintingStyle.stroke
         ..color = trunkFillColor.withOpacity(opacity)

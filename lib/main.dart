@@ -1,17 +1,17 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 // import 'package:opart_v2/loading.dart';
 import 'database_helper.dart';
 import 'information.dart';
-import 'opart_page.dart';
 import 'model_opart.dart';
 import 'mygallery.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
-import 'package:flutter/services.dart';
-import 'dart:async';
+import 'opart_page.dart';
 
 bool showDelete = false;
 bool proVersion = true;
@@ -156,8 +156,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    OpArtPage(opArtTypes[index].opArtType, false)),
+                                builder: (context) => OpArtPage(
+                                    opArtTypes[index].opArtType, false)),
                           );
                         },
                         child: Hero(
@@ -252,8 +252,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                           width: 100,
                                           height: 100,
                                           child: Image.memory(
-                                            base64Decode(
-                                                savedOpArt[index]['image']),
+                                            base64Decode(savedOpArt[index]
+                                                ['image'] as String),
                                             fit: BoxFit.fitWidth,
                                           ),
                                         ),
@@ -277,8 +277,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                           FloatingActionButton(
                                                               onPressed: () {
                                                                 if (savedOpArt[
-                                                                        index]
-                                                                    ['paid']) {
+                                                                            index]
+                                                                        ['paid']
+                                                                    as bool) {
                                                                   showDialog(
                                                                       context:
                                                                           context,
@@ -293,7 +294,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                                 child: Text('Delete'),
                                                                                 onPressed: () {
                                                                                   DatabaseHelper helper = DatabaseHelper.instance;
-                                                                                  helper.delete(savedOpArt[index]['id']);
+                                                                                  helper.delete(savedOpArt[index]['id'] as int);
                                                                                   savedOpArt.removeAt(index);
                                                                                   showDelete = false;
                                                                                   rebuildMain.value++;
@@ -314,10 +315,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                       DatabaseHelper
                                                                           .instance;
                                                                   helper.delete(
-                                                                      savedOpArt[
-                                                                              index]
-                                                                          [
-                                                                          'id']);
+                                                                      savedOpArt[index]
+                                                                              [
+                                                                              'id']
+                                                                          as int);
                                                                   savedOpArt
                                                                       .removeAt(
                                                                           index);

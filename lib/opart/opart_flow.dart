@@ -1,14 +1,15 @@
+import 'dart:core';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:opart_v2/opart_icons.dart';
+
+import '../main.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';
 import '../model_settings.dart';
-import 'dart:math';
-import 'dart:core';
-import '../main.dart';
 
 List<String> list = [];
-
 
 SettingsModel zoomOpArt = SettingsModel(
   name: 'zoomOpArt',
@@ -19,11 +20,10 @@ SettingsModel zoomOpArt = SettingsModel(
   max: 200.0,
   zoom: 100,
   defaultValue: 30.0,
-  icon: Icon(Icons.zoom_in),
+  icon: const Icon(Icons.zoom_in),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-
 
 SettingsModel shape = SettingsModel(
   name: 'shape',
@@ -31,7 +31,7 @@ SettingsModel shape = SettingsModel(
   label: 'Shape',
   tooltip: 'The shape in the cell',
   defaultValue: 'circle',
-  icon: Icon(Icons.settings),
+  icon: const Icon(Icons.settings),
   options: ['circle', 'square', 'squaricle'],
   settingCategory: SettingCategory.tool,
   proFeature: false,
@@ -46,7 +46,7 @@ SettingsModel step = SettingsModel(
   max: 0.80,
   zoom: 100,
   defaultValue: 0.05,
-  icon: Icon(Icons.control_point),
+  icon: const Icon(Icons.control_point),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -60,7 +60,7 @@ SettingsModel amplitude = SettingsModel(
   max: 100.0,
   zoom: 100,
   defaultValue: 15.0,
-  icon: Icon(Icons.control_point),
+  icon: const Icon(Icons.control_point),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -74,7 +74,7 @@ SettingsModel frequency = SettingsModel(
   max: 200.0,
   zoom: 100,
   defaultValue: 70.0,
-  icon: Icon(Icons.control_point),
+  icon: const Icon(Icons.control_point),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -88,12 +88,10 @@ SettingsModel ratio = SettingsModel(
   max: 1.0,
   zoom: 100,
   defaultValue: 1.0,
-  icon: Icon(OpArtLab.wallpaper_ratio),
+  icon: const Icon(OpArtLab.wallpaper_ratio),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-
-
 
 SettingsModel box = SettingsModel(
   name: 'box',
@@ -101,7 +99,7 @@ SettingsModel box = SettingsModel(
   label: 'Box',
   tooltip: 'Fill in the box',
   defaultValue: false,
-  icon: Icon(Icons.check_box_outline_blank),
+  icon: const Icon(Icons.check_box_outline_blank),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
@@ -118,7 +116,7 @@ SettingsModel squareness = SettingsModel(
   randomMax: 1.0,
   zoom: 100,
   defaultValue: 0.5,
-  icon: Icon(Icons.center_focus_weak),
+  icon: const Icon(Icons.center_focus_weak),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -132,7 +130,7 @@ SettingsModel lineWidth = SettingsModel(
   max: 10.0,
   zoom: 100,
   defaultValue: 0.1,
-  icon: Icon(Icons.line_weight),
+  icon: const Icon(Icons.line_weight),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -143,7 +141,7 @@ SettingsModel lineWidth = SettingsModel(
 //   label: 'Random Colors',
 //   tooltip: 'randomize the colours',
 //   defaultValue: true,
-//   icon: Icon(Icons.gamepad),
+//   icon: const Icon(Icons.gamepad),
 //   settingCategory: SettingCategory.tool,
 //   proFeature: false,
 //   silent: true,
@@ -155,7 +153,7 @@ SettingsModel resetColors = SettingsModel(
   label: 'Reset Colors',
   tooltip: 'Reset the colours for each cell',
   defaultValue: true,
-  icon: Icon(Icons.gamepad),
+  icon: const Icon(Icons.gamepad),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
@@ -167,7 +165,7 @@ SettingsModel paletteType = SettingsModel(
   label: 'Palette Type',
   tooltip: 'The nature of the palette',
   defaultValue: 'random',
-  icon: Icon(Icons.colorize),
+  icon: const Icon(Icons.colorize),
   options: [
     'random',
     'blended random',
@@ -175,7 +173,9 @@ SettingsModel paletteType = SettingsModel(
     'linear complementary'
   ],
   settingCategory: SettingCategory.palette,
-  onChange: (){generatePalette();},
+  onChange: () {
+    generatePalette();
+  },
   proFeature: false,
 );
 
@@ -185,7 +185,7 @@ SettingsModel paletteList = SettingsModel(
   label: 'Palette',
   tooltip: 'Choose from a list of palettes',
   defaultValue: 'Default',
-  icon: Icon(Icons.palette),
+  icon: const Icon(Icons.palette),
   options: defaultPalleteNames(),
   settingCategory: SettingCategory.other,
   proFeature: false,
@@ -197,27 +197,25 @@ SettingsModel resetDefaults = SettingsModel(
   label: 'Reset Defaults',
   tooltip: 'Reset all settings to defaults',
   defaultValue: false,
-  icon: Icon(Icons.low_priority),
+  icon: const Icon(Icons.low_priority),
   settingCategory: SettingCategory.tool,
-  onChange: (){resetAllDefaults();},
+  onChange: () {
+    resetAllDefaults();
+  },
   proFeature: false,
   silent: true,
 );
 
 List<SettingsModel> initializeFlowAttributes() {
-
   return [
     zoomOpArt,
     shape,
-
     step,
     ratio,
     amplitude,
     frequency,
-
     box,
     squareness,
-
     backgroundColor,
     lineColor,
     lineWidth,
@@ -229,29 +227,25 @@ List<SettingsModel> initializeFlowAttributes() {
     opacity,
     resetDefaults,
   ];
-
-
 }
 
-
-void paintFlow(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
-
+void paintFlow(
+    Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
   rnd = Random(seed);
 
-  if (paletteList.value != opArt.palette.paletteName){
-    opArt.selectPalette(paletteList.value);
+  if (paletteList.value != opArt.palette.paletteName) {
+    opArt.selectPalette(paletteList.value as String);
   }
 
-
   // Initialise the canvas
-  double canvasWidth = size.width;
-  double canvasHeight = size.height;
+  final double canvasWidth = size.width;
+  final double canvasHeight = size.height;
 
   // colour in the canvas
   canvas.drawRect(
-      Offset(0, 0) & Size(canvasWidth, canvasHeight),
+      const Offset(0, 0) & Size(canvasWidth, canvasHeight),
       Paint()
-        ..color = backgroundColor.value
+        ..color = backgroundColor.value as Color
         ..style = PaintingStyle.fill);
 
   // Work out the X and Y
@@ -279,15 +273,21 @@ void paintFlow(Canvas canvas, Size size, int seed, double animationVariable, OpA
   // double radius = zoomOpArt.value / 2;
 
   // double localSquareness = sin(2500 * animationVariable);
- // double localSquareness = squareness.value;
+  // double localSquareness = squareness.value;
 
-  double baseX = zoomOpArt.value;
-  double amplitudeX = (amplitude.value < zoomOpArt.value*0.9) ? amplitude.value : zoomOpArt.value*0.9;
-  double frequencyX = frequency.value;;
+  final double baseX = zoomOpArt.value as double;
+  final double amplitudeX =
+      ((amplitude.value as double) < (zoomOpArt.value as double) * 0.9)
+          ? (amplitude.value as double)
+          : (zoomOpArt.value as double) * 0.9;
+  final double frequencyX = frequency.value as double;
 
-  double baseY = baseX * 1.0;
-  double amplitudeY = (amplitude.value < zoomOpArt.value*0.9) ? amplitude.value : zoomOpArt.value*0.9;
-  double frequencyY = frequency.value;
+  final double baseY = baseX * 1.0;
+  final double amplitudeY =
+      ((amplitude.value as double) < (zoomOpArt.value as double) * 0.9)
+          ? (amplitude.value as double)
+          : (zoomOpArt.value as double) * 0.9;
+  final double frequencyY = frequency.value as double;
 
   double x = 0.0;
   int i = 0;
@@ -295,11 +295,12 @@ void paintFlow(Canvas canvas, Size size, int seed, double animationVariable, OpA
   // print(animationVariable);
 
   do {
-    double deltaX = baseX + amplitudeX * cos(4000*animationVariable+x/frequencyX);
+    final double deltaX =
+        baseX + amplitudeX * cos(4000 * animationVariable + x / frequencyX);
 
     // reset the colours
     Color nextColor;
-    if (resetColors.value) {
+    if (resetColors.value as bool) {
       colourOrder = i;
     }
 
@@ -307,56 +308,69 @@ void paintFlow(Canvas canvas, Size size, int seed, double animationVariable, OpA
     int j = 0;
 
     do {
-      double deltaY = baseY + amplitudeY * cos(4000*animationVariable+(x+y)/frequencyY);
+      final double deltaY = baseY +
+          amplitudeY * cos(4000 * animationVariable + (x + y) / frequencyY);
 // print('animationVariable: $animationVariable deltaX: $deltaX deltaY: $deltaY');
 
-      double stepRatio = ratio.value;
+      double stepRatio = ratio.value as double;
       int k = 0; // count the steps
 
       // Centre of the square
-      List pO = [x+deltaX/2, y+deltaY/2];
+      final List pO = [x + deltaX / 2, y + deltaY / 2];
 
-      if (box.value) {
-
+      if (box.value as bool) {
         // Choose the next colour
         colourOrder++;
-        nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-        if (randomColors.value) {
-          nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+        nextColor = opArt
+            .palette.colorList[colourOrder % (numberOfColors.value as int)];
+        if (randomColors.value as bool) {
+          nextColor =
+              opArt.palette.colorList[rnd.nextInt(numberOfColors.value as int)];
         }
 
         // fill the square
-        canvas.drawRect(Rect.fromLTRB(x, y, x+deltaX, y+deltaY),
+        canvas.drawRect(
+            Rect.fromLTRB(x, y, x + deltaX, y + deltaY),
             Paint()
               ..style = PaintingStyle.fill
-              ..color =
-              nextColor.withOpacity(opacity.value));
+              ..color = nextColor.withOpacity(opacity.value as double));
       }
 
       do {
-
-        switch (shape.value) {
-
+        switch (shape.value as String) {
           case 'circle':
 
-          // Choose the next colour
+            // Choose the next colour
             colourOrder++;
-            nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-            if (randomColors.value) {
-              nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+            nextColor = opArt
+                .palette.colorList[colourOrder % (numberOfColors.value as int)];
+            if (randomColors.value as bool) {
+              nextColor = opArt
+                  .palette.colorList[rnd.nextInt(numberOfColors.value as int)];
             }
 
-            canvas.drawOval(Rect.fromLTRB(pO[0]-deltaX/2*stepRatio, pO[1]-deltaY/2*stepRatio, pO[0]+deltaX/2*stepRatio, pO[1]+deltaY/2*stepRatio),
+            canvas.drawOval(
+                Rect.fromLTRB(
+                  pO[0] - deltaX / 2 * stepRatio as double,
+                  pO[1] - deltaY / 2 * stepRatio as double,
+                  pO[0] + deltaX / 2 * stepRatio as double,
+                  pO[1] + deltaY / 2 * stepRatio as double,
+                ),
                 Paint()
                   ..style = PaintingStyle.fill
-                  ..color =
-                  nextColor.withOpacity(opacity.value));
-            canvas.drawOval(Rect.fromLTRB(pO[0]-deltaX/2*stepRatio, pO[1]-deltaY/2*stepRatio, pO[0]+deltaX/2*stepRatio, pO[1]+deltaY/2*stepRatio),
+                  ..color = nextColor.withOpacity(opacity.value as double));
+            canvas.drawOval(
+                Rect.fromLTRB(
+                  pO[0] - deltaX / 2 * stepRatio as double,
+                  pO[1] - deltaY / 2 * stepRatio as double,
+                  pO[0] + deltaX / 2 * stepRatio as double,
+                  pO[1] + deltaY / 2 * stepRatio as double,
+                ),
                 Paint()
                   ..style = PaintingStyle.stroke
-                  ..strokeWidth = lineWidth.value
-                  ..color = lineColor.value
-                      .withOpacity(opacity.value));
+                  ..strokeWidth = lineWidth.value as double
+                  ..color = (lineColor.value as Color)
+                      .withOpacity(opacity.value as double));
 
             break;
 
@@ -364,122 +378,123 @@ void paintFlow(Canvas canvas, Size size, int seed, double animationVariable, OpA
 
             // Choose the next colour
             colourOrder++;
-            nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-            if (randomColors.value) {
-              nextColor = opArt.palette.colorList[
-              rnd.nextInt(numberOfColors.value)];
+            nextColor = opArt
+                .palette.colorList[colourOrder % (numberOfColors.value as int)];
+            if (randomColors.value as bool) {
+              nextColor = opArt
+                  .palette.colorList[rnd.nextInt(numberOfColors.value as int)];
             }
 
             canvas.drawRect(
                 Rect.fromLTRB(
-                    pO[0]-deltaX/2*stepRatio,
-                    pO[1]-deltaY/2*stepRatio,
-                    pO[0]+deltaX/2*stepRatio,
-                    pO[1]+deltaY/2*stepRatio
-                ),
+                    pO[0] - deltaX / 2 * stepRatio as double,
+                    pO[1] - deltaY / 2 * stepRatio as double,
+                    pO[0] + deltaX / 2 * stepRatio as double,
+                    pO[1] + deltaY / 2 * stepRatio as double),
                 Paint()
                   ..style = PaintingStyle.fill
-                  ..color =
-                  nextColor.withOpacity(opacity.value));
-            canvas.drawRect(Rect.fromLTRB(pO[0]-deltaX/2*stepRatio, pO[1]-deltaY/2*stepRatio, pO[0]+deltaX/2*stepRatio, pO[1]+deltaY/2*stepRatio),
-                Paint()
-                  ..style = PaintingStyle.stroke
-                  ..strokeWidth = lineWidth.value
-                  ..color = lineColor.value
-                      .withOpacity(opacity.value));
+                  ..color = nextColor.withOpacity(opacity.value as double));
+            canvas.drawRect(
+              Rect.fromLTRB(
+                  pO[0] - deltaX / 2 * stepRatio as double,
+                  pO[1] - deltaY / 2 * stepRatio as double,
+                  pO[0] + deltaX / 2 * stepRatio as double,
+                  pO[1] + deltaY / 2 * stepRatio as double),
+              Paint()
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = lineWidth.value as double
+                ..color = (lineColor.value as Color)
+                    .withOpacity(opacity.value as double),
+            );
             break;
 
           case 'squaricle':
+            final double radius = (deltaX < deltaY)
+                ? stepRatio * deltaX / 2 * (1 - (squareness.value as double)) -
+                    (lineWidth.value as double) / 2
+                : stepRatio * deltaY / 2 * (1 - (squareness.value as double)) -
+                    (lineWidth.value as double) / 2;
 
-            double radius =
-              (deltaX < deltaY)
-                ? stepRatio * deltaX/2 * (1 - squareness.value) - lineWidth.value/2
-                : stepRatio * deltaY/2 * (1 - squareness.value) - lineWidth.value/2;
+            final Path squaricle = Path();
 
-            Path squaricle = Path();
-
-            squaricle.arcTo(Rect.fromCenter(
-                center: Offset(
-                    pO[0]-deltaX/2*stepRatio + radius,
-                    pO[1]-deltaY/2*stepRatio + radius,
-                ),
-                height: radius,
-                width: radius),
+            squaricle.arcTo(
+                Rect.fromCenter(
+                    center: Offset(
+                      pO[0] - deltaX / 2 * stepRatio + radius as double,
+                      pO[1] - deltaY / 2 * stepRatio + radius as double,
+                    ),
+                    height: radius,
+                    width: radius),
                 pi * (2 / 2),
-                pi/2,
-                false
-            );
+                pi / 2,
+                false);
 
-            squaricle.arcTo(Rect.fromCenter(
-                center: Offset(
-                  pO[0]+deltaX/2*stepRatio - radius,
-                  pO[1]-deltaY/2*stepRatio + radius,
-                ),
-                height: radius,
-                width: radius),
+            squaricle.arcTo(
+                Rect.fromCenter(
+                    center: Offset(
+                      pO[0] + deltaX / 2 * stepRatio - radius as double,
+                      pO[1] - deltaY / 2 * stepRatio + radius as double,
+                    ),
+                    height: radius,
+                    width: radius),
                 pi * (3 / 2),
-                pi/2,
-                false
-            );
+                pi / 2,
+                false);
 
-            squaricle.arcTo(Rect.fromCenter(
-                center: Offset(
-                  pO[0]+deltaX/2*stepRatio - radius,
-                  pO[1]+deltaY/2*stepRatio - radius,
-                ),
-                height: radius,
-                width: radius),
+            squaricle.arcTo(
+                Rect.fromCenter(
+                    center: Offset(
+                      pO[0] + deltaX / 2 * stepRatio - radius as double,
+                      pO[1] + deltaY / 2 * stepRatio - radius as double,
+                    ),
+                    height: radius,
+                    width: radius),
                 pi * (0 / 2),
-                pi/2,
-                false
-            );
+                pi / 2,
+                false);
 
-            squaricle.arcTo(Rect.fromCenter(
-                center: Offset(
-                  pO[0]-deltaX/2*stepRatio + radius,
-                  pO[1]+deltaY/2*stepRatio - radius,
-                ),
-                height: radius,
-                width: radius),
+            squaricle.arcTo(
+                Rect.fromCenter(
+                    center: Offset(
+                      pO[0] - deltaX / 2 * stepRatio + radius as double,
+                      pO[1] + deltaY / 2 * stepRatio - radius as double,
+                    ),
+                    height: radius,
+                    width: radius),
                 pi * (1 / 2),
-                pi/2,
-                false
-            );
+                pi / 2,
+                false);
 
             squaricle.close();
 
             // Choose the next colour
             colourOrder++;
-            nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-            if (randomColors.value) {
-              nextColor = opArt.palette.colorList[
-              rnd.nextInt(numberOfColors.value)];
+            nextColor = opArt
+                .palette.colorList[colourOrder % (numberOfColors.value as int)];
+            if (randomColors.value as bool) {
+              nextColor = opArt
+                  .palette.colorList[rnd.nextInt(numberOfColors.value as int)];
             }
 
             canvas.drawPath(
                 squaricle,
                 Paint()
                   ..style = PaintingStyle.fill
-                  ..color =
-                  nextColor.withOpacity(opacity.value));
+                  ..color = nextColor.withOpacity(opacity.value as double));
             canvas.drawPath(
                 squaricle,
                 Paint()
                   ..style = PaintingStyle.stroke
-                  ..strokeWidth = lineWidth.value
-                  ..color = lineColor.value
-                      .withOpacity(opacity.value));
+                  ..strokeWidth = lineWidth.value as double
+                  ..color = (lineColor.value as Color)
+                      .withOpacity(opacity.value as double));
 
             squaricle.reset();
 
             break;
-
-
-
         }
 
-
-        stepRatio = stepRatio * step.value;
+        stepRatio = stepRatio * (step.value as num);
 
         k++;
       } while (k < 10 && stepRatio > 0.1);
@@ -491,7 +506,4 @@ void paintFlow(Canvas canvas, Size size, int seed, double animationVariable, OpA
     i++;
     x = x + deltaX;
   } while (x < canvasWidth); // while x
-
 }
-
-

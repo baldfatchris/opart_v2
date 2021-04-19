@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
-import '../main.dart';
+import 'dart:core';
+import 'dart:math';
 
+import 'package:flutter/material.dart';
+
+import '../main.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';
 import '../model_settings.dart';
-import 'dart:math';
-import 'dart:core';
 
 List<String> list = [];
 
@@ -15,10 +16,12 @@ SettingsModel reDraw = SettingsModel(
   label: 'Redraw',
   tooltip: 'Re-draw the picture with a different random seed',
   defaultValue: false,
-  icon: Icon(Icons.refresh),
+  icon: const Icon(Icons.refresh),
   settingCategory: SettingCategory.tool,
   proFeature: false,
-  onChange: (){seed = DateTime.now().millisecond;},
+  onChange: () {
+    seed = DateTime.now().millisecond;
+  },
   silent: true,
 );
 
@@ -33,11 +36,10 @@ SettingsModel numberOfPoints = SettingsModel(
   randomMax: 2000,
   zoom: 100,
   defaultValue: 1000,
-  icon: Icon(Icons.line_weight),
+  icon: const Icon(Icons.line_weight),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-
 
 SettingsModel numberToLink = SettingsModel(
   settingType: SettingType.int,
@@ -48,7 +50,7 @@ SettingsModel numberToLink = SettingsModel(
   max: 50,
   zoom: 100,
   defaultValue: 15,
-  icon: Icon(Icons.line_weight),
+  icon: const Icon(Icons.line_weight),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -62,7 +64,7 @@ SettingsModel skipPoints = SettingsModel(
   max: 10,
   zoom: 100,
   defaultValue: 0,
-  icon: Icon(Icons.line_weight),
+  icon: const Icon(Icons.line_weight),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -73,13 +75,11 @@ SettingsModel lines = SettingsModel(
   label: 'Lines',
   tooltip: 'draw lines between each point',
   defaultValue: true,
-  icon: Icon(Icons.timeline),
+  icon: const Icon(Icons.timeline),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
 );
-
-
 
 SettingsModel lineWidth = SettingsModel(
   settingType: SettingType.double,
@@ -90,7 +90,7 @@ SettingsModel lineWidth = SettingsModel(
   max: 10.0,
   zoom: 100,
   defaultValue: 1.0,
-  icon: Icon(Icons.line_weight),
+  icon: const Icon(Icons.line_weight),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -102,12 +102,11 @@ SettingsModel lineWidth = SettingsModel(
 //   label: 'Random Colors',
 //   tooltip: 'randomize the colours',
 //   defaultValue: true,
-//   icon: Icon(Icons.gamepad),
+//   icon: const Icon(Icons.gamepad),
 //   settingCategory: SettingCategory.tool,
 //   proFeature: false,
 //   silent: true,
 // );
-
 
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
@@ -115,7 +114,7 @@ SettingsModel paletteType = SettingsModel(
   label: 'Palette Type',
   tooltip: 'The nature of the palette',
   defaultValue: 'random',
-  icon: Icon(Icons.colorize),
+  icon: const Icon(Icons.colorize),
   options: [
     'random',
     'blended random',
@@ -123,11 +122,11 @@ SettingsModel paletteType = SettingsModel(
     'linear complementary'
   ],
   settingCategory: SettingCategory.palette,
-  onChange: (){generatePalette();},
+  onChange: () {
+    generatePalette();
+  },
   proFeature: false,
 );
-
-
 
 SettingsModel resetDefaults = SettingsModel(
   name: 'resetDefaults',
@@ -135,15 +134,14 @@ SettingsModel resetDefaults = SettingsModel(
   label: 'Reset Defaults',
   tooltip: 'Reset all settings to defaults',
   defaultValue: false,
-  icon: Icon(Icons.low_priority),
+  icon: const Icon(Icons.low_priority),
   settingCategory: SettingCategory.tool,
-  onChange: (){},
+  onChange: () {},
   silent: true,
   proFeature: false,
 );
 
 List<SettingsModel> initializeNeighbourAttributes() {
-
   return [
     reDraw,
     numberOfPoints,
@@ -161,24 +159,19 @@ List<SettingsModel> initializeNeighbourAttributes() {
     opacity,
     resetDefaults,
   ];
-
-
 }
 
-
-void paintNeighbour(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
-
+void paintNeighbour(
+    Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
   rnd = Random(seed);
 
-  if (paletteList.value != opArt.palette.paletteName){
+  if (paletteList.value != opArt.palette.paletteName) {
     opArt.selectPalette(paletteList.value);
   }
-
 
   // Initialise the canvas
   double canvasWidth = size.width;
   double canvasHeight = size.height;
-
 
   // draw the square
   canvas.drawRect(
@@ -187,47 +180,45 @@ void paintNeighbour(Canvas canvas, Size size, int seed, double animationVariable
         ..color = backgroundColor.value.withOpacity(1.0)
         ..style = PaintingStyle.fill);
 
-
-
   // Now make some art
- drawNeighbours(canvas, opArt.palette.colorList,
-    canvasWidth, canvasHeight,
+  drawNeighbours(
+    canvas,
+    opArt.palette.colorList,
+    canvasWidth,
+    canvasHeight,
     lineWidth.value,
     numberOfPoints.value.toInt(),
     numberToLink.value.toInt(),
     skipPoints.value.toInt(),
   );
-
-
 }
 
-Future<void> drawNeighbours(Canvas canvas, List colorList,
-    double canvasWidth, double canvasHeight,
-    double lineWidth, int numberOfPoints, int numberToLink, int skipPoints
-
-) async {
-
+Future<void> drawNeighbours(
+    Canvas canvas,
+    List colorList,
+    double canvasWidth,
+    double canvasHeight,
+    double lineWidth,
+    int numberOfPoints,
+    int numberToLink,
+    int skipPoints) async {
   int colourOrder = 0;
 
   List points = [];
-  for (int i = 0; i<numberOfPoints; i++){
-    points.add([canvasWidth * rnd.nextDouble(),canvasHeight * rnd.nextDouble()]);
+  for (int i = 0; i < numberOfPoints; i++) {
+    points
+        .add([canvasWidth * rnd.nextDouble(), canvasHeight * rnd.nextDouble()]);
   }
 
   // process each point
   points.forEach((point) {
-
     List sortedPoints = points;
-    sortedPoints.sort(
-            (point1, point2) =>
-            (
-                (pow(point1[0]-point[0],2) + pow(point1[1]-point[1],2))-
-                  (pow(point2[0]-point[0],2) + pow(point2[1]-point[1],2))
-            ).toInt()
-    );
+    sortedPoints.sort((point1, point2) =>
+        ((pow(point1[0] - point[0], 2) + pow(point1[1] - point[1], 2)) -
+                (pow(point2[0] - point[0], 2) + pow(point2[1] - point[1], 2)))
+            .toInt());
 
-    for (int j = 1+skipPoints; j < numberToLink+skipPoints; j++){
-
+    for (int j = 1 + skipPoints; j < numberToLink + skipPoints; j++) {
       // print('$countPoints - $j');
 
       // Choose the next colour
@@ -238,19 +229,16 @@ Future<void> drawNeighbours(Canvas canvas, List colorList,
       }
       nextColor = nextColor.withOpacity(opacity.value);
 
-      canvas.drawLine(Offset(point[0], point[1]), Offset(sortedPoints[j][0], sortedPoints[j][1]), Paint()
-        ..color = nextColor
-        // ..color = Colors.black
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = lineWidth
-        // ..strokeWidth = 1
-        ..strokeCap = StrokeCap.round
-      );
-
+      canvas.drawLine(
+          Offset(point[0], point[1]),
+          Offset(sortedPoints[j][0], sortedPoints[j][1]),
+          Paint()
+            ..color = nextColor
+            // ..color = Colors.black
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = lineWidth
+            // ..strokeWidth = 1
+            ..strokeCap = StrokeCap.round);
     }
   });
-
-
-
-
 }

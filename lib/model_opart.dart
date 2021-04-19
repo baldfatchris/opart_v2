@@ -1,12 +1,18 @@
+import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
 import 'dart:math';
+
+import 'package:flutter/material.dart';
 import 'package:opart_v2/opart/opart_life.dart';
 import 'package:opart_v2/opart/opart_triangles.dart';
+import 'package:screenshot/screenshot.dart';
 
 import 'canvas.dart';
 import 'database_helper.dart';
 import 'main.dart';
+import 'model_palette.dart';
+import 'model_settings.dart';
 import 'opart/opart_diagonal.dart';
 import 'opart/opart_eye.dart';
 import 'opart/opart_fibonacci.dart';
@@ -19,34 +25,27 @@ import 'opart/opart_quads.dart';
 import 'opart/opart_rhombus.dart';
 import 'opart/opart_riley.dart';
 import 'opart/opart_shapes.dart';
-import 'opart/opart_string.dart';
 import 'opart/opart_squares.dart';
+import 'opart/opart_string.dart';
 import 'opart/opart_tree.dart';
 import 'opart/opart_wallpaper.dart';
 import 'opart/opart_wave.dart';
 
-import 'model_palette.dart';
-import 'model_settings.dart';
-
-import 'package:screenshot/screenshot.dart';
-import 'package:flutter/material.dart';
-import 'dart:convert';
-
 List<Map<String, dynamic>> savedOpArt = [];
 ScreenshotController screenshotController = ScreenshotController();
 
-final rebuildCache =  ValueNotifier(0);
-final rebuildMain =  ValueNotifier(0);
-final rebuildCanvas =  ValueNotifier(0);
+final rebuildCache = ValueNotifier(0);
+final rebuildMain = ValueNotifier(0);
+final rebuildCanvas = ValueNotifier(0);
 final rebuildOpArtPage = ValueNotifier(0);
 final rebuildTab = ValueNotifier(0);
-final rebuildGallery =  ValueNotifier(0);
-final rebuildDialog =  ValueNotifier(0);
-final rebuildColorPicker =  ValueNotifier(0);
+final rebuildGallery = ValueNotifier(0);
+final rebuildDialog = ValueNotifier(0);
+final rebuildColorPicker = ValueNotifier(0);
 
 bool enableButton = true;
 
-ScrollController scrollController =  ScrollController();
+ScrollController scrollController = ScrollController();
 
 enum OpArtType {
   Diagonal,
@@ -80,7 +79,7 @@ class OpArtTypes {
 class OpArt {
   OpArtType opArtType;
   List<SettingsModel> attributes = [];
-  List<Map<String, dynamic>> cache =[];
+  List<Map<String, dynamic>> cache = [];
   // Random rnd = Random();
   OpArtPalette palette;
   String name;
@@ -245,52 +244,51 @@ class OpArt {
 
   Future<int> saveToLocalDB(bool paid) async {
     await screenshotController
-            .capture(delay: Duration(milliseconds: 100), pixelRatio: 1)
-            .then((File image) async {
-          List<int> imageBytes = image.readAsBytesSync();
-          String base64Image = base64Encode(imageBytes);
-          Map<String, dynamic> map = {};
-          for (int i = 0; i < attributes.length; i++) {
-            map.addAll({attributes[i].label: attributes[i].value});
-          }
-          map.addAll({
-            'seed': seed,
-            'colors': palette.colorList,
-            'image': base64Image,
-            'paletteName': palette.paletteName,
-            'type': opArtType,
-            'paid': paid,
-            'animationControllerValue': animation ? animationController.value : 1.0,
-          });
+        .capture(delay: Duration(milliseconds: 100), pixelRatio: 1)
+        .then((File image) async {
+      List<int> imageBytes = image.readAsBytesSync();
+      String base64Image = base64Encode(imageBytes);
+      Map<String, dynamic> map = {};
+      for (int i = 0; i < attributes.length; i++) {
+        map.addAll({attributes[i].label: attributes[i].value});
+      }
+      map.addAll({
+        'seed': seed,
+        'colors': palette.colorList,
+        'image': base64Image,
+        'paletteName': palette.paletteName,
+        'type': opArtType,
+        'paid': paid,
+        'animationControllerValue': animation ? animationController.value : 1.0,
+      });
 
-          Map<String, dynamic> sqlMap = {};
+      Map<String, dynamic> sqlMap = {};
 
-          for (int i = 0; i < attributes.length; i++) {
-            if (attributes[i].settingType == SettingType.color) {
-              sqlMap.addAll(
-                  {attributes[i].label: attributes[i].value.toString()});
-            } else {
-              sqlMap.addAll({attributes[i].label: attributes[i].value});
-            }
-          }
-          sqlMap.addAll({
-            'seed': seed,
-            'colors': palette.colorList.toString(),
-            'image': base64Image,
-            'paletteName': palette.paletteName,
-            'type': opArtType.toString(),
-            'paid': paid,
-            'animationControllerValue': animation ? animationController.value : 1.0
-          });
+      for (int i = 0; i < attributes.length; i++) {
+        if (attributes[i].settingType == SettingType.color) {
+          sqlMap.addAll({attributes[i].label: attributes[i].value.toString()});
+        } else {
+          sqlMap.addAll({attributes[i].label: attributes[i].value});
+        }
+      }
+      sqlMap.addAll({
+        'seed': seed,
+        'colors': palette.colorList.toString(),
+        'image': base64Image,
+        'paletteName': palette.paletteName,
+        'type': opArtType.toString(),
+        'paid': paid,
+        'animationControllerValue': animation ? animationController.value : 1.0
+      });
 
-          DatabaseHelper helper = DatabaseHelper.instance;
-          await helper.insert(sqlMap).then((id) {
-            map.addAll({'id': id});
-            savedOpArt.add(map);
-            rebuildMain.value++;
-            rebuildGallery.value++;
-          });
-        });
+      DatabaseHelper helper = DatabaseHelper.instance;
+      await helper.insert(sqlMap).then((id) {
+        map.addAll({'id': id});
+        savedOpArt.add(map);
+        rebuildMain.value++;
+        rebuildGallery.value++;
+      });
+    });
     return savedOpArt.length;
   }
 
@@ -308,9 +306,9 @@ class OpArt {
             'paletteName': palette.paletteName,
             'colors': palette.colorList,
             'numberOfColors': numberOfColors.value,
-            'animationControllerValue': animation ? animationController.value : 1.0
+            'animationControllerValue':
+                animation ? animationController.value : 1.0
           });
-
 
           cache.add(map);
 
@@ -326,14 +324,17 @@ class OpArt {
   }
 
   void revertToCache(int index) {
-    seed = cache[index]['seed'];
-    if(animation){ animationController.forward(from: cache[index]['animationControllerValue']);}
+    seed = cache[index]['seed'] as int;
+    if (animation) {
+      animationController.forward(
+          from: cache[index]['animationControllerValue']);
+    }
     for (int i = 0; i < attributes.length; i++) {
       attributes[i].value = cache[index][attributes[i].label];
     }
     numberOfColors.value = cache[index]['numberOfColors'];
-    palette.paletteName = cache[index]['paletteName'];
-    palette.colorList = cache[index]['colors'];
+    palette.paletteName = cache[index]['paletteName'] as String;
+    palette.colorList = cache[index]['colors'] as List<Color>;
 
     rebuildCanvas.value++;
     rebuildTab.value++;
@@ -423,7 +424,7 @@ class OpArt {
 
   // select a palette from the list
   void selectPalette(String paletteName) {
-    List newPalette =
+    final List newPalette =
         defaultPalettes.firstWhere((palette) => palette[0] == paletteName);
     palette.colorList = [];
     for (int z = 0; z < newPalette[3].length; z++) {

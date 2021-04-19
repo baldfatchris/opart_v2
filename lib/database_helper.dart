@@ -1,11 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-import 'package:path/path.dart';
 import 'package:opart_v2/model_opart.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
   // This is the actual database filename that is saved in the docs directory.
@@ -27,7 +27,7 @@ class DatabaseHelper {
   }
 
   // open the database
-   Future<Database> _initDatabase() async {
+  Future<Database> _initDatabase() async {
     // The path_provider plugin gets the right directory for Android or iOS.
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, _databaseName);
@@ -59,7 +59,7 @@ class DatabaseHelper {
 
   Future<List<Map<String, dynamic>>> getData() async {
     Database db = await database;
-    List<Map> maps = await db.query(
+    List<Map<String, dynamic>> maps = await db.query(
       'opart',
     );
     if (maps.isNotEmpty) {
@@ -87,9 +87,10 @@ class DatabaseHelper {
     await getData().then((map) {
       if (map != null) {
         for (int i = 0; i < map.length; i++) {
-          Map<String, dynamic> _data = jsonDecode(map[i]['data']);
+          final Map<String, dynamic> _data =
+              jsonDecode(map[i]['data'] as String) as Map<String, dynamic>;
 
-          Map<String, dynamic> fixedData = {};
+          final Map<String, dynamic> fixedData = {};
           fixedData.addAll({'id': map[i]['id']});
 
           for (int j = 0; j < _data.length; j++) {
@@ -104,20 +105,22 @@ class DatabaseHelper {
 
                 value.toString().replaceAll(']', '');
 
-                List<String> stringList = value.split(',');
+                final List<String> stringList =
+                    value.split(',') as List<String>;
 
-                List<Color> colorList = [];
+                final List<Color> colorList = [];
                 for (int j = 0; j < stringList.length; j++) {
-                  String valueString =
+                  final String valueString =
                       stringList[j].split('(0x')[1].split(')')[0];
-                  int intValue = int.parse(valueString, radix: 16);
+                  final int intValue = int.parse(valueString, radix: 16);
                   colorList.add(Color(intValue));
                 }
                 fixedData.addAll({'colors': colorList});
               } else if (value.toString().contains('Color(')) {
-                String valueString = value.split('(0x')[1].split(')')[0];
-                int intValue = int.parse(valueString, radix: 16);
-                Color otherColor =  Color(intValue);
+                final String valueString =
+                    value.split('(0x')[1].split(')')[0] as String;
+                final int intValue = int.parse(valueString, radix: 16);
+                final Color otherColor = Color(intValue);
                 fixedData.addAll({key: otherColor});
               } else {
                 fixedData.addAll({key: value});
@@ -134,6 +137,6 @@ class DatabaseHelper {
 
   Future<void> deleteDB() async {
     Database db = await database;
-   await db.delete('opart');
+    await db.delete('opart');
   }
 }

@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
-import '../main.dart';
+import 'dart:core';
+import 'dart:math';
 
+import 'package:flutter/material.dart';
+
+import '../main.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';
 import '../model_settings.dart';
-import 'dart:math';
-import 'dart:core';
 
 List<String> list = [];
 
@@ -15,7 +16,7 @@ SettingsModel reDraw = SettingsModel(
   label: 'Redraw',
   tooltip: 'Re-draw the picture with a different random seed',
   defaultValue: false,
-  icon: Icon(Icons.refresh),
+  icon: const Icon(Icons.refresh),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   onChange: () {
@@ -33,7 +34,7 @@ SettingsModel minimumDepth = SettingsModel(
   max: 10,
   zoom: 100,
   defaultValue: 6,
-  icon: Icon(Icons.line_weight),
+  icon: const Icon(Icons.line_weight),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -47,7 +48,7 @@ SettingsModel maximumDepth = SettingsModel(
   max: 20,
   zoom: 100,
   defaultValue: 10,
-  icon: Icon(Icons.line_weight),
+  icon: const Icon(Icons.line_weight),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -61,7 +62,7 @@ SettingsModel density = SettingsModel(
   max: 1.0,
   zoom: 100,
   defaultValue: 0.55,
-  icon: Icon(Icons.remove_red_eye),
+  icon: const Icon(Icons.remove_red_eye),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -77,7 +78,7 @@ SettingsModel ratio = SettingsModel(
   randomMax: 0.55,
   zoom: 100,
   defaultValue: 0.5,
-  icon: Icon(Icons.remove_red_eye),
+  icon: const Icon(Icons.remove_red_eye),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -88,7 +89,7 @@ SettingsModel randomiseRatio = SettingsModel(
   label: 'Randomise Ratio',
   tooltip: 'Randomise the split ratio',
   defaultValue: false,
-  icon: Icon(Icons.track_changes),
+  icon: const Icon(Icons.track_changes),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
@@ -103,7 +104,7 @@ SettingsModel lineWidth = SettingsModel(
   max: 10.0,
   zoom: 100,
   defaultValue: 3.0,
-  icon: Icon(Icons.line_weight),
+  icon: const Icon(Icons.line_weight),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -114,7 +115,7 @@ SettingsModel lineWidth = SettingsModel(
 //   label: 'Random Colors',
 //   tooltip: 'randomize the colours',
 //   defaultValue: true,
-//   icon: Icon(Icons.gamepad),
+//   icon: const Icon(Icons.gamepad),
 //   settingCategory: SettingCategory.tool,
 //   proFeature: false,
 //   silent: true,
@@ -126,8 +127,13 @@ SettingsModel paletteType = SettingsModel(
   label: 'Palette Type',
   tooltip: 'The nature of the palette',
   defaultValue: 'random',
-  icon: Icon(Icons.colorize),
-  options: ['random', 'blended random', 'linear random', 'linear complementary'],
+  icon: const Icon(Icons.colorize),
+  options: [
+    'random',
+    'blended random',
+    'linear random',
+    'linear complementary'
+  ],
   settingCategory: SettingCategory.palette,
   onChange: () {
     generatePalette();
@@ -141,7 +147,7 @@ SettingsModel resetDefaults = SettingsModel(
   label: 'Reset Defaults',
   tooltip: 'Reset all settings to defaults',
   defaultValue: false,
-  icon: Icon(Icons.low_priority),
+  icon: const Icon(Icons.low_priority),
   settingCategory: SettingCategory.tool,
   onChange: () {},
   silent: true,
@@ -167,7 +173,8 @@ List<SettingsModel> initializeTrianglesAttributes() {
   ];
 }
 
-void paintTriangles(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
+void paintTriangles(
+    Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
   rnd = Random(seed);
 
   if (paletteList.value != opArt.palette.paletteName) {
@@ -186,11 +193,37 @@ void paintTriangles(Canvas canvas, Size size, int seed, double animationVariable
   List p3 = [imageSize, imageSize];
   List p4 = [(canvasWidth - imageSize) / 2, imageSize];
 
-  drawTriangle(canvas, opArt.palette.colorList, p1, p2, p3, 0, minimumDepth.value.toInt(), maximumDepth.value.toInt(),
-      ratio.value, density.value, randomiseRatio.value, 0, lineColor.value, lineWidth.value);
+  drawTriangle(
+      canvas,
+      opArt.palette.colorList,
+      p1,
+      p2,
+      p3,
+      0,
+      minimumDepth.value.toInt(),
+      maximumDepth.value.toInt(),
+      ratio.value,
+      density.value,
+      randomiseRatio.value,
+      0,
+      lineColor.value,
+      lineWidth.value);
 
-  drawTriangle(canvas, opArt.palette.colorList, p1, p4, p3, 0, minimumDepth.value.toInt(), maximumDepth.value.toInt(),
-      ratio.value, density.value, randomiseRatio.value, 0, lineColor.value, lineWidth.value);
+  drawTriangle(
+      canvas,
+      opArt.palette.colorList,
+      p1,
+      p4,
+      p3,
+      0,
+      minimumDepth.value.toInt(),
+      maximumDepth.value.toInt(),
+      ratio.value,
+      density.value,
+      randomiseRatio.value,
+      0,
+      lineColor.value,
+      lineWidth.value);
 }
 
 void drawTriangle(
@@ -208,12 +241,16 @@ void drawTriangle(
     int colourOrder,
     Color lineColor,
     double lineWidth) {
-  if (recursionDepth < minimumDepth || (recursionDepth < maximumDepth && rnd.nextDouble() < density)) {
+  if (recursionDepth < minimumDepth ||
+      (recursionDepth < maximumDepth && rnd.nextDouble() < density)) {
     // split
     // work out the longest length
-    double l0 = (p2[0] - p1[0]) * (p2[0] - p1[0]) + (p2[1] - p1[1]) * (p2[1] - p1[1]);
-    double l1 = (p2[0] - p0[0]) * (p2[0] - p0[0]) + (p2[1] - p0[1]) * (p2[1] - p0[1]);
-    double l2 = (p0[0] - p1[0]) * (p0[0] - p1[0]) + (p0[1] - p1[1]) * (p0[1] - p1[1]);
+    double l0 =
+        (p2[0] - p1[0]) * (p2[0] - p1[0]) + (p2[1] - p1[1]) * (p2[1] - p1[1]);
+    double l1 =
+        (p2[0] - p0[0]) * (p2[0] - p0[0]) + (p2[1] - p0[1]) * (p2[1] - p0[1]);
+    double l2 =
+        (p0[0] - p1[0]) * (p0[0] - p1[0]) + (p0[1] - p1[1]) * (p0[1] - p1[1]);
 
     int splitDirection = (l2 > l0 && l2 > l1)
         ? 2
@@ -228,35 +265,122 @@ void drawTriangle(
 
     switch (splitDirection) {
       case 0:
-        List pN = [p1[0] * localRatio + p2[0] * (1 - localRatio), p1[1] * localRatio + p2[1] * (1 - localRatio)];
+        List pN = [
+          p1[0] * localRatio + p2[0] * (1 - localRatio),
+          p1[1] * localRatio + p2[1] * (1 - localRatio)
+        ];
 
-        drawTriangle(canvas, colorList, p0, p1, pN, recursionDepth + 1, minimumDepth, maximumDepth, ratio, density,
-            randomiseRatio, colourOrder + 1, lineColor, lineWidth);
+        drawTriangle(
+            canvas,
+            colorList,
+            p0,
+            p1,
+            pN,
+            recursionDepth + 1,
+            minimumDepth,
+            maximumDepth,
+            ratio,
+            density,
+            randomiseRatio,
+            colourOrder + 1,
+            lineColor,
+            lineWidth);
 
-        drawTriangle(canvas, colorList, p0, p2, pN, recursionDepth + 1, minimumDepth, maximumDepth, ratio, density,
-            randomiseRatio, colourOrder + 2, lineColor, lineWidth);
+        drawTriangle(
+            canvas,
+            colorList,
+            p0,
+            p2,
+            pN,
+            recursionDepth + 1,
+            minimumDepth,
+            maximumDepth,
+            ratio,
+            density,
+            randomiseRatio,
+            colourOrder + 2,
+            lineColor,
+            lineWidth);
 
         break;
 
       case 1:
-        List pN = [p0[0] * localRatio + p2[0] * (1 - localRatio), p0[1] * localRatio + p2[1] * (1 - localRatio)];
+        List pN = [
+          p0[0] * localRatio + p2[0] * (1 - localRatio),
+          p0[1] * localRatio + p2[1] * (1 - localRatio)
+        ];
 
-        drawTriangle(canvas, colorList, p1, p0, pN, recursionDepth + 1, minimumDepth, maximumDepth, ratio, density,
-            randomiseRatio, colourOrder + 1, lineColor, lineWidth);
+        drawTriangle(
+            canvas,
+            colorList,
+            p1,
+            p0,
+            pN,
+            recursionDepth + 1,
+            minimumDepth,
+            maximumDepth,
+            ratio,
+            density,
+            randomiseRatio,
+            colourOrder + 1,
+            lineColor,
+            lineWidth);
 
-        drawTriangle(canvas, colorList, p1, p2, pN, recursionDepth + 1, minimumDepth, maximumDepth, ratio, density,
-            randomiseRatio, colourOrder + 2, lineColor, lineWidth);
+        drawTriangle(
+            canvas,
+            colorList,
+            p1,
+            p2,
+            pN,
+            recursionDepth + 1,
+            minimumDepth,
+            maximumDepth,
+            ratio,
+            density,
+            randomiseRatio,
+            colourOrder + 2,
+            lineColor,
+            lineWidth);
 
         break;
 
       case 2:
-        List pN = [p0[0] * localRatio + p1[0] * (1 - localRatio), p0[1] * localRatio + p1[1] * (1 - localRatio)];
+        List pN = [
+          p0[0] * localRatio + p1[0] * (1 - localRatio),
+          p0[1] * localRatio + p1[1] * (1 - localRatio)
+        ];
 
-        drawTriangle(canvas, colorList, p2, p0, pN, recursionDepth + 1, minimumDepth, maximumDepth, ratio, density,
-            randomiseRatio, colourOrder + 1, lineColor, lineWidth);
+        drawTriangle(
+            canvas,
+            colorList,
+            p2,
+            p0,
+            pN,
+            recursionDepth + 1,
+            minimumDepth,
+            maximumDepth,
+            ratio,
+            density,
+            randomiseRatio,
+            colourOrder + 1,
+            lineColor,
+            lineWidth);
 
-        drawTriangle(canvas, colorList, p2, p1, pN, recursionDepth + 1, minimumDepth, maximumDepth, ratio, density,
-            randomiseRatio, colourOrder + 2, lineColor, lineWidth);
+        drawTriangle(
+            canvas,
+            colorList,
+            p2,
+            p1,
+            pN,
+            recursionDepth + 1,
+            minimumDepth,
+            maximumDepth,
+            ratio,
+            density,
+            randomiseRatio,
+            colourOrder + 2,
+            lineColor,
+            lineWidth);
 
         break;
     }
