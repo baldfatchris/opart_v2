@@ -197,66 +197,69 @@ void paintString(
 
   // colour in the canvas
   canvas.drawRect(
-      Offset(0, 0) & Size(size.width, size.height),
+      const Offset(0, 0) & Size(size.width, size.height),
       Paint()
-        ..color = backgroundColor.value
+        ..color = backgroundColor.value as Color
         ..style = PaintingStyle.fill);
 
   // double borderX = (size.width < size.height) ? 0 : (size.height - size.width)/2;
   // double borderY = (size.width > size.height) ? 0 : (size.width - size.height)/2;
-  double radius = (size.width < size.height)
-      ? size.width / 2 * zoomOpArt.value
-      : size.height / 2 * zoomOpArt.value;
-  int chords = (numberOfChords.value < numberOfDivisions.value)
-      ? numberOfChords.value
-      : numberOfDivisions.value;
+  final double radius = (size.width < size.height)
+      ? size.width / 2 * (zoomOpArt.value as num)
+      : size.height / 2 * (zoomOpArt.value as num);
+  final int chords =
+      ((numberOfChords.value as int) < (numberOfDivisions.value as int))
+          ? (numberOfChords.value as int)
+          : (numberOfDivisions.value as int);
   int colourOrder = 0;
   Color nextColor;
-  List colorList = opArt.palette.colorList;
+  final List colorList = opArt.palette.colorList;
   double spiral = 1.0;
 
   for (int j = 0; j < chords; j++) {
-    for (int i = 0; i < numberOfDivisions.value; i++) {
-      List p0 = [
+    for (int i = 0; i < (numberOfDivisions.value as int); i++) {
+      final List p0 = [
         size.width / 2 +
-            spiral * radius * cos(i * 2 * pi / numberOfDivisions.value),
+            spiral *
+                radius *
+                cos(i * 2 * pi / (numberOfDivisions.value as int)),
         size.height / 2 -
-            spiral * radius * sin(i * 2 * pi / numberOfDivisions.value)
+            spiral * radius * sin(i * 2 * pi / (numberOfDivisions.value as int))
       ];
 
-      List p1 = [
+      final List p1 = [
         size.width / 2 +
             spiral *
                 radius *
-                cos((i + 1 + j * step.value + skip.value) *
+                cos((i + 1 + j * (step.value as int) + (skip.value as int)) *
                     2 *
                     pi /
-                    numberOfDivisions.value),
+                    (numberOfDivisions.value as int)),
         size.height / 2 -
             spiral *
                 radius *
-                sin((i + 1 + j * step.value + skip.value) *
+                sin((i + 1 + j * (step.value as num) + (skip.value as num)) *
                     2 *
                     pi /
-                    numberOfDivisions.value)
+                    (numberOfDivisions.value as num))
       ];
 
       colourOrder++;
-      spiral = spiral * spiralRatio.value;
+      spiral = spiral * (spiralRatio.value as num);
 
-      nextColor = (randomColors.value == true)
-          ? colorList[rnd.nextInt(numberOfColors.value)]
-              .withOpacity(opacity.value)
-          : colorList[colourOrder % numberOfColors.value]
-              .withOpacity(opacity.value);
+      nextColor = (randomColors.value as bool)
+          ? colorList[rnd.nextInt(numberOfColors.value as int)]
+              .withOpacity(opacity.value as double) as Color
+          : colorList[colourOrder % (numberOfColors.value as int)]
+              .withOpacity(opacity.value as double) as Color;
 
       canvas.drawLine(
-          Offset(p0[0], p0[1]),
-          Offset(p1[0], p1[1]),
+          Offset(p0[0] as double, p0[1] as double),
+          Offset(p1[0] as double, p1[1] as double),
           Paint()
             ..color = nextColor
             ..style = PaintingStyle.stroke
-            ..strokeWidth = lineWidth.value
+            ..strokeWidth = lineWidth.value as double
             ..strokeCap = StrokeCap.round);
     }
   }

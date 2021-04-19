@@ -142,59 +142,65 @@ void paintSquares(
   rnd = Random(seed);
 
   if (paletteList.value != opArt.palette.paletteName) {
-    opArt.selectPalette(paletteList.value);
+    opArt.selectPalette(paletteList.value as String);
   }
 
   // Initialise the canvas
-  double canvasWidth = size.width;
-  double canvasHeight = size.height;
+  final double canvasWidth = size.width;
+  final double canvasHeight = size.height;
   double borderX = 0;
   double borderY = 0;
 
   // Work out the X and Y
-  int cellsX = (canvasWidth / (zoomOpArt.value) + 1.9999999).toInt();
-  borderX = (canvasWidth - zoomOpArt.value * cellsX) / 2;
+  final int cellsX =
+      (canvasWidth / (zoomOpArt.value as num) + 1.9999999).toInt();
+  borderX = (canvasWidth - (zoomOpArt.value as num) * cellsX) / 2;
 
-  int cellsY = (canvasHeight / (zoomOpArt.value) + 1.9999999).toInt();
-  borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
-  borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
+  final int cellsY =
+      (canvasHeight / (zoomOpArt.value as num) + 1.9999999).toInt();
+  borderY = (canvasHeight - (zoomOpArt.value as num) * cellsY) / 2;
+  borderY = (canvasHeight - (zoomOpArt.value as num) * cellsY) / 2;
 
   int colourOrder = 0;
   Color nextColor;
 
   // Now make some art
 
-  List squares = [];
+  final List squares = [];
 
   // Now make some art
   for (int i = 0; i < cellsX; ++i) {
-    List squaresJ = [];
+    final List squaresJ = [];
 
     for (int j = 0; j < cellsY; ++j) {
-      var x = borderX + i * zoomOpArt.value;
-      var y = borderY + j * zoomOpArt.value;
-      var p1 = [x, y];
+      final x = borderX + i * (zoomOpArt.value as num);
+      final y = borderY + j * (zoomOpArt.value as num);
+      final p1 = [x, y];
 
       // Choose the next colour
       colourOrder++;
-      nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-      if (randomColors.value) {
-        nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+      nextColor =
+          opArt.palette.colorList[colourOrder % (numberOfColors.value as int)];
+      if (randomColors.value as bool) {
+        nextColor =
+            opArt.palette.colorList[rnd.nextInt(numberOfColors.value as int)];
       }
-      nextColor = nextColor.withOpacity(opacity.value);
+      nextColor = nextColor.withOpacity(opacity.value as double);
       //save the colour
       squaresJ.add(nextColor);
 
       // draw the square
       canvas.drawRect(
-          Offset(p1[0], p1[1]) & Size(zoomOpArt.value, zoomOpArt.value),
+          Offset(p1[0], p1[1]) &
+              Size(zoomOpArt.value as double, zoomOpArt.value as double),
           Paint()
             ..strokeWidth = 0.0
             ..color = nextColor
             ..isAntiAlias = false
             ..style = PaintingStyle.fill);
       canvas.drawRect(
-          Offset(p1[0], p1[1]) & Size(zoomOpArt.value, zoomOpArt.value),
+          Offset(p1[0], p1[1]) &
+              Size(zoomOpArt.value as double, zoomOpArt.value as double),
           Paint()
             ..color = nextColor
             ..style = PaintingStyle.stroke
@@ -203,10 +209,10 @@ void paintSquares(
     squares.add(squaresJ);
   }
 
-  List bulgeDirectionArray = [];
+  final List bulgeDirectionArray = [];
   for (int q = 0; q < squares.length; q++) {
-    List bulgeDirectionArrayQ = [];
-    for (int r = 0; r < squares[q].length; r++) {
+    final List bulgeDirectionArrayQ = [];
+    for (int r = 0; r < (squares[q].length as int); r++) {
       bulgeDirectionArrayQ.add(0);
     }
     bulgeDirectionArray.add(bulgeDirectionArrayQ);
@@ -214,7 +220,7 @@ void paintSquares(
 
   // if we are bulging, run through these again
   if (bulge.value != 'none') {
-    var bulgeDirection;
+    int bulgeDirection;
 
     bool bulgeRight;
     bool bulgeLeft;
@@ -224,16 +230,16 @@ void paintSquares(
     // bulgeDirection:  1 = right, 2 = down, 3 = left, 4 = Up
     for (int i = 0; i < cellsX; ++i) {
       for (int j = 0; j < cellsY; ++j) {
-        var x = borderX + i * zoomOpArt.value;
-        var y = borderY + j * zoomOpArt.value;
+        final x = borderX + i * (zoomOpArt.value as num);
+        final y = borderY + j * (zoomOpArt.value as num);
 
-        var p1 = [x, y];
-        var p2 = [x + zoomOpArt.value, y];
-        var p3 = [x + zoomOpArt.value, y + zoomOpArt.value];
-        var p4 = [x, y + zoomOpArt.value];
+        final p1 = [x, y];
+        final p2 = [x + (zoomOpArt.value as num), y];
+        final p3 = [x + (zoomOpArt.value as num), y + (zoomOpArt.value as num)];
+        final p4 = [x, y + (zoomOpArt.value as num)];
 
         // retrieve the colour
-        Color colour = squares[i][j];
+        final Color colour = squares[i][j] as Color;
 
         bulgeRight = true;
         bulgeDown = true;
@@ -252,12 +258,12 @@ void paintSquares(
 
         //if circle
         if (bulge.value == 'circle') {
-          // if the square to the top keft bulged right  Don't bulge top
+          // if the square to the top left bulged right  Don't bulge top
           if (i > 0 && j > 0 && bulgeDirectionArray[i - 1][j - 1] == 1) {
             bulgeUp = false;
           }
 
-          // if the square to the top-left bulged dowmn Don't bulge left
+          // if the square to the top-left bulged down Don't bulge left
           if (i > 0 && j > 0 && bulgeDirectionArray[i - 1][j - 1] == 2) {
             bulgeLeft = false;
           }
@@ -297,7 +303,7 @@ void paintSquares(
           bulgeRight = false;
         }
 
-        List<int> possibleBulgeDirections = [];
+        final List<int> possibleBulgeDirections = [];
         if (bulgeRight) {
           possibleBulgeDirections.add(1);
         }
@@ -311,7 +317,7 @@ void paintSquares(
           possibleBulgeDirections.add(4);
         }
 
-        int countPossibleDirections = possibleBulgeDirections.length;
+        final int countPossibleDirections = possibleBulgeDirections.length;
 
         bulgeDirection = 0;
         if (countPossibleDirections > 1) {
@@ -336,7 +342,7 @@ void paintSquares(
 
         // Draw the bulge
         drawBulge(canvas, colour, p1, p2, p3, p4, bulgeDirection,
-            zoomOpArt.value, bulge.value.toString());
+            zoomOpArt.value as double, bulge.value.toString());
       }
     }
   }
@@ -344,7 +350,7 @@ void paintSquares(
 
 void drawBulge(Canvas canvas, Color colour, p1, p2, p3, p4, int direction,
     double radius, String bulge) {
-  Paint paint = Paint()
+  final Paint paint = Paint()
     ..color = colour
     ..isAntiAlias = false
     ..style = PaintingStyle.fill;
@@ -359,7 +365,8 @@ void drawBulge(Canvas canvas, Color colour, p1, p2, p3, p4, int direction,
         case 1: // bulge right
           canvas.drawArc(
               Rect.fromCenter(
-                  center: Offset((p2[0] + p3[0]) / 2, (p2[1] + p3[1]) / 2),
+                  center: Offset(((p2[0] as double) + (p3[0] as double)) / 2,
+                      ((p2[1] as double) + (p3[1] as double)) / 2),
                   height: radius,
                   width: radius),
               pi * 1.5,
@@ -367,14 +374,16 @@ void drawBulge(Canvas canvas, Color colour, p1, p2, p3, p4, int direction,
               true,
               paint);
 
-          canvas.drawLine(Offset(p2[0], p2[1]), Offset(p3[0], p3[1]), paint);
+          canvas.drawLine(Offset(p2[0] as double, p2[1] as double),
+              Offset(p3[0] as double, p3[1] as double), paint);
 
           break;
 
         case 2: // bulge bottom
           canvas.drawArc(
               Rect.fromCenter(
-                  center: Offset((p3[0] + p4[0]) / 2, (p3[1] + p4[1]) / 2),
+                  center: Offset(((p3[0] as double) + (p4[0] as double)) / 2,
+                      ((p3[1] as double) + (p4[1] as double)) / 2),
                   height: radius,
                   width: radius),
               pi * 0.0,
@@ -382,14 +391,16 @@ void drawBulge(Canvas canvas, Color colour, p1, p2, p3, p4, int direction,
               true,
               paint);
 
-          canvas.drawLine(Offset(p3[0], p3[1]), Offset(p4[0], p4[1]), paint);
+          canvas.drawLine(Offset(p3[0] as double, p3[1] as double),
+              Offset(p4[0] as double, p4[1] as double), paint);
 
           break;
 
         case 3: // bulge left
           canvas.drawArc(
               Rect.fromCenter(
-                  center: Offset((p4[0] + p1[0]) / 2, (p4[1] + p1[1]) / 2),
+                  center: Offset(((p4[0] as double) + (p1[0] as double)) / 2,
+                      ((p4[1] as double) + (p1[1] as double)) / 2),
                   height: radius,
                   width: radius),
               pi * 0.5,
@@ -397,14 +408,16 @@ void drawBulge(Canvas canvas, Color colour, p1, p2, p3, p4, int direction,
               true,
               paint);
 
-          canvas.drawLine(Offset(p4[0], p4[1]), Offset(p1[0], p1[1]), paint);
+          canvas.drawLine(Offset(p4[0] as double, p4[1] as double),
+              Offset(p1[0] as double, p1[1] as double), paint);
 
           break;
 
         case 4: // top
           canvas.drawArc(
               Rect.fromCenter(
-                  center: Offset((p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2),
+                  center: Offset(((p1[0] as double) + (p2[0] as double)) / 2,
+                      ((p1[1] as double) + (p2[1] as double)) / 2),
                   height: radius,
                   width: radius),
               pi * 1.0,
@@ -412,7 +425,8 @@ void drawBulge(Canvas canvas, Color colour, p1, p2, p3, p4, int direction,
               true,
               paint);
 
-          canvas.drawLine(Offset(p1[0], p1[1]), Offset(p2[0], p2[1]), paint);
+          canvas.drawLine(Offset(p1[0] as double, p1[1] as double),
+              Offset(p2[0] as double, p2[1] as double), paint);
 
           break;
       }
@@ -420,15 +434,16 @@ void drawBulge(Canvas canvas, Color colour, p1, p2, p3, p4, int direction,
       break;
 
     case 'triangle':
-      double pointiness = 0.3;
+      const double pointiness = 0.3;
 
-      Path triangle = Path();
+      final Path triangle = Path();
 
       switch (direction) {
         case 1: // bulge right
-          triangle.moveTo(p2[0], p2[1]);
-          triangle.lineTo(p3[0], p3[1]);
-          triangle.lineTo(p2[0] + radius * pointiness, (p2[1] + p3[1]) / 2);
+          triangle.moveTo(p2[0] as double, p2[1] as double);
+          triangle.lineTo(p3[0] as double, p3[1] as double);
+          triangle.lineTo((p2[0] as double) + radius * pointiness,
+              ((p2[1] as double) + (p3[1] as double)) / 2);
           triangle.close();
           canvas.drawPath(triangle, paint);
 
@@ -436,9 +451,10 @@ void drawBulge(Canvas canvas, Color colour, p1, p2, p3, p4, int direction,
 
         case 2: // bulge bottom
 
-          triangle.moveTo(p4[0], p4[1]);
-          triangle.lineTo(p3[0], p3[1]);
-          triangle.lineTo((p3[0] + p4[0]) / 2, p3[1] + radius * pointiness);
+          triangle.moveTo(p4[0] as double, p4[1] as double);
+          triangle.lineTo(p3[0] as double, p3[1] as double);
+          triangle.lineTo(((p3[0] as double) + (p4[0] as double)) / 2,
+              (p3[1] as double) + radius * pointiness);
           triangle.close();
           canvas.drawPath(triangle, paint);
 
@@ -446,9 +462,10 @@ void drawBulge(Canvas canvas, Color colour, p1, p2, p3, p4, int direction,
 
         case 3: // bulge left
 
-          triangle.moveTo(p1[0], p1[1]);
-          triangle.lineTo(p4[0], p4[1]);
-          triangle.lineTo(p1[0] - radius * pointiness, (p1[1] + p4[1]) / 2);
+          triangle.moveTo(p1[0] as double, p1[1] as double);
+          triangle.lineTo(p4[0] as double, p4[1] as double);
+          triangle.lineTo((p1[0] as double) - radius * pointiness,
+              ((p1[1] as double) + (p4[1] as double)) / 2);
           triangle.close();
           canvas.drawPath(triangle, paint);
 
@@ -456,9 +473,10 @@ void drawBulge(Canvas canvas, Color colour, p1, p2, p3, p4, int direction,
 
         case 4: // bulge top
           //canvas.stroke()
-          triangle.moveTo(p1[0], p1[1]);
-          triangle.lineTo(p2[0], p2[1]);
-          triangle.lineTo((p1[0] + p2[0]) / 2, p1[1] - radius * pointiness);
+          triangle.moveTo(p1[0] as double, p1[1] as double);
+          triangle.lineTo(p2[0] as double, p2[1] as double);
+          triangle.lineTo(((p1[0] as double) + (p2[0] as double)) / 2,
+              (p1[1] as double) - radius * pointiness);
           triangle.close();
           canvas.drawPath(triangle, paint);
 

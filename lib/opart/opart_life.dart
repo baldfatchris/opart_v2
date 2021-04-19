@@ -119,22 +119,24 @@ void paintLife(
   rnd = Random(DateTime.now().millisecond);
 
   if (paletteList.value != opArt.palette.paletteName) {
-    opArt.selectPalette(paletteList.value);
+    opArt.selectPalette(paletteList.value as String);
   }
 
   // Initialise the canvas
-  double canvasWidth = size.width;
-  double canvasHeight = size.height;
+  final double canvasWidth = size.width;
+  final double canvasHeight = size.height;
   double borderX = 0;
   double borderY = 0;
 
   // Work out the X and Y
-  int cellsX = (canvasWidth / (zoomOpArt.value) + 1.9999999).toInt();
-  borderX = (canvasWidth - zoomOpArt.value * cellsX) / 2;
+  final int cellsX =
+      (canvasWidth / (zoomOpArt.value as double) + 1.9999999).toInt();
+  borderX = (canvasWidth - (zoomOpArt.value as double) * cellsX) / 2;
 
-  int cellsY = (canvasHeight / (zoomOpArt.value) + 1.9999999).toInt();
-  borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
-  borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
+  final int cellsY =
+      (canvasHeight / (zoomOpArt.value as double) + 1.9999999).toInt();
+  borderY = (canvasHeight - (zoomOpArt.value as double) * cellsY) / 2;
+  borderY = (canvasHeight - (zoomOpArt.value as double) * cellsY) / 2;
 
   //int colourOrder = 0;
   Color nextColor;
@@ -149,7 +151,7 @@ void paintLife(
 
     // Now make some art
     for (int i = 0; i < cellsX; ++i) {
-      List squaresJ = [];
+      final List squaresJ = [];
 
       for (int j = 0; j < cellsY; ++j) {
         // Choose the next colour
@@ -163,20 +165,21 @@ void paintLife(
         // if (rnd.nextDouble()>0.5) nextColor = Colors.black;
 
         nextColor = Color.fromRGBO(
-            (rnd.nextBool()) ? rnd.nextInt((256)) : 0,
-            (rnd.nextBool()) ? rnd.nextInt((256)) : 0,
-            (rnd.nextBool()) ? rnd.nextInt((256)) : 0,
+            (rnd.nextBool()) ? rnd.nextInt(256) : 0,
+            (rnd.nextBool()) ? rnd.nextInt(256) : 0,
+            (rnd.nextBool()) ? rnd.nextInt(256) : 0,
             1);
 
         //save the colour
         squaresJ.add(nextColor);
 
-        var x = borderX + i * zoomOpArt.value;
-        var y = borderY + j * zoomOpArt.value;
+        final x = borderX + i * (zoomOpArt.value as double);
+        final y = borderY + j * (zoomOpArt.value as double);
 
         // draw the square
         canvas.drawRect(
-            Offset(x, y) & Size(zoomOpArt.value, zoomOpArt.value),
+            Offset(x, y) &
+                Size(zoomOpArt.value as double, zoomOpArt.value as double),
             Paint()
               ..strokeWidth = 0.0
               ..color = nextColor
@@ -186,15 +189,15 @@ void paintLife(
       squaresI.add(squaresJ);
     }
   } else {
-    List oldSquaresI = squaresI;
+    final List oldSquaresI = squaresI;
     squaresI = [];
 
     //play the game
     for (int i = 0; i < cellsX; ++i) {
-      List squaresJ = [];
+      final List squaresJ = [];
 
       for (int j = 0; j < cellsY; ++j) {
-        List neighbours = [];
+        final List neighbours = [];
 
         // if (i>0 && j>0) neighbours.add(oldSquaresI[i-1][j-1]);
         // if (i>0 && j<cellsY-1) neighbours.add(oldSquaresI[i-1][j+1]);
@@ -212,10 +215,11 @@ void paintLife(
         int neighboursAlive = 0;
 
         neighbours.forEach((element) {
-          if (element.red > 0) neighboursRed++;
-          if (element.green > 0) neighboursGreen++;
-          if (element.blue > 0) neighboursBlue++;
-          if (HSLColor.fromColor(element).lightness > 0) neighboursAlive++;
+          if (element.red as double > 0) neighboursRed++;
+          if (element.green as double > 0) neighboursGreen++;
+          if (element.blue as double > 0) neighboursBlue++;
+          if (HSLColor.fromColor(element as Color).lightness > 0)
+            neighboursAlive++;
         });
 
         // Any live cell with fewer than two live neighbours dies, as if by underpopulation.
@@ -223,34 +227,35 @@ void paintLife(
         // Any live cell with more than three live neighbours dies, as if by overpopulation.
         // Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 
-        bool wasAliveRed = (oldSquaresI[i][j].red > 100);
-        bool nowAliveRed =
-            ((wasAliveRed && (neighboursRed == 2 || neighboursRed == 3)) ||
-                (!wasAliveRed && neighboursRed == 3));
-        bool wasAliveGreen = (oldSquaresI[i][j].green > 100);
-        bool nowAliveGreen = ((wasAliveGreen &&
-                (neighboursGreen == 2 || neighboursGreen == 3)) ||
-            (!wasAliveGreen && neighboursGreen == 3));
-        bool wasAliveBlue = (oldSquaresI[i][j].blue > 100);
-        bool nowAliveBlue =
-            ((wasAliveBlue && (neighboursBlue == 2 || neighboursBlue == 3)) ||
-                (!wasAliveBlue && neighboursBlue == 3));
+        final bool wasAliveRed = oldSquaresI[i][j].red as double > 100;
+        final bool nowAliveRed =
+            wasAliveRed && (neighboursRed == 2 || neighboursRed == 3) ||
+                (!wasAliveRed && neighboursRed == 3);
+        final bool wasAliveGreen = oldSquaresI[i][j].green as double > 100;
+        final bool nowAliveGreen =
+            wasAliveGreen && (neighboursGreen == 2 || neighboursGreen == 3) ||
+                (!wasAliveGreen && neighboursGreen == 3);
+        final bool wasAliveBlue = oldSquaresI[i][j].blue as double > 100;
+        final bool nowAliveBlue =
+            wasAliveBlue && (neighboursBlue == 2 || neighboursBlue == 3) ||
+                (!wasAliveBlue && neighboursBlue == 3);
 
-        Color nextColor = Color.fromRGBO(
-            (nowAliveRed) ? rnd.nextInt(156) + 100 : 0,
-            (nowAliveGreen) ? rnd.nextInt(156) + 100 : 0,
-            (nowAliveBlue) ? rnd.nextInt(156) + 100 : 0,
+        final Color nextColor = Color.fromRGBO(
+            nowAliveRed ? rnd.nextInt(156) + 100 : 0,
+            nowAliveGreen ? rnd.nextInt(156) + 100 : 0,
+            nowAliveBlue ? rnd.nextInt(156) + 100 : 0,
             1);
 
         //save the colour
         squaresJ.add(nextColor);
 
-        var x = borderX + i * zoomOpArt.value;
-        var y = borderY + j * zoomOpArt.value;
+        final x = borderX + i * (zoomOpArt.value as double);
+        final y = borderY + j * (zoomOpArt.value as double);
 
         // draw the square
         canvas.drawRect(
-            Offset(x, y) & Size(zoomOpArt.value, zoomOpArt.value),
+            Offset(x, y) &
+                Size(zoomOpArt.value as double, zoomOpArt.value as double),
             Paint()
               ..strokeWidth = 0.0
               ..color = nextColor

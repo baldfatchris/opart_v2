@@ -287,12 +287,12 @@ void drawDiagonal(
               .withOpacity(opacity.value) as Color;
         }
 
-        radius =
-            sideLength / pipes * (i - 0.5 + (ratio.value as int) / 2) - offset;
+        radius = sideLength / pipes * (i - 0.5 + (ratio.value as double) / 2) -
+            offset;
         drawQuarterArc(canvas, centre1, radius, startAngle, nextColor);
 
-        radius =
-            sideLength / pipes * (i - 0.5 - (ratio.value as int) / 2) - offset;
+        radius = sideLength / pipes * (i - 0.5 - (ratio.value as double) / 2) -
+            offset;
         drawQuarterArc(canvas, centre1, radius, startAngle,
             backgroundColor.withOpacity(1.0));
       }
@@ -314,12 +314,12 @@ void drawDiagonal(
               .withOpacity(opacity.value) as Color;
         }
 
-        radius =
-            sideLength / pipes * (i - 0.5 + (ratio.value as int) / 2) + offset;
+        radius = sideLength / pipes * (i - 0.5 + (ratio.value as double) / 2) +
+            offset;
         drawQuarterArc(canvas, centre2, radius, startAngle + pi, nextColor);
 
-        radius =
-            sideLength / pipes * (i - 0.5 - (ratio.value as int) / 2) + offset;
+        radius = sideLength / pipes * (i - 0.5 - (ratio.value as double) / 2) +
+            offset;
         drawQuarterArc(canvas, centre2, radius, startAngle + pi,
             backgroundColor.withOpacity(1.0));
       }

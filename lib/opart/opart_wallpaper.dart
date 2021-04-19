@@ -380,7 +380,7 @@ void paintWallpaper(
   rnd = Random(seed);
 
   if (paletteList.value != opArt.palette.paletteName) {
-    opArt.selectPalette(paletteList.value);
+    opArt.selectPalette(paletteList.value as String);
   }
 
   // Initialise the canvas

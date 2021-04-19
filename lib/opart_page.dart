@@ -1,21 +1,21 @@
+import 'dart:async';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:opart_v2/tabs/general_tab.dart';
-import 'package:share/share.dart';
-import 'package:shake/shake.dart';
-import 'main.dart';
-
 import 'package:opart_v2/tabs/color_picker_widget.dart';
-import 'bottom_app_bar.dart';
-import 'model_opart.dart';
-import 'canvas.dart';
-import 'mygallery.dart';
-import 'tabs/tools_widget.dart';
-import 'tabs/tab_widget.dart';
-
-import 'dart:async';
+import 'package:opart_v2/tabs/general_tab.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:shake/shake.dart';
+import 'package:share/share.dart';
+
+import 'bottom_app_bar.dart';
+import 'canvas.dart';
+import 'main.dart';
+import 'model_opart.dart';
+import 'mygallery.dart';
+import 'tabs/tab_widget.dart';
+import 'tabs/tools_widget.dart';
 
 class OpArtPage extends StatefulWidget {
   final OpArtType opArtType;
@@ -267,7 +267,8 @@ class _OpArtPageState extends State<OpArtPage> {
                                       showProgressIndicator = true;
                                       rebuildOpArtPage.value++;
                                       try {
-                                        await Purchases.setFinishTransactions(true);
+                                        await Purchases.setFinishTransactions(
+                                            true);
                                         PurchaserInfo purchaserInfo =
                                             await Purchases.purchasePackage(
                                                 p0001);
@@ -290,7 +291,8 @@ class _OpArtPageState extends State<OpArtPage> {
                                               print('image saved');
 
                                               imageFile = image;
-                                              await _shareImage(size).then((value) {
+                                              await _shareImage(size)
+                                                  .then((value) {
                                                 opArt
                                                     .saveToLocalDB(true)
                                                     .then((value) async {
@@ -323,7 +325,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                         }
                                       }
                                     },
-                                    label: Text(highDefPrice?? 'doh!'),
+                                    label: Text(highDefPrice ?? 'doh!'),
                                     backgroundColor: highDefPrice != null
                                         ? Colors.blue
                                         : Colors.grey,
@@ -553,12 +555,10 @@ class _OpArtPageState extends State<OpArtPage> {
                         children: [
                           InteractiveViewer(
                             child: ClipRect(
-                                child: Hero(tag: opArt.name,
-                                  child: CanvasWidget(
+                                child: CanvasWidget(
                               showSettings,
                               animationValue: widget.animationValue,
-                            ),
-                                )),
+                            )),
                           ),
                           showProgressIndicator
                               ? Container(

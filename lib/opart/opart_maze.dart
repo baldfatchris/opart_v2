@@ -185,22 +185,24 @@ void paintMaze(
   rnd = Random(seed);
 
   if (paletteList.value != opArt.palette.paletteName) {
-    opArt.selectPalette(paletteList.value);
+    opArt.selectPalette(paletteList.value as String);
   }
 
   // Initialise the canvas
-  double canvasWidth = size.width;
-  double canvasHeight = size.height;
+  final double canvasWidth = size.width;
+  final double canvasHeight = size.height;
   double borderX = 0;
   double borderY = 0;
 
   // Work out the X and Y
-  int cellsX = (canvasWidth / (zoomOpArt.value) + 1.9999999).toInt();
-  borderX = (canvasWidth - zoomOpArt.value * cellsX) / 2;
+  final int cellsX =
+      (canvasWidth / (zoomOpArt.value as num) + 1.9999999).toInt();
+  borderX = (canvasWidth - (zoomOpArt.value as num) * cellsX) / 2;
 
-  int cellsY = (canvasHeight / (zoomOpArt.value) + 1.9999999).toInt();
-  borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
-  borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
+  final int cellsY =
+      (canvasHeight / (zoomOpArt.value as num) + 1.9999999).toInt();
+  borderY = (canvasHeight - (zoomOpArt.value as num) * cellsY) / 2;
+  borderY = (canvasHeight - (zoomOpArt.value as num) * cellsY) / 2;
 
   int colourOrder = 0;
   Color nextColor;
@@ -209,12 +211,12 @@ void paintMaze(
 
   // draw the square
   canvas.drawRect(
-      Offset(0, 0) & Size(canvasWidth, canvasHeight),
+      const Offset(0, 0) & Size(canvasWidth, canvasHeight),
       Paint()
-        ..color = backgroundColor.value.withOpacity(1.0)
+        ..color = (backgroundColor.value as Color).withOpacity(1.0)
         ..style = PaintingStyle.fill);
 
-  List shapesArray = [];
+  final List shapesArray = [];
   if (lineHorizontal.value == true) {
     shapesArray.add('lineHorizontal');
   }
@@ -232,27 +234,28 @@ void paintMaze(
   for (int i = 0; i < cellsX; ++i) {
     for (int j = 0; j < cellsY; ++j) {
       if (shapesArray.isNotEmpty) {
-        var x = borderX + i * zoomOpArt.value;
-        var y = borderY + j * zoomOpArt.value;
+        final x = borderX + i * (zoomOpArt.value as num);
+        final y = borderY + j * (zoomOpArt.value as num);
 
-        var p1 = [x, y];
-        var p2 = [x + zoomOpArt.value, y];
-        var p3 = [x + zoomOpArt.value, y + zoomOpArt.value];
-        var p4 = [x, y + zoomOpArt.value];
+        final p1 = [x, y];
+        final p2 = [x + (zoomOpArt.value as num), y];
+        final p3 = [x + (zoomOpArt.value as num), y + (zoomOpArt.value as num)];
+        final p4 = [x, y + (zoomOpArt.value as num)];
 
         // Choose the next colour
         colourOrder++;
-        nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-        if (randomColors.value) {
+        nextColor = opArt
+            .palette.colorList[colourOrder % (numberOfColors.value as int)];
+        if (randomColors.value as bool) {
           nextColor =
-              opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+              opArt.palette.colorList[rnd.nextInt(numberOfColors.value as int)];
         }
-        nextColor = nextColor.withOpacity(opacity.value);
+        nextColor = nextColor.withOpacity(opacity.value as double);
 
         List pA = [];
         List pB = [];
 
-        switch (shapesArray[rnd.nextInt(shapesArray.length)]) {
+        switch (shapesArray[rnd.nextInt(shapesArray.length)] as String) {
           case 'lineDiagonalRight':
             pA = p1;
             pB = p3;
@@ -273,12 +276,13 @@ void paintMaze(
 
         // draw the line
         canvas.drawLine(
-            Offset(pA[0], pA[1]),
-            Offset(pB[0], pB[1]),
+            Offset(pA[0] as double, pA[1] as double),
+            Offset(pB[0] as double, pB[1] as double),
             Paint()
               ..color = nextColor
               ..style = PaintingStyle.stroke
-              ..strokeWidth = lineWidth.value * zoomOpArt.value / 10
+              ..strokeWidth =
+                  (lineWidth.value as double) * (zoomOpArt.value as num) / 10
               ..strokeCap = StrokeCap.round);
       }
     }

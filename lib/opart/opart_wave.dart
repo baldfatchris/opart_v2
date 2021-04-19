@@ -173,7 +173,7 @@ void paintWave(
   rnd = Random(seed);
 
   if (paletteList.value != opArt.palette.paletteName) {
-    opArt.selectPalette(paletteList.value);
+    opArt.selectPalette(paletteList.value as String);
   }
 
   generateWave(

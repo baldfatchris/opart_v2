@@ -312,16 +312,16 @@ void paintShapes(
   rnd = Random(seed);
 
   if (paletteList.value != opArt.palette.paletteName) {
-    opArt.selectPalette(paletteList.value);
+    opArt.selectPalette(paletteList.value as String);
   }
 
   // Initialise the canvas
-  double canvasWidth = size.width;
-  double canvasHeight = size.height;
+  final double canvasWidth = size.width;
+  final double canvasHeight = size.height;
   double borderX = 0;
   double borderY = 0;
-  double imageWidth = canvasWidth;
-  double imageHeight = canvasHeight;
+  final double imageWidth = canvasWidth;
+  final double imageHeight = canvasHeight;
 
   // colour in the canvas
   //a rectangle
@@ -329,17 +329,19 @@ void paintShapes(
       Paint()..style = PaintingStyle.fill);
 
   // Work out the X and Y
-  int cellsX = (canvasWidth / (zoomOpArt.value) + 0.9999999).toInt();
-  borderX = (canvasWidth - zoomOpArt.value * cellsX) / 2;
+  final int cellsX =
+      (canvasWidth / (zoomOpArt.value as double) + 0.9999999).toInt();
+  borderX = (canvasWidth - (zoomOpArt.value as num) * cellsX) / 2;
 
-  int cellsY = (canvasHeight / (zoomOpArt.value) + 0.9999999).toInt();
-  borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
+  final int cellsY =
+      (canvasHeight / (zoomOpArt.value as num) + 0.9999999).toInt();
+  borderY = (canvasHeight - (zoomOpArt.value as num) * cellsY) / 2;
 
   int colourOrder = 0;
 
   // Now make some art
 
-  List shapesArray = [];
+  final List shapesArray = [];
   if (shapeHalfDiagonalTriangle.value == true) {
     shapesArray.add('shapeHalfDiagonalTriangle');
   }
@@ -368,7 +370,7 @@ void paintShapes(
     shapesArray.add('shapeSquaredCircle');
   }
 
-  double side = zoomOpArt.value;
+  final double side = zoomOpArt.value as double;
 
   // reset the colours
   colourOrder = 0;
@@ -384,7 +386,7 @@ void paintShapes(
           [borderX + i * side, borderY + j * side],
           side,
           0,
-          randomSize.value ? rnd.nextDouble() : 1);
+          randomSize.value as bool ? rnd.nextDouble() : 1);
     }
   }
 }
@@ -401,8 +403,8 @@ int drawSquare(
     double ratio) {
   Color nextColor;
 
-  if (recursion < recursionDepth.value &&
-      rnd.nextDouble() < recursionRatio.value) {
+  if (recursion < (recursionDepth.value as num) &&
+      rnd.nextDouble() < (recursionRatio.value as num)) {
     colourOrder = drawSquare(canvas, rnd, palette, colourOrder, shapesArray, pA,
         side / 2, recursion + 1, ratio);
     colourOrder = drawSquare(canvas, rnd, palette, colourOrder, shapesArray,
@@ -423,9 +425,9 @@ int drawSquare(
     if (box.value == true) {
       // Choose the next colour
       colourOrder++;
-      nextColor = (randomColors.value)
-          ? palette[colourOrder % numberOfColors.value]
-          : palette[rnd.nextInt(numberOfColors.value)];
+      nextColor = (randomColors.value as bool)
+          ? palette[colourOrder % (numberOfColors.value as int)] as Color
+          : palette[rnd.nextInt(numberOfColors.value as int)] as Color;
 
       // fill the square
       canvas.drawRect(
@@ -433,28 +435,28 @@ int drawSquare(
           Paint()
             ..style = PaintingStyle.fill
             ..isAntiAlias = false
-            ..color = nextColor.withOpacity(opacity.value));
+            ..color = nextColor.withOpacity(opacity.value as double));
     }
 
     // now  draw the shape
     if (shapesArray.isNotEmpty) {
       // Choose the next colour
       colourOrder++;
-      nextColor = (randomColors.value)
-          ? palette[colourOrder % numberOfColors.value]
-          : palette[rnd.nextInt(numberOfColors.value)];
+      nextColor = (randomColors.value as bool)
+          ? palette[colourOrder % (numberOfColors.value as int)] as Color
+          : palette[rnd.nextInt(numberOfColors.value as int)] as Color;
       Paint paint = Paint()
         ..style = PaintingStyle.fill
         ..isAntiAlias = false
-        ..color = nextColor.withOpacity(opacity.value);
+        ..color = nextColor.withOpacity(opacity.value as double);
 
-      Path shape = Path();
+      final Path shape = Path();
 
       // pick a random shape
-      switch (shapesArray[rnd.nextInt(shapesArray.length)]) {
+      switch (shapesArray[rnd.nextInt(shapesArray.length)] as String) {
         case 'shapeHalfDiagonalTriangle': // half diagonal triangle
 
-          var shapeOrientation = rnd.nextInt(4);
+          final shapeOrientation = rnd.nextInt(4);
           switch (shapeOrientation) {
             case 0:
               shape.moveTo(pA[0], pA[1]);

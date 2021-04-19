@@ -20,10 +20,10 @@ class CanvasWidget extends StatefulWidget {
 bool showControls = false;
 AnimationController animationController;
 Animation<double> currentAnimation;
+
 class _CanvasWidgetState extends State<CanvasWidget>
     with TickerProviderStateMixin {
   bool playing = true;
-
 
   @override
   void initState() {
@@ -32,8 +32,8 @@ class _CanvasWidgetState extends State<CanvasWidget>
 
     if (opArt.animation) {
       animationController = AnimationController(
-        value: this,
         duration: const Duration(seconds: 72000),
+        vsync: this,
       );
       CurvedAnimation(parent: animationController, curve: Curves.linear);
 
@@ -65,7 +65,6 @@ class _CanvasWidgetState extends State<CanvasWidget>
 
   @override
   Widget build(BuildContext context) {
-
     return Stack(
       children: [
         ValueListenableBuilder<int>(
@@ -80,7 +79,9 @@ class _CanvasWidgetState extends State<CanvasWidget>
                         color: Colors.white,
                         width: constraints.widthConstraints().maxWidth,
                         height: constraints.heightConstraints().maxHeight,
-                        child: CustomPaint(painter: OpArtPainter(seed, rnd, opArt.animation ? currentAnimation.value : 1),
+                        child: CustomPaint(
+                          painter: OpArtPainter(seed, rnd,
+                              opArt.animation ? currentAnimation.value : 1),
                         ),
                       ),
                     ),
@@ -88,86 +89,102 @@ class _CanvasWidgetState extends State<CanvasWidget>
                 ],
               );
             }),
-        if (showSettings) Align(
-                alignment: Alignment.bottomCenter,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (opArt.animation) Padding(
-                            padding: const EdgeInsets.only(bottom: 10.0),
-                            child: SizedBox(
-                              height: MediaQuery.of(context).size.width< 350? 40: 50,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  if (showControls) RotatedBox(
-                                          quarterTurns: 2,
-                                          child: _controlButton(
-                                            Icons.fast_forward,
-                                            () {
-                                              if (timeDilation < 8) {
-                                                timeDilation =
-                                                    timeDilation * 2;
-                                              }
-                                            },
-                                            playing,
-                                          )) else Container(),
-                                  if (showControls) RotatedBox(
-                                          quarterTurns: 2,
-                                          child: _controlButton(
-                                              Icons.play_arrow, () {
-                                            setState(() {
-                                              animationController.reverse();
-                                              playing = true;
-                                              _forward = false;
-                                            });
-                                          }, _forward)) else Container(),
-                                  if (showControls) _controlButton(Icons.pause, () {
-                                          if (animationController != null) {
-                                            setState(() {
-                                              animationController.stop();
-                                              playing = false;
-                                            });
-                                          }
-                                        }, playing) else Container(),
-                                  if (showControls) _controlButton(
-                                          Icons.play_arrow,
-                                          () {
-                                            setState(() {
-                                              animationController.forward();
-                                              playing = true;
-                                              _forward = true;
-                                            });
-                                          },
-                                          !_forward || !playing
-                                              ,
-                                        ) else Container(),
-                                  if (showControls) _controlButton(
-                                          Icons.fast_forward,
-                                          () {
-                                            if (timeDilation > 0.2) {
-                                              timeDilation = timeDilation / 2;
-                                            }
-                                          },
-                                          playing,
-                                        ) else Container(),
-                                  _controlButton(
-                                      showControls
-                                          ? Icons.close
-                                          : MdiIcons.playPause, () {
-                                    setState(() {
-                                      showControls = !showControls;
-                                    });
-                                  }, true),
-                                ],
-                              ),
-                            ),
-                          ) else Container(),
-                    if (widget._fullScreen) Container(height: 70) else Container(),
-                  ],
-                ),
-              ) else Container(),
+        if (showSettings)
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (opArt.animation)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.width < 350 ? 40 : 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          if (showControls)
+                            RotatedBox(
+                                quarterTurns: 2,
+                                child: _controlButton(
+                                  Icons.fast_forward,
+                                  () {
+                                    if (timeDilation < 8) {
+                                      timeDilation = timeDilation * 2;
+                                    }
+                                  },
+                                  playing,
+                                ))
+                          else
+                            Container(),
+                          if (showControls)
+                            RotatedBox(
+                                quarterTurns: 2,
+                                child: _controlButton(Icons.play_arrow, () {
+                                  setState(() {
+                                    animationController.reverse();
+                                    playing = true;
+                                    _forward = false;
+                                  });
+                                }, _forward))
+                          else
+                            Container(),
+                          if (showControls)
+                            _controlButton(Icons.pause, () {
+                              if (animationController != null) {
+                                setState(() {
+                                  animationController.stop();
+                                  playing = false;
+                                });
+                              }
+                            }, playing)
+                          else
+                            Container(),
+                          if (showControls)
+                            _controlButton(
+                              Icons.play_arrow,
+                              () {
+                                setState(() {
+                                  animationController.forward();
+                                  playing = true;
+                                  _forward = true;
+                                });
+                              },
+                              !_forward || !playing,
+                            )
+                          else
+                            Container(),
+                          if (showControls)
+                            _controlButton(
+                              Icons.fast_forward,
+                              () {
+                                if (timeDilation > 0.2) {
+                                  timeDilation = timeDilation / 2;
+                                }
+                              },
+                              playing,
+                            )
+                          else
+                            Container(),
+                          _controlButton(
+                              showControls ? Icons.close : MdiIcons.playPause,
+                              () {
+                            setState(() {
+                              showControls = !showControls;
+                            });
+                          }, true),
+                        ],
+                      ),
+                    ),
+                  )
+                else
+                  Container(),
+                if (widget._fullScreen) Container(height: 70) else Container(),
+              ],
+            ),
+          )
+        else
+          Container(),
       ],
     );
   }
@@ -189,7 +206,9 @@ class _CanvasWidgetState extends State<CanvasWidget>
 
   @override
   void dispose() {
-    if(opArt.animation) { animationController.dispose();}
+    if (opArt.animation) {
+      animationController.dispose();
+    }
     super.dispose();
   }
 }

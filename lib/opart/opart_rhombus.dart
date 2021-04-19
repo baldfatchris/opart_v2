@@ -154,21 +154,21 @@ void paintRhombus(
   rnd = Random(seed);
 
   if (paletteList.value != opArt.palette.paletteName) {
-    opArt.selectPalette(paletteList.value);
+    opArt.selectPalette(paletteList.value as String);
   }
 
   // Initialise the canvas
-  double canvasWidth = size.width;
-  double canvasHeight = size.height;
-  double borderX = 0;
-  double borderY = 0;
+  final double canvasWidth = size.width;
+  final double canvasHeight = size.height;
+  const double borderX = 0;
+  const double borderY = 0;
 
   // Work out the X and Y
-  double cellWidth = canvasWidth / columns.value;
-  double cellHeight = cellWidth / ratio.value;
-  int cellsX = columns.value.toInt();
-  int cellsY = (canvasHeight / cellHeight).ceil();
-  int extraY = (offsetY.value / cellHeight).ceil();
+  final double cellWidth = canvasWidth / (columns.value as num);
+  final double cellHeight = cellWidth / (ratio.value as num);
+  final int cellsX = columns.value.toInt() as int;
+  final int cellsY = (canvasHeight / cellHeight).ceil();
+  final int extraY = ((offsetY.value as num) / cellHeight).ceil();
 
   int colourOrder = 0;
   Color nextColor;
@@ -180,21 +180,21 @@ void paintRhombus(
       // Choose the next colour
       colourOrder++;
       nextColor = (randomColors.value == false)
-          ? opArt.palette.colorList[colourOrder % numberOfColors.value]
-              .withOpacity(opacity.value)
-          : opArt.palette.colorList[rnd.nextInt(numberOfColors.value)]
-              .withOpacity(opacity.value);
+          ? opArt.palette.colorList[colourOrder % (numberOfColors.value as int)]
+              .withOpacity(opacity.value as double)
+          : opArt.palette.colorList[rnd.nextInt(numberOfColors.value as int)]
+              .withOpacity(opacity.value as double);
 
-      var x = borderX + i * cellWidth;
-      var y = borderY + j * cellHeight;
+      final x = borderX + i * cellWidth;
+      final y = borderY + j * cellHeight;
 
       // var p1 = [x, y];
-      var p2 = [x + cellWidth, y - offsetY.value];
-      var p3 = [x + cellWidth, y + cellHeight - offsetY.value];
-      var p4 = [x, y + cellHeight];
+      final p2 = [x + cellWidth, y - (offsetY.value as double)];
+      final p3 = [x + cellWidth, y + cellHeight - (offsetY.value as double)];
+      final p4 = [x, y + cellHeight];
 
       // draw the rhombus
-      Path rhombus = Path();
+      final Path rhombus = Path();
       rhombus.moveTo(x, y);
       rhombus.lineTo(p2[0], p2[1]);
       rhombus.lineTo(p3[0], p3[1]);
@@ -209,13 +209,14 @@ void paintRhombus(
             ..isAntiAlias = false
             ..style = PaintingStyle.fill);
 
-      if (lineWidth.value > 0) {
+      if (lineWidth.value as double > 0) {
         canvas.drawPath(
             rhombus,
             Paint()
-              ..color = backgroundColor.value.withOpacity(opacity.value)
+              ..color =
+                  backgroundColor.value.withOpacity(opacity.value) as Color
               ..style = PaintingStyle.stroke
-              ..strokeWidth = lineWidth.value);
+              ..strokeWidth = lineWidth.value as double);
       }
     }
   }

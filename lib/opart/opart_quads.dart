@@ -165,41 +165,43 @@ void paintQuads(
   rnd = Random(seed);
 
   if (paletteList.value != opArt.palette.paletteName) {
-    opArt.selectPalette(paletteList.value);
+    opArt.selectPalette(paletteList.value as String);
   }
 
   // Initialise the canvas
-  double canvasWidth = size.width;
-  double canvasHeight = size.height;
+  final double canvasWidth = size.width;
+  final double canvasHeight = size.height;
 
-  double imageSize = (canvasHeight > canvasWidth) ? canvasHeight : canvasWidth;
+  final double imageSize =
+      (canvasHeight > canvasWidth) ? canvasHeight : canvasWidth;
 
   // Now make some art
-  int recursionDepth = 0;
-  var colourOrder = 0;
+  const int recursionDepth = 0;
+  const colourOrder = 0;
 
-  var p1 = [0.0, 0.0];
-  var p2 = [imageSize, 0.0];
-  var p3 = [imageSize, imageSize];
-  var p4 = [0.0, imageSize];
+  final p1 = [0.0, 0.0];
+  final p2 = [imageSize, 0.0];
+  final p3 = [imageSize, imageSize];
+  final p4 = [0.0, imageSize];
 
   drawQuadrilateral(
-      canvas,
-      opArt.palette.colorList,
-      p1,
-      p2,
-      p3,
-      p4,
-      recursionDepth,
-      minimumDepth.value.toInt(),
-      maximumDepth.value.toInt(),
-      ratio.value,
-      density.value,
-      randomiseRatio.value,
-      colourOrder,
-      0,
-      lineColor.value,
-      lineWidth.value);
+    canvas,
+    opArt.palette.colorList,
+    p1,
+    p2,
+    p3,
+    p4,
+    recursionDepth,
+    minimumDepth.value.toInt() as int,
+    maximumDepth.value.toInt() as int,
+    ratio.value as double,
+    density.value as double,
+    randomiseRatio.value as bool,
+    colourOrder,
+    0,
+    lineColor.value as Color,
+    lineWidth.value as double,
+  );
 }
 
 void drawQuadrilateral(
@@ -223,18 +225,18 @@ void drawQuadrilateral(
 
   // Choose the next colour
   colourOrder++;
-  nextColor =
-      colorList[colourOrder % numberOfColors.value].withOpacity(opacity.value);
+  nextColor = colorList[colourOrder % (numberOfColors.value as int)]
+      .withOpacity(opacity.value) as Color;
   Color localLineColor = lineColor;
   if (lineWidth == 0) {
     localLineColor = nextColor;
   }
 
   Path quad = Path();
-  quad.moveTo(p0[0], p0[1]);
-  quad.lineTo(p1[0], p1[1]);
-  quad.lineTo(p2[0], p2[1]);
-  quad.lineTo(p3[0], p3[1]);
+  quad.moveTo(p0[0] as double, p0[1] as double);
+  quad.lineTo(p1[0] as double, p1[1] as double);
+  quad.lineTo(p2[0] as double, p2[1] as double);
+  quad.lineTo(p3[0] as double, p3[1] as double);
   quad.close();
   canvas.drawPath(
       quad,
@@ -258,11 +260,11 @@ void drawQuadrilateral(
     }
 
     if (direction == 0) {
-      List pA = [
+      final List pA = [
         p0[0] * localRatio + p1[0] * (1 - localRatio),
         p0[1] * localRatio + p1[1] * (1 - localRatio)
       ];
-      List pB = [
+      final List pB = [
         p2[0] * localRatio + p3[0] * (1 - localRatio),
         p2[1] * localRatio + p3[1] * (1 - localRatio)
       ];
@@ -302,11 +304,11 @@ void drawQuadrilateral(
           lineColor,
           lineWidth);
     } else {
-      List pA = [
+      final List pA = [
         p1[0] * localRatio + p2[0] * (1 - localRatio),
         p1[1] * localRatio + p2[1] * (1 - localRatio)
       ];
-      List pB = [
+      final List pB = [
         p3[0] * localRatio + p0[0] * (1 - localRatio),
         p3[1] * localRatio + p0[1] * (1 - localRatio)
       ];

@@ -166,18 +166,18 @@ void paintNeighbour(
   rnd = Random(seed);
 
   if (paletteList.value != opArt.palette.paletteName) {
-    opArt.selectPalette(paletteList.value);
+    opArt.selectPalette(paletteList.value as String);
   }
 
   // Initialise the canvas
-  double canvasWidth = size.width;
-  double canvasHeight = size.height;
+  final double canvasWidth = size.width;
+  final double canvasHeight = size.height;
 
   // draw the square
   canvas.drawRect(
-      Offset(0, 0) & Size(canvasWidth, canvasHeight),
+      const Offset(0, 0) & Size(canvasWidth, canvasHeight),
       Paint()
-        ..color = backgroundColor.value.withOpacity(1.0)
+        ..color = (backgroundColor.value as Color).withOpacity(1.0)
         ..style = PaintingStyle.fill);
 
   // Now make some art
@@ -186,10 +186,10 @@ void paintNeighbour(
     opArt.palette.colorList,
     canvasWidth,
     canvasHeight,
-    lineWidth.value,
-    numberOfPoints.value.toInt(),
-    numberToLink.value.toInt(),
-    skipPoints.value.toInt(),
+    lineWidth.value as double,
+    numberOfPoints.value.toInt() as int,
+    numberToLink.value.toInt() as int,
+    skipPoints.value.toInt() as int,
   );
 }
 
@@ -204,7 +204,7 @@ Future<void> drawNeighbours(
     int skipPoints) async {
   int colourOrder = 0;
 
-  List points = [];
+  final List points = [];
   for (int i = 0; i < numberOfPoints; i++) {
     points
         .add([canvasWidth * rnd.nextDouble(), canvasHeight * rnd.nextDouble()]);
@@ -212,10 +212,12 @@ Future<void> drawNeighbours(
 
   // process each point
   points.forEach((point) {
-    List sortedPoints = points;
+    final List sortedPoints = points;
     sortedPoints.sort((point1, point2) =>
-        ((pow(point1[0] - point[0], 2) + pow(point1[1] - point[1], 2)) -
-                (pow(point2[0] - point[0], 2) + pow(point2[1] - point[1], 2)))
+        ((pow((point1[0] as double) - (point[0] as double), 2) +
+                    pow((point1[1] as double) - (point[1] as double), 2)) -
+                (pow((point2[0] as double) - (point[0] as double), 2) +
+                    pow((point2[1] as double) - (point[1] as double), 2)))
             .toInt());
 
     for (int j = 1 + skipPoints; j < numberToLink + skipPoints; j++) {
@@ -223,15 +225,17 @@ Future<void> drawNeighbours(
 
       // Choose the next colour
       colourOrder++;
-      Color nextColor = colorList[colourOrder % numberOfColors.value];
-      if (randomColors.value) {
-        nextColor = colorList[rnd.nextInt(numberOfColors.value)];
+      Color nextColor =
+          colorList[colourOrder % (numberOfColors.value as int)] as Color;
+      if (randomColors.value as bool) {
+        nextColor =
+            colorList[rnd.nextInt(numberOfColors.value as int)] as Color;
       }
-      nextColor = nextColor.withOpacity(opacity.value);
+      nextColor = nextColor.withOpacity(opacity.value as double);
 
       canvas.drawLine(
-          Offset(point[0], point[1]),
-          Offset(sortedPoints[j][0], sortedPoints[j][1]),
+          Offset(point[0] as double, point[1] as double),
+          Offset(sortedPoints[j][0] as double, sortedPoints[j][1] as double),
           Paint()
             ..color = nextColor
             // ..color = Colors.black

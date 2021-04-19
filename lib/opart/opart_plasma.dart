@@ -141,39 +141,39 @@ void paintPlasma(
   rnd = Random(seed);
 
   if (paletteList.value != opArt.palette.paletteName) {
-    opArt.selectPalette(paletteList.value);
+    opArt.selectPalette(paletteList.value as String);
   }
-  print('colorList: $colorList');
-  print('opArt.palette.colorList: ${opArt.palette.colorList}');
 
   if (reDraw.value == true ||
       shades == null ||
       colorList != opArt.palette.colorList ||
-      shades.length != (opArt.palette.colorList.length) * colorDepth.value) {
+      shades.length !=
+          (opArt.palette.colorList.length) * (colorDepth.value as num)) {
     // generate the palette
     shadeOffset = 0;
     shades = null;
     colorList = opArt.palette.colorList;
 
-    int numberOfColors = opArt.palette.colorList.length;
-    int numberOfShades = numberOfColors * colorDepth.value;
+    final int numberOfColors = opArt.palette.colorList.length;
+    final int numberOfShades = numberOfColors * (colorDepth.value as int);
     shades = List(numberOfShades);
     shades[0] = opArt.palette.colorList[0];
     for (int i = 0; i < numberOfColors; i++) {
-      for (int j = 0; j < colorDepth.value; j++) {
-        shades[i * colorDepth.value + j] = Color.fromRGBO(
-            (opArt.palette.colorList[i].red * (colorDepth.value - j) +
+      for (int j = 0; j < (colorDepth.value as num); j++) {
+        shades[i * (colorDepth.value as int) + j] = Color.fromRGBO(
+            (opArt.palette.colorList[i].red * ((colorDepth.value as num) - j) +
                     opArt.palette.colorList[(i + 1) % numberOfColors].red *
                         j) ~/
-                colorDepth.value,
-            (opArt.palette.colorList[i].blue * (colorDepth.value - j) +
+                (colorDepth.value as num),
+            (opArt.palette.colorList[i].blue * ((colorDepth.value as num) - j) +
                     opArt.palette.colorList[(i + 1) % numberOfColors].blue *
                         j) ~/
-                colorDepth.value,
-            (opArt.palette.colorList[i].green * (colorDepth.value - j) +
+                (colorDepth.value as num),
+            (opArt.palette.colorList[i].green *
+                        ((colorDepth.value as num) - j) +
                     opArt.palette.colorList[(i + 1) % numberOfColors].green *
                         j) ~/
-                colorDepth.value,
+                (colorDepth.value as num),
             1);
       }
     }
@@ -182,8 +182,8 @@ void paintPlasma(
   if (reDraw.value == true ||
       recursionDepthOld != recursionDepth.value ||
       randomizerOld != randomizer.value) {
-    recursionDepthOld = recursionDepth.value;
-    randomizerOld = randomizer.value;
+    recursionDepthOld = recursionDepth.value as int;
+    randomizerOld = randomizer.value as double;
 
     // reseed - otherwise it's boring
     rnd = Random(DateTime.now().millisecond);
@@ -192,7 +192,7 @@ void paintPlasma(
     cells = null;
 
     // create the grid
-    int numberOfCells = pow(2, recursionDepth.value);
+    final int numberOfCells = pow(2, recursionDepth.value as num) as int;
     // print('numberOfCells: $numberOfCells');
 
     cells = List(numberOfCells + 1);
@@ -209,35 +209,39 @@ void paintPlasma(
     for (int d = numberOfCells; d > 1; d = d ~/ 2) {
       for (int i = d ~/ 2; i <= numberOfCells; i = i + d) {
         for (int j = d ~/ 2; j <= numberOfCells; j = j + d) {
-          square(i, j, d ~/ 2, randomizer.value, numberOfCells);
+          square(i, j, d ~/ 2, randomizer.value as double, numberOfCells);
         }
       }
       for (int i = d ~/ 2; i <= numberOfCells; i = i + d) {
         for (int j = d ~/ 2; j <= numberOfCells; j = j + d) {
-          diamond(i, j - d ~/ 2, d ~/ 2, randomizer.value, numberOfCells);
-          diamond(i, j + d ~/ 2, d ~/ 2, randomizer.value, numberOfCells);
-          diamond(i - d ~/ 2, j, d ~/ 2, randomizer.value, numberOfCells);
-          diamond(i + d ~/ 2, j, d ~/ 2, randomizer.value, numberOfCells);
+          diamond(
+              i, j - d ~/ 2, d ~/ 2, randomizer.value as double, numberOfCells);
+          diamond(
+              i, j + d ~/ 2, d ~/ 2, randomizer.value as double, numberOfCells);
+          diamond(
+              i - d ~/ 2, j, d ~/ 2, randomizer.value as double, numberOfCells);
+          diamond(
+              i + d ~/ 2, j, d ~/ 2, randomizer.value as double, numberOfCells);
         }
       }
     }
   }
 
   // Initialise the canvas
-  int numberOfCells = pow(2, recursionDepth.value);
-  double cellWidth = size.width / (numberOfCells + 1);
-  double cellHeight = size.height / (numberOfCells + 1);
+  final int numberOfCells = pow(2, recursionDepth.value as double) as int;
+  final double cellWidth = size.width / (numberOfCells + 1);
+  final double cellHeight = size.height / (numberOfCells + 1);
 
   // Now make some art
   for (int i = 0; i <= numberOfCells; ++i) {
     for (int j = 0; j <= numberOfCells; ++j) {
-      var p1 = [i * cellWidth, j * cellHeight];
+      final p1 = [i * cellWidth, j * cellHeight];
 
 // print('i: $i j: $j cells[i][j]: ${cells[i][j]} shades.length: ${shades.length} shades[ (shadeOffset + (cells[i][j]*shades.length).toInt()) % shades.length]: ${shades[ (shadeOffset + (cells[i][j]*shades.length).toInt()) % shades.length]}');
 
       Color nextColor = shades[
-          (shadeOffset + (cells[i][j] * shades.length).toInt()) %
-              shades.length];
+          (shadeOffset + ((cells[i][j] as num) * shades.length).toInt()) %
+              shades.length] as Color;
       nextColor = (nextColor == null) ? Colors.white : nextColor;
 
       // draw the square
@@ -259,13 +263,13 @@ void paintPlasma(
 void square(int x, int y, int width, double randomizer, int numberOfCells) {
   // print('square x: $x y: $y width: $width randomizer: $randomizer numberOfCells: $numberOfCells');
 
-  double fill = (cells[x - width][y - width] +
+  final double fill = (cells[x - width][y - width] +
               cells[x - width][y + width] +
               cells[x + width][y - width] +
               cells[x + width][y + width]) /
           4 +
       rnd.nextDouble() * randomizer -
-      randomizer / 2;
+      randomizer / 2 as double;
 
   cells[x][y] = (fill > 1)
       ? 1
@@ -276,7 +280,7 @@ void square(int x, int y, int width, double randomizer, int numberOfCells) {
 
 // fill the centre of the diamond
 void diamond(int x, int y, int width, double randomizer, int numberOfCells) {
-  double fill = (cells[(x + width <= numberOfCells)
+  final double fill = (cells[(x + width <= numberOfCells)
                   ? x + width
                   : x + width - numberOfCells][y] +
               cells[(x - width >= 0) ? x - width : x - width + numberOfCells]
@@ -288,7 +292,7 @@ void diamond(int x, int y, int width, double randomizer, int numberOfCells) {
                   [(y - width >= 0) ? y - width : y - width + numberOfCells]) /
           4 +
       rnd.nextDouble() * randomizer -
-      randomizer / 2;
+      randomizer / 2 as double;
 
   cells[x][y] = (fill > 1)
       ? 1
