@@ -89,7 +89,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    DatabaseHelper helper = DatabaseHelper.instance;
+    final DatabaseHelper helper = DatabaseHelper.instance;
     // helper.deleteDB();
     initPlatformState();
     helper.getUserDb();
@@ -99,7 +99,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
 
@@ -123,9 +123,9 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Stack(
               children: [
-                Center(
+                const Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: EdgeInsets.all(20.0),
                     child: Text('OpArt Lab',
                         style: TextStyle(
                             fontFamily: 'Righteous',
@@ -134,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 IconButton(
-                    icon: Icon(Icons.info, color: Colors.cyan),
+                    icon: const Icon(Icons.info, color: Colors.cyan),
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -146,7 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
               child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      childAspectRatio: 1, maxCrossAxisExtent: 130),
+                      maxCrossAxisExtent: 130),
                   itemCount: opArtTypes.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
@@ -179,17 +179,17 @@ class _MyHomePageState extends State<MyHomePage> {
                               clipBehavior: Clip.antiAlias,
                               borderRadius: BorderRadius.circular(20),
                               child: GridTile(
-                                child: Image.asset(opArtTypes[index].image),
                                 footer: Container(
                                   color: Colors.white.withOpacity(0.7),
                                   width: double.infinity,
                                   child: Text(opArtTypes[index].name,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 16,
                                           fontFamily: 'Righteous',
                                           fontWeight: FontWeight.bold)),
                                 ),
+                                child: Image.asset(opArtTypes[index].image),
                               ),
                             ),
                           ),
@@ -206,7 +206,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         builder: (context) =>
                             MyGallery(savedOpArt.length - 1, false)));
               },
-              child: Text('My Gallery',
+              child: const Text('My Gallery',
                   style: TextStyle(
                       fontFamily: 'Righteous',
                       fontWeight: FontWeight.bold,
@@ -218,10 +218,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   valueListenable: rebuildMain,
                   builder: (context, value, child) {
                     if (savedOpArt.isEmpty) {
-                      return Text(
+                      return const Text(
                           'Curate your own gallery of stunning OpArt here.');
                     }
-                    return Container(
+                    return SizedBox(
                       height: 100,
                       child: ListView.builder(
                           itemCount: savedOpArt.length,
@@ -269,9 +269,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   child: Container(
                                                     height: 30,
                                                     width: 30,
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        shape: BoxShape.circle),
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                            color: Colors.white,
+                                                            shape: BoxShape
+                                                                .circle),
                                                     child: Center(
                                                       child:
                                                           FloatingActionButton(
@@ -287,25 +289,25 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                           (context) {
                                                                         return AlertDialog(
                                                                             title:
-                                                                                Text(' Are you sure you want to delete?'),
-                                                                            content: Text('You have paid for this image. If you delete it you will not be able to download it again.'),
+                                                                                const Text(' Are you sure you want to delete?'),
+                                                                            content: const Text('You have paid for this image. If you delete it you will not be able to download it again.'),
                                                                             actions: [
                                                                               RaisedButton(
-                                                                                child: Text('Delete'),
                                                                                 onPressed: () {
-                                                                                  DatabaseHelper helper = DatabaseHelper.instance;
+                                                                                  final DatabaseHelper helper = DatabaseHelper.instance;
                                                                                   helper.delete(savedOpArt[index]['id'] as int);
                                                                                   savedOpArt.removeAt(index);
                                                                                   showDelete = false;
                                                                                   rebuildMain.value++;
                                                                                   Navigator.pop(context);
                                                                                 },
+                                                                                child: const Text('Delete'),
                                                                               ),
                                                                               RaisedButton(
-                                                                                child: Text('Cancel'),
                                                                                 onPressed: () {
                                                                                   Navigator.pop(context);
                                                                                 },
+                                                                                child: const Text('Cancel'),
                                                                               )
                                                                             ]);
                                                                       });
@@ -330,7 +332,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                               },
                                                               backgroundColor:
                                                                   Colors.white,
-                                                              child: Icon(
+                                                              child: const Icon(
                                                                   Icons.delete,
                                                                   color: Colors
                                                                       .grey)),

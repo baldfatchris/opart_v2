@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../model_opart.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'palette_widget.dart';
+
+import '../model_opart.dart';
 import '../opart_page.dart';
+import 'palette_widget.dart';
 
 class ColorPickerWidget extends StatefulWidget {
   @override
@@ -12,21 +13,25 @@ class ColorPickerWidget extends StatefulWidget {
 class _ColorPickerWidgetState extends State<ColorPickerWidget> {
   @override
   Widget build(BuildContext context) {
-    print(currentColor);
-    Color oldColor = currentColor > 100 ? opArt.attributes[currentColor - 100].value : opArt.palette.colorList[currentColor];
+    Color oldColor = currentColor > 100
+        ? opArt.attributes[currentColor - 100].value as Color
+        : opArt.palette.colorList[currentColor];
     if (oldColor.red == oldColor.blue && oldColor.blue == oldColor.green) {
       if (oldColor.red < 255) {
-        oldColor = Color.fromRGBO(oldColor.red+1, oldColor.green, oldColor.blue, 1);
-      }
-      else {
-        oldColor = Color.fromRGBO(oldColor.red-1, oldColor.green, oldColor.blue, 1);
+        oldColor =
+            Color.fromRGBO(oldColor.red + 1, oldColor.green, oldColor.blue, 1);
+      } else {
+        oldColor =
+            Color.fromRGBO(oldColor.red - 1, oldColor.green, oldColor.blue, 1);
       }
     }
 
     return Padding(
       padding: const EdgeInsets.only(left: 80.0, bottom: 70, right: 10),
       child: Container(
-          decoration: BoxDecoration(color: Colors.white.withOpacity(0.8), borderRadius: BorderRadius.circular(10)),
+          decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.8),
+              borderRadius: BorderRadius.circular(10)),
           child: ValueListenableBuilder<int>(
               valueListenable: rebuildColorPicker,
               builder: (context, value, child) {
@@ -48,13 +53,14 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
                                 enableAlpha: false,
                                 pickerColor: oldColor,
                                 onColorChanged: (color) {
-
                                   oldColor = color;
 
                                   if (currentColor > 100) {
-                                    opArt.attributes[currentColor - 100].value = color;
+                                    opArt.attributes[currentColor - 100].value =
+                                        color;
                                   } else {
-                                    opArt.palette.colorList[currentColor] = color;
+                                    opArt.palette.colorList[currentColor] =
+                                        color;
                                   }
                                   rebuildTab.value++;
                                   rebuildCanvas.value++;
@@ -68,7 +74,7 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
                       Align(
                         alignment: Alignment.topRight,
                         child: IconButton(
-                          icon: Icon(Icons.close),
+                          icon: const Icon(Icons.close),
                           onPressed: () {
                             showCustomColorPicker = false;
                             opArt.saveToCache();

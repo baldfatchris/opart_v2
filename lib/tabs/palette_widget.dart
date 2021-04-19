@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:opart_v2/model_settings.dart';
 import 'package:opart_v2/opart_page.dart';
+
 import '../model_opart.dart';
 import '../model_palette.dart';
 
@@ -14,113 +15,115 @@ class PaletteTabWidget extends StatefulWidget {
 class _PaletteTabWidgetState extends State<PaletteTabWidget> {
   @override
   Widget build(BuildContext context) {
-
-      List<Widget> listViewWidgets = [];
-      int lengthOfAdditionalColors = 0;
-      // List<Widget> additionalColors = [];
-      void _additionalColors() {
-        for (int i = 0; i < opArt.attributes.length; i++) {
-
-          if (opArt.attributes[i].settingType == SettingType.color) {
-
-            if(opArt.attributes[i].name =='lineColor' && opArt.attributes.firstWhere((element) => element.name =='lineWidth').value ==0){
-              //???
-            }
-            else{
-              listViewWidgets.add(Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2.0),
-                child: GestureDetector(
-                  onTap: () {
-                    currentColor = i + 100;
-                    showCustomColorPicker = true;
-                    rebuildColorPicker.value++;
-                    rebuildOpArtPage.value++;
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            width: i == currentColor && showCustomColorPicker
-                                ? 2
-                                : 0),
-                        color: opArt.attributes[i].value,
-                        shape: BoxShape.circle),
-                    height: 30,
-                    width: 30,
-                  ),
+    final List<Widget> listViewWidgets = [];
+    int lengthOfAdditionalColors = 0;
+    // List<Widget> additionalColors = [];
+    void _additionalColors() {
+      for (int i = 0; i < opArt.attributes.length; i++) {
+        if (opArt.attributes[i].settingType == SettingType.color) {
+          if (opArt.attributes[i].name == 'lineColor' &&
+              opArt.attributes
+                      .firstWhere((element) => element.name == 'lineWidth')
+                      .value ==
+                  0) {
+            //???
+          } else {
+            listViewWidgets.add(Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              child: GestureDetector(
+                onTap: () {
+                  currentColor = i + 100;
+                  showCustomColorPicker = true;
+                  rebuildColorPicker.value++;
+                  rebuildOpArtPage.value++;
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          width: i == currentColor && showCustomColorPicker
+                              ? 2
+                              : 0),
+                      color: opArt.attributes[i].value as Color,
+                      shape: BoxShape.circle),
+                  height: 30,
+                  width: 30,
                 ),
-              ));
-              lengthOfAdditionalColors++;
-            }}
+              ),
+            ));
+            lengthOfAdditionalColors++;
+          }
         }
       }
+    }
 
-      double height = MediaQuery.of(context).size.height;
-      Widget _opacityWidget() {
-        return RotatedBox(
-          quarterTurns: 1,
-          child: Container(
-            height: 40,
-            width: 150,
-            decoration:  BoxDecoration(
-              borderRadius:  BorderRadius.all(
-                Radius.circular(5),
-              ),
-              gradient:  LinearGradient(
-                  colors: [
-                    const Color(0xFFffffff).withOpacity(0.2),
-                    const Color(0xFF303030),
-                  ],
-                  begin: const FractionalOffset(0.0, 0.0),
-                  end: const FractionalOffset(1.0, 1.00),
-                  stops: [0.0, 1.0],
-                  tileMode: TileMode.clamp),
+    double height = MediaQuery.of(context).size.height;
+    Widget _opacityWidget() {
+      return RotatedBox(
+        quarterTurns: 1,
+        child: Container(
+          height: 40,
+          width: 150,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(
+              Radius.circular(5),
             ),
-            child: Slider(
-              value: (opacity.value == null)
-                  ? 1
-                  : (opacity.value < 0 || opacity.value > 1)
-                  ? 1
-                  : opacity.value,
-              min: 0.2,
-              max: 1.0,
-              onChanged: (value) {
-                opacity.value = value;
-                rebuildTab.value++;
-                rebuildCanvas.value++;
-              },
-              onChangeEnd: (value) {
-                opArt.saveToCache();
-              },
-            ),
+            gradient: LinearGradient(
+                colors: [
+                  const Color(0xFFffffff).withOpacity(0.2),
+                  const Color(0xFF303030),
+                ],
+                begin: const FractionalOffset(0.0, 0.0),
+                end: const FractionalOffset(1.0, 1.00),
+                stops: [0.0, 1.0],
+                tileMode: TileMode.clamp),
           ),
-        );
-      }
+          child: Slider(
+            value: (opacity.value == null)
+                ? 1
+                : (opacity.value as double < 0 || opacity.value as double > 1)
+                    ? 1
+                    : opacity.value as double,
+            min: 0.2,
+            max: 1.0,
+            onChanged: (value) {
+              opacity.value = value;
+              rebuildTab.value++;
+              rebuildCanvas.value++;
+            },
+            onChangeEnd: (value) {
+              opArt.saveToCache();
+            },
+          ),
+        ),
+      );
+    }
 
-      int paletteLength = opArt.palette.colorList.length;
+    int paletteLength = opArt.palette.colorList.length;
 
-      return ValueListenableBuilder<int>(
-          valueListenable: rebuildTab,
-          builder: (context, value, child) {
-            _additionalColors();
-            listViewWidgets.add(Container(
+    return ValueListenableBuilder<int>(
+        valueListenable: rebuildTab,
+        builder: (context, value, child) {
+          _additionalColors();
+          listViewWidgets.add(
+            Container(
               height: 30,
               child: IconButton(
-                  icon: Icon(Icons.remove),
+                  icon: const Icon(Icons.remove),
                   onPressed: () {
                     if (enableButton) {
                       enableButton = false;
 
-                      if (numberOfColors.value > 1) {
+                      if (numberOfColors.value as int > 1) {
                         numberOfColors.value--;
                         opArt.palette.colorList.removeLast();
-                        if (numberOfColors.value > paletteLength) {
-                          opArt.palette.randomize(
-                              paletteType.value.toString(),
-                              numberOfColors.value);
+                        if (numberOfColors.value as int > paletteLength) {
+                          opArt.palette.randomize(paletteType.value.toString(),
+                              numberOfColors.value as int);
                         }
-                        height = (numberOfColors.value.toDouble() + 2) * 30;
-                        if (height >
-                            MediaQuery.of(context).size.height * 0.7) {
+                        height =
+                            ((numberOfColors.value.toDouble() as double) + 2) *
+                                30;
+                        if (height > MediaQuery.of(context).size.height * 0.7) {
                           height = MediaQuery.of(context).size.height * 0.7;
                         }
                         opArt.saveToCache();
@@ -129,19 +132,24 @@ class _PaletteTabWidgetState extends State<PaletteTabWidget> {
                       }
                     }
                   }),
-            ),);
-            listViewWidgets.add( Container(width: 30,
+            ),
+          );
+          listViewWidgets.add(
+            Container(
+              width: 30,
               child: Center(
                 child: Text(
                   numberOfColors.value.toString(),
                 ),
               ),
-            ),);
+            ),
+          );
 
-            listViewWidgets.add(Container(
+          listViewWidgets.add(
+            SizedBox(
               height: 30,
               child: IconButton(
-                  icon: Icon(Icons.add),
+                  icon: const Icon(Icons.add),
                   onPressed: () {
                     if (enableButton) {
                       enableButton = false;
@@ -151,18 +159,19 @@ class _PaletteTabWidgetState extends State<PaletteTabWidget> {
                           .firstWhere(
                               (element) => element.name == 'numberOfColors')
                           .value = numberOfColors.value;
-                      if (numberOfColors.value > paletteLength) {
+                      if (numberOfColors.value as int > paletteLength) {
                         String paletteType = opArt.attributes
                             .firstWhere(
                                 (element) => element.name == 'paletteType')
                             .value
                             .toString();
-                        opArt.palette
-                            .randomize(paletteType, numberOfColors.value);
+                        opArt.palette.randomize(
+                            paletteType, numberOfColors.value as int);
                       }
-                      height = (numberOfColors.value.toDouble() + 2) * 30;
-                      if (height >
-                          MediaQuery.of(context).size.height * 0.7) {
+                      height =
+                          ((numberOfColors.value.toDouble() as double) + 2) *
+                              30;
+                      if (height > MediaQuery.of(context).size.height * 0.7) {
                         height = MediaQuery.of(context).size.height * 0.7;
                       }
                       opArt.saveToCache();
@@ -170,53 +179,44 @@ class _PaletteTabWidgetState extends State<PaletteTabWidget> {
                       rebuildCanvas.value++;
                     }
                   }),
-            ),);
+            ),
+          );
 
-            for (int i =0; i< numberOfColors.value; i++){
-              listViewWidgets.add(
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        currentColor = i;
-                        showCustomColorPicker = true;
-                        rebuildColorPicker.value++;
-                        rebuildOpArtPage.value++;
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                width: i == currentColor &&
-                                    showCustomColorPicker
-                                    ? 2
-                                    : 0),
-                            color: opArt.palette.colorList[i],
-                            shape: BoxShape.circle),
-                        height: 30,
-                        width: 30,
-                      ),
-                    ),
-                  )
-
-              );
-            }
+          for (int i = 0; i < (numberOfColors.value as int); i++) {
+            listViewWidgets.add(Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: GestureDetector(
+                onTap: () {
+                  currentColor = i;
+                  showCustomColorPicker = true;
+                  rebuildColorPicker.value++;
+                  rebuildOpArtPage.value++;
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          width: i == currentColor && showCustomColorPicker
+                              ? 2
+                              : 0),
+                      color: opArt.palette.colorList[i],
+                      shape: BoxShape.circle),
+                  height: 30,
+                  width: 30,
+                ),
+              ),
+            ));
+          }
           //  listViewWidgets.add(_opacityWidget());
-            return Container(
-                height: MediaQuery.of(context).size.height - 60-60-70,
-                child: Column(
-                  children: [
-                    Expanded(
-
-                      child: ListView(
-                          children: listViewWidgets
-                      ),
-                    ),Container(height: 150,child: _opacityWidget())
-                  ],
-                ));
-          });
-    }
+          return Container(
+              height: MediaQuery.of(context).size.height - 60 - 60 - 70,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListView(children: listViewWidgets),
+                  ),
+                  Container(height: 150, child: _opacityWidget())
+                ],
+              ));
+        });
   }
-
-
-
-
+}

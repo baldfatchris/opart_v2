@@ -182,16 +182,20 @@ void paintTriangles(
   }
 
   // Initialise the canvas
-  double canvasWidth = size.width;
-  double canvasHeight = size.height;
+  final double canvasWidth = size.width;
+  final double canvasHeight = size.height;
 
-  double imageSize = (canvasHeight > canvasWidth) ? canvasHeight : canvasWidth;
+  final double imageSize =
+      (canvasHeight > canvasWidth) ? canvasHeight : canvasWidth;
 
   // Now make some art
-  List p1 = [(canvasWidth - imageSize) / 2, (canvasHeight - imageSize) / 2];
-  List p2 = [imageSize, (canvasHeight - imageSize) / 2];
-  List p3 = [imageSize, imageSize];
-  List p4 = [(canvasWidth - imageSize) / 2, imageSize];
+  final List p1 = [
+    (canvasWidth - imageSize) / 2,
+    (canvasHeight - imageSize) / 2
+  ];
+  final List p2 = [imageSize, (canvasHeight - imageSize) / 2];
+  final List p3 = [imageSize, imageSize];
+  final List p4 = [(canvasWidth - imageSize) / 2, imageSize];
 
   drawTriangle(
       canvas,
@@ -200,14 +204,14 @@ void paintTriangles(
       p2,
       p3,
       0,
-      minimumDepth.value.toInt(),
-      maximumDepth.value.toInt(),
-      ratio.value,
-      density.value,
-      randomiseRatio.value,
+      minimumDepth.value.toInt() as int,
+      maximumDepth.value.toInt() as int,
+      ratio.value as double,
+      density.value as double,
+      randomiseRatio.value as bool,
       0,
-      lineColor.value,
-      lineWidth.value);
+      lineColor.value as Color,
+      lineWidth.value as double);
 
   drawTriangle(
       canvas,
@@ -216,14 +220,14 @@ void paintTriangles(
       p4,
       p3,
       0,
-      minimumDepth.value.toInt(),
-      maximumDepth.value.toInt(),
-      ratio.value,
-      density.value,
-      randomiseRatio.value,
+      minimumDepth.value.toInt() as int,
+      maximumDepth.value.toInt() as int,
+      ratio.value as double,
+      density.value as double,
+      randomiseRatio.value as bool,
       0,
-      lineColor.value,
-      lineWidth.value);
+      lineColor.value as Color,
+      lineWidth.value as double);
 }
 
 void drawTriangle(
@@ -245,14 +249,20 @@ void drawTriangle(
       (recursionDepth < maximumDepth && rnd.nextDouble() < density)) {
     // split
     // work out the longest length
-    double l0 =
-        (p2[0] - p1[0]) * (p2[0] - p1[0]) + (p2[1] - p1[1]) * (p2[1] - p1[1]);
-    double l1 =
-        (p2[0] - p0[0]) * (p2[0] - p0[0]) + (p2[1] - p0[1]) * (p2[1] - p0[1]);
-    double l2 =
-        (p0[0] - p1[0]) * (p0[0] - p1[0]) + (p0[1] - p1[1]) * (p0[1] - p1[1]);
+    final double l0 = ((p2[0] as double) - (p1[0] as double)) *
+            ((p2[0] as double) - (p1[0] as double)) +
+        ((p2[1] as double) - (p1[1] as double)) *
+            ((p2[1] as double) - (p1[1] as double));
+    final double l1 = ((p2[0] as double) - (p0[0] as double)) *
+            ((p2[0] as double) - (p0[0] as double)) +
+        ((p2[1] as double) - (p0[1] as double)) *
+            ((p2[1] as double) - (p0[1] as double));
+    final double l2 = ((p0[0] as double) - (p1[0] as double)) *
+            ((p0[0] as double) - (p1[0] as double)) +
+        ((p0[1] as double) - (p1[1] as double)) *
+            ((p0[1] as double) - (p1[1] as double));
 
-    int splitDirection = (l2 > l0 && l2 > l1)
+    final int splitDirection = (l2 > l0 && l2 > l1)
         ? 2
         : (l1 > l0)
             ? 1
@@ -305,7 +315,7 @@ void drawTriangle(
         break;
 
       case 1:
-        List pN = [
+        final List pN = [
           p0[0] * localRatio + p2[0] * (1 - localRatio),
           p0[1] * localRatio + p2[1] * (1 - localRatio)
         ];
@@ -345,7 +355,7 @@ void drawTriangle(
         break;
 
       case 2:
-        List pN = [
+        final List pN = [
           p0[0] * localRatio + p1[0] * (1 - localRatio),
           p0[1] * localRatio + p1[1] * (1 - localRatio)
         ];
@@ -388,20 +398,20 @@ void drawTriangle(
     // Choose the next colour
     Color nextColor;
     colourOrder++;
-    nextColor = colorList[colourOrder % numberOfColors.value];
-    if (randomColors.value) {
-      nextColor = colorList[rnd.nextInt(numberOfColors.value)];
+    nextColor = colorList[colourOrder % (numberOfColors.value as int)] as Color;
+    if (randomColors.value as bool) {
+      nextColor = colorList[rnd.nextInt(numberOfColors.value as int)] as Color;
     }
-    nextColor = nextColor.withOpacity(opacity.value);
+    nextColor = nextColor.withOpacity(opacity.value as double);
     Color localLineColor = lineColor;
     if (lineWidth == 0) {
       localLineColor = nextColor;
     }
 
-    Path triangle = Path();
-    triangle.moveTo(p0[0], p0[1]);
-    triangle.lineTo(p1[0], p1[1]);
-    triangle.lineTo(p2[0], p2[1]);
+    final Path triangle = Path();
+    triangle.moveTo(p0[0] as double, p0[1] as double);
+    triangle.lineTo(p1[0] as double, p1[1] as double);
+    triangle.lineTo(p2[0] as double, p2[1] as double);
     triangle.close();
     canvas.drawPath(
         triangle,

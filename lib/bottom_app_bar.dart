@@ -1,40 +1,24 @@
 import 'package:flutter/material.dart';
-import 'model_opart.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
-  double width = MediaQuery.of(context).size.width;
+import 'model_opart.dart';
 
-  return Container(
+Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
+  final double width = MediaQuery.of(context).size.width;
+
+  return SizedBox(
       //  color: Colors.white.withOpacity(0.8),
       height: 70,
       child: ButtonBar(
         alignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          Container(height: 70,
+          SizedBox(
+            height: 70,
             width: (width > 400) ? 111 : 50,
             child: FlatButton(
-              shape:  RoundedRectangleBorder(
-                  borderRadius:  BorderRadius.circular(10.0)),
-
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
               color: Colors.white.withOpacity(0.8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                textDirection: TextDirection.ltr,
-                children: <Widget>[
-                  Icon(
-                    MdiIcons.shape,
-                    color: Colors.cyan,
-                  ),
-                  (width > 400) ? SizedBox(width: 3) : Container(),
-                  (width > 400)
-                      ? Text(
-                        'Random\nShape',
-                        style: TextStyle(color: Colors.black),
-                      )
-                      : Container(),
-                ],
-              ),
               onPressed: () {
                 if (enableButton) {
                   opArt.randomizeSettings();
@@ -48,8 +32,25 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
                   rebuildCanvas.value++;
                 }
               },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                textDirection: TextDirection.ltr,
+                children: <Widget>[
+                  const Icon(
+                    MdiIcons.shape,
+                    color: Colors.cyan,
+                  ),
+                  if (width > 400) const SizedBox(width: 3),
+                  if (width > 400)
+                    const Text(
+                      'Random\nShape',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                ],
+              ),
             ),
           ),
+          // ignore: sized_box_for_whitespace
           Container(
             height: 70,
             child: FlatButton(
@@ -58,9 +59,20 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
                 borderRadius: BorderRadius.circular(10.0),
               ),
               color: Colors.white.withOpacity(0.8),
+              onPressed: () async {
+                if (enableButton) {
+                  await Future.delayed(const Duration(seconds: 0));
+                  opArt.randomizeSettings();
+                  opArt.randomizePalette();
+                  opArt.saveToCache();
+                  enableButton = false;
+                  rebuildCanvas.value++;
+                  rebuildTab.value++;
+                }
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
+                children: const <Widget>[
                   Icon(
                     MdiIcons.autoFix,
                     color: Colors.cyan,
@@ -73,43 +85,15 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
                   ),
                 ],
               ),
-              onPressed: () async {
-                if (enableButton) {
-                  await Future.delayed(const Duration(seconds: 0));
-                  opArt.randomizeSettings();
-                  opArt.randomizePalette();
-                  opArt.saveToCache();
-                  enableButton = false;
-                  rebuildCanvas.value++;
-                  rebuildTab.value++;
-                }
-              },
             ),
           ),
-          Container(height: 70,
+          SizedBox(
+            height: 70,
             width: (width > 400) ? 111 : 50,
             child: FlatButton(
-              shape:  RoundedRectangleBorder(
-                  borderRadius:  BorderRadius.circular(10.0)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
               color: Colors.white.withOpacity(0.8),
-
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                textDirection: TextDirection.ltr,
-                children: <Widget>[
-                  Icon(
-                    Icons.palette,
-                    color: Colors.cyan,
-                  ),
-                  (width > 400) ? SizedBox(width: 3) : Container(),
-                  (width > 400)
-                      ? Text(
-                        'Random\nColors',
-                        style: TextStyle(color: Colors.black),
-                      )
-                      : Container(),
-                ],
-              ),
               onPressed: () {
                 if (enableButton) {
                   opArt.randomizePalette();
@@ -128,6 +112,24 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
                 //   opArt,
                 // );
               },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                textDirection: TextDirection.ltr,
+                children: <Widget>[
+                  const Icon(
+                    Icons.palette,
+                    color: Colors.cyan,
+                  ),
+                  if (width > 400) const SizedBox(width: 3),
+                  if (width > 400)
+                    const Text(
+                      'Random\nColors',
+                      style: TextStyle(color: Colors.black),
+                    )
+                  else
+                    Container(),
+                ],
+              ),
             ),
           ),
           // RaisedButton.icon(

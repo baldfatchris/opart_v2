@@ -185,17 +185,17 @@ void paintWave(
     size.height,
     0,
     0,
-    zoomOpArt.value,
-    stepY.value,
-    frequency.value,
-    amplitude.value,
-    offset.value,
-    fanWidth.value,
-    zigZag.value,
-    (randomColors.value == true),
-    numberOfColors.value.toInt(),
-    paletteType.value,
-    opacity.value,
+    zoomOpArt.value as double,
+    stepY.value as double,
+    frequency.value as double,
+    amplitude.value as double,
+    offset.value as double,
+    fanWidth.value as double,
+    zigZag.value as bool,
+    randomColors.value == true,
+    numberOfColors.value.toInt() as int,
+    paletteType.value as String,
+    opacity.value as double,
     opArt.palette.colorList,
     animationVariable * 1000,
   );
@@ -231,19 +231,19 @@ void generateWave(
   canvas.drawRect(Offset(borderX, borderY) & Size(imageWidth, imageHeight * 2),
       Paint()..style = PaintingStyle.fill);
 
-  double start = 0 - currentAmplitude;
-  double end = imageWidth + currentStepX + currentAmplitude;
+  final double start = 0 - currentAmplitude;
+  final double end = imageWidth + currentStepX + currentAmplitude;
 
   for (double i = start; i < end; i += currentStepX) {
     Color waveColor;
     if (currentRandomColors) {
-      waveColor = currentPalette[rnd.nextInt(currentNumberOfColors)];
+      waveColor = currentPalette[rnd.nextInt(currentNumberOfColors)] as Color;
     } else {
       colourOrder++;
-      waveColor = currentPalette[colourOrder % currentNumberOfColors];
+      waveColor = currentPalette[colourOrder % currentNumberOfColors] as Color;
     }
 
-    Path wave = Path();
+    final Path wave = Path();
 
     double j;
     for (j = 0; j < imageHeight + currentStepY; j += currentStepY) {
@@ -324,7 +324,7 @@ void generateWave(
   }
 
   // colour in the outer canvas
-  var paint1 = Paint()
+  final paint1 = Paint()
     ..color = Colors.white
     ..style = PaintingStyle.fill;
   canvas.drawRect(

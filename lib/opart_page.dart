@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:opart_v2/tabs/color_picker_widget.dart';
 import 'package:opart_v2/tabs/general_tab.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
-import 'package:shake/shake.dart';
 import 'package:share/share.dart';
 
 import 'bottom_app_bar.dart';
@@ -23,7 +22,7 @@ class OpArtPage extends StatefulWidget {
   final bool downloadNow;
   final double animationValue;
 
-  OpArtPage(
+  const OpArtPage(
     this.opArtType,
     this.downloadNow, {
     this.opArtSettings,
@@ -56,29 +55,29 @@ class _OpArtPageState extends State<OpArtPage> {
     slider = 100;
     opArt = OpArt(opArtType: widget.opArtType);
     if (widget.opArtSettings != null) {
-      seed = widget.opArtSettings['seed'];
+      seed = widget.opArtSettings['seed'] as int;
       for (int i = 0; i < opArt.attributes.length; i++) {
         opArt.attributes[i].value =
             widget.opArtSettings[opArt.attributes[i].label];
       }
-      opArt.palette.paletteName = widget.opArtSettings['paletteName'];
+      opArt.palette.paletteName = widget.opArtSettings['paletteName'] as String;
 
-      opArt.palette.colorList = widget.opArtSettings['colors'];
+      opArt.palette.colorList = widget.opArtSettings['colors'] as List<Color>;
       rebuildCanvas.value++;
     }
 
     showSettings = false;
     super.initState();
 
-    ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
-      setState(() {
-        opArt.randomizeSettings();
-        opArt.randomizePalette();
-        rebuildCanvas.value++;
-
-        opArt.saveToCache();
-      });
-    });
+    // final ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
+    //   setState(() {
+    //     opArt.randomizeSettings();
+    //     opArt.randomizePalette();
+    //     rebuildCanvas.value++;
+    //
+    //     opArt.saveToCache();
+    //   });
+    // });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       opArt.saveToCache();
@@ -96,9 +95,8 @@ class _OpArtPageState extends State<OpArtPage> {
     downloadNow = false;
     imageFile = null;
     await screenshotController
-        .capture(delay: Duration(milliseconds: 100), pixelRatio: 10)
+        .capture(delay: const Duration(milliseconds: 100), pixelRatio: 10)
         .then((File image) async {
-      print(image);
       setState(() {
         imageFile = image;
 
@@ -162,7 +160,7 @@ class _OpArtPageState extends State<OpArtPage> {
       }
       imageFile = null;
       await screenshotController
-          .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
+          .capture(delay: const Duration(milliseconds: 100), pixelRatio: 0.2)
           .then((File image) async {
         setState(() {
           imageFile = image;
@@ -193,20 +191,20 @@ class _OpArtPageState extends State<OpArtPage> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
                               child: Text(
                                 'Download Options',
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                             ),
-                            SizedBox(height: 18),
+                            const SizedBox(height: 18),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Flexible(
-                                  child: Container(
+                                  child: SizedBox(
                                     height: 50,
                                     width: 50,
                                     child: Image.file(
@@ -215,7 +213,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                     ),
                                   ),
                                 ),
-                                Flexible(
+                                const Flexible(
                                     flex: 2,
                                     child: Text(
                                         'Low definition - suitable for sharing.')),
@@ -225,11 +223,10 @@ class _OpArtPageState extends State<OpArtPage> {
                                       imageFile = null;
                                       await screenshotController
                                           .capture(
-                                              delay:
-                                                  Duration(milliseconds: 100),
+                                              delay: const Duration(
+                                                  milliseconds: 100),
                                               pixelRatio: 2)
                                           .then((File image) async {
-                                        print(image);
                                         setState(() {
                                           imageFile = image;
                                           Navigator.pop(context);
@@ -237,12 +234,12 @@ class _OpArtPageState extends State<OpArtPage> {
                                         });
                                       });
                                     },
-                                    label: Text('Free!'),
+                                    label: const Text('Free!'),
                                   ),
                                 )
                               ],
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -256,7 +253,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                     ),
                                   ),
                                 ),
-                                Flexible(
+                                const Flexible(
                                     flex: 2,
                                     child: Text(
                                         'High definition -  suitable for printing.')),
@@ -272,11 +269,9 @@ class _OpArtPageState extends State<OpArtPage> {
                                         PurchaserInfo purchaserInfo =
                                             await Purchases.purchasePackage(
                                                 p0001);
-                                        print('Bought it!!');
-                                        print(purchaserInfo
-                                            .allPurchasedProductIdentifiers);
-                                        List<String> purchases = purchaserInfo
-                                            .allPurchasedProductIdentifiers;
+                                        final List<String> purchases =
+                                            purchaserInfo
+                                                .allPurchasedProductIdentifiers;
                                         purchases.forEach((element) {
                                           if (element == 'p0001') {
                                             // Process the high definition download
@@ -284,7 +279,7 @@ class _OpArtPageState extends State<OpArtPage> {
 
                                             screenshotController
                                                 .capture(
-                                                    delay: Duration(
+                                                    delay: const Duration(
                                                         milliseconds: 100),
                                                     pixelRatio: 10)
                                                 .then((File image) async {
@@ -315,7 +310,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                           }
                                         });
                                       } on PlatformException catch (e) {
-                                        var errorCode =
+                                        final errorCode =
                                             PurchasesErrorHelper.getErrorCode(
                                                 e);
                                         if (errorCode !=
@@ -341,7 +336,7 @@ class _OpArtPageState extends State<OpArtPage> {
                       alignment: Alignment.topRight,
                       child: Material(
                         child: IconButton(
-                            icon: Icon(Icons.close),
+                            icon: const Icon(Icons.close),
                             onPressed: () {
                               Navigator.pop(context);
                             }),
@@ -354,7 +349,7 @@ class _OpArtPageState extends State<OpArtPage> {
           },
         );
       });
-      return null;
+      return;
     }
 
     SystemChrome.setEnabledSystemUIOverlays([]);
@@ -412,7 +407,7 @@ class _OpArtPageState extends State<OpArtPage> {
                       backgroundColor: Colors.cyan[200].withOpacity(0.8),
                       title: Text(
                         opArt.name,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.black,
                             fontFamily: 'Righteous',
                             fontSize: 24,
@@ -421,7 +416,7 @@ class _OpArtPageState extends State<OpArtPage> {
                       centerTitle: true,
                       elevation: 1,
                       leading: IconButton(
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.home,
                           color: Colors.black,
                         ),
@@ -442,7 +437,7 @@ class _OpArtPageState extends State<OpArtPage> {
                       ),
                       actions: [
                         IconButton(
-                            icon: Icon(Icons.save, color: Colors.black),
+                            icon: const Icon(Icons.save, color: Colors.black),
                             onPressed: () {
                               opArt.saveToLocalDB(false);
                               showDialog<void>(
@@ -457,17 +452,18 @@ class _OpArtPageState extends State<OpArtPage> {
                                       child: Stack(
                                         children: [
                                           Center(
-                                            child: (Column(
+                                            child: Column(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
-                                                  Text('Saved to My \nGallery',
+                                                  const Text(
+                                                      'Saved to My \nGallery',
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
                                                           fontSize: 18,
                                                           fontWeight:
                                                               FontWeight.bold)),
-                                                  SizedBox(height: 12),
+                                                  const SizedBox(height: 12),
                                                   RaisedButton(
                                                     onPressed: () {
                                                       Navigator.pop(context);
@@ -492,17 +488,16 @@ class _OpArtPageState extends State<OpArtPage> {
                                                                           .length,
                                                                       false)));
                                                     },
-                                                    child:
-                                                        Text('View My Gallery'),
+                                                    child: const Text(
+                                                        'View My Gallery'),
                                                   )
-                                                ])),
+                                                ]),
                                           ),
-                                          Align(
+                                          const Align(
                                               alignment: Alignment.topRight,
                                               child: Material(
                                                   child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
+                                                padding: EdgeInsets.all(8.0),
                                                 child: CloseButton(),
                                               )))
                                         ],
@@ -511,7 +506,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                   });
                             }),
                         IconButton(
-                            icon: Icon(Icons.share, color: Colors.black),
+                            icon: const Icon(Icons.share, color: Colors.black),
                             onPressed: () async {
                               await _paymentDialog();
                             }),
@@ -560,12 +555,11 @@ class _OpArtPageState extends State<OpArtPage> {
                               animationValue: widget.animationValue,
                             )),
                           ),
-                          showProgressIndicator
-                              ? Container(
-                                  color: Colors.white.withOpacity(0.4),
-                                  child: Center(
-                                      child: CircularProgressIndicator()))
-                              : Container()
+                          if (showProgressIndicator)
+                            Container(
+                                color: Colors.white.withOpacity(0.4),
+                                child: const Center(
+                                    child: CircularProgressIndicator()))
                         ],
                       )),
                   Align(
@@ -586,7 +580,6 @@ class _OpArtPageState extends State<OpArtPage> {
                                               controller: scrollController,
                                               itemCount:
                                                   opArt.cacheListLength(),
-                                              reverse: false,
                                               itemBuilder: (context, index) {
                                                 return Padding(
                                                   padding: const EdgeInsets
@@ -602,7 +595,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                                       },
                                                       child: Image.file(
                                                           opArt.cache[index]
-                                                              ['image'],
+                                                              ['image'] as File,
                                                           fit: BoxFit.fitWidth),
                                                     ),
                                                   ),
@@ -613,19 +606,18 @@ class _OpArtPageState extends State<OpArtPage> {
                           )
                         : Container(height: 0),
                   ),
-                  showSettings ? TabWidget(choosePaletteTab) : Container(),
-                  showSettings ? TabWidget(toolsTab) : Container(),
-                  showSettings ? TabWidget(paletteTab) : Container(),
-                  showCustomColorPicker
-                      ? Align(
-                          alignment: Alignment.bottomCenter,
-                          child: ColorPickerWidget())
-                      : Container(),
+                  if (showSettings) TabWidget(choosePaletteTab),
+                  if (showSettings) TabWidget(toolsTab),
+                  if (showSettings) TabWidget(paletteTab),
+                  if (showCustomColorPicker)
+                    Align(
+                        alignment: Alignment.bottomCenter,
+                        child: ColorPickerWidget()),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: showSettings
                         ? customBottomAppBar(context: context, opArt: opArt)
-                        : BottomAppBar(),
+                        : const BottomAppBar(),
                   ),
                 ],
               ),

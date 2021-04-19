@@ -1,24 +1,15 @@
 import 'dart:core';
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:opart_v2/opart_page.dart';
+
 import 'main.dart';
 
 // bool proVersion = true;
 
-enum SettingType {
-  double,
-  int,
-  bool,
-  button,
-  color,
-  list
-}
-enum SettingCategory {
-  palette,
-  tool,
-  other
-}
+enum SettingType { double, int, bool, button, color, list }
+enum SettingCategory { palette, tool, other }
 
 class SettingsModel {
   SettingType settingType;
@@ -43,7 +34,8 @@ class SettingsModel {
   bool locked = false;
   var value;
 
-  SettingsModel({this.settingType,
+  SettingsModel({
+    this.settingType,
     this.name,
     this.label,
     this.tooltip,
@@ -62,18 +54,18 @@ class SettingsModel {
     this.silent,
   });
 
-
-
   void randomize(Random rnd) {
     if (!locked && (proVersion || !proVersion && !proFeature)) {
       // print('Name: ${name}: ${settingType}');
 
       switch (settingType) {
         case SettingType.double:
-        // print(settingType);
-        // print(value);
-          double min = (randomMin != null) ? randomMin : this.min;
-          double max = (randomMax != null) ? randomMax : this.max;
+          // print(settingType);
+          // print(value);
+          final double min =
+              (randomMin != null) ? randomMin as double : this.min as double;
+          final double max =
+              (randomMax != null) ? randomMax as double : this.max as double;
 
           // half the time use the default
           value = (rnd.nextBool() == true)
@@ -83,12 +75,12 @@ class SettingsModel {
           break;
 
         case SettingType.int:
-          int min = (randomMin != null)
-              ? randomMin.toInt()
-              : this.min.toInt();
-          int max = (randomMax != null)
-              ? randomMax.toInt()
-              : this.max.toInt();
+          final int min = (randomMin != null)
+              ? randomMin.toInt() as int
+              : this.min.toInt() as int;
+          final int max = (randomMax != null)
+              ? randomMax.toInt() as int
+              : this.max.toInt() as int;
 
           // half the time use the default
           value = (rnd.nextBool() == true)
@@ -99,16 +91,13 @@ class SettingsModel {
 
         case SettingType.bool:
           value = (randomTrue != null)
-              ? (rnd.nextDouble()<randomTrue)
-                ? true
-                : false
+              ? rnd.nextDouble() < randomTrue
               : rnd.nextBool();
 
           break;
 
         case SettingType.color:
-          value =
-              Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1);
+          value = Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1);
 
           break;
 
@@ -118,12 +107,11 @@ class SettingsModel {
           break;
         case SettingType.list:
           value = (rnd.nextBool() == true)
-              ? options[rnd.nextInt(options.length)]
+              ? options[rnd.nextInt(options.length as int)]
               : defaultValue;
       }
     }
   }
-
 
   void setDefault() {
     value = defaultValue;
@@ -131,23 +119,33 @@ class SettingsModel {
   }
 }
 
-
-void resetAllDefaults(){
+void resetAllDefaults() {
   opArt.setDefault();
 }
 
-void generatePalette(){
-  int numberOfColours = opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt();
-  String paletteType = opArt.attributes.firstWhere((element) => element.name == 'paletteType').value.toString();
+void generatePalette() {
+  final int numberOfColours = opArt.attributes
+      .firstWhere((element) => element.name == 'numberOfColors')
+      .value
+      .toInt() as int;
+  final String paletteType = opArt.attributes
+      .firstWhere((element) => element.name == 'paletteType')
+      .value
+      .toString();
   opArt.palette.randomize(paletteType, numberOfColours);
-
 }
 
-void checkNumberOfColors(){
-  int numberOfColours = opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt();
-  int paletteLength = opArt.palette.colorList.length;
-  if ( numberOfColours > paletteLength) {
-    String paletteType = opArt.attributes.firstWhere((element) => element.name == 'paletteType').value.toString();
+void checkNumberOfColors() {
+  final int numberOfColours = opArt.attributes
+      .firstWhere((element) => element.name == 'numberOfColors')
+      .value
+      .toInt() as int;
+  final int paletteLength = opArt.palette.colorList.length;
+  if (numberOfColours > paletteLength) {
+    final String paletteType = opArt.attributes
+        .firstWhere((element) => element.name == 'paletteType')
+        .value
+        .toString();
     opArt.palette.randomize(paletteType, numberOfColours);
   }
 }

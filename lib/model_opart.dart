@@ -244,10 +244,12 @@ class OpArt {
 
   Future<int> saveToLocalDB(bool paid) async {
     await screenshotController
-        .capture(delay: Duration(milliseconds: 100), pixelRatio: 1)
+        .capture(
+      delay: const Duration(milliseconds: 100),
+    )
         .then((File image) async {
-      List<int> imageBytes = image.readAsBytesSync();
-      String base64Image = base64Encode(imageBytes);
+      final List<int> imageBytes = image.readAsBytesSync();
+      final String base64Image = base64Encode(imageBytes);
       Map<String, dynamic> map = {};
       for (int i = 0; i < attributes.length; i++) {
         map.addAll({attributes[i].label: attributes[i].value});
@@ -294,7 +296,7 @@ class OpArt {
 
   void saveToCache() {
     WidgetsBinding.instance.addPostFrameCallback((_) => screenshotController
-            .capture(delay: Duration(milliseconds: 100), pixelRatio: 0.2)
+            .capture(delay: const Duration(milliseconds: 100), pixelRatio: 0.2)
             .then((File image) async {
           Map<String, dynamic> map = {};
           for (int i = 0; i < attributes.length; i++) {
@@ -316,7 +318,7 @@ class OpArt {
           if (scrollController.hasClients) {
             await scrollController.animateTo(
                 scrollController.position.maxScrollExtent,
-                duration: Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 300),
                 curve: Curves.fastOutSlowIn);
           }
           enableButton = true;
@@ -413,7 +415,7 @@ class OpArt {
   // randomise the non-palette settings
   void randomizeSettings() {
     seed = DateTime.now().millisecond;
-    Random rnd = Random(seed);
+    final Random rnd = Random(seed);
 
     for (int i = 0; i < attributes.length; i++) {
       if (attributes[i].settingCategory == SettingCategory.tool) {
@@ -427,12 +429,12 @@ class OpArt {
     final List newPalette =
         defaultPalettes.firstWhere((palette) => palette[0] == paletteName);
     palette.colorList = [];
-    for (int z = 0; z < newPalette[3].length; z++) {
-      palette.colorList.add(Color(int.parse(newPalette[3][z])));
+    for (int z = 0; z < (newPalette[3].length as num); z++) {
+      palette.colorList.add(Color(int.parse(newPalette[3][z] as String)));
     }
     attributes.firstWhere((element) => element.name == 'numberOfColors').value =
         newPalette[1].toInt();
-    backgroundColor?.value = Color(int.parse(newPalette[2]));
+    backgroundColor?.value = Color(int.parse(newPalette[2] as String));
   }
 
   // randomise the palette
@@ -447,11 +449,12 @@ class OpArt {
     }
 
     palette.randomize(
-      attributes.firstWhere((element) => element.name == 'paletteType').value,
+      attributes.firstWhere((element) => element.name == 'paletteType').value
+          as String,
       attributes
           .firstWhere((element) => element.name == 'numberOfColors')
           .value
-          .toInt(),
+          .toInt() as int,
     );
 
     attributes.firstWhere((element) => element.name == 'paletteList').value =
@@ -467,10 +470,10 @@ class OpArt {
     List newPalette =
         defaultPalettes.firstWhere((palette) => palette[0] == 'Default');
 
-    backgroundColor?.value = Color(int.parse(newPalette[2]));
+    backgroundColor?.value = Color(int.parse(newPalette[2] as String));
     palette.colorList = [];
-    for (int z = 0; z < newPalette[3].length; z++) {
-      palette.colorList.add(Color(int.parse(newPalette[3][z])));
+    for (int z = 0; z < (newPalette[3].length as num); z++) {
+      palette.colorList.add(Color(int.parse(newPalette[3][z] as String)));
     }
   }
 
