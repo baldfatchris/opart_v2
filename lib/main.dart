@@ -56,21 +56,6 @@ class _MyAppState extends State<MyApp> {
 
     await Purchases.setDebugLogsEnabled(true);
     await Purchases.setup('dZAXkioWKFdOESaEtJMQkRsrETmZbFUK');
-    //
-    // PurchaserInfo purchaserInfo;
-    // try {
-    //   purchaserInfo = await Purchases.getPurchaserInfo();
-    //   print(purchaserInfo.toString());
-    //   if (purchaserInfo.entitlements.all['all_features'] != null) {
-    //     proVersion = purchaserInfo.entitlements.all['all_features'].isActive;
-    //   } else {
-    //     proVersion = false;
-    //   }
-    // } on PlatformException catch (e) {
-    //   print(e);
-    // }
-
-//    print('#### is user pro? ${proVersion}');
 
     try {
       offerings = await Purchases.getOfferings();

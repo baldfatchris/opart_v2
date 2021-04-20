@@ -33,7 +33,7 @@ class OpArtPage extends StatefulWidget {
   _OpArtPageState createState() => _OpArtPageState();
 }
 
-bool showSettings = false;
+bool showSettings = true;
 File imageFile;
 bool showCustomColorPicker = false;
 OpArt opArt;
@@ -66,28 +66,16 @@ class _OpArtPageState extends State<OpArtPage> {
       rebuildCanvas.value++;
     }
 
-    showSettings = false;
     super.initState();
-
-    // final ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
-    //   setState(() {
-    //     opArt.randomizeSettings();
-    //     opArt.randomizePalette();
-    //     rebuildCanvas.value++;
-    //
-    //     opArt.saveToCache();
-    //   });
-    // });
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       opArt.saveToCache();
-      //
-      // paletteTab.open = true;
-      // toolsTab.open = true;
-      // choosePaletteTab.open = true;
-      // paletteTab.open = false;
-      // toolsTab.open = false;
-      // choosePaletteTab.open = false;
+
+      paletteTab.open = true;
+      toolsTab.open = true;
+      choosePaletteTab.open = true;
+      paletteTab.open = false;
+      toolsTab.open = false;
+      choosePaletteTab.open = false;
     });
   }
 
@@ -166,13 +154,9 @@ class _OpArtPageState extends State<OpArtPage> {
           imageFile = image;
         });
         Package p0001;
-
-        // find the product
-
+        final Offerings offerings = await Purchases.getOfferings();
         // print(offerings.current.availablePackages);
         if (offerings.current != null) {
-          print('*********');
-          print(offerings);
           p0001 = offerings.current.availablePackages
               .firstWhere((element) => element.product.identifier == 'p0001');
           if (p0001 != null) {
