@@ -61,7 +61,6 @@ Widget customBottomAppBar({BuildContext context, OpArt opArt}) {
               color: Colors.white.withOpacity(0.8),
               onPressed: () async {
                 if (enableButton) {
-                  await Future.delayed(const Duration(seconds: 0));
                   opArt.randomizeSettings();
                   opArt.randomizePalette();
                   opArt.saveToCache();

@@ -88,7 +88,7 @@ SettingsModel ratio = SettingsModel(
   max: 1.0,
   zoom: 100,
   defaultValue: 1.0,
-  icon: const Icon(OpArtLab.wallpaper_ratio),
+  icon: const Icon(OpArtLab.wallpaperRatio),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );

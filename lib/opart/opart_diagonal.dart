@@ -222,7 +222,7 @@ void drawDiagonal(
   int nextColorOrder;
   Color nextColor;
   double radius;
-  double offset = 0.0;
+  const double offset = 0.0;
 
   // draw the background
   canvas.drawRect(
@@ -235,13 +235,16 @@ void drawDiagonal(
     for (int j = 0; j < cellsY; ++j) {
       parity = (i + j) % 2 == 0;
 
-      var p0 = [borderX + i * sideLength, borderY + j * sideLength];
-      var p1 = [borderX + (i + 1) * sideLength, borderY + j * sideLength];
-      var p2 = [borderX + (i + 1) * sideLength, borderY + (j + 1) * sideLength];
-      var p3 = [borderX + i * sideLength, borderY + (j + 1) * sideLength];
+      final p0 = [borderX + i * sideLength, borderY + j * sideLength];
+      final p1 = [borderX + (i + 1) * sideLength, borderY + j * sideLength];
+      final p2 = [
+        borderX + (i + 1) * sideLength,
+        borderY + (j + 1) * sideLength
+      ];
+      final p3 = [borderX + i * sideLength, borderY + (j + 1) * sideLength];
 
       // Quarter Circles
-      int orientation = oneDirection ? 0 : rnd.nextInt(4);
+      final int orientation = oneDirection ? 0 : rnd.nextInt(4);
       switch (orientation) {
         case 0:
           centre1 = p0;

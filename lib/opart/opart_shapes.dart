@@ -48,7 +48,7 @@ SettingsModel shapeHalfDiagonalTriangle = SettingsModel(
   label: 'Half Triangles',
   tooltip: 'Add half triangles to the shapes',
   defaultValue: true,
-  icon: const Icon(OpArtLab.half_triangle),
+  icon: const Icon(OpArtLab.halfTriangle),
   settingCategory: SettingCategory.tool,
   silent: true,
   proFeature: false,
@@ -72,7 +72,7 @@ SettingsModel shapeQuarterCircle = SettingsModel(
   label: 'Quarter Circles',
   tooltip: 'Add quarter circles to the shapes',
   defaultValue: true,
-  icon: const Icon(OpArtLab.quarter_circle),
+  icon: const Icon(OpArtLab.quarterCircle),
   settingCategory: SettingCategory.tool,
   silent: true,
   proFeature: false,
@@ -84,7 +84,7 @@ SettingsModel shapeHalfCircle = SettingsModel(
   label: 'Half Circles',
   tooltip: 'Add half circles to the shapes',
   defaultValue: true,
-  icon: const Icon(OpArtLab.half_circle),
+  icon: const Icon(OpArtLab.halfCircle),
   settingCategory: SettingCategory.tool,
   silent: true,
   proFeature: false,
@@ -96,7 +96,7 @@ SettingsModel shapeQuarterTriangle = SettingsModel(
   label: 'Quarter Triangles',
   tooltip: 'Add quarter triangles to the shapes',
   defaultValue: true,
-  icon: const Icon(OpArtLab.quarter_triangle),
+  icon: const Icon(OpArtLab.quarterTriangle),
   settingCategory: SettingCategory.tool,
   silent: true,
   proFeature: false,
@@ -108,7 +108,7 @@ SettingsModel shapeQuarterSquare = SettingsModel(
   label: 'Quarter Squares',
   tooltip: 'Add quarter squares to the shapes',
   defaultValue: true,
-  icon: const Icon(OpArtLab.quarter_square),
+  icon: const Icon(OpArtLab.quarterSquare),
   settingCategory: SettingCategory.tool,
   silent: true,
   proFeature: false,
@@ -120,7 +120,7 @@ SettingsModel shapeMiniCircle = SettingsModel(
   label: 'Mini Circles',
   tooltip: 'Add mini circles to the shapes',
   defaultValue: true,
-  icon: const Icon(OpArtLab.mini_circle),
+  icon: const Icon(OpArtLab.miniCircle),
   settingCategory: SettingCategory.tool,
   silent: true,
   proFeature: false,
@@ -132,7 +132,7 @@ SettingsModel shapeS = SettingsModel(
   label: 'S Shapes',
   tooltip: 'Add s shapes to the shapes',
   defaultValue: false,
-  icon: const Icon(OpArtLab.s_shape),
+  icon: const Icon(OpArtLab.sShape),
   settingCategory: SettingCategory.tool,
   silent: true,
   proFeature: false,
@@ -144,7 +144,7 @@ SettingsModel shapeSquaredCircle = SettingsModel(
   label: 'Squared Circle',
   tooltip: 'Add squared circle shapes to the shapes',
   defaultValue: true,
-  icon: const Icon(OpArtLab.squared_circle),
+  icon: const Icon(OpArtLab.squaredCircle),
   settingCategory: SettingCategory.tool,
   silent: true,
   proFeature: false,
@@ -185,7 +185,7 @@ SettingsModel recursionDepth = SettingsModel(
   randomMin: 0,
   randomMax: 1,
   defaultValue: 1,
-  icon: const Icon(OpArtLab.recursion_depth),
+  icon: const Icon(OpArtLab.recursionDepth),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -201,7 +201,7 @@ SettingsModel recursionRatio = SettingsModel(
   randomMax: 0.8,
   zoom: 100,
   defaultValue: 0.9,
-  icon: const Icon(OpArtLab.recursion_ratio),
+  icon: const Icon(OpArtLab.recursionRatio),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -415,12 +415,12 @@ int drawSquare(
         [pA[0], pA[1] + side / 2], side / 2, recursion + 1, ratio);
   } else {
     // Centre of the square
-    List<double> pO = [pA[0] + side / 2, pA[1] + side / 2];
+    final List<double> pO = [pA[0] + side / 2, pA[1] + side / 2];
 
     // corners of the square
-    List<double> pB = [pA[0] + side, pA[1]];
-    List<double> pC = [pA[0] + side, pA[1] + side];
-    List<double> pD = [pA[0], pA[1] + side];
+    final List<double> pB = [pA[0] + side, pA[1]];
+    final List<double> pC = [pA[0] + side, pA[1] + side];
+    final List<double> pD = [pA[0], pA[1] + side];
 
     if (box.value == true) {
       // Choose the next colour
@@ -445,7 +445,7 @@ int drawSquare(
       nextColor = (randomColors.value as bool)
           ? palette[colourOrder % (numberOfColors.value as int)] as Color
           : palette[rnd.nextInt(numberOfColors.value as int)] as Color;
-      Paint paint = Paint()
+      final Paint paint = Paint()
         ..style = PaintingStyle.fill
         ..isAntiAlias = false
         ..color = nextColor.withOpacity(opacity.value as double);

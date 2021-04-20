@@ -61,7 +61,7 @@ class _MyGalleryState extends State<MyGallery> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MyHomePage()));
+                                builder: (context) => const MyHomePage()));
                       }),
                   actions: [
                     IconButton(
@@ -111,7 +111,7 @@ class _MyGalleryState extends State<MyGallery> {
                                               builder: (context) => OpArtPage(
                                                     savedOpArt[index]['type']
                                                         as OpArtType,
-                                                    false,
+                                                    downloadNow: false,
                                                     opArtSettings:
                                                         savedOpArt[index],
                                                     animationValue: savedOpArt[
@@ -169,7 +169,8 @@ class _MyGalleryState extends State<MyGallery> {
                                                                       builder: (context) => OpArtPage(
                                                                             savedOpArt[index]['type']
                                                                                 as OpArtType,
-                                                                            true,
+                                                                            downloadNow:
+                                                                                true,
                                                                             opArtSettings:
                                                                                 savedOpArt[index],
                                                                           )));
@@ -215,7 +216,6 @@ class _MyGalleryState extends State<MyGallery> {
                                                                               const Text('You have paid for this image. If you delete it you will not be able to download it again.'),
                                                                           actions: [
                                                                             RaisedButton(
-                                                                              child: Text('Delete'),
                                                                               onPressed: () {
                                                                                 final DatabaseHelper helper = DatabaseHelper.instance;
                                                                                 helper.delete(savedOpArt[index]['id'] as int);
@@ -224,6 +224,7 @@ class _MyGalleryState extends State<MyGallery> {
                                                                                 rebuildGallery.value++;
                                                                                 Navigator.pop(context);
                                                                               },
+                                                                              child: const Text('Delete'),
                                                                             ),
                                                                             RaisedButton(
                                                                               onPressed: () {
@@ -269,144 +270,137 @@ class _MyGalleryState extends State<MyGallery> {
                                 }),
                           ),
                         )
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 0.0),
-                          child: Center(
-                            child: GridView.builder(
-                                scrollDirection: MediaQuery.of(context)
-                                            .orientation ==
-                                        Orientation.portrait
-                                    ? Axis.vertical
-                                    : Axis.horizontal,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        childAspectRatio: MediaQuery.of(context)
-                                                    .orientation ==
-                                                Orientation.portrait
-                                            ? MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                (MediaQuery.of(context)
-                                                        .size
-                                                        .height -
-                                                    60)
-                                            : 2 *
-                                                MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                (MediaQuery.of(context)
-                                                        .size
-                                                        .width -
-                                                    60)),
-                                itemCount: savedOpArt.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  currentIndex = index;
-                                  return Center(
-                                    child: GestureDetector(
-                                      onLongPress: () {
-                                        showDelete = true;
-                                        _rebuildDelete.value++;
-                                      },
-                                      onTap: () {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => OpArtPage(
-                                                      savedOpArt[index]['type']
-                                                          as OpArtType,
-                                                      false,
-                                                      opArtSettings:
-                                                          savedOpArt[index],
-                                                    )));
-                                      },
-                                      child: Stack(
-                                        children: [
-                                          Container(
-                                            decoration: const BoxDecoration(
-                                              color: Colors.white,
-                                            ),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(10.0),
-                                              child: Container(
-                                                color: Colors.black,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Container(
-                                                    color: Colors.white,
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
-                                                      child: Image.memory(
-                                                        base64Decode(
-                                                            savedOpArt[index]
-                                                                    ['image']
-                                                                as String),
-                                                        fit: BoxFit.fitWidth,
-                                                      ),
+                      : Center(
+                          child: GridView.builder(
+                              scrollDirection: MediaQuery.of(context)
+                                          .orientation ==
+                                      Orientation.portrait
+                                  ? Axis.vertical
+                                  : Axis.horizontal,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      childAspectRatio: MediaQuery.of(context)
+                                                  .orientation ==
+                                              Orientation.portrait
+                                          ? MediaQuery.of(context).size.width /
+                                              (MediaQuery.of(context)
+                                                      .size
+                                                      .height -
+                                                  60)
+                                          : 2 *
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              (MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  60)),
+                              itemCount: savedOpArt.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                currentIndex = index;
+                                return Center(
+                                  child: GestureDetector(
+                                    onLongPress: () {
+                                      showDelete = true;
+                                      _rebuildDelete.value++;
+                                    },
+                                    onTap: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => OpArtPage(
+                                                    savedOpArt[index]['type']
+                                                        as OpArtType,
+                                                    downloadNow: false,
+                                                    opArtSettings:
+                                                        savedOpArt[index],
+                                                  )));
+                                    },
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Container(
+                                              color: Colors.black,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  color: Colors.white,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Image.memory(
+                                                      base64Decode(
+                                                          savedOpArt[index]
+                                                                  ['image']
+                                                              as String),
+                                                      fit: BoxFit.fitWidth,
                                                     ),
                                                   ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                          ValueListenableBuilder<int>(
-                                              valueListenable: _rebuildDelete,
-                                              builder: (context, value, child) {
-                                                return showDelete
-                                                    ? Positioned(
-                                                        right: 0,
-                                                        top: 0,
-                                                        child: Container(
-                                                          height: 30,
-                                                          width: 30,
-                                                          decoration:
-                                                              const BoxDecoration(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  shape: BoxShape
-                                                                      .circle),
-                                                          child: Center(
-                                                            child:
-                                                                FloatingActionButton(
-                                                              onPressed: () {
-                                                                DatabaseHelper
-                                                                    helper =
-                                                                    DatabaseHelper
-                                                                        .instance;
-                                                                helper.delete(
-                                                                    savedOpArt[index]
-                                                                            [
-                                                                            'id']
-                                                                        as int);
-                                                                savedOpArt
-                                                                    .removeAt(
-                                                                        index);
-                                                                showDelete =
-                                                                    false;
-                                                                rebuildGallery
-                                                                    .value++;
-                                                              },
-                                                              backgroundColor:
-                                                                  Colors.white,
-                                                              child: const Icon(
-                                                                  Icons.delete,
-                                                                  color: Colors
-                                                                      .grey),
-                                                            ),
+                                        ),
+                                        ValueListenableBuilder<int>(
+                                            valueListenable: _rebuildDelete,
+                                            builder: (context, value, child) {
+                                              return showDelete
+                                                  ? Positioned(
+                                                      right: 0,
+                                                      top: 0,
+                                                      child: Container(
+                                                        height: 30,
+                                                        width: 30,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                                color: Colors
+                                                                    .white,
+                                                                shape: BoxShape
+                                                                    .circle),
+                                                        child: Center(
+                                                          child:
+                                                              FloatingActionButton(
+                                                            onPressed: () {
+                                                              final DatabaseHelper
+                                                                  helper =
+                                                                  DatabaseHelper
+                                                                      .instance;
+                                                              helper.delete(
+                                                                  savedOpArt[index]
+                                                                          ['id']
+                                                                      as int);
+                                                              savedOpArt
+                                                                  .removeAt(
+                                                                      index);
+                                                              showDelete =
+                                                                  false;
+                                                              rebuildGallery
+                                                                  .value++;
+                                                            },
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                            child: const Icon(
+                                                                Icons.delete,
+                                                                color: Colors
+                                                                    .grey),
                                                           ),
-                                                        ))
-                                                    : Container();
-                                              }),
-                                        ],
-                                      ),
+                                                        ),
+                                                      ))
+                                                  : Container();
+                                            }),
+                                      ],
                                     ),
-                                  );
-                                }),
-                          ),
+                                  ),
+                                );
+                              }),
                         ));
         });
   }

@@ -217,7 +217,12 @@ SettingsModel paletteType = SettingsModel(
   tooltip: 'The nature of the palette',
   defaultValue: 'random',
   icon: const Icon(Icons.colorize),
-  options: <String>['random', 'blended random', 'linear random', 'linear complementary'],
+  options: <String>[
+    'random',
+    'blended random',
+    'linear random',
+    'linear complementary'
+  ],
   settingCategory: SettingCategory.palette,
   onChange: () {
     generatePalette();
@@ -240,7 +245,8 @@ SettingsModel colorDecay = SettingsModel(
   name: 'colorDecay',
   settingType: SettingType.double,
   label: 'Color Decay',
-  tooltip: 'The rate at which the color of each successive segment changes from the core color',
+  tooltip:
+      'The rate at which the color of each successive segment changes from the core color',
   min: 0.1,
   max: 1.0,
   randomMin: 0.3,
@@ -293,7 +299,8 @@ List<SettingsModel> initializeEyeAttributes() {
   ];
 }
 
-void paintEye(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
+void paintEye(
+    Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
   rnd = Random(seed);
 
   if (paletteList.value != opArt.palette.paletteName) {
@@ -302,7 +309,7 @@ void paintEye(Canvas canvas, Size size, int seed, double animationVariable, OpAr
 
   // colour in the canvas
   canvas.drawRect(
-      Offset(0, 0) & Size(size.width, size.height),
+      const Offset(0, 0) & Size(size.width, size.height),
       Paint()
         ..color = backgroundColor.value as Color
         ..style = PaintingStyle.fill);
@@ -310,7 +317,7 @@ void paintEye(Canvas canvas, Size size, int seed, double animationVariable, OpAr
   for (int t = 0; t < (numberOfTrees.value as int); t++) {
     final double treeAngle = t * 2 * pi / (numberOfTrees.value as num);
     final List treeBase = [
-      size.width / 2 + (irisRadius.value as num )* cos(treeAngle),
+      size.width / 2 + (irisRadius.value as num) * cos(treeAngle),
       size.height / 2 - (irisRadius.value as num) * sin(treeAngle)
     ];
 
@@ -336,11 +343,10 @@ void paintEye(Canvas canvas, Size size, int seed, double animationVariable, OpAr
         opacity.value as double,
         colorDecay.value as double,
         1.0,
-        numberOfColors.value.toInt(),
+        numberOfColors.value.toInt() as int,
         opArt.palette.colorList,
         0,
-        randomColors.value as bool
-    );
+        randomColors.value as bool);
   }
 
   canvas.drawCircle(
@@ -348,7 +354,8 @@ void paintEye(Canvas canvas, Size size, int seed, double animationVariable, OpAr
       irisRadius.value as double,
       Paint()
         ..style = PaintingStyle.fill
-        ..color = (trunkFillColor.value as Color).withOpacity(opacity.value as double));
+        ..color = (trunkFillColor.value as Color)
+            .withOpacity(opacity.value as double));
 }
 
 void drawSegment(
@@ -373,25 +380,27 @@ void drawSegment(
   double opacity,
   double colorDecay,
   double colorRatio,
-  numberOfColors,
+  int numberOfColors,
   List palette,
   int colourOrder,
   bool randomColors,
 ) {
-
   if (currentDepth < maxDepth) {
     // Choose the next colour
     colourOrder++;
-    Color nextColor = palette[colourOrder % (numberOfColors as num) as int] as Color;
+    Color nextColor = palette[colourOrder % numberOfColors] as Color;
     if (randomColors) {
-      nextColor = palette[rnd.nextInt(numberOfColors as int)] as Color;
+      nextColor = palette[rnd.nextInt(numberOfColors)] as Color;
     }
 
     // blend the color with the trunk color
     nextColor = Color.fromRGBO(
-        (nextColor.red * (1 - colorRatio) + trunkFillColor.red * colorRatio).toInt(),
-        (nextColor.green * (1 - colorRatio) + trunkFillColor.green * colorRatio).toInt(),
-        (nextColor.blue * (1 - colorRatio) + trunkFillColor.blue * colorRatio).toInt(),
+        (nextColor.red * (1 - colorRatio) + trunkFillColor.red * colorRatio)
+            .toInt(),
+        (nextColor.green * (1 - colorRatio) + trunkFillColor.green * colorRatio)
+            .toInt(),
+        (nextColor.blue * (1 - colorRatio) + trunkFillColor.blue * colorRatio)
+            .toInt(),
         opacity);
 
     //branch
@@ -406,20 +415,23 @@ void drawSegment(
       // if angle = 1 the tree is basically a ball
 
       // the animation increases and decreases the ratio
-      double branchRatio =
-          (1 - rnd.nextDouble() / 5) * ratio * (1 - rnd.nextDouble() * cos(animationVariable * 10000) * 0.50);
+      final double branchRatio = (1 - rnd.nextDouble() / 5) *
+          ratio *
+          (1 - rnd.nextDouble() * cos(animationVariable * 10000) * 0.50);
 
       // maxBranch is the max branching angle
-      double maxBranch = pi / 8;
+      final double maxBranch = pi / 8;
 
       double directionA;
       double directionB;
 
       if (rnd.nextBool()) {
         directionA = direction - maxBranch * (angle + 2 * angle * branchRatio);
-        directionB = direction + maxBranch * (angle + 2 * angle * (1 - branchRatio));
+        directionB =
+            direction + maxBranch * (angle + 2 * angle * (1 - branchRatio));
       } else {
-        directionA = direction - maxBranch * (angle + 2 * angle * (1 - branchRatio));
+        directionA =
+            direction - maxBranch * (angle + 2 * angle * (1 - branchRatio));
         directionB = direction + maxBranch * (angle + 2 * angle * branchRatio);
       }
 
@@ -479,8 +491,12 @@ void drawSegment(
       );
     } else {
       // draw the trunk
-      List pD = [root[0] + segmentLength * cos(direction), root[1] - segmentLength * sin(direction)];
-      drawTheTrunk(canvas, rnd, borderX, borderY, root, pD, nextColor, opacity, width);
+      final List pD = [
+        root[0] + segmentLength * cos(direction),
+        root[1] - segmentLength * sin(direction)
+      ];
+      drawTheTrunk(
+          canvas, rnd, borderX, borderY, root, pD, nextColor, opacity, width);
 
       //grow
       drawSegment(
@@ -514,8 +530,8 @@ void drawSegment(
   }
 }
 
-void drawTheTrunk(Canvas canvas, Random rnd, double borderX, double borderY, List p1, List p2, Color trunkFillColor,
-    double opacity, double width) {
+void drawTheTrunk(Canvas canvas, Random rnd, double borderX, double borderY,
+    List p1, List p2, Color trunkFillColor, double opacity, double width) {
   canvas.drawLine(
       Offset(p1[0] as double, p1[1] as double),
       Offset(p2[0] as double, p2[1] as double),

@@ -214,13 +214,14 @@ void paintLife(
         int neighboursBlue = 0;
         int neighboursAlive = 0;
 
-        neighbours.forEach((element) {
-          if (element.red as double > 0) neighboursRed++;
-          if (element.green as double > 0) neighboursGreen++;
-          if (element.blue as double > 0) neighboursBlue++;
-          if (HSLColor.fromColor(element as Color).lightness > 0)
+        for (int i = 0; i < neighbours.length; i++) {
+          if (neighbours[i].red as double > 0) neighboursRed++;
+          if (neighbours[i].green as double > 0) neighboursGreen++;
+          if (neighbours[i].blue as double > 0) neighboursBlue++;
+          if (HSLColor.fromColor(neighbours[i] as Color).lightness > 0) {
             neighboursAlive++;
-        });
+          }
+        }
 
         // Any live cell with fewer than two live neighbours dies, as if by underpopulation.
         // Any live cell with two or three live neighbours lives on to the next generation.

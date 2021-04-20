@@ -232,7 +232,7 @@ void drawQuadrilateral(
     localLineColor = nextColor;
   }
 
-  Path quad = Path();
+  final Path quad = Path();
   quad.moveTo(p0[0] as double, p0[1] as double);
   quad.lineTo(p1[0] as double, p1[1] as double);
   quad.lineTo(p2[0] as double, p2[1] as double);

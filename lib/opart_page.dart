@@ -23,8 +23,8 @@ class OpArtPage extends StatefulWidget {
   final double animationValue;
 
   const OpArtPage(
-    this.opArtType,
-    this.downloadNow, {
+    this.opArtType, {
+    this.downloadNow,
     this.opArtSettings,
     this.animationValue,
   });
@@ -149,11 +149,11 @@ class _OpArtPageState extends State<OpArtPage> {
         _downloadHighResFile();
       });
     }
-    ;
+
     toolsTab = ToolsTab();
     paletteTab = PaletteTab(context);
     choosePaletteTab = ChoosePaletteTab();
-    Size size = MediaQuery.of(context).size;
+    final Size size = MediaQuery.of(context).size;
     Future<void> _paymentDialog() async {
       if (animationController != null) {
         animationController.stop();
@@ -166,15 +166,19 @@ class _OpArtPageState extends State<OpArtPage> {
           imageFile = image;
         });
         Package p0001;
+
         // find the product
-        //   print(offerings.current.availablePackages);
-        if (offerings != null) {
+
+        // print(offerings.current.availablePackages);
+        if (offerings.current != null) {
+          print('*********');
+          print(offerings);
           p0001 = offerings.current.availablePackages
               .firstWhere((element) => element.product.identifier == 'p0001');
           if (p0001 != null) {
             highDefDownloadAvailable = true;
             highDefPrice = p0001.product.priceString;
-            print('highDefPrice: $highDefPrice');
+            // print('highDefPrice: $highDefPrice');
           }
         }
         return showDialog<void>(
@@ -244,7 +248,7 @@ class _OpArtPageState extends State<OpArtPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Flexible(
-                                  child: Container(
+                                  child: SizedBox(
                                     height: 50,
                                     width: 50,
                                     child: Image.file(
@@ -266,7 +270,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                       try {
                                         await Purchases.setFinishTransactions(
                                             true);
-                                        PurchaserInfo purchaserInfo =
+                                        final PurchaserInfo purchaserInfo =
                                             await Purchases.purchasePackage(
                                                 p0001);
                                         final List<String> purchases =
@@ -296,14 +300,15 @@ class _OpArtPageState extends State<OpArtPage> {
 
                                                   showProgressIndicator = false;
 
-                                                  await Navigator.pushReplacement(
-                                                      _scaffoldKey
-                                                          .currentContext,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              MyGallery(
-                                                                  value + 10,
-                                                                  true)));
+                                                  await Navigator
+                                                      .pushReplacement(
+                                                    _scaffoldKey.currentContext,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          MyGallery(
+                                                              value + 10, true),
+                                                    ),
+                                                  );
                                                 });
                                               });
                                             });
@@ -430,9 +435,11 @@ class _OpArtPageState extends State<OpArtPage> {
                           SystemChrome.setEnabledSystemUIOverlays(
                               SystemUiOverlay.values);
                           Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MyHomePage()));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MyHomePage(),
+                            ),
+                          );
                         },
                       ),
                       actions: [
@@ -446,7 +453,7 @@ class _OpArtPageState extends State<OpArtPage> {
                                       true, // user must tap button!
                                   builder: (BuildContext context) {
                                     return Dialog(
-                                        child: Container(
+                                        child: SizedBox(
                                       height: 150,
                                       width: 200,
                                       child: Stack(
@@ -551,7 +558,7 @@ class _OpArtPageState extends State<OpArtPage> {
                           InteractiveViewer(
                             child: ClipRect(
                                 child: CanvasWidget(
-                              showSettings,
+                              fullScreen: showSettings,
                               animationValue: widget.animationValue,
                             )),
                           ),

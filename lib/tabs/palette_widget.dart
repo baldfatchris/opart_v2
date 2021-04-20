@@ -68,14 +68,14 @@ class _PaletteTabWidgetState extends State<PaletteTabWidget> {
               Radius.circular(5),
             ),
             gradient: LinearGradient(
-                colors: [
-                  const Color(0xFFffffff).withOpacity(0.2),
-                  const Color(0xFF303030),
-                ],
-                begin: const FractionalOffset(0.0, 0.0),
-                end: const FractionalOffset(1.0, 1.00),
-                stops: [0.0, 1.0],
-                tileMode: TileMode.clamp),
+              colors: [
+                const Color(0xFFffffff).withOpacity(0.2),
+                const Color(0xFF303030),
+              ],
+              begin: const FractionalOffset(0.0, 0.0),
+              end: const FractionalOffset(1.0, 1.00),
+              stops: const [0.0, 1.0],
+            ),
           ),
           child: Slider(
             value: (opacity.value == null)
@@ -84,7 +84,6 @@ class _PaletteTabWidgetState extends State<PaletteTabWidget> {
                     ? 1
                     : opacity.value as double,
             min: 0.2,
-            max: 1.0,
             onChanged: (value) {
               opacity.value = value;
               rebuildTab.value++;
@@ -98,14 +97,14 @@ class _PaletteTabWidgetState extends State<PaletteTabWidget> {
       );
     }
 
-    int paletteLength = opArt.palette.colorList.length;
+    final int paletteLength = opArt.palette.colorList.length;
 
     return ValueListenableBuilder<int>(
         valueListenable: rebuildTab,
         builder: (context, value, child) {
           _additionalColors();
           listViewWidgets.add(
-            Container(
+            SizedBox(
               height: 30,
               child: IconButton(
                   icon: const Icon(Icons.remove),
@@ -135,7 +134,7 @@ class _PaletteTabWidgetState extends State<PaletteTabWidget> {
             ),
           );
           listViewWidgets.add(
-            Container(
+            SizedBox(
               width: 30,
               child: Center(
                 child: Text(
@@ -160,7 +159,7 @@ class _PaletteTabWidgetState extends State<PaletteTabWidget> {
                               (element) => element.name == 'numberOfColors')
                           .value = numberOfColors.value;
                       if (numberOfColors.value as int > paletteLength) {
-                        String paletteType = opArt.attributes
+                        final String paletteType = opArt.attributes
                             .firstWhere(
                                 (element) => element.name == 'paletteType')
                             .value
@@ -207,14 +206,14 @@ class _PaletteTabWidgetState extends State<PaletteTabWidget> {
             ));
           }
           //  listViewWidgets.add(_opacityWidget());
-          return Container(
+          return SizedBox(
               height: MediaQuery.of(context).size.height - 60 - 60 - 70,
               child: Column(
                 children: [
                   Expanded(
                     child: ListView(children: listViewWidgets),
                   ),
-                  Container(height: 150, child: _opacityWidget())
+                  SizedBox(height: 150, child: _opacityWidget())
                 ],
               ));
         });

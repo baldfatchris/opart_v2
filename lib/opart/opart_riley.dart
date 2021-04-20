@@ -330,8 +330,9 @@ void paintRiley(
         borderY + cellSizeY * (j + v0 + (i / cellsX) * (vN - v0))
       ];
 
-      double X = (j + v0 + (i + h0) * gradientV) / (gradientV - gradientH);
-      List pO = [
+      final double X =
+          (j + v0 + (i + h0) * gradientV) / (gradientV - gradientH);
+      final List pO = [
         borderX + cellSizeX * X,
         borderY + cellSizeY * (j + v0 + gradientH * X)
       ];
@@ -375,7 +376,7 @@ void paintRiley(
 
 void fillQuad(
     Canvas canvas, List p1, List p2, List p3, List p4, Color nextColor) {
-  Path quad = Path();
+  final Path quad = Path();
   quad.moveTo(p1[0] as double, p1[1] as double);
   quad.lineTo(p2[0] as double, p2[1] as double);
   quad.lineTo(p3[0] as double, p3[1] as double);

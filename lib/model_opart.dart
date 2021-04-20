@@ -329,7 +329,7 @@ class OpArt {
     seed = cache[index]['seed'] as int;
     if (animation) {
       animationController.forward(
-          from: cache[index]['animationControllerValue']);
+          from: cache[index]['animationControllerValue'] as double);
     }
     for (int i = 0; i < attributes.length; i++) {
       attributes[i].value = cache[index][attributes[i].label];

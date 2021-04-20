@@ -19,46 +19,42 @@ class OpArtLab {
   OpArtLab._();
 
   static const _kFontFam = 'OpArtLab';
-  static const _kFontPkg = null;
+  // static const _kFontPkg = null;
 
-  static const IconData quarter_square =
-      IconData(0xe800, fontFamily: _kFontFam);
-  static const IconData quarter_triangle =
+  static const IconData quarterSquare = IconData(0xe800, fontFamily: _kFontFam);
+  static const IconData quarterTriangle =
       IconData(0xe801, fontFamily: _kFontFam);
-  static const IconData mini_circle = IconData(0xe802, fontFamily: _kFontFam);
-  static const IconData half_triangle = IconData(0xe803, fontFamily: _kFontFam);
-  static const IconData half_circle = IconData(0xe804, fontFamily: _kFontFam);
+  static const IconData miniCircle = IconData(0xe802, fontFamily: _kFontFam);
+  static const IconData halfTriangle = IconData(0xe803, fontFamily: _kFontFam);
+  static const IconData halfCircle = IconData(0xe804, fontFamily: _kFontFam);
   static const IconData circle = IconData(0xe805, fontFamily: _kFontFam);
-  static const IconData quarter_circle =
-      IconData(0xe806, fontFamily: _kFontFam);
-  static const IconData recursion_depth =
+  static const IconData quarterCircle = IconData(0xe806, fontFamily: _kFontFam);
+  static const IconData recursionDepth =
       IconData(0xe807, fontFamily: _kFontFam);
-  static const IconData recursion_ratio =
+  static const IconData recursionRatio =
       IconData(0xe808, fontFamily: _kFontFam);
   static const IconData shapes = IconData(0xe809, fontFamily: _kFontFam);
   static const IconData pointiness = IconData(0xe80a, fontFamily: _kFontFam);
   static const IconData L = IconData(0xe80b, fontFamily: _kFontFam);
-  static const IconData horizontal_drift =
+  static const IconData horizontalDrift =
       IconData(0xe80c, fontFamily: _kFontFam);
-  static const IconData vertical_drift =
-      IconData(0xe80d, fontFamily: _kFontFam);
+  static const IconData verticalDrift = IconData(0xe80d, fontFamily: _kFontFam);
   static const IconData O = IconData(0xe80e, fontFamily: _kFontFam);
-  static const IconData horizontal_offset =
+  static const IconData horizontalOffset =
       IconData(0xe80f, fontFamily: _kFontFam);
-  static const IconData vertical_offset =
+  static const IconData verticalOffset =
       IconData(0xe810, fontFamily: _kFontFam);
-  static const IconData wallpaper_ratio =
+  static const IconData wallpaperRatio =
       IconData(0xe811, fontFamily: _kFontFam);
-  static const IconData line_horizontal =
+  static const IconData lineHorizontal =
       IconData(0xe812, fontFamily: _kFontFam);
-  static const IconData line_vertical = IconData(0xe813, fontFamily: _kFontFam);
-  static const IconData line_diagonal_right =
+  static const IconData lineVertical = IconData(0xe813, fontFamily: _kFontFam);
+  static const IconData lineDiagonalRight =
       IconData(0xe814, fontFamily: _kFontFam);
-  static const IconData line_diagonal_left =
+  static const IconData lineDiagonalLeft =
       IconData(0xe815, fontFamily: _kFontFam);
   static const IconData bulge = IconData(0xe816, fontFamily: _kFontFam);
-  static const IconData s_shape = IconData(0xe817, fontFamily: _kFontFam);
+  static const IconData sShape = IconData(0xe817, fontFamily: _kFontFam);
   static const IconData pipe = IconData(0xe818, fontFamily: _kFontFam);
-  static const IconData squared_circle =
-      IconData(0xe819, fontFamily: _kFontFam);
+  static const IconData squaredCircle = IconData(0xe819, fontFamily: _kFontFam);
 }

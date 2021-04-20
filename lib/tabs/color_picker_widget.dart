@@ -35,7 +35,7 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
           child: ValueListenableBuilder<int>(
               valueListenable: rebuildColorPicker,
               builder: (context, value, child) {
-                return Container(
+                return SizedBox(
                   height: 190,
                   child: Stack(
                     children: [

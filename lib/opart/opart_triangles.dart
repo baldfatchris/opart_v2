@@ -275,7 +275,7 @@ void drawTriangle(
 
     switch (splitDirection) {
       case 0:
-        List pN = [
+        final List pN = [
           p1[0] * localRatio + p2[0] * (1 - localRatio),
           p1[1] * localRatio + p2[1] * (1 - localRatio)
         ];

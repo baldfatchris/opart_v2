@@ -386,12 +386,12 @@ void generateFlower(
   int colourOrder = 0;
   Color nextColor;
 
-  List p0 = [flowerCentreX + borderX, flowerCentreY + borderY];
+  final List p0 = [flowerCentreX + borderX, flowerCentreY + borderY];
 
-  double maxRadius = (imageWidth < imageHeight)
+  final double maxRadius = (imageWidth < imageHeight)
       ? currentFlowerFill * imageWidth / 2
       : currentFlowerFill * imageWidth / 2;
-  double minRadius = 2;
+  const double minRadius = 2;
   double angle = 0;
 
   double radius = maxRadius;
@@ -482,7 +482,10 @@ void drawPetal(
   switch (currentPetalType) {
     case 'circle': //'circle': not quite a circle
 
-      List p1 = [p0[0] + radius * cos(angle), p0[1] + radius * sin(angle)];
+      final List p1 = [
+        p0[0] + radius * cos(angle),
+        p0[1] + radius * sin(angle)
+      ];
       final petalRadius = radius * currentPetalToRadius;
 
       canvas.drawCircle(
@@ -504,10 +507,13 @@ void drawPetal(
 
     case 'triangle': //'triangle':
 
-      List p1 = [p0[0] + radius * cos(angle), p0[1] + radius * sin(angle)];
+      final List p1 = [
+        p0[0] + radius * cos(angle),
+        p0[1] + radius * sin(angle)
+      ];
       final double petalRadius = radius * currentPetalToRadius;
 
-      List pA = [
+      final List pA = [
         p1[0] +
             petalRadius *
                 cos(angle +
@@ -519,7 +525,7 @@ void drawPetal(
                     currentPetalRotation +
                     angle * currentPetalRotationRatio)
       ];
-      List pB = [
+      final List pB = [
         p1[0] +
             petalRadius *
                 cos(angle +
@@ -533,7 +539,7 @@ void drawPetal(
                     angle * currentPetalRotationRatio +
                     pi * currentPetalPointiness)
       ];
-      List pC = [
+      final List pC = [
         p1[0] +
             petalRadius *
                 cos(angle +
@@ -596,7 +602,7 @@ void drawPetal(
                     pi / 4)
       ];
 
-      List pB = [
+      final List pB = [
         p1[0] +
             petalRadius *
                 cos(angle +
@@ -615,7 +621,7 @@ void drawPetal(
                     pi / 4)
       ];
 
-      List pC = [
+      final List pC = [
         p1[0] +
             petalRadius *
                 cos(angle +
@@ -634,7 +640,7 @@ void drawPetal(
                     pi / 4)
       ];
 
-      List pD = [
+      final List pD = [
         p1[0] +
             petalRadius *
                 cos(angle +
@@ -653,7 +659,7 @@ void drawPetal(
                     pi / 4)
       ];
 
-      Path square = Path();
+      final Path square = Path();
       square.moveTo(pA[0] as double, pA[1] as double);
       square.lineTo(pB[0] as double, pB[1] as double);
       square.lineTo(pC[0] as double, pC[1] as double);

@@ -58,7 +58,7 @@ class DatabaseHelper {
 
   Future<List<Map<String, dynamic>>> getData() async {
     final Database db = await database;
-    List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> maps = await db.query(
       'opart',
     );
     if (maps.isNotEmpty) {
@@ -135,7 +135,7 @@ class DatabaseHelper {
   }
 
   Future<void> deleteDB() async {
-    Database db = await database;
+    final Database db = await database;
     await db.delete('opart');
   }
 }

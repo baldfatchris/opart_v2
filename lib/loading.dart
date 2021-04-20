@@ -8,10 +8,6 @@ class Loading extends StatefulWidget {
 
 class _LoadingState extends State<Loading> {
   Future<void> waitSome() async {
-    // print('wait 1 second');
-    await Future.delayed(const Duration(seconds: 0));
-    // print('1 second gone');
-
     await Navigator.pushReplacementNamed(context, '/menu', arguments: {
       'location': 'OpArt Menu',
     });

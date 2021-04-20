@@ -10,9 +10,9 @@ import 'model_opart.dart';
 import 'opart_page.dart';
 
 class CanvasWidget extends StatefulWidget {
-  final bool _fullScreen;
+  final bool fullScreen;
   final double animationValue;
-  const CanvasWidget(this._fullScreen, {this.animationValue});
+  const CanvasWidget({this.fullScreen, this.animationValue});
   @override
   _CanvasWidgetState createState() => _CanvasWidgetState();
 }
@@ -179,7 +179,7 @@ class _CanvasWidgetState extends State<CanvasWidget>
                   )
                 else
                   Container(),
-                if (widget._fullScreen) Container(height: 70) else Container(),
+                if (widget.fullScreen) Container(height: 70) else Container(),
               ],
             ),
           )

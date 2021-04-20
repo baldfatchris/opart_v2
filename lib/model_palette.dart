@@ -596,16 +596,16 @@ List<List> defaultPalettes = [
 
 class OpArtPalette {
   String paletteName = 'Default';
-  List<Color> colorList = [
+  List<Color> colorList = const [
     Color(0xFF34a1af),
     Color(0xFFa570a8),
     Color(0xFFd6aa27),
     Color(0xFF5f9d50),
     Color(0xFF789dd1),
     Color(0xFFc25666),
-    Color(0xFF2b7b1),
-    Color(0xFFd63aa),
-    Color(0xFF1f4ed),
+    Color(0x0ff2b7b1),
+    Color(0x0ffd63aa),
+    Color(0x0ff1f4ed),
     Color(0xFF383c47)
   ];
   String paletteType = 'random';
@@ -615,10 +615,10 @@ class OpArtPalette {
     // print('numberOfColours: $numberOfColours');
 
     // seed = DateTime.now().millisecond;
-    Random rnd = Random(seed);
+    final Random rnd = Random(seed);
     // print('randomizing palette');
 
-    List<Color> palette = [];
+    final List<Color> palette = [];
 
     switch (paletteType) {
       // random
@@ -634,17 +634,17 @@ class OpArtPalette {
       // blended random
       case 'blended random':
         {
-          Color blendColour = Color(rnd.nextInt(0xFFFFFF)).withOpacity(1);
+          final Color blendColour = Color(rnd.nextInt(0xFFFFFF)).withOpacity(1);
           palette.add(blendColour);
           for (int colourIndex = 1;
               colourIndex < numberOfColours;
               colourIndex++) {
-            Color randomColor = Color(rnd.nextInt(0xFFFFFF));
+            final Color randomColor = Color(rnd.nextInt(0xFFFFFF));
             palette.add(Color.fromARGB(
-                ((blendColour.alpha * 2 + randomColor.alpha) ~/ 3),
-                ((blendColour.red * 2 + randomColor.red) ~/ 3),
-                ((blendColour.green * 2 + randomColor.green) ~/ 3),
-                ((blendColour.blue * 2 + randomColor.blue) ~/ 3)));
+                (blendColour.alpha * 2 + randomColor.alpha) ~/ 3,
+                (blendColour.red * 2 + randomColor.red) ~/ 3,
+                (blendColour.green * 2 + randomColor.green) ~/ 3,
+                (blendColour.blue * 2 + randomColor.blue) ~/ 3));
           }
         }
         break;
@@ -652,12 +652,12 @@ class OpArtPalette {
       // linear random
       case 'linear random':
         {
-          List startColour = [
+          final List startColour = [
             rnd.nextInt(255),
             rnd.nextInt(255),
             rnd.nextInt(255)
           ];
-          List endColour = [
+          final List endColour = [
             rnd.nextInt(255),
             rnd.nextInt(255),
             rnd.nextInt(255)

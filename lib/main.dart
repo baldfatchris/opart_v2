@@ -21,7 +21,7 @@ double aspectRatio = 2 / 3;
 
 Offerings offerings;
 
-void main() async {
+void main() {
   runApp(MaterialApp(
     theme: ThemeData(primaryColor: Colors.cyan),
     initialRoute: '/menu',
@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Op Art Studio'),
+      home: const MyHomePage(title: 'Op Art Studio'),
     );
   }
 
@@ -56,33 +56,32 @@ class _MyAppState extends State<MyApp> {
 
     await Purchases.setDebugLogsEnabled(true);
     await Purchases.setup('dZAXkioWKFdOESaEtJMQkRsrETmZbFUK');
-
-    PurchaserInfo purchaserInfo;
-    try {
-      purchaserInfo = await Purchases.getPurchaserInfo();
-      //  print(purchaserInfo.toString());
-      if (purchaserInfo.entitlements.all['all_features'] != null) {
-        proVersion = purchaserInfo.entitlements.all['all_features'].isActive;
-      } else {
-        proVersion = false;
-      }
-    } on PlatformException catch (e) {
-      print(e);
-    }
+    //
+    // PurchaserInfo purchaserInfo;
+    // try {
+    //   purchaserInfo = await Purchases.getPurchaserInfo();
+    //   print(purchaserInfo.toString());
+    //   if (purchaserInfo.entitlements.all['all_features'] != null) {
+    //     proVersion = purchaserInfo.entitlements.all['all_features'].isActive;
+    //   } else {
+    //     proVersion = false;
+    //   }
+    // } on PlatformException catch (e) {
+    //   print(e);
+    // }
 
 //    print('#### is user pro? ${proVersion}');
 
     try {
       offerings = await Purchases.getOfferings();
+      print(offerings);
       if (offerings.current != null &&
           offerings.current.availablePackages.isNotEmpty) {
-        // print(offerings.current.availablePackages.length);
-        // print('offerings');
         // Display packages for sale
       }
     } on PlatformException catch (e) {
-      // print('offerings errors');
-      print(e);
+      print('offerings errors');
+
       // optional error handling
     }
   }
@@ -113,8 +112,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // print(MediaQuery.of(context).size.width);
-    // print(MediaQuery.of(context).size.height);
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -145,8 +142,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Expanded(
               child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 130),
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 100.0),
                   itemCount: opArtTypes.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
@@ -157,7 +154,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => OpArtPage(
-                                    opArtTypes[index].opArtType, false)),
+                                    opArtTypes[index].opArtType,
+                                    downloadNow: false)),
                           );
                         },
                         child: Hero(
@@ -169,25 +167,26 @@ class _MyHomePageState extends State<MyHomePage> {
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey.withOpacity(0.9),
-                                  spreadRadius: 0,
                                   blurRadius: 5,
-                                  offset: Offset(5, 5),
+                                  offset: const Offset(5, 5),
                                 )
                               ],
                             ),
                             child: ClipRRect(
-                              clipBehavior: Clip.antiAlias,
                               borderRadius: BorderRadius.circular(20),
                               child: GridTile(
                                 footer: Container(
                                   color: Colors.white.withOpacity(0.7),
                                   width: double.infinity,
-                                  child: Text(opArtTypes[index].name,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          fontFamily: 'Righteous',
-                                          fontWeight: FontWeight.bold)),
+                                  child: Text(
+                                    opArtTypes[index].name,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontFamily: 'Righteous',
+                                      // fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
                                 child: Image.asset(opArtTypes[index].image),
                               ),
@@ -227,121 +226,121 @@ class _MyHomePageState extends State<MyHomePage> {
                           itemCount: savedOpArt.length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 0.0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              MyGallery(index + 1, false)));
-                                },
-                                onLongPress: () {
-                                  showDelete = !showDelete;
-                                  _rebuildDelete.value++;
-                                },
-                                child: Stack(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: AspectRatio(
-                                        aspectRatio: 1,
-                                        child: Container(
-                                          width: 100,
-                                          height: 100,
-                                          child: Image.memory(
-                                            base64Decode(savedOpArt[index]
-                                                ['image'] as String),
-                                            fit: BoxFit.fitWidth,
-                                          ),
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            MyGallery(index + 1, false)));
+                              },
+                              onLongPress: () {
+                                showDelete = !showDelete;
+                                _rebuildDelete.value++;
+                              },
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: AspectRatio(
+                                      aspectRatio: 1,
+                                      child: SizedBox(
+                                        width: 100,
+                                        height: 100,
+                                        child: Image.memory(
+                                          base64Decode(savedOpArt[index]
+                                              ['image'] as String),
+                                          fit: BoxFit.fitWidth,
                                         ),
                                       ),
                                     ),
-                                    ValueListenableBuilder<int>(
-                                        valueListenable: _rebuildDelete,
-                                        builder: (context, value, child) {
-                                          return showDelete
-                                              ? Positioned(
-                                                  right: 0,
-                                                  top: 0,
-                                                  child: Container(
-                                                    height: 30,
-                                                    width: 30,
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                            color: Colors.white,
-                                                            shape: BoxShape
-                                                                .circle),
-                                                    child: Center(
-                                                      child:
-                                                          FloatingActionButton(
-                                                              onPressed: () {
-                                                                if (savedOpArt[
-                                                                            index]
-                                                                        ['paid']
-                                                                    as bool) {
-                                                                  showDialog(
-                                                                      context:
-                                                                          context,
-                                                                      builder:
-                                                                          (context) {
-                                                                        return AlertDialog(
-                                                                            title:
-                                                                                const Text(' Are you sure you want to delete?'),
-                                                                            content: const Text('You have paid for this image. If you delete it you will not be able to download it again.'),
-                                                                            actions: [
-                                                                              RaisedButton(
-                                                                                onPressed: () {
-                                                                                  final DatabaseHelper helper = DatabaseHelper.instance;
-                                                                                  helper.delete(savedOpArt[index]['id'] as int);
-                                                                                  savedOpArt.removeAt(index);
-                                                                                  showDelete = false;
-                                                                                  rebuildMain.value++;
-                                                                                  Navigator.pop(context);
-                                                                                },
-                                                                                child: const Text('Delete'),
-                                                                              ),
-                                                                              RaisedButton(
-                                                                                onPressed: () {
-                                                                                  Navigator.pop(context);
-                                                                                },
-                                                                                child: const Text('Cancel'),
-                                                                              )
-                                                                            ]);
-                                                                      });
-                                                                } else {
-                                                                  DatabaseHelper
-                                                                      helper =
-                                                                      DatabaseHelper
-                                                                          .instance;
-                                                                  helper.delete(
-                                                                      savedOpArt[index]
-                                                                              [
-                                                                              'id']
-                                                                          as int);
-                                                                  savedOpArt
-                                                                      .removeAt(
-                                                                          index);
-                                                                  showDelete =
-                                                                      false;
-                                                                  rebuildMain
-                                                                      .value++;
-                                                                }
-                                                              },
-                                                              backgroundColor:
-                                                                  Colors.white,
-                                                              child: const Icon(
-                                                                  Icons.delete,
-                                                                  color: Colors
-                                                                      .grey)),
-                                                    ),
-                                                  ))
-                                              : Container();
-                                        }),
-                                  ],
-                                ),
+                                  ),
+                                  ValueListenableBuilder<int>(
+                                      valueListenable: _rebuildDelete,
+                                      builder: (context, value, child) {
+                                        return showDelete
+                                            ? Positioned(
+                                                right: 0,
+                                                top: 0,
+                                                child: Container(
+                                                  height: 30,
+                                                  width: 30,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          color: Colors.white,
+                                                          shape:
+                                                              BoxShape.circle),
+                                                  child: Center(
+                                                    child: FloatingActionButton(
+                                                        onPressed: () {
+                                                          if (savedOpArt[index]
+                                                                  ['paid']
+                                                              as bool) {
+                                                            showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
+                                                                  return AlertDialog(
+                                                                      title: const Text(
+                                                                          ' Are you sure you want to delete?'),
+                                                                      content:
+                                                                          const Text(
+                                                                              'You have paid for this image. If you delete it you will not be able to download it again.'),
+                                                                      actions: [
+                                                                        RaisedButton(
+                                                                          onPressed:
+                                                                              () {
+                                                                            final DatabaseHelper
+                                                                                helper =
+                                                                                DatabaseHelper.instance;
+                                                                            helper.delete(savedOpArt[index]['id']
+                                                                                as int);
+                                                                            savedOpArt.removeAt(index);
+                                                                            showDelete =
+                                                                                false;
+                                                                            rebuildMain.value++;
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                          child:
+                                                                              const Text('Delete'),
+                                                                        ),
+                                                                        RaisedButton(
+                                                                          onPressed:
+                                                                              () {
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                          child:
+                                                                              const Text('Cancel'),
+                                                                        )
+                                                                      ]);
+                                                                });
+                                                          } else {
+                                                            final DatabaseHelper
+                                                                helper =
+                                                                DatabaseHelper
+                                                                    .instance;
+                                                            helper.delete(
+                                                                savedOpArt[index]
+                                                                        ['id']
+                                                                    as int);
+                                                            savedOpArt.removeAt(
+                                                                index);
+                                                            showDelete = false;
+                                                            rebuildMain.value++;
+                                                          }
+                                                        },
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        child: const Icon(
+                                                            Icons.delete,
+                                                            color:
+                                                                Colors.grey)),
+                                                  ),
+                                                ))
+                                            : Container();
+                                      }),
+                                ],
                               ),
                             );
                           }),

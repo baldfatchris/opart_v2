@@ -96,8 +96,8 @@ Widget choosePaletteTabWidget() {
             children: [
               Container(
                 height: 80,
-                decoration:
-                    BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                decoration: const BoxDecoration(
+                    color: Colors.white, shape: BoxShape.circle),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Center(
@@ -114,7 +114,7 @@ Widget choosePaletteTabWidget() {
                 defaultPalettes[index][0] as String,
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
             ],
           ),
         );

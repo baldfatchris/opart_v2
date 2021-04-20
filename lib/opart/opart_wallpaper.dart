@@ -60,7 +60,7 @@ SettingsModel ratio = SettingsModel(
   max: 1.75,
   zoom: 100,
   defaultValue: 1.0,
-  icon: const Icon(OpArtLab.wallpaper_ratio),
+  icon: const Icon(OpArtLab.wallpaperRatio),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -76,7 +76,7 @@ SettingsModel driftX = SettingsModel(
   randomMax: 2.0,
   zoom: 100,
   defaultValue: 0.0,
-  icon: const Icon(OpArtLab.horizontal_drift),
+  icon: const Icon(OpArtLab.horizontalDrift),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -92,7 +92,7 @@ SettingsModel driftY = SettingsModel(
   randomMax: 2.0,
   zoom: 100,
   defaultValue: 0.0,
-  icon: const Icon(OpArtLab.vertical_drift),
+  icon: const Icon(OpArtLab.verticalDrift),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -129,7 +129,7 @@ SettingsModel offsetX = SettingsModel(
   max: 2.0,
   zoom: 100,
   defaultValue: 0.0,
-  icon: const Icon(OpArtLab.horizontal_offset),
+  icon: const Icon(OpArtLab.horizontalOffset),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -143,7 +143,7 @@ SettingsModel offsetY = SettingsModel(
   max: 2.0,
   zoom: 100,
   defaultValue: 0.0,
-  icon: const Icon(OpArtLab.vertical_offset),
+  icon: const Icon(OpArtLab.verticalOffset),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -384,8 +384,8 @@ void paintWallpaper(
   }
 
   // Initialise the canvas
-  double canvasWidth = size.width;
-  double canvasHeight = size.height;
+  final double canvasWidth = size.width;
+  final double canvasHeight = size.height;
   double borderX = 0;
   double borderY = 0;
 
@@ -418,7 +418,7 @@ void paintWallpaper(
   // Now make some art
 
   // fill
-  final bool fill = true;
+  const bool fill = true;
 
   int extraCellsX = 0;
   int extraCellsY = 0;
@@ -506,7 +506,7 @@ void paintWallpaper(
         }
 
         // fill the square
-        Path path = Path();
+        final Path path = Path();
         path.moveTo(pA[0] as double, pA[1] as double);
         path.lineTo(pB[0] as double, pB[1] as double);
         path.lineTo(pC[0] as double, pC[1] as double);
@@ -571,7 +571,7 @@ void paintWallpaper(
             break;
 
           case 'square':
-            Path square = Path();
+            final Path square = Path();
 
             square.moveTo(
                 (pO[0] as double) +
@@ -756,7 +756,7 @@ void paintWallpaper(
                             (p + 1) * pi * 2 / (localNumberOfPetals as num))
               ];
 
-              Path star = Path();
+              final Path star = Path();
 
               star.moveTo(pO[0] as double, pO[1] as double);
               star.quadraticBezierTo(
@@ -975,7 +975,7 @@ void paintWallpaper(
                 pC[1] - petalRadius * sin(petalAngle + pi)
               ];
 
-              List pE = [
+              final List pE = [
                 pC[0] -
                     localSquareness * petalRadius * cos(petalAngle + pi * 0.5),
                 pC[1] -
@@ -1018,11 +1018,11 @@ void paintWallpaper(
             // double cusp = 0.50;
             // double heartBezierPointAngle = 0.53 * pi;
             // double heartBezierPointRadiusRatio = 17.2;
-            final int localNumberoOfSides = 2;
-            final double heartRadiusRatio = 0.75;
-            final double heartRadiusDelta = 0.25;
+            const int localNumberoOfSides = 2;
+            const double heartRadiusRatio = 0.75;
+            const double heartRadiusDelta = 0.25;
 
-            Path heart = Path();
+            final Path heart = Path();
 
             heart.moveTo(
                 (pO[0] as double) +
@@ -1208,12 +1208,12 @@ void paintWallpaper(
           localRotate = localRotate + (rotateStep.value as num);
         }
 
-        if ((alternateDrift.value as bool) && (i) % 2 == 0) {
+        if ((alternateDrift.value as bool) && i % 2 == 0) {
           dX = dX - (driftX.value as num);
         } else {
           dX = dX + (driftX.value as num);
         }
-        if ((alternateDrift.value as bool) && (j) % 2 == 0) {
+        if ((alternateDrift.value as bool) && j % 2 == 0) {
           dY = dY - (driftY.value as num);
         } else {
           dY = dY + (driftY.value as num);

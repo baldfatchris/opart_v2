@@ -36,7 +36,7 @@ SettingsModel columns = SettingsModel(
   randomMin: 2,
   randomMax: 15,
   defaultValue: 10,
-  icon: const Icon(OpArtLab.recursion_depth),
+  icon: const Icon(OpArtLab.recursionDepth),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -66,7 +66,7 @@ SettingsModel offsetY = SettingsModel(
   max: 50.0,
   zoom: 100,
   defaultValue: 10.0,
-  icon: const Icon(OpArtLab.vertical_offset),
+  icon: const Icon(OpArtLab.verticalOffset),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );

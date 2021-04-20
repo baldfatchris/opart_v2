@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:opart_v2/tabs/tools_widget.dart';
+
 import '../model_opart.dart';
 import '../opart_page.dart';
-import 'palette_widget.dart';
 import 'choose_pallette_widget.dart';
+import 'palette_widget.dart';
 
-class GeneralTab {
+abstract class GeneralTab {
   bool open = false;
   double position;
   double width;
@@ -42,12 +43,11 @@ class GeneralTab {
     showCustomColorPicker = false;
     rebuildOpArtPage.value++;
     rebuildTab.value++;
-
   }
 
   void hideTab() {
     open = false;
-    position = -width -45;
+    position = -width - 45;
     rebuildTab.value++;
   }
 
@@ -60,9 +60,9 @@ ToolsTab toolsTab;
 PaletteTab paletteTab;
 ChoosePaletteTab choosePaletteTab;
 
-class ToolsTab extends GeneralTab {
-@override
-bool open = false;
+class ToolsTab implements GeneralTab {
+  @override
+  bool open = false;
   @override
   IconData icon = MdiIcons.tools;
 
@@ -78,63 +78,119 @@ bool open = false;
   @override
   double width = 80;
 
-  void showSlider(){
-  position = 80;
-  rebuildTab.value++;
+  void showSlider() {
+    position = 80;
+    rebuildTab.value++;
   }
-
-
 
   @override
   Widget content() {
     return toolBoxTab();
   }
 
+  @override
+  bool hidden;
+
+  @override
+  void closeTab() {
+    paletteTab.position = -paletteTab.width;
+    paletteTab.open = false;
+    toolsTab.position = -toolsTab.width;
+    toolsTab.open = false;
+    choosePaletteTab.position = -choosePaletteTab.width;
+    choosePaletteTab.open = false;
+    position = -width;
+    showCustomColorPicker = false;
+    rebuildOpArtPage.value++;
+    rebuildTab.value++;
+  }
+
+  @override
+  void hideTab() {
+    open = false;
+    position = -width - 45;
+    rebuildTab.value++;
+  }
+
+  @override
+  void openTab() {
+    showCustomColorPicker = false;
+    rebuildOpArtPage.value++;
+    paletteTab.position = -paletteTab.width;
+    paletteTab.open = false;
+    toolsTab.position = -toolsTab.width;
+    toolsTab.open = false;
+    choosePaletteTab.position = -choosePaletteTab.width;
+    choosePaletteTab.open = false;
+    open = true;
+    position = 0;
+    showCustomColorPicker = false;
+    rebuildOpArtPage.value++;
+    rebuildTab.value++;
+  }
 }
 
-class PaletteTab extends GeneralTab {
+class PaletteTab implements GeneralTab {
   @override
   bool open = false;
-  BuildContext context;
-  PaletteTab(context);
+  final BuildContext context;
+  PaletteTab(this.context);
   @override
   IconData icon = Icons.palette;
 
   @override
   bool left = true;
-@override
+  @override
   void openTab() {
     toolsTab.position = -toolsTab.width;
     toolsTab.open = false;
-    choosePaletteTab.position = -choosePaletteTab.width-45;
+    choosePaletteTab.position = -choosePaletteTab.width - 45;
     choosePaletteTab.open = false;
     open = true;
     position = 0;
     rebuildTab.value++;
   }
+
   @override
   double tabHeight = -0.5;
 
   @override
   double width = 50;
 
-
-
-
-
   @override
   Widget content() {
     return PaletteTabWidget();
   }
 
-
-
   @override
   double position = -50;
 
+  @override
+  bool hidden;
+
+  @override
+  void closeTab() {
+    paletteTab.position = -paletteTab.width;
+    paletteTab.open = false;
+    toolsTab.position = -toolsTab.width;
+    toolsTab.open = false;
+    choosePaletteTab.position = -choosePaletteTab.width;
+    choosePaletteTab.open = false;
+    position = -width;
+    showCustomColorPicker = false;
+    rebuildOpArtPage.value++;
+    rebuildTab.value++;
+  }
+
+  @override
+  void hideTab() {
+    open = false;
+    position = -width - 45;
+    rebuildTab.value++;
+  }
 }
 
-class ChoosePaletteTab extends GeneralTab {
+class ChoosePaletteTab implements GeneralTab {
   @override
   bool open = false;
   @override
@@ -148,32 +204,46 @@ class ChoosePaletteTab extends GeneralTab {
 
   @override
   double width = 80;
-@override
-void openTab() {
-  paletteTab.position = -paletteTab.width-45;
-  paletteTab.open = false;
-  toolsTab.position = -toolsTab.width;
-  toolsTab.open = false;
-  open = true;
-  position = 0;
-  rebuildTab.value++;
-
-}
-
-
-
-
+  @override
+  void openTab() {
+    paletteTab.position = -paletteTab.width - 45;
+    paletteTab.open = false;
+    toolsTab.position = -toolsTab.width;
+    toolsTab.open = false;
+    open = true;
+    position = 0;
+    rebuildTab.value++;
+  }
 
   @override
   Widget content() {
     return choosePaletteTabWidget();
   }
 
-
-
-
   @override
   double position = -80;
 
+  @override
+  bool hidden;
 
+  @override
+  void closeTab() {
+    paletteTab.position = -paletteTab.width;
+    paletteTab.open = false;
+    toolsTab.position = -toolsTab.width;
+    toolsTab.open = false;
+    choosePaletteTab.position = -choosePaletteTab.width;
+    choosePaletteTab.open = false;
+    position = -width;
+    showCustomColorPicker = false;
+    rebuildOpArtPage.value++;
+    rebuildTab.value++;
+  }
+
+  @override
+  void hideTab() {
+    open = false;
+    position = -width - 45;
+    rebuildTab.value++;
+  }
 }

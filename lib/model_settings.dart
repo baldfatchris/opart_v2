@@ -19,20 +19,20 @@ class SettingsModel {
   Icon icon;
   SettingCategory settingCategory;
   bool proFeature;
-  var options;
+  dynamic options;
   Function onChange;
   bool silent;
 
-  var min;
-  var max;
-  var randomMin;
-  var randomMax;
+  dynamic min;
+  dynamic max;
+  dynamic randomMin;
+  dynamic randomMax;
   double randomTrue;
   double zoom;
-  var defaultValue;
+  dynamic defaultValue;
 
   bool locked = false;
-  var value;
+  dynamic value;
 
   SettingsModel({
     this.settingType,
