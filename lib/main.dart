@@ -126,12 +126,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
             Expanded(
-              child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 100.0),
-                  itemCount: opArtTypes.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
+              child: SingleChildScrollView(
+                child: Wrap(alignment: WrapAlignment.spaceAround,  children: opArtTypes.map((opArtType)=>
+                    Container(height: 120, width: 120,
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
@@ -139,12 +136,12 @@ class _MyHomePageState extends State<MyHomePage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => OpArtPage(
-                                    opArtTypes[index].opArtType,
+                                    opArtType.opArtType,
                                     downloadNow: false)),
                           );
                         },
                         child: Hero(
-                          tag: opArtTypes[index].name,
+                          tag: opArtType.name,
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
@@ -164,7 +161,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   color: Colors.white.withOpacity(0.7),
                                   width: double.infinity,
                                   child: Text(
-                                    opArtTypes[index].name,
+                                    opArtType.name,
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       fontSize: 14,
@@ -173,15 +170,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                   ),
                                 ),
-                                child: Image.asset(opArtTypes[index].image),
+                                child: Image.asset(opArtType.image),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    );
-                  }),
-            ),
+                    ),).toList(),),
+              ),),
             GestureDetector(
               onTap: () {
                 Navigator.push(
