@@ -1,8 +1,10 @@
 import 'dart:convert';
+
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+
 import 'database_helper.dart';
 import 'main.dart';
 import 'model_opart.dart';
@@ -11,9 +13,9 @@ import 'opart_page.dart';
 CarouselController buttonCarouselController = CarouselController();
 
 class MyGallery extends StatefulWidget {
-  int currentImage;
-  bool paid;
-  MyGallery(this.currentImage, this.paid);
+  final int currentImage;
+  final bool paid;
+  const MyGallery(this.currentImage, this.paid);
   @override
   _MyGalleryState createState() => _MyGalleryState();
 }
@@ -21,10 +23,10 @@ class MyGallery extends StatefulWidget {
 class _MyGalleryState extends State<MyGallery> {
   bool carouselView = true;
   int currentIndex;
-  String currentSize = '8\' x 10\'';
+  String currentSize = "8' x 10'";
   Color frameColor = Colors.black;
 
-  final _rebuildDelete = new ValueNotifier(0);
+  final _rebuildDelete = ValueNotifier(0);
   bool showDelete = false;
   @override
   Widget build(BuildContext context) {
@@ -43,14 +45,14 @@ class _MyGalleryState extends State<MyGallery> {
               backgroundColor: Colors.white,
               appBar: AppBar(
                   centerTitle: true,
-                  title: Text('My Gallery',
+                  title: const Text('My Gallery',
                       style: TextStyle(
                           fontFamily: 'Righteous',
                           fontWeight: FontWeight.bold,
                           fontSize: 24,
                           color: Colors.black)),
                   leading: IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.home,
                         color: Colors.black,
                       ),
@@ -59,7 +61,7 @@ class _MyGalleryState extends State<MyGallery> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MyHomePage()));
+                                builder: (context) => const MyHomePage()));
                       }),
                   actions: [
                     IconButton(
@@ -73,10 +75,9 @@ class _MyGalleryState extends State<MyGallery> {
                                 ? Icons.view_comfortable
                                 : Icons.view_carousel_rounded,
                             color: Colors.black))
-                  ]
-                  ),
-              body: savedOpArt.length == 0
-                  ? Center(
+                  ]),
+              body: savedOpArt.isEmpty
+                  ? const Center(
                       child: Text(
                           'You have not yet saved any opArt to your gallery'))
                   : carouselView
@@ -92,8 +93,7 @@ class _MyGalleryState extends State<MyGallery> {
                                             ? 0.8
                                             : 0.3,
                                     enableInfiniteScroll: false,
-                                    height:
-                                        (MediaQuery.of(context).size.height),
+                                    height: MediaQuery.of(context).size.height,
                                     enlargeCenterPage: true,
                                     initialPage: widget.currentImage - 1),
                                 itemCount: savedOpArt.length,
@@ -105,17 +105,19 @@ class _MyGalleryState extends State<MyGallery> {
                                       _rebuildDelete.value++;
                                     },
                                     onTap: () {
-
                                       Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => OpArtPage(
-                                                    savedOpArt[index]['type'],
-                                                    false,
+                                                    savedOpArt[index]['type']
+                                                        as OpArtType,
+                                                    downloadNow: false,
                                                     opArtSettings:
                                                         savedOpArt[index],
-                                                animationValue: savedOpArt[index]['animationControllerValue'],
-
+                                                    animationValue: savedOpArt[
+                                                                index][
+                                                            'animationControllerValue']
+                                                        as double,
                                                   )));
                                     },
                                     child: Stack(
@@ -137,7 +139,8 @@ class _MyGalleryState extends State<MyGallery> {
                                                       child: Image.memory(
                                                         base64Decode(
                                                             savedOpArt[index]
-                                                                ['image']),
+                                                                    ['image']
+                                                                as String),
                                                         fit: BoxFit.fitWidth,
                                                       ),
                                                     ),
@@ -145,31 +148,36 @@ class _MyGalleryState extends State<MyGallery> {
                                                 ),
                                               ),
                                             ),
-                                            savedOpArt[index]['paid'] == null
-                                                ? Container(height: 12)
-                                                : savedOpArt[index]['paid']
-                                                    ? Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Text('purchased'),
-                                                          IconButton(
-                                                              icon: Icon(Icons
-                                                                  .file_download),
-                                                              onPressed: () {
-                                                                Navigator.pushReplacement(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                        builder: (context) => OpArtPage(
-                                                                              savedOpArt[index]['type'],
-                                                                              true,
-                                                                              opArtSettings: savedOpArt[index],
-                                                                            )));
-                                                              })
-                                                        ],
-                                                      )
-                                                    : Container(height: 12)
+                                            if (savedOpArt[index]['paid'] ==
+                                                null)
+                                              Container(height: 12)
+                                            else
+                                              savedOpArt[index]['paid'] as bool
+                                                  ? Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        const Text('purchased'),
+                                                        IconButton(
+                                                            icon: const Icon(Icons
+                                                                .file_download),
+                                                            onPressed: () {
+                                                              Navigator.pushReplacement(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder: (context) => OpArtPage(
+                                                                            savedOpArt[index]['type']
+                                                                                as OpArtType,
+                                                                            downloadNow:
+                                                                                true,
+                                                                            opArtSettings:
+                                                                                savedOpArt[index],
+                                                                          )));
+                                                            })
+                                                      ],
+                                                    )
+                                                  : Container(height: 12)
                                           ],
                                         ),
                                         ValueListenableBuilder<int>(
@@ -183,7 +191,7 @@ class _MyGalleryState extends State<MyGallery> {
                                                         height: 30,
                                                         width: 30,
                                                         decoration:
-                                                            BoxDecoration(
+                                                            const BoxDecoration(
                                                                 color: Colors
                                                                     .white,
                                                                 shape: BoxShape
@@ -193,48 +201,49 @@ class _MyGalleryState extends State<MyGallery> {
                                                               FloatingActionButton(
                                                             onPressed: () {
                                                               if (savedOpArt[
-                                                                      index]
-                                                                  ['paid']) {
+                                                                          index]
+                                                                      ['paid']
+                                                                  as bool) {
                                                                 showDialog(
                                                                     context:
                                                                         context,
                                                                     builder:
                                                                         (context) {
                                                                       return AlertDialog(
-                                                                          title:
-                                                                              Text(' Are you sure you want to delete?'),
-                                                                          content: Text('You have paid for this image. If you delete it you will not be able to download it again.'),
+                                                                          title: const Text(
+                                                                              ' Are you sure you want to delete?'),
+                                                                          content:
+                                                                              const Text('You have paid for this image. If you delete it you will not be able to download it again.'),
                                                                           actions: [
-                                                                            RaisedButton(child: Text('Delete'), onPressed: (){
-                                                                              DatabaseHelper
-                                                                              helper =
-                                                                                  DatabaseHelper
-                                                                                      .instance;
-                                                                              helper.delete(
-                                                                                  savedOpArt[
-                                                                                  index]
-                                                                                  ['id']);
-                                                                              savedOpArt
-                                                                                  .removeAt(
-                                                                                  index);
-                                                                              showDelete =
-                                                                              false;
-                                                                              rebuildGallery
-                                                                                  .value++;
-                                                                              Navigator.pop(context);
-                                                                            },),
-                                                                            RaisedButton(child: Text('Cancel'), onPressed:(){ Navigator.pop(context);},)
+                                                                            RaisedButton(
+                                                                              onPressed: () {
+                                                                                final DatabaseHelper helper = DatabaseHelper.instance;
+                                                                                helper.delete(savedOpArt[index]['id'] as int);
+                                                                                savedOpArt.removeAt(index);
+                                                                                showDelete = false;
+                                                                                rebuildGallery.value++;
+                                                                                Navigator.pop(context);
+                                                                              },
+                                                                              child: const Text('Delete'),
+                                                                            ),
+                                                                            RaisedButton(
+                                                                              onPressed: () {
+                                                                                Navigator.pop(context);
+                                                                              },
+                                                                              child: const Text('Cancel'),
+                                                                            )
                                                                           ]);
                                                                     });
                                                               } else {
-                                                                DatabaseHelper
+                                                                final DatabaseHelper
                                                                     helper =
                                                                     DatabaseHelper
                                                                         .instance;
                                                                 helper.delete(
-                                                                    savedOpArt[
-                                                                            index]
-                                                                        ['id']);
+                                                                    savedOpArt[index]
+                                                                            [
+                                                                            'id']
+                                                                        as int);
                                                                 savedOpArt
                                                                     .removeAt(
                                                                         index);
@@ -246,7 +255,7 @@ class _MyGalleryState extends State<MyGallery> {
                                                             },
                                                             backgroundColor:
                                                                 Colors.white,
-                                                            child: Icon(
+                                                            child: const Icon(
                                                                 Icons.delete,
                                                                 color: Colors
                                                                     .grey),
@@ -261,141 +270,137 @@ class _MyGalleryState extends State<MyGallery> {
                                 }),
                           ),
                         )
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 0.0),
-                          child: Center(
-                            child: GridView.builder(
-                                scrollDirection: MediaQuery.of(context)
-                                            .orientation ==
-                                        Orientation.portrait
-                                    ? Axis.vertical
-                                    : Axis.horizontal,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        childAspectRatio: MediaQuery.of(context)
-                                                    .orientation ==
-                                                Orientation.portrait
-                                            ? MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                (MediaQuery.of(context)
-                                                        .size
-                                                        .height -
-                                                    60)
-                                            : 2 *
-                                                MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                (MediaQuery.of(context)
-                                                        .size
-                                                        .width -
-                                                    60)),
-                                itemCount: savedOpArt.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  currentIndex = index;
-                                  return Center(
-                                    child: GestureDetector(
-                                      onLongPress: () {
-                                        showDelete = true;
-                                        _rebuildDelete.value++;
-                                      },
-                                      onTap: () {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => OpArtPage(
-                                                      savedOpArt[index]['type'],
-                                                      false,
-                                                      opArtSettings:
-                                                          savedOpArt[index],
-                                                    )));
-                                      },
-                                      child: Stack(
-                                        children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                            ),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(10.0),
-                                              child: Container(
-                                                color: Colors.black,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Container(
-                                                    color: Colors.white,
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
-                                                      child: Image.memory(
-                                                        base64Decode(
-                                                            savedOpArt[index]
-                                                                ['image']),
-                                                        fit: BoxFit.fitWidth,
-                                                      ),
+                      : Center(
+                          child: GridView.builder(
+                              scrollDirection: MediaQuery.of(context)
+                                          .orientation ==
+                                      Orientation.portrait
+                                  ? Axis.vertical
+                                  : Axis.horizontal,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      childAspectRatio: MediaQuery.of(context)
+                                                  .orientation ==
+                                              Orientation.portrait
+                                          ? MediaQuery.of(context).size.width /
+                                              (MediaQuery.of(context)
+                                                      .size
+                                                      .height -
+                                                  60)
+                                          : 2 *
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              (MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  60)),
+                              itemCount: savedOpArt.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                currentIndex = index;
+                                return Center(
+                                  child: GestureDetector(
+                                    onLongPress: () {
+                                      showDelete = true;
+                                      _rebuildDelete.value++;
+                                    },
+                                    onTap: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => OpArtPage(
+                                                    savedOpArt[index]['type']
+                                                        as OpArtType,
+                                                    downloadNow: false,
+                                                    opArtSettings:
+                                                        savedOpArt[index],
+                                                  )));
+                                    },
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Container(
+                                              color: Colors.black,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  color: Colors.white,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Image.memory(
+                                                      base64Decode(
+                                                          savedOpArt[index]
+                                                                  ['image']
+                                                              as String),
+                                                      fit: BoxFit.fitWidth,
                                                     ),
                                                   ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                          ValueListenableBuilder<int>(
-                                              valueListenable: _rebuildDelete,
-                                              builder: (context, value, child) {
-                                                return showDelete
-                                                    ? Positioned(
-                                                        right: 0,
-                                                        top: 0,
-                                                        child: Container(
-                                                          height: 30,
-                                                          width: 30,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  shape: BoxShape
-                                                                      .circle),
-                                                          child: Center(
-                                                            child:
-                                                                FloatingActionButton(
-                                                              onPressed: () {
-                                                                DatabaseHelper
-                                                                    helper =
-                                                                    DatabaseHelper
-                                                                        .instance;
-                                                                helper.delete(
-                                                                    savedOpArt[
-                                                                            index]
-                                                                        ['id']);
-                                                                savedOpArt
-                                                                    .removeAt(
-                                                                        index);
-                                                                showDelete =
-                                                                    false;
-                                                                rebuildGallery
-                                                                    .value++;
-                                                              },
-                                                              backgroundColor:
-                                                                  Colors.white,
-                                                              child: Icon(
-                                                                  Icons.delete,
-                                                                  color: Colors
-                                                                      .grey),
-                                                            ),
+                                        ),
+                                        ValueListenableBuilder<int>(
+                                            valueListenable: _rebuildDelete,
+                                            builder: (context, value, child) {
+                                              return showDelete
+                                                  ? Positioned(
+                                                      right: 0,
+                                                      top: 0,
+                                                      child: Container(
+                                                        height: 30,
+                                                        width: 30,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                                color: Colors
+                                                                    .white,
+                                                                shape: BoxShape
+                                                                    .circle),
+                                                        child: Center(
+                                                          child:
+                                                              FloatingActionButton(
+                                                            onPressed: () {
+                                                              final DatabaseHelper
+                                                                  helper =
+                                                                  DatabaseHelper
+                                                                      .instance;
+                                                              helper.delete(
+                                                                  savedOpArt[index]
+                                                                          ['id']
+                                                                      as int);
+                                                              savedOpArt
+                                                                  .removeAt(
+                                                                      index);
+                                                              showDelete =
+                                                                  false;
+                                                              rebuildGallery
+                                                                  .value++;
+                                                            },
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                            child: const Icon(
+                                                                Icons.delete,
+                                                                color: Colors
+                                                                    .grey),
                                                           ),
-                                                        ))
-                                                    : Container();
-                                              }),
-                                        ],
-                                      ),
+                                                        ),
+                                                      ))
+                                                  : Container();
+                                            }),
+                                      ],
                                     ),
-                                  );
-                                }),
-                          ),
+                                  ),
+                                );
+                              }),
                         ));
         });
   }
@@ -403,5 +408,6 @@ class _MyGalleryState extends State<MyGallery> {
   @override
   void initState() {
     currentIndex = widget.currentImage;
+    super.initState();
   }
 }

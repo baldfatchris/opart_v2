@@ -1,19 +1,11 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:opart_v2/opart_page.dart';
 import 'package:opart_v2/tabs/general_tab.dart';
-import 'package:opart_v2/tabs/tools_widget.dart';
 
-import '../canvas.dart';
 import '../model_opart.dart';
 
-import 'palette_widget.dart';
-
 class TabWidget extends StatefulWidget {
-  GeneralTab tab;
-  TabWidget(this.tab);
+  final GeneralTab tab;
+  const TabWidget(this.tab);
   @override
   _TabWidgetState createState() => _TabWidgetState();
 }
@@ -27,7 +19,7 @@ class _TabWidgetState extends State<TabWidget> {
         valueListenable: rebuildTab,
         builder: (context, value, child) {
           return AnimatedPositioned(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             left: tab.left ? tab.position : null,
             right: tab.left ? null : tab.position,
             top: 0,
@@ -45,9 +37,9 @@ class _TabWidgetState extends State<TabWidget> {
                 },
                 child: Row(
                   children: [
-                    tab.left ? contentWidget(tab) : Container(),
+                    if (tab.left) contentWidget(tab) else Container(),
                     tabWidget(tab),
-                    !tab.left ? contentWidget(tab) : Container(),
+                    if (!tab.left) contentWidget(tab) else Container(),
                   ],
                 ),
               ),
@@ -71,9 +63,7 @@ class _TabWidgetState extends State<TabWidget> {
       alignment: Alignment(0, tab.tabHeight),
       child: GestureDetector(
         onTap: () {
-
-            tab.open ? tab.closeTab() : tab.openTab();
-
+          tab.open ? tab.closeTab() : tab.openTab();
         },
         child: RotatedBox(
           quarterTurns: tab.left ? 0 : 2,
@@ -100,13 +90,13 @@ class _TabWidgetState extends State<TabWidget> {
 class CustomMenuClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    Paint paint = Paint();
+    final Paint paint = Paint();
     paint.color = Colors.white;
 
     final width = size.width;
     final height = size.height;
 
-    Path path = Path();
+    final Path path = Path();
     path.moveTo(0, 0);
     path.quadraticBezierTo(0, 8, 10, 16);
     path.quadraticBezierTo(width - 1, height / 2 - 20, width, height / 2);

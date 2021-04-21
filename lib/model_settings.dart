@@ -1,24 +1,15 @@
 import 'dart:core';
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:opart_v2/opart_page.dart';
+
 import 'main.dart';
 
 // bool proVersion = true;
 
-enum SettingType {
-  double,
-  int,
-  bool,
-  button,
-  color,
-  list
-}
-enum SettingCategory {
-  palette,
-  tool,
-  other
-}
+enum SettingType { double, int, bool, button, color, list }
+enum SettingCategory { palette, tool, other }
 
 class SettingsModel {
   SettingType settingType;
@@ -28,22 +19,23 @@ class SettingsModel {
   Icon icon;
   SettingCategory settingCategory;
   bool proFeature;
-  var options;
+  dynamic options;
   Function onChange;
   bool silent;
 
-  var min;
-  var max;
-  var randomMin;
-  var randomMax;
+  dynamic min;
+  dynamic max;
+  dynamic randomMin;
+  dynamic randomMax;
   double randomTrue;
   double zoom;
-  var defaultValue;
+  dynamic defaultValue;
 
   bool locked = false;
-  var value;
+  dynamic value;
 
-  SettingsModel({this.settingType,
+  SettingsModel({
+    this.settingType,
     this.name,
     this.label,
     this.tooltip,
@@ -62,92 +54,98 @@ class SettingsModel {
     this.silent,
   });
 
-
-
   void randomize(Random rnd) {
-    if (!this.locked && (proVersion || !proVersion && !this.proFeature)) {
-      // print('Name: ${this.name}: ${this.settingType}');
+    if (!locked && (proVersion || !proVersion && !proFeature)) {
+      // print('Name: ${name}: ${settingType}');
 
-      switch (this.settingType) {
+      switch (settingType) {
         case SettingType.double:
-        // print(this.settingType);
-        // print(this.value);
-          double min = (this.randomMin != null) ? this.randomMin : this.min;
-          double max = (this.randomMax != null) ? this.randomMax : this.max;
+          // print(settingType);
+          // print(value);
+          final double min =
+              (randomMin != null) ? randomMin as double : this.min as double;
+          final double max =
+              (randomMax != null) ? randomMax as double : this.max as double;
 
           // half the time use the default
-          this.value = (rnd.nextBool() == true)
+          value = (rnd.nextBool() == true)
               ? rnd.nextDouble() * (max - min) + min
-              : this.defaultValue;
+              : defaultValue;
 
           break;
 
         case SettingType.int:
-          int min = (this.randomMin != null)
-              ? this.randomMin.toInt()
-              : this.min.toInt();
-          int max = (this.randomMax != null)
-              ? this.randomMax.toInt()
-              : this.max.toInt();
+          final int min = (randomMin != null)
+              ? randomMin.toInt() as int
+              : this.min.toInt() as int;
+          final int max = (randomMax != null)
+              ? randomMax.toInt() as int
+              : this.max.toInt() as int;
 
           // half the time use the default
-          this.value = (rnd.nextBool() == true)
+          value = (rnd.nextBool() == true)
               ? rnd.nextInt(max - min) + min
-              : this.defaultValue;
+              : defaultValue;
 
           break;
 
         case SettingType.bool:
-          this.value = (this.randomTrue != null)
-              ? (rnd.nextDouble()<this.randomTrue)
-                ? true
-                : false
+          value = (randomTrue != null)
+              ? rnd.nextDouble() < randomTrue
               : rnd.nextBool();
 
           break;
 
         case SettingType.color:
-          this.value =
-              Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1);
+          value = Color((rnd.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1);
 
           break;
 
         case SettingType.button:
-          this.value = false;
+          value = false;
 
           break;
         case SettingType.list:
-          this.value = (rnd.nextBool() == true)
-              ? this.options[rnd.nextInt(this.options.length)]
-              : this.defaultValue;
+          value = (rnd.nextBool() == true)
+              ? options[rnd.nextInt(options.length as int)]
+              : defaultValue;
       }
     }
   }
 
-
   void setDefault() {
-    this.value = this.defaultValue;
-    this.locked = false;
+    value = defaultValue;
+    locked = false;
   }
 }
 
-
-void resetAllDefaults(){
+void resetAllDefaults() {
   opArt.setDefault();
 }
 
-void generatePalette(){
-  int numberOfColours = opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt();
-  String paletteType = opArt.attributes.firstWhere((element) => element.name == 'paletteType').value.toString();
+void generatePalette() {
+  final int numberOfColours = opArt.attributes
+      .firstWhere((element) => element.name == 'numberOfColors')
+      .value
+      .toInt() as int;
+  final String paletteType = opArt.attributes
+      .firstWhere((element) => element.name == 'paletteType')
+      .value
+      .toString();
   opArt.palette.randomize(paletteType, numberOfColours);
-
 }
 
-void checkNumberOfColors(){
-  int numberOfColours = opArt.attributes.firstWhere((element) => element.name == 'numberOfColors').value.toInt();
-  int paletteLength = opArt.palette.colorList.length;
-  if ( numberOfColours > paletteLength) {
-    String paletteType = opArt.attributes.firstWhere((element) => element.name == 'paletteType').value.toString();
+void checkNumberOfColors() {
+  final int numberOfColours = opArt.attributes
+      .firstWhere((element) => element.name == 'numberOfColors')
+      .value
+      .toInt() as int;
+  final int paletteLength = opArt.palette.colorList.length;
+  if (numberOfColours > paletteLength) {
+    final String paletteType = opArt.attributes
+        .firstWhere((element) => element.name == 'paletteType')
+        .value
+        .toString();
     opArt.palette.randomize(paletteType, numberOfColours);
   }
 }

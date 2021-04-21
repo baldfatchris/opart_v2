@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
-import '../main.dart';
+import 'dart:core';
+import 'dart:math';
 
+import 'package:flutter/material.dart';
+
+import '../main.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';
 import '../model_settings.dart';
-import 'dart:math';
-import 'dart:core';
 
 List shades;
 List cells;
@@ -21,10 +22,12 @@ SettingsModel reDraw = SettingsModel(
   tooltip: 'Re-draw the picture with a different random seed',
   defaultValue: false,
   randomTrue: 1.0,
-  icon: Icon(Icons.refresh),
+  icon: const Icon(Icons.refresh),
   settingCategory: SettingCategory.tool,
   proFeature: false,
-  onChange: (){seed = DateTime.now().millisecond;},
+  onChange: () {
+    seed = DateTime.now().millisecond;
+  },
   silent: true,
 );
 
@@ -37,7 +40,7 @@ SettingsModel recursionDepth = SettingsModel(
   max: 8,
   zoom: 100,
   defaultValue: 8,
-  icon: Icon(Icons.file_download),
+  icon: const Icon(Icons.file_download),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -51,11 +54,10 @@ SettingsModel colorDepth = SettingsModel(
   max: 100,
   zoom: 100,
   defaultValue: 10,
-  icon: Icon(Icons.line_weight),
+  icon: const Icon(Icons.line_weight),
   settingCategory: SettingCategory.palette,
   proFeature: false,
 );
-
 
 SettingsModel randomizer = SettingsModel(
   name: 'randomizer',
@@ -68,7 +70,7 @@ SettingsModel randomizer = SettingsModel(
   randomMax: 0.35,
   zoom: 100,
   defaultValue: 0.1,
-  icon: Icon(Icons.remove_red_eye),
+  icon: const Icon(Icons.remove_red_eye),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -80,21 +82,20 @@ SettingsModel randomizer = SettingsModel(
 //   label: 'Random Colors',
 //   tooltip: 'randomize the colours',
 //   defaultValue: true,
-//   icon: Icon(Icons.gamepad),
+//   icon: const Icon(Icons.gamepad),
 //   settingCategory: SettingCategory.tool,
 //   proFeature: false,
 //   silent: true,
 //
 // );
 
-
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
-  label: "Palette Type",
-  tooltip: "The nature of the palette",
-  defaultValue: "random",
-  icon: Icon(Icons.colorize),
+  label: 'Palette Type',
+  tooltip: 'The nature of the palette',
+  defaultValue: 'random',
+  icon: const Icon(Icons.colorize),
   options: [
     'random',
     'blended random',
@@ -102,11 +103,11 @@ SettingsModel paletteType = SettingsModel(
     'linear complementary'
   ],
   settingCategory: SettingCategory.palette,
-  onChange: (){generatePalette();},
+  onChange: () {
+    generatePalette();
+  },
   proFeature: false,
 );
-
-
 
 SettingsModel resetDefaults = SettingsModel(
   name: 'resetDefaults',
@@ -114,76 +115,84 @@ SettingsModel resetDefaults = SettingsModel(
   label: 'Reset Defaults',
   tooltip: 'Reset all settings to defaults',
   defaultValue: false,
-  icon: Icon(Icons.low_priority),
+  icon: const Icon(Icons.low_priority),
   settingCategory: SettingCategory.tool,
-  onChange: (){},
+  onChange: () {},
   silent: true,
   proFeature: false,
 );
 
 List<SettingsModel> initializePlasmaAttributes() {
-
   return [
     reDraw,
     recursionDepth,
     colorDepth,
     randomizer,
-
     numberOfColors,
     paletteType,
     paletteList,
     opacity,
     resetDefaults,
   ];
-
-
 }
 
-
-void paintPlasma(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
+void paintPlasma(
+    Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
   rnd = Random(seed);
 
-  if (paletteList.value != opArt.palette.paletteName){
-    opArt.selectPalette(paletteList.value);
+  if (paletteList.value != opArt.palette.paletteName) {
+    opArt.selectPalette(paletteList.value as String);
   }
-print('colorList: $colorList');
-print('opArt.palette.colorList: ${opArt.palette.colorList}');
 
-  if (reDraw.value == true || shades == null || colorList != opArt.palette.colorList || shades.length != (opArt.palette.colorList.length)*colorDepth.value){
-
+  if (reDraw.value == true ||
+      shades == null ||
+      colorList != opArt.palette.colorList ||
+      shades.length !=
+          (opArt.palette.colorList.length) * (colorDepth.value as num)) {
     // generate the palette
     shadeOffset = 0;
     shades = null;
     colorList = opArt.palette.colorList;
 
-    int numberOfColors = opArt.palette.colorList.length;
-    int numberOfShades = numberOfColors*colorDepth.value;
+    final int numberOfColors = opArt.palette.colorList.length;
+    final int numberOfShades = numberOfColors * (colorDepth.value as int);
     shades = List(numberOfShades);
     shades[0] = opArt.palette.colorList[0];
-    for (int i=0; i<numberOfColors; i++) {
-      for (int j=0; j<colorDepth.value; j++) {
-        shades[i*colorDepth.value+j] = Color.fromRGBO(
-            (opArt.palette.colorList[i].red * (colorDepth.value - j) + opArt.palette.colorList[(i+1)%numberOfColors].red * j)~/colorDepth.value,
-            (opArt.palette.colorList[i].blue * (colorDepth.value - j) + opArt.palette.colorList[(i+1)%numberOfColors].blue * j)~/colorDepth.value,
-            (opArt.palette.colorList[i].green * (colorDepth.value - j) + opArt.palette.colorList[(i+1)%numberOfColors].green * j)~/colorDepth.value,
+    for (int i = 0; i < numberOfColors; i++) {
+      for (int j = 0; j < (colorDepth.value as num); j++) {
+        shades[i * (colorDepth.value as int) + j] = Color.fromRGBO(
+            (opArt.palette.colorList[i].red * ((colorDepth.value as num) - j) +
+                    opArt.palette.colorList[(i + 1) % numberOfColors].red *
+                        j) ~/
+                (colorDepth.value as num),
+            (opArt.palette.colorList[i].blue * ((colorDepth.value as num) - j) +
+                    opArt.palette.colorList[(i + 1) % numberOfColors].blue *
+                        j) ~/
+                (colorDepth.value as num),
+            (opArt.palette.colorList[i].green *
+                        ((colorDepth.value as num) - j) +
+                    opArt.palette.colorList[(i + 1) % numberOfColors].green *
+                        j) ~/
+                (colorDepth.value as num),
             1);
       }
     }
-
   }
 
-  if (reDraw.value == true || recursionDepthOld != recursionDepth.value || randomizerOld != randomizer.value) {
-    recursionDepthOld = recursionDepth.value;
-    randomizerOld = randomizer.value;
+  if (reDraw.value == true ||
+      recursionDepthOld != recursionDepth.value ||
+      randomizerOld != randomizer.value) {
+    recursionDepthOld = recursionDepth.value as int;
+    randomizerOld = randomizer.value as double;
 
-  // reseed - otherwise it's boring
-  rnd = Random(DateTime.now().millisecond);
+    // reseed - otherwise it's boring
+    rnd = Random(DateTime.now().millisecond);
 
-  // generate the plasma
+    // generate the plasma
     cells = null;
 
     // create the grid
-    int numberOfCells = pow(2, recursionDepth.value);
+    final int numberOfCells = pow(2, recursionDepth.value as num) as int;
     // print('numberOfCells: $numberOfCells');
 
     cells = List(numberOfCells + 1);
@@ -200,40 +209,39 @@ print('opArt.palette.colorList: ${opArt.palette.colorList}');
     for (int d = numberOfCells; d > 1; d = d ~/ 2) {
       for (int i = d ~/ 2; i <= numberOfCells; i = i + d) {
         for (int j = d ~/ 2; j <= numberOfCells; j = j + d) {
-          square(i, j, d ~/ 2, randomizer.value, numberOfCells);
+          square(i, j, d ~/ 2, randomizer.value as double, numberOfCells);
         }
       }
       for (int i = d ~/ 2; i <= numberOfCells; i = i + d) {
         for (int j = d ~/ 2; j <= numberOfCells; j = j + d) {
-          diamond(i, j - d ~/ 2, d ~/ 2, randomizer.value, numberOfCells);
-          diamond(i, j + d ~/ 2, d ~/ 2, randomizer.value, numberOfCells);
-          diamond(i - d ~/ 2, j, d ~/ 2, randomizer.value, numberOfCells);
-          diamond(i + d ~/ 2, j, d ~/ 2, randomizer.value, numberOfCells);
+          diamond(
+              i, j - d ~/ 2, d ~/ 2, randomizer.value as double, numberOfCells);
+          diamond(
+              i, j + d ~/ 2, d ~/ 2, randomizer.value as double, numberOfCells);
+          diamond(
+              i - d ~/ 2, j, d ~/ 2, randomizer.value as double, numberOfCells);
+          diamond(
+              i + d ~/ 2, j, d ~/ 2, randomizer.value as double, numberOfCells);
         }
       }
     }
   }
 
-
-
-
-
-
-
   // Initialise the canvas
-  int numberOfCells = pow(2,recursionDepth.value);
-  double cellWidth = size.width / (numberOfCells + 1);
-  double cellHeight = size.height / (numberOfCells + 1);
+  final int numberOfCells = pow(2, recursionDepth.value as double) as int;
+  final double cellWidth = size.width / (numberOfCells + 1);
+  final double cellHeight = size.height / (numberOfCells + 1);
 
   // Now make some art
   for (int i = 0; i <= numberOfCells; ++i) {
     for (int j = 0; j <= numberOfCells; ++j) {
-
-      var p1 = [i*cellWidth, j*cellHeight];
+      final p1 = [i * cellWidth, j * cellHeight];
 
 // print('i: $i j: $j cells[i][j]: ${cells[i][j]} shades.length: ${shades.length} shades[ (shadeOffset + (cells[i][j]*shades.length).toInt()) % shades.length]: ${shades[ (shadeOffset + (cells[i][j]*shades.length).toInt()) % shades.length]}');
 
-      Color nextColor = shades[ (shadeOffset + (cells[i][j]*shades.length).toInt()) % shades.length];
+      Color nextColor = shades[
+          (shadeOffset + ((cells[i][j] as num) * shades.length).toInt()) %
+              shades.length] as Color;
       nextColor = (nextColor == null) ? Colors.white : nextColor;
 
       // draw the square
@@ -244,46 +252,51 @@ print('opArt.palette.colorList: ${opArt.palette.colorList}');
             ..color = nextColor
             ..isAntiAlias = false
             ..style = PaintingStyle.fill);
-
     }
-
   }
 
   // print('shadeOffset: $shadeOffset');
   shadeOffset++;
-
 }
-
 
 // fill the centre of the square
-void square(int x, int y, int width, double randomizer, int numberOfCells){
+void square(int x, int y, int width, double randomizer, int numberOfCells) {
   // print('square x: $x y: $y width: $width randomizer: $randomizer numberOfCells: $numberOfCells');
 
-  double fill =
-    (
-        cells[x-width][y-width] +
-        cells[x-width][y+width] +
-        cells[x+width][y-width] +
-        cells[x+width][y+width]
-    )/4 +
-    rnd.nextDouble()*randomizer - randomizer/2;
+  final double fill = (cells[x - width][y - width] +
+              cells[x - width][y + width] +
+              cells[x + width][y - width] +
+              cells[x + width][y + width]) /
+          4 +
+      rnd.nextDouble() * randomizer -
+      randomizer / 2 as double;
 
-  cells[x][y] = (fill>1) ? 1 : (fill<0) ? 0 : fill;
-
+  cells[x][y] = (fill > 1)
+      ? 1
+      : (fill < 0)
+          ? 0
+          : fill;
 }
+
 // fill the centre of the diamond
-void diamond(int x, int y, int width, double randomizer, int numberOfCells){
+void diamond(int x, int y, int width, double randomizer, int numberOfCells) {
+  final double fill = (cells[(x + width <= numberOfCells)
+                  ? x + width
+                  : x + width - numberOfCells][y] +
+              cells[(x - width >= 0) ? x - width : x - width + numberOfCells]
+                  [y] +
+              cells[x][(y + width <= numberOfCells)
+                  ? y + width
+                  : y + width - numberOfCells] +
+              cells[x]
+                  [(y - width >= 0) ? y - width : y - width + numberOfCells]) /
+          4 +
+      rnd.nextDouble() * randomizer -
+      randomizer / 2 as double;
 
- double fill =
-      (
-          cells[(x+width <= numberOfCells) ? x+width : x+width-numberOfCells][y] +
-          cells[(x-width >= 0) ? x-width : x - width + numberOfCells][y] +
-          cells[x][(y+width <= numberOfCells) ? y+width : y+width-numberOfCells] +
-          cells[x][(y-width >= 0) ? y-width : y-width+numberOfCells]
-      )/4 +
-      rnd.nextDouble()*randomizer - randomizer/2;
-
-      cells[x][y] = (fill>1) ? 1 : (fill<0) ? 0 : fill;
-
-
+  cells[x][y] = (fill > 1)
+      ? 1
+      : (fill < 0)
+          ? 0
+          : fill;
 }

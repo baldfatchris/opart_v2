@@ -1,12 +1,14 @@
+import 'dart:core';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+
+import '../main.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';
 import '../model_settings.dart';
-import 'dart:math';
-import 'dart:core';
-import '../main.dart';
 
-List<String> list = List();
+List<String> list = [];
 
 SettingsModel reDraw = SettingsModel(
   name: 'reDraw',
@@ -14,10 +16,12 @@ SettingsModel reDraw = SettingsModel(
   label: 'Redraw',
   tooltip: 'Re-draw the picture with a different random seed',
   defaultValue: false,
-  icon: Icon(Icons.refresh),
+  icon: const Icon(Icons.refresh),
   settingCategory: SettingCategory.tool,
   proFeature: false,
-  onChange: (){seed = DateTime.now().millisecond;},
+  onChange: () {
+    seed = DateTime.now().millisecond;
+  },
   silent: true,
 );
 
@@ -30,7 +34,7 @@ SettingsModel zoomOpArt = SettingsModel(
   max: 50.0,
   zoom: 100,
   defaultValue: 5.0,
-  icon: Icon(Icons.more_horiz),
+  icon: const Icon(Icons.more_horiz),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -43,7 +47,7 @@ SettingsModel stepY = SettingsModel(
   max: 500.0,
   zoom: 100,
   defaultValue: 1.0,
-  icon: Icon(Icons.more_vert),
+  icon: const Icon(Icons.more_vert),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -56,7 +60,7 @@ SettingsModel frequency = SettingsModel(
   max: 5.0,
   zoom: 100,
   defaultValue: 1.0,
-  icon: Icon(Icons.adjust),
+  icon: const Icon(Icons.adjust),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -71,7 +75,7 @@ SettingsModel amplitude = SettingsModel(
   randomMax: 200.0,
   zoom: 100,
   defaultValue: 25.0,
-  icon: Icon(Icons.graphic_eq),
+  icon: const Icon(Icons.graphic_eq),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -86,7 +90,7 @@ SettingsModel offset = SettingsModel(
   randomMax: 2.0,
   zoom: 100,
   defaultValue: 1.0,
-  icon: Icon(Icons.call_made),
+  icon: const Icon(Icons.call_made),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -101,7 +105,7 @@ SettingsModel fanWidth = SettingsModel(
   randomMax: 200.0,
   zoom: 100,
   defaultValue: 15.0,
-  icon: Icon(Icons.change_history),
+  icon: const Icon(Icons.change_history),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -111,11 +115,11 @@ SettingsModel zigZag = SettingsModel(
   label: 'ZigZag',
   tooltip: 'Make the baby zig!',
   defaultValue: false,
-  icon: Icon(Icons.show_chart),
+  icon: const Icon(Icons.show_chart),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
-  );
+);
 
 //
 // SettingsModel randomColors = SettingsModel(
@@ -124,12 +128,11 @@ SettingsModel zigZag = SettingsModel(
 //   label: 'Random Colors',
 //   tooltip: 'randomize the colours',
 //   defaultValue: false,
-//   icon: Icon(Icons.gamepad),
+//   icon: const Icon(Icons.gamepad),
 //   settingCategory: SettingCategory.tool,
 //   proFeature: false,
 //   silent: true,
 // );
-
 
 SettingsModel resetDefaults = SettingsModel(
   name: 'resetDefaults',
@@ -137,15 +140,16 @@ SettingsModel resetDefaults = SettingsModel(
   label: 'Reset Defaults',
   tooltip: 'Reset all settings to defaults',
   defaultValue: false,
-  icon: Icon(Icons.low_priority),
+  icon: const Icon(Icons.low_priority),
   settingCategory: SettingCategory.tool,
   proFeature: false,
-  onChange: (){resetAllDefaults();},
+  onChange: () {
+    resetAllDefaults();
+  },
   silent: true,
 );
 
 List<SettingsModel> initializeWaveAttributes() {
-
   return [
     reDraw,
     zoomOpArt,
@@ -161,102 +165,114 @@ List<SettingsModel> initializeWaveAttributes() {
     paletteList,
     opacity,
     resetDefaults,
-   
   ];
 }
 
-void paintWave(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
-
+void paintWave(
+    Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
   rnd = Random(seed);
 
-
-  if (paletteList.value != opArt.palette.paletteName){
-    opArt.selectPalette(paletteList.value);
+  if (paletteList.value != opArt.palette.paletteName) {
+    opArt.selectPalette(paletteList.value as String);
   }
 
-
-  generateWave(canvas, rnd, size.width, size.height, size.width, size.height, 0,0,
-
-    zoomOpArt.value,
-    stepY.value,
-    frequency.value,
-    amplitude.value,
-    offset.value,
-    fanWidth.value,
-    zigZag.value,
-
-    (randomColors.value == true),
-    numberOfColors.value.toInt(),
-    paletteType.value,
-    opacity.value,
+  generateWave(
+    canvas,
+    rnd,
+    size.width,
+    size.height,
+    size.width,
+    size.height,
+    0,
+    0,
+    zoomOpArt.value as double,
+    stepY.value as double,
+    frequency.value as double,
+    amplitude.value as double,
+    offset.value as double,
+    fanWidth.value as double,
+    zigZag.value as bool,
+    randomColors.value == true,
+    numberOfColors.value.toInt() as int,
+    paletteType.value as String,
+    opacity.value as double,
     opArt.palette.colorList,
     animationVariable * 1000,
   );
-
-
 }
 
-generateWave(
-    Canvas canvas,
-    Random rnd,
-    double canvasWidth,
-    double canvasHeight,
-    double imageWidth,
-    double imageHeight,
-    double borderX,
-    double borderY,
-
-    double currentStepX,
-    double currentStepY,
-    double currentFrequency,
-    double currentAmplitude,
-    double currentOffset,
-    double currentFanWidth,
-    bool currentZigZag,
-
-    bool currentRandomColors,
-    int currentNumberOfColors,
-    String currentPaletteType,
-    double currentOpacity,
-    List currentPalette,
-    double animationVariable,
-    ) {
-
+void generateWave(
+  Canvas canvas,
+  Random rnd,
+  double canvasWidth,
+  double canvasHeight,
+  double imageWidth,
+  double imageHeight,
+  double borderX,
+  double borderY,
+  double currentStepX,
+  double currentStepY,
+  double currentFrequency,
+  double currentAmplitude,
+  double currentOffset,
+  double currentFanWidth,
+  bool currentZigZag,
+  bool currentRandomColors,
+  int currentNumberOfColors,
+  String currentPaletteType,
+  double currentOpacity,
+  List currentPalette,
+  double animationVariable,
+) {
   int colourOrder = 0;
 
   // colour in the canvas
   //a rectangle
-  canvas.drawRect(
-      Offset(borderX, borderY) & Size(imageWidth, imageHeight * 2),
-      Paint()
-      
-        ..style = PaintingStyle.fill);
+  canvas.drawRect(Offset(borderX, borderY) & Size(imageWidth, imageHeight * 2),
+      Paint()..style = PaintingStyle.fill);
 
-  double start = 0 - currentAmplitude;
-  double end = imageWidth + currentStepX + currentAmplitude;
+  final double start = 0 - currentAmplitude;
+  final double end = imageWidth + currentStepX + currentAmplitude;
 
   for (double i = start; i < end; i += currentStepX) {
-
     Color waveColor;
     if (currentRandomColors) {
-      waveColor = currentPalette[rnd.nextInt(currentNumberOfColors)];
+      waveColor = currentPalette[rnd.nextInt(currentNumberOfColors)] as Color;
     } else {
       colourOrder++;
-      waveColor = currentPalette[colourOrder % currentNumberOfColors];
+      waveColor = currentPalette[colourOrder % currentNumberOfColors] as Color;
     }
 
-    Path wave = Path();
+    final Path wave = Path();
 
     double j;
     for (j = 0; j < imageHeight + currentStepY; j += currentStepY) {
-
       double delta = 0.0;
 
-      if (currentZigZag == false){
-        delta = currentAmplitude * sin(pi * 2 * (j / imageHeight * currentFrequency + currentOffset * (animationVariable / 0.5) * (2*i-imageWidth) / imageWidth)) + currentFanWidth * ((i -(imageWidth/2))/ imageWidth) * (j / imageHeight);
-      }
-      else {
-        delta = currentAmplitude * asin(sin(pi * 2 * (j / imageHeight * currentFrequency + currentOffset * (animationVariable / 0.5) * (2*i-imageWidth) / imageWidth))) + currentFanWidth * ((i -(imageWidth/2))/ imageWidth) * (j / imageHeight);
+      if (currentZigZag == false) {
+        delta = currentAmplitude *
+                sin(pi *
+                    2 *
+                    (j / imageHeight * currentFrequency +
+                        currentOffset *
+                            (animationVariable / 0.5) *
+                            (2 * i - imageWidth) /
+                            imageWidth)) +
+            currentFanWidth *
+                ((i - (imageWidth / 2)) / imageWidth) *
+                (j / imageHeight);
+      } else {
+        delta = currentAmplitude *
+                asin(sin(pi *
+                    2 *
+                    (j / imageHeight * currentFrequency +
+                        currentOffset *
+                            (animationVariable / 0.5) *
+                            (2 * i - imageWidth) /
+                            imageWidth))) +
+            currentFanWidth *
+                ((i - (imageWidth / 2)) / imageWidth) *
+                (j / imageHeight);
       }
 
       if (j == 0) {
@@ -266,15 +282,32 @@ generateWave(
       }
     }
     for (double k = j; k >= -currentStepY; k -= currentStepY) {
-
       double delta = 0.0;
 
-      if (currentZigZag == false){
-        delta = currentAmplitude * sin(pi * 2 * (k / imageHeight * currentFrequency + currentOffset * (animationVariable / 0.5) * (2*(i + currentStepX)-imageWidth) / imageWidth)) + currentFanWidth * (((i + currentStepX) -(imageWidth/2))/ imageWidth) * (k / imageHeight);
-      }
-      else
-      {
-        delta = currentAmplitude * asin(sin(pi * 2 * (k / imageHeight * currentFrequency + currentOffset * (animationVariable / 0.5) * (2*(i + currentStepX)-imageWidth) / imageWidth))) + currentFanWidth * (((i + currentStepX) -(imageWidth/2))/ imageWidth) * (k / imageHeight);
+      if (currentZigZag == false) {
+        delta = currentAmplitude *
+                sin(pi *
+                    2 *
+                    (k / imageHeight * currentFrequency +
+                        currentOffset *
+                            (animationVariable / 0.5) *
+                            (2 * (i + currentStepX) - imageWidth) /
+                            imageWidth)) +
+            currentFanWidth *
+                (((i + currentStepX) - (imageWidth / 2)) / imageWidth) *
+                (k / imageHeight);
+      } else {
+        delta = currentAmplitude *
+                asin(sin(pi *
+                    2 *
+                    (k / imageHeight * currentFrequency +
+                        currentOffset *
+                            (animationVariable / 0.5) *
+                            (2 * (i + currentStepX) - imageWidth) /
+                            imageWidth))) +
+            currentFanWidth *
+                (((i + currentStepX) - (imageWidth / 2)) / imageWidth) *
+                (k / imageHeight);
       }
 
       wave.lineTo(borderX + i + currentStepX + delta, borderY + k);
@@ -291,7 +324,7 @@ generateWave(
   }
 
   // colour in the outer canvas
-  var paint1 = Paint()
+  final paint1 = Paint()
     ..color = Colors.white
     ..style = PaintingStyle.fill;
   canvas.drawRect(
@@ -299,16 +332,15 @@ generateWave(
       paint1);
   canvas.drawRect(
       Offset(canvasWidth - borderX, 0) &
-      Size(borderX + canvasWidth, canvasHeight),
+          Size(borderX + canvasWidth, canvasHeight),
       paint1);
 
   canvas.drawRect(
       Offset(-canvasWidth, -canvasHeight) &
-      Size(3 * canvasWidth, canvasHeight + borderY),
+          Size(3 * canvasWidth, canvasHeight + borderY),
       paint1);
   canvas.drawRect(
       Offset(-canvasWidth, borderY + canvasHeight) &
-      Size(3 * canvasWidth, borderY + canvasHeight * 2),
+          Size(3 * canvasWidth, borderY + canvasHeight * 2),
       paint1);
 }
-

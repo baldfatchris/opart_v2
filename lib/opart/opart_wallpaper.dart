@@ -1,14 +1,15 @@
+import 'dart:core';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:opart_v2/opart_icons.dart';
+
+import '../main.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';
 import '../model_settings.dart';
-import 'dart:math';
-import 'dart:core';
-import '../main.dart';
 
-List<String> list = List();
-
+List<String> list = [];
 
 SettingsModel zoomOpArt = SettingsModel(
   name: 'zoomOpArt',
@@ -19,19 +20,18 @@ SettingsModel zoomOpArt = SettingsModel(
   max: 500.0,
   zoom: 100,
   defaultValue: 100.0,
-  icon: Icon(Icons.zoom_in),
+  icon: const Icon(Icons.zoom_in),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
 
-
 SettingsModel shape = SettingsModel(
   name: 'shape',
   settingType: SettingType.list,
-  label: "Shape",
-  tooltip: "The shape in the cell",
-  defaultValue: "squaricle",
-  icon: Icon(Icons.settings),
+  label: 'Shape',
+  tooltip: 'The shape in the cell',
+  defaultValue: 'squaricle',
+  icon: const Icon(Icons.settings),
   options: ['circle', 'square', 'squaricle', 'polygon', 'heart', 'random'],
   settingCategory: SettingCategory.tool,
   proFeature: false,
@@ -46,7 +46,7 @@ SettingsModel step = SettingsModel(
   max: 1.0,
   zoom: 100,
   defaultValue: 0.3,
-  icon: Icon(Icons.control_point),
+  icon: const Icon(Icons.control_point),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -60,12 +60,12 @@ SettingsModel ratio = SettingsModel(
   max: 1.75,
   zoom: 100,
   defaultValue: 1.0,
-  icon: Icon(OpArtLab.wallpaper_ratio),
+  icon: const Icon(OpArtLab.wallpaperRatio),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
 
-SettingsModel driftX = SettingsModel( 
+SettingsModel driftX = SettingsModel(
   name: 'driftX',
   settingType: SettingType.double,
   label: 'Horizontal Drift',
@@ -76,7 +76,7 @@ SettingsModel driftX = SettingsModel(
   randomMax: 2.0,
   zoom: 100,
   defaultValue: 0.0,
-  icon: Icon(OpArtLab.horizontal_drift),
+  icon: const Icon(OpArtLab.horizontalDrift),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -92,7 +92,7 @@ SettingsModel driftY = SettingsModel(
   randomMax: 2.0,
   zoom: 100,
   defaultValue: 0.0,
-  icon: Icon(OpArtLab.vertical_drift),
+  icon: const Icon(OpArtLab.verticalDrift),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -103,7 +103,7 @@ SettingsModel alternateDrift = SettingsModel(
   label: 'Alternate Drift',
   tooltip: 'Alternate the drift',
   defaultValue: true,
-  icon: Icon(Icons.gamepad),
+  icon: const Icon(Icons.gamepad),
   proFeature: false,
   silent: true,
 );
@@ -114,7 +114,7 @@ SettingsModel box = SettingsModel(
   label: 'Box',
   tooltip: 'Fill in the box',
   defaultValue: true,
-  icon: Icon(Icons.check_box_outline_blank),
+  icon: const Icon(Icons.check_box_outline_blank),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
@@ -129,7 +129,7 @@ SettingsModel offsetX = SettingsModel(
   max: 2.0,
   zoom: 100,
   defaultValue: 0.0,
-  icon: Icon(OpArtLab.horizontal_offset),
+  icon: const Icon(OpArtLab.horizontalOffset),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -143,7 +143,7 @@ SettingsModel offsetY = SettingsModel(
   max: 2.0,
   zoom: 100,
   defaultValue: 0.0,
-  icon: Icon(OpArtLab.vertical_offset),
+  icon: const Icon(OpArtLab.verticalOffset),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -157,11 +157,10 @@ SettingsModel rotate = SettingsModel(
   max: pi,
   zoom: 200,
   defaultValue: 0.0,
-  icon: Icon(Icons.rotate_right),
+  icon: const Icon(Icons.rotate_right),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-
 
 SettingsModel rotateStep = SettingsModel(
   name: 'rotateStep',
@@ -172,11 +171,10 @@ SettingsModel rotateStep = SettingsModel(
   max: 2.0,
   zoom: 100,
   defaultValue: 0.0,
-  icon: Icon(Icons.screen_rotation),
+  icon: const Icon(Icons.screen_rotation),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-
 
 SettingsModel randomRotation = SettingsModel(
   name: 'randomRotation',
@@ -184,7 +182,7 @@ SettingsModel randomRotation = SettingsModel(
   label: 'Random Rotate',
   tooltip: 'The random shape rotation',
   defaultValue: false,
-  icon: Icon(Icons.crop_rotate),
+  icon: const Icon(Icons.crop_rotate),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
@@ -201,7 +199,7 @@ SettingsModel squareness = SettingsModel(
   randomMax: 1.0,
   zoom: 100,
   defaultValue: 0.5,
-  icon: Icon(Icons.center_focus_weak),
+  icon: const Icon(Icons.center_focus_weak),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -215,7 +213,7 @@ SettingsModel squeezeX = SettingsModel(
   max: 1.5,
   zoom: 100,
   defaultValue: 1.0,
-  icon: Icon(Icons.more_horiz),
+  icon: const Icon(Icons.more_horiz),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -229,7 +227,7 @@ SettingsModel squeezeY = SettingsModel(
   max: 1.5,
   zoom: 100,
   defaultValue: 1.0,
-  icon: Icon(Icons.more_vert),
+  icon: const Icon(Icons.more_vert),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -242,7 +240,7 @@ SettingsModel numberOfSides = SettingsModel(
   min: 1,
   max: 15,
   defaultValue: 6,
-  icon: Icon(Icons.star),
+  icon: const Icon(Icons.star),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -253,7 +251,7 @@ SettingsModel randomPetals = SettingsModel(
   label: 'Random Petals',
   tooltip: 'Random Petals',
   defaultValue: true,
-  icon: Icon(Icons.stars),
+  icon: const Icon(Icons.stars),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
@@ -268,7 +266,7 @@ SettingsModel lineWidth = SettingsModel(
   max: 10.0,
   zoom: 100,
   defaultValue: 0.1,
-  icon: Icon(Icons.line_weight),
+  icon: const Icon(Icons.line_weight),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -279,7 +277,7 @@ SettingsModel lineWidth = SettingsModel(
 //   label: 'Random Colors',
 //   tooltip: 'randomize the colours',
 //   defaultValue: true,
-//   icon: Icon(Icons.gamepad),
+//   icon: const Icon(Icons.gamepad),
 //   settingCategory: SettingCategory.tool,
 //   proFeature: false,
 //   silent: true,
@@ -291,7 +289,7 @@ SettingsModel resetColors = SettingsModel(
   label: 'Reset Colors',
   tooltip: 'Reset the colours for each cell',
   defaultValue: false,
-  icon: Icon(Icons.gamepad),
+  icon: const Icon(Icons.gamepad),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
@@ -300,10 +298,10 @@ SettingsModel resetColors = SettingsModel(
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
-  label: "Palette Type",
-  tooltip: "The nature of the palette",
-  defaultValue: "random",
-  icon: Icon(Icons.colorize),
+  label: 'Palette Type',
+  tooltip: 'The nature of the palette',
+  defaultValue: 'random',
+  icon: const Icon(Icons.colorize),
   options: [
     'random',
     'blended random',
@@ -311,17 +309,19 @@ SettingsModel paletteType = SettingsModel(
     'linear complementary'
   ],
   settingCategory: SettingCategory.palette,
-  onChange: (){generatePalette();},
+  onChange: () {
+    generatePalette();
+  },
   proFeature: false,
 );
 
 SettingsModel paletteList = SettingsModel(
   name: 'paletteList',
   settingType: SettingType.list,
-  label: "Palette",
-  tooltip: "Choose from a list of palettes",
-  defaultValue: "Default",
-  icon: Icon(Icons.palette),
+  label: 'Palette',
+  tooltip: 'Choose from a list of palettes',
+  defaultValue: 'Default',
+  icon: const Icon(Icons.palette),
   options: defaultPalleteNames(),
   settingCategory: SettingCategory.other,
   proFeature: false,
@@ -333,25 +333,23 @@ SettingsModel resetDefaults = SettingsModel(
   label: 'Reset Defaults',
   tooltip: 'Reset all settings to defaults',
   defaultValue: false,
-  icon: Icon(Icons.low_priority),
+  icon: const Icon(Icons.low_priority),
   settingCategory: SettingCategory.tool,
-  onChange: (){resetAllDefaults();},
+  onChange: () {
+    resetAllDefaults();
+  },
   proFeature: false,
   silent: true,
 );
 
 List<SettingsModel> initializeWallpaperAttributes() {
-
   return [
     zoomOpArt,
     shape,
-
     step,
     ratio,
-
     offsetX,
     offsetY,
-
     driftX,
     driftY,
     alternateDrift,
@@ -364,7 +362,6 @@ List<SettingsModel> initializeWallpaperAttributes() {
     squeezeY,
     numberOfSides,
     randomPetals,
-
     backgroundColor,
     lineColor,
     lineWidth,
@@ -376,23 +373,19 @@ List<SettingsModel> initializeWallpaperAttributes() {
     opacity,
     resetDefaults,
   ];
-
-
 }
 
-
-void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
-
+void paintWallpaper(
+    Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
   rnd = Random(seed);
 
-  if (paletteList.value != opArt.palette.paletteName){
-    opArt.selectPalette(paletteList.value);
+  if (paletteList.value != opArt.palette.paletteName) {
+    opArt.selectPalette(paletteList.value as String);
   }
 
-
   // Initialise the canvas
-  double canvasWidth = size.width;
-  double canvasHeight = size.height;
+  final double canvasWidth = size.width;
+  final double canvasHeight = size.height;
   double borderX = 0;
   double borderY = 0;
 
@@ -400,125 +393,131 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
   canvas.drawRect(
       Offset(borderX, borderY) & Size(canvasWidth, canvasHeight),
       Paint()
-        ..color = backgroundColor.value
+        ..color = backgroundColor.value as Color
         ..style = PaintingStyle.fill);
 
   // Work out the X and Y
-  int cellsX = (canvasWidth / (zoomOpArt.value * squeezeX.value)+1.9999999).toInt();
-  borderX = (canvasWidth - zoomOpArt.value * squeezeX.value * cellsX) / 2;
+  final int cellsX =
+      (canvasWidth / ((zoomOpArt.value as num) * (squeezeX.value as num)) +
+              1.9999999)
+          .toInt();
+  borderX = (canvasWidth -
+          (zoomOpArt.value as num) * (squeezeX.value as num) * cellsX) /
+      2;
 
-  int cellsY = (canvasHeight / (zoomOpArt.value * squeezeY.value)+1.9999999).toInt();
-  borderY = (canvasHeight - zoomOpArt.value * squeezeY.value * cellsY) / 2;
+  final int cellsY =
+      (canvasHeight / ((zoomOpArt.value as num) * (squeezeY.value as num)) +
+              1.9999999)
+          .toInt();
+  borderY = (canvasHeight -
+          (zoomOpArt.value as num) * (squeezeY.value as num) * cellsY) /
+      2;
 
   int colourOrder = 0;
 
   // Now make some art
 
   // fill
-  bool fill = true;
+  const bool fill = true;
 
   int extraCellsX = 0;
   int extraCellsY = 0;
   if (fill) {
-    extraCellsX = (cellsX * 2 ~/ squeezeX.value);
-    extraCellsY = (cellsY * 2 ~/ squeezeY.value);
+    extraCellsX = cellsX * 2 ~/ (squeezeX.value as num);
+    extraCellsY = cellsY * 2 ~/ (squeezeY.value as num);
   }
 
   // work out the radius from the width and the cells
-  double radius = zoomOpArt.value / 2;
+  final double radius = (zoomOpArt.value as num) / 2;
 
   // double localSquareness = sin(2500 * animationVariable);
-  double localSquareness = squareness.value;
+  final double localSquareness = squareness.value as double;
 
-  for (int j = 0 - extraCellsY;
-  j < cellsY + extraCellsY;
-  j++) {
-    for (int i = 0 - extraCellsX;
-    i < cellsX + extraCellsX;
-    i++) {
+  for (int j = 0 - extraCellsY; j < cellsY + extraCellsY; j++) {
+    for (int i = 0 - extraCellsX; i < cellsX + extraCellsX; i++) {
       int k = 0; // count the steps
 
       double dX = 0;
       double dY = 0;
 
-      double stepRadius = (radius - lineWidth.value/2) * ratio.value;
-      double localStep = step.value * radius;
+      double stepRadius =
+          (radius - (lineWidth.value as double) / 2) * (ratio.value as double);
+      final double localStep = step.value * radius as double;
 
-      double localRotate = rotate.value;
-      if (randomRotation.value) {
-        localRotate = rnd.nextDouble() * rotate.value;
+      double localRotate = rotate.value as double;
+      if (randomRotation.value as bool) {
+        localRotate = rnd.nextDouble() * (rotate.value as num);
       }
-      if (alternateDrift.value && (i + j) % 2 == 0) {
+      if (alternateDrift.value as bool && (i + j) % 2 == 0) {
         localRotate = 0 - localRotate;
       }
 
       // Number of petals
       var localNumberOfPetals = numberOfSides.value;
-      if (randomPetals.value) {
-        localNumberOfPetals =
-            rnd.nextInt(numberOfSides.value) + 3;
+      if (randomPetals.value as bool) {
+        localNumberOfPetals = rnd.nextInt(numberOfSides.value as int) + 3;
       }
 
       // Centre of the square
       List pO = [
         borderX +
-            radius * (1 - squeezeX.value) +
+            radius * (1 - (squeezeX.value as num)) +
             dX +
-            (radius * offsetX.value * j) +
-            (i * 2 + 1) * radius * squeezeX.value,
+            (radius * (offsetX.value as num) * j) +
+            (i * 2 + 1) * radius * (squeezeX.value as num),
         borderY +
-            radius * (1 - squeezeY.value) +
+            radius * (1 - (squeezeY.value as num)) +
             dY +
-            (radius * offsetY.value * i) +
-            (j * 2 + 1) * radius * squeezeY.value
+            (radius * (offsetY.value as num) * i) +
+            (j * 2 + 1) * radius * (squeezeY.value as num)
       ];
 
       // reset the colours
       Color nextColor;
-      if (resetColors.value) {
+      if (resetColors.value as bool) {
         colourOrder = 0;
       }
 
-      if (box.value) {
-
-        List pA = [
+      if (box.value as bool) {
+        final List pA = [
           pO[0] + radius * sqrt(2) * cos(pi * (5 / 4 + localRotate)),
           pO[1] + radius * sqrt(2) * sin(pi * (5 / 4 + localRotate))
         ];
-        List pB = [
+        final List pB = [
           pO[0] + radius * sqrt(2) * cos(pi * (7 / 4 + localRotate)),
           pO[1] + radius * sqrt(2) * sin(pi * (7 / 4 + localRotate))
         ];
-        List pC = [
+        final List pC = [
           pO[0] + radius * sqrt(2) * cos(pi * (1 / 4 + localRotate)),
           pO[1] + radius * sqrt(2) * sin(pi * (1 / 4 + localRotate))
         ];
-        List pD = [
+        final List pD = [
           pO[0] + radius * sqrt(2) * cos(pi * (3 / 4 + localRotate)),
           pO[1] + radius * sqrt(2) * sin(pi * (3 / 4 + localRotate))
         ];
 
         // Choose the next colour
         colourOrder++;
-        nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-        if (randomColors.value) {
-          nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+        nextColor = opArt
+            .palette.colorList[colourOrder % (numberOfColors.value as int)];
+        if (randomColors.value as bool) {
+          nextColor =
+              opArt.palette.colorList[rnd.nextInt(numberOfColors.value as int)];
         }
 
         // fill the square
-        Path path = Path();
-        path.moveTo(pA[0], pA[1]);
-        path.lineTo(pB[0], pB[1]);
-        path.lineTo(pC[0], pC[1]);
-        path.lineTo(pD[0], pD[1]);
+        final Path path = Path();
+        path.moveTo(pA[0] as double, pA[1] as double);
+        path.lineTo(pB[0] as double, pB[1] as double);
+        path.lineTo(pC[0] as double, pC[1] as double);
+        path.lineTo(pD[0] as double, pD[1] as double);
         path.close();
 
         canvas.drawPath(
             path,
             Paint()
               ..style = PaintingStyle.fill
-              ..color =
-              nextColor.withOpacity(opacity.value));
+              ..color = nextColor.withOpacity(opacity.value as double));
 
         // if (lineWidth > 0) {
         //   canvas.drawPath(path, Paint() ..style = PaintingStyle.stroke ..strokeWidth = lineWidth ..color = lineColor);
@@ -530,489 +529,515 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
         // drift...
         pO = [pO[0] + dX, pO[1] + dY];
 
-
         //  options: ['circle', 'square', 'squaricle', 'polygon', 'heart', 'random'],
-        String shapeOption = shape.value;
+        String shapeOption = shape.value as String;
         if (shapeOption == 'random') {
-          shapeOption = ['circle', 'square', 'squaricle', 'polygon', 'heart', 'random'][rnd.nextInt(5)];
+          shapeOption = [
+            'circle',
+            'square',
+            'squaricle',
+            'polygon',
+            'heart',
+            'random'
+          ][rnd.nextInt(5)];
         }
         switch (shapeOption) {
-
           case 'circle':
 
-          // Choose the next colour
+            // Choose the next colour
             colourOrder++;
-            nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-            if (randomColors.value) {
-              nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+            nextColor = opArt
+                .palette.colorList[colourOrder % (numberOfColors.value as int)];
+            if (randomColors.value as bool) {
+              nextColor = opArt
+                  .palette.colorList[rnd.nextInt(numberOfColors.value as int)];
             }
 
             canvas.drawCircle(
-                Offset(pO[0], pO[1]),
+                Offset(pO[0] as double, pO[1] as double),
                 stepRadius,
                 Paint()
                   ..style = PaintingStyle.fill
-                  ..color =
-                  nextColor.withOpacity(opacity.value));
+                  ..color = nextColor.withOpacity(opacity.value as double));
             canvas.drawCircle(
-                Offset(pO[0], pO[1]),
+                Offset(pO[0] as double, pO[1] as double),
                 stepRadius,
                 Paint()
                   ..style = PaintingStyle.stroke
-                  ..strokeWidth = lineWidth.value
-                  ..color = lineColor.value
-                      .withOpacity(opacity.value));
+                  ..strokeWidth = lineWidth.value as double
+                  ..color = (lineColor.value as Color)
+                      .withOpacity(opacity.value as double));
 
             break;
 
           case 'square':
-
-            Path square = Path();
+            final Path square = Path();
 
             square.moveTo(
-                pO[0] + stepRadius * sqrt(2) * cos(pi * (1 / 4 + localRotate)),
-                pO[1] + stepRadius * sqrt(2) * sin(pi * (1 / 4 + localRotate))
-            );
+                (pO[0] as double) +
+                    stepRadius * sqrt(2) * cos(pi * (1 / 4 + localRotate)),
+                (pO[1] as double) +
+                    stepRadius * sqrt(2) * sin(pi * (1 / 4 + localRotate)));
 
             square.lineTo(
-                pO[0] + stepRadius * sqrt(2) * cos(pi * (3 / 4 + localRotate)),
-                pO[1] + stepRadius * sqrt(2) * sin(pi * (3 / 4 + localRotate))
-            );
+                (pO[0] as double) +
+                    stepRadius * sqrt(2) * cos(pi * (3 / 4 + localRotate)),
+                (pO[1] as double) +
+                    stepRadius * sqrt(2) * sin(pi * (3 / 4 + localRotate)));
 
             square.lineTo(
-                pO[0] + stepRadius * sqrt(2) * cos(pi * (5 / 4 + localRotate)),
-                pO[1] + stepRadius * sqrt(2) * sin(pi * (5 / 4 + localRotate))
-            );
+                (pO[0] as double) +
+                    stepRadius * sqrt(2) * cos(pi * (5 / 4 + localRotate)),
+                (pO[1] as double) +
+                    stepRadius * sqrt(2) * sin(pi * (5 / 4 + localRotate)));
 
             square.lineTo(
-                pO[0] + stepRadius * sqrt(2) * cos(pi * (7 / 4 + localRotate)),
-                pO[1] + stepRadius * sqrt(2) * sin(pi * (7 / 4 + localRotate))
-            );
+                (pO[0] as double) +
+                    stepRadius * sqrt(2) * cos(pi * (7 / 4 + localRotate)),
+                (pO[1] as double) +
+                    stepRadius * sqrt(2) * sin(pi * (7 / 4 + localRotate)));
 
             square.close();
 
             // Choose the next colour
             colourOrder++;
-            nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-            if (randomColors.value) {
-              nextColor = opArt.palette.colorList[
-              rnd.nextInt(numberOfColors.value)];
+            nextColor = opArt
+                .palette.colorList[colourOrder % (numberOfColors.value as int)];
+            if (randomColors.value as bool) {
+              nextColor = opArt
+                  .palette.colorList[rnd.nextInt(numberOfColors.value as int)];
             }
 
             canvas.drawPath(
                 square,
                 Paint()
                   ..style = PaintingStyle.fill
-                  ..color =
-                  nextColor.withOpacity(opacity.value));
+                  ..color = nextColor.withOpacity(opacity.value as double));
             canvas.drawPath(
                 square,
                 Paint()
                   ..style = PaintingStyle.stroke
-                  ..strokeWidth = lineWidth.value
-                  ..color = lineColor.value
-                      .withOpacity(opacity.value));
+                  ..strokeWidth = lineWidth.value as double
+                  ..color = (lineColor.value as Color)
+                      .withOpacity(opacity.value as double));
 
             square.reset();
 
             break;
 
           case 'squaricle':
+            final double curveCentreRadius =
+                stepRadius * sqrt(2) * (squareness.value as double);
+            final double curveRadius =
+                stepRadius * sqrt(2) * (1 - (squareness.value as double));
 
-            double curveCentreRadius = stepRadius * sqrt(2) * squareness.value;
-            double curveRadius = stepRadius * sqrt(2) * (1 - squareness.value);
+            final Path squaricle = Path();
 
-            Path squaricle = Path();
-
-            squaricle.arcTo(Rect.fromCenter(
-                center: Offset(
-                    pO[0] + curveCentreRadius * cos(pi * (1 / 4 + localRotate)),
-                    pO[1] + curveCentreRadius * sin(pi * (1 / 4 + localRotate))
-                ),
-                height: curveRadius,
-                width: curveRadius),
+            squaricle.arcTo(
+                Rect.fromCenter(
+                    center: Offset(
+                        (pO[0] as double) +
+                            curveCentreRadius * cos(pi * (1 / 4 + localRotate)),
+                        (pO[1] as double) +
+                            curveCentreRadius *
+                                sin(pi * (1 / 4 + localRotate))),
+                    height: curveRadius,
+                    width: curveRadius),
                 pi * (0 / 2 + localRotate),
-                pi/2,
-                false
-            );
+                pi / 2,
+                false);
 
-            squaricle.arcTo(Rect.fromCenter(
-                center: Offset(
-                    pO[0] + curveCentreRadius * cos(pi * (3 / 4 + localRotate)),
-                    pO[1] + curveCentreRadius * sin(pi * (3 / 4 + localRotate))
-                ),
-                height: curveRadius,
-                width: curveRadius),
+            squaricle.arcTo(
+                Rect.fromCenter(
+                    center: Offset(
+                        (pO[0] as double) +
+                            curveCentreRadius * cos(pi * (3 / 4 + localRotate)),
+                        (pO[1] as double) +
+                            curveCentreRadius *
+                                sin(pi * (3 / 4 + localRotate))),
+                    height: curveRadius,
+                    width: curveRadius),
                 pi * (1 / 2 + localRotate),
-                pi/2,
-                false
-            );
+                pi / 2,
+                false);
 
-            squaricle.arcTo(Rect.fromCenter(
-                center: Offset(
-                    pO[0] + curveCentreRadius * cos(pi * (5 / 4 + localRotate)),
-                    pO[1] + curveCentreRadius * sin(pi * (5 / 4 + localRotate))
-                ),
-                height: curveRadius,
-                width: curveRadius),
+            squaricle.arcTo(
+                Rect.fromCenter(
+                    center: Offset(
+                        (pO[0] as double) +
+                            curveCentreRadius * cos(pi * (5 / 4 + localRotate)),
+                        (pO[1] as double) +
+                            curveCentreRadius *
+                                sin(pi * (5 / 4 + localRotate))),
+                    height: curveRadius,
+                    width: curveRadius),
                 pi * (2 / 2 + localRotate),
-                pi/2,
-                false
-            );
+                pi / 2,
+                false);
 
-            squaricle.arcTo(Rect.fromCenter(
-                center: Offset(
-                    pO[0] + curveCentreRadius * cos(pi * (7 / 4 + localRotate)),
-                    pO[1] + curveCentreRadius * sin(pi * (7 / 4 + localRotate))
-                ),
-                height: curveRadius,
-                width: curveRadius),
+            squaricle.arcTo(
+                Rect.fromCenter(
+                    center: Offset(
+                        (pO[0] as double) +
+                            curveCentreRadius * cos(pi * (7 / 4 + localRotate)),
+                        (pO[1] as double) +
+                            curveCentreRadius *
+                                sin(pi * (7 / 4 + localRotate))),
+                    height: curveRadius,
+                    width: curveRadius),
                 pi * (3 / 2 + localRotate),
-                pi/2,
-                false
-            );
+                pi / 2,
+                false);
 
             squaricle.close();
 
             // Choose the next colour
             colourOrder++;
-            nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-            if (randomColors.value) {
-              nextColor = opArt.palette.colorList[
-              rnd.nextInt(numberOfColors.value)];
+            nextColor = opArt
+                .palette.colorList[colourOrder % (numberOfColors.value as int)];
+            if (randomColors.value as bool) {
+              nextColor = opArt
+                  .palette.colorList[rnd.nextInt(numberOfColors.value as int)];
             }
 
             canvas.drawPath(
                 squaricle,
                 Paint()
                   ..style = PaintingStyle.stroke
-                  ..strokeWidth = lineWidth.value
-                  ..color = lineColor.value
-                      .withOpacity(opacity.value));
+                  ..strokeWidth = lineWidth.value as double
+                  ..color = (lineColor.value as Color)
+                      .withOpacity(opacity.value as double));
             canvas.drawPath(
                 squaricle,
                 Paint()
                   ..style = PaintingStyle.fill
-                  ..color =
-                  nextColor.withOpacity(opacity.value));
+                  ..color = nextColor.withOpacity(opacity.value as double));
 
             squaricle.reset();
 
             break;
 
           case 'star':
-            for (var p = 0; p < localNumberOfPetals; p++) {
-              List petalPoint = [
+            for (var p = 0; p < (localNumberOfPetals as int); p++) {
+              final List petalPoint = [
                 pO[0] +
                     stepRadius *
                         cos(localRotate * pi +
-                            p * pi * 2 / localNumberOfPetals),
+                            p * pi * 2 / (localNumberOfPetals as int)),
                 pO[1] +
                     stepRadius *
                         sin(localRotate * pi +
-                            p * pi * 2 / localNumberOfPetals)
+                            p * pi * 2 / (localNumberOfPetals as int))
               ];
 
-              List petalMidPointA = [
+              final List petalMidPointA = [
                 pO[0] +
-                    (localSquareness) *
+                    localSquareness *
                         stepRadius *
                         cos(localRotate * pi +
-                            (p - 1) * pi * 2 / localNumberOfPetals),
+                            (p - 1) * pi * 2 / (localNumberOfPetals as num)),
                 pO[1] +
-                    (localSquareness) *
+                    localSquareness *
                         stepRadius *
                         sin(localRotate * pi +
-                            (p - 1) * pi * 2 / localNumberOfPetals)
+                            (p - 1) * pi * 2 / (localNumberOfPetals as num))
               ];
 
-              List petalMidPointP = [
+              final List petalMidPointP = [
                 pO[0] +
-                    (localSquareness) *
+                    localSquareness *
                         stepRadius *
                         cos(localRotate * pi +
-                            (p + 1) * pi * 2 / localNumberOfPetals),
+                            (p + 1) * pi * 2 / (localNumberOfPetals as num)),
                 pO[1] +
-                    (localSquareness) *
+                    localSquareness *
                         stepRadius *
                         sin(localRotate * pi +
-                            (p + 1) * pi * 2 / localNumberOfPetals)
+                            (p + 1) * pi * 2 / (localNumberOfPetals as num))
               ];
 
-              Path star = Path();
+              final Path star = Path();
 
-              star.moveTo(pO[0], pO[1]);
-              star.quadraticBezierTo(petalMidPointA[0], petalMidPointA[1],
-                  petalPoint[0], petalPoint[1]);
+              star.moveTo(pO[0] as double, pO[1] as double);
               star.quadraticBezierTo(
-                  petalMidPointP[0], petalMidPointP[1], pO[0], pO[1]);
+                  petalMidPointA[0] as double,
+                  petalMidPointA[1] as double,
+                  petalPoint[0] as double,
+                  petalPoint[1] as double);
+              star.quadraticBezierTo(
+                  petalMidPointP[0] as double,
+                  petalMidPointP[1] as double,
+                  pO[0] as double,
+                  pO[1] as double);
               star.close();
 
               // Choose the next colour
               colourOrder++;
-              nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-              if (randomColors.value) {
-                nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+              nextColor = opArt.palette
+                  .colorList[colourOrder % (numberOfColors.value as int)];
+              if (randomColors.value as bool) {
+                nextColor = opArt.palette
+                    .colorList[rnd.nextInt(numberOfColors.value as int)];
               }
 
               canvas.drawPath(
                   star,
                   Paint()
                     ..style = PaintingStyle.stroke
-                    ..strokeWidth = lineWidth.value
-                    ..color = lineColor.value
-                        .withOpacity(opacity.value));
+                    ..strokeWidth = lineWidth.value as double
+                    ..color = (lineColor.value as Color)
+                        .withOpacity(opacity.value as double));
               canvas.drawPath(
                   star,
                   Paint()
                     ..style = PaintingStyle.fill
-                    ..color = nextColor
-                        .withOpacity(opacity.value));
+                    ..color = nextColor.withOpacity(opacity.value as double));
             }
 
             break;
 
           case 'polygon':
+            final Path polygon = Path();
 
-            Path polygon = Path();
+            polygon.moveTo((pO[0] as double) + stepRadius * cos(localRotate),
+                (pO[1] as double) + stepRadius * sin(localRotate));
 
-            polygon.moveTo(
-                pO[0]+ stepRadius * cos(localRotate),
-                pO[1]+ stepRadius * sin(localRotate));
-
-            for (int s = 1; s<numberOfSides.value;s++){
+            for (int s = 1; s < (numberOfSides.value as int); s++) {
               polygon.lineTo(
-                  pO[0]+ stepRadius * cos(pi*2*s/numberOfSides.value + localRotate),
-                  pO[1]+ stepRadius * sin(pi*2*s/numberOfSides.value + localRotate));
+                  (pO[0] as double) +
+                      stepRadius *
+                          cos(pi * 2 * s / (numberOfSides.value as int) +
+                              localRotate),
+                  (pO[1] as double) +
+                      stepRadius *
+                          sin(pi * 2 * s / (numberOfSides.value as int) +
+                              localRotate));
             }
 
             polygon.close();
 
             // Choose the next colour
             colourOrder++;
-            nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-            if (randomColors.value) {
-              nextColor = opArt.palette.colorList[
-              rnd.nextInt(numberOfColors.value)];
+            nextColor = opArt
+                .palette.colorList[colourOrder % (numberOfColors.value as int)];
+            if (randomColors.value as bool) {
+              nextColor = opArt
+                  .palette.colorList[rnd.nextInt(numberOfColors.value as int)];
             }
 
             canvas.drawPath(
                 polygon,
                 Paint()
                   ..style = PaintingStyle.stroke
-                  ..strokeWidth = lineWidth.value
-                  ..color = lineColor.value
-                      .withOpacity(opacity.value));
+                  ..strokeWidth = lineWidth.value as double
+                  ..color = (lineColor.value as Color)
+                      .withOpacity(opacity.value as double));
             canvas.drawPath(
                 polygon,
                 Paint()
                   ..style = PaintingStyle.fill
-                  ..color =
-                  nextColor.withOpacity(opacity.value));
-
+                  ..color = nextColor.withOpacity(opacity.value as double));
 
             polygon.reset();
 
-
             break;
 
-          case 'star':
-            for (var p = 0; p < localNumberOfPetals; p++) {
-              List petalPoint = [
-                pO[0] +
-                    stepRadius *
-                        cos(localRotate * pi +
-                            p * pi * 2 / localNumberOfPetals),
-                pO[1] +
-                    stepRadius *
-                        sin(localRotate * pi +
-                            p * pi * 2 / localNumberOfPetals)
-              ];
-
-              List petalMidPointA = [
-                pO[0] +
-                    (localSquareness) *
-                        stepRadius *
-                        cos(localRotate * pi +
-                            (p - 1) * pi * 2 / localNumberOfPetals),
-                pO[1] +
-                    (localSquareness) *
-                        stepRadius *
-                        sin(localRotate * pi +
-                            (p - 1) * pi * 2 / localNumberOfPetals)
-              ];
-
-              List petalMidPointP = [
-                pO[0] +
-                    (localSquareness) *
-                        stepRadius *
-                        cos(localRotate * pi +
-                            (p + 1) * pi * 2 / localNumberOfPetals),
-                pO[1] +
-                    (localSquareness) *
-                        stepRadius *
-                        sin(localRotate * pi +
-                            (p + 1) * pi * 2 / localNumberOfPetals)
-              ];
-
-              Path star = Path();
-
-              star.moveTo(pO[0], pO[1]);
-              star.quadraticBezierTo(petalMidPointA[0], petalMidPointA[1],
-                  petalPoint[0], petalPoint[1]);
-              star.quadraticBezierTo(
-                  petalMidPointP[0], petalMidPointP[1], pO[0], pO[1]);
-              star.close();
-
-              // Choose the next colour
-              colourOrder++;
-              nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-              if (randomColors.value) {
-                nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
-              }
-
-              canvas.drawPath(
-                  star,
-                  Paint()
-                    ..style = PaintingStyle.stroke
-                    ..strokeWidth = lineWidth.value
-                    ..color = lineColor.value
-                        .withOpacity(opacity.value));
-              canvas.drawPath(
-                  star,
-                  Paint()
-                    ..style = PaintingStyle.fill
-                    ..color = nextColor
-                        .withOpacity(opacity.value));
-            }
-
-            break;
+          // case 'star':
+          //   for (var p = 0; p < localNumberOfPetals; p++) {
+          //     List petalPoint = [
+          //       pO[0] +
+          //           stepRadius *
+          //               cos(localRotate * pi +
+          //                   p * pi * 2 / localNumberOfPetals),
+          //       pO[1] +
+          //           stepRadius *
+          //               sin(localRotate * pi +
+          //                   p * pi * 2 / localNumberOfPetals)
+          //     ];
+          //
+          //     List petalMidPointA = [
+          //       pO[0] +
+          //           (localSquareness) *
+          //               stepRadius *
+          //               cos(localRotate * pi +
+          //                   (p - 1) * pi * 2 / localNumberOfPetals),
+          //       pO[1] +
+          //           (localSquareness) *
+          //               stepRadius *
+          //               sin(localRotate * pi +
+          //                   (p - 1) * pi * 2 / localNumberOfPetals)
+          //     ];
+          //
+          //     List petalMidPointP = [
+          //       pO[0] +
+          //           (localSquareness) *
+          //               stepRadius *
+          //               cos(localRotate * pi +
+          //                   (p + 1) * pi * 2 / localNumberOfPetals),
+          //       pO[1] +
+          //           (localSquareness) *
+          //               stepRadius *
+          //               sin(localRotate * pi +
+          //                   (p + 1) * pi * 2 / localNumberOfPetals)
+          //     ];
+          //
+          //     Path star = Path();
+          //
+          //     star.moveTo(pO[0], pO[1]);
+          //     star.quadraticBezierTo(petalMidPointA[0], petalMidPointA[1],
+          //         petalPoint[0], petalPoint[1]);
+          //     star.quadraticBezierTo(
+          //         petalMidPointP[0], petalMidPointP[1], pO[0], pO[1]);
+          //     star.close();
+          //
+          //     // Choose the next colour
+          //     colourOrder++;
+          //     nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
+          //     if (randomColors.value) {
+          //       nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+          //     }
+          //
+          //     canvas.drawPath(
+          //         star,
+          //         Paint()
+          //           ..style = PaintingStyle.stroke
+          //           ..strokeWidth = lineWidth.value
+          //           ..color = lineColor.value
+          //               .withOpacity(opacity.value));
+          //     canvas.drawPath(
+          //         star,
+          //         Paint()
+          //           ..style = PaintingStyle.fill
+          //           ..color = nextColor
+          //               .withOpacity(opacity.value));
+          //   }
+          //
+          //   break;
 
           case 'daisy': // daisy
-            double centreRatio = 0.3;
-            double centreRadius = stepRadius * centreRatio;
+            const double centreRatio = 0.3;
+            final double centreRadius = stepRadius * centreRatio;
 
             // Choose the next colour
             colourOrder++;
-            nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-            if (randomColors.value) {
-              nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+            nextColor = opArt
+                .palette.colorList[colourOrder % (numberOfColors.value as int)];
+            if (randomColors.value as bool) {
+              nextColor = opArt
+                  .palette.colorList[rnd.nextInt(numberOfColors.value as int)];
             }
 
             canvas.drawCircle(
-                Offset(pO[0], pO[1]),
+                Offset(pO[0] as double, pO[1] as double),
                 centreRadius,
                 Paint()
                   ..style = PaintingStyle.fill
-                  ..color =
-                  nextColor.withOpacity(opacity.value));
+                  ..color = nextColor.withOpacity(opacity.value as double));
             canvas.drawCircle(
-                Offset(pO[0], pO[1]),
+                Offset(pO[0] as double, pO[1] as double),
                 centreRadius,
                 Paint()
                   ..style = PaintingStyle.stroke
-                  ..strokeWidth = lineWidth.value
-                  ..color = lineColor.value
-                      .withOpacity(opacity.value));
+                  ..strokeWidth = lineWidth.value as double
+                  ..color = (lineColor.value as Color)
+                      .withOpacity(opacity.value as double));
 
-            for (var petal = 0; petal < localNumberOfPetals; petal++) {
+            for (var petal = 0; petal < (localNumberOfPetals as int); petal++) {
               // Choose the next colour
               colourOrder++;
-              nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-              if (randomColors.value) {
-                nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+              nextColor = opArt.palette
+                  .colorList[colourOrder % (numberOfColors.value as int)];
+              if (randomColors.value as bool) {
+                nextColor = opArt.palette
+                    .colorList[rnd.nextInt(numberOfColors.value as int)];
               }
 
-              var petalAngle =
-                  localRotate + petal * 2 * pi / localNumberOfPetals;
+              final petalAngle =
+                  localRotate + petal * 2 * pi / (localNumberOfPetals as int);
 
-              var petalCentreRadius =
+              final petalCentreRadius =
                   stepRadius * (centreRatio + (1 - centreRatio) / 2);
-              var petalRadius = stepRadius * ((1 - centreRatio) / 2);
+              final petalRadius = stepRadius * ((1 - centreRatio) / 2);
 
               // pC = Petal centre
-              List pC = [
+              final List pC = [
                 pO[0] + petalCentreRadius * cos(petalAngle),
                 pO[1] + petalCentreRadius * sin(petalAngle),
               ];
 
-              List pN = [
+              final List pN = [
                 pC[0] - petalRadius * cos(petalAngle),
                 pC[1] - petalRadius * sin(petalAngle)
               ];
 
-              List pS = [
+              final List pS = [
                 pC[0] - petalRadius * cos(petalAngle + pi),
                 pC[1] - petalRadius * sin(petalAngle + pi)
               ];
 
-              List pE = [
+              final List pE = [
                 pC[0] -
-                    localSquareness *
-                        petalRadius *
-                        cos(petalAngle + pi * 0.5),
+                    localSquareness * petalRadius * cos(petalAngle + pi * 0.5),
                 pC[1] -
-                    localSquareness *
-                        petalRadius *
-                        sin(petalAngle + pi * 0.5)
+                    localSquareness * petalRadius * sin(petalAngle + pi * 0.5)
               ];
 
-              List pW = [
+              final List pW = [
                 pC[0] -
-                    localSquareness *
-                        petalRadius *
-                        cos(petalAngle + pi * 1.5),
+                    localSquareness * petalRadius * cos(petalAngle + pi * 1.5),
                 pC[1] -
-                    localSquareness *
-                        petalRadius *
-                        sin(petalAngle + pi * 1.5)
+                    localSquareness * petalRadius * sin(petalAngle + pi * 1.5)
               ];
 
-              Path path = Path();
-              path.moveTo(pN[0], pN[1]);
-              path.quadraticBezierTo(pE[0], pE[1], pS[0], pS[1]);
-              path.quadraticBezierTo(pW[0], pW[1], pN[0], pN[1]);
+              final Path path = Path();
+              path.moveTo(pN[0] as double, pN[1] as double);
+              path.quadraticBezierTo(pE[0] as double, pE[1] as double,
+                  pS[0] as double, pS[1] as double);
+              path.quadraticBezierTo(pW[0] as double, pW[1] as double,
+                  pN[0] as double, pN[1] as double);
               path.close();
 
               canvas.drawPath(
                   path,
                   Paint()
                     ..style = PaintingStyle.stroke
-                    ..strokeWidth = lineWidth.value
-                    ..color = lineColor.value
-                        .withOpacity(opacity.value));
+                    ..strokeWidth = lineWidth.value as double
+                    ..color = (lineColor.value as Color)
+                        .withOpacity(opacity.value as double));
               canvas.drawPath(
                   path,
                   Paint()
                     ..style = PaintingStyle.fill
-                    ..color = nextColor
-                        .withOpacity(opacity.value));
+                    ..color = nextColor.withOpacity(opacity.value as double));
             }
 
             break;
-
-
 
           case 'heart':
 
             // double cusp = 0.50;
             // double heartBezierPointAngle = 0.53 * pi;
             // double heartBezierPointRadiusRatio = 17.2;
-            int localNumberoOfSides = 2;
-            double heartRadiusRatio = 0.75;
-            double heartRadiusDelta = 0.25;
+            const int localNumberoOfSides = 2;
+            const double heartRadiusRatio = 0.75;
+            const double heartRadiusDelta = 0.25;
 
-
-            Path heart = Path();
+            final Path heart = Path();
 
             heart.moveTo(
-                pO[0]+ (stepRadius*(heartRadiusRatio + heartRadiusDelta) + cos(localRotate + pi/2)) * cos(localRotate + pi/2),
-                pO[1]+ stepRadius*(heartRadiusRatio + heartRadiusDelta) * sin(localRotate + pi/2));
+                (pO[0] as double) +
+                    (stepRadius * (heartRadiusRatio + heartRadiusDelta) +
+                            cos(localRotate + pi / 2)) *
+                        cos(localRotate + pi / 2),
+                (pO[1] as double) +
+                    stepRadius *
+                        (heartRadiusRatio + heartRadiusDelta) *
+                        sin(localRotate + pi / 2));
 
-            for (int s = 1; s<=localNumberoOfSides;s++){
-              double t = 0.4;
-              double bezierPointRadiusDeltaA = 3.1;
-              double bezierPointRadiusDeltaB = 1.5;
+            for (int s = 1; s <= localNumberoOfSides; s++) {
+              const double t = 0.4;
+              const double bezierPointRadiusDeltaA = 3.1;
+              const double bezierPointRadiusDeltaB = 1.5;
 
               // heart.lineTo(
               //     pO[0]+ stepRadius*(heartRadiusRatio * bezierPointRadiusDelta) * cos(pi*2*t/localNumberoOfSides + localRotate + pi/2),
@@ -1022,38 +1047,94 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
               //     pO[0]+ stepRadius*(heartRadiusRatio + heartRadiusDelta*cos(pi*2*s/localNumberoOfSides + localRotate)) * cos(pi*2*s/localNumberoOfSides + localRotate + pi/2),
               //     pO[1]+ stepRadius*(heartRadiusRatio + heartRadiusDelta*cos(pi*2*s/localNumberoOfSides + localRotate)) * sin(pi*2*s/localNumberoOfSides + localRotate + pi/2));
 
-
               if (s % 2 == 1) {
                 heart.cubicTo(
-                    pO[0] + stepRadius * (heartRadiusRatio * bezierPointRadiusDeltaA) * cos(pi * 2 * (s-t) / localNumberoOfSides + localRotate + pi / 2),
-                    pO[1] + stepRadius * (heartRadiusRatio * bezierPointRadiusDeltaA) * sin(pi * 2 * (s-t) / localNumberoOfSides + localRotate + pi / 2),
-
-                    pO[0] + stepRadius * (heartRadiusRatio * bezierPointRadiusDeltaB) * cos(pi * 2 * s / localNumberoOfSides + localRotate + pi / 2),
-                    pO[1] + stepRadius * (heartRadiusRatio * bezierPointRadiusDeltaB) * sin(pi * 2 * s / localNumberoOfSides + localRotate + pi / 2),
-
-                    pO[0] + stepRadius * (heartRadiusRatio + heartRadiusDelta * cos(pi * 2 * s / localNumberoOfSides)) * cos(pi * 2 * s / localNumberoOfSides + localRotate + pi / 2),
-                    pO[1] + stepRadius * (heartRadiusRatio + heartRadiusDelta * cos(pi * 2 * s / localNumberoOfSides)) * sin(pi * 2 * s / localNumberoOfSides + localRotate + pi / 2));
-              }
-              else {
+                    (pO[0] as double) +
+                        stepRadius *
+                            (heartRadiusRatio * bezierPointRadiusDeltaA) *
+                            cos(pi * 2 * (s - t) / localNumberoOfSides +
+                                localRotate +
+                                pi / 2),
+                    (pO[1] as double) +
+                        stepRadius *
+                            (heartRadiusRatio * bezierPointRadiusDeltaA) *
+                            sin(pi * 2 * (s - t) / localNumberoOfSides +
+                                localRotate +
+                                pi / 2),
+                    (pO[0] as double) +
+                        stepRadius *
+                            (heartRadiusRatio * bezierPointRadiusDeltaB) *
+                            cos(pi * 2 * s / localNumberoOfSides +
+                                localRotate +
+                                pi / 2),
+                    (pO[1] as double) +
+                        stepRadius *
+                            (heartRadiusRatio * bezierPointRadiusDeltaB) *
+                            sin(pi * 2 * s / localNumberoOfSides +
+                                localRotate +
+                                pi / 2),
+                    (pO[0] as double) +
+                        stepRadius *
+                            (heartRadiusRatio +
+                                heartRadiusDelta *
+                                    cos(pi * 2 * s / localNumberoOfSides)) *
+                            cos(pi * 2 * s / localNumberoOfSides +
+                                localRotate +
+                                pi / 2),
+                    (pO[1] as double) +
+                        stepRadius *
+                            (heartRadiusRatio +
+                                heartRadiusDelta *
+                                    cos(pi * 2 * s / localNumberoOfSides)) *
+                            sin(pi * 2 * s / localNumberoOfSides +
+                                localRotate +
+                                pi / 2));
+              } else {
                 heart.cubicTo(
-                    pO[0] + stepRadius * (heartRadiusRatio * bezierPointRadiusDeltaB) * cos(pi * 2 * (s-1) / localNumberoOfSides + localRotate + pi / 2),
-                    pO[1] + stepRadius * (heartRadiusRatio * bezierPointRadiusDeltaB) * sin(pi * 2 * (s-1) / localNumberoOfSides + localRotate + pi / 2),
-
-                    pO[0] + stepRadius * (heartRadiusRatio * bezierPointRadiusDeltaA) * cos(pi * 2 * (s-1+t) / localNumberoOfSides + localRotate + pi / 2),
-                    pO[1] + stepRadius * (heartRadiusRatio * bezierPointRadiusDeltaA) * sin(pi * 2 * (s-1+t) / localNumberoOfSides + localRotate + pi / 2),
-
-                    pO[0] + stepRadius * (heartRadiusRatio + heartRadiusDelta * cos(pi * 2 * s / localNumberoOfSides)) * cos(pi * 2 * s / localNumberoOfSides + localRotate + pi / 2),
-                    pO[1] + stepRadius * (heartRadiusRatio + heartRadiusDelta * cos(pi * 2 * s / localNumberoOfSides)) * sin(pi * 2 * s / localNumberoOfSides + localRotate + pi / 2));
+                    (pO[0] as double) +
+                        stepRadius *
+                            (heartRadiusRatio * bezierPointRadiusDeltaB) *
+                            cos(pi * 2 * (s - 1) / localNumberoOfSides +
+                                localRotate +
+                                pi / 2),
+                    (pO[1] as double) +
+                        stepRadius *
+                            (heartRadiusRatio * bezierPointRadiusDeltaB) *
+                            sin(pi * 2 * (s - 1) / localNumberoOfSides +
+                                localRotate +
+                                pi / 2),
+                    (pO[0] as double) +
+                        stepRadius *
+                            (heartRadiusRatio * bezierPointRadiusDeltaA) *
+                            cos(pi * 2 * (s - 1 + t) / localNumberoOfSides +
+                                localRotate +
+                                pi / 2),
+                    (pO[1] as double) +
+                        stepRadius *
+                            (heartRadiusRatio * bezierPointRadiusDeltaA) *
+                            sin(pi * 2 * (s - 1 + t) / localNumberoOfSides +
+                                localRotate +
+                                pi / 2),
+                    (pO[0] as double) +
+                        stepRadius *
+                            (heartRadiusRatio +
+                                heartRadiusDelta *
+                                    cos(pi * 2 * s / localNumberoOfSides)) *
+                            cos(pi * 2 * s / localNumberoOfSides +
+                                localRotate +
+                                pi / 2),
+                    (pO[1] as double) +
+                        stepRadius *
+                            (heartRadiusRatio +
+                                heartRadiusDelta *
+                                    cos(pi * 2 * s / localNumberoOfSides)) *
+                            sin(pi * 2 * s / localNumberoOfSides +
+                                localRotate +
+                                pi / 2));
               }
-
-
-
             }
 
             heart.close();
-
-
-
 
             // Path heart = Path();
             //
@@ -1077,7 +1158,6 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
             //   pO[0]+ stepRadius * cos(localRotate + pi/2),
             //   pO[1]+ stepRadius * sin(localRotate + pi/2));
 
-
             //
             // heart.quadraticBezierTo(
             //     pO[0]+ stepRadius * heartBezierPointRadiusRatio * cos(localRotate + pi*2 + heartBezierPointAngle),
@@ -1095,60 +1175,53 @@ void paintWallpaper(Canvas canvas, Size size, int seed, double animationVariable
 
             // Choose the next colour
             colourOrder++;
-            nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-            if (randomColors.value) {
-              nextColor = opArt.palette.colorList[
-              rnd.nextInt(numberOfColors.value)];
+            nextColor = opArt
+                .palette.colorList[colourOrder % (numberOfColors.value as int)];
+            if (randomColors.value as bool) {
+              nextColor = opArt
+                  .palette.colorList[rnd.nextInt(numberOfColors.value as int)];
             }
 
             canvas.drawPath(
                 heart,
                 Paint()
                   ..style = PaintingStyle.stroke
-                  ..strokeWidth = lineWidth.value
-                  ..color = lineColor.value
-                      .withOpacity(opacity.value));
+                  ..strokeWidth = lineWidth.value as double
+                  ..color = (lineColor.value as Color)
+                      .withOpacity(opacity.value as double));
             canvas.drawPath(
                 heart,
                 Paint()
                   ..style = PaintingStyle.fill
-                  ..color =
-                  nextColor.withOpacity(opacity.value));
-
+                  ..color = nextColor.withOpacity(opacity.value as double));
 
             heart.reset();
 
-
             break;
-
         }
 
         // Drift & Rotate
 
-        if (alternateDrift.value && (i + j) % 2 == 0) {
-          localRotate = localRotate - rotateStep.value;
+        if ((alternateDrift.value as bool) && (i + j) % 2 == 0) {
+          localRotate = localRotate - (rotateStep.value as num);
         } else {
-          localRotate = localRotate + rotateStep.value;
+          localRotate = localRotate + (rotateStep.value as num);
         }
 
-        if (alternateDrift.value && (i) % 2 == 0) {
-          dX = dX - driftX.value;
+        if ((alternateDrift.value as bool) && i % 2 == 0) {
+          dX = dX - (driftX.value as num);
         } else {
-          dX = dX + driftX.value;
+          dX = dX + (driftX.value as num);
         }
-        if (alternateDrift.value && (j) % 2 == 0) {
-          dY = dY -
-              driftY.value;
+        if ((alternateDrift.value as bool) && j % 2 == 0) {
+          dY = dY - (driftY.value as num);
         } else {
-          dY = dY + driftY.value;
+          dY = dY + (driftY.value as num);
         }
 
         stepRadius = stepRadius - localStep;
         k++;
-      } while (k < 40 && stepRadius > 0 && step.value > 0);
+      } while (k < 40 && stepRadius > 0 && (step.value as num) > 0);
     }
   }
-
 }
-
-

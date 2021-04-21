@@ -1,17 +1,17 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-import 'package:path/path.dart';
 import 'package:opart_v2/model_opart.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
   // This is the actual database filename that is saved in the docs directory.
-  static final _databaseName = "MyDatabase.db";
+  static const _databaseName = 'MyDatabase.db';
   // Increment this version when you need to change the schema.
-  static final _databaseVersion = 1;
+  static const _databaseVersion = 1;
 
   // Make this a singleton class.
   DatabaseHelper._privateConstructor();
@@ -22,18 +22,17 @@ class DatabaseHelper {
 
   Future<Database> get database async {
     if (_database != null) return _database;
-    _database = await _initDatabase();
-    return _database;
+    return _initDatabase();
   }
 
   // open the database
-  _initDatabase() async {
+  Future<Database> _initDatabase() async {
     // The path_provider plugin gets the right directory for Android or iOS.
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, _databaseName);
+    final Directory documentsDirectory =
+        await getApplicationDocumentsDirectory();
+    final String path = join(documentsDirectory.path, _databaseName);
     // Open the database. Can also add an onUpdate callback parameter.
-    return await openDatabase(path,
-        version: _databaseVersion, onCreate: _onCreate);
+    return openDatabase(path, version: _databaseVersion, onCreate: _onCreate);
   }
 
   // SQL string to create the database
@@ -51,18 +50,18 @@ class DatabaseHelper {
 
   // Database helper methods:
   Future<int> insert(Map<String, dynamic> data) async {
-    String jsonMap = jsonEncode(data);
-    Database db = await database;
-    int id = await db.insert('opart', {'data': jsonMap});
+    final String jsonMap = jsonEncode(data);
+    final Database db = await database;
+    final int id = await db.insert('opart', {'data': jsonMap});
     return id;
   }
 
   Future<List<Map<String, dynamic>>> getData() async {
-    Database db = await database;
-    List<Map> maps = await db.query(
+    final Database db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
       'opart',
     );
-    if (maps.length > 0) {
+    if (maps.isNotEmpty) {
       return maps;
     }
 
@@ -77,19 +76,20 @@ class DatabaseHelper {
     await db.delete(
       'opart',
       // Use a `where` clause to delete a specific dog.
-      where: "id = ?",
+      where: 'id = ?',
       // Pass the Dog's id as a whereArg to prevent SQL injection.
       whereArgs: [id],
     );
   }
 
-  getUserDb() async {
+  Future<void> getUserDb() async {
     await getData().then((map) {
       if (map != null) {
         for (int i = 0; i < map.length; i++) {
-          Map<String, dynamic> _data = jsonDecode(map[i]['data']);
+          final Map<String, dynamic> _data =
+              jsonDecode(map[i]['data'] as String) as Map<String, dynamic>;
 
-          Map<String, dynamic> fixedData = Map();
+          final Map<String, dynamic> fixedData = {};
           fixedData.addAll({'id': map[i]['id']});
 
           for (int j = 0; j < _data.length; j++) {
@@ -104,20 +104,22 @@ class DatabaseHelper {
 
                 value.toString().replaceAll(']', '');
 
-                List<String> stringList = value.split(',');
+                final List<String> stringList =
+                    value.split(',') as List<String>;
 
-                List<Color> colorList = List();
+                final List<Color> colorList = [];
                 for (int j = 0; j < stringList.length; j++) {
-                  String valueString =
+                  final String valueString =
                       stringList[j].split('(0x')[1].split(')')[0];
-                  int intValue = int.parse(valueString, radix: 16);
+                  final int intValue = int.parse(valueString, radix: 16);
                   colorList.add(Color(intValue));
                 }
                 fixedData.addAll({'colors': colorList});
               } else if (value.toString().contains('Color(')) {
-                String valueString = value.split('(0x')[1].split(')')[0];
-                int intValue = int.parse(valueString, radix: 16);
-                Color otherColor = new Color(intValue);
+                final String valueString =
+                    value.split('(0x')[1].split(')')[0] as String;
+                final int intValue = int.parse(valueString, radix: 16);
+                final Color otherColor = Color(intValue);
                 fixedData.addAll({key: otherColor});
               } else {
                 fixedData.addAll({key: value});
@@ -132,8 +134,8 @@ class DatabaseHelper {
     });
   }
 
-  deleteDB() async {
-    Database db = await database;
-    db.delete('opart');
+  Future<void> deleteDB() async {
+    final Database db = await database;
+    await db.delete('opart');
   }
 }

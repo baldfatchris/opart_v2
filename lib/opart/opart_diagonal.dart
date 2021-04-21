@@ -1,14 +1,15 @@
+import 'dart:core';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+
 import '../main.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';
 import '../model_settings.dart';
-import 'dart:math';
-import 'dart:core';
-import 'dart:ui' as ui;
 
-List<String> list = List();
+List<String> list = [];
 
 SettingsModel reDraw = SettingsModel(
   name: 'reDraw',
@@ -16,10 +17,12 @@ SettingsModel reDraw = SettingsModel(
   label: 'Redraw',
   tooltip: 'Re-draw the picture with a different random seed',
   defaultValue: false,
-  icon: Icon(Icons.refresh),
+  icon: const Icon(Icons.refresh),
   settingCategory: SettingCategory.tool,
   proFeature: false,
-  onChange: (){seed = DateTime.now().millisecond;},
+  onChange: () {
+    seed = DateTime.now().millisecond;
+  },
   silent: true,
 );
 
@@ -34,7 +37,7 @@ SettingsModel zoomOpArt = SettingsModel(
   randomMax: 250.0,
   zoom: 100,
   defaultValue: 150.0,
-  icon: Icon(Icons.zoom_in),
+  icon: const Icon(Icons.zoom_in),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -49,11 +52,10 @@ SettingsModel numberOfPipes = SettingsModel(
   randomMin: 1,
   randomMax: 15,
   defaultValue: 32,
-  icon: Icon(Icons.clear_all),
+  icon: const Icon(Icons.clear_all),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-
 
 SettingsModel ratio = SettingsModel(
   name: 'ratio',
@@ -66,7 +68,7 @@ SettingsModel ratio = SettingsModel(
   randomMax: 1.0,
   zoom: 100,
   defaultValue: 1.0,
-  icon: Icon(Icons.pie_chart),
+  icon: const Icon(Icons.pie_chart),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -74,10 +76,10 @@ SettingsModel ratio = SettingsModel(
 SettingsModel oneDirection = SettingsModel(
   name: 'oneDirection',
   settingType: SettingType.bool,
-  label: "One Direction",
-  tooltip: "Only bulge in one direction",
+  label: 'One Direction',
+  tooltip: 'Only bulge in one direction',
   defaultValue: true,
-  icon: Icon(Icons.arrow_upward),
+  icon: const Icon(Icons.arrow_upward),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
@@ -90,20 +92,19 @@ SettingsModel resetColors = SettingsModel(
   tooltip: 'Reset the colours for each cell',
   defaultValue: true,
   randomTrue: 0.9,
-  icon: Icon(Icons.gamepad),
+  icon: const Icon(Icons.gamepad),
   settingCategory: SettingCategory.tool,
   proFeature: true,
   silent: true,
 );
 
-
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
-  label: "Palette Type",
-  tooltip: "The nature of the palette",
-  defaultValue: "random",
-  icon: Icon(Icons.colorize),
+  label: 'Palette Type',
+  tooltip: 'The nature of the palette',
+  defaultValue: 'random',
+  icon: const Icon(Icons.colorize),
   options: [
     'random',
     'blended random',
@@ -111,16 +112,18 @@ SettingsModel paletteType = SettingsModel(
     'linear complementary'
   ],
   settingCategory: SettingCategory.palette,
-  onChange: (){generatePalette();},
+  onChange: () {
+    generatePalette();
+  },
   proFeature: false,
 );
 SettingsModel paletteList = SettingsModel(
   name: 'paletteList',
   settingType: SettingType.list,
-  label: "Palette",
-  tooltip: "Choose from a list of palettes",
-  defaultValue: "Default",
-  icon: Icon(Icons.palette),
+  label: 'Palette',
+  tooltip: 'Choose from a list of palettes',
+  defaultValue: 'Default',
+  icon: const Icon(Icons.palette),
   options: defaultPalleteNames(),
   settingCategory: SettingCategory.other,
   proFeature: false,
@@ -132,15 +135,16 @@ SettingsModel resetDefaults = SettingsModel(
   label: 'Reset Defaults',
   tooltip: 'Reset all settings to defaults',
   defaultValue: false,
-  icon: Icon(Icons.low_priority),
+  icon: const Icon(Icons.low_priority),
   settingCategory: SettingCategory.tool,
-  onChange: (){resetAllDefaults();},
+  onChange: () {
+    resetAllDefaults();
+  },
   proFeature: false,
   silent: true,
 );
 
 List<SettingsModel> initializeDiagonalAttributes() {
-
   return [
     reDraw,
     zoomOpArt,
@@ -148,7 +152,6 @@ List<SettingsModel> initializeDiagonalAttributes() {
     ratio,
     oneDirection,
     resetColors,
-
     backgroundColor,
     randomColors,
     numberOfColors,
@@ -157,51 +160,60 @@ List<SettingsModel> initializeDiagonalAttributes() {
     opacity,
     resetDefaults,
   ];
-
-
 }
 
-
-void paintDiagonal(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
-
+void paintDiagonal(
+    Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
   rnd = Random(seed);
   // print('seed: $seed');
 
   if (paletteList.value != opArt.palette.paletteName) {
-    opArt.selectPalette(paletteList.value);
+    opArt.selectPalette(paletteList.value as String);
   }
 
-
   // Initialise the canvas
-  double canvasWidth = size.width;
-  double canvasHeight = size.height;
-  double sideLength = zoomOpArt.value;
+  final double canvasWidth = size.width;
+  final double canvasHeight = size.height;
+  final double sideLength = zoomOpArt.value as double;
 
   // Work out the X and Y
-  int cellsX = (canvasWidth / (sideLength) + 2).toInt();
-  int cellsY = (canvasHeight / (sideLength) + 2).toInt();
+  final int cellsX = (canvasWidth / sideLength + 2).toInt();
+  final int cellsY = (canvasHeight / sideLength + 2).toInt();
 
-  double borderX = (canvasWidth - sideLength * cellsX) / 2;
-  double borderY = (canvasHeight - sideLength * cellsY) / 2;
-
+  final double borderX = (canvasWidth - sideLength * cellsX) / 2;
+  final double borderY = (canvasHeight - sideLength * cellsY) / 2;
 
   // Now make some art
   drawDiagonal(
-    canvas, canvasWidth, canvasHeight,
-    cellsX, cellsY, borderX, borderY,
+    canvas,
+    canvasWidth,
+    canvasHeight,
+    cellsX,
+    cellsY,
+    borderX,
+    borderY,
     sideLength,
-    opArt.palette.colorList, backgroundColor.value,
-    (oneDirection.value==true), numberOfPipes.value,
+    opArt.palette.colorList,
+    backgroundColor.value as Color,
+    oneDirection.value == true,
+    numberOfPipes.value as int,
   );
-
 }
-void  drawDiagonal(
-    Canvas canvas, double canvasWidth, double canvasHeight,
-    int cellsX, int cellsY, double borderX, double borderY,
-    double sideLength, List colorList, Color backgroundColor,
-    bool oneDirection, int pipes,
-    ){
 
+void drawDiagonal(
+  Canvas canvas,
+  double canvasWidth,
+  double canvasHeight,
+  int cellsX,
+  int cellsY,
+  double borderX,
+  double borderY,
+  double sideLength,
+  List colorList,
+  Color backgroundColor,
+  bool oneDirection,
+  int pipes,
+) {
   bool parity;
   List centre1;
   List centre2;
@@ -210,28 +222,29 @@ void  drawDiagonal(
   int nextColorOrder;
   Color nextColor;
   double radius;
-  double offset = 0.0;
+  const double offset = 0.0;
 
   // draw the background
   canvas.drawRect(
-      Offset(0, 0) & Size(canvasWidth, canvasHeight),
+      const Offset(0, 0) & Size(canvasWidth, canvasHeight),
       Paint()
         ..color = backgroundColor.withOpacity(1.0)
         ..style = PaintingStyle.fill);
 
   for (int i = 0; i < cellsX; ++i) {
     for (int j = 0; j < cellsY; ++j) {
+      parity = (i + j) % 2 == 0;
 
-      parity = ((i+j)%2==0) ? true : false;
-
-      var p0 = [borderX + i * sideLength, borderY + j * sideLength];
-      var p1 = [borderX + (i+1) * sideLength, borderY + j * sideLength];
-      var p2 = [borderX + (i+1) * sideLength, borderY + (j+1) * sideLength];
-      var p3 = [borderX + i * sideLength, borderY + (j+1) * sideLength];
-
+      final p0 = [borderX + i * sideLength, borderY + j * sideLength];
+      final p1 = [borderX + (i + 1) * sideLength, borderY + j * sideLength];
+      final p2 = [
+        borderX + (i + 1) * sideLength,
+        borderY + (j + 1) * sideLength
+      ];
+      final p3 = [borderX + i * sideLength, borderY + (j + 1) * sideLength];
 
       // Quarter Circles
-      int orientation = oneDirection ? 0 : rnd.nextInt(4);
+      final int orientation = oneDirection ? 0 : rnd.nextInt(4);
       switch (orientation) {
         case 0:
           centre1 = p0;
@@ -265,20 +278,26 @@ void  drawDiagonal(
       }
 
       for (int i = pipes.toInt(); i > 0; i--) {
-
         // Choose the next colour
         nextColorOrder = parity ? pipes - colourOrder - 1 : colourOrder;
         colourOrder++;
 
-        nextColor = (randomColors.value == true)
-            ? colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value)
-            : colorList[nextColorOrder % numberOfColors.value].withOpacity(opacity.value);
+        if (randomColors.value as bool) {
+          nextColor = colorList[rnd.nextInt(numberOfColors.value as int)]
+              .withOpacity(opacity.value) as Color;
+        } else {
+          nextColor = colorList[nextColorOrder % (numberOfColors.value as int)]
+              .withOpacity(opacity.value) as Color;
+        }
 
-        radius = sideLength / pipes * (i - 0.5 + ratio.value / 2) - offset;
+        radius = sideLength / pipes * (i - 0.5 + (ratio.value as double) / 2) -
+            offset;
         drawQuarterArc(canvas, centre1, radius, startAngle, nextColor);
 
-        radius = sideLength / pipes * (i - 0.5 - ratio.value / 2) - offset;
-        drawQuarterArc(canvas, centre1, radius, startAngle, backgroundColor.withOpacity(1.0));
+        radius = sideLength / pipes * (i - 0.5 - (ratio.value as double) / 2) -
+            offset;
+        drawQuarterArc(canvas, centre1, radius, startAngle,
+            backgroundColor.withOpacity(1.0));
       }
 
       if (resetColors.value == true) {
@@ -286,42 +305,44 @@ void  drawDiagonal(
       }
 
       for (int i = pipes; i > 0; i--) {
-
         // Choose the next colour
         nextColorOrder = parity ? pipes - colourOrder - 1 : colourOrder;
         colourOrder++;
 
-        nextColor = (randomColors.value == true)
-            ? colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value)
-            : colorList[nextColorOrder % numberOfColors.value].withOpacity(opacity.value);
+        if (randomColors.value as bool) {
+          nextColor = colorList[rnd.nextInt(numberOfColors.value as int)]
+              .withOpacity(opacity.value) as Color;
+        } else {
+          nextColor = colorList[nextColorOrder % (numberOfColors.value as int)]
+              .withOpacity(opacity.value) as Color;
+        }
 
-        radius = sideLength / pipes * (i - 0.5 + ratio.value / 2) + offset;
+        radius = sideLength / pipes * (i - 0.5 + (ratio.value as double) / 2) +
+            offset;
         drawQuarterArc(canvas, centre2, radius, startAngle + pi, nextColor);
 
-        radius = sideLength / pipes * (i - 0.5 - ratio.value / 2) + offset;
-        drawQuarterArc(canvas, centre2, radius, startAngle + pi, backgroundColor.withOpacity(1.0));
+        radius = sideLength / pipes * (i - 0.5 - (ratio.value as double) / 2) +
+            offset;
+        drawQuarterArc(canvas, centre2, radius, startAngle + pi,
+            backgroundColor.withOpacity(1.0));
       }
     }
-
   }
 }
 
-void drawQuarterArc(Canvas canvas, List centre, double radius, double startAngle, Color color)
-{
-  canvas.drawArc(Rect.fromCenter(
-      center: Offset(centre[0], centre[1]),
-      height: 2 * radius,
-      width: 2 * radius),
-      startAngle, pi / 2, true,
+void drawQuarterArc(
+    Canvas canvas, List centre, double radius, double startAngle, Color color) {
+  canvas.drawArc(
+      Rect.fromCenter(
+          center: Offset(centre[0] as double, centre[1] as double),
+          height: 2 * radius,
+          width: 2 * radius),
+      startAngle,
+      pi / 2,
+      true,
       Paint()
         ..isAntiAlias = false
         ..strokeWidth = 0.0
         ..color = color
-        ..style = PaintingStyle.fill
-
-  );
-
+        ..style = PaintingStyle.fill);
 }
-
-
-

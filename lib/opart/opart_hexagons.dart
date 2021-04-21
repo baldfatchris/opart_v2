@@ -1,13 +1,14 @@
-import 'package:flutter/material.dart';
-import '../main.dart';
+import 'dart:core';
+import 'dart:math';
 
+import 'package:flutter/material.dart';
+
+import '../main.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';
 import '../model_settings.dart';
-import 'dart:math';
-import 'dart:core';
 
-List<String> list = List();
+List<String> list = [];
 
 SettingsModel reDraw = SettingsModel(
   name: 'reDraw',
@@ -15,10 +16,12 @@ SettingsModel reDraw = SettingsModel(
   label: 'Redraw',
   tooltip: 'Re-draw the picture with a different random seed',
   defaultValue: false,
-  icon: Icon(Icons.refresh),
+  icon: const Icon(Icons.refresh),
   settingCategory: SettingCategory.tool,
   proFeature: false,
-  onChange: (){seed = DateTime.now().millisecond;},
+  onChange: () {
+    seed = DateTime.now().millisecond;
+  },
   silent: true,
 );
 
@@ -33,7 +36,7 @@ SettingsModel zoomOpArt = SettingsModel(
   randomMax: 200.0,
   zoom: 100,
   defaultValue: 50.0,
-  icon: Icon(Icons.zoom_in),
+  icon: const Icon(Icons.zoom_in),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -41,10 +44,10 @@ SettingsModel zoomOpArt = SettingsModel(
 SettingsModel split = SettingsModel(
   name: 'split',
   settingType: SettingType.list,
-  label: "Split",
-  tooltip: "Split the hegaxom into",
-  defaultValue: "three",
-  icon: Icon(Icons.call_split),
+  label: 'Split',
+  tooltip: 'Split the hegaxom into',
+  defaultValue: 'three',
+  icon: const Icon(Icons.call_split),
   options: ['none', 'three', 'six'],
   settingCategory: SettingCategory.tool,
   proFeature: false,
@@ -53,15 +56,14 @@ SettingsModel split = SettingsModel(
 SettingsModel splat = SettingsModel(
   name: 'splat',
   settingType: SettingType.list,
-  label: "Split Type",
-  tooltip: "How to split the hexagons",
-  defaultValue: "center",
-  icon: Icon(Icons.settings),
+  label: 'Split Type',
+  tooltip: 'How to split the hexagons',
+  defaultValue: 'center',
+  icon: const Icon(Icons.settings),
   options: ['center', 'random', 'linear'],
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-
 
 SettingsModel threeD = SettingsModel(
   name: 'threeD',
@@ -69,15 +71,11 @@ SettingsModel threeD = SettingsModel(
   label: '3D',
   tooltip: 'Shade the colors to 3D',
   defaultValue: true,
-  icon: Icon(Icons.center_focus_strong),
+  icon: const Icon(Icons.center_focus_strong),
   settingCategory: SettingCategory.palette,
   proFeature: false,
   silent: true,
-
 );
-
-
-
 
 SettingsModel lineWidth = SettingsModel(
   settingType: SettingType.double,
@@ -88,11 +86,10 @@ SettingsModel lineWidth = SettingsModel(
   max: 3.0,
   zoom: 100,
   defaultValue: 0.0,
-  icon: Icon(Icons.line_weight),
+  icon: const Icon(Icons.line_weight),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-
 
 SettingsModel resetDefaults = SettingsModel(
   name: 'resetDefaults',
@@ -100,15 +97,16 @@ SettingsModel resetDefaults = SettingsModel(
   label: 'Reset Defaults',
   tooltip: 'Reset all settings to defaults',
   defaultValue: false,
-  icon: Icon(Icons.low_priority),
+  icon: const Icon(Icons.low_priority),
   settingCategory: SettingCategory.tool,
-  onChange: (){resetAllDefaults();},
+  onChange: () {
+    resetAllDefaults();
+  },
   proFeature: false,
   silent: true,
 );
 
 List<SettingsModel> initializeHexagonsAttributes() {
-
   return [
     reDraw,
     zoomOpArt,
@@ -124,161 +122,178 @@ List<SettingsModel> initializeHexagonsAttributes() {
     opacity,
     resetDefaults,
   ];
-
-
 }
 
-
-void paintHexagons(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
+void paintHexagons(
+    Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
   rnd = Random(seed);
 
-  if (paletteList.value != opArt.palette.paletteName){
-    opArt.selectPalette(paletteList.value);
+  if (paletteList.value != opArt.palette.paletteName) {
+    opArt.selectPalette(paletteList.value as String);
   }
 
-
   // Initialise the canvas
-  double canvasWidth = size.width;
-  double canvasHeight = size.height;
+  final double canvasWidth = size.width;
+  final double canvasHeight = size.height;
   double borderX = 0;
   double borderY = 0;
   // double imageWidth = canvasWidth;
   // double imageHeight = canvasHeight;
 
   // Work out the X and Y
-  int cellsX = (canvasWidth / (zoomOpArt.value)+1.9999999).toInt();
-  borderX = (canvasWidth - zoomOpArt.value * cellsX) / 2;
+  final int cellsX =
+      (canvasWidth / (zoomOpArt.value as double) + 1.9999999).toInt();
+  borderX = (canvasWidth - (zoomOpArt.value as num) * cellsX) / 2;
 
-  int cellsY = (canvasHeight * 2.3 / (zoomOpArt.value)+1.9999999).toInt();
-  borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
-  borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
+  final int cellsY =
+      (canvasHeight * 2.3 / (zoomOpArt.value as num) + 1.9999999).toInt();
+  borderY = (canvasHeight - (zoomOpArt.value as num) * cellsY) / 2;
+  borderY = (canvasHeight - (zoomOpArt.value as num) * cellsY) / 2;
 
   // work out the radius from the width and the cells
   // double radius = zoomOpArt.value / 2;
-  double sideLength = zoomOpArt.value*0.6;
+  final double sideLength = (zoomOpArt.value as double) * 0.6;
 
-  // Calculate the vaious constants
-  double hexagonAngle = 0.523598776; // 30 degrees in radians
-  double hexHeight = sin(hexagonAngle) * sideLength;
-  double hexRadius = cos(hexagonAngle) * sideLength;
-  double hexRectangleHeight = sideLength + 2 * hexHeight;
-  double hexRectangleWidth = 2 * hexRadius;
+  // Calculate the various constants
+  const double hexagonAngle = 0.523598776; // 30 degrees in radians
+  final double hexHeight = sin(hexagonAngle) * sideLength;
+  final double hexRadius = cos(hexagonAngle) * sideLength;
+  final double hexRectangleHeight = sideLength + 2 * hexHeight;
+  final double hexRectangleWidth = 2 * hexRadius;
 
   int colourOrder = 0;
   Color nextColor;
 
   // Now make some art
-  for (int i = -1; i < cellsX+1; ++i) {
-    for (int j = -1; j < cellsY+1; ++j) {
+  for (int i = -1; i < cellsX + 1; ++i) {
+    for (int j = -1; j < cellsY + 1; ++j) {
+      final double x = borderX +
+          (lineWidth.value as num) / 2 +
+          i * hexRectangleWidth +
+          ((j % 2) * hexRadius);
+      final double y = borderY + j * (sideLength + hexHeight);
 
+      final List p1 = [x + hexRadius, y];
+      final List p2 = [x + hexRectangleWidth, y + hexHeight];
+      final List p3 = [x + hexRectangleWidth, y + hexHeight + sideLength];
+      final List p4 = [x + hexRadius, y + hexRectangleHeight];
+      final List p5 = [x, y + sideLength + hexHeight];
+      final List p6 = [x, y + hexHeight];
 
-      double x = borderX + lineWidth.value / 2 + i * hexRectangleWidth + ((j % 2) * hexRadius);
-      double y = borderY + j * (sideLength + hexHeight);
+      final List p0 = [(p1[0] + p4[0]) / 2, (p1[1] + p4[1]) / 2];
 
-      List p1 = [x + hexRadius, y];
-      List p2 = [x + hexRectangleWidth, y + hexHeight];
-      List p3 = [x + hexRectangleWidth, y + hexHeight + sideLength];
-      List p4 = [x + hexRadius, y + hexRectangleHeight];
-      List p5 = [x, y + sideLength + hexHeight];
-      List p6 = [x, y + hexHeight];
-
-      List p0 = [(p1[0]+p4[0])/2,(p1[1]+p4[1])/2];
-
-      if (splat.value == "random") {
+      if (splat.value == 'random') {
         p0[0] = p0[0] + (rnd.nextDouble() * hexRadius * 0.6).floor();
         p0[1] = p0[1] + (rnd.nextDouble() * hexRectangleHeight * 0.3).floor();
-      }
-      else if (splat.value == "linear") {
+      } else if (splat.value == 'linear') {
         p0[0] = p0[0] + ((i - cellsX / 2) / cellsX) * hexRadius * 1.2;
         p0[1] = p0[1] + ((j - cellsY / 2) / cellsY) * hexRectangleHeight * 0.6;
       }
 
-      switch (split.value){
-        case "none":
+      switch (split.value as String) {
+        case 'none':
 
           // Choose the next colour
           colourOrder++;
-          nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-          if (randomColors.value) {
-            nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+          nextColor = opArt
+              .palette.colorList[colourOrder % (numberOfColors.value as int)];
+          if (randomColors.value as bool) {
+            nextColor = opArt
+                .palette.colorList[rnd.nextInt(numberOfColors.value as int)];
           }
-          nextColor = nextColor.withOpacity(opacity.value);
-          Color localLineColor = lineColor.value;
-          if (lineWidth.value == 0){
+          nextColor = nextColor.withOpacity(opacity.value as double);
+          Color localLineColor = lineColor.value as Color;
+          if (lineWidth.value == 0) {
             localLineColor = nextColor;
           }
 
-          Path hexagon = Path();
-          hexagon.moveTo(p1[0], p1[1]);
-          hexagon.lineTo(p2[0], p2[1]);
-          hexagon.lineTo(p3[0], p3[1]);
-          hexagon.lineTo(p4[0], p4[1]);
-          hexagon.lineTo(p5[0], p5[1]);
-          hexagon.lineTo(p6[0], p6[1]);
+          final Path hexagon = Path();
+          hexagon.moveTo(p1[0] as double, p1[1] as double);
+          hexagon.lineTo(p2[0] as double, p2[1] as double);
+          hexagon.lineTo(p3[0] as double, p3[1] as double);
+          hexagon.lineTo(p4[0] as double, p4[1] as double);
+          hexagon.lineTo(p5[0] as double, p5[1] as double);
+          hexagon.lineTo(p6[0] as double, p6[1] as double);
           hexagon.close();
-          canvas.drawPath(hexagon, Paint()
-            ..color = nextColor
-            ..style = PaintingStyle.fill);
-          canvas.drawPath(hexagon, Paint()
-            ..color = localLineColor
-            ..style = PaintingStyle.stroke
-            ..strokeWidth=lineWidth.value);
+          canvas.drawPath(
+              hexagon,
+              Paint()
+                ..color = nextColor
+                ..style = PaintingStyle.fill);
+          canvas.drawPath(
+              hexagon,
+              Paint()
+                ..color = localLineColor
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = lineWidth.value as double);
 
           break;
 
-        case "three":
+        case 'three':
 
-        // R1
-        // Choose the next colour
+          // R1
+          // Choose the next colour
           colourOrder++;
-          nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-          if (randomColors.value) {
-            nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+          nextColor = opArt
+              .palette.colorList[colourOrder % (numberOfColors.value as int)];
+          if (randomColors.value as bool) {
+            nextColor = opArt
+                .palette.colorList[rnd.nextInt(numberOfColors.value as int)];
           }
-          nextColor = nextColor.withOpacity(opacity.value);
+          nextColor = nextColor.withOpacity(opacity.value as double);
 
           if (threeD.value == true) {
             // darken this one
-            var hsl = HSLColor.fromColor(nextColor);
-            nextColor = hsl.withLightness((hsl.lightness - 0.2).clamp(0.0, 1.0)).toColor();
+            final hsl = HSLColor.fromColor(nextColor);
+            nextColor = hsl
+                .withLightness((hsl.lightness - 0.2).clamp(0.0, 1.0) as double)
+                .toColor();
           }
 
-          Color localLineColor = lineColor.value;
-          if (lineWidth.value == 0){
+          Color localLineColor = lineColor.value as Color;
+          if (lineWidth.value == 0) {
             localLineColor = nextColor;
           }
 
           Path rhombus = Path();
-          rhombus.moveTo(p1[0], p1[1]);
-          rhombus.lineTo(p2[0], p2[1]);
-          rhombus.lineTo(p3[0], p3[1]);
-          rhombus.lineTo(p0[0], p0[1]);
+          rhombus.moveTo(p1[0] as double, p1[1] as double);
+          rhombus.lineTo(p2[0] as double, p2[1] as double);
+          rhombus.lineTo(p3[0] as double, p3[1] as double);
+          rhombus.lineTo(p0[0] as double, p0[1] as double);
           rhombus.close();
-          canvas.drawPath(rhombus, Paint()
-            ..color = nextColor
-            ..style = PaintingStyle.fill);
-          canvas.drawPath(rhombus, Paint()
-            ..color = localLineColor
-            ..style = PaintingStyle.stroke
-            ..strokeWidth=lineWidth.value);
+          canvas.drawPath(
+              rhombus,
+              Paint()
+                ..color = nextColor
+                ..style = PaintingStyle.fill);
+          canvas.drawPath(
+              rhombus,
+              Paint()
+                ..color = localLineColor
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = lineWidth.value as double);
 
           // R2
           // Choose the next colour
           colourOrder++;
-          nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-          if (randomColors.value) {
-            nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+          nextColor = opArt
+              .palette.colorList[colourOrder % (numberOfColors.value as int)];
+          if (randomColors.value as bool) {
+            nextColor = opArt
+                .palette.colorList[rnd.nextInt(numberOfColors.value as int)];
           }
-          nextColor = nextColor.withOpacity(opacity.value);
+          nextColor = nextColor.withOpacity(opacity.value as double);
 
           if (threeD.value == true) {
             // lighten this one
-            var hsl = HSLColor.fromColor(nextColor);
-            nextColor = hsl.withLightness((hsl.lightness + 0.2).clamp(0.0, 1.0)).toColor();
+            final hsl = HSLColor.fromColor(nextColor);
+            nextColor = hsl
+                .withLightness((hsl.lightness + 0.2).clamp(0.0, 1.0) as double)
+                .toColor();
           }
 
-          localLineColor = lineColor.value;
-          if (lineWidth.value == 0){
+          localLineColor = lineColor.value as Color;
+          if (lineWidth.value == 0) {
             localLineColor = nextColor;
           }
 
@@ -293,29 +308,35 @@ void paintHexagons(Canvas canvas, Size size, int seed, double animationVariable,
           // }
 
           rhombus = Path();
-          rhombus.moveTo(p3[0], p3[1]);
-          rhombus.lineTo(p4[0], p4[1]);
-          rhombus.lineTo(p5[0], p5[1]);
-          rhombus.lineTo(p0[0], p0[1]);
+          rhombus.moveTo(p3[0] as double, p3[1] as double);
+          rhombus.lineTo(p4[0] as double, p4[1] as double);
+          rhombus.lineTo(p5[0] as double, p5[1] as double);
+          rhombus.lineTo(p0[0] as double, p0[1] as double);
           rhombus.close();
-          canvas.drawPath(rhombus, Paint()
-            ..color = nextColor
-            ..style = PaintingStyle.fill);
-          canvas.drawPath(rhombus, Paint()
-            ..color = localLineColor
-            ..style = PaintingStyle.stroke
-            ..strokeWidth=lineWidth.value);
+          canvas.drawPath(
+              rhombus,
+              Paint()
+                ..color = nextColor
+                ..style = PaintingStyle.fill);
+          canvas.drawPath(
+              rhombus,
+              Paint()
+                ..color = localLineColor
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = lineWidth.value as double);
 
           // R3
           // Choose the next colour
           colourOrder++;
-          nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-          if (randomColors.value) {
-            nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+          nextColor = opArt
+              .palette.colorList[colourOrder % (numberOfColors.value as int)];
+          if (randomColors.value as bool) {
+            nextColor = opArt
+                .palette.colorList[rnd.nextInt(numberOfColors.value as int)];
           }
-          nextColor = nextColor.withOpacity(opacity.value);
-          localLineColor = lineColor.value;
-          if (lineWidth.value == 0){
+          nextColor = nextColor.withOpacity(opacity.value as double);
+          localLineColor = lineColor.value as Color;
+          if (lineWidth.value == 0) {
             localLineColor = nextColor;
           }
 
@@ -330,189 +351,221 @@ void paintHexagons(Canvas canvas, Size size, int seed, double animationVariable,
           // }
 
           rhombus = Path();
-          rhombus.moveTo(p5[0], p5[1]);
-          rhombus.lineTo(p6[0], p6[1]);
-          rhombus.lineTo(p1[0], p1[1]);
-          rhombus.lineTo(p0[0], p0[1]);
+          rhombus.moveTo(p5[0] as double, p5[1] as double);
+          rhombus.lineTo(p6[0] as double, p6[1] as double);
+          rhombus.lineTo(p1[0] as double, p1[1] as double);
+          rhombus.lineTo(p0[0] as double, p0[1] as double);
           rhombus.close();
-          canvas.drawPath(rhombus, Paint()
-            ..color = nextColor
-            ..style = PaintingStyle.fill);
-          canvas.drawPath(rhombus, Paint()
-            ..color = localLineColor
-            ..style = PaintingStyle.stroke
-            ..strokeWidth=lineWidth.value);
-
+          canvas.drawPath(
+              rhombus,
+              Paint()
+                ..color = nextColor
+                ..style = PaintingStyle.fill);
+          canvas.drawPath(
+              rhombus,
+              Paint()
+                ..color = localLineColor
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = lineWidth.value as double);
 
           break;
 
-        case "six":
+        case 'six':
 
-        // T1
-        // Choose the next colour
+          // T1
+          // Choose the next colour
           colourOrder++;
-          nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-          if (randomColors.value) {
-            nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+          nextColor = opArt
+              .palette.colorList[colourOrder % (numberOfColors.value as int)];
+          if (randomColors.value as bool) {
+            nextColor = opArt
+                .palette.colorList[rnd.nextInt(numberOfColors.value as int)];
           }
-          nextColor = nextColor.withOpacity(opacity.value);
-          Color localLineColor = lineColor.value;
-          if (lineWidth.value == 0){
+          nextColor = nextColor.withOpacity(opacity.value as double);
+          Color localLineColor = lineColor.value as Color;
+          if (lineWidth.value == 0) {
             localLineColor = nextColor;
           }
 
           Path triangle = Path();
-          triangle.moveTo(p1[0], p1[1]);
-          triangle.lineTo(p2[0], p2[1]);
-          triangle.lineTo(p0[0], p0[1]);
+          triangle.moveTo(p1[0] as double, p1[1] as double);
+          triangle.lineTo(p2[0] as double, p2[1] as double);
+          triangle.lineTo(p0[0] as double, p0[1] as double);
           triangle.close();
-          canvas.drawPath(triangle, Paint()
-            ..color = nextColor
-            ..style = PaintingStyle.fill);
-          canvas.drawPath(triangle, Paint()
-            ..color = localLineColor
-            ..style = PaintingStyle.stroke
-            ..strokeWidth=lineWidth.value);
+          canvas.drawPath(
+              triangle,
+              Paint()
+                ..color = nextColor
+                ..style = PaintingStyle.fill);
+          canvas.drawPath(
+              triangle,
+              Paint()
+                ..color = localLineColor
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = lineWidth.value as double);
 
           // T2
           // Choose the next colour
           colourOrder++;
-          nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-          if (randomColors.value) {
-            nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+          nextColor = opArt
+              .palette.colorList[colourOrder % (numberOfColors.value as int)];
+          if (randomColors.value as bool) {
+            nextColor = opArt
+                .palette.colorList[rnd.nextInt(numberOfColors.value as int)];
           }
-          nextColor = nextColor.withOpacity(opacity.value);
-          localLineColor = lineColor.value;
-          if (lineWidth.value == 0){
+          nextColor = nextColor.withOpacity(opacity.value as double);
+          localLineColor = lineColor.value as Color;
+          if (lineWidth.value == 0) {
             localLineColor = nextColor;
           }
 
           triangle = Path();
-          triangle.moveTo(p2[0], p2[1]);
-          triangle.lineTo(p3[0], p3[1]);
-          triangle.lineTo(p0[0], p0[1]);
+          triangle.moveTo(p2[0] as double, p2[1] as double);
+          triangle.lineTo(p3[0] as double, p3[1] as double);
+          triangle.lineTo(p0[0] as double, p0[1] as double);
           triangle.close();
-          canvas.drawPath(triangle, Paint()
-            ..color = nextColor
-            ..style = PaintingStyle.fill);
-          canvas.drawPath(triangle, Paint()
-            ..color = localLineColor
-            ..style = PaintingStyle.stroke
-            ..strokeWidth=lineWidth.value);
+          canvas.drawPath(
+              triangle,
+              Paint()
+                ..color = nextColor
+                ..style = PaintingStyle.fill);
+          canvas.drawPath(
+              triangle,
+              Paint()
+                ..color = localLineColor
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = lineWidth.value as double);
 
           // T3
           // Choose the next colour
           colourOrder++;
-          nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-          if (randomColors.value) {
-            nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+          nextColor = opArt
+              .palette.colorList[colourOrder % (numberOfColors.value as int)];
+          if (randomColors.value as bool) {
+            nextColor = opArt
+                .palette.colorList[rnd.nextInt(numberOfColors.value as int)];
           }
-          nextColor = nextColor.withOpacity(opacity.value);
-          localLineColor = lineColor.value;
-          if (lineWidth.value == 0){
+          nextColor = nextColor.withOpacity(opacity.value as double);
+          localLineColor = lineColor.value as Color;
+          if (lineWidth.value == 0) {
             localLineColor = nextColor;
           }
 
           triangle = Path();
-          triangle.moveTo(p3[0], p3[1]);
-          triangle.lineTo(p4[0], p4[1]);
-          triangle.lineTo(p0[0], p0[1]);
+          triangle.moveTo(p3[0] as double, p3[1] as double);
+          triangle.lineTo(p4[0] as double, p4[1] as double);
+          triangle.lineTo(p0[0] as double, p0[1] as double);
           triangle.close();
-          canvas.drawPath(triangle, Paint()
-            ..color = nextColor
-            ..style = PaintingStyle.fill);
-          canvas.drawPath(triangle, Paint()
-            ..color = localLineColor
-            ..style = PaintingStyle.stroke
-            ..strokeWidth=lineWidth.value);
+          canvas.drawPath(
+              triangle,
+              Paint()
+                ..color = nextColor
+                ..style = PaintingStyle.fill);
+          canvas.drawPath(
+              triangle,
+              Paint()
+                ..color = localLineColor
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = lineWidth.value as double);
 
           // T4
           // Choose the next colour
           colourOrder++;
-          nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-          if (randomColors.value) {
-            nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+          nextColor = opArt
+              .palette.colorList[colourOrder % (numberOfColors.value as int)];
+          if (randomColors.value as bool) {
+            nextColor = opArt
+                .palette.colorList[rnd.nextInt(numberOfColors.value as int)];
           }
-          nextColor = nextColor.withOpacity(opacity.value);
-          localLineColor = lineColor.value;
-          if (lineWidth.value == 0){
+          nextColor = nextColor.withOpacity(opacity.value as double);
+          localLineColor = lineColor.value as Color;
+          if (lineWidth.value == 0) {
             localLineColor = nextColor;
           }
 
           triangle = Path();
-          triangle.moveTo(p4[0], p4[1]);
-          triangle.lineTo(p5[0], p5[1]);
-          triangle.lineTo(p0[0], p0[1]);
+          triangle.moveTo(p4[0] as double, p4[1] as double);
+          triangle.lineTo(p5[0] as double, p5[1] as double);
+          triangle.lineTo(p0[0] as double, p0[1] as double);
           triangle.close();
-          canvas.drawPath(triangle, Paint()
-            ..color = nextColor
-            ..style = PaintingStyle.fill);
-          canvas.drawPath(triangle, Paint()
-            ..color = localLineColor
-            ..style = PaintingStyle.stroke
-            ..strokeWidth=lineWidth.value);
+          canvas.drawPath(
+              triangle,
+              Paint()
+                ..color = nextColor
+                ..style = PaintingStyle.fill);
+          canvas.drawPath(
+              triangle,
+              Paint()
+                ..color = localLineColor
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = lineWidth.value as double);
 
           // T5
           // Choose the next colour
           colourOrder++;
-          nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-          if (randomColors.value) {
-            nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+          nextColor = opArt
+              .palette.colorList[colourOrder % (numberOfColors.value as int)];
+          if (randomColors.value as bool) {
+            nextColor = opArt
+                .palette.colorList[rnd.nextInt(numberOfColors.value as int)];
           }
-          nextColor = nextColor.withOpacity(opacity.value);
-          localLineColor = lineColor.value;
-          if (lineWidth.value == 0){
+          nextColor = nextColor.withOpacity(opacity.value as double);
+          localLineColor = lineColor.value as Color;
+          if (lineWidth.value == 0) {
             localLineColor = nextColor;
           }
 
           triangle = Path();
-          triangle.moveTo(p5[0], p5[1]);
-          triangle.lineTo(p6[0], p6[1]);
-          triangle.lineTo(p0[0], p0[1]);
+          triangle.moveTo(p5[0] as double, p5[1] as double);
+          triangle.lineTo(p6[0] as double, p6[1] as double);
+          triangle.lineTo(p0[0] as double, p0[1] as double);
           triangle.close();
-          canvas.drawPath(triangle, Paint()
-            ..color = nextColor
-            ..style = PaintingStyle.fill);
-          canvas.drawPath(triangle, Paint()
-            ..color = localLineColor
-            ..style = PaintingStyle.stroke
-            ..strokeWidth=lineWidth.value);
+          canvas.drawPath(
+              triangle,
+              Paint()
+                ..color = nextColor
+                ..style = PaintingStyle.fill);
+          canvas.drawPath(
+              triangle,
+              Paint()
+                ..color = localLineColor
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = lineWidth.value as double);
 
           // T6
           // Choose the next colour
           colourOrder++;
-          nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-          if (randomColors.value) {
-            nextColor = opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+          nextColor = opArt
+              .palette.colorList[colourOrder % (numberOfColors.value as int)];
+          if (randomColors.value as bool) {
+            nextColor = opArt
+                .palette.colorList[rnd.nextInt(numberOfColors.value as int)];
           }
-          nextColor = nextColor.withOpacity(opacity.value);
-          localLineColor = lineColor.value;
-          if (lineWidth.value == 0){
+          nextColor = nextColor.withOpacity(opacity.value as double);
+          localLineColor = lineColor.value as Color;
+          if (lineWidth.value == 0) {
             localLineColor = nextColor;
           }
 
           triangle = Path();
-          triangle.moveTo(p6[0], p6[1]);
-          triangle.lineTo(p1[0], p1[1]);
-          triangle.lineTo(p0[0], p0[1]);
+          triangle.moveTo(p6[0] as double, p6[1] as double);
+          triangle.lineTo(p1[0] as double, p1[1] as double);
+          triangle.lineTo(p0[0] as double, p0[1] as double);
           triangle.close();
-          canvas.drawPath(triangle, Paint()
-            ..color = nextColor
-            ..style = PaintingStyle.fill);
-          canvas.drawPath(triangle, Paint()
-            ..color = localLineColor
-            ..style = PaintingStyle.stroke
-            ..strokeWidth=lineWidth.value);
-
-
-
+          canvas.drawPath(
+              triangle,
+              Paint()
+                ..color = nextColor
+                ..style = PaintingStyle.fill);
+          canvas.drawPath(
+              triangle,
+              Paint()
+                ..color = localLineColor
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = lineWidth.value as double);
 
           break;
-
       }
     }
   }
-
-
-
 }

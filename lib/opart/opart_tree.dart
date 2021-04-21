@@ -1,13 +1,14 @@
+import 'dart:core';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+
+import '../main.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';
 import '../model_settings.dart';
-import 'dart:math';
-import 'dart:core';
-import '../main.dart';
 
-
-List<String> list = List();
+List<String> list = [];
 
 SettingsModel reDraw = SettingsModel(
   name: 'reDraw',
@@ -15,42 +16,44 @@ SettingsModel reDraw = SettingsModel(
   label: 'Redraw',
   tooltip: 'Re-draw the picture with a different random seed',
   defaultValue: false,
-  icon: Icon(Icons.refresh),
+  icon: const Icon(Icons.refresh),
   settingCategory: SettingCategory.tool,
   proFeature: false,
-  onChange: (){seed = DateTime.now().millisecond;},
+  onChange: () {
+    seed = DateTime.now().millisecond;
+  },
   silent: true,
 );
 
 SettingsModel zoomOpArt = SettingsModel(
-    name: 'zoomOpArt',
-    settingType: SettingType.double,
-    label: 'Zoom',
-    tooltip: 'Zoom in and out',
-    min: 0.2,
-    max: 2.0,
-    zoom: 100,
-    defaultValue: 1.0,
-    icon: Icon(Icons.zoom_in),
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
-  );
+  name: 'zoomOpArt',
+  settingType: SettingType.double,
+  label: 'Zoom',
+  tooltip: 'Zoom in and out',
+  min: 0.2,
+  max: 2.0,
+  zoom: 100,
+  defaultValue: 1.0,
+  icon: const Icon(Icons.zoom_in),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 
-  SettingsModel centerX = SettingsModel(
-    name: 'centerX',
-    settingType: SettingType.double,
-    label: 'Horizontal offset',
-    tooltip: 'The offset from the bottom of the sceen',
-    min: -200.0,
-    max: 200.0,
-    randomMax: 0.0,
-    randomMin: 0.0,
-    zoom: 100,
-    defaultValue: 0.0,
-    icon: Icon(Icons.swap_horiz),
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
-  );
+SettingsModel centerX = SettingsModel(
+  name: 'centerX',
+  settingType: SettingType.double,
+  label: 'Horizontal offset',
+  tooltip: 'The offset from the bottom of the sceen',
+  min: -200.0,
+  max: 200.0,
+  randomMax: 0.0,
+  randomMin: 0.0,
+  zoom: 100,
+  defaultValue: 0.0,
+  icon: const Icon(Icons.swap_horiz),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 
 SettingsModel centerY = SettingsModel(
   name: 'centerY',
@@ -63,304 +66,307 @@ SettingsModel centerY = SettingsModel(
   randomMin: -120.0,
   zoom: 100,
   defaultValue: -120.0,
-  icon: Icon(Icons.swap_vert),
+  icon: const Icon(Icons.swap_vert),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
 
-
 SettingsModel trunkWidth = SettingsModel(
-    name: 'trunkWidth',
-    settingType: SettingType.double,
-    label: 'Trunk Width',
-    tooltip: 'The width of the base of the trunk',
-    min: 0.0,
-    max: 50.0,
-    zoom: 100,
-    defaultValue: 18.0,
-    icon: Icon(Icons.track_changes),
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
-  );
-  SettingsModel widthDecay = SettingsModel(
-    name: 'widthDecay',
-    settingType: SettingType.double,
-    label: 'Trunk Decay',
-    tooltip: 'The rate at which the trunk width decays',
-    min: 0.7,
-    max: 1.0,
-    randomMin: 0.7,
-    randomMax: 0.9,
-    zoom: 100,
-    defaultValue: 0.8,
-    icon: Icon(Icons.swap_horiz),
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
-  );
-  SettingsModel segmentLength = SettingsModel(
-    name: 'segmentLength',
-    settingType: SettingType.double,
-    label: 'Segment Length',
-    tooltip: 'The length of the first segment of the trunk',
-    min: 10.0,
-    max: 100.0,
-    randomMin: 20.0,
-    randomMax: 70.0,
-    zoom: 100,
-    defaultValue: 47.0,
-    icon: Icon(Icons.swap_horizontal_circle),
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
-  );
+  name: 'trunkWidth',
+  settingType: SettingType.double,
+  label: 'Trunk Width',
+  tooltip: 'The width of the base of the trunk',
+  min: 0.0,
+  max: 50.0,
+  zoom: 100,
+  defaultValue: 18.0,
+  icon: const Icon(Icons.track_changes),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
+SettingsModel widthDecay = SettingsModel(
+  name: 'widthDecay',
+  settingType: SettingType.double,
+  label: 'Trunk Decay',
+  tooltip: 'The rate at which the trunk width decays',
+  min: 0.7,
+  max: 1.0,
+  randomMin: 0.7,
+  randomMax: 0.9,
+  zoom: 100,
+  defaultValue: 0.8,
+  icon: const Icon(Icons.swap_horiz),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
+SettingsModel segmentLength = SettingsModel(
+  name: 'segmentLength',
+  settingType: SettingType.double,
+  label: 'Segment Length',
+  tooltip: 'The length of the first segment of the trunk',
+  min: 10.0,
+  max: 100.0,
+  randomMin: 20.0,
+  randomMax: 70.0,
+  zoom: 100,
+  defaultValue: 47.0,
+  icon: const Icon(Icons.swap_horizontal_circle),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 
-  SettingsModel segmentDecay = SettingsModel(
-    name: 'segmentDecay',
-    settingType: SettingType.double,
-    label: 'Segment Decay',
-    tooltip: 'The rate at which the length of each successive segment decays',
-    min: 0.1,
-    max: 1.0,
-    randomMin: 0.8,
-    randomMax: 0.95,
-    zoom: 100,
-    defaultValue: 0.92,
-    icon: Icon(Icons.swap_vert),
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
-  );
+SettingsModel segmentDecay = SettingsModel(
+  name: 'segmentDecay',
+  settingType: SettingType.double,
+  label: 'Segment Decay',
+  tooltip: 'The rate at which the length of each successive segment decays',
+  min: 0.1,
+  max: 1.0,
+  randomMin: 0.8,
+  randomMax: 0.95,
+  zoom: 100,
+  defaultValue: 0.92,
+  icon: const Icon(Icons.swap_vert),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 
-  SettingsModel branch = SettingsModel(
-    name: 'branch',
-    settingType: SettingType.double,
-    label: 'Branch Ratio',
-    tooltip: 'The proportion of segments that branch',
-    min: 0.0,
-    max: 1.0,
-    randomMin: 0.4,
-    randomMax: 0.8,
-    zoom: 100,
-    defaultValue: 0.7,
-    icon: Icon(Icons.ac_unit),
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
-  );
+SettingsModel branch = SettingsModel(
+  name: 'branch',
+  settingType: SettingType.double,
+  label: 'Branch Ratio',
+  tooltip: 'The proportion of segments that branch',
+  min: 0.0,
+  max: 1.0,
+  randomMin: 0.4,
+  randomMax: 0.8,
+  zoom: 100,
+  defaultValue: 0.7,
+  icon: const Icon(Icons.ac_unit),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 SettingsModel angle = SettingsModel(
-    name: 'angle',
-    settingType: SettingType.double,
-    label: 'Branch Angle',
-    tooltip: 'The angle of the branch',
-    min: 0.1,
-    max: 0.7,
-    zoom: 100,
-    defaultValue: 0.3,
-    icon: Icon(Icons.rotate_right),
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
-  );
+  name: 'angle',
+  settingType: SettingType.double,
+  label: 'Branch Angle',
+  tooltip: 'The angle of the branch',
+  min: 0.1,
+  max: 0.7,
+  zoom: 100,
+  defaultValue: 0.3,
+  icon: const Icon(Icons.rotate_right),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 SettingsModel ratio = SettingsModel(
-    name: 'ratio',
-    settingType: SettingType.double,
-    label: 'Angle Ratio',
-    tooltip: 'The ratio of the branch',
-    min: 0.0,
-    max: 1.0,
-    zoom: 100,
-    defaultValue: 0.5,
-    icon: Icon(Icons.blur_circular),
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
-  );
+  name: 'ratio',
+  settingType: SettingType.double,
+  label: 'Angle Ratio',
+  tooltip: 'The ratio of the branch',
+  min: 0.0,
+  max: 1.0,
+  zoom: 100,
+  defaultValue: 0.5,
+  icon: const Icon(Icons.blur_circular),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 SettingsModel bulbousness = SettingsModel(
-    name: 'bulbousness',
-    settingType: SettingType.double,
-    label: 'Bulbousness',
-    tooltip: 'The bulbousness of each segment',
-    min: 0.0,
-    max: 5.0,
-    randomMin: 0.0,
-    randomMax: 3.0,
-    zoom: 100,
-    defaultValue: 1.5,
-    icon: Icon(Icons.autorenew),
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
-  );
+  name: 'bulbousness',
+  settingType: SettingType.double,
+  label: 'Bulbousness',
+  tooltip: 'The bulbousness of each segment',
+  min: 0.0,
+  max: 5.0,
+  randomMin: 0.0,
+  randomMax: 3.0,
+  zoom: 100,
+  defaultValue: 1.5,
+  icon: const Icon(Icons.autorenew),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 SettingsModel maxDepth = SettingsModel(
-    name: 'maxDepth',
-    settingType: SettingType.int,
-    label: 'Max Depth',
-    tooltip: 'The number of segments',
-    min: 5,
-    max: 28,
-    randomMin: 10,
-    randomMax: 25,
-    defaultValue: 18,
-    icon: Icon(Icons.fiber_smart_record),
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
-  );
+  name: 'maxDepth',
+  settingType: SettingType.int,
+  label: 'Max Depth',
+  tooltip: 'The number of segments',
+  min: 5,
+  max: 28,
+  randomMin: 10,
+  randomMax: 25,
+  defaultValue: 18,
+  icon: const Icon(Icons.fiber_smart_record),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 SettingsModel leavesAfter = SettingsModel(
-    name: 'leavesAfter',
-    settingType: SettingType.int,
-    label: 'Leaves After',
-    tooltip: 'The number of segments before leaves start to sprout',
-    min: 0,
-    max: 28,
-    defaultValue: 5,
-    icon: Icon(Icons.blur_circular),
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
-  );
+  name: 'leavesAfter',
+  settingType: SettingType.int,
+  label: 'Leaves After',
+  tooltip: 'The number of segments before leaves start to sprout',
+  min: 0,
+  max: 28,
+  defaultValue: 5,
+  icon: const Icon(Icons.blur_circular),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 SettingsModel leafAngle = SettingsModel(
-    name: 'leafAngle',
-    settingType: SettingType.double,
-    label: 'Leaf Angle',
-    tooltip: 'The angle of the leaf',
-    min: 0.2,
-    max: 0.8,
-    zoom: 100,
-    defaultValue: 0.5,
-    icon: Icon(Icons.rotate_right),
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
-  );
+  name: 'leafAngle',
+  settingType: SettingType.double,
+  label: 'Leaf Angle',
+  tooltip: 'The angle of the leaf',
+  min: 0.2,
+  max: 0.8,
+  zoom: 100,
+  defaultValue: 0.5,
+  icon: const Icon(Icons.rotate_right),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 SettingsModel leafRadius = SettingsModel(
-    name: 'leafRadius',
-    settingType: SettingType.double,
-    label: 'Leaf Size',
-    tooltip: 'The fixed length of each leaf',
-    min: 0.0,
-    max: 20.0,
-    zoom: 100,
-    defaultValue: 12.0,
-    icon: Icon(Icons.rotate_right),
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
-  );
+  name: 'leafRadius',
+  settingType: SettingType.double,
+  label: 'Leaf Size',
+  tooltip: 'The fixed length of each leaf',
+  min: 0.0,
+  max: 20.0,
+  zoom: 100,
+  defaultValue: 12.0,
+  icon: const Icon(Icons.rotate_right),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 SettingsModel randomLeafLength = SettingsModel(
-    name: 'randomLeafLength',
-    settingType: SettingType.double,
-    label: 'Random Length',
-    tooltip: 'The random length of each leaf',
-    min: 0.0,
-    max: 20.0,
-    zoom: 100,
-    defaultValue: 3.0,
-    icon: Icon(Icons.rotate_right),
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
-  );
+  name: 'randomLeafLength',
+  settingType: SettingType.double,
+  label: 'Random Length',
+  tooltip: 'The random length of each leaf',
+  min: 0.0,
+  max: 20.0,
+  zoom: 100,
+  defaultValue: 3.0,
+  icon: const Icon(Icons.rotate_right),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 SettingsModel leafSquareness = SettingsModel(
-    name: 'leafSquareness',
-    settingType: SettingType.double,
-    label: 'Squareness',
-    tooltip: 'The squareness leaf',
-    min: 0.0,
-    max: 3.0,
-    zoom: 100,
-    defaultValue: 1.0,
-    icon: Icon(Icons.child_care),
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
-  );
+  name: 'leafSquareness',
+  settingType: SettingType.double,
+  label: 'Squareness',
+  tooltip: 'The squareness leaf',
+  min: 0.0,
+  max: 3.0,
+  zoom: 100,
+  defaultValue: 1.0,
+  icon: const Icon(Icons.child_care),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 SettingsModel leafAsymmetry = SettingsModel(
-    name: 'leafAsymmetry',
-    settingType: SettingType.double,
-    label: 'Asymmetry',
-    tooltip: 'The assymetry of the leaf',
-    min: -3.0,
-    max: 3.0,
-    zoom: 100,
-    defaultValue: 0.7,
-    icon: Icon(Icons.clear_all),
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
-  );
+  name: 'leafAsymmetry',
+  settingType: SettingType.double,
+  label: 'Asymmetry',
+  tooltip: 'The assymetry of the leaf',
+  min: -3.0,
+  max: 3.0,
+  zoom: 100,
+  defaultValue: 0.7,
+  icon: const Icon(Icons.clear_all),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 SettingsModel leafDecay = SettingsModel(
-    name: 'leafDecay',
-    settingType: SettingType.double,
-    label: 'Leaf Decay',
-    tooltip: 'The rate at which the leaves decay along the branch',
-    min: 0.9,
-    max: 1.0,
-    zoom: 100,
-    defaultValue: 0.95,
-    icon: Icon(Icons.graphic_eq),
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
-  );
+  name: 'leafDecay',
+  settingType: SettingType.double,
+  label: 'Leaf Decay',
+  tooltip: 'The rate at which the leaves decay along the branch',
+  min: 0.9,
+  max: 1.0,
+  zoom: 100,
+  defaultValue: 0.95,
+  icon: const Icon(Icons.graphic_eq),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 SettingsModel leafShape = SettingsModel(
-    name: 'leafShape',
-    settingType: SettingType.list,
-    label: "Leaf Type",
-    tooltip: "The shape of the leaf",
-    defaultValue: "petal",
-    icon: Icon(Icons.local_florist),
-    options: <String>['petal', 'circle', 'triangle', 'square', 'diamond'],
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
-  );
+  name: 'leafShape',
+  settingType: SettingType.list,
+  label: 'Leaf Type',
+  tooltip: 'The shape of the leaf',
+  defaultValue: 'petal',
+  icon: const Icon(Icons.local_florist),
+  options: <String>['petal', 'circle', 'triangle', 'square', 'diamond'],
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 
-SettingsModel trunkFillColor = SettingsModel(settingType: SettingType.color,
-    name: 'trunkFillColor',
-    label: "Trunk Color",
-    tooltip: "The fill colour of the trunk",
-    defaultValue: Colors.grey,
-    icon: Icon(Icons.settings_overscan),
-    settingCategory: SettingCategory.palette,
-    proFeature: false,
-  );
-SettingsModel trunkOutlineColor = SettingsModel(settingType: SettingType.color,
-    name: 'trunkOutlineColor',
-    label: "Trunk Outline Color",
-    tooltip: "The outline colour of the trunk",
-    defaultValue: Colors.grey,
-    icon: Icon(Icons.settings_overscan),
-    settingCategory: SettingCategory.palette,
-    proFeature: false,
-  );
+SettingsModel trunkFillColor = SettingsModel(
+  settingType: SettingType.color,
+  name: 'trunkFillColor',
+  label: 'Trunk Color',
+  tooltip: 'The fill colour of the trunk',
+  defaultValue: Colors.grey,
+  icon: const Icon(Icons.settings_overscan),
+  settingCategory: SettingCategory.palette,
+  proFeature: false,
+);
+SettingsModel trunkOutlineColor = SettingsModel(
+  settingType: SettingType.color,
+  name: 'trunkOutlineColor',
+  label: 'Trunk Outline Color',
+  tooltip: 'The outline colour of the trunk',
+  defaultValue: Colors.grey,
+  icon: const Icon(Icons.settings_overscan),
+  settingCategory: SettingCategory.palette,
+  proFeature: false,
+);
 SettingsModel trunkStrokeWidth = SettingsModel(
-    name: 'trunkStrokeWidth',
-    settingType: SettingType.double,
-    label: 'Outline Width',
-    tooltip: 'The width of the trunk outline',
-    min: 0.0,
-    max: 1.0,
-    zoom: 100,
-    defaultValue: 0.0,
-    icon: Icon(Icons.line_weight),
-    settingCategory: SettingCategory.tool,
-    proFeature: false,
-  );
+  name: 'trunkStrokeWidth',
+  settingType: SettingType.double,
+  label: 'Outline Width',
+  tooltip: 'The width of the trunk outline',
+  min: 0.0,
+  max: 1.0,
+  zoom: 100,
+  defaultValue: 0.0,
+  icon: const Icon(Icons.line_weight),
+  settingCategory: SettingCategory.tool,
+  proFeature: false,
+);
 
 SettingsModel paletteType = SettingsModel(
-    name: 'paletteType',
-    settingType: SettingType.list,
-    label: "Palette Type",
-    tooltip: "The nature of the palette",
-    defaultValue: "random",
-    icon: Icon(Icons.colorize),
-    options: <String>[
+  name: 'paletteType',
+  settingType: SettingType.list,
+  label: 'Palette Type',
+  tooltip: 'The nature of the palette',
+  defaultValue: 'random',
+  icon: const Icon(Icons.colorize),
+  options: <String>[
     'random',
     'blended random',
     'linear random',
     'linear complementary'
-    ],
-    settingCategory: SettingCategory.palette,
-    onChange: (){generatePalette();},
-    proFeature: false,
-  );
+  ],
+  settingCategory: SettingCategory.palette,
+  onChange: () {
+    generatePalette();
+  },
+  proFeature: false,
+);
 SettingsModel paletteList = SettingsModel(
-    name: 'paletteList',
-    settingType: SettingType.list,
-    label: "Palette",
-    tooltip: "Choose from a list of palettes",
-    defaultValue: "Default",
-    icon: Icon(Icons.palette),
-    options: defaultPalleteNames(),
-    settingCategory: SettingCategory.palette,
-    proFeature: false,
-  );
+  name: 'paletteList',
+  settingType: SettingType.list,
+  label: 'Palette',
+  tooltip: 'Choose from a list of palettes',
+  defaultValue: 'Default',
+  icon: const Icon(Icons.palette),
+  options: defaultPalleteNames(),
+  settingCategory: SettingCategory.palette,
+  proFeature: false,
+);
 
 SettingsModel resetDefaults = SettingsModel(
   name: 'resetDefaults',
@@ -368,13 +374,14 @@ SettingsModel resetDefaults = SettingsModel(
   label: 'Reset Defaults',
   tooltip: 'Reset all settings to defaults',
   defaultValue: false,
-  icon: Icon(Icons.low_priority),
+  icon: const Icon(Icons.low_priority),
   settingCategory: SettingCategory.tool,
   proFeature: false,
-  onChange: (){resetAllDefaults();},
+  onChange: () {
+    resetAllDefaults();
+  },
   silent: true,
 );
-
 
 List<SettingsModel> initializeTreeAttributes() {
   return [
@@ -411,16 +418,16 @@ List<SettingsModel> initializeTreeAttributes() {
   ];
 }
 
-void paintTree(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
-
+void paintTree(
+    Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
   // reseed the random number generator
   rnd = Random(seed);
 
   // sort out the image size
-  double borderX = 0;
-  double borderY = 0;
-  double imageWidth = size.width;
-  double imageHeight = size.height;
+  const double borderX = 0;
+  const double borderY = 0;
+  final double imageWidth = size.width;
+  final double imageHeight = size.height;
 
   // if (size.width / size.height < aspectRatio) {
   //   borderY = (size.height - size.width / aspectRatio) / 2;
@@ -430,25 +437,28 @@ void paintTree(Canvas canvas, Size size, int seed, double animationVariable, OpA
   //   imageWidth = imageHeight * aspectRatio;
   // }
 
-
-
-
   // colour in the canvas
   canvas.drawRect(
-      Offset(borderX, borderY) & Size(imageWidth, imageHeight),
+      const Offset(borderX, borderY) & Size(imageWidth, imageHeight),
       Paint()
-        ..color = backgroundColor.value
+        ..color = backgroundColor.value as Color
         ..style = PaintingStyle.fill);
 
   // Starting point of the tree
-  double direction = pi / 2;
-  List treeBaseA = [
-    borderX + (imageWidth - trunkWidth.value * zoomOpArt.value) / 2 + centerX.value,
-    borderY + imageHeight + centerY.value
+  final double direction = pi / 2;
+  final List treeBaseA = [
+    borderX +
+        (imageWidth - (trunkWidth.value as num) * (zoomOpArt.value as num)) /
+            2 +
+        (centerX.value as num),
+    borderY + imageHeight + (centerY.value as num)
   ];
-  List treeBaseB = [
-    borderX + (imageWidth + trunkWidth.value * zoomOpArt.value) / 2 + centerX.value,
-    borderY + imageHeight + centerY.value
+  final List treeBaseB = [
+    borderX +
+        (imageWidth + (trunkWidth.value as num) * (zoomOpArt.value as num)) /
+            2 +
+        (centerX.value as num),
+    borderY + imageHeight + (centerY.value as num)
   ];
 
   drawSegment(
@@ -456,33 +466,33 @@ void paintTree(Canvas canvas, Size size, int seed, double animationVariable, OpA
     rnd,
     treeBaseA,
     treeBaseB,
-    trunkWidth.value * zoomOpArt.value,
-    segmentLength.value * zoomOpArt.value,
+    (trunkWidth.value as double) * (zoomOpArt.value as double),
+    segmentLength.value * zoomOpArt.value as double,
     direction,
-    ratio.value,
+    ratio.value as double,
     0,
-    trunkStrokeWidth.value * zoomOpArt.value,
-    leafRadius.value * zoomOpArt.value,
-    randomLeafLength.value,
-    leafShape.value,
+    trunkStrokeWidth.value * zoomOpArt.value as double,
+    leafRadius.value * zoomOpArt.value as double,
+    randomLeafLength.value as double,
+    leafShape.value as String,
     false,
     animationVariable,
-    branch.value,
-    angle.value,
-    widthDecay.value,
-    segmentDecay.value,
-    bulbousness.value,
-    leavesAfter.value,
-    maxDepth.value,
-    leafAngle.value,
-    leafDecay.value,
-    leafSquareness.value,
-    leafAsymmetry.value,
-    trunkFillColor.value,
-    opacity.value,
-    numberOfColors.value.toInt(),
-    trunkStrokeWidth.value,
-    trunkOutlineColor.value,
+    branch.value as double,
+    angle.value as double,
+    widthDecay.value as double,
+    segmentDecay.value as double,
+    bulbousness.value as double,
+    leavesAfter.value as int,
+    maxDepth.value as int,
+    leafAngle.value as double,
+    leafDecay.value as double,
+    leafSquareness.value as double,
+    leafAsymmetry.value as double,
+    trunkFillColor.value as Color,
+    opacity.value as double,
+    numberOfColors.value.toInt() as int,
+    trunkStrokeWidth.value as double,
+    trunkOutlineColor.value as Color,
     opArt.palette.colorList,
   );
 
@@ -512,63 +522,66 @@ void paintTree(Canvas canvas, Size size, int seed, double animationVariable, OpA
   //         ..color = Colors.black
   //         ..style = PaintingStyle.fill);
   // }
-
-
 }
 
-drawSegment(
-    Canvas canvas,
-    Random rnd,
-    List rootA,
-    List rootB,
-    double width,
-    double segmentLength,
-    double direction,
-    double ratio,
-    int currentDepth,
-    double lineWidth,
-    double leafRadius,
-    double randomLeafLength,
-    String leafShape,
-    bool justBranched,
-    double animationVariable,
-    double branch,
-    double angle,
-    double widthDecay,
-    double segmentDecay,
-    double bulbousness,
-    int leavesAfter,
-    int maxDepth,
-    double leafAngle,
-    double leafDecay,
-    double leafSquareness,
-    double leafAsymmetry,
-    Color trunkFillColor,
-    double opacity,
-    numberOfColors,
-    double trunkStrokeWidth,
-    Color trunkOutlineColor,
-    List palette,
-    )
-{
-
-  List segmentBaseCentre = [
+void drawSegment(
+  Canvas canvas,
+  Random rnd,
+  List rootA,
+  List rootB,
+  double width,
+  double segmentLength,
+  double direction,
+  double ratio,
+  int currentDepth,
+  double lineWidth,
+  double leafRadius,
+  double randomLeafLength,
+  String leafShape,
+  bool justBranched,
+  double animationVariable,
+  double branch,
+  double angle,
+  double widthDecay,
+  double segmentDecay,
+  double bulbousness,
+  int leavesAfter,
+  int maxDepth,
+  double leafAngle,
+  double leafDecay,
+  double leafSquareness,
+  double leafAsymmetry,
+  Color trunkFillColor,
+  double opacity,
+  int numberOfColors,
+  double trunkStrokeWidth,
+  Color trunkOutlineColor,
+  List palette,
+) {
+  final List segmentBaseCentre = [
     (rootA[0] + rootB[0]) / 2,
     (rootA[1] + rootB[1]) / 2
   ];
 
   //branch
   if (!justBranched && rnd.nextDouble() < branch) {
-    List rootX = [
+    final List rootX = [
       segmentBaseCentre[0] + width * cos(direction),
       segmentBaseCentre[1] - width * sin(direction)
     ];
 
     // draw the triangle
-    drawTheTriangle(canvas, rnd, rootA, rootB, rootX,
-      trunkFillColor, opacity,trunkStrokeWidth, trunkOutlineColor,
+    drawTheTriangle(
+      canvas,
+      rnd,
+      rootA,
+      rootB,
+      rootX,
+      trunkFillColor,
+      opacity,
+      trunkStrokeWidth,
+      trunkOutlineColor,
     );
-
 
     // the ratio is the skewness of the branch.
     // if ratio = 0, both branches go off at the same angle
@@ -580,47 +593,114 @@ drawSegment(
     // if angle = 1 the tree is basically a ball
 
     // the animation increases and decreases the ratio
-    double branchRatio = (1 - rnd.nextDouble()/5) * ratio * (1 - rnd.nextDouble() * cos(animationVariable*10000) * 0.50);
+    final double branchRatio = (1 - rnd.nextDouble() / 5) *
+        ratio *
+        (1 - rnd.nextDouble() * cos(animationVariable * 10000) * 0.50);
 
     // maxBranch is the max branching angle
-    double maxBranch = pi/8;
+    final double maxBranch = pi / 8;
 
     // direction A is off to the left
     double directionA;
 
     // direction B is off to the left
     double directionB;
-    if (rnd.nextBool()){
-      directionA = direction - maxBranch * (angle + 2*angle*branchRatio);
-      directionB = direction + maxBranch * (angle + 2*angle*(1-branchRatio));
+    if (rnd.nextBool()) {
+      directionA = direction - maxBranch * (angle + 2 * angle * branchRatio);
+      directionB =
+          direction + maxBranch * (angle + 2 * angle * (1 - branchRatio));
+    } else {
+      directionA =
+          direction - maxBranch * (angle + 2 * angle * (1 - branchRatio));
+      directionB = direction + maxBranch * (angle + 2 * angle * branchRatio);
     }
-    else {
-      directionA = direction - maxBranch * (angle + 2*angle*(1-branchRatio));
-      directionB = direction + maxBranch * (angle + 2*angle*branchRatio);
-    }
 
-    drawSegment( canvas, rnd, rootA, rootX, width * widthDecay, segmentLength * segmentDecay, directionB, ratio, currentDepth + 1, lineWidth, leafRadius, randomLeafLength, leafShape, true, animationVariable, branch, angle, widthDecay, segmentDecay, bulbousness, leavesAfter, maxDepth, leafAngle, leafDecay, leafSquareness, leafAsymmetry, trunkFillColor, opacity, numberOfColors, trunkStrokeWidth, trunkOutlineColor, palette, );
-    drawSegment( canvas, rnd, rootX, rootB, width * widthDecay, segmentLength * segmentDecay, directionA, ratio, currentDepth + 1, lineWidth, leafRadius, randomLeafLength, leafShape, true, animationVariable, branch, angle, widthDecay, segmentDecay, bulbousness, leavesAfter, maxDepth, leafAngle, leafDecay, leafSquareness, leafAsymmetry, trunkFillColor, opacity, numberOfColors, trunkStrokeWidth, trunkOutlineColor, palette, );
-
-
+    drawSegment(
+      canvas,
+      rnd,
+      rootA,
+      rootX,
+      width * widthDecay,
+      segmentLength * segmentDecay,
+      directionB,
+      ratio,
+      currentDepth + 1,
+      lineWidth,
+      leafRadius,
+      randomLeafLength,
+      leafShape,
+      true,
+      animationVariable,
+      branch,
+      angle,
+      widthDecay,
+      segmentDecay,
+      bulbousness,
+      leavesAfter,
+      maxDepth,
+      leafAngle,
+      leafDecay,
+      leafSquareness,
+      leafAsymmetry,
+      trunkFillColor,
+      opacity,
+      numberOfColors,
+      trunkStrokeWidth,
+      trunkOutlineColor,
+      palette,
+    );
+    drawSegment(
+      canvas,
+      rnd,
+      rootX,
+      rootB,
+      width * widthDecay,
+      segmentLength * segmentDecay,
+      directionA,
+      ratio,
+      currentDepth + 1,
+      lineWidth,
+      leafRadius,
+      randomLeafLength,
+      leafShape,
+      true,
+      animationVariable,
+      branch,
+      angle,
+      widthDecay,
+      segmentDecay,
+      bulbousness,
+      leavesAfter,
+      maxDepth,
+      leafAngle,
+      leafDecay,
+      leafSquareness,
+      leafAsymmetry,
+      trunkFillColor,
+      opacity,
+      numberOfColors,
+      trunkStrokeWidth,
+      trunkOutlineColor,
+      palette,
+    );
   } else {
     //grow
-    List pD = [
+    final List pD = [
       segmentBaseCentre[0] + segmentLength * cos(direction),
       segmentBaseCentre[1] - segmentLength * sin(direction)
     ];
-    List p2 = [
+    final List p2 = [
       pD[0] + 0.5 * width * widthDecay * sin(direction),
       pD[1] + 0.5 * width * widthDecay * cos(direction)
     ];
-    List p3 = [
+    final List p3 = [
       pD[0] - 0.5 * width * widthDecay * sin(direction),
       pD[1] - 0.5 * width * widthDecay * cos(direction)
     ];
 
     // draw the trunk
-    drawTheTrunk(canvas, rnd, rootB, p2, p3, rootA,
-        bulbousness, trunkFillColor, opacity, trunkStrokeWidth, trunkOutlineColor);
+    drawTheTrunk(canvas, rnd, rootB, p2, p3, rootA, bulbousness, trunkFillColor,
+        opacity, trunkStrokeWidth, trunkOutlineColor);
 
     // Draw the leaves
     if (currentDepth > leavesAfter) {
@@ -700,194 +780,199 @@ drawSegment(
   }
 }
 
-
-drawTheTrunk(
-    Canvas canvas,
-    Random rnd,
-    List p1,
-    List p2,
-    List p3,
-    List p4,
-    double bulbousness,
-    Color trunkFillColor,
-    double opacity,
-    double trunkStrokeWidth,
-    Color trunkOutlineColor,
-    ) {
-  List pC = [
+void drawTheTrunk(
+  Canvas canvas,
+  Random rnd,
+  List p1,
+  List p2,
+  List p3,
+  List p4,
+  double bulbousness,
+  Color trunkFillColor,
+  double opacity,
+  double trunkStrokeWidth,
+  Color trunkOutlineColor,
+) {
+  final List pC = [
     (p1[0] + p2[0] + p3[0] + p4[0]) / 4,
     (p1[1] + p2[1] + p3[1] + p4[1]) / 4
   ];
-  List p12 = [(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2];
-  List pX = [
+  final List p12 = [(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2];
+  final List pX = [
     pC[0] * (1 - bulbousness) + p12[0] * bulbousness,
     pC[1] * (1 - bulbousness) + p12[1] * bulbousness
   ];
-  List p34 = [(p3[0] + p4[0]) / 2, (p3[1] + p4[1]) / 2];
-  List pY = [
+  final List p34 = [(p3[0] + p4[0]) / 2, (p3[1] + p4[1]) / 2];
+  final List pY = [
     pC[0] * (1 - bulbousness) + p34[0] * bulbousness,
     pC[1] * (1 - bulbousness) + p34[1] * bulbousness
   ];
 
-  Path trunk = Path();
-  trunk.moveTo(p1[0], p1[1]);
+  final Path trunk = Path();
+  trunk.moveTo(p1[0] as double, p1[1] as double);
   trunk.quadraticBezierTo(
-      pX[0], pX[1], p2[0], p2[1]);
-  trunk.lineTo(p3[0], p3[1]);
+      pX[0] as double, pX[1] as double, p2[0] as double, p2[1] as double);
+  trunk.lineTo(p3[0] as double, p3[1] as double);
   trunk.quadraticBezierTo(
-      pY[0], pY[1], p4[0], p4[1]);
+      pY[0] as double, pY[1] as double, p4[0] as double, p4[1] as double);
   trunk.close();
 
   canvas.drawPath(
       trunk,
       Paint()
         ..style = PaintingStyle.fill
-        ..color = trunkFillColor
-            .withOpacity(opacity));
+        ..color = trunkFillColor.withOpacity(opacity));
 
   canvas.drawPath(
       trunk,
       Paint()
         ..style = PaintingStyle.stroke
         ..strokeWidth = trunkStrokeWidth
-        ..color = trunkOutlineColor
-            .withOpacity(opacity));
+        ..color = trunkOutlineColor.withOpacity(opacity));
 }
 
-drawTheTriangle(
-    Canvas canvas,
-    Random rnd,
-    List p1,
-    List p2,
-    List p3,
-    Color trunkFillColor,
-    double opacity,
-    double trunkStrokeWidth,
-    Color trunkOutlineColor,
-    ) {
-  Path trunk = Path();
-  trunk.moveTo(p1[0], p1[1]);
-  trunk.lineTo(p2[0], p2[1]);
-  trunk.lineTo(p3[0], p3[1]);
+void drawTheTriangle(
+  Canvas canvas,
+  Random rnd,
+  List p1,
+  List p2,
+  List p3,
+  Color trunkFillColor,
+  double opacity,
+  double trunkStrokeWidth,
+  Color trunkOutlineColor,
+) {
+  final Path trunk = Path();
+  trunk.moveTo(p1[0] as double, p1[1] as double);
+  trunk.lineTo(p2[0] as double, p2[1] as double);
+  trunk.lineTo(p3[0] as double, p3[1] as double);
   trunk.close();
 
   canvas.drawPath(
       trunk,
       Paint()
         ..style = PaintingStyle.fill
-        ..color = trunkFillColor
-            .withOpacity(opacity));
+        ..color = trunkFillColor.withOpacity(opacity));
 
   canvas.drawPath(
       trunk,
       Paint()
         ..style = PaintingStyle.stroke
         ..strokeWidth = trunkStrokeWidth
-        ..color = trunkOutlineColor
-            .withOpacity(opacity));
+        ..color = trunkOutlineColor.withOpacity(opacity));
 }
 
-drawTheLeaf(
-    Canvas canvas,
-    Random rnd,
-    List leafPosition,
-    double lineWidth,
-    double leafAngle,
-    double leafRadius,
-    String leafShape,
-    double ratio,
-    double randomLeafLength,
-    double leafSquareness,
-    double leafAsymmetry,
-    double animationVariable,
-    double opacity,
-    int numberOfColors,
-    List palette,
-    ) {
-
+void drawTheLeaf(
+  Canvas canvas,
+  Random rnd,
+  List leafPosition,
+  double lineWidth,
+  double leafAngle,
+  double leafRadius,
+  String leafShape,
+  double ratio,
+  double randomLeafLength,
+  double leafSquareness,
+  double leafAsymmetry,
+  double animationVariable,
+  double opacity,
+  int numberOfColors,
+  List palette,
+) {
   // pick a random color
-  Color leafColor = palette[rnd.nextInt(numberOfColors)].withOpacity(opacity);
+  final Color leafColor =
+      palette[rnd.nextInt(numberOfColors)].withOpacity(opacity) as Color;
 
   leafRadius = leafRadius + rnd.nextDouble() * randomLeafLength;
 
   // have each leaf oscillate on a different cycle
 
-  double randomizedLeafAngle = leafAngle +  cos(rnd.nextDouble()*pi*2 + animationVariable*((1-rnd.nextDouble()*0.5) * 20000));
+  final double randomizedLeafAngle = leafAngle +
+      cos(rnd.nextDouble() * pi * 2 +
+          animationVariable * ((1 - rnd.nextDouble() * 0.5) * 20000));
 
   // find the centre of the leaf
-  List pC = [
+  final List pC = [
     leafPosition[0] + leafRadius * cos(randomizedLeafAngle),
     leafPosition[1] - leafRadius * sin(randomizedLeafAngle)
   ];
 
   switch (leafShape) {
-
-    case "petal":
-
-
+    case 'petal':
       leafRadius = leafRadius * 2;
 
-      canvas.drawArc(Rect.fromCenter(
-          center: Offset(leafPosition[0]+cos(randomizedLeafAngle-pi/4)*leafRadius/sqrt(2),
-              leafPosition[1]-sin(randomizedLeafAngle-pi/4)*leafRadius/sqrt(2)),
-          height: leafRadius*sqrt(2),
-          width: leafRadius*sqrt(2)),
-          pi*1.25-randomizedLeafAngle, pi / 2, false, Paint()
+      canvas.drawArc(
+          Rect.fromCenter(
+              center: Offset(
+                  (leafPosition[0] as double) +
+                      cos(randomizedLeafAngle - pi / 4) * leafRadius / sqrt(2),
+                  (leafPosition[1] as double) -
+                      sin(randomizedLeafAngle - pi / 4) * leafRadius / sqrt(2)),
+              height: leafRadius * sqrt(2),
+              width: leafRadius * sqrt(2)),
+          pi * 1.25 - randomizedLeafAngle,
+          pi / 2,
+          false,
+          Paint()
             ..strokeWidth = 0.0
             ..style = PaintingStyle.fill
             ..color = leafColor.withOpacity(opacity));
 
-
-
-      canvas.drawArc(Rect.fromCenter(
-          center: Offset(leafPosition[0]+cos(randomizedLeafAngle+pi/4)*leafRadius/sqrt(2),
-              leafPosition[1]-sin(randomizedLeafAngle+pi/4)*leafRadius/sqrt(2)),
-          height: leafRadius*sqrt(2),
-          width: leafRadius*sqrt(2)),
-          pi*0.25-randomizedLeafAngle, pi / 2, false, Paint()
+      canvas.drawArc(
+          Rect.fromCenter(
+              center: Offset(
+                  (leafPosition[0] as double) +
+                      cos(randomizedLeafAngle + pi / 4) * leafRadius / sqrt(2),
+                  (leafPosition[1] as double) -
+                      sin(randomizedLeafAngle + pi / 4) * leafRadius / sqrt(2)),
+              height: leafRadius * sqrt(2),
+              width: leafRadius * sqrt(2)),
+          pi * 0.25 - randomizedLeafAngle,
+          pi / 2,
+          false,
+          Paint()
             ..strokeWidth = 0.0
             ..style = PaintingStyle.fill
             ..color = leafColor.withOpacity(opacity));
-
-      
 
       break;
 
-
-    case "circle":
-
+    case 'circle':
       canvas.drawCircle(
-          Offset(pC[0], pC[1]),
+          Offset(pC[0] as double, pC[1] as double),
           leafRadius,
           Paint()
             ..style = PaintingStyle.fill
-            ..color =
-            leafColor.withOpacity(opacity));
+            ..color = leafColor.withOpacity(opacity));
 
       break;
 
-    case "triangle":
+    case 'triangle':
 
-    // find the tips of the leaf
-      List pA = [
+      // find the tips of the leaf
+      final List pA = [
         pC[0] - leafRadius * cos(randomizedLeafAngle + pi * 0),
         pC[1] + leafRadius * sin(randomizedLeafAngle + pi * 0)
       ];
 
-      List pB1 = [
-        pC[0] - leafRadius * cos(randomizedLeafAngle + pi * (0.5-leafSquareness)),
-        pC[1] + leafRadius * sin(randomizedLeafAngle + pi * (0.5-leafSquareness))
+      final List pB1 = [
+        pC[0] -
+            leafRadius * cos(randomizedLeafAngle + pi * (0.5 - leafSquareness)),
+        pC[1] +
+            leafRadius * sin(randomizedLeafAngle + pi * (0.5 - leafSquareness))
       ];
 
-      List pB2 = [
-        pC[0] - leafRadius * cos(randomizedLeafAngle - pi * (0.5-leafSquareness)),
-        pC[1] + leafRadius * sin(randomizedLeafAngle - pi * (0.5-leafSquareness))
+      final List pB2 = [
+        pC[0] -
+            leafRadius * cos(randomizedLeafAngle - pi * (0.5 - leafSquareness)),
+        pC[1] +
+            leafRadius * sin(randomizedLeafAngle - pi * (0.5 - leafSquareness))
       ];
 
-      Path leaf = Path();
-      leaf.moveTo(pA[0], pA[1]);
-      leaf.lineTo(pB1[0], pB1[1]);
-      leaf.lineTo(pB2[0], pB2[1]);
+      final Path leaf = Path();
+      leaf.moveTo(pA[0] as double, pA[1] as double);
+      leaf.lineTo(pB1[0] as double, pB1[1] as double);
+      leaf.lineTo(pB2[0] as double, pB2[1] as double);
       leaf.close();
 
       canvas.drawPath(
@@ -898,34 +983,38 @@ drawTheLeaf(
 
       break;
 
-    case "square":
+    case 'square':
 
-    // find the tips of the leaf
-      List pA = [
+      // find the tips of the leaf
+      final List pA = [
         pC[0] - leafRadius * cos(randomizedLeafAngle + pi * 0),
         pC[1] + leafRadius * sin(randomizedLeafAngle + pi * 0)
       ];
 
-      List pB1 = [
-        pC[0] - leafRadius * cos(randomizedLeafAngle + pi * (0.5-leafSquareness)),
-        pC[1] + leafRadius * sin(randomizedLeafAngle + pi * (0.5-leafSquareness))
+      final List pB1 = [
+        pC[0] -
+            leafRadius * cos(randomizedLeafAngle + pi * (0.5 - leafSquareness)),
+        pC[1] +
+            leafRadius * sin(randomizedLeafAngle + pi * (0.5 - leafSquareness))
       ];
 
-      List pB2 = [
+      final List pB2 = [
         pC[0] - leafRadius * cos(randomizedLeafAngle - pi * 1),
         pC[1] + leafRadius * sin(randomizedLeafAngle - pi * 1)
       ];
 
-      List pB3 = [
-        pC[0] - leafRadius * cos(randomizedLeafAngle - pi * (0.5-leafSquareness)),
-        pC[1] + leafRadius * sin(randomizedLeafAngle - pi * (0.5-leafSquareness))
+      final List pB3 = [
+        pC[0] -
+            leafRadius * cos(randomizedLeafAngle - pi * (0.5 - leafSquareness)),
+        pC[1] +
+            leafRadius * sin(randomizedLeafAngle - pi * (0.5 - leafSquareness))
       ];
 
-      Path leaf = Path();
-      leaf.moveTo(pA[0], pA[1]);
-      leaf.lineTo(pB1[0], pB1[1]);
-      leaf.lineTo(pB2[0], pB2[1]);
-      leaf.lineTo(pB3[0], pB3[1]);
+      final Path leaf = Path();
+      leaf.moveTo(pA[0] as double, pA[1] as double);
+      leaf.lineTo(pB1[0] as double, pB1[1] as double);
+      leaf.lineTo(pB2[0] as double, pB2[1] as double);
+      leaf.lineTo(pB3[0] as double, pB3[1] as double);
       leaf.close();
 
       canvas.drawPath(
@@ -934,100 +1023,81 @@ drawTheLeaf(
             ..style = PaintingStyle.fill
             ..color = leafColor.withOpacity(opacity));
 
-
-
-      break;   case "diamond":
-  // find the tip of the leaf
-    List pS = [
-      pC[0] - leafRadius * cos(randomizedLeafAngle + pi),
-      pC[1] + leafRadius * sin(randomizedLeafAngle + pi)
-    ];
-
-    // find the offset centre of the leaf
-    List pOC = [
-      pC[0] + leafAsymmetry * leafRadius * cos(randomizedLeafAngle + pi),
-      pC[1] - leafAsymmetry * leafRadius * sin(randomizedLeafAngle + pi)
-    ];
-
-    List pE = [
-      pOC[0] -
-          leafSquareness *
-              leafRadius *
-              cos(randomizedLeafAngle + pi * 0.5),
-      pOC[1] +
-          leafSquareness *
-              leafRadius *
-              sin(randomizedLeafAngle + pi * 0.5)
-    ];
-    List pW = [
-      pOC[0] -
-          leafSquareness *
-              leafRadius *
-              cos(randomizedLeafAngle + pi * 1.5),
-      pOC[1] +
-          leafSquareness *
-              leafRadius *
-              sin(randomizedLeafAngle + pi * 1.5)
-    ];
-
-    Path leaf = Path();
-    leaf.moveTo(leafPosition[0], leafPosition[1]);
-    leaf.lineTo(pE[0], pE[1]);
-    leaf.lineTo(pS[0], pS[1]);
-    leaf.lineTo(pW[0], pW[1]);
-    leaf.close();
-
-    canvas.drawPath(
-        leaf,
-        Paint()
-          ..style = PaintingStyle.fill
-          ..color = leafColor.withOpacity(opacity));
-
-
-
-    break;
-
-    case "quadratic":
-
-    // find the tip of the leaf
-      List pS = [
+      break;
+    case 'diamond':
+      // find the tip of the leaf
+      final List pS = [
         pC[0] - leafRadius * cos(randomizedLeafAngle + pi),
         pC[1] + leafRadius * sin(randomizedLeafAngle + pi)
       ];
 
       // find the offset centre of the leaf
-      List pOC = [
+      final List pOC = [
         pC[0] + leafAsymmetry * leafRadius * cos(randomizedLeafAngle + pi),
         pC[1] - leafAsymmetry * leafRadius * sin(randomizedLeafAngle + pi)
       ];
 
-      List pE = [
+      final List pE = [
         pOC[0] -
-            leafSquareness *
-                leafRadius *
-                cos(randomizedLeafAngle + pi * 0.5),
+            leafSquareness * leafRadius * cos(randomizedLeafAngle + pi * 0.5),
         pOC[1] +
-            leafSquareness *
-                leafRadius *
-                sin(randomizedLeafAngle + pi * 0.5)
+            leafSquareness * leafRadius * sin(randomizedLeafAngle + pi * 0.5)
       ];
-      List pW = [
+      final List pW = [
         pOC[0] -
-            leafSquareness *
-                leafRadius *
-                cos(randomizedLeafAngle + pi * 1.5),
+            leafSquareness * leafRadius * cos(randomizedLeafAngle + pi * 1.5),
         pOC[1] +
-            leafSquareness *
-                leafRadius *
-                sin(randomizedLeafAngle + pi * 1.5)
+            leafSquareness * leafRadius * sin(randomizedLeafAngle + pi * 1.5)
       ];
 
-      Path leaf = Path();
-      leaf.moveTo(leafPosition[0], leafPosition[1]);
-      leaf.quadraticBezierTo(pE[0], pE[1],
-          pS[0], pS[1]);
-      leaf.quadraticBezierTo(pW[0], pW[1],
-          leafPosition[0], leafPosition[1]);
+      final Path leaf = Path();
+      leaf.moveTo(leafPosition[0] as double, leafPosition[1] as double);
+      leaf.lineTo(pE[0] as double, pE[1] as double);
+      leaf.lineTo(pS[0] as double, pS[1] as double);
+      leaf.lineTo(pW[0] as double, pW[1] as double);
+      leaf.close();
+
+      canvas.drawPath(
+          leaf,
+          Paint()
+            ..style = PaintingStyle.fill
+            ..color = leafColor.withOpacity(opacity));
+
+      break;
+
+    case 'quadratic':
+
+      // find the tip of the leaf
+      final List pS = [
+        pC[0] - leafRadius * cos(randomizedLeafAngle + pi),
+        pC[1] + leafRadius * sin(randomizedLeafAngle + pi)
+      ];
+
+      // find the offset centre of the leaf
+      final List pOC = [
+        pC[0] + leafAsymmetry * leafRadius * cos(randomizedLeafAngle + pi),
+        pC[1] - leafAsymmetry * leafRadius * sin(randomizedLeafAngle + pi)
+      ];
+
+      final List pE = [
+        pOC[0] -
+            leafSquareness * leafRadius * cos(randomizedLeafAngle + pi * 0.5),
+        pOC[1] +
+            leafSquareness * leafRadius * sin(randomizedLeafAngle + pi * 0.5)
+      ];
+      final List pW = [
+        pOC[0] -
+            leafSquareness * leafRadius * cos(randomizedLeafAngle + pi * 1.5),
+        pOC[1] +
+            leafSquareness * leafRadius * sin(randomizedLeafAngle + pi * 1.5)
+      ];
+
+      final Path leaf = Path();
+      leaf.moveTo(leafPosition[0] as double, leafPosition[1] as double);
+      leaf.quadraticBezierTo(
+          pE[0] as double, pE[1] as double, pS[0] as double, pS[1] as double);
+      leaf.quadraticBezierTo(pW[0] as double, pW[1] as double,
+          leafPosition[0] as double, leafPosition[1] as double);
       leaf.close();
 
       canvas.drawPath(
@@ -1041,12 +1111,11 @@ drawTheLeaf(
 }
 
 void drawPetal(
-    Canvas canvas,
-    List leafPosition,
-    double leafAngle,
-    double leafRadius,
-    ){
-
+  Canvas canvas,
+  List leafPosition,
+  double leafAngle,
+  double leafRadius,
+) {
   // leafPosition = [200.0, 500.0];
   // leafAngle = 1.2*pi/2;
   // leafRadius = 100.0;
@@ -1066,44 +1135,47 @@ void drawPetal(
   //       ..style = PaintingStyle.stroke
   //       ..color = Colors.black);
 
-
-  List petalCentre1 = [
-    leafPosition[0]+cos(leafAngle-pi/4)*leafRadius/sqrt(2),
-    leafPosition[1]-sin(leafAngle-pi/4)*leafRadius/sqrt(2)];
+  final List petalCentre1 = [
+    leafPosition[0] + cos(leafAngle - pi / 4) * leafRadius / sqrt(2),
+    leafPosition[1] - sin(leafAngle - pi / 4) * leafRadius / sqrt(2)
+  ];
 
   // canvas.drawCircle(Offset(petalCentre1[0], petalCentre1[1]), 2, Paint()
   //   ..strokeWidth = 0
   //   ..style = PaintingStyle.fill
   //   ..color = Colors.black);
-  
-  canvas.drawArc(Rect.fromCenter(
-      center: Offset(petalCentre1[0],petalCentre1[1]),
-      height: leafRadius*sqrt(2),
-      width: leafRadius*sqrt(2)),
-      pi*1.25-leafAngle, pi / 2, false, Paint()
+
+  canvas.drawArc(
+      Rect.fromCenter(
+          center: Offset(petalCentre1[0] as double, petalCentre1[1] as double),
+          height: leafRadius * sqrt(2),
+          width: leafRadius * sqrt(2)),
+      pi * 1.25 - leafAngle,
+      pi / 2,
+      false,
+      Paint()
         ..style = PaintingStyle.fill
         ..color = Colors.green);
 
-  List petalCentre2 = [
-    leafPosition[0]+cos(leafAngle+pi/4)*leafRadius/sqrt(2),
-    leafPosition[1]-sin(leafAngle+pi/4)*leafRadius/sqrt(2)];
+  final List petalCentre2 = [
+    leafPosition[0] + cos(leafAngle + pi / 4) * leafRadius / sqrt(2),
+    leafPosition[1] - sin(leafAngle + pi / 4) * leafRadius / sqrt(2)
+  ];
 
   // canvas.drawCircle(Offset(petalCentre2[0], petalCentre2[1]), 2, Paint()
   //   ..strokeWidth = 0
   //   ..style = PaintingStyle.fill
   //   ..color = Colors.black);
 
-
-  canvas.drawArc(Rect.fromCenter(
-      center: Offset(petalCentre2[0],petalCentre2[1]),
-      height: leafRadius*sqrt(2),
-      width: leafRadius*sqrt(2)),
-      pi*0.25-leafAngle, pi / 2, false, Paint()
+  canvas.drawArc(
+      Rect.fromCenter(
+          center: Offset(petalCentre2[0] as double, petalCentre2[1] as double),
+          height: leafRadius * sqrt(2),
+          width: leafRadius * sqrt(2)),
+      pi * 0.25 - leafAngle,
+      pi / 2,
+      false,
+      Paint()
         ..style = PaintingStyle.fill
         ..color = Colors.green);
-
-
 }
-
-
-

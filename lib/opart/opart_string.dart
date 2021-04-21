@@ -1,12 +1,14 @@
+import 'dart:core';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+
 import '../main.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';
 import '../model_settings.dart';
-import 'dart:math';
-import 'dart:core';
 
-List<String> list = List();
+List<String> list = [];
 
 SettingsModel reDraw = SettingsModel(
   name: 'reDraw',
@@ -14,7 +16,7 @@ SettingsModel reDraw = SettingsModel(
   label: 'Redraw',
   tooltip: 'Re-draw the picture with a different random seed',
   defaultValue: false,
-  icon: Icon(Icons.refresh),
+  icon: const Icon(Icons.refresh),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   onChange: () {
@@ -32,7 +34,7 @@ SettingsModel zoomOpArt = SettingsModel(
   max: 4.0,
   zoom: 100,
   defaultValue: 1.0,
-  icon: Icon(Icons.zoom_in),
+  icon: const Icon(Icons.zoom_in),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -47,7 +49,7 @@ SettingsModel numberOfDivisions = SettingsModel(
   randomMin: 5,
   randomMax: 50,
   defaultValue: 40,
-  icon: Icon(Icons.filter_tilt_shift),
+  icon: const Icon(Icons.filter_tilt_shift),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -62,7 +64,7 @@ SettingsModel numberOfChords = SettingsModel(
   randomMin: 1,
   randomMax: 50,
   defaultValue: 20,
-  icon: Icon(Icons.filter_tilt_shift),
+  icon: const Icon(Icons.filter_tilt_shift),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -75,7 +77,7 @@ SettingsModel skip = SettingsModel(
   min: 0,
   max: 100,
   defaultValue: 10,
-  icon: Icon(Icons.filter_tilt_shift),
+  icon: const Icon(Icons.filter_tilt_shift),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -88,7 +90,7 @@ SettingsModel step = SettingsModel(
   min: 1,
   max: 100,
   defaultValue: 1,
-  icon: Icon(Icons.filter_tilt_shift),
+  icon: const Icon(Icons.filter_tilt_shift),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -104,11 +106,10 @@ SettingsModel spiralRatio = SettingsModel(
   randomMax: 1.0,
   zoom: 100,
   defaultValue: 1.0,
-  icon: Icon(Icons.arrow_circle_down),
+  icon: const Icon(Icons.arrow_circle_down),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-
 
 SettingsModel lineWidth = SettingsModel(
   settingType: SettingType.double,
@@ -119,20 +120,24 @@ SettingsModel lineWidth = SettingsModel(
   max: 10.0,
   zoom: 100,
   defaultValue: 3.0,
-  icon: Icon(Icons.line_weight),
+  icon: const Icon(Icons.line_weight),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
 
-
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
-  label: "Palette Type",
-  tooltip: "The nature of the palette",
-  defaultValue: "random",
-  icon: Icon(Icons.colorize),
-  options: <String>['random', 'blended random', 'linear random', 'linear complementary'],
+  label: 'Palette Type',
+  tooltip: 'The nature of the palette',
+  defaultValue: 'random',
+  icon: const Icon(Icons.colorize),
+  options: <String>[
+    'random',
+    'blended random',
+    'linear random',
+    'linear complementary'
+  ],
   settingCategory: SettingCategory.palette,
   onChange: () {
     generatePalette();
@@ -142,10 +147,10 @@ SettingsModel paletteType = SettingsModel(
 SettingsModel paletteList = SettingsModel(
   name: 'paletteList',
   settingType: SettingType.list,
-  label: "Palette",
-  tooltip: "Choose from a list of palettes",
-  defaultValue: "Default",
-  icon: Icon(Icons.palette),
+  label: 'Palette',
+  tooltip: 'Choose from a list of palettes',
+  defaultValue: 'Default',
+  icon: const Icon(Icons.palette),
   options: defaultPalleteNames(),
   settingCategory: SettingCategory.palette,
   proFeature: false,
@@ -157,7 +162,7 @@ SettingsModel resetDefaults = SettingsModel(
   label: 'Reset Defaults',
   tooltip: 'Reset all settings to defaults',
   defaultValue: false,
-  icon: Icon(Icons.low_priority),
+  icon: const Icon(Icons.low_priority),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   onChange: () {
@@ -176,7 +181,6 @@ List<SettingsModel> initializeStringAttributes() {
     step,
     spiralRatio,
     lineWidth,
-
     backgroundColor,
     numberOfColors,
     paletteType,
@@ -187,54 +191,76 @@ List<SettingsModel> initializeStringAttributes() {
   ];
 }
 
-void paintString(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
+void paintString(
+    Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
   rnd = Random(seed);
 
   // colour in the canvas
   canvas.drawRect(
-      Offset(0, 0) & Size(size.width, size.height),
+      const Offset(0, 0) & Size(size.width, size.height),
       Paint()
-        ..color = backgroundColor.value
+        ..color = backgroundColor.value as Color
         ..style = PaintingStyle.fill);
 
-  double borderX = (size.width < size.height) ? 0 : (size.height - size.width)/2;
-  double borderY = (size.width > size.height) ? 0 : (size.width - size.height)/2;
-  double radius = (size.width < size.height) ? size.width/2 * zoomOpArt.value : size.height/2 * zoomOpArt.value;
-  int chords = (numberOfChords.value<numberOfDivisions.value) ? numberOfChords.value : numberOfDivisions.value;
+  // double borderX = (size.width < size.height) ? 0 : (size.height - size.width)/2;
+  // double borderY = (size.width > size.height) ? 0 : (size.width - size.height)/2;
+  final double radius = (size.width < size.height)
+      ? size.width / 2 * (zoomOpArt.value as num)
+      : size.height / 2 * (zoomOpArt.value as num);
+  final int chords =
+      ((numberOfChords.value as int) < (numberOfDivisions.value as int))
+          ? (numberOfChords.value as int)
+          : (numberOfDivisions.value as int);
   int colourOrder = 0;
   Color nextColor;
-  List colorList = opArt.palette.colorList;
+  final List colorList = opArt.palette.colorList;
   double spiral = 1.0;
 
   for (int j = 0; j < chords; j++) {
-    for (int i = 0; i < numberOfDivisions.value; i++) {
-
-
-
-      List p0 = [
-        size.width / 2 + spiral * radius * cos(i * 2 * pi / numberOfDivisions.value),
-        size.height / 2 - spiral * radius * sin(i * 2 * pi / numberOfDivisions.value)
+    for (int i = 0; i < (numberOfDivisions.value as int); i++) {
+      final List p0 = [
+        size.width / 2 +
+            spiral *
+                radius *
+                cos(i * 2 * pi / (numberOfDivisions.value as int)),
+        size.height / 2 -
+            spiral * radius * sin(i * 2 * pi / (numberOfDivisions.value as int))
       ];
 
-      List p1 = [
-        size.width / 2 + spiral * radius * cos((i + 1 + j*step.value + skip.value) * 2 * pi / numberOfDivisions.value),
-        size.height / 2 - spiral * radius * sin((i + 1 + j*step.value + skip.value) * 2 * pi / numberOfDivisions.value)
+      final List p1 = [
+        size.width / 2 +
+            spiral *
+                radius *
+                cos((i + 1 + j * (step.value as int) + (skip.value as int)) *
+                    2 *
+                    pi /
+                    (numberOfDivisions.value as int)),
+        size.height / 2 -
+            spiral *
+                radius *
+                sin((i + 1 + j * (step.value as num) + (skip.value as num)) *
+                    2 *
+                    pi /
+                    (numberOfDivisions.value as num))
       ];
 
       colourOrder++;
-      spiral = spiral * spiralRatio.value;
+      spiral = spiral * (spiralRatio.value as num);
 
-          nextColor = (randomColors.value == true)
-          ? colorList[rnd.nextInt(numberOfColors.value)].withOpacity(opacity.value)
-          : colorList[colourOrder % numberOfColors.value].withOpacity(opacity.value);
+      nextColor = (randomColors.value as bool)
+          ? colorList[rnd.nextInt(numberOfColors.value as int)]
+              .withOpacity(opacity.value as double) as Color
+          : colorList[colourOrder % (numberOfColors.value as int)]
+              .withOpacity(opacity.value as double) as Color;
 
-      canvas.drawLine(Offset(p0[0], p0[1]), Offset(p1[0], p1[1]), Paint()
-        ..color = nextColor
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = lineWidth.value
-        ..strokeCap = StrokeCap.round);
+      canvas.drawLine(
+          Offset(p0[0] as double, p0[1] as double),
+          Offset(p1[0] as double, p1[1] as double),
+          Paint()
+            ..color = nextColor
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = lineWidth.value as double
+            ..strokeCap = StrokeCap.round);
     }
   }
-
 }
-

@@ -1,13 +1,14 @@
-import 'package:flutter/material.dart';
-import '../main.dart';
+import 'dart:core';
+import 'dart:math';
 
+import 'package:flutter/material.dart';
+
+import '../main.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';
 import '../model_settings.dart';
-import 'dart:math';
-import 'dart:core';
 
-List<String> list = List();
+List<String> list = [];
 
 SettingsModel reDraw = SettingsModel(
   name: 'reDraw',
@@ -15,7 +16,7 @@ SettingsModel reDraw = SettingsModel(
   label: 'Redraw',
   tooltip: 'Re-draw the picture with a different random seed',
   defaultValue: false,
-  icon: Icon(Icons.refresh),
+  icon: const Icon(Icons.refresh),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   onChange: () {
@@ -33,7 +34,7 @@ SettingsModel minimumDepth = SettingsModel(
   max: 10,
   zoom: 100,
   defaultValue: 6,
-  icon: Icon(Icons.line_weight),
+  icon: const Icon(Icons.line_weight),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -47,7 +48,7 @@ SettingsModel maximumDepth = SettingsModel(
   max: 20,
   zoom: 100,
   defaultValue: 10,
-  icon: Icon(Icons.line_weight),
+  icon: const Icon(Icons.line_weight),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -61,7 +62,7 @@ SettingsModel density = SettingsModel(
   max: 1.0,
   zoom: 100,
   defaultValue: 0.55,
-  icon: Icon(Icons.remove_red_eye),
+  icon: const Icon(Icons.remove_red_eye),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -77,7 +78,7 @@ SettingsModel ratio = SettingsModel(
   randomMax: 0.55,
   zoom: 100,
   defaultValue: 0.5,
-  icon: Icon(Icons.remove_red_eye),
+  icon: const Icon(Icons.remove_red_eye),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -88,7 +89,7 @@ SettingsModel randomiseRatio = SettingsModel(
   label: 'Randomise Ratio',
   tooltip: 'Randomise the split ratio',
   defaultValue: false,
-  icon: Icon(Icons.track_changes),
+  icon: const Icon(Icons.track_changes),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
@@ -103,7 +104,7 @@ SettingsModel lineWidth = SettingsModel(
   max: 10.0,
   zoom: 100,
   defaultValue: 3.0,
-  icon: Icon(Icons.line_weight),
+  icon: const Icon(Icons.line_weight),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
@@ -114,7 +115,7 @@ SettingsModel lineWidth = SettingsModel(
 //   label: 'Random Colors',
 //   tooltip: 'randomize the colours',
 //   defaultValue: true,
-//   icon: Icon(Icons.gamepad),
+//   icon: const Icon(Icons.gamepad),
 //   settingCategory: SettingCategory.tool,
 //   proFeature: false,
 //   silent: true,
@@ -123,11 +124,16 @@ SettingsModel lineWidth = SettingsModel(
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
-  label: "Palette Type",
-  tooltip: "The nature of the palette",
-  defaultValue: "random",
-  icon: Icon(Icons.colorize),
-  options: ['random', 'blended random', 'linear random', 'linear complementary'],
+  label: 'Palette Type',
+  tooltip: 'The nature of the palette',
+  defaultValue: 'random',
+  icon: const Icon(Icons.colorize),
+  options: [
+    'random',
+    'blended random',
+    'linear random',
+    'linear complementary'
+  ],
   settingCategory: SettingCategory.palette,
   onChange: () {
     generatePalette();
@@ -141,7 +147,7 @@ SettingsModel resetDefaults = SettingsModel(
   label: 'Reset Defaults',
   tooltip: 'Reset all settings to defaults',
   defaultValue: false,
-  icon: Icon(Icons.low_priority),
+  icon: const Icon(Icons.low_priority),
   settingCategory: SettingCategory.tool,
   onChange: () {},
   silent: true,
@@ -167,30 +173,61 @@ List<SettingsModel> initializeTrianglesAttributes() {
   ];
 }
 
-void paintTriangles(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
+void paintTriangles(
+    Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
   rnd = Random(seed);
 
   if (paletteList.value != opArt.palette.paletteName) {
-    opArt.selectPalette(paletteList.value);
+    opArt.selectPalette(paletteList.value as String);
   }
 
   // Initialise the canvas
-  double canvasWidth = size.width;
-  double canvasHeight = size.height;
+  final double canvasWidth = size.width;
+  final double canvasHeight = size.height;
 
-  double imageSize = (canvasHeight > canvasWidth) ? canvasHeight : canvasWidth;
+  final double imageSize =
+      (canvasHeight > canvasWidth) ? canvasHeight : canvasWidth;
 
   // Now make some art
-  List p1 = [(canvasWidth - imageSize) / 2, (canvasHeight - imageSize) / 2];
-  List p2 = [imageSize, (canvasHeight - imageSize) / 2];
-  List p3 = [imageSize, imageSize];
-  List p4 = [(canvasWidth - imageSize) / 2, imageSize];
+  final List p1 = [
+    (canvasWidth - imageSize) / 2,
+    (canvasHeight - imageSize) / 2
+  ];
+  final List p2 = [imageSize, (canvasHeight - imageSize) / 2];
+  final List p3 = [imageSize, imageSize];
+  final List p4 = [(canvasWidth - imageSize) / 2, imageSize];
 
-  drawTriangle(canvas, opArt.palette.colorList, p1, p2, p3, 0, minimumDepth.value.toInt(), maximumDepth.value.toInt(),
-      ratio.value, density.value, randomiseRatio.value, 0, lineColor.value, lineWidth.value);
+  drawTriangle(
+      canvas,
+      opArt.palette.colorList,
+      p1,
+      p2,
+      p3,
+      0,
+      minimumDepth.value.toInt() as int,
+      maximumDepth.value.toInt() as int,
+      ratio.value as double,
+      density.value as double,
+      randomiseRatio.value as bool,
+      0,
+      lineColor.value as Color,
+      lineWidth.value as double);
 
-  drawTriangle(canvas, opArt.palette.colorList, p1, p4, p3, 0, minimumDepth.value.toInt(), maximumDepth.value.toInt(),
-      ratio.value, density.value, randomiseRatio.value, 0, lineColor.value, lineWidth.value);
+  drawTriangle(
+      canvas,
+      opArt.palette.colorList,
+      p1,
+      p4,
+      p3,
+      0,
+      minimumDepth.value.toInt() as int,
+      maximumDepth.value.toInt() as int,
+      ratio.value as double,
+      density.value as double,
+      randomiseRatio.value as bool,
+      0,
+      lineColor.value as Color,
+      lineWidth.value as double);
 }
 
 void drawTriangle(
@@ -208,14 +245,24 @@ void drawTriangle(
     int colourOrder,
     Color lineColor,
     double lineWidth) {
-  if (recursionDepth < minimumDepth || (recursionDepth < maximumDepth && rnd.nextDouble() < density)) {
+  if (recursionDepth < minimumDepth ||
+      (recursionDepth < maximumDepth && rnd.nextDouble() < density)) {
     // split
     // work out the longest length
-    double l0 = (p2[0] - p1[0]) * (p2[0] - p1[0]) + (p2[1] - p1[1]) * (p2[1] - p1[1]);
-    double l1 = (p2[0] - p0[0]) * (p2[0] - p0[0]) + (p2[1] - p0[1]) * (p2[1] - p0[1]);
-    double l2 = (p0[0] - p1[0]) * (p0[0] - p1[0]) + (p0[1] - p1[1]) * (p0[1] - p1[1]);
+    final double l0 = ((p2[0] as double) - (p1[0] as double)) *
+            ((p2[0] as double) - (p1[0] as double)) +
+        ((p2[1] as double) - (p1[1] as double)) *
+            ((p2[1] as double) - (p1[1] as double));
+    final double l1 = ((p2[0] as double) - (p0[0] as double)) *
+            ((p2[0] as double) - (p0[0] as double)) +
+        ((p2[1] as double) - (p0[1] as double)) *
+            ((p2[1] as double) - (p0[1] as double));
+    final double l2 = ((p0[0] as double) - (p1[0] as double)) *
+            ((p0[0] as double) - (p1[0] as double)) +
+        ((p0[1] as double) - (p1[1] as double)) *
+            ((p0[1] as double) - (p1[1] as double));
 
-    int splitDirection = (l2 > l0 && l2 > l1)
+    final int splitDirection = (l2 > l0 && l2 > l1)
         ? 2
         : (l1 > l0)
             ? 1
@@ -228,35 +275,122 @@ void drawTriangle(
 
     switch (splitDirection) {
       case 0:
-        List pN = [p1[0] * localRatio + p2[0] * (1 - localRatio), p1[1] * localRatio + p2[1] * (1 - localRatio)];
+        final List pN = [
+          p1[0] * localRatio + p2[0] * (1 - localRatio),
+          p1[1] * localRatio + p2[1] * (1 - localRatio)
+        ];
 
-        drawTriangle(canvas, colorList, p0, p1, pN, recursionDepth + 1, minimumDepth, maximumDepth, ratio, density,
-            randomiseRatio, colourOrder + 1, lineColor, lineWidth);
+        drawTriangle(
+            canvas,
+            colorList,
+            p0,
+            p1,
+            pN,
+            recursionDepth + 1,
+            minimumDepth,
+            maximumDepth,
+            ratio,
+            density,
+            randomiseRatio,
+            colourOrder + 1,
+            lineColor,
+            lineWidth);
 
-        drawTriangle(canvas, colorList, p0, p2, pN, recursionDepth + 1, minimumDepth, maximumDepth, ratio, density,
-            randomiseRatio, colourOrder + 2, lineColor, lineWidth);
+        drawTriangle(
+            canvas,
+            colorList,
+            p0,
+            p2,
+            pN,
+            recursionDepth + 1,
+            minimumDepth,
+            maximumDepth,
+            ratio,
+            density,
+            randomiseRatio,
+            colourOrder + 2,
+            lineColor,
+            lineWidth);
 
         break;
 
       case 1:
-        List pN = [p0[0] * localRatio + p2[0] * (1 - localRatio), p0[1] * localRatio + p2[1] * (1 - localRatio)];
+        final List pN = [
+          p0[0] * localRatio + p2[0] * (1 - localRatio),
+          p0[1] * localRatio + p2[1] * (1 - localRatio)
+        ];
 
-        drawTriangle(canvas, colorList, p1, p0, pN, recursionDepth + 1, minimumDepth, maximumDepth, ratio, density,
-            randomiseRatio, colourOrder + 1, lineColor, lineWidth);
+        drawTriangle(
+            canvas,
+            colorList,
+            p1,
+            p0,
+            pN,
+            recursionDepth + 1,
+            minimumDepth,
+            maximumDepth,
+            ratio,
+            density,
+            randomiseRatio,
+            colourOrder + 1,
+            lineColor,
+            lineWidth);
 
-        drawTriangle(canvas, colorList, p1, p2, pN, recursionDepth + 1, minimumDepth, maximumDepth, ratio, density,
-            randomiseRatio, colourOrder + 2, lineColor, lineWidth);
+        drawTriangle(
+            canvas,
+            colorList,
+            p1,
+            p2,
+            pN,
+            recursionDepth + 1,
+            minimumDepth,
+            maximumDepth,
+            ratio,
+            density,
+            randomiseRatio,
+            colourOrder + 2,
+            lineColor,
+            lineWidth);
 
         break;
 
       case 2:
-        List pN = [p0[0] * localRatio + p1[0] * (1 - localRatio), p0[1] * localRatio + p1[1] * (1 - localRatio)];
+        final List pN = [
+          p0[0] * localRatio + p1[0] * (1 - localRatio),
+          p0[1] * localRatio + p1[1] * (1 - localRatio)
+        ];
 
-        drawTriangle(canvas, colorList, p2, p0, pN, recursionDepth + 1, minimumDepth, maximumDepth, ratio, density,
-            randomiseRatio, colourOrder + 1, lineColor, lineWidth);
+        drawTriangle(
+            canvas,
+            colorList,
+            p2,
+            p0,
+            pN,
+            recursionDepth + 1,
+            minimumDepth,
+            maximumDepth,
+            ratio,
+            density,
+            randomiseRatio,
+            colourOrder + 1,
+            lineColor,
+            lineWidth);
 
-        drawTriangle(canvas, colorList, p2, p1, pN, recursionDepth + 1, minimumDepth, maximumDepth, ratio, density,
-            randomiseRatio, colourOrder + 2, lineColor, lineWidth);
+        drawTriangle(
+            canvas,
+            colorList,
+            p2,
+            p1,
+            pN,
+            recursionDepth + 1,
+            minimumDepth,
+            maximumDepth,
+            ratio,
+            density,
+            randomiseRatio,
+            colourOrder + 2,
+            lineColor,
+            lineWidth);
 
         break;
     }
@@ -264,20 +398,20 @@ void drawTriangle(
     // Choose the next colour
     Color nextColor;
     colourOrder++;
-    nextColor = colorList[colourOrder % numberOfColors.value];
-    if (randomColors.value) {
-      nextColor = colorList[rnd.nextInt(numberOfColors.value)];
+    nextColor = colorList[colourOrder % (numberOfColors.value as int)] as Color;
+    if (randomColors.value as bool) {
+      nextColor = colorList[rnd.nextInt(numberOfColors.value as int)] as Color;
     }
-    nextColor = nextColor.withOpacity(opacity.value);
+    nextColor = nextColor.withOpacity(opacity.value as double);
     Color localLineColor = lineColor;
     if (lineWidth == 0) {
       localLineColor = nextColor;
     }
 
-    Path triangle = Path();
-    triangle.moveTo(p0[0], p0[1]);
-    triangle.lineTo(p1[0], p1[1]);
-    triangle.lineTo(p2[0], p2[1]);
+    final Path triangle = Path();
+    triangle.moveTo(p0[0] as double, p0[1] as double);
+    triangle.lineTo(p1[0] as double, p1[1] as double);
+    triangle.lineTo(p2[0] as double, p2[1] as double);
     triangle.close();
     canvas.drawPath(
         triangle,

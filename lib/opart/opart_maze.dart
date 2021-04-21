@@ -1,19 +1,15 @@
+import 'dart:core';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:opart_v2/opart_icons.dart';
+
+import '../main.dart';
 import '../model_opart.dart';
 import '../model_palette.dart';
 import '../model_settings.dart';
-import 'dart:math';
-import 'dart:core';
-import '../main.dart';
 
-var array;
-int oldCellsX;
-int oldCellsY;
-var oldShapesArray;
-
-
-List<String> list = List();
+List<String> list = [];
 
 SettingsModel reDraw = SettingsModel(
   name: 'reDraw',
@@ -21,10 +17,12 @@ SettingsModel reDraw = SettingsModel(
   label: 'Redraw',
   tooltip: 'Re-draw the picture with a different random seed',
   defaultValue: false,
-  icon: Icon(Icons.refresh),
+  icon: const Icon(Icons.refresh),
   settingCategory: SettingCategory.tool,
   proFeature: false,
-  onChange: (){seed = DateTime.now().millisecond;},
+  onChange: () {
+    seed = DateTime.now().millisecond;
+  },
   silent: true,
 );
 
@@ -37,11 +35,10 @@ SettingsModel zoomOpArt = SettingsModel(
   max: 50.0,
   zoom: 100,
   defaultValue: 20.0,
-  icon: Icon(Icons.zoom_in),
+  icon: const Icon(Icons.zoom_in),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
-
 
 SettingsModel lineHorizontal = SettingsModel(
   name: 'lineHorizontal',
@@ -49,7 +46,7 @@ SettingsModel lineHorizontal = SettingsModel(
   label: 'Horizontal',
   tooltip: 'Horizontal line',
   defaultValue: true,
-  icon: Icon(OpArtLab.line_horizontal),
+  icon: const Icon(OpArtLab.lineHorizontal),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
@@ -60,7 +57,7 @@ SettingsModel lineVertical = SettingsModel(
   label: 'Vertical',
   tooltip: 'Vertical line',
   defaultValue: true,
-  icon: Icon(OpArtLab.line_vertical),
+  icon: const Icon(OpArtLab.lineVertical),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
@@ -71,7 +68,7 @@ SettingsModel lineDiagonalRight = SettingsModel(
   label: 'Diagonal Right',
   tooltip: 'Diagonal right line',
   defaultValue: true,
-  icon: Icon(OpArtLab.line_diagonal_right),
+  icon: const Icon(OpArtLab.lineDiagonalRight),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
@@ -82,7 +79,7 @@ SettingsModel lineDiagonalLeft = SettingsModel(
   label: 'Diagonal Left',
   tooltip: 'Diagonal left line',
   defaultValue: true,
-  icon: Icon(OpArtLab.line_diagonal_left),
+  icon: const Icon(OpArtLab.lineDiagonalLeft),
   settingCategory: SettingCategory.tool,
   proFeature: false,
   silent: true,
@@ -98,7 +95,7 @@ SettingsModel lineDiagonalLeft = SettingsModel(
 //   label: 'Random Colors',
 //   tooltip: 'randomize the colours',
 //   defaultValue: true,
-//   icon: Icon(Icons.gamepad),
+//   icon: const Icon(Icons.gamepad),
 //   settingCategory: SettingCategory.tool,
 //   proFeature: false,
 //   silent: true,
@@ -113,19 +110,18 @@ SettingsModel lineWidth = SettingsModel(
   max: 5.0,
   zoom: 100,
   defaultValue: 3.0,
-  icon: Icon(Icons.line_weight),
+  icon: const Icon(Icons.line_weight),
   settingCategory: SettingCategory.tool,
   proFeature: false,
 );
 
-
 SettingsModel paletteType = SettingsModel(
   name: 'paletteType',
   settingType: SettingType.list,
-  label: "Palette Type",
-  tooltip: "The nature of the palette",
-  defaultValue: "random",
-  icon: Icon(Icons.colorize),
+  label: 'Palette Type',
+  tooltip: 'The nature of the palette',
+  defaultValue: 'random',
+  icon: const Icon(Icons.colorize),
   options: [
     'random',
     'blended random',
@@ -133,16 +129,18 @@ SettingsModel paletteType = SettingsModel(
     'linear complementary'
   ],
   settingCategory: SettingCategory.palette,
-  onChange: (){generatePalette();},
+  onChange: () {
+    generatePalette();
+  },
   proFeature: false,
 );
 SettingsModel paletteList = SettingsModel(
   name: 'paletteList',
   settingType: SettingType.list,
-  label: "Palette",
-  tooltip: "Choose from a list of palettes",
-  defaultValue: "Default",
-  icon: Icon(Icons.palette),
+  label: 'Palette',
+  tooltip: 'Choose from a list of palettes',
+  defaultValue: 'Default',
+  icon: const Icon(Icons.palette),
   options: defaultPalleteNames(),
   settingCategory: SettingCategory.other,
   proFeature: false,
@@ -154,24 +152,23 @@ SettingsModel resetDefaults = SettingsModel(
   label: 'Reset Defaults',
   tooltip: 'Reset all settings to defaults',
   defaultValue: false,
-  icon: Icon(Icons.low_priority),
+  icon: const Icon(Icons.low_priority),
   settingCategory: SettingCategory.tool,
-  onChange: (){resetAllDefaults();},
+  onChange: () {
+    resetAllDefaults();
+  },
   proFeature: false,
   silent: true,
 );
 
 List<SettingsModel> initializeMazeAttributes() {
-
   return [
     reDraw,
     zoomOpArt,
-
     lineHorizontal,
     lineVertical,
     lineDiagonalLeft,
     lineDiagonalRight,
-
     backgroundColor,
     randomColors,
     numberOfColors,
@@ -181,100 +178,84 @@ List<SettingsModel> initializeMazeAttributes() {
     opacity,
     resetDefaults,
   ];
-
-
 }
 
-
-void paintMaze(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
-print("time: ${DateTime.now().second*1000+DateTime.now().millisecond} seed: $seed animationVariable: $animationVariable");
-
+void paintMaze(
+    Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
   rnd = Random(seed);
 
-  if (paletteList.value != opArt.palette.paletteName){
-    opArt.selectPalette(paletteList.value);
+  if (paletteList.value != opArt.palette.paletteName) {
+    opArt.selectPalette(paletteList.value as String);
   }
 
-
   // Initialise the canvas
-  double canvasWidth = size.width;
-  double canvasHeight = size.height;
+  final double canvasWidth = size.width;
+  final double canvasHeight = size.height;
   double borderX = 0;
   double borderY = 0;
-  
-  // Work out the X and Y
-  int cellsX = (canvasWidth / (zoomOpArt.value)+1.9999999).toInt();
-  borderX = (canvasWidth - zoomOpArt.value * cellsX) / 2;
 
-  int cellsY = (canvasHeight / (zoomOpArt.value)+1.9999999).toInt();
-  borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
-  borderY = (canvasHeight - zoomOpArt.value * cellsY) / 2;
+  // Work out the X and Y
+  final int cellsX =
+      (canvasWidth / (zoomOpArt.value as num) + 1.9999999).toInt();
+  borderX = (canvasWidth - (zoomOpArt.value as num) * cellsX) / 2;
+
+  final int cellsY =
+      (canvasHeight / (zoomOpArt.value as num) + 1.9999999).toInt();
+  borderY = (canvasHeight - (zoomOpArt.value as num) * cellsY) / 2;
+  borderY = (canvasHeight - (zoomOpArt.value as num) * cellsY) / 2;
 
   int colourOrder = 0;
   Color nextColor;
 
-  List shapesArray = [];
-  if (lineHorizontal.value == true) { shapesArray.add('lineHorizontal'); }
-  if (lineVertical.value == true) { shapesArray.add('lineVertical'); }
-  if (lineDiagonalRight.value == true) { shapesArray.add('lineDiagonalRight'); }
-  if (lineDiagonalLeft.value == true) { shapesArray.add('lineDiagonalLeft'); }
-
-  // initialise the array
-  if (array == null || cellsX != oldCellsX || cellsY != oldCellsY || oldShapesArray != shapesArray) {
-    array = List.generate(cellsX, (_) => List.generate(cellsY, (_) => rnd.nextInt(shapesArray.length)));
-    oldCellsX = cellsX;
-    oldCellsY = cellsY;
-    oldShapesArray = shapesArray;
-  }
-
   // Now make some art
-rnd = Random(DateTime.now().second*1000+DateTime.now().millisecond);
-
 
   // draw the square
   canvas.drawRect(
-      Offset(0, 0) & Size(canvasWidth, canvasHeight),
+      const Offset(0, 0) & Size(canvasWidth, canvasHeight),
       Paint()
-        ..color = backgroundColor.value.withOpacity(1.0)
+        ..color = (backgroundColor.value as Color).withOpacity(1.0)
         ..style = PaintingStyle.fill);
 
-
+  final List shapesArray = [];
+  if (lineHorizontal.value == true) {
+    shapesArray.add('lineHorizontal');
+  }
+  if (lineVertical.value == true) {
+    shapesArray.add('lineVertical');
+  }
+  if (lineDiagonalRight.value == true) {
+    shapesArray.add('lineDiagonalRight');
+  }
+  if (lineDiagonalLeft.value == true) {
+    shapesArray.add('lineDiagonalLeft');
+  }
 
   // Now make some art
   for (int i = 0; i < cellsX; ++i) {
     for (int j = 0; j < cellsY; ++j) {
+      if (shapesArray.isNotEmpty) {
+        final x = borderX + i * (zoomOpArt.value as num);
+        final y = borderY + j * (zoomOpArt.value as num);
 
-      if (shapesArray.length>0) {
-
-        var x = borderX + i * zoomOpArt.value;
-        var y = borderY + j * zoomOpArt.value;
-
-        var p1 = [x, y];
-        var p2 = [x + zoomOpArt.value, y];
-        var p3 = [x + zoomOpArt.value, y + zoomOpArt.value];
-        var p4 = [x, y + zoomOpArt.value];
+        final p1 = [x, y];
+        final p2 = [x + (zoomOpArt.value as num), y];
+        final p3 = [x + (zoomOpArt.value as num), y + (zoomOpArt.value as num)];
+        final p4 = [x, y + (zoomOpArt.value as num)];
 
         // Choose the next colour
         colourOrder++;
-        nextColor = opArt.palette.colorList[colourOrder % numberOfColors.value];
-        if (randomColors.value) {
+        nextColor = opArt
+            .palette.colorList[colourOrder % (numberOfColors.value as int)];
+        if (randomColors.value as bool) {
           nextColor =
-          opArt.palette.colorList[rnd.nextInt(numberOfColors.value)];
+              opArt.palette.colorList[rnd.nextInt(numberOfColors.value as int)];
         }
-        nextColor = nextColor.withOpacity(opacity.value);
+        nextColor = nextColor.withOpacity(opacity.value as double);
 
         List pA = [];
         List pB = [];
 
-//        switch (shapesArray[rnd.nextInt(shapesArray.length)]) {
-
-        if (rnd.nextDouble()<0.01) {
-          array[i][j] = rnd.nextInt(shapesArray.length);
-          array[i][j] = 0;
-        }
-
-
-        switch (shapesArray[array[i][j]]) {
+        switch (shapesArray[rnd.nextInt(shapesArray.length)] as String) {
           case 'lineDiagonalRight':
             pA = p1;
             pB = p3;
@@ -294,24 +275,16 @@ rnd = Random(DateTime.now().second*1000+DateTime.now().millisecond);
         }
 
         // draw the line
-        canvas.drawLine(Offset(pA[0], pA[1]), Offset(pB[0], pB[1]), Paint()
-          ..color = nextColor
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = lineWidth.value * zoomOpArt.value / 10
-          ..strokeCap = StrokeCap.round
-        );
-
-
-
+        canvas.drawLine(
+            Offset(pA[0] as double, pA[1] as double),
+            Offset(pB[0] as double, pB[1] as double),
+            Paint()
+              ..color = nextColor
+              ..style = PaintingStyle.stroke
+              ..strokeWidth =
+                  (lineWidth.value as double) * (zoomOpArt.value as num) / 10
+              ..strokeCap = StrokeCap.round);
       }
     }
-
   }
-
-
 }
-
-
-
-
-

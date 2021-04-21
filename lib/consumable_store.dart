@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// A store of consumable items.
@@ -36,15 +37,16 @@ class ConsumableStore {
   }
 
   static Future<void> _doSave(String id) async {
-    List<String> cached = await load();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final List<String> cached = await load();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     cached.add(id);
     await prefs.setStringList(_kPrefKey, cached);
   }
 
   static Future<void> _doConsume(String id) async {
-    List<String> cached = await load();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // ignore: avoid_classes_with_only_static_members
+    final List<String> cached = await load();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     cached.remove(id);
     await prefs.setStringList(_kPrefKey, cached);
   }
