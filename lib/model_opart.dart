@@ -132,7 +132,7 @@ class OpArt {
         this.attributes = initializeMazeAttributes();
         this.palette = OpArtPalette();
         this.name = 'Maze';
-        this.animation = false;
+        this.animation = true;
 
         break;
 

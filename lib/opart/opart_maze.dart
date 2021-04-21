@@ -7,6 +7,12 @@ import 'dart:math';
 import 'dart:core';
 import '../main.dart';
 
+var array;
+int oldCellsX;
+int oldCellsY;
+var oldShapesArray;
+
+
 List<String> list = List();
 
 SettingsModel reDraw = SettingsModel(
@@ -181,6 +187,7 @@ List<SettingsModel> initializeMazeAttributes() {
 
 
 void paintMaze(Canvas canvas, Size size, int seed, double animationVariable, OpArt opArt) {
+print("time: ${DateTime.now().second*1000+DateTime.now().millisecond} seed: $seed animationVariable: $animationVariable");
 
   rnd = Random(seed);
 
@@ -206,8 +213,23 @@ void paintMaze(Canvas canvas, Size size, int seed, double animationVariable, OpA
   int colourOrder = 0;
   Color nextColor;
 
+  List shapesArray = [];
+  if (lineHorizontal.value == true) { shapesArray.add('lineHorizontal'); }
+  if (lineVertical.value == true) { shapesArray.add('lineVertical'); }
+  if (lineDiagonalRight.value == true) { shapesArray.add('lineDiagonalRight'); }
+  if (lineDiagonalLeft.value == true) { shapesArray.add('lineDiagonalLeft'); }
+
+  // initialise the array
+  if (array == null || cellsX != oldCellsX || cellsY != oldCellsY || oldShapesArray != shapesArray) {
+    array = List.generate(cellsX, (_) => List.generate(cellsY, (_) => rnd.nextInt(shapesArray.length)));
+    oldCellsX = cellsX;
+    oldCellsY = cellsY;
+    oldShapesArray = shapesArray;
+  }
 
   // Now make some art
+rnd = Random(DateTime.now().second*1000+DateTime.now().millisecond);
+
 
   // draw the square
   canvas.drawRect(
@@ -216,11 +238,6 @@ void paintMaze(Canvas canvas, Size size, int seed, double animationVariable, OpA
         ..color = backgroundColor.value.withOpacity(1.0)
         ..style = PaintingStyle.fill);
 
-  List shapesArray = [];
-  if (lineHorizontal.value == true) { shapesArray.add('lineHorizontal'); }
-  if (lineVertical.value == true) { shapesArray.add('lineVertical'); }
-  if (lineDiagonalRight.value == true) { shapesArray.add('lineDiagonalRight'); }
-  if (lineDiagonalLeft.value == true) { shapesArray.add('lineDiagonalLeft'); }
 
 
   // Now make some art
@@ -249,7 +266,15 @@ void paintMaze(Canvas canvas, Size size, int seed, double animationVariable, OpA
         List pA = [];
         List pB = [];
 
-        switch (shapesArray[rnd.nextInt(shapesArray.length)]) {
+//        switch (shapesArray[rnd.nextInt(shapesArray.length)]) {
+
+        if (rnd.nextDouble()<0.01) {
+          array[i][j] = rnd.nextInt(shapesArray.length);
+          array[i][j] = 0;
+        }
+
+
+        switch (shapesArray[array[i][j]]) {
           case 'lineDiagonalRight':
             pA = p1;
             pB = p3;
